@@ -9,13 +9,13 @@ import java.lang.Exception
 object MagicHttp {
 
     interface MagicHttpInterface {
-        fun get(url: String, callBack: MagicCallBack)
+        fun get(url: String, callBack: MagicCallback)
     }
 
     /**
      * 回调接口
      */
-    interface MagicCallBack {
+    interface MagicCallback {
         fun success(response: String)
         fun failure(throwable: Throwable)
     }
@@ -31,7 +31,7 @@ object MagicHttp {
      */
     class OkHttpManager: MagicHttpInterface {
 
-        override fun get(url: String, callBack: MagicCallBack) {
+        override fun get(url: String, callBack: MagicCallback) {
             try {
                 val client = OkHttpClient()
                 val request = Request.Builder()

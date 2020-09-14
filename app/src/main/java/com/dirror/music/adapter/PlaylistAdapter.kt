@@ -20,7 +20,7 @@ class PlaylistAdapter(val playlist: List<PlaylistData>): RecyclerView.Adapter<Pl
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val ivCover: ImageView = view.findViewById(R.id.ivCover)
         val tvName: TextView = view.findViewById(R.id.tvName)
-
+        val tvTrackCount: TextView = view.findViewById(R.id.tvTrackCount)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,6 +39,7 @@ class PlaylistAdapter(val playlist: List<PlaylistData>): RecyclerView.Adapter<Pl
             // .placeholder(R.drawable.photo_placeholder)
             .into(holder.ivCover)
         holder.tvName.text = play.name
+        holder.tvTrackCount.text = "${play.trackCount} 首"
     }
 
     override fun getItemCount(): Int {

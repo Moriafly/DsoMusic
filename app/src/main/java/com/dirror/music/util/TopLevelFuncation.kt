@@ -20,7 +20,9 @@ fun setStatusBarIconColor(activity: Activity, dark: Boolean) {
 }
 
 fun toast(msg: String) {
-    Toast.makeText(MyApplication.context, msg, Toast.LENGTH_SHORT).show()
+    runOnMainThread {
+        Toast.makeText(MyApplication.context, msg, Toast.LENGTH_SHORT).show()
+    }
 }
 
 // 运行在主线程，更新 UI
@@ -30,3 +32,8 @@ fun runOnMainThread(runnable: Runnable) {
 
 // dp 转 px
 fun dp2px(context: Context, dp: Float): Float = dp * context.resources.displayMetrics.density
+
+// http 转 https
+fun http2https(http: String): String {
+    return http.replace("http", "https")
+}

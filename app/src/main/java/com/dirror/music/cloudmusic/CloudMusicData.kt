@@ -9,10 +9,17 @@ data class LoginData (
     val profile: ProfileData,
 )
 
+// 详细用户信息
+data class UserDetailData (
+    val code: Int?, // 参数，一般为错误代码，可能是空
+    val profile: ProfileData?
+)
+
 // 用户简单信息
 data class ProfileData (
     val nickname: String,
     val userId: Int,
+    val avatarUrl: String, // 头像
 )
 
 data class UserPlaylistData (

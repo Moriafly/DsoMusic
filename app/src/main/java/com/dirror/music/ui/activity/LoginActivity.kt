@@ -17,6 +17,12 @@ class LoginActivity : BaseActivity() {
 
         btnLoginByPhone.setOnClickListener {
             startActivity(Intent(this, LoginByPhoneActivity::class.java))
+            finish()
+        }
+
+        btnLoginByUid.setOnClickListener {
+            startActivity(Intent(this, LoginByUidActivity::class.java))
+            finish()
         }
     }
 }

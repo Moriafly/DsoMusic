@@ -12,15 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.LoginByPhoneActivity"></activity>
+        <activity android:name=".ui.activity.LoginByUidActivity"></activity>
+        <activity android:name=".ui.activity.LoginByPhoneActivity" />
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:theme="@style/AppTheme.FullScreen">
-
-        </activity>
+            android:theme="@style/AppTheme.FullScreen"></activity>
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
