@@ -12,7 +12,7 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun initView() {
-        setStatusBarIconColor(this, false)
+        // setStatusBarIconColor(this, false)
 
         btnLoginByPhone.setOnClickListener {
             startActivity(Intent(this, LoginByPhoneActivity::class.java))
