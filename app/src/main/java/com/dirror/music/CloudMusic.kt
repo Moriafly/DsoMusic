@@ -22,7 +22,7 @@ object CloudMusic {
             }
 
             override fun failure(throwable: Throwable) {
-                TODO("Not yet implemented")
+
             }
         })
     }

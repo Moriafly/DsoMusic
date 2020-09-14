@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="text" format="string"/>
+    <declare-styleable name="CheckItem">
+        <attr name="text" />
+        <attr name="checked" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="TitleBarLayout">
+        <attr name="text" />
+    </declare-styleable>
+
+    <declare-styleable name="ItemLayout">
+        <attr name="text" />
+        <attr name="itemType" format="integer" >
+            <enum name="item_no" value="0"/>
+            <enum name="item_goto" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

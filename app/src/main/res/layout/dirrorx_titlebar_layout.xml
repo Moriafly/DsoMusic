@@ -9,13 +9,12 @@
         android:id="@+id/btnBack"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:scaleType="center"
         android:background="@color/colorTransparency"
+        android:scaleType="center"
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/back" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTitleBar"
@@ -24,7 +23,7 @@
         android:layout_marginEnd="56dp"
         android:textAlignment="textStart"
         android:textColor="@color/colorTextForeground"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnBack"
