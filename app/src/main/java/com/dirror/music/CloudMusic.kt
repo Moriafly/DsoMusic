@@ -18,7 +18,7 @@ object CloudMusic {
     fun loginByPhone(phone: String, password: String) {
         MagicHttp.OkHttpManager().get("$MUSIC_API_URL/login/cellphone?phone=$phone&password=$password", object : MagicHttp.MagicCallBack {
             override fun success(response: String) {
-                TODO("Not yet implemented")
+                // 成功
             }
 
             override fun failure(throwable: Throwable) {
