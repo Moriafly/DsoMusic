@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#969696</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <bool name="statusBarForeground">true</bool>
+
+    <!-- 状态栏背景色 -->
+    <color name="colorStatusBar">#FFFFFF</color>
+
+    <!-- 页面背景色-->
+    <color name="colorPageBackground">#FFFFFF</color>
+
+    <!-- 图标前景色 -->
+    <color name="colorIconForeground">#000000</color>
+
+    <!-- Item 背景色 -->
+    <color name="colorItemBackground">#FFFFFF</color>
+    <color name="colorItemPressedBackground">#F0F0F0</color>
+
+    <!-- 字体前景色 -->
+    <color name="colorTextForeground">#000000</color>
+    <color name="colorEditTextBackground">#FAFAFA</color>
+
+    <color name="colorCheckItemBackground">#C8C8C8</color>
+
+    <color name="colorTransparency">#00000000</color>
+
+    <color name="colorAppThemeColor">#DB2C1F</color>
+    <color name="colorDialogBackground">#FFFFFF</color>
+    <color name="colorHintForeground">#C8C8C8</color>
+</resources>
