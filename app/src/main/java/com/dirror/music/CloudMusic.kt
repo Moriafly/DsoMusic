@@ -64,10 +64,11 @@ object CloudMusic {
 
     }
 
-    fun loginByUid(uid: Int) {
+    fun loginByUid(uid: Int, callback: LoginByUidCallback) {
         getUserDetail(uid, object : UserDetailCallback {
             override fun success(userDetailData: UserDetailData) {
                 toast("登录成功")
+                callback.success()
                 StorageUtil.putInt(StorageUtil.CLOUD_MUSIC_UID, userDetailData.profile?.userId!!)
             }
 
@@ -75,6 +76,10 @@ object CloudMusic {
                 toast("登录失败")
             }
         })
+    }
+
+    interface LoginByUidCallback {
+        fun success()
     }
 
     fun getPlaylist(uid: Int, callback: PlaylistCallback) {

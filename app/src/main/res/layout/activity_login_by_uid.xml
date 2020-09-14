@@ -31,6 +31,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/background_transparency"
         android:hint="UID"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar" />

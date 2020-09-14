@@ -13,7 +13,11 @@ class LoginByUidActivity : BaseActivity() {
 
     override fun initView() {
         btnLogin.setOnClickListener {
-            CloudMusic.loginByUid(etUid.text.toString().toInt())
+            CloudMusic.loginByUid(etUid.text.toString().toInt(), object : CloudMusic.LoginByUidCallback {
+                override fun success() {
+                    finish()
+                }
+            })
         }
     }
 }

@@ -37,11 +37,14 @@
 
             <TextView
                 android:id="@+id/tvNickname"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:text="TextView"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/colorTextForeground"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/ivNext"
                 app:layout_constraintStart_toEndOf="@+id/cdPhoto"
                 app:layout_constraintTop_toTopOf="parent" />
 
