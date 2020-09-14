@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.MyFragment" >
+    android:scrollbars="none"
+    tools:context=".ui.fragment.MyFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,5 +16,10 @@
             android:layout_height="112dp">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPlaylist"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
     </LinearLayout>
 </ScrollView>

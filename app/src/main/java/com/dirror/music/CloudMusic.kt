@@ -3,6 +3,7 @@ package com.dirror.music
 import android.net.UrlQuerySanitizer
 import android.util.Log
 import com.dirror.music.cloudmusic.LoginData
+import com.dirror.music.cloudmusic.UserPlaylistData
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.toast
 import com.google.gson.Gson
@@ -46,5 +47,24 @@ object CloudMusic {
 
     fun loginByEmail(email: String, password: String) {
 
+    }
+
+    fun getPlaylist(uid: Int, callback: PlaylistCallback) {
+        MagicHttp.OkHttpManager().get(
+            "$MUSIC_API_URL/user/playlist?uid=$uid",
+            object : MagicHttp.MagicCallBack {
+                override fun success(response: String) {
+                    val userPlaylistData = Gson().fromJson(response, UserPlaylistData::class.java)
+                    callback.success(userPlaylistData)
+                }
+
+                override fun failure(throwable: Throwable) {
+                    Log.e("错误", throwable.message.toString())
+                }
+            })
+    }
+
+    interface PlaylistCallback{
+        fun success(userPlaylistData: UserPlaylistData)
     }
 }
