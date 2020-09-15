@@ -55,9 +55,14 @@ class MusicService: Service() {
             }
         }
 
+        override fun getPlayState(): Boolean? {
+            return mediaPlayer?.isPlaying
+        }
+
     }
 }
 
 interface MusicBinderInterface {
     fun updatePlayState()
+    fun getPlayState(): Boolean?
 }

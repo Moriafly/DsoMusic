@@ -73,7 +73,13 @@ class MainActivity : BaseActivity() {
         }.attach()
 
         itemPlay.ivPlay.setOnClickListener {
+            // 更新
             MyApplication.musicBinderInterface?.updatePlayState()
+            if (MyApplication.musicBinderInterface?.getPlayState()!!) {
+                itemPlay.ivPlay.setImageResource(R.drawable.ic_play)
+            } else {
+                itemPlay.ivPlay.setImageResource(R.drawable.ic_pause)
+            }
         }
 
 
