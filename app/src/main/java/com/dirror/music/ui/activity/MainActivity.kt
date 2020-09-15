@@ -1,24 +1,35 @@
 package com.dirror.music.ui.activity
 
+import android.content.ComponentName
+import android.content.Intent
+import android.content.ServiceConnection
 import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
+import android.os.IBinder
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.service.MusicBinderInterface
+import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.util.CLOUD_MUSIC_API
 import com.dirror.music.util.FragmentUtil
 import com.dirror.music.util.dp2px
 import com.dirror.music.util.getStatusBarHeight
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.layout_play.view.*
 
 
 class MainActivity : BaseActivity() {
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
+
 
     override fun initView() {
 
@@ -60,6 +71,18 @@ class MainActivity : BaseActivity() {
                 else -> "首页"
             }
         }.attach()
+
+        itemPlay.ivPlay.setOnClickListener {
+            MyApplication.musicBinderInterface?.updatePlayState()
+        }
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 解绑
+//        unbindService(musicConnection)
     }
 
 

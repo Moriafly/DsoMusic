@@ -13,7 +13,7 @@ import com.dirror.music.MyApplication
 /**
  * 顶层函数类
  */
-
+val CLOUD_MUSIC_API = "https://musicapi.leanapp.cn"
 /**
  * 设置状态栏图标颜色
  */
