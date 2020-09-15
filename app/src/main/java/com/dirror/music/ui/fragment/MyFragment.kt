@@ -22,6 +22,8 @@ class MyFragment : BaseFragment() {
 
     override fun initView() {
 
+
+
         itemAccount.setOnClickListener {
             startActivity(Intent(context, LoginActivity::class.java))
         }
@@ -71,7 +73,7 @@ class MyFragment : BaseFragment() {
                                 heightSpec: Int
                             ) {
                                 super.onMeasure(recycler, state, widthSpec, heightSpec)
-                                setMeasuredDimension(widthSpec, (playlist.size * dp2px(MyApplication.context, 72f)).toInt())
+                                setMeasuredDimension(widthSpec, (playlist.size * dp2px(72f)).toInt())
                             }
                         }
 

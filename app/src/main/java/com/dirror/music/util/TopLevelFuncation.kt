@@ -1,7 +1,9 @@
 package com.dirror.music.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
 import android.view.Window
@@ -31,9 +33,48 @@ fun runOnMainThread(runnable: Runnable) {
 }
 
 // dp 转 px
-fun dp2px(context: Context, dp: Float): Float = dp * context.resources.displayMetrics.density
+fun dp2px(dp: Float): Float = dp * MyApplication.context.resources.displayMetrics.density
 
 // http 转 https
 fun http2https(http: String): String {
     return http.replace("http", "https")
+}
+
+// 获取状态栏高度
+@SuppressLint("PrivateApi")
+fun getStatusBarHeight(window: Window, context: Context): Int {
+    val localRect = Rect()
+    window.decorView.getWindowVisibleDisplayFrame(localRect)
+    var mStatusBarHeight = localRect.top
+    if (0 == mStatusBarHeight) {
+        try {
+            val localClass = Class.forName("com.android.internal.R\$dimen")
+            val localObject = localClass.newInstance()
+            val i5 =
+                localClass.getField("status_bar_height")[localObject].toString().toInt()
+            mStatusBarHeight = context.resources.getDimensionPixelSize(i5)
+        } catch (var6: ClassNotFoundException) {
+            var6.printStackTrace()
+        } catch (var7: IllegalAccessException) {
+            var7.printStackTrace()
+        } catch (var8: InstantiationException) {
+            var8.printStackTrace()
+        } catch (var9: NumberFormatException) {
+            var9.printStackTrace()
+        } catch (var10: IllegalArgumentException) {
+            var10.printStackTrace()
+        } catch (var11: SecurityException) {
+            var11.printStackTrace()
+        } catch (var12: NoSuchFieldException) {
+            var12.printStackTrace()
+        }
+    }
+    if (0 == mStatusBarHeight) {
+        val resourceId: Int =
+            context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            mStatusBarHeight = context.resources.getDimensionPixelSize(resourceId)
+        }
+    }
+    return mStatusBarHeight
 }

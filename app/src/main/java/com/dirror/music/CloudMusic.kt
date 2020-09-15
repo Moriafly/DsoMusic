@@ -1,7 +1,7 @@
 package com.dirror.music
 
-import android.net.UrlQuerySanitizer
 import android.util.Log
+import com.dirror.music.cloudmusic.DetailPlaylistData
 import com.dirror.music.cloudmusic.LoginData
 import com.dirror.music.cloudmusic.UserDetailData
 import com.dirror.music.cloudmusic.UserPlaylistData
@@ -9,7 +9,6 @@ import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.toast
 import com.google.gson.Gson
-import java.net.URL
 
 /**
  * 网易云 api
@@ -124,5 +123,27 @@ object CloudMusic {
     interface UserDetailCallback {
         fun success(userDetailData: UserDetailData)
         fun failure()
+    }
+
+    /**
+     * 获取歌曲详情
+     */
+    fun getDetailPlaylist(id: Long, callback: DetailPlaylistCallback) {
+        MagicHttp.OkHttpManager().get(
+            "$MUSIC_API_URL/playlist/detail?id=$id",
+            object : MagicHttp.MagicCallback {
+                override fun success(response: String) {
+                    val detailPlaylistData = Gson().fromJson(response, DetailPlaylistData::class.java)
+                    callback.success(detailPlaylistData)
+                }
+
+                override fun failure(throwable: Throwable) {
+                    Log.e("错误", throwable.message.toString())
+                }
+            })
+    }
+
+    interface DetailPlaylistCallback {
+        fun success(detailPlaylistData: DetailPlaylistData)
     }
 }

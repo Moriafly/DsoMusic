@@ -30,4 +30,6 @@
     <color name="colorAppThemeColor">#DB2C1F</color>
     <color name="colorDialogBackground">#FFFFFF</color>
     <color name="colorHintForeground">#C8C8C8</color>
+
+    <color name="colorBlurViewBackground">#B3FAFAFA</color>
 </resources>
