@@ -1,5 +1,6 @@
 package com.dirror.music.ui.activity
 
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.CloudMusic
@@ -22,10 +23,12 @@ class PlaylistActivity : BaseActivity() {
     }
 
     override fun initView() {
-        CloudMusic.getDetailPlaylist(2876988135, object : CloudMusic.DetailPlaylistCallback {
+        val playlistId = intent.getLongExtra("long_playlist_id", -1)
+        CloudMusic.getDetailPlaylist(playlistId, object : CloudMusic.DetailPlaylistCallback {
 
             override fun success(detailPlaylistData: DetailPlaylistData) {
                 val tracks = detailPlaylistData.playlist.tracks
+                Log.e("歌曲数量：", tracks.size.toString())
                 runOnMainThread {
                     val linearLayoutManager: LinearLayoutManager =
                         object : LinearLayoutManager(this@PlaylistActivity) {

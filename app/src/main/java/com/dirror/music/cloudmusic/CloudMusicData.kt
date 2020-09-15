@@ -46,3 +46,10 @@ data class TracksData (
     val name: String, // 歌曲名称
     val id: Long, // 歌曲 id
 )
+
+
+
+data class SongData (
+    val name: String,
+    val id: Long,
+)

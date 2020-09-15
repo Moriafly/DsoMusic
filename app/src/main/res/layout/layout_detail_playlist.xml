@@ -11,6 +11,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="20dp"
+        app:cardBackgroundColor="@color/colorBlurViewBackground"
         app:cardCornerRadius="4dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="14dp"
-        android:text="TextView"
+        android:text="null"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardView" />
