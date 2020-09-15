@@ -123,6 +123,20 @@ class MusicService: Service() {
             return mediaPlayer?.currentPosition?:0
         }
 
+        /**
+         * 设置进度
+         */
+        override fun setProgress(newProgress: Int) {
+            mediaPlayer?.seekTo(newProgress)
+        }
+
+        /**
+         * 获取当前播放的音乐的信息
+         */
+        override fun getNowSongData(): SongData? {
+            return songList?.get(position!!)
+        }
+
     }
 }
 
@@ -133,4 +147,6 @@ interface MusicBinderInterface {
     fun getPlayState(): Boolean
     fun getDuration(): Int
     fun getProgress(): Int
+    fun setProgress(newProgress: Int)
+    fun getNowSongData(): SongData?
 }

@@ -8,16 +8,18 @@ import android.content.IntentFilter
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.widget.SeekBar
 import com.bumptech.glide.Glide
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.TimeUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_play.*
 import kotlinx.android.synthetic.main.layout_play.view.*
 
-class PlayActivity : BaseActivity() {
+class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     var duration = 0
@@ -43,6 +45,10 @@ class PlayActivity : BaseActivity() {
     }
 
     override fun initView() {
+        // 获取现在歌曲信息
+        getNowSongData()
+
+
         updateProgress()
 
         ivPlay.setOnClickListener {
@@ -60,11 +66,18 @@ class PlayActivity : BaseActivity() {
                 handler.removeMessages(MSG_PROGRESS)
             }
         }
+
+        // 进度条变化的监听
+        seekBar.setOnSeekBarChangeListener(this)
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        // 取消广播接收器的注册
         unregisterReceiver(musicBroadcastReceiver)
+        // 清空 Handler 发送的所有消息，防止内存泄漏
+        handler.removeCallbacksAndMessages(null)
     }
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
@@ -105,5 +118,38 @@ class PlayActivity : BaseActivity() {
         tvDuration.text = TimeUtil.parseDuration(duration)
         // 定时获取进度
         handler.sendEmptyMessageDelayed(MSG_PROGRESS,1000)
+    }
+
+    /**
+     * 进度改变的回调
+     * @param p1 改变之后的进度
+     * @param p2 true 通过用户手指拖动 false 通过代码方式改变进度
+     */
+    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+        // 判断是否为用户
+        if (!p2) return
+        // Log.e("手指拖到了：", p1.toString())
+        MyApplication.musicBinderInterface?.setProgress(p1)
+        updateProgress()
+    }
+
+    // 手指触摸
+    override fun onStartTrackingTouch(p0: SeekBar?) {
+
+    }
+
+    // 手指离开
+    override fun onStopTrackingTouch(p0: SeekBar?) {
+
+    }
+
+
+    private fun getNowSongData() {
+        val song = MyApplication.musicBinderInterface?.getNowSongData()
+        if (song != null) {
+            val url = song.songs[0].al.picUrl
+            GlideUtil.load(url, ivCover)
+        }
+
     }
 }

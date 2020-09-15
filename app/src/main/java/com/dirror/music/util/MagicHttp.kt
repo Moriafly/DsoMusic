@@ -5,6 +5,8 @@ import android.os.Looper
 import okhttp3.*
 import java.io.IOException
 import java.lang.Exception
+import java.util.concurrent.TimeUnit
+
 // 单例
 object MagicHttp {
 
@@ -33,7 +35,10 @@ object MagicHttp {
 
         override fun get(url: String, callBack: MagicCallback) {
             try {
-                val client = OkHttpClient()
+                val client = OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS) //设置连接超时时间
+                    .readTimeout(20, TimeUnit.SECONDS) //设置读取超时时间
+                    .build()
                 val request = Request.Builder()
                     .url(url)
                     .get()

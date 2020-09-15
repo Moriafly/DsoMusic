@@ -20,7 +20,7 @@ object CloudMusic {
     // https://musicapi.leanapp.cn
     // https://api.fczbl.vip/163/
 
-    fun timestamp(): String {
+    private fun timestamp(): String {
         return "&timestamp=${getCurrentTime()}"
     }
 
@@ -97,7 +97,7 @@ object CloudMusic {
                 }
 
                 override fun failure(throwable: Throwable) {
-                    Log.e("错误", throwable.message.toString())
+                    Log.e("获取用户歌单错误", throwable.message.toString())
                 }
             })
     }
@@ -136,7 +136,7 @@ object CloudMusic {
      */
     fun getDetailPlaylist(id: Long, callback: DetailPlaylistCallback) {
         MagicHttp.OkHttpManager().get(
-            "$MUSIC_API_URL/playlist/detail?id=$id",
+            "$MUSIC_API_URL/playlist/detail?id=$id${timestamp()}",
             object : MagicHttp.MagicCallback {
                 override fun success(response: String) {
                     val detailPlaylistData = Gson().fromJson(response, DetailPlaylistData::class.java)
@@ -144,7 +144,7 @@ object CloudMusic {
                 }
 
                 override fun failure(throwable: Throwable) {
-                    Log.e("错误", throwable.message.toString())
+                    Log.e("获取歌单详情错误", throwable.message.toString())
                 }
             })
     }
@@ -153,9 +153,12 @@ object CloudMusic {
         fun success(detailPlaylistData: DetailPlaylistData)
     }
 
+    /**
+     * 获取歌曲详情
+     */
     fun getSongDetail(id: Long, callback: SongCallback) {
         MagicHttp.OkHttpManager().get(
-            "$MUSIC_API_URL/song/detail?ids=$id",
+            "$MUSIC_API_URL/song/detail?ids=$id${timestamp()}",
             object : MagicHttp.MagicCallback {
                 override fun success(response: String) {
                     val songData = Gson().fromJson(response, SongData::class.java)
@@ -163,7 +166,7 @@ object CloudMusic {
                 }
 
                 override fun failure(throwable: Throwable) {
-                    Log.e("错误", throwable.message.toString())
+                    Log.e("获取歌曲详情错误", throwable.message.toString())
                 }
             })
     }

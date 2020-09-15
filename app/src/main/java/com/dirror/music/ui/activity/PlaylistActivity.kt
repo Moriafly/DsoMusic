@@ -56,15 +56,13 @@ class PlaylistActivity : BaseActivity() {
                 var count = 0
                 for (trackId in 0..trackIds.lastIndex) {
                     // Log.e("歌曲id", trackIds[trackId].id.toString())
-
-
-
                     getSong(trackIds[trackId].id, object : GetSongCallback {
                         override fun success(songData: SongData) {
                             songList.add(songData)
                             count++
                             // 获取后再循环，还要回调
                             if (count == trackIds.lastIndex) {
+                                // 全部加载完全
                                 callback.success(songList)
                             }
                         }
