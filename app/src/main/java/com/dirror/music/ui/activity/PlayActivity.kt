@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.util.TimeUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_play.*
 import kotlinx.android.synthetic.main.layout_play.view.*
@@ -41,6 +42,26 @@ class PlayActivity : BaseActivity() {
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
     }
 
+    override fun initView() {
+        updateProgress()
+
+        ivPlay.setOnClickListener {
+            // 更新
+            MyApplication.musicBinderInterface?.updatePlayState()
+            if (MyApplication.musicBinderInterface?.getPlayState()!!) {
+                // 播放
+                ivPlay.setImageResource(R.drawable.ic_play)
+                // 开启进度更新
+                handler.sendEmptyMessage(MSG_PROGRESS)
+            } else {
+                // 暂停
+                ivPlay.setImageResource(R.drawable.ic_pause)
+                // 停止更新进度
+                handler.removeMessages(MSG_PROGRESS)
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(musicBroadcastReceiver)
@@ -54,6 +75,8 @@ class PlayActivity : BaseActivity() {
             var url = intent.getStringExtra("string_song_pic")
 
             duration = MyApplication.musicBinderInterface?.getDuration()?:0
+
+
 
             updateProgress()
 //            itemPlay.tvName.text = name
@@ -73,8 +96,13 @@ class PlayActivity : BaseActivity() {
     private fun updateProgress() {
         // 获取当前进度
         val progress = MyApplication.musicBinderInterface?.getProgress()?:0
+        duration = MyApplication.musicBinderInterface?.getDuration()?:0
+        // 设置进度条最大值
+        seekBar.max = duration
         // 更新进度
-
+        seekBar.progress = progress
+        tvProgress.text = TimeUtil.parseDuration(progress)
+        tvDuration.text = TimeUtil.parseDuration(duration)
         // 定时获取进度
         handler.sendEmptyMessageDelayed(MSG_PROGRESS,1000)
     }
