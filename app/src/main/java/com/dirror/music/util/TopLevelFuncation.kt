@@ -40,6 +40,10 @@ fun http2https(http: String): String {
     return http.replace("http", "https")
 }
 
+fun getCurrentTime() : Long {
+    return System.currentTimeMillis()
+}
+
 // 获取状态栏高度
 @SuppressLint("PrivateApi")
 fun getStatusBarHeight(window: Window, context: Context): Int {

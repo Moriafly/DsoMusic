@@ -13,9 +13,10 @@ class MyApplication: Application() {
     companion object {
         lateinit var context: Context
         var musicBinderInterface: MusicBinderInterface? = null
+        val musicConnection by lazy { MusicConnection() }
     }
 
-    private val musicConnection by lazy { MusicConnection() }
+
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
@@ -30,19 +31,21 @@ class MyApplication: Application() {
     }
 
 
-    inner class MusicConnection: ServiceConnection {
-        // 连接
-        override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
 
-            musicBinderInterface = p1 as MusicBinderInterface
-        }
 
-        // 意外断开连接
-        override fun onServiceDisconnected(p0: ComponentName?) {
 
-        }
+}
 
+class MusicConnection: ServiceConnection {
+    // 连接
+    override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
+
+        MyApplication.musicBinderInterface = p1 as MusicBinderInterface
     }
 
+    // 意外断开连接
+    override fun onServiceDisconnected(p0: ComponentName?) {
+
+    }
 
 }

@@ -1,12 +1,10 @@
 package com.dirror.music
 
 import android.util.Log
-import com.dirror.music.cloudmusic.DetailPlaylistData
-import com.dirror.music.cloudmusic.LoginData
-import com.dirror.music.cloudmusic.UserDetailData
-import com.dirror.music.cloudmusic.UserPlaylistData
+import com.dirror.music.cloudmusic.*
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.StorageUtil
+import com.dirror.music.util.getCurrentTime
 import com.dirror.music.util.toast
 import com.google.gson.Gson
 
@@ -18,9 +16,14 @@ import com.google.gson.Gson
 
 object CloudMusic {
     // api 地址
-    private const val MUSIC_API_URL = "https://musicapi.leanapp.cn"
+    private const val MUSIC_API_URL = "http://musicapi.leanapp.cn"
     // https://musicapi.leanapp.cn
     // https://api.fczbl.vip/163/
+
+    fun timestamp(): String {
+        return "&timestamp=${getCurrentTime()}"
+    }
+
 
     fun loginByPhone(phone: String, password: String, callback: LoginCallback) {
         // ${System.currentTimeMillis()}
@@ -81,9 +84,12 @@ object CloudMusic {
         fun success()
     }
 
+    /**
+     * 用户歌单
+     */
     fun getPlaylist(uid: Int, callback: PlaylistCallback) {
         MagicHttp.OkHttpManager().get(
-            "$MUSIC_API_URL/user/playlist?uid=$uid",
+            "$MUSIC_API_URL/user/playlist?uid=$uid${timestamp()}",
             object : MagicHttp.MagicCallback {
                 override fun success(response: String) {
                     val userPlaylistData = Gson().fromJson(response, UserPlaylistData::class.java)
@@ -126,7 +132,7 @@ object CloudMusic {
     }
 
     /**
-     * 获取歌曲详情
+     * 获取歌单详情
      */
     fun getDetailPlaylist(id: Long, callback: DetailPlaylistCallback) {
         MagicHttp.OkHttpManager().get(
@@ -145,5 +151,24 @@ object CloudMusic {
 
     interface DetailPlaylistCallback {
         fun success(detailPlaylistData: DetailPlaylistData)
+    }
+
+    fun getSongDetail(id: Long, callback: SongCallback) {
+        MagicHttp.OkHttpManager().get(
+            "$MUSIC_API_URL/song/detail?ids=$id",
+            object : MagicHttp.MagicCallback {
+                override fun success(response: String) {
+                    val songData = Gson().fromJson(response, SongData::class.java)
+                    callback.success(songData)
+                }
+
+                override fun failure(throwable: Throwable) {
+                    Log.e("错误", throwable.message.toString())
+                }
+            })
+    }
+
+    interface SongCallback {
+        fun success(songData: SongData)
     }
 }
