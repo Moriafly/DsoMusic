@@ -82,6 +82,10 @@ class MainActivity : BaseActivity() {
             }
         }.attach()
 
+        itemPlay.setOnClickListener {
+            startActivity(Intent(this, PlayActivity::class.java))
+        }
+
         itemPlay.ivPlay.setOnClickListener {
             // 更新
             MyApplication.musicBinderInterface?.updatePlayState()
