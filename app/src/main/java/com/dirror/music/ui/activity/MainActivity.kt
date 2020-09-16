@@ -79,11 +79,7 @@ class MainActivity : BaseActivity() {
         itemPlay.ivPlay.setOnClickListener {
             // 更新
             MyApplication.musicBinderInterface?.changePlayState()
-            if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-                itemPlay.ivPlay.setImageResource(R.drawable.ic_play)
-            } else {
-                itemPlay.ivPlay.setImageResource(R.drawable.ic_pause)
-            }
+            refreshPlayState()
         }
 
 
@@ -104,6 +100,15 @@ class MainActivity : BaseActivity() {
                 itemPlay.tvArtist.text = parseArtist(song.ar)
                 GlideUtil.load(song.al.picUrl, itemPlay.ivCover)
             }
+            refreshPlayState()
+        }
+    }
+
+    private fun refreshPlayState() {
+        if (MyApplication.musicBinderInterface?.getPlayState()!!) {
+            itemPlay.ivPlay.setImageResource(R.drawable.ic_play)
+        } else {
+            itemPlay.ivPlay.setImageResource(R.drawable.ic_pause)
         }
     }
 

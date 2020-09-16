@@ -76,7 +76,7 @@ class MusicService: Service() {
 
         }
 
-        private fun updateUi() {
+        private fun sendMusicBroadcast() {
             // Service 通知
             val intent = Intent("com.dirror.music.MUSIC_BROADCAST")
             intent.setPackage(packageName)
@@ -86,7 +86,7 @@ class MusicService: Service() {
         override fun onPrepared(p0: MediaPlayer?) {
             // 播放音乐，通知界面更新
             p0?.start()
-            updateUi()
+            sendMusicBroadcast()
         }
 
         /**
@@ -101,17 +101,14 @@ class MusicService: Service() {
                     mediaPlayer?.start()
                 }
             }
+            sendMusicBroadcast()
         }
 
         /**
          * 获取当前播放状态
          */
         override fun getPlayState(): Boolean {
-            return if (mediaPlayer != null) {
-                mediaPlayer!!.isPlaying
-            } else {
-                false
-            }
+            return mediaPlayer?.isPlaying?:false
         }
 
         /**

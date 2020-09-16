@@ -48,21 +48,12 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
 
         updateProgress()
+        refreshPlayState()
 
         ivPlay.setOnClickListener {
             // 更新
             MyApplication.musicBinderInterface?.changePlayState()
-            if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-                // 播放
-                ivPlay.setImageResource(R.drawable.ic_pause_btn)
-                // 开启进度更新
-                handler.sendEmptyMessage(MSG_PROGRESS)
-            } else {
-                // 暂停
-                ivPlay.setImageResource(R.drawable.ic_play_btn)
-                // 停止更新进度
-                handler.removeMessages(MSG_PROGRESS)
-            }
+            refreshPlayState()
         }
 
         ivNext.setOnClickListener {
@@ -86,6 +77,20 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         // 进度条变化的监听
         seekBar.setOnSeekBarChangeListener(this)
 
+    }
+
+    private fun refreshPlayState() {
+        if (MyApplication.musicBinderInterface?.getPlayState()!!) {
+            // 播放
+            ivPlay.setImageResource(R.drawable.ic_pause_btn)
+            // 开启进度更新
+            handler.sendEmptyMessage(MSG_PROGRESS)
+        } else {
+            // 暂停
+            ivPlay.setImageResource(R.drawable.ic_play_btn)
+            // 停止更新进度
+            handler.removeMessages(MSG_PROGRESS)
+        }
     }
 
     override fun onDestroy() {

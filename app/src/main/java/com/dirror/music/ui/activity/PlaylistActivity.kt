@@ -46,10 +46,12 @@ class PlaylistActivity : BaseActivity() {
 
         layoutPlay.ivPlay.setOnClickListener {
             MyApplication.musicBinderInterface?.changePlayState()
+
         }
 
 
     }
+
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -59,12 +61,12 @@ class PlaylistActivity : BaseActivity() {
                 layoutPlay.tvArtist.text = song.ar[0].name
                 GlideUtil.load(song.al.picUrl, layoutPlay.ivCover)
             }
-            refreshPlayState(MyApplication.musicBinderInterface?.getPlayState()?:true)
+            refreshPlayState()
         }
     }
 
-    private fun refreshPlayState(state: Boolean) {
-        if (state) {
+    private fun refreshPlayState() {
+        if (MyApplication.musicBinderInterface?.getPlayState()!!) {
             layoutPlay.ivPlay.setImageResource(R.drawable.ic_play)
         } else {
             layoutPlay.ivPlay.setImageResource(R.drawable.ic_pause)
@@ -74,6 +76,7 @@ class PlaylistActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         refreshLayoutPlay()
+        refreshPlayState()
     }
 
     /**
