@@ -16,4 +16,12 @@ class SettingsActivity : BaseActivity() {
     override fun initView() {
 
     }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(
+            R.anim.anim_slide_enter_right,
+            R.anim.anim_slide_exit_left
+        )
+    }
 }

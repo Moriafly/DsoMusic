@@ -16,6 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/itemAccount"
+            android:background="@drawable/background_item_default"
             android:layout_width="match_parent"
             android:layout_height="112dp">
 
@@ -44,8 +45,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
+                android:alpha="0.9"
                 android:textColor="@color/colorTextForeground"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/ivNext"
                 app:layout_constraintStart_toEndOf="@+id/cdPhoto"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -59,6 +62,20 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvLevel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="34dp"
+                android:alpha="0.9"
+                android:textSize="12sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivNext"
+                app:layout_constraintStart_toEndOf="@+id/cdPhoto" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView

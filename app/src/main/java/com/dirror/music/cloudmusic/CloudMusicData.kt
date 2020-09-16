@@ -1,9 +1,5 @@
 package com.dirror.music.cloudmusic
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
-
 class CloudMusicData {
 }
 
@@ -15,6 +11,7 @@ data class LoginData(
 
 // 详细用户信息
 data class UserDetailData(
+    val level: Int, // 用户等级
     val code: Int?, // 参数，一般为错误代码，可能是空
     val profile: ProfileData?
 )

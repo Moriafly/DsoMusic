@@ -71,6 +71,11 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             MyApplication.musicBinderInterface?.changePlayMode()
         }
 
+        // 点击 titleBar，关闭 Activity
+        titleBar.setOnClickListener {
+            finish()
+        }
+
         // 进度条变化的监听
         seekBar.setOnSeekBarChangeListener(this)
 

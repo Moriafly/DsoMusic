@@ -40,18 +40,26 @@ class MyFragment : BaseFragment() {
     private fun getUserDetail() {
         CloudMusic.getUserDetail(StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1), object : CloudMusic.UserDetailCallback {
             override fun success(userDetailData: UserDetailData) {
-                runOnMainThread {
-                    Glide.with(MyApplication.context)
-                        .load(http2https(userDetailData.profile?.avatarUrl.toString()))
-                        .into(ivPhoto)
-                    tvNickname.text = userDetailData.profile?.nickname
-                }
+                refreshUserDetail(userDetailData)
             }
 
             override fun failure() {
                 toast("获取失败")
             }
         })
+    }
+
+    /**
+     * 获取用户详细信息后刷新界面数据
+     */
+    private fun refreshUserDetail(userDetailData: UserDetailData) {
+        runOnMainThread {
+            Glide.with(MyApplication.context)
+                .load(http2https(userDetailData.profile?.avatarUrl.toString()))
+                .into(ivPhoto)
+            tvNickname.text = userDetailData.profile?.nickname
+            tvLevel.text = "Lv.${userDetailData.level}"
+        }
     }
 
     private fun getPlaylist() {

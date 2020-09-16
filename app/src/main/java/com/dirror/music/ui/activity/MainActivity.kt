@@ -84,6 +84,10 @@ class MainActivity : BaseActivity() {
 
         ivSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
+            overridePendingTransition(
+                R.anim.anim_slide_enter_left,
+                R.anim.anim_slide_exit_right
+            )
         }
 
 
