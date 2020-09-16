@@ -82,6 +82,10 @@ class MainActivity : BaseActivity() {
             refreshPlayState()
         }
 
+        ivSettings.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+
 
     }
 

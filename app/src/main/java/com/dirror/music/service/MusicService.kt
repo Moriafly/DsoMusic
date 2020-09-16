@@ -53,8 +53,8 @@ class MusicService: Service() {
          */
         override fun playMusic(songPosition: Int) {
             position = songPosition
-            val songId = songList!![position!!].songs[0].id
-            Log.e("音乐服务 songId：", songId.toString())
+            val songId = songList!![position!!].songs[0].id // 获取当前 position 的歌曲 id
+            // Log.e("音乐服务 songId：", songId.toString())
 
             // 如果 MediaPlayer 已经存在，释放
             if (mediaPlayer != null) {
@@ -162,20 +162,22 @@ class MusicService: Service() {
          * 播放上一曲
          */
         override fun playLast() {
-            // 获取 position
+            // 设置 position
             position = when (mode) {
                 MODE_RANDOM -> (0..songList?.lastIndex!!).random()
+                // 单曲循环或者歌单顺序播放
                 else -> {
+                    // 如果当前是第一首，就跳到最后一首播放
                     if (position == 0) {
                         songList?.lastIndex
                     } else {
+                        // 否则播放上一首
                         position?.minus(1)
                     }
                 }
             }
-            //
+            // position 非空，调用播放方法
             position?.let { playMusic(it) }
-            sendMusicBroadcast()
         }
 
         /**
@@ -193,7 +195,6 @@ class MusicService: Service() {
                 }
             }
             position?.let { playMusic(it) }
-            sendMusicBroadcast()
         }
 
         /**

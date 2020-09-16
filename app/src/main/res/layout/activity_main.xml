@@ -93,13 +93,14 @@
             android:id="@+id/ivSettings"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:alpha="0.72"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_settings" />
+            app:srcCompat="@drawable/ic_menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <eightbitlab.com.blurview.BlurView
