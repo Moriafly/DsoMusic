@@ -3,11 +3,15 @@ package com.dirror.music.util
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
+import android.net.Uri
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.Window
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.dirror.music.MyApplication
 import com.dirror.music.cloudmusic.ArtistData
 
@@ -54,6 +58,14 @@ fun parseArtist(artistList: List<ArtistData>): String {
         artist += artistList[artistName].name
     }
     return artist
+}
+
+fun openUrlByBrowser(url: String) {
+    val intent = Intent()
+    intent.action = "android.intent.action.VIEW"
+    val contentUrl = Uri.parse(url)
+    intent.data = contentUrl
+    ContextCompat.startActivity(MyApplication.context, intent, Bundle())
 }
 
 // 获取状态栏高度

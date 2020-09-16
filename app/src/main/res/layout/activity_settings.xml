@@ -21,6 +21,7 @@
             android:orientation="vertical" >
 
             <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemOpenSource"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:text="使用开源项目">
