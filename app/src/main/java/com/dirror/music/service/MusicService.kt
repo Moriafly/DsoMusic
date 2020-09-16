@@ -10,12 +10,19 @@ import com.dirror.music.cloudmusic.SongData
 
 class MusicService: Service() {
     // 传一个播放列表而不是一首歌
+    companion object {
+        const val MODE_CIRCLE = 1 // 列表循环
+        const val MODE_REPEAT_ONE = 2 // 单曲循环
+        const val MODE_RANDOM = 3 // 随机播放
+    }
 
     private var mediaPlayer: MediaPlayer? = null
     private val musicBinder by lazy { MusicBinder() } // 懒加载 musicBinder
 
-    var songList: List<SongData>? = null
-    var position : Int? = 0
+    var songList: List<SongData>? = null // 当前歌单
+    var position : Int? = 0 // 当前歌曲在 List 中的下标
+
+    var mode = MODE_CIRCLE // 当前模式
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // intent 获取
@@ -35,11 +42,15 @@ class MusicService: Service() {
     }
 
     // 调用 Service 内部方法
-    inner class MusicBinder: Binder(), MusicBinderInterface, MediaPlayer.OnPreparedListener {
+    inner class MusicBinder: Binder(), MusicBinderInterface, MediaPlayer.OnPreparedListener,
+        MediaPlayer.OnCompletionListener {
         override fun setPlaylist(songListData: List<SongData>) {
             songList = songListData
         }
 
+        /**
+         * 播放音乐
+         */
         override fun playMusic(songPosition: Int) {
             position = songPosition
             val songId = songList!![position!!].songs[0].id
@@ -57,7 +68,8 @@ class MusicService: Service() {
                 // setDataSource("https://api.fczbl.vip/163/?type=url&id=$songId")
                 setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
                 prepareAsync()
-                setOnPreparedListener(this@MusicBinder)
+                setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
+                setOnCompletionListener(this@MusicBinder)
             }
             // https://api.fczbl.vip/163/?type=url&id=186016
             // https://music.163.com/song/media/outer/url?id=186016.mp3
@@ -65,21 +77,8 @@ class MusicService: Service() {
         }
 
         private fun updateUi() {
-            val song = songList!![position!!].songs[0]
-            var artist = ""
-            for (artistName in 0..song.ar.lastIndex) {
-                if (artistName != 0) {
-                    artist += " / "
-                }
-                artist += song.ar[artistName].name
-            }
-
-            // Service 通知 Activity
+            // Service 通知
             val intent = Intent("com.dirror.music.MUSIC_BROADCAST")
-            val name: String = song.name
-            intent.putExtra("string_song_name", name)
-            intent.putExtra("string_song_artist", artist)
-            intent.putExtra("string_song_pic", song.al.picUrl)
             intent.setPackage(packageName)
             sendBroadcast(intent)
         }
@@ -90,7 +89,10 @@ class MusicService: Service() {
             updateUi()
         }
 
-        override fun updatePlayState() {
+        /**
+         * 更新播放状态
+         */
+        override fun changePlayState() {
             val isPlaying = mediaPlayer?.isPlaying
             isPlaying?.apply {
                 if (this) {
@@ -101,6 +103,9 @@ class MusicService: Service() {
             }
         }
 
+        /**
+         * 获取当前播放状态
+         */
         override fun getPlayState(): Boolean {
             return if (mediaPlayer != null) {
                 mediaPlayer!!.isPlaying
@@ -137,16 +142,65 @@ class MusicService: Service() {
             return songList?.get(position!!)
         }
 
+        /**
+         * 改变播放模式
+         */
+        override fun changePlayMode() {
+            when (mode) {
+                MODE_CIRCLE -> mode = MODE_REPEAT_ONE
+                MODE_REPEAT_ONE -> mode = MODE_RANDOM
+                MODE_RANDOM -> mode = MODE_CIRCLE
+            }
+        }
+
+        /**
+         * 获取当前播放模式
+         */
+        override fun getPlayMode(): Int {
+            return mode
+        }
+
+        /**
+         * 歌曲完成后的回调，自动播放下一曲
+         */
+        override fun onCompletion(p0: MediaPlayer?) {
+            autoPlayNext()
+        }
+
+        /**
+         * 根据播放模式自动播放下一曲
+         */
+        private fun autoPlayNext() {
+            when (mode) {
+                MODE_CIRCLE -> {
+                    position = if (position == songList?.lastIndex) {
+                        0
+                    } else {
+                        position?.plus(1)
+                    }
+                }
+                MODE_REPEAT_ONE -> {
+
+                }
+                MODE_RANDOM -> {
+                    position = (0..songList?.lastIndex!!).random()
+                }
+            }
+            playMusic(position?:0)
+        }
+
     }
 }
 
 interface MusicBinderInterface {
     fun setPlaylist(songListData: List<SongData>)
     fun playMusic(songPosition: Int)
-    fun updatePlayState()
+    fun changePlayState()
     fun getPlayState(): Boolean
     fun getDuration(): Int
     fun getProgress(): Int
     fun setProgress(newProgress: Int)
     fun getNowSongData(): SongData?
+    fun changePlayMode()
+    fun getPlayMode(): Int
 }

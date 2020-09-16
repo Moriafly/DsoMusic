@@ -9,6 +9,7 @@ import android.os.Looper
 import android.view.Window
 import android.widget.Toast
 import com.dirror.music.MyApplication
+import com.dirror.music.cloudmusic.ArtistData
 
 /**
  * 顶层函数类
@@ -42,6 +43,17 @@ fun http2https(http: String): String {
 
 fun getCurrentTime() : Long {
     return System.currentTimeMillis()
+}
+
+fun parseArtist(artistList: List<ArtistData>): String {
+    var artist = ""
+    for (artistName in 0..artistList.lastIndex) {
+        if (artistName != 0) {
+            artist += " / "
+        }
+        artist += artistList[artistName].name
+    }
+    return artist
 }
 
 // 获取状态栏高度

@@ -2,26 +2,16 @@ package com.dirror.music.ui.activity
 
 import android.content.*
 import android.graphics.drawable.Drawable
-import android.media.MediaPlayer
-import android.os.IBinder
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.bumptech.glide.Glide
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.service.MusicBinderInterface
-import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.CLOUD_MUSIC_API
-import com.dirror.music.util.FragmentUtil
-import com.dirror.music.util.dp2px
-import com.dirror.music.util.getStatusBarHeight
+import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_detail_playlist.*
 import kotlinx.android.synthetic.main.layout_play.view.*
 
 
@@ -88,7 +78,7 @@ class MainActivity : BaseActivity() {
 
         itemPlay.ivPlay.setOnClickListener {
             // 更新
-            MyApplication.musicBinderInterface?.updatePlayState()
+            MyApplication.musicBinderInterface?.changePlayState()
             if (MyApplication.musicBinderInterface?.getPlayState()!!) {
                 itemPlay.ivPlay.setImageResource(R.drawable.ic_play)
             } else {
@@ -108,19 +98,12 @@ class MainActivity : BaseActivity() {
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.e("广播", "接收到了广播")
-            val name = intent.getStringExtra("string_song_name")
-            val artist = intent.getStringExtra("string_song_artist")
-            var url = intent.getStringExtra("string_song_pic")
-
-            itemPlay.tvName.text = name
-            itemPlay.tvArtist.text = artist
-
-            url = url?.replace("http", "https")
-            Log.e("图片", "$url")
-            Glide.with(this@MainActivity)
-                .load(url)
-                .into(itemPlay.ivCover)
+            val song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
+            if (song != null) {
+                itemPlay.tvName.text = song.name
+                itemPlay.tvArtist.text = parseArtist(song.ar)
+                GlideUtil.load(song.al.picUrl, itemPlay.ivCover)
+            }
         }
     }
 

@@ -6,30 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="72dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="20dp"
-        app:cardBackgroundColor="@color/colorBlurViewBackground"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivCover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:srcCompat="@tools:sample/avatars" />
-    </androidx.cardview.widget.CardView>
-
     <TextView
         android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="20dp"
         android:singleLine="true"
@@ -37,14 +17,14 @@
         android:textColor="@color/colorTextForeground"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintStart_toEndOf="@+id/tvNumber"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvArtist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="4dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="14dp"
         android:singleLine="true"
@@ -52,5 +32,24 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView" />
+        app:layout_constraintStart_toEndOf="@+id/ivTag" />
+
+    <ImageView
+        android:id="@+id/ivTag"
+        android:layout_width="20dp"
+        android:layout_height="12dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvNumber"
+        app:srcCompat="@drawable/bq_song_tag_sq" />
+
+    <TextView
+        android:id="@+id/tvNumber"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

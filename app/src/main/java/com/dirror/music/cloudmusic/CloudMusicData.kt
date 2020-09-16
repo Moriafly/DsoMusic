@@ -66,7 +66,7 @@ data class SongData(
 data class SongInnerData(
     val name: String,
     val id: Long,
-    val ar: List<Artist>,
+    val ar: List<ArtistData>,
     val al: AlbumData,
 ) : Parcelable
 
@@ -76,6 +76,6 @@ data class AlbumData( // 专辑
 ) : Parcelable
 
 @Parcelize
-data class Artist(
+data class ArtistData(
     val name: String
 ) : Parcelable

@@ -7,17 +7,15 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.widget.SeekBar
-import com.bumptech.glide.Glide
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.TimeUtil
-import kotlinx.android.synthetic.main.activity_main.*
+import com.dirror.music.util.parseArtist
 import kotlinx.android.synthetic.main.activity_play.*
-import kotlinx.android.synthetic.main.layout_play.view.*
 
 class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
@@ -53,17 +51,35 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
         ivPlay.setOnClickListener {
             // 更新
-            MyApplication.musicBinderInterface?.updatePlayState()
+            MyApplication.musicBinderInterface?.changePlayState()
             if (MyApplication.musicBinderInterface?.getPlayState()!!) {
                 // 播放
-                ivPlay.setImageResource(R.drawable.ic_play)
+                ivPlay.setImageResource(R.drawable.ic_pause_btn)
                 // 开启进度更新
                 handler.sendEmptyMessage(MSG_PROGRESS)
             } else {
                 // 暂停
-                ivPlay.setImageResource(R.drawable.ic_pause)
+                ivPlay.setImageResource(R.drawable.ic_play_btn)
                 // 停止更新进度
                 handler.removeMessages(MSG_PROGRESS)
+            }
+        }
+
+        ivNext.setOnClickListener {
+            // MyApplication.musicBinderInterface?.
+        }
+
+        // 切换播放模式
+        ivMode.setOnClickListener {
+            MyApplication.musicBinderInterface?.changePlayMode()
+            // 根据当前播放，修改图标
+            val mode = MyApplication.musicBinderInterface?.getPlayMode()
+            if (mode != null) {
+                when (mode) {
+                    MusicService.MODE_CIRCLE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
+                    MusicService.MODE_REPEAT_ONE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
+                    MusicService.MODE_RANDOM -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
+                }
             }
         }
 
@@ -82,24 +98,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.e("广播", "接收到了广播")
-            val name = intent.getStringExtra("string_song_name")
-            val artist = intent.getStringExtra("string_song_artist")
-            var url = intent.getStringExtra("string_song_pic")
-
-            duration = MyApplication.musicBinderInterface?.getDuration()?:0
-
-
-
-            updateProgress()
-//            itemPlay.tvName.text = name
-//            itemPlay.tvArtist.text = artist
-//
-//            url = url?.replace("http", "https")
-//            Log.e("图片", "$url")
-            Glide.with(this@PlayActivity)
-                .load(url)
-                .into(ivCover)
+            getNowSongData()
         }
     }
 
@@ -145,11 +144,15 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
 
     private fun getNowSongData() {
-        val song = MyApplication.musicBinderInterface?.getNowSongData()
+        val song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
         if (song != null) {
-            val url = song.songs[0].al.picUrl
+            val url = song.al.picUrl
             GlideUtil.load(url, ivCover)
+
+            tvName.text = song.name
+            tvArtist.text = parseArtist(song.ar)
         }
+
 
     }
 }

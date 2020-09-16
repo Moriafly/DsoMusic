@@ -1,43 +1,96 @@
 package com.dirror.music.ui.activity
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.CloudMusic
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.cloudmusic.DetailPlaylistData
 import com.dirror.music.cloudmusic.SongData
-import com.dirror.music.cloudmusic.TracksData
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.dp2px
-import com.dirror.music.util.runOnMainThread
+import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.activity_playlist.*
-import kotlinx.android.synthetic.main.fragment_my.*
+import kotlinx.android.synthetic.main.layout_play.view.*
 
 class PlaylistActivity : BaseActivity() {
+
+    private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
+
     override fun getLayoutId(): Int {
         return R.layout.activity_playlist
     }
 
     override fun initData() {
-
+        val intentFilter = IntentFilter() // Intent 过滤器
+        intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
+        musicBroadcastReceiver = MusicBroadcastReceiver() //
+        registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
     }
 
     override fun initView() {
         initPlaylist(object : InitPlaylistCallback {
-
             override fun success(songData: List<SongData>) {
                 initRecycleView(songData)
             }
-
         })
 
+        layoutPlay.setOnClickListener {
+            startActivity(Intent(this, PlayActivity::class.java))
+        }
+
+        layoutPlay.ivPlay.setOnClickListener {
+            MyApplication.musicBinderInterface?.changePlayState()
+        }
+
+
+    }
+
+    inner class MusicBroadcastReceiver: BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
+            if (song != null) {
+                layoutPlay.tvName.text = song.name
+                layoutPlay.tvArtist.text = song.ar[0].name
+                GlideUtil.load(song.al.picUrl, layoutPlay.ivCover)
+            }
+            refreshPlayState(MyApplication.musicBinderInterface?.getPlayState()?:true)
+        }
+    }
+
+    private fun refreshPlayState(state: Boolean) {
+        if (state) {
+            layoutPlay.ivPlay.setImageResource(R.drawable.ic_play)
+        } else {
+            layoutPlay.ivPlay.setImageResource(R.drawable.ic_pause)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        refreshLayoutPlay()
+    }
+
+    /**
+     * 刷新下方播放框
+     */
+    private fun refreshLayoutPlay() {
+        val song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
+        if (song != null) {
+            GlideUtil.load(song.al.picUrl, layoutPlay.ivCover)
+            layoutPlay.tvName.text = song.name
+            layoutPlay.tvArtist.text = parseArtist(song.ar)
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        finish()
+        // finish()
     }
 
     private fun initPlaylist(callback: InitPlaylistCallback) {

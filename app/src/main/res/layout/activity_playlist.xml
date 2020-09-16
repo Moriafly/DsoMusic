@@ -8,6 +8,7 @@
     tools:context=".ui.activity.PlaylistActivity">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
@@ -27,6 +28,36 @@
                 android:layout_height="120dp" />
         </LinearLayout>
     </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPlay"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorItemBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include
+            android:id="@+id/layoutPlay"
+            layout="@layout/layout_play"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/dividerPlay"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.dirror.music.widget.TitleBarLayout
         android:id="@+id/titleBar"

@@ -24,8 +24,9 @@ import com.dirror.music.ui.activity.PlaylistActivity
 class DetailPlaylistAdapter(val songData: List<SongData>): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val tvNumber: TextView = view.findViewById(R.id.tvNumber)
         val clSong: ConstraintLayout = view.findViewById(R.id.clSong)
-        val ivCover: ImageView = view.findViewById(R.id.ivCover)
+
         val tvName: TextView = view.findViewById(R.id.tvName)
         val tvArtist: TextView = view.findViewById(R.id.tvArtist)
     }
@@ -37,13 +38,13 @@ class DetailPlaylistAdapter(val songData: List<SongData>): RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var url = songData[position].songs[0].al.picUrl
-        url = url.replace("http", "https")
-        Log.e("图片", "$url")
-        Glide.with(holder.ivCover.context)
-            .load(url)
-            // .placeholder(R.drawable.photo_placeholder)
-            .into(holder.ivCover)
+//        var url = songData[position].songs[0].al.picUrl
+//        url = url.replace("http", "https")
+//        Log.e("图片", "$url")
+//        Glide.with(holder.ivCover.context)
+//            .load(url)
+//            // .placeholder(R.drawable.photo_placeholder)
+//            .into(holder.ivCover)
         val song = songData[position].songs[0]
         holder.tvName.text = song.name
         var artist = ""
@@ -60,6 +61,8 @@ class DetailPlaylistAdapter(val songData: List<SongData>): RecyclerView.Adapter<
             MyApplication.musicBinderInterface?.setPlaylist(songData)
             MyApplication.musicBinderInterface?.playMusic(position)
         }
+
+        holder.tvNumber.text = (position + 1).toString()
     }
 
     override fun getItemCount(): Int {
