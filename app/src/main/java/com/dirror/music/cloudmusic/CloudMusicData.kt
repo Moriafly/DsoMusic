@@ -56,26 +56,35 @@ data class TrackIdsData(
     val id: Long, // 歌曲 id
 )
 
-@Parcelize
 data class SongData(
     val songs: List<SongInnerData>
+)
 
-) : Parcelable
-
-@Parcelize
 data class SongInnerData(
     val name: String,
     val id: Long,
     val ar: List<ArtistData>,
     val al: AlbumData,
-) : Parcelable
+)
 
-@Parcelize
 data class AlbumData( // 专辑
     val picUrl: String
-) : Parcelable
+)
 
-@Parcelize
 data class ArtistData(
     val name: String
-) : Parcelable
+)
+
+
+
+// 搜索结果
+data class SearchData(
+    val result: SearchResultData
+)
+data class SearchResultData(
+    val songs: List<SearchSongData>
+)
+
+data class SearchSongData(
+    val id: Long,
+)

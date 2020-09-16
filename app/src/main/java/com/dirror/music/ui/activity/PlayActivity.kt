@@ -56,22 +56,19 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             refreshPlayState()
         }
 
+        // 下一曲
         ivNext.setOnClickListener {
-            // MyApplication.musicBinderInterface?.
+            MyApplication.musicBinderInterface?.playNext()
+        }
+
+        // 上一曲
+        ivLast.setOnClickListener {
+            MyApplication.musicBinderInterface?.playLast()
         }
 
         // 切换播放模式
         ivMode.setOnClickListener {
             MyApplication.musicBinderInterface?.changePlayMode()
-            // 根据当前播放，修改图标
-            val mode = MyApplication.musicBinderInterface?.getPlayMode()
-            if (mode != null) {
-                when (mode) {
-                    MusicService.MODE_CIRCLE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
-                    MusicService.MODE_REPEAT_ONE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
-                    MusicService.MODE_RANDOM -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
-                }
-            }
         }
 
         // 进度条变化的监听
@@ -104,6 +101,16 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             getNowSongData()
+
+            // 根据当前播放，修改图标
+            val mode = MyApplication.musicBinderInterface?.getPlayMode()
+            if (mode != null) {
+                when (mode) {
+                    MusicService.MODE_CIRCLE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
+                    MusicService.MODE_REPEAT_ONE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
+                    MusicService.MODE_RANDOM -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
+                }
+            }
         }
     }
 

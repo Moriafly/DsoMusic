@@ -106,9 +106,9 @@ class MainActivity : BaseActivity() {
 
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-            itemPlay.ivPlay.setImageResource(R.drawable.ic_play)
+            itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
-            itemPlay.ivPlay.setImageResource(R.drawable.ic_pause)
+            itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
     }
 

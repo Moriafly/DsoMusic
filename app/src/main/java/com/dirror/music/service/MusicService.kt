@@ -69,7 +69,7 @@ class MusicService: Service() {
                 setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
                 prepareAsync()
                 setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
-                setOnCompletionListener(this@MusicBinder)
+                setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
             }
             // https://api.fczbl.vip/163/?type=url&id=186016
             // https://music.163.com/song/media/outer/url?id=186016.mp3
@@ -148,6 +148,7 @@ class MusicService: Service() {
                 MODE_REPEAT_ONE -> mode = MODE_RANDOM
                 MODE_RANDOM -> mode = MODE_CIRCLE
             }
+            sendMusicBroadcast()
         }
 
         /**
@@ -155,6 +156,44 @@ class MusicService: Service() {
          */
         override fun getPlayMode(): Int {
             return mode
+        }
+
+        /**
+         * 播放上一曲
+         */
+        override fun playLast() {
+            // 获取 position
+            position = when (mode) {
+                MODE_RANDOM -> (0..songList?.lastIndex!!).random()
+                else -> {
+                    if (position == 0) {
+                        songList?.lastIndex
+                    } else {
+                        position?.minus(1)
+                    }
+                }
+            }
+            //
+            position?.let { playMusic(it) }
+            sendMusicBroadcast()
+        }
+
+        /**
+         * 播放下一曲
+         */
+        override fun playNext() {
+            when (mode) {
+                MODE_RANDOM -> (0..songList?.lastIndex!!).random()
+                else -> {
+                    position = if (position == songList?.lastIndex) {
+                        0
+                    } else {
+                        position?.plus(1)
+                    }
+                }
+            }
+            position?.let { playMusic(it) }
+            sendMusicBroadcast()
         }
 
         /**
@@ -200,4 +239,6 @@ interface MusicBinderInterface {
     fun getNowSongData(): SongData?
     fun changePlayMode()
     fun getPlayMode(): Int
+    fun playLast()
+    fun playNext()
 }
