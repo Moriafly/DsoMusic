@@ -157,7 +157,7 @@ class PlaylistActivity : BaseActivity() {
                 }
 
             rvDetailPlaylist.layoutManager =  linearLayoutManager
-            rvDetailPlaylist.adapter = DetailPlaylistAdapter(songData)
+            rvDetailPlaylist.adapter = DetailPlaylistAdapter( songData)
 
         }
     }

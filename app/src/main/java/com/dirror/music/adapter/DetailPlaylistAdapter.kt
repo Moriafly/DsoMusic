@@ -1,5 +1,6 @@
 package com.dirror.music.adapter
 
+import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.dirror.music.cloudmusic.PlaylistData
 import com.dirror.music.cloudmusic.SongData
 import com.dirror.music.cloudmusic.TracksData
 import com.dirror.music.service.MusicService
+import com.dirror.music.ui.activity.PlayActivity
 import com.dirror.music.ui.activity.PlaylistActivity
 
 class DetailPlaylistAdapter(val songData: List<SongData>): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
@@ -58,8 +60,22 @@ class DetailPlaylistAdapter(val songData: List<SongData>): RecyclerView.Adapter<
         holder.tvArtist.text = artist
 
         holder.clSong.setOnClickListener {
-            MyApplication.musicBinderInterface?.setPlaylist(songData)
-            MyApplication.musicBinderInterface?.playMusic(position)
+            if (MyApplication.musicBinderInterface?.getPlaylist() == songData) { // 歌单相同
+                if (position == MyApplication.musicBinderInterface?.getNowPosition()) { // position 相同
+                    it.context.startActivity(Intent(it.context, PlayActivity::class.java))
+                    (it.context as Activity).overridePendingTransition(
+                        R.anim.anim_slide_enter_bottom,
+                        R.anim.anim_no_anim
+                    )
+
+
+                } else {
+                    MyApplication.musicBinderInterface?.playMusic(position)
+                }
+            } else {
+                MyApplication.musicBinderInterface?.setPlaylist(songData)
+                MyApplication.musicBinderInterface?.playMusic(position)
+            }
         }
 
         holder.tvNumber.text = (position + 1).toString()

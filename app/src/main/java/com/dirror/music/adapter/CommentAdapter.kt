@@ -34,7 +34,7 @@ class CommentAdapter(val commentData: CommentData): RecyclerView.Adapter<Comment
         holder.tvContent.text = commentData.hotComments[position].content
         holder.tvLikedCount.text = commentData.hotComments[position].likedCount.toString()
         holder.tvTime.text = msTimeToFormatDate(commentData.hotComments[position].time)
-        GlideUtil.loadCloudMusicImage(commentData.hotComments[position].user.avatarUrl, 50, 50, holder.ivCover)
+        GlideUtil.loadCloudMusicImage(commentData.hotComments[position].user.avatarUrl, 100, 100, holder.ivCover)
     }
 
     override fun getItemCount(): Int {

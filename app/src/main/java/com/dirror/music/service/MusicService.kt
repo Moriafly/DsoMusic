@@ -8,7 +8,7 @@ import android.os.IBinder
 import android.util.Log
 import com.dirror.music.cloudmusic.SongData
 
-class MusicService: Service() {
+class MusicService : Service() {
     // 传一个播放列表而不是一首歌
     companion object {
         const val MODE_CIRCLE = 1 // 列表循环
@@ -20,7 +20,7 @@ class MusicService: Service() {
     private val musicBinder by lazy { MusicBinder() } // 懒加载 musicBinder
 
     var songList: List<SongData>? = null // 当前歌单
-    var position : Int? = 0 // 当前歌曲在 List 中的下标
+    var position: Int? = 0 // 当前歌曲在 List 中的下标
 
     var mode = MODE_CIRCLE // 当前模式
 
@@ -42,16 +42,30 @@ class MusicService: Service() {
     }
 
     // 调用 Service 内部方法
-    inner class MusicBinder: Binder(), MusicBinderInterface, MediaPlayer.OnPreparedListener,
+    inner class MusicBinder : Binder(), MusicBinderInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener {
+
+        var isPrepared = false // 音乐是否准备完成
+
+        /**
+         * 设置播放歌单
+         */
         override fun setPlaylist(songListData: List<SongData>) {
             songList = songListData
+        }
+
+        /**
+         * 获取当前歌单全部
+         */
+        override fun getPlaylist(): List<SongData>? {
+            return songList
         }
 
         /**
          * 播放音乐
          */
         override fun playMusic(songPosition: Int) {
+            isPrepared = false
             position = songPosition
             val songId = songList!![position!!].songs[0].id // 获取当前 position 的歌曲 id
             // Log.e("音乐服务 songId：", songId.toString())
@@ -64,12 +78,13 @@ class MusicService: Service() {
             }
 
             mediaPlayer = MediaPlayer() // 初始化
-            mediaPlayer?.apply {
+            mediaPlayer?.let {
                 // setDataSource("https://api.fczbl.vip/163/?type=url&id=$songId")
-                setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
-                prepareAsync()
-                setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
-                setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
+                it.setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
+                it.setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
+
+                it.setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
+                it.prepareAsync()
             }
             // https://api.fczbl.vip/163/?type=url&id=186016
             // https://music.163.com/song/media/outer/url?id=186016.mp3
@@ -84,8 +99,14 @@ class MusicService: Service() {
         }
 
         override fun onPrepared(p0: MediaPlayer?) {
+            isPrepared = true
+            // p0?.prepare()
             // 播放音乐，通知界面更新
-            p0?.start()
+            p0?.apply {
+                start()
+            }
+
+
             sendMusicBroadcast()
         }
 
@@ -108,21 +129,26 @@ class MusicService: Service() {
          * 获取当前播放状态
          */
         override fun getPlayState(): Boolean {
-            return mediaPlayer?.isPlaying?:false
+            return mediaPlayer?.isPlaying ?: false
         }
 
         /**
          * 获取总进度
          */
-        override fun getDuration(): Int {
-            return mediaPlayer?.duration?:0
+        override fun getDuration(): Int? {
+            // getDuration必须在prepared回调完成后才可以调用。
+            return if (isPrepared) {
+                mediaPlayer?.duration ?: 0
+            } else {
+                null
+            }
         }
 
         /**
          * 获取当前进度
          */
         override fun getProgress(): Int {
-            return mediaPlayer?.currentPosition?:0
+            return mediaPlayer?.currentPosition ?: 0
         }
 
         /**
@@ -198,9 +224,20 @@ class MusicService: Service() {
         }
 
         /**
+         * 获取当前 position
+         */
+        override fun getNowPosition(): Int {
+            return position?:-1
+        }
+
+        /**
          * 歌曲完成后的回调，自动播放下一曲
          */
         override fun onCompletion(p0: MediaPlayer?) {
+            // 下面两句解决 MediaPlayerNative: error (-38, 0) 问题
+            // https://blog.csdn.net/u014520745/article/details/46672327
+//            mediaPlayer?.pause()
+//            mediaPlayer?.seekTo(0)
             autoPlayNext()
         }
 
@@ -223,7 +260,7 @@ class MusicService: Service() {
                     position = (0..songList?.lastIndex!!).random()
                 }
             }
-            playMusic(position?:0)
+            playMusic(position ?: 0)
         }
 
     }
@@ -231,10 +268,11 @@ class MusicService: Service() {
 
 interface MusicBinderInterface {
     fun setPlaylist(songListData: List<SongData>)
+    fun getPlaylist(): List<SongData>?
     fun playMusic(songPosition: Int)
     fun changePlayState()
     fun getPlayState(): Boolean
-    fun getDuration(): Int
+    fun getDuration(): Int?
     fun getProgress(): Int
     fun setProgress(newProgress: Int)
     fun getNowSongData(): SongData?
@@ -242,4 +280,5 @@ interface MusicBinderInterface {
     fun getPlayMode(): Int
     fun playLast()
     fun playNext()
+    fun getNowPosition():Int
 }

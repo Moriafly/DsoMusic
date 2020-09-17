@@ -4,19 +4,21 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Point
 import android.graphics.Rect
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.Window
+import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.cloudmusic.ArtistData
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 /**
  * 顶层函数类
@@ -130,4 +132,48 @@ fun getStatusBarHeight(window: Window, context: Context): Int {
         }
     }
     return mStatusBarHeight
+}
+
+fun getNavigationBarHeight(activity: Activity): Int {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        val display = activity.windowManager.defaultDisplay
+        val size = Point()
+        val realSize = Point()
+        display.getSize(size)
+        display.getRealSize(realSize)
+        val resources: Resources = activity.resources
+        val resourceId: Int = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        val height: Int = resources.getDimensionPixelSize(resourceId)
+        //超出系统默认的导航栏高度以上，则认为存在虚拟导航
+        if (realSize.y - size.y > height - 10) {
+            height
+        } else 0
+    } else {
+        val menu = ViewConfiguration.get(activity).hasPermanentMenuKey()
+        val back = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)
+        if (menu || back) {
+            0
+        } else {
+            val resources: Resources = activity.resources
+            val resourceId: Int =
+                resources.getIdentifier("navigation_bar_height", "dimen", "android")
+            resources.getDimensionPixelSize(resourceId)
+        }
+    }
+}
+
+
+fun setNavigationBarColor(activity: Activity, color: Int) {
+    val window = activity.window
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+        window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.navigationBarColor = color
+        return
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+    }
 }

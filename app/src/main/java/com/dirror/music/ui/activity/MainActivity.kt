@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
@@ -38,13 +39,6 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
 
-        val statusBarHeight = getStatusBarHeight(window, this) // px
-        titleBar.translationY = statusBarHeight.toFloat()
-        blurView.scaleY = (dp2px(56f) + statusBarHeight).toFloat() / dp2px(56f)
-        blurView.translationY = statusBarHeight.toFloat() / 2
-        blurViewBottom.scaleY = blurView.scaleY
-        blurViewBottom.translationY = statusBarHeight.toFloat() / 2
-
         val radius = 20f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
@@ -58,6 +52,22 @@ class MainActivity : BaseActivity() {
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)
             .setHasFixedTransformationMatrix(true)
+
+        // 适配状态栏
+        val statusBarHeight = getStatusBarHeight(window, this) // px
+        titleBar.translationY = statusBarHeight.toFloat()
+        blurView.scaleY = (dp2px(56f) + statusBarHeight).toFloat() / dp2px(56f)
+        blurView.translationY = statusBarHeight.toFloat() / 2
+        blurViewBottom.scaleY = blurView.scaleY
+        blurViewBottom.translationY = statusBarHeight.toFloat() / 2
+
+        // 适配导航栏
+        val navigationBarHeight = getNavigationBarHeight(this).toFloat()
+        clPlay.translationY = - navigationBarHeight
+        blurViewPlay.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
+        blurViewPlay.translationY = - navigationBarHeight / 2
+        blurViewPlayBottom.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
+        blurViewPlayBottom.translationY = - navigationBarHeight / 2
 
 
         viewPager2.adapter = object: FragmentStateAdapter(this) {
@@ -113,9 +123,8 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        // 解绑广播接收
         unregisterReceiver(musicBroadcastReceiver)
-        // 解绑
-//        unbindService(musicConnection)
     }
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
@@ -130,6 +139,9 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 刷新播放状态
+     */
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
             itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)

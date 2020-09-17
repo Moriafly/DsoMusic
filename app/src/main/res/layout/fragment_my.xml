@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="96dp"
-        android:paddingBottom="56dp">
+        android:paddingBottom="96dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/itemAccount"

@@ -6,9 +6,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.drawable.BitmapDrawable
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import com.dirror.music.MyApplication
@@ -16,22 +16,27 @@ import com.dirror.music.R
 import com.dirror.music.cloudmusic.SongInnerData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.*
+import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.TimeUtil
+import com.dirror.music.util.loge
+import com.dirror.music.util.parseArtist
 import kotlinx.android.synthetic.main.activity_play.*
+
+
+private const val MSG_PROGRESS = 0 // Handle 消息，播放进度
 
 class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
-    var duration = 0
+    private var duration = 0 // 音乐总时长
     private val handler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message) {
-            when (msg?.what) {
+            when (msg.what) {
                 MSG_PROGRESS -> updateProgress()
             }
         }
-    }
-    val MSG_PROGRESS = 0
+    } // 可能泄漏，等待以后解决，Handle 过时问题
 
     override fun getLayoutId(): Int {
         return R.layout.activity_play
@@ -91,7 +96,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         super.finish()
         overridePendingTransition(
             R.anim.anim_no_anim,
-            R.anim.anim_slide_enter_bottom
+            R.anim.anim_slide_exit_bottom
         )
     }
 
@@ -143,6 +148,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             getNowSongData()
+            refreshPlayState()
 
             // 根据当前播放，修改图标
             val mode = MyApplication.musicBinderInterface?.getPlayMode()
@@ -162,7 +168,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     private fun updateProgress() {
         // 获取当前进度
         val progress = MyApplication.musicBinderInterface?.getProgress()?:0
-        duration = MyApplication.musicBinderInterface?.getDuration()?:0
+        duration = MyApplication.musicBinderInterface?.getDuration()?:duration
         // 设置进度条最大值
         seekBar.max = duration
         // 更新进度
@@ -170,7 +176,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         tvProgress.text = TimeUtil.parseDuration(progress)
         tvDuration.text = TimeUtil.parseDuration(duration)
         // 定时获取进度
-        handler.sendEmptyMessageDelayed(MSG_PROGRESS,1000)
+        handler.sendEmptyMessageDelayed(MSG_PROGRESS, 1000)
     }
 
     /**
@@ -201,7 +207,13 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
         if (song != null) {
             val url = song!!.al.picUrl
-            GlideUtil.load(url, ivCover)
+            // val bitmap = (ivCover.drawable as BitmapDrawable).bitmap
+            if (ivCover.drawable != null) {
+                GlideUtil.load(url, ivCover, ivCover.drawable)
+            } else {
+                GlideUtil.load(url, ivCover)
+            }
+
 
             tvName.text = song!!.name
             tvArtist.text = parseArtist(song!!.ar)
