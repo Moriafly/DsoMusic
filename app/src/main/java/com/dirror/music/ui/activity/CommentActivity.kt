@@ -29,4 +29,12 @@ class CommentActivity : BaseActivity() {
         })
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(
+            R.anim.anim_no_anim,
+            R.anim.anim_slide_exit_bottom
+        )
+    }
+
 }

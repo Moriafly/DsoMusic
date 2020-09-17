@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
@@ -36,6 +37,15 @@ fun setStatusBarIconColor(activity: Activity, dark: Boolean) {
 fun toast(msg: String) {
     runOnMainThread {
         Toast.makeText(MyApplication.context, msg, Toast.LENGTH_SHORT).show()
+    }
+}
+
+/**
+ * 全局 log
+ */
+fun loge(msg: String) {
+    runOnMainThread {
+        Log.e("Dirror 音乐", "【$msg】")
     }
 }
 

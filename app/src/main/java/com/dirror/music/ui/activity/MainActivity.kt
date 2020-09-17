@@ -1,8 +1,13 @@
 package com.dirror.music.ui.activity
 
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
@@ -73,7 +78,15 @@ class MainActivity : BaseActivity() {
         }.attach()
 
         itemPlay.setOnClickListener {
-            startActivity(Intent(this, PlayActivity::class.java))
+            val intent = Intent(this, PlayActivity::class.java)
+            val activityOptionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this,
+                    Pair(itemPlay.cvCover, "cvCover"),
+                    Pair(itemPlay.tvName, "tvName"),
+                    Pair(itemPlay.tvArtist, "tvArtist"),
+                )
+            startActivity(intent, activityOptionsCompat.toBundle())
         }
 
         itemPlay.ivPlay.setOnClickListener {

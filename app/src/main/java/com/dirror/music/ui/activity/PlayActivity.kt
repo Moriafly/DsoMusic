@@ -1,5 +1,6 @@
 package com.dirror.music.ui.activity
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -7,15 +8,15 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Handler
 import android.os.Message
+import android.util.Log
+import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.cloudmusic.SongInnerData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.GlideUtil
-import com.dirror.music.util.TimeUtil
-import com.dirror.music.util.parseArtist
+import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.activity_play.*
 
 class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
@@ -49,7 +50,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
 
         updateProgress()
-        refreshPlayState()
+
 
         ivPlay.setOnClickListener {
             // 更新
@@ -82,6 +83,10 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             val intent = Intent(this, CommentActivity::class.java)
             intent.putExtra("long_music_id", song?.id)
             startActivity(intent)
+            overridePendingTransition(
+                R.anim.anim_slide_enter_bottom,
+                R.anim.anim_no_anim
+            )
         }
 
         // 进度条变化的监听
@@ -89,18 +94,51 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        //
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshPlayState()
+    }
+
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
             // 播放
             ivPlay.setImageResource(R.drawable.ic_pause_btn)
+            startRotateAlways()
             // 开启进度更新
             handler.sendEmptyMessage(MSG_PROGRESS)
         } else {
             // 暂停
             ivPlay.setImageResource(R.drawable.ic_play_btn)
+            pauseRotateAlways()
             // 停止更新进度
             handler.removeMessages(MSG_PROGRESS)
         }
+    }
+
+    private var rotation = 0f
+    private fun pauseRotateAlways() {
+        rotation = ivCover.rotation
+        loge("rotation:$rotation")
+        objectAnimator.pause()
+    }
+
+    private val objectAnimator: ObjectAnimator by lazy {
+        ObjectAnimator.ofFloat(ivCover, "rotation", rotation, rotation + 360f).apply {
+            interpolator = LinearInterpolator()
+            duration = 25000
+            repeatCount = -1
+            start()
+        }
+    }
+
+
+    private fun startRotateAlways() {
+        objectAnimator.resume()
     }
 
     override fun onDestroy() {

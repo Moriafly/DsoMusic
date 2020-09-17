@@ -10,6 +10,7 @@
         <item name="android:statusBarColor">@color/colorStatusBar</item>
 
         <!--        <item name="android:windowBackground">@drawable/ic_wechat</item>-->
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="AppTheme.FullScreen">

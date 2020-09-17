@@ -42,6 +42,10 @@ class PlaylistActivity : BaseActivity() {
 
         layoutPlay.setOnClickListener {
             startActivity(Intent(this, PlayActivity::class.java))
+            overridePendingTransition(
+                R.anim.anim_slide_enter_bottom,
+                R.anim.anim_no_anim
+            )
         }
 
         layoutPlay.ivPlay.setOnClickListener {

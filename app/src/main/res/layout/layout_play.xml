@@ -19,10 +19,11 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvCover"
+        android:transitionName="cvCover"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
-        app:cardCornerRadius="30dp"
+        app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +38,7 @@
 
     <TextView
         android:id="@+id/tvName"
+        android:transitionName="tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -50,6 +52,7 @@
 
     <TextView
         android:id="@+id/tvArtist"
+        android:transitionName="tvArtist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
