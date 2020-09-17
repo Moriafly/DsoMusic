@@ -174,4 +174,26 @@ object CloudMusic {
     interface SongCallback {
         fun success(songData: SongData)
     }
+
+    /**
+     * 获取歌曲评论
+     */
+    fun getMusicComment(id: Long, callback: MusicCommentCallback) {
+        MagicHttp.OkHttpManager().get(
+            "$MUSIC_API_URL/comment/music?id=$id&limit=20&offset=0${timestamp()}",
+            object : MagicHttp.MagicCallback {
+                override fun success(response: String) {
+                    val commentData = Gson().fromJson(response, CommentData::class.java)
+                    callback.success(commentData)
+                }
+
+                override fun failure(throwable: Throwable) {
+                    Log.e("获取歌曲详情错误", throwable.message.toString())
+                }
+            })
+    }
+
+    interface MusicCommentCallback {
+        fun success(commentData: CommentData)
+    }
 }

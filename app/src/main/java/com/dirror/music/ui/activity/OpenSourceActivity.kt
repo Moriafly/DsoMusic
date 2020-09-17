@@ -60,5 +60,7 @@ class OpenSourceActivity : BaseActivity() {
         rvOpenSource.layoutManager = LinearLayoutManager(this)
         rvOpenSource.adapter = OpenSourceAdapter(openSourceList)
 
+
+
     }
 }

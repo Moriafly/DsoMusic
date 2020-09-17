@@ -14,18 +14,25 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.cloudmusic.ArtistData
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * 顶层函数类
  */
 val CLOUD_MUSIC_API = "https://musicapi.leanapp.cn"
+
 /**
  * 设置状态栏图标颜色
+ * @param dark true 为黑色，false 为白色
  */
 fun setStatusBarIconColor(activity: Activity, dark: Boolean) {
     StatusbarColorUtils.setStatusBarDarkIcon(activity, dark)
 }
 
+/**
+ * 全局 toast
+ */
 fun toast(msg: String) {
     runOnMainThread {
         Toast.makeText(MyApplication.context, msg, Toast.LENGTH_SHORT).show()
@@ -69,6 +76,11 @@ fun openUrlByBrowser(context: Context, url: String) {
     val contentUrl = Uri.parse(url)
     intent.data = contentUrl
     startActivity(context, intent, Bundle())
+}
+
+// 毫秒转日期
+fun msTimeToFormatDate(msTime: Long): String {
+    return TimeUtil.msTimeToFormatDate(msTime)
 }
 
 // 获取状态栏高度
