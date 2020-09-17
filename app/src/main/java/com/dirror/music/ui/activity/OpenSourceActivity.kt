@@ -17,6 +17,10 @@ class OpenSourceActivity : BaseActivity() {
 
     override fun initView() {
         val openSourceList = listOf(
+            OpenSourceData("Kotlin Programming Language", "https://github.com/JetBrains/kotlin","""
+                Apache License (Version 2.0)
+            """.trimIndent()),
+
             OpenSourceData("OkHttp", "https://github.com/square/okhttp","""
                 Copyright 2019 Square, Inc.
 

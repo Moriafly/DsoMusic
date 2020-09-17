@@ -29,7 +29,7 @@ class OpenSourceAdapter(val openSourceList: List<OpenSourceData>): RecyclerView.
         holder.tvUrl.text = openSourceList[position].url
         holder.tvLicense.text = openSourceList[position].license
         holder.tvUrl.setOnClickListener {
-            openUrlByBrowser(openSourceList[position].url)
+            openUrlByBrowser(it.context, openSourceList[position].url)
         }
     }
 

@@ -11,7 +11,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Window
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.cloudmusic.ArtistData
 
@@ -60,12 +60,15 @@ fun parseArtist(artistList: List<ArtistData>): String {
     return artist
 }
 
-fun openUrlByBrowser(url: String) {
+/**
+ * 通过浏览器打开网页
+ */
+fun openUrlByBrowser(context: Context, url: String) {
     val intent = Intent()
     intent.action = "android.intent.action.VIEW"
     val contentUrl = Uri.parse(url)
     intent.data = contentUrl
-    ContextCompat.startActivity(MyApplication.context, intent, Bundle())
+    startActivity(context, intent, Bundle())
 }
 
 // 获取状态栏高度
