@@ -10,4 +10,9 @@ object GlideUtil {
             .load(url)
             .into(imageView)
     }
+
+    fun loadCloudMusicImage(url: String, width: Int, height: Int, imageView: ImageView) {
+        val imageUrl = "$url?param=${width}y${height}"
+        load(imageUrl, imageView)
+    }
 }

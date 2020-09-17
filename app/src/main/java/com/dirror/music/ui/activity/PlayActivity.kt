@@ -10,6 +10,7 @@ import android.os.Message
 import android.widget.SeekBar
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.cloudmusic.SongInnerData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.GlideUtil
@@ -74,6 +75,13 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         // 点击 titleBar，关闭 Activity
         titleBar.setOnClickListener {
             finish()
+        }
+
+        // 点击评论，跳转
+        ivComment.setOnClickListener {
+            val intent = Intent(this, CommentActivity::class.java)
+            intent.putExtra("long_music_id", song?.id)
+            startActivity(intent)
         }
 
         // 进度条变化的监听
@@ -159,15 +167,15 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     }
 
-
+    private var song: SongInnerData? = null
     private fun getNowSongData() {
-        val song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
+        song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
         if (song != null) {
-            val url = song.al.picUrl
+            val url = song!!.al.picUrl
             GlideUtil.load(url, ivCover)
 
-            tvName.text = song.name
-            tvArtist.text = parseArtist(song.ar)
+            tvName.text = song!!.name
+            tvArtist.text = parseArtist(song!!.ar)
         }
 
 
