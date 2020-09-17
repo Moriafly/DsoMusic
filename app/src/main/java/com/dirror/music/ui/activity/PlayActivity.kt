@@ -47,10 +47,8 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     override fun initView() {
         // 获取现在歌曲信息
         getNowSongData()
-
-
         updateProgress()
-
+        refreshPlayState()
 
         ivPlay.setOnClickListener {
             // 更新
@@ -73,11 +71,6 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             MyApplication.musicBinderInterface?.changePlayMode()
         }
 
-        // 点击 titleBar，关闭 Activity
-        titleBar.setOnClickListener {
-            finish()
-        }
-
         // 点击评论，跳转
         ivComment.setOnClickListener {
             val intent = Intent(this, CommentActivity::class.java)
@@ -94,14 +87,12 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        //
-    }
-
-    override fun onResume() {
-        super.onResume()
-        refreshPlayState()
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(
+            R.anim.anim_no_anim,
+            R.anim.anim_slide_enter_bottom
+        )
     }
 
     private fun refreshPlayState() {

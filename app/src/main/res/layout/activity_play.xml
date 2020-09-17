@@ -110,7 +110,7 @@
             app:srcCompat="@drawable/ic_bq_player_music_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.dirror.music.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -156,10 +156,9 @@
             android:rotation="270"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.dirror.music.widget.TitleBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clMenu"
@@ -196,7 +195,7 @@
             android:id="@+id/cvCd"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:layout_marginTop="113dp"
+            android:layout_marginTop="114dp"
             app:cardBackgroundColor="#F5F5F5"
             app:cardCornerRadius="200dp"
             app:cardElevation="36dp"
