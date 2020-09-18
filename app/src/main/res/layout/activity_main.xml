@@ -15,7 +15,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/blurView" />
+        app:layout_constraintTop_toTopOf="@+id/blurView" >
+
+    </androidx.viewpager2.widget.ViewPager2>
 
     <eightbitlab.com.blurview.BlurView
         android:id="@+id/blurView"
@@ -46,6 +48,15 @@
         app:layout_constraintEnd_toEndOf="@+id/blurView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_next" />
 
         <View
             android:id="@+id/dividerTitleBar"
@@ -93,7 +104,6 @@
             android:id="@+id/ivSettings"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginStart="3dp"
             android:alpha="0.72"
             android:paddingTop="18dp"
             android:paddingBottom="10dp"

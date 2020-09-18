@@ -177,14 +177,16 @@ object CloudMusic {
 
     /**
      * 获取歌曲评论
+     * @param id 网易云音乐 id
+     * @param success 成功的回调
      */
-    fun getMusicComment(id: Long, callback: MusicCommentCallback) {
+    fun getMusicComment(id: Long, success: (CommentData) -> Unit) {
         MagicHttp.OkHttpManager().get(
             "$MUSIC_API_URL/comment/music?id=$id&limit=20&offset=0${timestamp()}",
             object : MagicHttp.MagicCallback {
                 override fun success(response: String) {
                     val commentData = Gson().fromJson(response, CommentData::class.java)
-                    callback.success(commentData)
+                    success.invoke(commentData)
                 }
 
                 override fun failure(throwable: Throwable) {

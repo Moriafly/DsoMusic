@@ -231,6 +231,13 @@ class MusicService : Service() {
         }
 
         /**
+         * 获取 AudioSessionId，用于音效
+         */
+        override fun getAudioSessionId(): Int {
+            return mediaPlayer?.audioSessionId?:0
+        }
+
+        /**
          * 歌曲完成后的回调，自动播放下一曲
          */
         override fun onCompletion(p0: MediaPlayer?) {
@@ -281,4 +288,5 @@ interface MusicBinderInterface {
     fun playLast()
     fun playNext()
     fun getNowPosition():Int
+    fun getAudioSessionId():Int
 }

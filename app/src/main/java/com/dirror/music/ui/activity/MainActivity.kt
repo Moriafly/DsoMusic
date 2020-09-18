@@ -11,6 +11,7 @@ import androidx.core.util.Pair
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.dirror.music.DirrorMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
@@ -116,6 +117,30 @@ class MainActivity : BaseActivity() {
                 R.anim.anim_slide_enter_left,
                 R.anim.anim_slide_exit_right
             )
+        }
+
+        ivSearch.setOnClickListener {
+
+            loge("开始搜索")
+            DirrorMusic.searchSong("河图", 20, 0, {
+                runOnMainThread {
+                    loge("获取成功，正在搜索")
+                    // 测试 QQ
+                    val song = ""
+                    val qqSongs = it.data.qq.songs
+                    for (index in 0..qqSongs?.lastIndex!!) {
+                        loge("qq:${qqSongs[index].name}")
+
+                    }
+                }
+            }, {
+                runOnMainThread {
+                    loge("音乐搜索获取失败")
+                    if (it != null) {
+                        loge(it)
+                    }
+                }
+            })
         }
 
 

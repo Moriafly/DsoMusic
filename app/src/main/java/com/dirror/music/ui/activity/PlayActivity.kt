@@ -16,10 +16,7 @@ import com.dirror.music.R
 import com.dirror.music.cloudmusic.SongInnerData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.GlideUtil
-import com.dirror.music.util.TimeUtil
-import com.dirror.music.util.loge
-import com.dirror.music.util.parseArtist
+import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.activity_play.*
 
 
@@ -85,6 +82,10 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
                 R.anim.anim_slide_enter_bottom,
                 R.anim.anim_no_anim
             )
+        }
+
+        ivEqualizer.setOnClickListener {
+            IntentUtil.openEqualizer(this)
         }
 
         // 进度条变化的监听

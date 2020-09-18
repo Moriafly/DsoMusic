@@ -18,15 +18,13 @@ class CommentActivity : BaseActivity() {
 
     override fun initView() {
         val id = intent.getLongExtra("long_music_id", -1)
-        CloudMusic.getMusicComment(id, object : CloudMusic.MusicCommentCallback {
-            override fun success(commentData: CommentData) {
-                runOnMainThread {
-                    titleBar.tvTitleBar.text = "评论 " + commentData.total.toString()
-                    rvComment.layoutManager = LinearLayoutManager(this@CommentActivity)
-                    rvComment.adapter = CommentAdapter(commentData)
-                }
+        CloudMusic.getMusicComment(id) {
+            runOnMainThread {
+                titleBar.tvTitleBar.text = "评论 " + it.total.toString()
+                rvComment.layoutManager = LinearLayoutManager(this@CommentActivity)
+                rvComment.adapter = CommentAdapter(it)
             }
-        })
+        }
     }
 
     override fun finish() {
