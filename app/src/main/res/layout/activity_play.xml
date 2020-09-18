@@ -7,12 +7,67 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.PlayActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCd"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvCd"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="114dp"
+            app:cardBackgroundColor="#F5F5F5"
+            app:cardCornerRadius="200dp"
+            app:cardElevation="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvCover"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_margin="25dp"
+                android:clipChildren="false"
+                android:transitionName="cvCover"
+                app:cardCornerRadius="200dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/ivCover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/ivCdPole"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:clickable="false"
+            android:contextClickable="false"
+            android:paddingStart="60dp"
+            android:translationY="-15dp"
+            android:translationZ="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cd" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="36dp"
         android:maxHeight="4dp"
         android:minHeight="4dp"
@@ -27,7 +82,7 @@
         android:id="@+id/tvProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="3dp"
         android:text="00:00"
         android:textSize="12sp"
@@ -39,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginEnd="32dp"
         android:text="00:00"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +152,7 @@
         android:id="@+id/clMenu"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -106,8 +161,8 @@
             android:id="@+id/ivComment"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginEnd="20dp"
-            android:alpha="0.72"
+            android:layout_marginEnd="16dp"
+            android:alpha="0.74"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -118,68 +173,13 @@
             android:id="@+id/ivEqualizer"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginStart="20dp"
-            android:alpha="0.72"
+            android:layout_marginStart="16dp"
+            android:alpha="0.6"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_bq_equalizer" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clCd"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleBar">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvCd"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="114dp"
-            app:cardBackgroundColor="#F5F5F5"
-            app:cardCornerRadius="200dp"
-            app:cardElevation="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvCover"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_margin="25dp"
-                android:clipChildren="false"
-                android:transitionName="cvCover"
-                app:cardCornerRadius="200dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/ivCover"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:srcCompat="@tools:sample/avatars" />
-            </androidx.cardview.widget.CardView>
-        </androidx.cardview.widget.CardView>
-
-        <ImageView
-            android:id="@+id/ivCdPole"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:clickable="false"
-            android:contextClickable="false"
-            android:paddingStart="60dp"
-            android:translationY="-15dp"
-            android:translationZ="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cd" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -229,7 +229,7 @@
             android:id="@+id/ivMode"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="16dp"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -240,7 +240,7 @@
             android:id="@+id/ivList"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="16dp"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

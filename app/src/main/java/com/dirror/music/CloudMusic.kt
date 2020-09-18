@@ -43,10 +43,13 @@ object CloudMusic {
                             200 -> {
                                 toast("登录成功\n用户名：${loginData.profile.nickname}")
                                 callback.success()
-                                StorageUtil.putInt(StorageUtil.CLOUD_MUSIC_UID, loginData.profile.userId)
+                                StorageUtil.putInt(
+                                    StorageUtil.CLOUD_MUSIC_UID,
+                                    loginData.profile.userId
+                                )
                             }
                             400 -> toast("用户不存在")
-                                else -> toast("登录失败\n错误代码：${loginData.code}")
+                            else -> toast("登录失败\n错误代码：${loginData.code}")
                         }
 
                     }
@@ -67,16 +70,12 @@ object CloudMusic {
     }
 
     fun loginByUid(uid: Int, callback: LoginByUidCallback) {
-        getUserDetail(uid, object : UserDetailCallback {
-            override fun success(userDetailData: UserDetailData) {
-                toast("登录成功")
-                callback.success()
-                StorageUtil.putInt(StorageUtil.CLOUD_MUSIC_UID, userDetailData.profile?.userId!!)
-            }
-
-            override fun failure() {
-                toast("登录失败")
-            }
+        getUserDetail(uid, {
+            toast("登录成功")
+            callback.success()
+            StorageUtil.putInt(StorageUtil.CLOUD_MUSIC_UID, it.profile?.userId!!)
+        }, {
+            toast(it)
         })
     }
 
@@ -102,28 +101,28 @@ object CloudMusic {
             })
     }
 
-    interface PlaylistCallback{
+    interface PlaylistCallback {
         fun success(userPlaylistData: UserPlaylistData)
     }
 
-    fun getUserDetail(uid: Int, callback: UserDetailCallback) {
-        MagicHttp.OkHttpManager().get(
-            "$MUSIC_API_URL/user/detail?uid=$uid",
-            object : MagicHttp.MagicCallback {
-                override fun success(response: String) {
-                    val userDetailData = Gson().fromJson(response, UserDetailData::class.java)
-                    if (userDetailData.code == 400 || userDetailData.code == 404) {
-                        callback.failure()
-                    } else {
-                        Log.e("图片", userDetailData.profile?.avatarUrl.toString())
-                        callback.success(userDetailData)
-                    }
-                }
-
-                override fun failure(throwable: Throwable) {
-                    Log.e("错误", throwable.message.toString())
-                }
-            })
+    /**
+     * 获取网易云用户详细信息
+     * @param uid 网易云用户 id
+     * @param success 成功的回调
+     * @param failure 失败的回调
+     */
+    fun getUserDetail(uid: Int, success: (result: UserDetailData) -> Unit, failure: (error: String) -> Unit) {
+        MagicHttp.OkHttpManager().newGet("$MUSIC_API_URL/user/detail?uid=$uid", {
+            val userDetailData = Gson().fromJson(it, UserDetailData::class.java)
+            when (userDetailData.code) {
+                400 -> failure.invoke("获取用户详细信息错误")
+                404 -> failure.invoke("用户不存在")
+                else -> success.invoke(userDetailData)
+            }
+        }, {
+            failure.invoke("MagicHttp 错误\n${it.message.toString()}")
+            Log.e("无法连接到服务器", it.message.toString())
+        })
     }
 
     interface UserDetailCallback {
@@ -139,7 +138,8 @@ object CloudMusic {
             "$MUSIC_API_URL/playlist/detail?id=$id${timestamp()}",
             object : MagicHttp.MagicCallback {
                 override fun success(response: String) {
-                    val detailPlaylistData = Gson().fromJson(response, DetailPlaylistData::class.java)
+                    val detailPlaylistData =
+                        Gson().fromJson(response, DetailPlaylistData::class.java)
                     callback.success(detailPlaylistData)
                 }
 
@@ -195,7 +195,4 @@ object CloudMusic {
             })
     }
 
-    interface MusicCommentCallback {
-        fun success(commentData: CommentData)
-    }
 }

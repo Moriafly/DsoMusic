@@ -12,6 +12,7 @@ object MagicHttp {
 
     interface MagicHttpInterface {
         fun get(url: String, callBack: MagicCallback)
+        fun newGet(url: String, success: (String) -> Unit, failure: (IOException) -> Unit) // 新的 get 请求接口，使用 Lambda
     }
 
     /**
@@ -50,6 +51,31 @@ object MagicHttp {
                     }
                     override fun onFailure(call: Call, e: IOException) {
                         callBack.failure(e)
+                    }
+                })
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        // lambda 表达式版，简化代码
+        override fun newGet(url: String, success: (String) -> Unit, failure: (IOException) -> Unit) {
+            try {
+                val client = OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS) //设置连接超时时间
+                    .readTimeout(20, TimeUnit.SECONDS) //设置读取超时时间
+                    .build()
+                val request = Request.Builder()
+                    .url(url)
+                    .get()
+                    .build()
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onResponse(call: Call, response: Response) {
+                        val string = response.body?.string()!!
+                        success.invoke(string)
+                    }
+                    override fun onFailure(call: Call, e: IOException) {
+                        failure.invoke(e)
                     }
                 })
             } catch (e: Exception) {

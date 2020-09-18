@@ -38,15 +38,16 @@ class MyFragment : BaseFragment() {
     }
 
     private fun getUserDetail() {
-        CloudMusic.getUserDetail(StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1), object : CloudMusic.UserDetailCallback {
-            override fun success(userDetailData: UserDetailData) {
-                refreshUserDetail(userDetailData)
-            }
-
-            override fun failure() {
-                toast("获取失败")
-            }
-        })
+        val uid = StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1)
+        if (uid != -1) {
+            CloudMusic.getUserDetail(StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1), {
+                refreshUserDetail(it)
+            }, {
+                toast(it)
+            })
+        } else {
+            toast("请先登录")
+        }
     }
 
     /**
