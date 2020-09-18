@@ -2,6 +2,7 @@ package com.dirror.music.widget
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
@@ -21,6 +22,7 @@ class LyricView: View {
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private val paint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) } // 通过惰性加载创建抗锯齿画笔
+    private val linePaint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) }
     private val lyricList by lazy { ArrayList<LyricData>() }
     private var centerLine = 10
     private var bigTextSize = 0f
@@ -44,7 +46,7 @@ class LyricView: View {
         // paint 属性
         paint.textAlign = Paint.Align.CENTER // 文本 x 坐标居中
 
-        lyricList.add(LyricData(0, "纯音乐"))
+        lyricList.add(LyricData(0, ""))
         // 循环添加歌词单句 data
 //        for (i in 0..30) {
 //            lyricList.add(LyricData(2000 * i, "正在播放第${i}行歌词"))
@@ -66,7 +68,8 @@ class LyricView: View {
         paint.textSize = bigTextSize
         paint.color = focusColor
 
-        val text = "正在加载歌词"
+
+        val text = ""
         // 求文本的高度和宽度
         val bounds = Rect()
         paint.getTextBounds(text, 0, text.length, bounds) // 给 bounds 传递数据，c 语言写法
@@ -107,6 +110,7 @@ class LyricView: View {
         val centerTextY = height / 2 + textHeight / 2 - offsetY
 
         for ((index, value) in lyricList.withIndex()) {
+            // paint.isFakeBoldText = true
             if (index == centerLine) {
                 // 绘制居中行
                 paint.textSize = bigTextSize

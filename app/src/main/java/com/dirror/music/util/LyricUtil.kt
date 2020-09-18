@@ -8,39 +8,34 @@ import kotlin.collections.ArrayList
 object LyricUtil {
     fun getLyric(id: Long, success: (List<LyricData>) -> Unit) {
         MagicHttp.OkHttpManager().newGet("${API_FCZBL_VIP}/?type=lrc&id=${id}", {
-            val list = ArrayList<LyricData>()
-
-            var string = it.replace("]\n", "]")
-            string = string.replace("by", "00:00.00")
-            string = string.replace("ar", "00:00.00")
-            string = string.replace("al", "00:00.00")
-            string = string.replace("ti", "00:00.00")
-            string = string.replace("offset", "00:00.00")
-
-            val lineList = string.split('\n')
-            for (line in lineList) {
-                val lyricDataList: List<LyricData> = parseLine(line)
-                list.addAll(lyricDataList)
-            }
-
-            success.invoke(list)
+            success.invoke(parseLyric(it))
         }, {
 
         })
     }
-    // 解析一行歌词
-    fun parseLine(line: String): List<LyricData> {
-        val list = ArrayList<LyricData>()
 
-        val arr = line.split("]")
-        val content = arr[arr.lastIndex]
-        for (index in 0 until arr.lastIndex) {
-            val startTime = parseTime(arr.get(index))
-            list.add(LyricData(startTime, content))
+    /**
+     * 解析 Lyric
+     */
+    private fun parseLyric(source: String): ArrayList<LyricData> {
+        val lyricDataList =ArrayList<LyricData>()
+        // 获取单行集合
+        val singleLineList = source.split("\n[")
+        val noEmptyContentLineList = ArrayList<String>()
+        for (singleLine in singleLineList) {
+            if (singleLine.last() != ']') {
+                // 获取了非空 singleLine
+                val splitSingleLineList = singleLine.split("]")
+                val timeSource = splitSingleLineList[0]
+                val content = splitSingleLineList[1]
+                val time = parseTime(timeSource)
+
+                val lyricData = LyricData(time, content)
+                lyricDataList.add(lyricData)
+            }
         }
-        list.sortBy { it.startTime }
 
-        return list
+        return lyricDataList
     }
 
     private fun parseTime(get: String): Int {
