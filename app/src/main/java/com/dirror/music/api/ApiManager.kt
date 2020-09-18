@@ -15,3 +15,11 @@ const val API_MUSIC_LAKE = "http://musiclake.leanapp.cn"
  * @测试 主要 api，绝大多数稳定
  */
 const val API_MUSIC_API = "http://musicapi.leanapp.cn"
+
+/**
+ * @名称 网易云简单 api
+ * @限制 暂无，很快，稳定
+ * @测试 用于歌词，很简单
+ * @获取歌词 https://api.fczbl.vip/163/?type=lrc&id=1438470159 // 传入歌曲 id
+ */
+const val API_FCZBL_VIP = "https://api.fczbl.vip/163"

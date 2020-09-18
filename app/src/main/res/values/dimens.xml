@@ -2,4 +2,5 @@
 <resources>
     <dimen name="bigTextSize">16sp</dimen>
     <dimen name="smallTextSize">14sp</dimen>
+    <dimen name="lyricLineHeight">48dp</dimen>
 </resources>

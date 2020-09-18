@@ -168,6 +168,8 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             getNowSongData()
             refreshPlayState()
 
+
+
             // 当前播放模式改不了，修改图标
             if (mode != MyApplication.musicBinderInterface?.getPlayMode()?:mode) {
                 // 赋值
@@ -194,17 +196,21 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
      * 更新进度
      */
     private fun updateProgress() {
+        lyricView.setLyricId(song?.id?:-1L)
         // 获取当前进度
         val progress = MyApplication.musicBinderInterface?.getProgress()?:0
         duration = MyApplication.musicBinderInterface?.getDuration()?:duration
+        lyricView.setSongDuration(duration)
         // 设置进度条最大值
         seekBar.max = duration
-        // 更新进度
+        // 更新进度条
         seekBar.progress = progress
         tvProgress.text = TimeUtil.parseDuration(progress)
         tvDuration.text = TimeUtil.parseDuration(duration)
+        // 更新歌词播放进度
+        lyricView.updateProgress(progress)
         // 定时获取进度
-        handler.sendEmptyMessageDelayed(MSG_PROGRESS, 1000)
+        handler.sendEmptyMessage(MSG_PROGRESS)
     }
 
     /**

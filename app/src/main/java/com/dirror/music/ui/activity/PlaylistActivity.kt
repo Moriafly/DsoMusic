@@ -70,7 +70,8 @@ class PlaylistActivity : BaseActivity() {
     }
 
     private fun refreshPlayState() {
-        if (MyApplication.musicBinderInterface?.getPlayState()!!) {
+
+        if (MyApplication.musicBinderInterface?.getPlayState() == true) {
             layoutPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
             layoutPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
