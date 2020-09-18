@@ -2,10 +2,8 @@ package com.dirror.music.util
 
 import android.animation.ObjectAnimator
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
-import com.dirror.music.R
+import androidx.core.animation.addListener
 
 
 object AnimationUtil {
@@ -31,5 +29,36 @@ object AnimationUtil {
 //        objectAnimator.repeatCount = -1
 
         // view.clearAnimation()
+    }
+
+    /**
+     * 淡出
+     * @param gone 是否消失
+     */
+    fun fadeOut(view: View, gone: Boolean) {
+        val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "alpha", view.alpha, 0f)
+        objectAnimator.interpolator = LinearInterpolator()
+        objectAnimator.duration = (300 * view.alpha / 1.0f).toLong()
+        // objectAnimator.repeatCount = 1
+        objectAnimator.start()
+        objectAnimator.addListener({
+            if (gone) {
+                view.visibility = View.GONE
+            }
+        })
+    }
+
+    /**
+     * 淡入
+     */
+    fun fadeIn(view: View) {
+        if (view.visibility == View.GONE) {
+            view.visibility = View.VISIBLE
+        }
+        val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "alpha", view.alpha, 1.0f)
+        objectAnimator.interpolator = LinearInterpolator()
+        objectAnimator.duration = (300 * (1.0f - view.alpha) / 1.0f).toLong()
+        // objectAnimator.repeatCount = 1
+        objectAnimator.start()
     }
 }

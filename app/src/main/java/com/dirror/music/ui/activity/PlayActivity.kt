@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.drawable.BitmapDrawable
 import android.os.Handler
 import android.os.Message
 import android.view.animation.LinearInterpolator
@@ -75,18 +74,34 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
         // 点击评论，跳转
         ivComment.setOnClickListener {
-            val intent = Intent(this, CommentActivity::class.java)
-            intent.putExtra("long_music_id", song?.id)
-            startActivity(intent)
-            overridePendingTransition(
-                R.anim.anim_slide_enter_bottom,
-                R.anim.anim_no_anim
-            )
+            if (song != null) {
+                val intent = Intent(this, CommentActivity::class.java)
+                intent.putExtra("long_music_id", song?.id)
+                startActivity(intent)
+                overridePendingTransition(
+                    R.anim.anim_slide_enter_bottom,
+                    R.anim.anim_no_anim
+                )
+            } else {
+                toast("无评论")
+            }
         }
 
         ivEqualizer.setOnClickListener {
             IntentUtil.openEqualizer(this)
         }
+
+        // 点击播放器 cd 界面，cd 界面淡出
+        clCd.setOnClickListener {
+            AnimationUtil.fadeOut(clCd, true)
+            AnimationUtil.fadeOut(clMenu, true) // 菜单淡出
+        }
+
+        clLyric.setOnClickListener {
+            AnimationUtil.fadeIn(clCd)
+            AnimationUtil.fadeIn(clMenu) // 菜单
+        }
+
 
         // 进度条变化的监听
         seekBar.setOnSeekBarChangeListener(this)
@@ -102,7 +117,8 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun refreshPlayState() {
-        if (MyApplication.musicBinderInterface?.getPlayState()!!) {
+        // 播放状态可能为空
+        if (MyApplication.musicBinderInterface?.getPlayState() == true) {
             // 播放
             ivPlay.setImageResource(R.drawable.ic_pause_btn)
             startRotateAlways()
@@ -147,17 +163,28 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
+        private var mode = MusicService.MODE_CIRCLE // 默认
         override fun onReceive(context: Context, intent: Intent) {
             getNowSongData()
             refreshPlayState()
 
-            // 根据当前播放，修改图标
-            val mode = MyApplication.musicBinderInterface?.getPlayMode()
-            if (mode != null) {
+            // 当前播放模式改不了，修改图标
+            if (mode != MyApplication.musicBinderInterface?.getPlayMode()?:mode) {
+                // 赋值
+                mode = MyApplication.musicBinderInterface?.getPlayMode()?:mode
                 when (mode) {
-                    MusicService.MODE_CIRCLE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
-                    MusicService.MODE_REPEAT_ONE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
-                    MusicService.MODE_RANDOM -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
+                    MusicService.MODE_CIRCLE -> {
+                        ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
+                        toast("列表循环")
+                    }
+                    MusicService.MODE_REPEAT_ONE -> {
+                        ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
+                        toast("单曲循环")
+                    }
+                    MusicService.MODE_RANDOM -> {
+                        ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
+                        toast("随机播放")
+                    }
                 }
             }
         }
