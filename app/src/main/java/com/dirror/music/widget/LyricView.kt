@@ -2,7 +2,6 @@ package com.dirror.music.widget
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
@@ -10,7 +9,6 @@ import android.view.View
 import com.dirror.music.R
 import com.dirror.music.data.LyricData
 import com.dirror.music.util.LyricUtil
-import java.time.Duration
 
 /**
  * @name LyricView
@@ -55,31 +53,9 @@ class LyricView: View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        // drawSingleLine(canvas)
+
         drawMultiLine(canvas)
 
-    }
-
-    /**
-     * 绘制单行文本
-     */
-    private fun drawSingleLine(canvas: Canvas?) {
-        // 初始化 paint 颜色和大小
-        paint.textSize = bigTextSize
-        paint.color = focusColor
-
-
-        val text = ""
-        // 求文本的高度和宽度
-        val bounds = Rect()
-        paint.getTextBounds(text, 0, text.length, bounds) // 给 bounds 传递数据，c 语言写法
-        val textWidth = bounds.width()
-        val textHeight = bounds.height()
-
-        val x = width / 2 - textWidth / 2
-        val y = height / 2 + textHeight / 2
-        // 绘制内容
-        canvas?.drawText(text, width / 2 .toFloat(), y.toFloat(), paint)
     }
 
     /**
@@ -88,8 +64,8 @@ class LyricView: View {
     private fun drawMultiLine(canvas: Canvas?) {
         //
         var lineTime = 0
-        if (centerLine == lyricList.lastIndex) {
-            lineTime = duration - lyricList.get(centerLine).startTime
+        if (centerLine >= lyricList.lastIndex) {
+            lineTime = duration - lyricList[centerLine].startTime
         } else {
             val centerStartTime = lyricList[centerLine].startTime
             val nextStartTime = lyricList[centerLine + 1].startTime
@@ -102,7 +78,7 @@ class LyricView: View {
 
 
 
-        val centerText = lyricList.get(centerLine).content
+        val centerText = lyricList[centerLine].content
         val bounds = Rect()
         paint.getTextBounds(centerText, 0, centerText.length, bounds) // 给 bounds 传递数据，c 语言写法
         val textHeight = bounds.height()
@@ -129,14 +105,8 @@ class LyricView: View {
             // 超出下边界
             if (currentTextY > height + lyricLineHeight) break
 
-            canvas?.drawText(value.content, currentTextX.toFloat(), currentTextY.toFloat(), paint)
+            canvas?.drawText(value.content, currentTextX.toFloat(), currentTextY, paint)
         }
-    }
-
-    // 在 layout 布局完成后执行
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-
     }
 
     /**
@@ -162,8 +132,7 @@ class LyricView: View {
 
         // 找到后绘制
         invalidate() // onDraw
-        // postInvalidate() // onDraw 可以在子线程
-        // requestLayout() // view 布局参数改变时刷新
+
     }
 
 

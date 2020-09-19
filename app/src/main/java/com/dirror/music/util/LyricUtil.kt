@@ -22,18 +22,21 @@ object LyricUtil {
 
         val singleLineList = source.split("\n")
         for (singleLine in singleLineList) {
-            if (singleLine.last() != ']' && singleLine.first() == '[') {
-                // 获取单行集合
-                val newSingleLine = singleLine.replace("[", "")
-                // 获取了非空 singleLine
-                val splitSingleLineList = newSingleLine.split("]")
-                val timeSource = splitSingleLineList[0]
-                val content = splitSingleLineList[1]
-                val time = parseTime(timeSource)
+            if (singleLine.isNotEmpty()) {
+                if (singleLine.substring(singleLine.lastIndex) != "]" && singleLine.first() == '[') {
+                    // 获取单行集合
+                    val newSingleLine = singleLine.replace("[", "")
+                    // 获取了非空 singleLine
+                    val splitSingleLineList = newSingleLine.split("]")
+                    val timeSource = splitSingleLineList[0]
+                    val content = splitSingleLineList[1]
+                    val time = parseTime(timeSource)
 
-                val lyricData = LyricData(time, content)
-                lyricDataList.add(lyricData)
+                    val lyricData = LyricData(time, content)
+                    lyricDataList.add(lyricData)
+                }
             }
+
         }
 
         return lyricDataList
