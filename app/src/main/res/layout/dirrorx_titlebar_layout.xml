@@ -9,6 +9,7 @@
         android:id="@+id/btnBack"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        android:alpha="0.75"
         android:padding="20dp"
         android:src="@drawable/mz_btn_copy_prev_page"
         app:layout_constraintBottom_toBottomOf="parent"

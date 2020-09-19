@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.cloudmusic.ArtistData
+import com.dirror.music.music.StandardArtistData
 
 
 /**
@@ -68,7 +69,7 @@ fun getCurrentTime() : Long {
     return System.currentTimeMillis()
 }
 
-fun parseArtist(artistList: List<ArtistData>): String {
+fun parseArtist(artistList: ArrayList<StandardArtistData>): String {
     var artist = ""
     for (artistName in 0..artistList.lastIndex) {
         if (artistName != 0) {

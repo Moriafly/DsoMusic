@@ -150,11 +150,11 @@ class MainActivity : BaseActivity() {
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
+            val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
                 itemPlay.tvName.text = song.name
-                itemPlay.tvArtist.text = parseArtist(song.ar)
-                GlideUtil.load(song.al.picUrl, itemPlay.ivCover)
+                itemPlay.tvArtist.text = parseArtist(song.artists)
+                GlideUtil.load(song.imageUrl, itemPlay.ivCover)
             }
             refreshPlayState()
         }

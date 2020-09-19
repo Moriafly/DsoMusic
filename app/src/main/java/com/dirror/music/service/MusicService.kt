@@ -7,6 +7,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import com.dirror.music.cloudmusic.SongData
+import com.dirror.music.music.StandardSongData
 
 class MusicService : Service() {
     // 传一个播放列表而不是一首歌
@@ -19,7 +20,7 @@ class MusicService : Service() {
     private var mediaPlayer: MediaPlayer? = null
     private val musicBinder by lazy { MusicBinder() } // 懒加载 musicBinder
 
-    var songList: List<SongData>? = null // 当前歌单
+    var songList: ArrayList<StandardSongData>? = null // 当前歌单
     var position: Int? = 0 // 当前歌曲在 List 中的下标
 
     var mode = MODE_CIRCLE // 当前模式
@@ -50,14 +51,14 @@ class MusicService : Service() {
         /**
          * 设置播放歌单
          */
-        override fun setPlaylist(songListData: List<SongData>) {
+        override fun setPlaylist(songListData: ArrayList<StandardSongData>) {
             songList = songListData
         }
 
         /**
          * 获取当前歌单全部
          */
-        override fun getPlaylist(): List<SongData>? {
+        override fun getPlaylist(): ArrayList<StandardSongData>? {
             return songList
         }
 
@@ -67,7 +68,8 @@ class MusicService : Service() {
         override fun playMusic(songPosition: Int) {
             isPrepared = false
             position = songPosition
-            val songId = songList!![position!!].songs[0].id // 获取当前 position 的歌曲 id
+            // val songId = songList!![position!!].songs[0].id // 获取当前 position 的歌曲 id
+            val songId = songList!![position!!].id // 获取当前 position 的歌曲 id
             // Log.e("音乐服务 songId：", songId.toString())
 
             // 如果 MediaPlayer 已经存在，释放
@@ -161,7 +163,7 @@ class MusicService : Service() {
         /**
          * 获取当前播放的音乐的信息
          */
-        override fun getNowSongData(): SongData? {
+        override fun getNowSongData(): StandardSongData? {
             return songList?.get(position!!)
         }
 
@@ -274,15 +276,15 @@ class MusicService : Service() {
 }
 
 interface MusicBinderInterface {
-    fun setPlaylist(songListData: List<SongData>)
-    fun getPlaylist(): List<SongData>?
+    fun setPlaylist(songListData: ArrayList<StandardSongData>)
+    fun getPlaylist(): ArrayList<StandardSongData>?
     fun playMusic(songPosition: Int)
     fun changePlayState()
     fun getPlayState(): Boolean
     fun getDuration(): Int?
     fun getProgress(): Int
     fun setProgress(newProgress: Int)
-    fun getNowSongData(): SongData?
+    fun getNowSongData(): StandardSongData?
     fun changePlayMode()
     fun getPlayMode(): Int
     fun playLast()

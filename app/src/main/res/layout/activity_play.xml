@@ -50,16 +50,28 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
-                android:id="@+id/ivComment"
+                android:id="@+id/ivShare"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginEnd="16dp"
-                android:alpha="0.74"
+                android:alpha="0.75"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mz_titlebar_ic_comments_dark" />
+                app:srcCompat="@drawable/mz_titlebar_ic_share_dark" />
+
+            <ImageView
+                android:id="@+id/ivComment"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:alpha="0.74"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivShare"
+                app:layout_constraintStart_toEndOf="@+id/ivEqualizer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/mz_titlebar_ic_information_dark" />
 
             <ImageView
                 android:id="@+id/ivEqualizer"
@@ -200,18 +212,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivShare"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="16dp"
-            android:alpha="0.75"
-            android:padding="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/mz_titlebar_ic_share_dark" />
 
     </com.dirror.music.widget.TitleBarLayout>
 
