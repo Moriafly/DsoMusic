@@ -94,15 +94,6 @@ class MainActivity : BaseActivity() {
                 R.anim.anim_slide_enter_bottom,
                 R.anim.anim_no_anim
             )
-//            val activityOptionsCompat =
-//                ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                    this,
-//                    Pair(itemPlay.cvCover, "cvCover"),
-//                    Pair(itemPlay.tvName, "tvName"),
-//                    Pair(itemPlay.tvArtist, "tvArtist"),
-//                )
-//            startActivity(intent, activityOptionsCompat.toBundle())
-
         }
 
         itemPlay.ivPlay.setOnClickListener {
