@@ -19,6 +19,7 @@ abstract class BaseFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
         initData()
         initView()
+        initListener()
     }
 
     abstract fun getLayoutId(): Int
@@ -28,6 +29,10 @@ abstract class BaseFragment: Fragment() {
     }
 
     protected open fun initView() {
+
+    }
+
+    protected open fun initListener() {
 
     }
 

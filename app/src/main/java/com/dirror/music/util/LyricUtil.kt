@@ -19,13 +19,14 @@ object LyricUtil {
      */
     private fun parseLyric(source: String): ArrayList<LyricData> {
         val lyricDataList =ArrayList<LyricData>()
-        // 获取单行集合
-        val singleLineList = source.split("\n[")
-        val noEmptyContentLineList = ArrayList<String>()
+
+        val singleLineList = source.split("\n")
         for (singleLine in singleLineList) {
-            if (singleLine.last() != ']') {
+            if (singleLine.last() != ']' && singleLine.first() == '[') {
+                // 获取单行集合
+                val newSingleLine = singleLine.replace("[", "")
                 // 获取了非空 singleLine
-                val splitSingleLineList = singleLine.split("]")
+                val splitSingleLineList = newSingleLine.split("]")
                 val timeSource = splitSingleLineList[0]
                 val content = splitSingleLineList[1]
                 val time = parseTime(timeSource)

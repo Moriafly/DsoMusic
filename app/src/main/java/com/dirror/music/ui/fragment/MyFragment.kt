@@ -1,5 +1,6 @@
 package com.dirror.music.ui.fragment
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,20 +22,31 @@ class MyFragment : BaseFragment() {
     }
 
     override fun initView() {
+        getUserDetail()
+        getPlaylist()
+    }
 
-
-
+    override fun initListener() {
         itemAccount.setOnClickListener {
-            startActivity(Intent(context, LoginActivity::class.java))
+            val intent = Intent(context, LoginActivity::class.java)
+            startActivityForResult(intent, 0)
         }
+    }
 
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            0 -> if (resultCode == RESULT_OK) {
+                val user = data?.getBooleanExtra("boolean_user", true)
+                getUserDetail()
+                getPlaylist()
+            }
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        getUserDetail()
-        getPlaylist()
+
     }
 
     private fun getUserDetail() {

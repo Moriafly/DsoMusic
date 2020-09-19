@@ -146,6 +146,11 @@ class MainActivity : BaseActivity() {
 
     }
 
+    override fun initListener() {
+
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         // 解绑广播接收

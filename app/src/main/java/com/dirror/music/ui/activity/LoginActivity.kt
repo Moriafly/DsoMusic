@@ -17,12 +17,19 @@ class LoginActivity : BaseActivity() {
 
         btnLoginByPhone.setOnClickListener {
             startActivity(Intent(this, LoginByPhoneActivity::class.java))
-            finish()
+            send()
         }
 
         btnLoginByUid.setOnClickListener {
             startActivity(Intent(this, LoginByUidActivity::class.java))
-            finish()
+            send()
         }
+    }
+
+    fun send() {
+        val intent = Intent()
+        intent.putExtra("boolean_user", true)
+        setResult(RESULT_OK, intent)
+        finish()
     }
 }

@@ -10,6 +10,7 @@ abstract class BaseActivity: AppCompatActivity() {
         setContentView(getLayoutId())
         initData() // 初始化数据
         initView()
+        initListener() // 监听
     }
 
     /**
@@ -25,9 +26,16 @@ abstract class BaseActivity: AppCompatActivity() {
     }
 
     /**
-     * 初始化 View，一些 button 的 setOnClickListener
+     * 初始化 View
      */
     protected open fun initView() {
+
+    }
+
+    /**
+     * 一些 button 的 setOnClickListener
+     */
+    protected open fun initListener() {
 
     }
 }
