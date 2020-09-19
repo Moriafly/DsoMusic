@@ -58,7 +58,8 @@ class MyFragment : BaseFragment() {
                 toast(it)
             })
         } else {
-            toast("请先登录")
+            // toast("请先登录")
+            startActivity(Intent(context, LoginActivity::class.java))
         }
     }
 
