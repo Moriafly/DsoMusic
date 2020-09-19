@@ -109,6 +109,21 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     }
 
+    override fun initListener() {
+        ivDownload.setOnClickListener {
+            toast("暂未开放")
+        }
+
+        ivLike.setOnClickListener {
+            toast("暂未开放")
+        }
+
+        ivShare.setOnClickListener {
+            toast("暂未开放")
+            // AnimationUtil.click(it)
+        }
+    }
+
     override fun finish() {
         super.finish()
         overridePendingTransition(

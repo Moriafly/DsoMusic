@@ -57,7 +57,7 @@ class PlaylistActivity : BaseActivity() {
             if (song != null) {
                 layoutPlay.tvName.text = song.name
                 layoutPlay.tvArtist.text = parseArtist(song.artists)
-                GlideUtil.load(song.imageUrl, layoutPlay.ivCover)
+                GlideUtil.load(song.imageUrl, layoutPlay.ivCover, layoutPlay.ivCover)
             }
             refreshPlayState()
         }

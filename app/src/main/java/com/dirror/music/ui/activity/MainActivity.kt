@@ -154,7 +154,7 @@ class MainActivity : BaseActivity() {
             if (song != null) {
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = parseArtist(song.artists)
-                GlideUtil.load(song.imageUrl, itemPlay.ivCover)
+                GlideUtil.load(song.imageUrl, itemPlay.ivCover, itemPlay.ivCover)
             }
             refreshPlayState()
         }

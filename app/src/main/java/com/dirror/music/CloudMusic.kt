@@ -122,8 +122,8 @@ object CloudMusic {
                 else -> success.invoke(userDetailData)
             }
         }, {
-            failure.invoke("MagicHttp 错误\n${it.message.toString()}")
-            Log.e("无法连接到服务器", it.message.toString())
+            failure.invoke("MagicHttp 错误\n${it}")
+            Log.e("无法连接到服务器", it)
         })
     }
 
@@ -162,27 +162,23 @@ object CloudMusic {
     /**
      * 获取歌曲详情
      */
-    fun getSongDetail(id: Long, success: (StandardSongData) -> Unit) {
-        MagicHttp.OkHttpManager().get(
-            "$MUSIC_API_URL/song/detail?ids=$id${timestamp()}",
-            object : MagicHttp.MagicCallback {
-                override fun success(response: String) {
-                    val songData = Gson().fromJson(response, SongData::class.java)
+    fun getSongDetail(id: Long, success: (StandardSongData) -> Unit, failure: (String) -> Unit) {
+        val url = "${API_MUSIC_API}/song/detail?ids=$id"
+        MagicHttp.OkHttpManager().newGet(url, {
+            val songData = Gson().fromJson(it, SongData::class.java)
 
-                    val standardSongData = StandardSongData(
-                        songData.songs[0].id,
-                        songData.songs[0].name,
-                        songData.songs[0].al.picUrl,
-                        songData.songs[0].ar
-                    )
+            val standardSongData = StandardSongData(
+                songData.songs[0].id,
+                songData.songs[0].name,
+                songData.songs[0].al.picUrl,
+                songData.songs[0].ar
+            )
 
-                    success.invoke(standardSongData)
-                }
+            success.invoke(standardSongData)
+        }, {
+            failure.invoke(it)
+        })
 
-                override fun failure(throwable: Throwable) {
-                    Log.e("获取歌曲详情错误", throwable.message.toString())
-                }
-            })
     }
 
     /**

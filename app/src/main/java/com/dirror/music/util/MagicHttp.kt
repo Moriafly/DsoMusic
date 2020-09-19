@@ -5,6 +5,7 @@ import android.os.Looper
 import okhttp3.*
 import java.io.IOException
 import java.lang.Exception
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
 // 单例
@@ -12,7 +13,7 @@ object MagicHttp {
 
     interface MagicHttpInterface {
         fun get(url: String, callBack: MagicCallback)
-        fun newGet(url: String, success: (String) -> Unit, failure: (IOException) -> Unit) // 新的 get 请求接口，使用 Lambda
+        fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit) // 新的 get 请求接口，使用 Lambda
     }
 
     /**
@@ -59,11 +60,12 @@ object MagicHttp {
         }
 
         // lambda 表达式版，简化代码
-        override fun newGet(url: String, success: (String) -> Unit, failure: (IOException) -> Unit) {
+        override fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit) {
             try {
                 val client = OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.SECONDS) //设置连接超时时间
-                    .readTimeout(20, TimeUnit.SECONDS) //设置读取超时时间
+                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .readTimeout(3, TimeUnit.SECONDS)
+                    .writeTimeout(3, TimeUnit.SECONDS)
                     .build()
                 val request = Request.Builder()
                     .url(url)
@@ -75,15 +77,19 @@ object MagicHttp {
                         success.invoke(string)
                     }
                     override fun onFailure(call: Call, e: IOException) {
-                        failure.invoke(e)
+                        toast("MagicHttp 错误")
+                        failure.invoke(e.message.toString())
                     }
                 })
             } catch (e: Exception) {
                 e.printStackTrace()
+                failure.invoke(e.message.toString())
             }
         }
     }
 
 
 }
+
+
 
