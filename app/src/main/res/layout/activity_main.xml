@@ -53,11 +53,13 @@
             android:id="@+id/ivSearch"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:visibility="invisible"
+            android:paddingTop="18dp"
+            android:paddingBottom="10dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_next" />
+            app:srcCompat="@drawable/mz_search_list_search_icon" />
 
         <View
             android:id="@+id/dividerTitleBar"

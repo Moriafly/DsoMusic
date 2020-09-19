@@ -110,35 +110,37 @@ class MainActivity : BaseActivity() {
             )
         }
 
-        ivSearch.setOnClickListener {
-
-            loge("开始搜索")
-            DirrorMusic.searchSong("河图", 20, 0, {
-                runOnMainThread {
-                    loge("获取成功，正在搜索")
-                    // 测试 QQ
-                    val song = ""
-                    val qqSongs = it.data.qq.songs
-                    for (index in 0..qqSongs?.lastIndex!!) {
-                        loge("qq:${qqSongs[index].name}")
-
-                    }
-                }
-            }, {
-                runOnMainThread {
-                    loge("音乐搜索获取失败")
-                    if (it != null) {
-                        loge(it)
-                    }
-                }
-            })
-        }
+//        ivSearch.setOnClickListener {
+//
+//            loge("开始搜索")
+//            DirrorMusic.searchSong("河图", 20, 0, {
+//                runOnMainThread {
+//                    loge("获取成功，正在搜索")
+//                    // 测试 QQ
+//                    val song = ""
+//                    val qqSongs = it.data.qq.songs
+//                    for (index in 0..qqSongs?.lastIndex!!) {
+//                        loge("qq:${qqSongs[index].name}")
+//
+//                    }
+//                }
+//            }, {
+//                runOnMainThread {
+//                    loge("音乐搜索获取失败")
+//                    if (it != null) {
+//                        loge(it)
+//                    }
+//                }
+//            })
+//        }
 
 
     }
 
     override fun initListener() {
-
+        ivSearch.setOnClickListener {
+            startActivity(Intent(this, SearchActivity::class.java))
+        }
 
     }
 

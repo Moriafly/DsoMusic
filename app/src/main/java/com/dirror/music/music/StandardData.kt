@@ -5,7 +5,6 @@ data class StandardSongData(
     val name: String,
     val imageUrl: String,
     val artists: ArrayList<StandardArtistData>,
-
 )
 
 data class StandardArtistData(

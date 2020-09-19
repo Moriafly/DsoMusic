@@ -127,37 +127,6 @@ object CloudMusic {
         })
     }
 
-    interface UserDetailCallback {
-        fun success(userDetailData: UserDetailData)
-        fun failure()
-    }
-
-    /**
-     * 获取歌单详情
-     */
-//    fun getDetailPlaylist(id: Long, callback: DetailPlaylistCallback) {
-//        MagicHttp.OkHttpManager().get(
-//            "$MUSIC_API_URL/playlist/detail?id=$id${timestamp()}",
-//            object : MagicHttp.MagicCallback {
-//                override fun success(response: String) {
-//                    val detailPlaylistData =
-//                        Gson().fromJson(response, DetailPlaylistData::class.java)
-//                    callback.success(detailPlaylistData)
-//                }
-//
-//                override fun failure(throwable: Throwable) {
-//                    Log.e("获取歌单详情错误", throwable.message.toString())
-//                }
-//            })
-//    }
-//
-//    interface DetailPlaylistCallback {
-//        fun success(detailPlaylistData: DetailPlaylistData)
-//    }
-
-
-
-
 
     /**
      * 获取歌曲详情
@@ -200,5 +169,8 @@ object CloudMusic {
                 }
             })
     }
+
+
+
 
 }
