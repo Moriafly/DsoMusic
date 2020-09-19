@@ -9,11 +9,17 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 object SearchUtil {
-    fun searchMusic(keywords: String, success: (ArrayList<StandardSongData>) -> Unit) {
+    fun searchMusic(keywords: String, success: (ArrayList<StandardSongData>) -> Unit, failure: (String) -> Unit) {
         val url = "${API_MUSIC_API}/search?keywords=${keywords}"
         MagicHttp.OkHttpManager().newGet(url, {
             val searchUtilData = Gson().fromJson(it, SearchUtilData::class.java)
-            success.invoke(searchUtilDataToStandardSongDataList(searchUtilData))
+
+            if (searchUtilData.code == 400) {
+                failure.invoke("未找到歌曲")
+            } else {
+                success.invoke(searchUtilDataToStandardSongDataList(searchUtilData))
+            }
+
         }, {
 
         })
@@ -37,7 +43,8 @@ object SearchUtil {
 }
 
 data class SearchUtilData(
-    val result: SearchUtilResultData
+    val result: SearchUtilResultData,
+    val code: Int
 )
 
 data class SearchUtilResultData(
