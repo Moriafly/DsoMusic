@@ -4,15 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dirror.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
-import com.dirror.music.cloudmusic.DetailPlaylistData
-import com.dirror.music.cloudmusic.SongData
+import com.dirror.music.music.PlaylistUtil
+import com.dirror.music.music.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.activity_playlist.*
@@ -34,11 +32,9 @@ class PlaylistActivity : BaseActivity() {
     }
 
     override fun initView() {
-        initPlaylist(object : InitPlaylistCallback {
-            override fun success(songData: List<SongData>) {
-                initRecycleView(songData)
-            }
-        })
+        initPlaylist(){
+            initRecycleView(it)
+        }
 
         layoutPlay.setOnClickListener {
             startActivity(Intent(this, PlayActivity::class.java))
@@ -53,24 +49,21 @@ class PlaylistActivity : BaseActivity() {
 
         }
 
-
     }
-
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
+            val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
                 layoutPlay.tvName.text = song.name
-                layoutPlay.tvArtist.text = song.ar[0].name
-                GlideUtil.load(song.al.picUrl, layoutPlay.ivCover)
+                layoutPlay.tvArtist.text = parseArtist(song.artists)
+                GlideUtil.load(song.imageUrl, layoutPlay.ivCover)
             }
             refreshPlayState()
         }
     }
 
     private fun refreshPlayState() {
-
         if (MyApplication.musicBinderInterface?.getPlayState() == true) {
             layoutPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
@@ -88,57 +81,24 @@ class PlaylistActivity : BaseActivity() {
      * 刷新下方播放框
      */
     private fun refreshLayoutPlay() {
-        val song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
+        val song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
-            GlideUtil.load(song.al.picUrl, layoutPlay.ivCover)
+            GlideUtil.load(song.imageUrl, layoutPlay.ivCover)
             layoutPlay.tvName.text = song.name
-            layoutPlay.tvArtist.text = parseArtist(song.ar)
+            layoutPlay.tvArtist.text = parseArtist(song.artists)
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        // finish()
-    }
-
-    private fun initPlaylist(callback: InitPlaylistCallback) {
+    private fun initPlaylist(success: (ArrayList<StandardSongData>) -> Unit) {
         val playlistId = intent.getLongExtra("long_playlist_id", -1)
-        CloudMusic.getDetailPlaylist(playlistId, object : CloudMusic.DetailPlaylistCallback {
-
-            override fun success(detailPlaylistData: DetailPlaylistData) {
-                val trackIds = detailPlaylistData.playlist.trackIds
-                Log.e("总歌曲trackIds", trackIds.size.toString())
-                val songList= mutableListOf<SongData>()
-
-
-//                Log.e("songList获取", songList.size.toString())
-//
-
-                var count = 0
-                for (trackId in 0..trackIds.lastIndex) {
-                    // Log.e("歌曲id", trackIds[trackId].id.toString())
-                    getSong(trackIds[trackId].id, object : GetSongCallback {
-                        override fun success(songData: SongData) {
-                            songList.add(songData)
-                            count++
-                            // 获取后再循环，还要回调
-                            if (count == trackIds.lastIndex) {
-                                // 全部加载完全
-                                callback.success(songList)
-                            }
-                        }
-                    })
-                }
-            }
+        PlaylistUtil.getDetailPlaylist(playlistId, {
+            success.invoke(it)
+        }, {
 
         })
     }
 
-    interface InitPlaylistCallback {
-        fun success(songData: List<SongData>)
-    }
-
-    private fun initRecycleView(songData: List<SongData>) {
+    private fun initRecycleView(songList: ArrayList<StandardSongData>) {
         runOnMainThread {
             val linearLayoutManager: LinearLayoutManager =
                 object : LinearLayoutManager(this@PlaylistActivity) {
@@ -153,31 +113,14 @@ class PlaylistActivity : BaseActivity() {
                         heightSpec: Int
                     ) {
                         super.onMeasure(recycler, state, widthSpec, heightSpec)
-                        setMeasuredDimension(widthSpec, (songData.size * dp2px(72f)).toInt())
+                        setMeasuredDimension(widthSpec, (songList.size * dp2px(72f)).toInt())
                     }
                 }
 
             rvDetailPlaylist.layoutManager =  linearLayoutManager
-            rvDetailPlaylist.adapter = DetailPlaylistAdapter( songData)
+            rvDetailPlaylist.adapter = DetailPlaylistAdapter(songList)
 
         }
-    }
-
-
-    private fun getSong(id: Long, callback: GetSongCallback) {
-        CloudMusic.getSongDetail(id, object : CloudMusic.SongCallback {
-            override fun success(songData: SongData) {
-                runOnUiThread {
-                    Log.e("歌曲详细信息", songData.songs[0].name.toString())
-                }
-                callback.success(songData)
-                // songList.add(songData)
-            }
-        })
-    }
-
-    interface GetSongCallback {
-        fun success(songData: SongData)
     }
 
 

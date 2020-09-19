@@ -1,29 +1,20 @@
 package com.dirror.music.adapter
 
 import android.app.Activity
-import android.app.Application
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.cloudmusic.DetailPlaylistData
-import com.dirror.music.cloudmusic.PlaylistData
-import com.dirror.music.cloudmusic.SongData
-import com.dirror.music.cloudmusic.TracksData
-import com.dirror.music.service.MusicService
+import com.dirror.music.music.StandardSongData
 import com.dirror.music.ui.activity.PlayActivity
-import com.dirror.music.ui.activity.PlaylistActivity
+import com.dirror.music.util.parseArtist
 
-class DetailPlaylistAdapter(val songData: List<SongData>): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
+class DetailPlaylistAdapter(val songDataList: ArrayList<StandardSongData>): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvNumber: TextView = view.findViewById(R.id.tvNumber)
@@ -47,20 +38,12 @@ class DetailPlaylistAdapter(val songData: List<SongData>): RecyclerView.Adapter<
 //            .load(url)
 //            // .placeholder(R.drawable.photo_placeholder)
 //            .into(holder.ivCover)
-        val song = songData[position].songs[0]
+        val song = songDataList[position]
         holder.tvName.text = song.name
-        var artist = ""
-        for (artistName in 0..song.ar.lastIndex) {
-            if (artistName != 0) {
-                artist += " / "
-            }
-            artist += song.ar[artistName].name
-
-        }
-        holder.tvArtist.text = artist
+        holder.tvArtist.text = parseArtist(song.artists)
 
         holder.clSong.setOnClickListener {
-            if (MyApplication.musicBinderInterface?.getPlaylist() == songData) { // 歌单相同
+            if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) { // 歌单相同
                 if (position == MyApplication.musicBinderInterface?.getNowPosition()) { // position 相同
                     it.context.startActivity(Intent(it.context, PlayActivity::class.java))
                     (it.context as Activity).overridePendingTransition(
@@ -73,7 +56,7 @@ class DetailPlaylistAdapter(val songData: List<SongData>): RecyclerView.Adapter<
                     MyApplication.musicBinderInterface?.playMusic(position)
                 }
             } else {
-                MyApplication.musicBinderInterface?.setPlaylist(songData)
+                MyApplication.musicBinderInterface?.setPlaylist(songDataList)
                 MyApplication.musicBinderInterface?.playMusic(position)
             }
         }
@@ -82,6 +65,6 @@ class DetailPlaylistAdapter(val songData: List<SongData>): RecyclerView.Adapter<
     }
 
     override fun getItemCount(): Int {
-        return songData.size
+        return songDataList.size
     }
 }

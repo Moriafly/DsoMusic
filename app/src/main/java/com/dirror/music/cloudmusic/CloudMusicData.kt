@@ -1,5 +1,7 @@
 package com.dirror.music.cloudmusic
 
+import com.dirror.music.music.StandardArtistData
+
 class CloudMusicData {
 }
 
@@ -60,7 +62,7 @@ data class SongData(
 data class SongInnerData(
     val name: String,
     val id: Long,
-    val ar: List<ArtistData>,
+    val ar: ArrayList<StandardArtistData>,
     val al: AlbumData,
 )
 

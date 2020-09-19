@@ -1,7 +1,9 @@
 package com.dirror.music
 
 import android.util.Log
+import com.dirror.music.api.API_MUSIC_API
 import com.dirror.music.cloudmusic.*
+import com.dirror.music.music.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.getCurrentTime
@@ -133,46 +135,54 @@ object CloudMusic {
     /**
      * 获取歌单详情
      */
-    fun getDetailPlaylist(id: Long, callback: DetailPlaylistCallback) {
-        MagicHttp.OkHttpManager().get(
-            "$MUSIC_API_URL/playlist/detail?id=$id${timestamp()}",
-            object : MagicHttp.MagicCallback {
-                override fun success(response: String) {
-                    val detailPlaylistData =
-                        Gson().fromJson(response, DetailPlaylistData::class.java)
-                    callback.success(detailPlaylistData)
-                }
+//    fun getDetailPlaylist(id: Long, callback: DetailPlaylistCallback) {
+//        MagicHttp.OkHttpManager().get(
+//            "$MUSIC_API_URL/playlist/detail?id=$id${timestamp()}",
+//            object : MagicHttp.MagicCallback {
+//                override fun success(response: String) {
+//                    val detailPlaylistData =
+//                        Gson().fromJson(response, DetailPlaylistData::class.java)
+//                    callback.success(detailPlaylistData)
+//                }
+//
+//                override fun failure(throwable: Throwable) {
+//                    Log.e("获取歌单详情错误", throwable.message.toString())
+//                }
+//            })
+//    }
+//
+//    interface DetailPlaylistCallback {
+//        fun success(detailPlaylistData: DetailPlaylistData)
+//    }
 
-                override fun failure(throwable: Throwable) {
-                    Log.e("获取歌单详情错误", throwable.message.toString())
-                }
-            })
-    }
 
-    interface DetailPlaylistCallback {
-        fun success(detailPlaylistData: DetailPlaylistData)
-    }
+
+
 
     /**
      * 获取歌曲详情
      */
-    fun getSongDetail(id: Long, callback: SongCallback) {
+    fun getSongDetail(id: Long, success: (StandardSongData) -> Unit) {
         MagicHttp.OkHttpManager().get(
             "$MUSIC_API_URL/song/detail?ids=$id${timestamp()}",
             object : MagicHttp.MagicCallback {
                 override fun success(response: String) {
                     val songData = Gson().fromJson(response, SongData::class.java)
-                    callback.success(songData)
+
+                    val standardSongData = StandardSongData(
+                        songData.songs[0].id,
+                        songData.songs[0].name,
+                        songData.songs[0].al.picUrl,
+                        songData.songs[0].ar
+                    )
+
+                    success.invoke(standardSongData)
                 }
 
                 override fun failure(throwable: Throwable) {
                     Log.e("获取歌曲详情错误", throwable.message.toString())
                 }
             })
-    }
-
-    interface SongCallback {
-        fun success(songData: SongData)
     }
 
     /**

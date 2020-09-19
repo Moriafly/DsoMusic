@@ -13,6 +13,7 @@ import android.widget.SeekBar
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.cloudmusic.SongInnerData
+import com.dirror.music.music.StandardSongData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.*
@@ -236,11 +237,11 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     }
 
-    private var song: SongInnerData? = null
+    private var song: StandardSongData? = null
     private fun getNowSongData() {
-        song = MyApplication.musicBinderInterface?.getNowSongData()?.songs?.get(0)
+        song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
-            val url = song!!.al.picUrl
+            val url = song!!.imageUrl
             // val bitmap = (ivCover.drawable as BitmapDrawable).bitmap
             if (ivCover.drawable != null) {
                 GlideUtil.load(url, ivCover, ivCover.drawable)
@@ -250,7 +251,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
 
             tvName.text = song!!.name
-            tvArtist.text = parseArtist(song!!.ar)
+            tvArtist.text = parseArtist(song!!.artists)
         }
 
 
