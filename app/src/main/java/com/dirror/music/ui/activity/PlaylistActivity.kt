@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dirror.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
@@ -57,7 +58,7 @@ class PlaylistActivity : BaseActivity() {
             if (song != null) {
                 layoutPlay.tvName.text = song.name
                 layoutPlay.tvArtist.text = parseArtist(song.artists)
-                GlideUtil.load(song.imageUrl, layoutPlay.ivCover, layoutPlay.ivCover)
+                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id), layoutPlay.ivCover, layoutPlay.ivCover)
             }
             refreshPlayState()
         }
@@ -83,7 +84,7 @@ class PlaylistActivity : BaseActivity() {
     private fun refreshLayoutPlay() {
         val song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
-            GlideUtil.load(song.imageUrl, layoutPlay.ivCover)
+            GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id), layoutPlay.ivCover)
             layoutPlay.tvName.text = song.name
             layoutPlay.tvArtist.text = parseArtist(song.artists)
         }

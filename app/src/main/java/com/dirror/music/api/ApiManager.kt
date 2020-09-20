@@ -23,3 +23,7 @@ const val API_MUSIC_API = "http://musicapi.leanapp.cn"
  * @获取歌词 https://api.fczbl.vip/163/?type=lrc&id=1438470159 // 传入歌曲 id
  */
 const val API_FCZBL_VIP = "https://api.fczbl.vip/163"
+
+
+// https://api.imjad.cn/cloudmusic/?type=song&id=545505696&br=999000
+const val API_IMJAD = "https://api.imjad.cn/cloudmusic"

@@ -93,6 +93,9 @@ class MusicService : Service() {
 
         }
 
+        /**
+         * 发送广播
+         */
         private fun sendMusicBroadcast() {
             // Service 通知
             val intent = Intent("com.dirror.music.MUSIC_BROADCAST")
@@ -107,8 +110,6 @@ class MusicService : Service() {
             p0?.apply {
                 start()
             }
-
-
             sendMusicBroadcast()
         }
 
@@ -240,6 +241,13 @@ class MusicService : Service() {
         }
 
         /**
+         * 外部请求广播
+         */
+        override fun sendBroadcast() {
+            sendMusicBroadcast()
+        }
+
+        /**
          * 歌曲完成后的回调，自动播放下一曲
          */
         override fun onCompletion(p0: MediaPlayer?) {
@@ -291,4 +299,5 @@ interface MusicBinderInterface {
     fun playNext()
     fun getNowPosition():Int
     fun getAudioSessionId():Int
+    fun sendBroadcast()
 }

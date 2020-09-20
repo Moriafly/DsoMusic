@@ -6,10 +6,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dirror.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
@@ -17,7 +17,6 @@ import com.dirror.music.music.SearchUtil
 import com.dirror.music.music.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_search.itemPlay
@@ -36,6 +35,8 @@ class SearchActivity : BaseActivity() {
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
+
+        MyApplication.musicBinderInterface?.sendBroadcast()
     }
 
     override fun initView() {
@@ -137,7 +138,7 @@ class SearchActivity : BaseActivity() {
             if (song != null) {
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = parseArtist(song.artists)
-                GlideUtil.load(song.imageUrl, itemPlay.ivCover, itemPlay.ivCover)
+                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id), itemPlay.ivCover, itemPlay.ivCover)
             }
             refreshPlayState()
         }

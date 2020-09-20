@@ -1,13 +1,12 @@
 package com.dirror.music
 
 import android.util.Log
+import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.api.API_MUSIC_API
+import com.dirror.music.api.API_MUSIC_LAKE
 import com.dirror.music.cloudmusic.*
 import com.dirror.music.music.StandardSongData
-import com.dirror.music.util.MagicHttp
-import com.dirror.music.util.StorageUtil
-import com.dirror.music.util.getCurrentTime
-import com.dirror.music.util.toast
+import com.dirror.music.util.*
 import com.google.gson.Gson
 
 /**
@@ -17,19 +16,14 @@ import com.google.gson.Gson
  */
 
 object CloudMusic {
-    // api 地址
-    private const val MUSIC_API_URL = "http://musicapi.leanapp.cn"
-    // https://musicapi.leanapp.cn
-    // https://api.fczbl.vip/163/
 
     private fun timestamp(): String {
         return "&timestamp=${getCurrentTime()}"
     }
 
-
     fun loginByPhone(phone: String, password: String, callback: LoginCallback) {
         // ${System.currentTimeMillis()}
-        val url = "$MUSIC_API_URL/login/cellphone?phone=$phone&password=$password"
+        val url = "${API_MUSIC_LAKE}/login/cellphone?phone=$phone&password=$password"
         Log.e("url", url)
         MagicHttp.OkHttpManager().get(
             url,
@@ -90,7 +84,7 @@ object CloudMusic {
      */
     fun getPlaylist(uid: Int, callback: PlaylistCallback) {
         MagicHttp.OkHttpManager().get(
-            "$MUSIC_API_URL/user/playlist?uid=$uid${timestamp()}",
+            "${API_MUSIC_API}/user/playlist?uid=$uid${timestamp()}",
             object : MagicHttp.MagicCallback {
                 override fun success(response: String) {
                     val userPlaylistData = Gson().fromJson(response, UserPlaylistData::class.java)
@@ -114,7 +108,7 @@ object CloudMusic {
      * @param failure 失败的回调
      */
     fun getUserDetail(uid: Int, success: (result: UserDetailData) -> Unit, failure: (error: String) -> Unit) {
-        MagicHttp.OkHttpManager().newGet("$MUSIC_API_URL/user/detail?uid=$uid", {
+        MagicHttp.OkHttpManager().newGet("${API_MUSIC_API}/user/detail?uid=$uid", {
             val userDetailData = Gson().fromJson(it, UserDetailData::class.java)
             when (userDetailData.code) {
                 400 -> failure.invoke("获取用户详细信息错误")
@@ -157,7 +151,7 @@ object CloudMusic {
      */
     fun getMusicComment(id: Long, success: (CommentData) -> Unit) {
         MagicHttp.OkHttpManager().get(
-            "$MUSIC_API_URL/comment/music?id=$id&limit=20&offset=0${timestamp()}",
+            "${API_MUSIC_API}/comment/music?id=$id&limit=20&offset=0${timestamp()}",
             object : MagicHttp.MagicCallback {
                 override fun success(response: String) {
                     val commentData = Gson().fromJson(response, CommentData::class.java)
@@ -170,7 +164,31 @@ object CloudMusic {
             })
     }
 
+    /**
+     * 获取歌曲图片
+     * 固定大小 300 * 300
+     */
+    fun getMusicCoverUrl(musicId: Long): String {
+        var url = "$API_FCZBL_VIP/?type=cover&id=$musicId"
+        url = url.replace("?param=300y300", "?param=1000y60")
+        loge("图片url：${url}")
+        return url
+    }
 
 
+    /**
+     * 获取歌曲详情
+     */
+    fun getSongImage(id: Long, success: (String) -> Unit) {
+        val url = "${API_MUSIC_API}/song/detail?ids=$id"
+        MagicHttp.OkHttpManager().newGet(url, {
+            val songData = Gson().fromJson(it, SongData::class.java)
+            val imageUrl = songData.songs[0].al.picUrl + "?param=600y600"
+            success.invoke(imageUrl)
+        }, {
+
+        })
+
+    }
 
 }

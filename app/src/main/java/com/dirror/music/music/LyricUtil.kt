@@ -1,14 +1,15 @@
-package com.dirror.music.util
+package com.dirror.music.music
 
 import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.data.LyricData
-import java.util.*
+import com.dirror.music.util.MagicHttp
 import kotlin.collections.ArrayList
 
 object LyricUtil {
     fun getLyric(id: Long, success: (List<LyricData>) -> Unit) {
         MagicHttp.OkHttpManager().newGet("${API_FCZBL_VIP}/?type=lrc&id=${id}", {
-            success.invoke(parseLyric(it))
+            val source = it.replace("这似乎是一首纯音乐呢，请尽情欣赏它吧！","纯音乐，请欣赏")
+            success.invoke(parseLyric(source))
         }, {
 
         })

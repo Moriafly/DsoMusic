@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Message
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
+import com.dirror.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.cloudmusic.SongInnerData
@@ -256,13 +257,15 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     private fun getNowSongData() {
         song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
-            val url = song!!.imageUrl
-            // val bitmap = (ivCover.drawable as BitmapDrawable).bitmap
-            if (ivCover.drawable != null) {
-                GlideUtil.load(url, ivCover, ivCover.drawable)
-            } else {
-                GlideUtil.load(url, ivCover)
+            CloudMusic.getSongImage(song!!.id){
+                // val bitmap = (ivCover.drawable as BitmapDrawable).bitmap
+                if (ivCover.drawable != null) {
+                    GlideUtil.load(it, ivCover, ivCover.drawable)
+                } else {
+                    GlideUtil.load(it, ivCover)
+                }
             }
+
 
 
             tvName.text = song!!.name

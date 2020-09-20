@@ -12,6 +12,7 @@ import androidx.core.util.Pair
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.dirror.music.CloudMusic
 import com.dirror.music.DirrorMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -112,31 +113,6 @@ class MainActivity : BaseActivity() {
             )
         }
 
-//        ivSearch.setOnClickListener {
-//
-//            loge("开始搜索")
-//            DirrorMusic.searchSong("河图", 20, 0, {
-//                runOnMainThread {
-//                    loge("获取成功，正在搜索")
-//                    // 测试 QQ
-//                    val song = ""
-//                    val qqSongs = it.data.qq.songs
-//                    for (index in 0..qqSongs?.lastIndex!!) {
-//                        loge("qq:${qqSongs[index].name}")
-//
-//                    }
-//                }
-//            }, {
-//                runOnMainThread {
-//                    loge("音乐搜索获取失败")
-//                    if (it != null) {
-//                        loge(it)
-//                    }
-//                }
-//            })
-//        }
-
-
     }
 
     override fun initListener() {
@@ -158,7 +134,7 @@ class MainActivity : BaseActivity() {
             if (song != null) {
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = parseArtist(song.artists)
-                GlideUtil.load(song.imageUrl, itemPlay.ivCover, itemPlay.ivCover)
+                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id), itemPlay.ivCover, itemPlay.ivCover)
             }
             refreshPlayState()
         }

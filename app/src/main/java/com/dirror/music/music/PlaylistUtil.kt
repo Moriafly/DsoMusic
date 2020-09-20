@@ -58,7 +58,7 @@ object PlaylistUtil {
 
                 // standardSongDataList.add(data)
                 loge("比较，计数${count}总数${songSum}")
-                if (sortStandardSongDataList.lastIndex == songSum) {
+                if (sortStandardSongDataList.lastIndex == songSum || count == songSum) {
                     // 全部加载完全
                     sortStandardSongDataList.sortBy {
                         it.index
