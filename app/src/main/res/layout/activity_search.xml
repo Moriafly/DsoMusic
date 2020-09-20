@@ -36,17 +36,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/etSearch"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvSearch"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="36dp"
             android:layout_marginStart="56dp"
-            android:imeOptions="actionSearch"
-            android:singleLine="true"
+            app:cardBackgroundColor="@color/colorEditTextBackground"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnSearch"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_transparency"
+                android:imeOptions="actionSearch"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:singleLine="true"
+                android:textSize="14sp" />
+        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/btnSearch"
@@ -63,6 +76,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:background="@color/colorDividerBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </com.dirror.music.widget.TitleBarLayout>
 

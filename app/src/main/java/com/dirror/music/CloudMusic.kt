@@ -25,36 +25,30 @@ object CloudMusic {
         // ${System.currentTimeMillis()}
         val url = "${API_MUSIC_LAKE}/login/cellphone?phone=$phone&password=$password"
         Log.e("url", url)
-        MagicHttp.OkHttpManager().get(
-            url,
-            object : MagicHttp.MagicCallback {
-                override fun success(response: String) {
-                    Log.e("返回数据", response)
-                    // 成功
-                    // 解析 json
-                    val loginData = Gson().fromJson(response, LoginData::class.java)
-                    // 登录成功
-                    MagicHttp.runOnMainThread {
-                        when (loginData.code) {
-                            200 -> {
-                                toast("登录成功\n用户名：${loginData.profile.nickname}")
-                                callback.success()
-                                StorageUtil.putInt(
-                                    StorageUtil.CLOUD_MUSIC_UID,
-                                    loginData.profile.userId
-                                )
-                            }
-                            400 -> toast("用户不存在")
-                            else -> toast("登录失败\n错误代码：${loginData.code}")
-                        }
-
+        MagicHttp.OkHttpManager().newGet(url, { response ->
+            Log.e("返回数据", response)
+            // 成功
+            // 解析 json
+            val loginData = Gson().fromJson(response, LoginData::class.java)
+            // 登录成功
+            MagicHttp.runOnMainThread {
+                when (loginData.code) {
+                    200 -> {
+                        toast("登录成功\n用户名：${loginData.profile.nickname}")
+                        callback.success()
+                        StorageUtil.putInt(
+                            StorageUtil.CLOUD_MUSIC_UID,
+                            loginData.profile.userId
+                        )
                     }
+                    400 -> toast("用户不存在")
+                    else -> toast("登录失败\n错误代码：${loginData.code}")
                 }
 
-                override fun failure(throwable: Throwable) {
-                    Log.e("错误", throwable.message.toString())
-                }
-            })
+            }
+        }, {
+            Log.e("错误", it)
+        })
     }
 
     interface LoginCallback {
@@ -190,5 +184,50 @@ object CloudMusic {
         })
 
     }
+
+    fun getLoginStatus(success: (String) -> Unit) {
+        val url = "${API_MUSIC_LAKE}/login/status"
+        MagicHttp.OkHttpManager().newGet(url, {
+            val loginStatusData = Gson().fromJson(it, LoginStatusData::class.java)
+
+            // success.invoke()
+            runOnMainThread {
+                if (loginStatusData.code == 200) {
+                    toast("登录状态：已经登录")
+                } else {
+                    toast("code:${loginStatusData.code}msg:${loginStatusData.msg}")
+                }
+            }
+        }, {
+
+        })
+        // https://musiclake.leanapp.cn/login/status
+    }
+
+    data class LoginStatusData(
+        val code: Int,
+        val msg: String
+    )
+
+    fun likeSong(musicId: Long) {
+        val url = "${API_MUSIC_LAKE}/like?id=$musicId"
+        MagicHttp.OkHttpManager().newGet(url, {
+            val code = Gson().fromJson(it, CodeData::class.java).code
+            runOnMainThread {
+                if (code == 200) {
+                    toast("歌曲成功添加到我喜欢")
+                } else {
+                    toast("歌曲添加到我喜欢失败")
+                }
+            }
+        }, {
+
+        })
+        //https://musiclake.leanapp.cn/like?id=1423062698
+    }
+
+    data class CodeData(
+        val code: Int
+    )
 
 }

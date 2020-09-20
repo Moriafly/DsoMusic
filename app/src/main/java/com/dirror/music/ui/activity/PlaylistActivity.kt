@@ -114,7 +114,7 @@ class PlaylistActivity : BaseActivity() {
                         heightSpec: Int
                     ) {
                         super.onMeasure(recycler, state, widthSpec, heightSpec)
-                        setMeasuredDimension(widthSpec, (songList.size * dp2px(72f)).toInt())
+                        setMeasuredDimension(widthSpec, (songList.size * dp2px(64f)).toInt())
                     }
                 }
 

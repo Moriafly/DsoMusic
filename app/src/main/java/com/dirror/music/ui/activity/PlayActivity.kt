@@ -116,7 +116,9 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         }
 
         ivLike.setOnClickListener {
-            toast("暂未开放")
+            if (song != null) {
+                CloudMusic.likeSong(song!!.id)
+            }
         }
 
         ivShare.setOnClickListener {

@@ -2,11 +2,12 @@ package com.dirror.music.util
 
 import android.os.Handler
 import android.os.Looper
+import com.dirror.music.MyApplication
 import okhttp3.*
+import okhttp3.OkHttpClient
 import java.io.IOException
-import java.lang.Exception
-import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
+
 
 // 单例
 object MagicHttp {
@@ -50,6 +51,7 @@ object MagicHttp {
                         val string = response.body?.string()!!
                         callBack.success(string)
                     }
+
                     override fun onFailure(call: Call, e: IOException) {
                         callBack.failure(e)
                     }
@@ -59,23 +61,37 @@ object MagicHttp {
             }
         }
 
-        // lambda 表达式版，简化代码
+        // lambda 表达式版，简化代码，增加了 cookie
+        // private val cookieStore: HashMap<String, List<Cookie>> = HashMap()
         override fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit) {
             try {
                 val client = OkHttpClient.Builder()
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(3, TimeUnit.SECONDS)
                     .writeTimeout(3, TimeUnit.SECONDS)
+                    .cookieJar(object : CookieJar {
+                        override fun loadForRequest(url: HttpUrl): List<Cookie> {
+                            val cookies = MyApplication.cookieStore[url.host]
+                            return cookies ?: ArrayList()
+                        }
+
+                        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+                            MyApplication.cookieStore[url.host] = cookies
+                        }
+
+                    })
                     .build()
                 val request = Request.Builder()
                     .url(url)
                     .get()
                     .build()
+
                 client.newCall(request).enqueue(object : Callback {
                     override fun onResponse(call: Call, response: Response) {
                         val string = response.body?.string()!!
                         success.invoke(string)
                     }
+
                     override fun onFailure(call: Call, e: IOException) {
                         toast("MagicHttp 错误")
                         failure.invoke(e.message.toString())
@@ -87,6 +103,8 @@ object MagicHttp {
             }
         }
     }
+
+
 
 
 }

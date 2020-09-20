@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/clSong"
-    android:background="@drawable/background_item_default"
     android:layout_width="match_parent"
-    android:layout_height="72dp">
+    android:layout_height="64dp"
+    android:background="@drawable/background_item_default">
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="11dp"
         android:layout_marginEnd="16dp"
         android:singleLine="true"
         android:text="TextView"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="11dp"
         android:singleLine="true"
         android:text="null"
         android:textSize="12sp"
@@ -39,10 +39,10 @@
         android:id="@+id/ivTag"
         android:layout_width="20dp"
         android:layout_height="12dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvNumber"
-        app:srcCompat="@drawable/bq_song_tag_hq" />
+        app:srcCompat="@drawable/bq_song_tag_sq" />
 
     <TextView
         android:id="@+id/tvNumber"

@@ -21,9 +21,16 @@ class MyFragment : BaseFragment() {
         return R.layout.fragment_my
     }
 
+    override fun initData() {
+
+    }
+
     override fun initView() {
         getUserDetail()
+
+
         getPlaylist()
+
     }
 
     override fun initListener() {
@@ -50,6 +57,8 @@ class MyFragment : BaseFragment() {
     }
 
     private fun getUserDetail() {
+        CloudMusic.getLoginStatus {  }
+
         val uid = StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1)
         if (uid != -1) {
             CloudMusic.getUserDetail(StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1), {
