@@ -1,4 +1,4 @@
-package com.dirror.music.util
+package com.dirror.music.widget
 
 import android.content.Context
 import android.util.AttributeSet

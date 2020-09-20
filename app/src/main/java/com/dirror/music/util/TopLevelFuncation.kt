@@ -24,7 +24,6 @@ import com.dirror.music.music.StandardArtistData
 /**
  * 顶层函数类
  */
-val CLOUD_MUSIC_API = "https://musicapi.leanapp.cn"
 
 /**
  * 设置状态栏图标颜色
@@ -65,10 +64,18 @@ fun http2https(http: String): String {
     return http.replace("http", "https")
 }
 
+/**
+ * 获取系统当前时间
+ */
 fun getCurrentTime() : Long {
     return System.currentTimeMillis()
 }
 
+/**
+ * 标准歌手数组转文本
+ * @param artistList 歌手数组
+ * @return 文本
+ */
 fun parseArtist(artistList: ArrayList<StandardArtistData>): String {
     var artist = ""
     for (artistName in 0..artistList.lastIndex) {
@@ -82,6 +89,8 @@ fun parseArtist(artistList: ArrayList<StandardArtistData>): String {
 
 /**
  * 通过浏览器打开网页
+ * @param context
+ * @url 网址
  */
 fun openUrlByBrowser(context: Context, url: String) {
     val intent = Intent()
@@ -96,43 +105,12 @@ fun msTimeToFormatDate(msTime: Long): String {
     return TimeUtil.msTimeToFormatDate(msTime)
 }
 
-// 获取状态栏高度
-@SuppressLint("PrivateApi")
+/**
+ * 获取状态栏高度
+ * @return px 值
+ */
 fun getStatusBarHeight(window: Window, context: Context): Int {
-    val localRect = Rect()
-    window.decorView.getWindowVisibleDisplayFrame(localRect)
-    var mStatusBarHeight = localRect.top
-    if (0 == mStatusBarHeight) {
-        try {
-            val localClass = Class.forName("com.android.internal.R\$dimen")
-            val localObject = localClass.newInstance()
-            val i5 =
-                localClass.getField("status_bar_height")[localObject].toString().toInt()
-            mStatusBarHeight = context.resources.getDimensionPixelSize(i5)
-        } catch (var6: ClassNotFoundException) {
-            var6.printStackTrace()
-        } catch (var7: IllegalAccessException) {
-            var7.printStackTrace()
-        } catch (var8: InstantiationException) {
-            var8.printStackTrace()
-        } catch (var9: NumberFormatException) {
-            var9.printStackTrace()
-        } catch (var10: IllegalArgumentException) {
-            var10.printStackTrace()
-        } catch (var11: SecurityException) {
-            var11.printStackTrace()
-        } catch (var12: NoSuchFieldException) {
-            var12.printStackTrace()
-        }
-    }
-    if (0 == mStatusBarHeight) {
-        val resourceId: Int =
-            context.resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            mStatusBarHeight = context.resources.getDimensionPixelSize(resourceId)
-        }
-    }
-    return mStatusBarHeight
+    return StatusBarUtil.getStatusBarHeight(window, context)
 }
 
 fun getNavigationBarHeight(activity: Activity): Int {
@@ -160,21 +138,5 @@ fun getNavigationBarHeight(activity: Activity): Int {
                 resources.getIdentifier("navigation_bar_height", "dimen", "android")
             resources.getDimensionPixelSize(resourceId)
         }
-    }
-}
-
-
-fun setNavigationBarColor(activity: Activity, color: Int) {
-    val window = activity.window
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-        window.decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.navigationBarColor = color
-        return
-    }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
     }
 }
