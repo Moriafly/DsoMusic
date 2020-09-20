@@ -17,4 +17,9 @@
             <enum name="item_goto" value="1" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="ValueView">
+        <attr name="text" />
+        <attr name="value" format="string"/>
+    </declare-styleable>
 </resources>

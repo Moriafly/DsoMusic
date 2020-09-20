@@ -3,6 +3,8 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.util.getVisionCode
+import com.dirror.music.util.getVisionName
 import com.dirror.music.util.openUrlByBrowser
 import kotlinx.android.synthetic.main.activity_settings.*
 
@@ -24,6 +26,8 @@ class SettingsActivity : BaseActivity() {
         itemSourceCode.setOnClickListener {
             openUrlByBrowser(this, "https://github.com/Moriafly/dirror-music")
         }
+
+        itemVersion.setValue(getVisionName())
 
 
     }

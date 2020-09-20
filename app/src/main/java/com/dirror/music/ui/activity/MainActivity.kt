@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.core.view.marginTop
@@ -95,6 +96,7 @@ class MainActivity : BaseActivity() {
                 R.anim.anim_no_anim
             )
         }
+
 
         itemPlay.ivPlay.setOnClickListener {
             // 更新

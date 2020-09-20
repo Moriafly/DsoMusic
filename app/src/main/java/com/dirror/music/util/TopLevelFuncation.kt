@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import com.dirror.music.BuildConfig
 import com.dirror.music.MyApplication
 import com.dirror.music.cloudmusic.ArtistData
 import com.dirror.music.music.StandardArtistData
@@ -139,4 +140,13 @@ fun getNavigationBarHeight(activity: Activity): Int {
             resources.getDimensionPixelSize(resourceId)
         }
     }
+}
+
+// 获取版本号
+fun getVisionCode(): Int {
+    return BuildConfig.VERSION_CODE
+}
+
+fun getVisionName(): String {
+    return BuildConfig.VERSION_NAME
 }
