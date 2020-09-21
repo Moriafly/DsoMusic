@@ -7,9 +7,16 @@ import kotlin.collections.ArrayList
 
 object LyricUtil {
     fun getLyric(id: Long, success: (List<LyricData>) -> Unit) {
-        MagicHttp.OkHttpManager().newGet("${API_FCZBL_VIP}/?type=lrc&id=${id}", {
-            val source = it.replace("这似乎是一首纯音乐呢，请尽情欣赏它吧！","纯音乐，请欣赏")
-            success.invoke(parseLyric(source))
+        MagicHttp.OkHttpManager().newGet("${API_FCZBL_VIP}/?type=lrc&id=${id}", { response ->
+            val char = response.find {
+                it == '['
+            }
+            if (char != null) {
+                val source = response.replace("这似乎是一首纯音乐呢，请尽情欣赏它吧！","纯音乐，请欣赏")
+                success.invoke(parseLyric(source))
+            } else {
+                success.invoke(listOf(LyricData(0, "暂无歌词")))
+            }
         }, {
 
         })

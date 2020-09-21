@@ -115,7 +115,7 @@ class LyricView: View {
     fun updateProgress(progress: Int) {
         this.progress = progress
         // 先判断居中行是不是最后一行
-        if (progress >= lyricList.get(lyricList.lastIndex).startTime) {
+        if (progress >= lyricList[lyricList.lastIndex].startTime) {
             centerLine = lyricList.lastIndex
         } else {
             // 其他行
