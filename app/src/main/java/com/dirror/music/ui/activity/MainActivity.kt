@@ -83,7 +83,7 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        viewPager2.currentItem = 1 // 默认打开首页
+        // viewPager2.currentItem = 1 // 默认打开首页
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             tab.text = when (position) {

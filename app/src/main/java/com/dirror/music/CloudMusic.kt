@@ -182,6 +182,9 @@ object CloudMusic {
 
     }
 
+    /**
+     * 获取登录状态
+     */
     fun getLoginStatus(success: (String) -> Unit) {
         val url = "${API_MUSIC_LAKE}/login/status"
         MagicHttp.OkHttpManager().newGet(url, {
@@ -234,5 +237,7 @@ object CloudMusic {
     data class CodeData(
         val code: Int
     )
+
+
 
 }
