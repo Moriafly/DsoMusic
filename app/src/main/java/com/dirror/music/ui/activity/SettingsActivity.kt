@@ -27,7 +27,7 @@ class SettingsActivity : BaseActivity() {
             openUrlByBrowser(this, "https://github.com/Moriafly/dirror-music")
         }
 
-        itemVersion.setValue(getVisionName())
+        itemVersion.setValue("${getVisionName()}(${getVisionCode()})")
 
 
     }

@@ -104,7 +104,7 @@ class MyFragment : BaseFragment() {
                                 heightSpec: Int
                             ) {
                                 super.onMeasure(recycler, state, widthSpec, heightSpec)
-                                setMeasuredDimension(widthSpec, (playlist.size * dp2px(72f)).toInt())
+                                setMeasuredDimension(widthSpec, (playlist.size * dp2px(64f)).toInt())
                             }
                         }
 
