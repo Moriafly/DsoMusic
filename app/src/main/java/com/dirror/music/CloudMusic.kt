@@ -8,43 +8,40 @@ import com.dirror.music.cloudmusic.*
 import com.dirror.music.music.StandardSongData
 import com.dirror.music.util.*
 import com.google.gson.Gson
+import java.lang.Exception
 
 /**
  * 网易云 api
  * @author Moriafly
  * @since 2020年9月14日15:07:36
  */
-
 object CloudMusic {
 
     private fun timestamp(): String {
         return "&timestamp=${getCurrentTime()}"
     }
 
-    fun loginByPhone(phone: String, password: String, callback: LoginCallback) {
-        // ${System.currentTimeMillis()}
+    fun loginByPhone(phone: String, password: String, success: () -> Unit) {
         val url = "${API_MUSIC_LAKE}/login/cellphone?phone=$phone&password=$password"
-        Log.e("url", url)
         MagicHttp.OkHttpManager().newGet(url, { response ->
-            Log.e("返回数据", response)
-            // 成功
-            // 解析 json
-            val loginData = Gson().fromJson(response, LoginData::class.java)
-            // 登录成功
-            MagicHttp.runOnMainThread {
-                when (loginData.code) {
-                    200 -> {
-                        toast("登录成功\n用户名：${loginData.profile.nickname}")
-                        callback.success()
-                        StorageUtil.putInt(
-                            StorageUtil.CLOUD_MUSIC_UID,
-                            loginData.profile.userId
-                        )
+            try {
+                val loginData = Gson().fromJson(response, LoginData::class.java)
+                MagicHttp.runOnMainThread {
+                    when (loginData.code) {
+                        200 -> {
+                            toast("登录成功\n用户名：${loginData.profile.nickname}")
+                            success.invoke()
+                            StorageUtil.putInt(
+                                StorageUtil.CLOUD_MUSIC_UID,
+                                loginData.profile.userId
+                            )
+                        }
+                        400 -> toast("用户不存在")
+                        else -> toast("登录失败\n错误代码：${loginData.code}")
                     }
-                    400 -> toast("用户不存在")
-                    else -> toast("登录失败\n错误代码：${loginData.code}")
                 }
-
+            } catch (e: Exception) {
+                toast("API $API_MUSIC_LAKE 连接失败")
             }
         }, {
             Log.e("错误", it)
@@ -188,15 +185,18 @@ object CloudMusic {
     fun getLoginStatus(success: (String) -> Unit) {
         val url = "${API_MUSIC_LAKE}/login/status"
         MagicHttp.OkHttpManager().newGet(url, {
-            val loginStatusData = Gson().fromJson(it, LoginStatusData::class.java)
-
-            // success.invoke()
-            runOnMainThread {
-                if (loginStatusData.code == 200) {
-                    toast("登录状态：已经登录")
-                } else {
-                    toast("code:${loginStatusData.code}msg:${loginStatusData.msg}")
+            try {
+                val loginStatusData = Gson().fromJson(it, LoginStatusData::class.java)
+                // success.invoke()
+                runOnMainThread {
+                    if (loginStatusData.code == 200) {
+                        toast("登录状态：已经登录")
+                    } else {
+                        toast("code:${loginStatusData.code}msg:${loginStatusData.msg}")
+                    }
                 }
+            } catch (e: Exception) {
+                toast("API $API_MUSIC_LAKE 连接失败")
             }
         }, {
 
@@ -212,14 +212,19 @@ object CloudMusic {
     fun likeSong(musicId: Long) {
         val url = "${API_MUSIC_LAKE}/like?id=$musicId"
         MagicHttp.OkHttpManager().newGet(url, {
-            val code = Gson().fromJson(it, CodeData::class.java).code
-            runOnMainThread {
-                if (code == 200) {
-                    toast("歌曲成功添加到我喜欢")
-                } else {
-                    toast("歌曲添加到我喜欢失败")
+            try {
+                val code = Gson().fromJson(it, CodeData::class.java).code
+                runOnMainThread {
+                    if (code == 200) {
+                        toast("歌曲成功添加到我喜欢")
+                    } else {
+                        toast("歌曲添加到我喜欢失败")
+                    }
                 }
+            } catch (e: Exception) {
+                toast("API $API_MUSIC_LAKE 连接失败")
             }
+
         }, {
 
         })

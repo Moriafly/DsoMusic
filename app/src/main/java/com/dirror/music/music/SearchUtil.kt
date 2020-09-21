@@ -25,7 +25,7 @@ object SearchUtil {
         })
     }
 
-    private fun searchUtilDataToStandardSongDataList(searchUtilData: SearchUtilData): ArrayList<StandardSongData> {
+    fun searchUtilDataToStandardSongDataList(searchUtilData: SearchUtilData): ArrayList<StandardSongData> {
         val standardSongDataList = ArrayList<StandardSongData>()
         val songs = searchUtilData.result.songs
         for (index in 0..songs.lastIndex) {

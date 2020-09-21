@@ -12,11 +12,9 @@ class LoginByPhoneActivity : BaseActivity() {
 
     override fun initView() {
         btnLogin.setOnClickListener {
-            CloudMusic.loginByPhone(etPhone.text.toString(), etPassword.text.toString(), object : CloudMusic.LoginCallback {
-                override fun success() {
-                    finish()
-                }
-            })
+            CloudMusic.loginByPhone(etPhone.text.toString(), etPassword.text.toString()) {
+                finish()
+            }
         }
     }
 

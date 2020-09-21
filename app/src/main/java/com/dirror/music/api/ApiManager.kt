@@ -27,3 +27,15 @@ const val API_FCZBL_VIP = "https://api.fczbl.vip/163"
 
 // https://api.imjad.cn/cloudmusic/?type=song&id=545505696&br=999000
 const val API_IMJAD = "https://api.imjad.cn/cloudmusic"
+
+/**
+ * 网易云官方 api
+ */
+const val API_NETEASE = "https://music.163.com/api"
+
+/**
+ * api 测试
+ */
+fun apiTest() {
+
+}

@@ -12,6 +12,7 @@ import com.dirror.music.util.loge
 import com.dirror.music.util.toast
 import com.google.gson.Gson
 import kotlin.concurrent.thread
+import kotlin.system.measureTimeMillis
 
 object PlaylistUtil {
 
@@ -41,13 +42,26 @@ object PlaylistUtil {
     ) {
         // 获取全 id
         trackIds = detailPlaylistData.playlist.trackIds
-        // 初始化歌单
-        // val sortStandardSongDataList = ArrayList<SortStandardSongData>()
-        standardSongDataList.clear()
-        i = 0
-        read(){
-            success.invoke(standardSongDataList)
+        val ids = ArrayList<Long>()
+        for (trackId in 0..trackIds!!.lastIndex) {
+            val id = trackIds!![trackId].id
+            loge(id.toString())
+            ids.add(id)
         }
+        getSongListByIds(ids) {
+            success.invoke(it)
+        }
+
+//        // 初始化歌单
+//        // val sortStandardSongDataList = ArrayList<SortStandardSongData>()
+//        standardSongDataList.clear()
+//        i = 0
+//        val time = measureTimeMillis {
+//            read(){
+//                success.invoke(standardSongDataList)
+//            }
+//        }
+//        toast("加载歌单耗时：${time} ms")
 
 //        var count = -1
 //        var songSum = trackIds!!.lastIndex
@@ -128,8 +142,28 @@ object PlaylistUtil {
         val song: StandardSongData
     )
 
+    private fun getSongListByIds(ids: ArrayList<Long>, success: (ArrayList<StandardSongData>) -> Unit) {
+        var idsString = ""
+        for (id in 0..ids.lastIndex) {
+            idsString = "$idsString${ids[id]},"
+        }
+        idsString = idsString.substring(0, idsString.lastIndex)
+        val url = "http://music.163.com/api/song/detail/?ids=%5B${idsString}%5D"
+        loge(url.toString())
+
+
+        MagicHttp.OkHttpManager().newGet(url, {
+            val data = Gson().fromJson(it, CompatSearchData::class.java)
+            success.invoke(compatSearchDataToStandardPlaylistData(data))
+        }, {
+
+        })
+
+    }
+
 }
 
+// http://music.163.com/api/song/detail/?id=1423062698&ids=%5B1423062698,521351799%5D
 
 
 
