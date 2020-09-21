@@ -9,30 +9,32 @@ import com.bumptech.glide.Glide
 import com.dirror.music.R
 import com.dirror.music.music.BannerUtil
 import com.youth.banner.adapter.BannerAdapter
+import kotlinx.android.synthetic.main.dirrorx_banner_layout.view.*
 
+class MusicBannerAdapter(data: List<BannerUtil.BannerData>) : BannerAdapter<BannerUtil.BannerData, BannerViewHolder>(data) {
 
-class MusicBannerAdapter(val data: ArrayList<BannerUtil.BannerData>): BannerAdapter<BannerUtil.BannerData, MusicBannerAdapter.ViewHolder>(data) {
-
-    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val ivBackground: ImageView = view.findViewById(R.id.ivBackground)
+    private val mData = data
+    override fun onCreateHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.dirrorx_banner_layout, parent, false)
+        return BannerViewHolder(itemView)
     }
 
-    override fun getItemCount(): Int {
-        return data.size
+    override fun onBindView(holder: BannerViewHolder, data: BannerUtil.BannerData, position: Int, size: Int) {
+        Glide.with(holder.ivBackground.context)
+            .load(data.pic)
+            .into(holder.ivBackground)
+
+//        holder.itemView.tvTitle.text = data.name
+//        holder.itemView.tvSubTitle.text = data.info
     }
 
-    override fun onBindView(holder: ViewHolder?, data: BannerUtil.BannerData?, position: Int, size: Int) {
-        if (holder != null) {
-            Glide.with(holder.ivBackground.context)
-                .load(this.data[position].pic)
-                // .placeholder(R.drawable.photo_placeholder)
-                .into(holder.ivBackground)
-        }
+    override fun getData(position: Int): BannerUtil.BannerData {
+        return mData[position]
     }
 
-    override fun onCreateHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            LayoutInflater.from(parent.context).inflate(R.layout.dirrorx_banner_layout, parent, false).apply {
-                return ViewHolder(this)
-            }
-    }
+}
+
+class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val ivBackground: ImageView = itemView.findViewById(R.id.ivBackground)
 }

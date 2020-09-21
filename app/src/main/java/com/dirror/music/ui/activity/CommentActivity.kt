@@ -20,7 +20,8 @@ class CommentActivity : BaseActivity() {
         val id = intent.getLongExtra("long_music_id", -1)
         CloudMusic.getMusicComment(id) {
             runOnMainThread {
-                titleBar.tvTitleBar.text = "评论 " + it.total.toString()
+                // titleBar.tvTitleBar.text = "评论 " + it.total.toString()
+                titleBar.tvTitleBar.text = "精彩评论"
                 rvComment.layoutManager = LinearLayoutManager(this@CommentActivity)
                 rvComment.adapter = CommentAdapter(it)
             }

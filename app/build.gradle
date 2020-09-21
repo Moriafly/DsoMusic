@@ -14,7 +14,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 67
+        versionCode 69
         versionName "1.0.0-beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.eightbitlab:blurview:1.6.3'
     implementation 'com.github.caiyonglong:musicapi:1.1.0'
     implementation 'com.youth.banner:banner:2.1.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha07'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha07'
+//    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
 }

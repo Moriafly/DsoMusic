@@ -42,7 +42,7 @@
         android:layout_marginBottom="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvNumber"
-        app:srcCompat="@drawable/bq_song_tag_sq" />
+        app:srcCompat="@drawable/ic_liked" />
 
     <TextView
         android:id="@+id/tvNumber"
