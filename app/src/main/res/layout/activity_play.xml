@@ -138,7 +138,7 @@
                 android:layout_margin="25dp"
                 android:clipChildren="false"
                 android:transitionName="cvCover"
-                app:cardCornerRadius="200dp"
+                app:cardCornerRadius="180dp"
                 app:cardElevation="0dp">
 
                 <ImageView
@@ -231,6 +231,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="9dp"
             android:text="艺术家"
+            android:singleLine="true"
             android:textSize="12sp"
             android:transitionName="tvArtist"
             app:layout_constraintBottom_toBottomOf="parent"
