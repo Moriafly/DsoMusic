@@ -50,7 +50,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
-                android:id="@+id/ivShare"
+                android:id="@+id/ivMore"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginEnd="16dp"
@@ -60,7 +60,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mz_titlebar_ic_share_dark" />
+                app:srcCompat="@drawable/mz_ic_sb_more_normal" />
 
             <ImageView
                 android:id="@+id/ivComment"
@@ -70,7 +70,7 @@
                 android:background="@drawable/background_button_icon"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/ivShare"
+                app:layout_constraintEnd_toStartOf="@+id/ivMore"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/ivLike"
                 app:layout_constraintTop_toTopOf="parent"

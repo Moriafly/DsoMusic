@@ -14,6 +14,8 @@ import com.dirror.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.cloudmusic.SongInnerData
+import com.dirror.music.dialog.PlayerMenuMoreDialog
+import com.dirror.music.dialog.SongInfoDialog
 import com.dirror.music.music.StandardSongData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
@@ -121,11 +123,17 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             }
         }
 
-        ivShare.setOnClickListener {
-            toast("暂未开放")
-            // AnimationUtil.click(it)
+        ivMore.setOnClickListener {
+            showPlayerMenuMoreDialog()
         }
     }
+
+    private fun showPlayerMenuMoreDialog() {
+        PlayerMenuMoreDialog(this).apply {
+            show()
+        }
+    }
+
 
     override fun finish() {
         super.finish()

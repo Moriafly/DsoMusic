@@ -8,6 +8,13 @@ object FragmentUtil {
     private val myFragment by lazy { MyFragment() }
     private val homeFragment by lazy { HomeFragment() }
 
+    init {
+
+    }
+
+//    private val myFragment by lazy { MyFragment() }
+//    private val homeFragment by lazy { HomeFragment() }
+
     fun getFragment(id: Int): Fragment {
         return when (id) {
             0 -> myFragment

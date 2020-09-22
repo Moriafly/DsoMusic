@@ -32,7 +32,7 @@ class HomeFragment : BaseFragment() {
                     adapter = MusicBannerAdapter(list)
                     setIndicator(CircleIndicator(context), false)
                     setLoopTime(5000) // 轮播时间
-                    setBannerGalleryMZ(20, 0.85F)
+                    // setBannerGalleryMZ(20, 0.85F)
                     start()
                 }
             }

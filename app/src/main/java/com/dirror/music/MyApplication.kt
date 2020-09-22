@@ -8,6 +8,8 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
+import com.dirror.music.ui.fragment.HomeFragment
+import com.dirror.music.ui.fragment.MyFragment
 import okhttp3.Cookie
 
 class MyApplication: Application() {
@@ -17,6 +19,7 @@ class MyApplication: Application() {
         val musicConnection by lazy { MusicConnection() }
 
         val cookieStore: HashMap<String, List<Cookie>> = HashMap() // cookie
+
     }
 
 
