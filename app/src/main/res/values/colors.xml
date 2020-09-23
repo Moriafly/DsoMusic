@@ -21,6 +21,7 @@
 
     <!-- 字体前景色 -->
     <color name="colorTextForeground">#000000</color>
+    <color name="colorSubTextForeground">#323232</color>
     <color name="colorEditTextBackground">#FAFAFA</color>
 
     <color name="colorCheckItemBackground">#C8C8C8</color>
