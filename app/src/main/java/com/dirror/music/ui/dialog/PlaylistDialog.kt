@@ -10,7 +10,6 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistDialogAdapter
 import kotlinx.android.synthetic.main.dialog_play_list.*
-import kotlinx.android.synthetic.main.dialog_play_more.*
 
 class PlaylistDialog: Dialog {
     constructor(context: Context) : this(context, 0)

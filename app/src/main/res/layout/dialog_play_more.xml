@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/clDialog"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="56dp">
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"

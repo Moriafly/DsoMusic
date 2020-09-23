@@ -67,8 +67,8 @@ class MyFragment : BaseFragment() {
                 toast(it)
             })
         } else {
-            // toast("请先登录")
-            startActivity(Intent(context, LoginActivity::class.java))
+            toast("请先登录")
+            // startActivity(Intent(context, LoginActivity::class.java))
         }
     }
 
@@ -112,6 +112,7 @@ class MyFragment : BaseFragment() {
                     // rvPlaylist.isNestedScrollingEnabled = false
                     rvPlaylist.layoutManager =  linearLayoutManager//FullyLinearLayoutManager(context)
                     rvPlaylist.adapter = PlaylistAdapter(playlist)
+
 
                 }
 

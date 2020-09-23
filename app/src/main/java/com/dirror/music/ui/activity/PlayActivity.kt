@@ -28,6 +28,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private var duration = 0 // 音乐总时长
+    private var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MusicService.MODE_CIRCLE)
     private val handler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message) {
@@ -49,6 +50,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     override fun initView() {
+        initPlayMode()
         // 获取现在歌曲信息
         getNowSongData()
         updateProgress()
@@ -109,6 +111,17 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         // 进度条变化的监听
         seekBar.setOnSeekBarChangeListener(this)
 
+    }
+
+    /**
+     * 初始化播放模式
+     */
+    private fun initPlayMode() {
+        when (mode) {
+            MusicService.MODE_CIRCLE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
+            MusicService.MODE_REPEAT_ONE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
+            MusicService.MODE_RANDOM -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
+        }
     }
 
     override fun initListener() {
@@ -193,30 +206,31 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
-        private var mode = MusicService.MODE_CIRCLE // 默认
+        // private var mode = MusicService.MODE_CIRCLE // 默认
         override fun onReceive(context: Context, intent: Intent) {
             getNowSongData()
             refreshPlayState()
-
-
-
             // 当前播放模式改不了，修改图标
-            if (mode != MyApplication.musicBinderInterface?.getPlayMode()?:mode) {
-                // 赋值
-                mode = MyApplication.musicBinderInterface?.getPlayMode()?:mode
-                when (mode) {
-                    MusicService.MODE_CIRCLE -> {
-                        ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
-                        toast("列表循环")
-                    }
-                    MusicService.MODE_REPEAT_ONE -> {
-                        ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
-                        toast("单曲循环")
-                    }
-                    MusicService.MODE_RANDOM -> {
-                        ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
-                        toast("随机播放")
-                    }
+            refreshPlayMode()
+        }
+    }
+
+    private fun refreshPlayMode() {
+        if (mode != MyApplication.musicBinderInterface?.getPlayMode()?:mode) {
+            // 赋值
+            mode = MyApplication.musicBinderInterface?.getPlayMode()?:mode
+            when (mode) {
+                MusicService.MODE_CIRCLE -> {
+                    ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
+                    toast("列表循环")
+                }
+                MusicService.MODE_REPEAT_ONE -> {
+                    ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
+                    toast("单曲循环")
+                }
+                MusicService.MODE_RANDOM -> {
+                    ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
+                    toast("随机播放")
                 }
             }
         }

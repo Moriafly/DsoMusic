@@ -13,7 +13,9 @@ import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.music.PlaylistUtil
 import com.dirror.music.music.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.layout_play.view.*
 
@@ -44,10 +46,11 @@ class PlaylistActivity : BaseActivity() {
                 R.anim.anim_no_anim
             )
         }
-
         layoutPlay.ivPlay.setOnClickListener {
             MyApplication.musicBinderInterface?.changePlayState()
-
+        }
+        layoutPlay.ivPlaylist.setOnClickListener {
+            PlaylistDialog(this).show()
         }
 
     }

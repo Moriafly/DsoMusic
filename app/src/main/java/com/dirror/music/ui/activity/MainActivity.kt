@@ -17,6 +17,7 @@ import com.dirror.music.DirrorMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
@@ -105,6 +106,10 @@ class MainActivity : BaseActivity() {
             // 更新
             MyApplication.musicBinderInterface?.changePlayState()
             refreshPlayState()
+        }
+
+        itemPlay.ivPlaylist.setOnClickListener {
+            PlaylistDialog(this).show()
         }
 
         ivSettings.setOnClickListener {

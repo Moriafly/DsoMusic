@@ -29,10 +29,11 @@ class SongInfoDialog: Dialog {
         super.onCreate(savedInstanceState)
         // editView.setText(editTextStr)
         StandardGET.getSongInfo(MyApplication.musicBinderInterface?.getNowSongData()?.id?:-1) {
+            val size = parseBit(it.size)
             runOnMainThread {
                 valueViewId.setValue(it.id.toString())
                 valueViewBitrate.setValue("${it.br/1000} kbps")
-                valueViewSize.setValue(parseBit(it.size))
+                valueViewSize.setValue(size)
                 valueViewType.setValue(it.type?:"未知")
             }
         }

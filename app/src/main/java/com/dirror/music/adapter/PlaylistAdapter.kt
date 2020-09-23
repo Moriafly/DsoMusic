@@ -36,8 +36,7 @@ class PlaylistAdapter(private val playlist: List<PlaylistData>): RecyclerView.Ad
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val play = playlist[position]
         var url = play.coverImgUrl
-        url = url.replace("http", "https")
-        Log.e("图片", "$url")
+        // url = url.replace("http", "https")
         Glide.with(holder.ivCover.context)
             .load(url)
             // .placeholder(R.drawable.photo_placeholder)

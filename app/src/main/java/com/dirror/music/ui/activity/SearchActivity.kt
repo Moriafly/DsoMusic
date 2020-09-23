@@ -16,7 +16,9 @@ import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.music.SearchUtil
 import com.dirror.music.music.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
+import kotlinx.android.synthetic.main.activity_playlist.*
 
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_search.itemPlay
@@ -61,6 +63,9 @@ class SearchActivity : BaseActivity() {
             // 更新
             MyApplication.musicBinderInterface?.changePlayState()
             refreshPlayState()
+        }
+        itemPlay.ivPlaylist.setOnClickListener {
+            PlaylistDialog(this).show()
         }
 
         // 搜索框

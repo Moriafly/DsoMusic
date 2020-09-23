@@ -7,6 +7,7 @@ import android.os.Binder
 import android.os.IBinder
 import com.dirror.music.api.StandardGET
 import com.dirror.music.music.StandardSongData
+import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.loge
 
 /**
@@ -25,7 +26,7 @@ class MusicService : Service() {
 
     var list: ArrayList<StandardSongData>? = null // 当前歌单
     var position: Int? = 0 // 当前歌曲在 List 中的下标
-    var mode = MODE_CIRCLE // 当前模式
+    var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MODE_CIRCLE)
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // intent 获取
@@ -87,17 +88,17 @@ class MusicService : Service() {
                 it.setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
                 it.setOnErrorListener(this@MusicBinder)
 
-                StandardGET.getSongUrl(songId) { response ->
-//                    try {
-                    loge("getSongUrl 回调结果：${response?:"null"}")
-                        it.setDataSource(response?:"https://music.163.com/song/media/outer/url?id=$songId.mp3")
-                        it.prepareAsync()
-//                    } catch (e: Exception) {
-//
-//                    }
-                }
-                // it.setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
-
+//                StandardGET.getSongUrl(songId) { response ->
+////                    try {
+//                    loge("getSongUrl 回调结果：${response?:"null"}")
+//                        it.setDataSource(response?:"https://music.163.com/song/media/outer/url?id=$songId.mp3")
+//                        it.prepareAsync()
+////                    } catch (e: Exception) {
+////
+////                    }
+//                }
+                it.setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
+                it.prepareAsync()
             }
             // https://api.fczbl.vip/163/?type=url&id=186016
             // https://music.163.com/song/media/outer/url?id=186016.mp3
@@ -188,6 +189,8 @@ class MusicService : Service() {
                 MODE_REPEAT_ONE -> mode = MODE_RANDOM
                 MODE_RANDOM -> mode = MODE_CIRCLE
             }
+            // 将播放模式存储
+            StorageUtil.putInt(StorageUtil.PlAY_MODE, mode)
             sendMusicBroadcast()
         }
 
