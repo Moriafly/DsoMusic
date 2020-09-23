@@ -6,7 +6,6 @@
 
 # 截图
 
-![pic1](https://moriafly.xyz/images/dirror-music_1.png)
 ![pic2](https://moriafly.xyz/images/dirror-music_2.png)
 
 # License
