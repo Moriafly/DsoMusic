@@ -1,4 +1,4 @@
-package com.dirror.music.dialog
+package com.dirror.music.ui.dialog
 
 import android.app.Dialog
 import android.content.Context

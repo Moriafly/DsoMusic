@@ -18,7 +18,7 @@ import java.lang.Exception
  */
 object CloudMusic {
 
-    private fun timestamp(): String {
+    fun timestamp(): String {
         return "&timestamp=${getCurrentTime()}"
     }
 

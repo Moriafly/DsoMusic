@@ -5,27 +5,26 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import com.dirror.music.api.StandardGET
-import com.dirror.music.cloudmusic.SongData
 import com.dirror.music.music.StandardSongData
 import com.dirror.music.util.loge
-import com.dirror.music.util.toast
 
+/**
+ * 音乐服务
+ * 传一个播放列表而不是一首歌
+ */
 class MusicService : Service() {
-    // 传一个播放列表而不是一首歌
     companion object {
         const val MODE_CIRCLE = 1 // 列表循环
         const val MODE_REPEAT_ONE = 2 // 单曲循环
         const val MODE_RANDOM = 3 // 随机播放
     }
 
-    private var mediaPlayer: MediaPlayer? = null
+    private var mediaPlayer: MediaPlayer? = null // 定义 MediaPlayer
     private val musicBinder by lazy { MusicBinder() } // 懒加载 musicBinder
 
-    var songList: ArrayList<StandardSongData>? = null // 当前歌单
+    var list: ArrayList<StandardSongData>? = null // 当前歌单
     var position: Int? = 0 // 当前歌曲在 List 中的下标
-
     var mode = MODE_CIRCLE // 当前模式
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -36,8 +35,7 @@ class MusicService : Service() {
 //        position = bundle?.getInt("SONG_POSITION")
 
         // musicBinder.playMusic()
-        return START_NOT_STICKY
-
+        return START_NOT_STICKY // 非粘性服务
     }
 
     // 绑定
@@ -55,14 +53,14 @@ class MusicService : Service() {
          * 设置播放歌单
          */
         override fun setPlaylist(songListData: ArrayList<StandardSongData>) {
-            songList = songListData
+            list = songListData
         }
 
         /**
          * 获取当前歌单全部
          */
         override fun getPlaylist(): ArrayList<StandardSongData>? {
-            return songList
+            return list
         }
 
         /**
@@ -72,7 +70,7 @@ class MusicService : Service() {
             isPrepared = false
             position = songPosition
             // val songId = songList!![position!!].songs[0].id // 获取当前 position 的歌曲 id
-            val songId = songList!![position!!].id // 获取当前 position 的歌曲 id
+            val songId = list!![position!!].id // 获取当前 position 的歌曲 id
             // Log.e("音乐服务 songId：", songId.toString())
 
             // 如果 MediaPlayer 已经存在，释放
@@ -178,7 +176,7 @@ class MusicService : Service() {
          * 获取当前播放的音乐的信息
          */
         override fun getNowSongData(): StandardSongData? {
-            return songList?.get(position!!)
+            return list?.get(position!!)
         }
 
         /**
@@ -206,12 +204,12 @@ class MusicService : Service() {
         override fun playLast() {
             // 设置 position
             position = when (mode) {
-                MODE_RANDOM -> (0..songList?.lastIndex!!).random()
+                MODE_RANDOM -> (0..list?.lastIndex!!).random()
                 // 单曲循环或者歌单顺序播放
                 else -> {
                     // 如果当前是第一首，就跳到最后一首播放
                     if (position == 0) {
-                        songList?.lastIndex
+                        list?.lastIndex
                     } else {
                         // 否则播放上一首
                         position?.minus(1)
@@ -227,9 +225,9 @@ class MusicService : Service() {
          */
         override fun playNext() {
             when (mode) {
-                MODE_RANDOM -> (0..songList?.lastIndex!!).random()
+                MODE_RANDOM -> (0..list?.lastIndex!!).random()
                 else -> {
-                    position = if (position == songList?.lastIndex) {
+                    position = if (position == list?.lastIndex) {
                         0
                     } else {
                         position?.plus(1)
@@ -254,7 +252,7 @@ class MusicService : Service() {
         }
 
         /**
-         * 外部请求广播
+         * 外部请求发送广播
          */
         override fun sendBroadcast() {
             sendMusicBroadcast()
@@ -264,10 +262,6 @@ class MusicService : Service() {
          * 歌曲完成后的回调，自动播放下一曲
          */
         override fun onCompletion(p0: MediaPlayer?) {
-            // 下面两句解决 MediaPlayerNative: error (-38, 0) 问题
-            // https://blog.csdn.net/u014520745/article/details/46672327
-//            mediaPlayer?.pause()
-//            mediaPlayer?.seekTo(0)
             autoPlayNext()
         }
 
@@ -277,7 +271,7 @@ class MusicService : Service() {
         private fun autoPlayNext() {
             when (mode) {
                 MODE_CIRCLE -> {
-                    position = if (position == songList?.lastIndex) {
+                    position = if (position == list?.lastIndex) {
                         0
                     } else {
                         position?.plus(1)
@@ -287,7 +281,7 @@ class MusicService : Service() {
 
                 }
                 MODE_RANDOM -> {
-                    position = (0..songList?.lastIndex!!).random()
+                    position = (0..list?.lastIndex!!).random()
                 }
             }
             playMusic(position ?: 0)

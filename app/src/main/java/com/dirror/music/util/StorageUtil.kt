@@ -9,7 +9,8 @@ object StorageUtil {
 
     private const val DATA_NAME = "foyou"
 
-    const val CLOUD_MUSIC_UID = "int_cloud_music_uid"
+    const val CLOUD_MUSIC_UID = "int_cloud_music_uid" // 用户 uid
+    const val PlAY_MODE = "int_play_mode" // 播放模式
 
     fun putInt(singleName: String, value: Int) {
         context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE)

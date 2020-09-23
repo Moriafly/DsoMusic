@@ -1,17 +1,11 @@
 package com.dirror.music.api
 
+import com.dirror.music.CloudMusic
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.google.gson.Gson
 
 object StandardGET {
-    /**
-     *
-     */
-    fun getMusicBitrate() {
-
-    }
-
     /**
      * 获取歌曲信息
      *
@@ -19,7 +13,7 @@ object StandardGET {
      */
     fun getSongInfo(id: Long, success: (UrlData) -> Unit) {
         //"${API_MUSIC_ELEUU}/song/url?id=${id}&br=999000"
-        val url = "${API_MUSIC_ELEUU}/song/url?id=${id}"
+        val url = "${API_MUSIC_ELEUU}/song/url?id=${id}${CloudMusic.timestamp()}"
         loge(url)
         MagicHttp.OkHttpManager().newGet(url, {
             val songUrlData = Gson().fromJson(it, SongUrlData::class.java)

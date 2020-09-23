@@ -13,12 +13,11 @@ import android.widget.SeekBar
 import com.dirror.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.cloudmusic.SongInnerData
-import com.dirror.music.dialog.PlayerMenuMoreDialog
-import com.dirror.music.dialog.SongInfoDialog
+import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.music.StandardSongData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.activity_play.*
 
@@ -125,6 +124,10 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
         ivMore.setOnClickListener {
             showPlayerMenuMoreDialog()
+        }
+
+        ivList.setOnClickListener {
+            PlaylistDialog(this).show()
         }
     }
 
