@@ -6,8 +6,8 @@
 
 # 截图
 
-![](https://moriafly.xyz/images/dirror-music_1.png)
-![](https://moriafly.xyz/images/dirror-music_2.png)
+![pic1](https://moriafly.xyz/images/dirror-music_1.png)
+![pic2](https://moriafly.xyz/images/dirror-music_2.png)
 
 # License
 GPL V3，详细见：[LICENSE](https://github.com/Moriafly/dirror-music/blob/master/LICENSE)
