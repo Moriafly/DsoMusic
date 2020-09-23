@@ -1,9 +1,13 @@
 package com.dirror.music.ui.fragment
 
 import androidx.fragment.app.viewModels
+import com.dirror.music.CloudMusic
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.MusicBannerAdapter
 import com.dirror.music.music.BannerUtil
+import com.dirror.music.music.PlaylistUtil
+import com.dirror.music.music.StandardSongData
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.loge
 import com.dirror.music.util.runOnMainThread
@@ -54,6 +58,20 @@ class HomeFragment : BaseFragment() {
 //                R.xml.activity_enter_alpha,
 //                R.xml.activity_exit_alpha
 //            )
+        }
+    }
+
+    override fun initListener() {
+        ivFlac.setOnClickListener {
+            val playlist = ArrayList<StandardSongData>()
+            CloudMusic.getSongDetail(1433167647, {
+                playlist.add(it)
+                MyApplication.musicBinderInterface?.setPlaylist(playlist)
+                MyApplication.musicBinderInterface?.playMusic(0)
+            }, {
+
+            })
+
         }
     }
 

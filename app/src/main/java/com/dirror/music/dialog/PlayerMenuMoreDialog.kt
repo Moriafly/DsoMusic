@@ -25,11 +25,15 @@ class PlayerMenuMoreDialog: Dialog {
         super.onCreate(savedInstanceState)
         // editView.setText(editTextStr)
         itemSongInfo.setOnClickListener {
-            dismiss() // 自己消失
             SongInfoDialog(context).apply {
                 show()
-
             }
+            // 自己消失
+            dismiss()
+        }
+
+        clDialog.setOnClickListener {
+            dismiss()
         }
     }
 }

@@ -9,5 +9,5 @@ data class StandardSongData(
 
 data class StandardArtistData(
     val id: Long,
-    val name: String
+    val name: String?
 )

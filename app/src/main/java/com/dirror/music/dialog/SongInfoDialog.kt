@@ -30,10 +30,26 @@ class SongInfoDialog: Dialog {
         // editView.setText(editTextStr)
         StandardGET.getSongInfo(MyApplication.musicBinderInterface?.getNowSongData()?.id?:-1) {
             runOnMainThread {
-                valueViewBitrate.setValue("${it.br} B")
-                valueViewSize.setValue("${it.size} B")
+                valueViewId.setValue(it.id.toString())
+                valueViewBitrate.setValue("${it.br/1000} kbps")
+                valueViewSize.setValue(parseBit(it.size))
                 valueViewType.setValue(it.type?:"未知")
             }
         }
+
+        clDialog.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun parseBit(bit: Long): String {
+        val source = bit.toDouble()
+        if (source > 1000) {
+            if (source > 1_000_000) {
+                return "${String.format("%.2f", source / 1_000_000)} MB"
+            }
+            return "${String.format("%.2f", source / 1000)} KB"
+        }
+        return "$source B"
     }
 }

@@ -55,7 +55,7 @@ object PlaylistUtil {
     }
 
 
-    private fun getSongListByIds(ids: ArrayList<Long>, success: (ArrayList<StandardSongData>) -> Unit) {
+    fun getSongListByIds(ids: ArrayList<Long>, success: (ArrayList<StandardSongData>) -> Unit) {
         var idsString = ""
         for (id in 0..ids.lastIndex) {
             idsString = "$idsString${ids[id]},"

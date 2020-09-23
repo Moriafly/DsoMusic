@@ -13,14 +13,8 @@ import com.dirror.music.util.loge
  *
  */
 object DirrorMusic {
-    /**
-     * 通过 id 获取音乐
-     */
-    fun getSongUrl(id: Long) {
-        MagicHttp.OkHttpManager().newGet("${API_MUSIC_ELEUU}/song/url?id=${id}", {
+    fun getSongDetail(id: Long) {
 
-        }, {
 
-        })
     }
 }

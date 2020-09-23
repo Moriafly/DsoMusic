@@ -60,7 +60,7 @@ data class SongData(
 )
 
 data class SongInnerData(
-    val name: String,
+    val name: String?,
     val id: Long,
     val ar: ArrayList<StandardArtistData>,
     val al: AlbumData,

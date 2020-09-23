@@ -6,8 +6,11 @@ import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import com.dirror.music.api.StandardGET
 import com.dirror.music.cloudmusic.SongData
 import com.dirror.music.music.StandardSongData
+import com.dirror.music.util.loge
+import com.dirror.music.util.toast
 
 class MusicService : Service() {
     // 传一个播放列表而不是一首歌
@@ -44,7 +47,7 @@ class MusicService : Service() {
 
     // 调用 Service 内部方法
     inner class MusicBinder : Binder(), MusicBinderInterface, MediaPlayer.OnPreparedListener,
-        MediaPlayer.OnCompletionListener {
+        MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
         var isPrepared = false // 音乐是否准备完成
 
@@ -84,9 +87,19 @@ class MusicService : Service() {
                 // setDataSource("https://api.fczbl.vip/163/?type=url&id=$songId")
                 it.setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
                 it.setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
+                it.setOnErrorListener(this@MusicBinder)
 
-                it.setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
-                it.prepareAsync()
+                StandardGET.getSongUrl(songId) { response ->
+//                    try {
+                    loge("getSongUrl 回调结果：${response?:"null"}")
+                        it.setDataSource(response?:"https://music.163.com/song/media/outer/url?id=$songId.mp3")
+                        it.prepareAsync()
+//                    } catch (e: Exception) {
+//
+//                    }
+                }
+                // it.setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
+
             }
             // https://api.fczbl.vip/163/?type=url&id=186016
             // https://music.163.com/song/media/outer/url?id=186016.mp3
@@ -278,6 +291,12 @@ class MusicService : Service() {
                 }
             }
             playMusic(position ?: 0)
+        }
+
+        override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
+//            toast("错误")
+            // playNext()
+            return true
         }
 
     }

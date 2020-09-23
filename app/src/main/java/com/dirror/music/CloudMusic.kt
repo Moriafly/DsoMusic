@@ -3,6 +3,7 @@ package com.dirror.music
 import android.util.Log
 import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.api.API_MUSIC_API
+import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.api.API_MUSIC_LAKE
 import com.dirror.music.cloudmusic.*
 import com.dirror.music.music.StandardSongData
@@ -117,13 +118,15 @@ object CloudMusic {
      * 获取歌曲详情
      */
     fun getSongDetail(id: Long, success: (StandardSongData) -> Unit, failure: (String) -> Unit) {
-        val url = "${API_MUSIC_API}/song/detail?ids=$id"
+        val url = "${API_MUSIC_ELEUU}/song/detail?ids=$id"
         MagicHttp.OkHttpManager().newGet(url, {
+            loge(url)
+            loge(it)
             val songData = Gson().fromJson(it, SongData::class.java)
 
             val standardSongData = StandardSongData(
                 songData.songs[0].id,
-                songData.songs[0].name,
+                songData.songs[0].name?:"",
                 songData.songs[0].al.picUrl,
                 songData.songs[0].ar
             )
