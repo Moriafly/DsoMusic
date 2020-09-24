@@ -1,5 +1,6 @@
 package com.dirror.music.api
 
+import org.jetbrains.annotations.NotNull
 
 
 /**
@@ -41,10 +42,3 @@ const val API_NETEASE = "https://music.163.com/api"
  * @例子 http://music.eleuu.com/banner?type=1
  */
 const val API_MUSIC_ELEUU = "http://music.eleuu.com"
-
-/**
- * api 测试
- */
-fun apiTest() {
-
-}

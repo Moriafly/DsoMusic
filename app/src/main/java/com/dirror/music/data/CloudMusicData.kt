@@ -1,4 +1,4 @@
-package com.dirror.music.cloudmusic
+package com.dirror.music.data
 
 import com.dirror.music.music.StandardArtistData
 

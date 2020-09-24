@@ -6,12 +6,15 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.WindowInsetsController
+import android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.CloudMusic
 import com.dirror.music.DirrorMusic
 import com.dirror.music.MyApplication
@@ -42,6 +45,8 @@ class MainActivity : BaseActivity() {
 
 
     override fun initView() {
+
+        // window.insetsController?.setSystemBarsAppearance(APPEARANCE_LIGHT_NAVIGATION_BARS, APPEARANCE_LIGHT_NAVIGATION_BARS)
 
         val radius = 20f
         val decorView: View = window.decorView
@@ -85,6 +90,7 @@ class MainActivity : BaseActivity() {
         }
 
         viewPager2.currentItem = 1 // 默认打开首页
+        ViewPager2Util.changeToNeverMode(viewPager2)
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             tab.text = when (position) {
@@ -100,6 +106,7 @@ class MainActivity : BaseActivity() {
                 R.anim.anim_no_anim
             )
         }
+
 
 
         itemPlay.ivPlay.setOnClickListener {

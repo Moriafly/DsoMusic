@@ -1,12 +1,8 @@
 package com.dirror.music.music
 
-import android.os.Parcelable
 import com.dirror.music.api.API_MUSIC_API
-import com.dirror.music.cloudmusic.CommentData
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
 object SearchUtil {
     fun searchMusic(keywords: String, success: (ArrayList<StandardSongData>) -> Unit, failure: (String) -> Unit) {

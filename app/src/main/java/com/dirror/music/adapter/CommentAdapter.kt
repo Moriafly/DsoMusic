@@ -5,13 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.R
-import com.dirror.music.cloudmusic.CommentData
+import com.dirror.music.data.CommentData
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.msTimeToFormatDate
-import com.dirror.music.util.openUrlByBrowser
 
 
 class CommentAdapter(val commentData: CommentData): RecyclerView.Adapter<CommentAdapter.ViewHolder>() {

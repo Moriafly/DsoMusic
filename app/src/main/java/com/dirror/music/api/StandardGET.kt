@@ -4,17 +4,18 @@ import com.dirror.music.CloudMusic
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.google.gson.Gson
+import org.jetbrains.annotations.NotNull
 
+/**
+ * 标准获取歌曲各种信息类
+ */
 object StandardGET {
     /**
      * 获取歌曲信息
-     *
      * @地址 http://music.eleuu.com/song/url?id=1433167647&br=320000
      */
     fun getSongInfo(id: Long, success: (UrlData) -> Unit) {
-        //"${API_MUSIC_ELEUU}/song/url?id=${id}&br=999000"
         val url = "${API_MUSIC_ELEUU}/song/url?id=${id}${CloudMusic.timestamp()}"
-        loge(url)
         MagicHttp.OkHttpManager().newGet(url, {
             val songUrlData = Gson().fromJson(it, SongUrlData::class.java)
             if (songUrlData.code == 200) {

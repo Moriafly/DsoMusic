@@ -9,8 +9,8 @@ import com.dirror.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistAdapter
-import com.dirror.music.cloudmusic.UserDetailData
-import com.dirror.music.cloudmusic.UserPlaylistData
+import com.dirror.music.data.UserDetailData
+import com.dirror.music.data.UserPlaylistData
 import com.dirror.music.ui.activity.LoginActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.*

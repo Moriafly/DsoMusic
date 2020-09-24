@@ -1,18 +1,11 @@
 package com.dirror.music.music
 
-import android.util.Log
-import com.dirror.music.CloudMusic
 import com.dirror.music.api.API_MUSIC_API
-import com.dirror.music.cloudmusic.DetailPlaylistData
-import com.dirror.music.cloudmusic.SongData
-import com.dirror.music.cloudmusic.TrackIdsData
-import com.dirror.music.ui.activity.PlaylistActivity
+import com.dirror.music.data.DetailPlaylistData
+import com.dirror.music.data.TrackIdsData
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
-import com.dirror.music.util.toast
 import com.google.gson.Gson
-import kotlin.concurrent.thread
-import kotlin.system.measureTimeMillis
 
 object PlaylistUtil {
 

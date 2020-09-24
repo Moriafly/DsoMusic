@@ -1,22 +1,17 @@
 package com.dirror.music.adapter
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dirror.music.R
-import com.dirror.music.cloudmusic.PlaylistData
-import com.dirror.music.cloudmusic.UserPlaylistData
+import com.dirror.music.data.PlaylistData
 import com.dirror.music.ui.activity.PlaylistActivity
-import kotlinx.android.synthetic.main.layout_playlist.view.*
 
 class PlaylistAdapter(private val playlist: List<PlaylistData>): RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
 

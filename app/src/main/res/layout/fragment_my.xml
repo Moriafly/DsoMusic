@@ -16,9 +16,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/itemAccount"
-            android:background="@drawable/background_item_default"
             android:layout_width="match_parent"
-            android:layout_height="112dp">
+            android:layout_height="112dp"
+            android:background="@drawable/background_item_default">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cdPhoto"
