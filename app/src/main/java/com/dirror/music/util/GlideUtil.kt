@@ -1,10 +1,16 @@
 package com.dirror.music.util
 
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.core.view.drawToBitmap
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.dirror.music.MyApplication
 import com.dirror.music.api.API_FCZBL_VIP
+
 
 object GlideUtil {
     fun load(url: String, imageView: ImageView) {
@@ -35,6 +41,22 @@ object GlideUtil {
                 .load(url)
                 .into(imageView)
         }
+    }
+
+    fun load(url: String, success: (Bitmap) -> Unit) {
+            Glide.with(MyApplication.context)
+                .asBitmap()
+                .load(url)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        loge("获取成功")
+                        success.invoke(resource)
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+
+                    }
+                })
     }
 
     fun loadCloudMusicImage(url: String, width: Int, height: Int, imageView: ImageView) {

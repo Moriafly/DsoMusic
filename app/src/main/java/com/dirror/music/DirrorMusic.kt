@@ -1,7 +1,5 @@
 package com.dirror.music
 
-import com.cyl.musicapi.BaseApiImpl
-import com.cyl.musicapi.bean.SearchData
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge

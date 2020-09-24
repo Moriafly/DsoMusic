@@ -171,7 +171,7 @@ object CloudMusic {
 
 
     /**
-     * 获取歌曲详情
+     * 获取歌曲图片
      */
     fun getSongImage(id: Long, success: (String) -> Unit) {
         val url = "${API_MUSIC_API}/song/detail?ids=$id"

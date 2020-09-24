@@ -42,6 +42,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha07'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -50,9 +51,12 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.eightbitlab:blurview:1.6.3'
-    implementation 'com.github.caiyonglong:musicapi:1.1.0'
     implementation 'com.youth.banner:banner:2.1.0'
 //    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha07'
-//    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-service:2.3.0-alpha07'
+
+    //noinspection GradleCompatible
+    implementation 'com.android.support:support-media-compat:26.1.0'
 }

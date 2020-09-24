@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.dirror.music">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.SearchActivity"></activity>
+        android:theme="@style/AppTheme"
+        tools:targetApi="n">
+
+        <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.CommentActivity" />
         <activity android:name=".ui.activity.OpenSourceActivity" />
         <activity android:name=".ui.activity.SettingsActivity" />
-        <activity android:name=".ui.activity.PlayActivity" />
+        <activity android:name=".ui.activity.PlayActivity" android:launchMode="singleTask"/>
         <activity android:name=".ui.activity.PlaylistActivity" />
         <activity android:name=".ui.activity.LoginByUidActivity" />
         <activity android:name=".ui.activity.LoginByPhoneActivity" />
@@ -25,6 +29,7 @@
             android:name=".ui.activity.LoginActivity"
             android:theme="@style/AppTheme.FullScreen" />
         <activity
+            android:launchMode="singleTask"
             android:name=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
@@ -35,6 +40,10 @@
         </activity>
 
         <service android:name=".service.MusicService" />
+        <service
+            android:name=".service.MyService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

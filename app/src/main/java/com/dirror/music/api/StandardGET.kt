@@ -1,6 +1,8 @@
 package com.dirror.music.api
 
+import android.graphics.Bitmap
 import com.dirror.music.CloudMusic
+import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.google.gson.Gson
@@ -33,6 +35,14 @@ object StandardGET {
     fun getSongUrl(id: Long, success: (String?) -> Unit) {
         getSongInfo(id) {
             success.invoke(it.url)
+        }
+    }
+
+    fun getSongBitmap(id: Long, success: (Bitmap) -> Unit) {
+        CloudMusic.getSongImage(id) {
+            GlideUtil.load(it) { bitmap ->
+                success.invoke(bitmap)
+            }
         }
     }
 }

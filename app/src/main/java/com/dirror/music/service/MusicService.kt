@@ -1,14 +1,29 @@
 package com.dirror.music.service
 
-import android.app.Service
+import android.app.*
 import android.content.Intent
+import android.media.MediaMetadata
 import android.media.MediaPlayer
+
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
+import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat
+import androidx.core.app.NotificationCompat
+
+
+import com.dirror.music.R
 import com.dirror.music.api.StandardGET
 import com.dirror.music.music.StandardSongData
+import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.loge
+import com.dirror.music.util.parseArtist
+
+
+const val CHANNEL_ID = "my notification id"
 
 /**
  * 音乐服务
@@ -19,6 +34,8 @@ class MusicService : Service() {
         const val MODE_CIRCLE = 1 // 列表循环
         const val MODE_REPEAT_ONE = 2 // 单曲循环
         const val MODE_RANDOM = 3 // 随机播放
+
+        const val REQUEST_CODE_PREVIOUS = 1
     }
 
     private var mediaPlayer: MediaPlayer? = null // 定义 MediaPlayer
@@ -28,20 +45,38 @@ class MusicService : Service() {
     var position: Int? = 0 // 当前歌曲在 List 中的下标
     var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MODE_CIRCLE)
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // intent 获取
-//        val bundle = intent?.extras
-//
-//        songList = bundle?.getParcelableArrayList<SongData>("SONG_LIST")
-//        position = bundle?.getInt("SONG_POSITION")
 
-        // musicBinder.playMusic()
+
+    override fun onCreate() {
+        super.onCreate()
+        // var token = MediaSessionCompat.Token()
+        createChannel()
+
+
+
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_NOT_STICKY // 非粘性服务
     }
 
     // 绑定
     override fun onBind(p0: Intent?): IBinder? {
         return musicBinder
+    }
+
+    fun createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel
+            val name = "My notification 1"
+            // val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_LOW
+            val channel = NotificationChannel(CHANNEL_ID, name, importance)
+            // mChannel.description = descriptionText
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+
     }
 
     // 调用 Service 内部方法
@@ -115,8 +150,12 @@ class MusicService : Service() {
             sendBroadcast(intent)
         }
 
+        /**
+         * 准备完成
+         */
         override fun onPrepared(p0: MediaPlayer?) {
             isPrepared = true
+            refreshNotification()
             // p0?.prepare()
             // 播放音乐，通知界面更新
             p0?.apply {
@@ -297,6 +336,66 @@ class MusicService : Service() {
         }
 
     }
+
+    val pendingIntent by lazy { PendingIntent.getActivity(
+        this,
+        0,
+        Intent(this, MainActivity::class.java),
+        PendingIntent.FLAG_UPDATE_CURRENT
+    ) }
+    // 上一曲点击事件
+
+    val pendingIntentPrevious by lazy { PendingIntent.getService(
+        this,
+        REQUEST_CODE_PREVIOUS,
+        Intent(this, MusicService::class.java),
+        PendingIntent.FLAG_UPDATE_CURRENT
+    ) }
+
+    /**
+     * 刷新通知
+     */
+    private fun refreshNotification() {
+        val song = musicBinder.getNowSongData()
+        val mediaSession = MediaSessionCompat(this, "MusicService")
+        mediaSession.setMetadata(
+            MediaMetadataCompat.Builder()
+                .putLong(MediaMetadata.METADATA_KEY_DURATION, (musicBinder.getDuration()?:0).toLong())
+                .build()
+        )
+        mediaSession.setPlaybackState(
+            PlaybackStateCompat.Builder()
+                .setState(PlaybackStateCompat.STATE_PLAYING, musicBinder.getProgress().toLong(), 1f)
+                .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                .build()
+        )
+        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession.sessionToken)
+        if (song != null) {
+            loge("歌曲图片url" + song.imageUrl)
+            StandardGET.getSongBitmap(song.id) {
+                val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_cloud_music)
+                    .setContentTitle(song?.name)
+                    .setContentText(song?.artists?.let { parseArtist(it) })
+                    .setContentIntent(pendingIntent)
+//                    .addAction(android.R.drawable.ic_media_previous, "Previous", pendingIntentPrevious)
+                    .setStyle(mediaStyle)
+                    .setLargeIcon(it)
+                    .setAutoCancel(true)
+//            .setStyle(object :androidx.media.app.NotificationCompat.MediaStyle()
+//                .setMediaSession(token))
+                    //.setMediaSession())
+                    .build()
+                // 开启前台服务
+                startForeground(1, notification)
+            }
+        }
+
+
+
+
+
+    }
 }
 
 interface MusicBinderInterface {
@@ -317,3 +416,4 @@ interface MusicBinderInterface {
     fun getAudioSessionId():Int
     fun sendBroadcast()
 }
+
