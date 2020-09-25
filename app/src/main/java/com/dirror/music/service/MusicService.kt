@@ -1,10 +1,10 @@
 package com.dirror.music.service
 
 import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.media.MediaMetadata
 import android.media.MediaPlayer
-
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -12,8 +12,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationCompat
-
-
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
 import com.dirror.music.music.StandardSongData
@@ -22,12 +21,10 @@ import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.loge
 import com.dirror.music.util.parseArtist
 
-
 const val CHANNEL_ID = "my notification id"
 
 /**
  * 音乐服务
- * 传一个播放列表而不是一首歌
  */
 class MusicService : Service() {
     companion object {
@@ -45,14 +42,26 @@ class MusicService : Service() {
     var position: Int? = 0 // 当前歌曲在 List 中的下标
     var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MODE_CIRCLE)
 
-
+    var notificationManager: NotificationManager? = null
 
     override fun onCreate() {
         super.onCreate()
         // var token = MediaSessionCompat.Token()
         createChannel()
 
-
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_cloud_music)
+//            .setContentTitle(song.name)
+//            .setContentText(parseArtist(song.artists))
+            .setContentIntent(pendingIntent)
+//                    .addAction(android.R.drawable.ic_media_previous, "Previous", pendingIntentPrevious)
+//            .setStyle(mediaStyle)
+//            .setLargeIcon(it)
+            .setAutoCancel(true)
+            .build()
+        // 开启前台服务
+        startForeground(10, notification)
 
     }
 
@@ -155,13 +164,14 @@ class MusicService : Service() {
          */
         override fun onPrepared(p0: MediaPlayer?) {
             isPrepared = true
-            refreshNotification()
             // p0?.prepare()
             // 播放音乐，通知界面更新
             p0?.apply {
                 start()
             }
             sendMusicBroadcast()
+
+            refreshNotification()
         }
 
         /**
@@ -210,6 +220,8 @@ class MusicService : Service() {
          */
         override fun setProgress(newProgress: Int) {
             mediaPlayer?.seekTo(newProgress)
+
+            refreshNotification()
         }
 
         /**
@@ -352,6 +364,10 @@ class MusicService : Service() {
         PendingIntent.FLAG_UPDATE_CURRENT
     ) }
 
+    private fun refreshMediaSessionData() {
+
+    }
+
     /**
      * 刷新通知
      */
@@ -360,34 +376,51 @@ class MusicService : Service() {
         val mediaSession = MediaSessionCompat(this, "MusicService")
         mediaSession.setMetadata(
             MediaMetadataCompat.Builder()
-                .putLong(MediaMetadata.METADATA_KEY_DURATION, (musicBinder.getDuration()?:0).toLong())
+                .putLong(MediaMetadata.METADATA_KEY_DURATION, (MyApplication.musicBinderInterface?.getDuration()?:0).toLong())
                 .build()
         )
         mediaSession.setPlaybackState(
             PlaybackStateCompat.Builder()
-                .setState(PlaybackStateCompat.STATE_PLAYING, musicBinder.getProgress().toLong(), 1f)
+                .setState(PlaybackStateCompat.STATE_PLAYING, (MyApplication.musicBinderInterface?.getProgress()?:0).toLong(), 0f)
                 .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
                 .build()
         )
+        mediaSession.setCallback(object : MediaSessionCompat.Callback() {
+            override fun onSeekTo(pos: Long) {
+                super.onSeekTo(pos)
+                // musicBinder.setProgress(pos.toInt())
+                MyApplication.musicBinderInterface?.setProgress(pos.toInt())
+                mediaSession.setPlaybackState(
+                    PlaybackStateCompat.Builder()
+                        .setState(PlaybackStateCompat.STATE_PLAYING, (MyApplication.musicBinderInterface?.getProgress()?:0).toLong(), 0f)
+                        .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                        .build()
+                )
+            }
+
+            override fun onPlay() {
+                super.onPlay()
+            }
+
+
+
+        })
         val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession.sessionToken)
         if (song != null) {
             loge("歌曲图片url" + song.imageUrl)
             StandardGET.getSongBitmap(song.id) {
                 val notification = NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_cloud_music)
-                    .setContentTitle(song?.name)
-                    .setContentText(song?.artists?.let { parseArtist(it) })
+                    .setContentTitle(song.name)
+                    .setContentText(parseArtist(song.artists))
                     .setContentIntent(pendingIntent)
 //                    .addAction(android.R.drawable.ic_media_previous, "Previous", pendingIntentPrevious)
                     .setStyle(mediaStyle)
                     .setLargeIcon(it)
                     .setAutoCancel(true)
-//            .setStyle(object :androidx.media.app.NotificationCompat.MediaStyle()
-//                .setMediaSession(token))
-                    //.setMediaSession())
                     .build()
-                // 开启前台服务
-                startForeground(1, notification)
+                // 更新通知
+                notificationManager?.notify(10, notification)
             }
         }
 
