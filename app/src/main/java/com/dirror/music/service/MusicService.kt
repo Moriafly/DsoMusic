@@ -24,9 +24,9 @@ import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.loge
 import com.dirror.music.util.parseArtist
 
-
 /**
  * 音乐服务
+ * @author Wu Shihao
  */
 class MusicService : Service() {
     companion object {
@@ -34,7 +34,10 @@ class MusicService : Service() {
         const val MODE_REPEAT_ONE = 2 // 单曲循环
         const val MODE_RANDOM = 3 // 随机播放
 
-        const val REQUEST_CODE_PREVIOUS = 1 //
+        const val CODE_PREVIOUS = 1 // 按钮事件，上一曲
+        const val CODE_PLAY = 2 // 按钮事件，播放或者暂停
+        const val CODE_NEXT = 3 // 按钮事件，下一曲
+
         const val CHANNEL_ID = "my notification id" // 通知通道 ID
     }
 
@@ -114,6 +117,18 @@ class MusicService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.getIntExtra("int_code", 0)) {
+            CODE_PREVIOUS -> {
+                musicBinder.playLast()
+            }
+            CODE_PLAY -> {
+                musicBinder.changePlayState()
+            }
+            CODE_NEXT -> {
+                musicBinder.playNext()
+            }
+        }
+        refreshNotification()
         return START_NOT_STICKY // 非粘性服务
     }
 
@@ -214,6 +229,7 @@ class MusicService : Service() {
                 }
             }
             sendMusicBroadcast()
+            refreshNotification()
         }
 
         /**
@@ -383,13 +399,38 @@ class MusicService : Service() {
         PendingIntent.FLAG_UPDATE_CURRENT
     ) }
 
-    // 上一曲点击事件
-    private val pendingIntentPrevious: PendingIntent by lazy { PendingIntent.getService(
-        this,
-        REQUEST_CODE_PREVIOUS,
-        Intent(this, MusicService::class.java),
-        PendingIntent.FLAG_UPDATE_CURRENT
-    ) }
+    private fun getPendingIntentPrevious(): PendingIntent {
+        val intent = Intent(this, MusicService::class.java)
+        intent.putExtra("int_code", CODE_PREVIOUS)
+        return PendingIntent.getService(
+            this,
+            1,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
+
+    private fun getPendingIntentPlay(): PendingIntent {
+        val intent = Intent(this, MusicService::class.java)
+        intent.putExtra("int_code", CODE_PLAY)
+        return PendingIntent.getService(
+            this,
+            1,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
+
+    private fun getPendingIntentNext(): PendingIntent {
+        val intent = Intent(this, MusicService::class.java)
+        intent.putExtra("int_code", CODE_NEXT)
+        return PendingIntent.getService(
+            this,
+            1,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
 
     /**
      * 刷新通知
@@ -405,17 +446,6 @@ class MusicService : Service() {
                 )
                 .build()
         )
-        mediaSession?.setPlaybackState(
-            PlaybackStateCompat.Builder()
-                .setState(
-                    PlaybackStateCompat.STATE_PLAYING,
-                    (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
-                    1f
-                )
-                .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
-                .build()
-        )
-
         mediaSession?.setCallback(mediaSessionCallback)
         mediaSession?.isActive = true // 必须设置为true，这样才能开始接收各种信息
         val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession?.sessionToken)
@@ -427,7 +457,9 @@ class MusicService : Service() {
                     .setContentTitle(song.name)
                     .setContentText(parseArtist(song.artists))
                     .setContentIntent(pendingIntent)
-//                    .addAction(android.R.drawable.ic_media_previous, "Previous", pendingIntentPrevious)
+                    .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
+                    .addAction(getPlayIcon(), "play", getPendingIntentPlay())
+                    .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
                     .setStyle(mediaStyle)
                     .setLargeIcon(it)
                     .setAutoCancel(true)
@@ -438,6 +470,16 @@ class MusicService : Service() {
         }
 
     }
+
+    private fun getPlayIcon(): Int {
+        return if (musicBinder.getPlayState()) {
+            R.drawable.ic_baseline_pause_24
+        } else {
+            R.drawable.ic_baseline_play_arrow_24
+        }
+    }
+
+
 }
 
 interface MusicBinderInterface {
