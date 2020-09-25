@@ -21,7 +21,7 @@ import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.loge
 import com.dirror.music.util.parseArtist
 
-const val CHANNEL_ID = "my notification id"
+
 
 /**
  * 音乐服务
@@ -32,37 +32,29 @@ class MusicService : Service() {
         const val MODE_REPEAT_ONE = 2 // 单曲循环
         const val MODE_RANDOM = 3 // 随机播放
 
-        const val REQUEST_CODE_PREVIOUS = 1
+        const val REQUEST_CODE_PREVIOUS = 1 //
+        const val CHANNEL_ID = "my notification id" // 通知通道 ID
     }
 
     private var mediaPlayer: MediaPlayer? = null // 定义 MediaPlayer
     private val musicBinder by lazy { MusicBinder() } // 懒加载 musicBinder
-
-    var list: ArrayList<StandardSongData>? = null // 当前歌单
-    var position: Int? = 0 // 当前歌曲在 List 中的下标
-    var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MODE_CIRCLE)
-
-    var notificationManager: NotificationManager? = null
+    private var playlist: ArrayList<StandardSongData>? = null // 当前歌单
+    private var position: Int? = 0 // 当前歌曲在 List 中的下标
+    private var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MODE_CIRCLE)
+    private var notificationManager: NotificationManager? = null // 通知管理
 
     override fun onCreate() {
         super.onCreate()
-        // var token = MediaSessionCompat.Token()
-        createChannel()
-
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        // 创造通道
+        createChannel()
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_cloud_music)
-//            .setContentTitle(song.name)
-//            .setContentText(parseArtist(song.artists))
             .setContentIntent(pendingIntent)
-//                    .addAction(android.R.drawable.ic_media_previous, "Previous", pendingIntentPrevious)
-//            .setStyle(mediaStyle)
-//            .setLargeIcon(it)
             .setAutoCancel(true)
             .build()
         // 开启前台服务
         startForeground(10, notification)
-
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -74,7 +66,7 @@ class MusicService : Service() {
         return musicBinder
     }
 
-    fun createChannel() {
+    private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
             val name = "My notification 1"
@@ -82,30 +74,28 @@ class MusicService : Service() {
             val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
             // mChannel.description = descriptionText
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+            notificationManager?.createNotificationChannel(channel)
         }
-
     }
 
     // 调用 Service 内部方法
     inner class MusicBinder : Binder(), MusicBinderInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
-        var isPrepared = false // 音乐是否准备完成
+        private var isPrepared = false // 音乐是否准备完成
 
         /**
          * 设置播放歌单
          */
         override fun setPlaylist(songListData: ArrayList<StandardSongData>) {
-            list = songListData
+            playlist = songListData
         }
 
         /**
          * 获取当前歌单全部
          */
         override fun getPlaylist(): ArrayList<StandardSongData>? {
-            return list
+            return playlist
         }
 
         /**
@@ -114,39 +104,23 @@ class MusicService : Service() {
         override fun playMusic(songPosition: Int) {
             isPrepared = false
             position = songPosition
-            // val songId = songList!![position!!].songs[0].id // 获取当前 position 的歌曲 id
-            val songId = list!![position!!].id // 获取当前 position 的歌曲 id
-            // Log.e("音乐服务 songId：", songId.toString())
-
+            // 获取当前 position 的歌曲 id
+            val songId = playlist!![position!!].id
             // 如果 MediaPlayer 已经存在，释放
             if (mediaPlayer != null) {
                 mediaPlayer?.reset()
                 mediaPlayer?.release()
                 mediaPlayer = null
             }
-
-            mediaPlayer = MediaPlayer() // 初始化
+            // 初始化
+            mediaPlayer = MediaPlayer()
             mediaPlayer?.let {
-                // setDataSource("https://api.fczbl.vip/163/?type=url&id=$songId")
                 it.setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
                 it.setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
                 it.setOnErrorListener(this@MusicBinder)
-
-//                StandardGET.getSongUrl(songId) { response ->
-////                    try {
-//                    loge("getSongUrl 回调结果：${response?:"null"}")
-//                        it.setDataSource(response?:"https://music.163.com/song/media/outer/url?id=$songId.mp3")
-//                        it.prepareAsync()
-////                    } catch (e: Exception) {
-////
-////                    }
-//                }
                 it.setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
                 it.prepareAsync()
             }
-            // https://api.fczbl.vip/163/?type=url&id=186016
-            // https://music.163.com/song/media/outer/url?id=186016.mp3
-
         }
 
         /**
@@ -164,13 +138,8 @@ class MusicService : Service() {
          */
         override fun onPrepared(p0: MediaPlayer?) {
             isPrepared = true
-            // p0?.prepare()
-            // 播放音乐，通知界面更新
-            p0?.apply {
-                start()
-            }
+            p0?.start()
             sendMusicBroadcast()
-
             refreshNotification()
         }
 
@@ -198,9 +167,9 @@ class MusicService : Service() {
 
         /**
          * 获取总进度
+         * getDuration 必须在 prepared 回调完成后才可以调用。
          */
         override fun getDuration(): Int? {
-            // getDuration必须在prepared回调完成后才可以调用。
             return if (isPrepared) {
                 mediaPlayer?.duration ?: 0
             } else {
@@ -220,7 +189,6 @@ class MusicService : Service() {
          */
         override fun setProgress(newProgress: Int) {
             mediaPlayer?.seekTo(newProgress)
-
             refreshNotification()
         }
 
@@ -228,7 +196,7 @@ class MusicService : Service() {
          * 获取当前播放的音乐的信息
          */
         override fun getNowSongData(): StandardSongData? {
-            return list?.get(position!!)
+            return playlist?.get(position!!)
         }
 
         /**
@@ -258,12 +226,12 @@ class MusicService : Service() {
         override fun playLast() {
             // 设置 position
             position = when (mode) {
-                MODE_RANDOM -> (0..list?.lastIndex!!).random()
+                MODE_RANDOM -> (0..playlist?.lastIndex!!).random()
                 // 单曲循环或者歌单顺序播放
                 else -> {
                     // 如果当前是第一首，就跳到最后一首播放
                     if (position == 0) {
-                        list?.lastIndex
+                        playlist?.lastIndex
                     } else {
                         // 否则播放上一首
                         position?.minus(1)
@@ -279,9 +247,9 @@ class MusicService : Service() {
          */
         override fun playNext() {
             when (mode) {
-                MODE_RANDOM -> (0..list?.lastIndex!!).random()
+                MODE_RANDOM -> (0..playlist?.lastIndex!!).random()
                 else -> {
-                    position = if (position == list?.lastIndex) {
+                    position = if (position == playlist?.lastIndex) {
                         0
                     } else {
                         position?.plus(1)
@@ -325,7 +293,7 @@ class MusicService : Service() {
         private fun autoPlayNext() {
             when (mode) {
                 MODE_CIRCLE -> {
-                    position = if (position == list?.lastIndex) {
+                    position = if (position == playlist?.lastIndex) {
                         0
                     } else {
                         position?.plus(1)
@@ -335,7 +303,7 @@ class MusicService : Service() {
 
                 }
                 MODE_RANDOM -> {
-                    position = (0..list?.lastIndex!!).random()
+                    position = (0..playlist?.lastIndex!!).random()
                 }
             }
             playMusic(position ?: 0)
@@ -349,24 +317,20 @@ class MusicService : Service() {
 
     }
 
-    val pendingIntent by lazy { PendingIntent.getActivity(
+    private val pendingIntent: PendingIntent by lazy { PendingIntent.getActivity(
         this,
         0,
         Intent(this, MainActivity::class.java),
         PendingIntent.FLAG_UPDATE_CURRENT
     ) }
-    // 上一曲点击事件
 
-    val pendingIntentPrevious by lazy { PendingIntent.getService(
+    // 上一曲点击事件
+    private val pendingIntentPrevious: PendingIntent by lazy { PendingIntent.getService(
         this,
         REQUEST_CODE_PREVIOUS,
         Intent(this, MusicService::class.java),
         PendingIntent.FLAG_UPDATE_CURRENT
     ) }
-
-    private fun refreshMediaSessionData() {
-
-    }
 
     /**
      * 刷新通知
@@ -402,8 +366,6 @@ class MusicService : Service() {
                 super.onPlay()
             }
 
-
-
         })
         val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession.sessionToken)
         if (song != null) {
@@ -423,11 +385,7 @@ class MusicService : Service() {
                 notificationManager?.notify(10, notification)
             }
         }
-
-
-
-
-
+        
     }
 }
 
