@@ -130,6 +130,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initListener() {
+        // 搜索按钮
         ivSearch.setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
         }

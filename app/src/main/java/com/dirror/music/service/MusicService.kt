@@ -1,6 +1,9 @@
 package com.dirror.music.service
 
-import android.app.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.media.MediaMetadata
@@ -20,7 +23,6 @@ import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.loge
 import com.dirror.music.util.parseArtist
-
 
 
 /**
@@ -43,8 +45,62 @@ class MusicService : Service() {
     private var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MODE_CIRCLE)
     private var notificationManager: NotificationManager? = null // 通知管理
 
+    private var mediaSessionCallback: MediaSessionCompat.Callback? = null
+    private var mediaSession: MediaSessionCompat? = null
+
     override fun onCreate() {
         super.onCreate()
+        mediaSession = MediaSessionCompat(this, "MusicService")
+        mediaSessionCallback = object : MediaSessionCompat.Callback() {
+            override fun onPlay() {
+                mediaSession?.setPlaybackState(
+                    PlaybackStateCompat.Builder()
+                        .setState(
+                            PlaybackStateCompat.STATE_PLAYING,
+                            (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
+                            1f
+                        )
+                        .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                        .build()
+                )
+            }
+
+            override fun onPause() {
+                mediaSession?.setPlaybackState(
+                    PlaybackStateCompat.Builder()
+                        .setState(
+                            PlaybackStateCompat.STATE_PAUSED,
+                            (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
+                            1f
+                        )
+                        .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                        .build()
+                )
+            }
+
+            override fun onSkipToNext() {
+                musicBinder.playNext()
+            }
+
+            override fun onSkipToPrevious() {
+                // AudioPlayer.get().prev()
+            }
+
+            override fun onStop() {
+                // AudioPlayer.get().stopPlayer()
+            }
+
+            override fun onSeekTo(pos: Long) {
+                mediaPlayer?.seekTo(pos.toInt())
+                onPlay()
+            }
+
+            override fun onPrepare() {
+                super.onPrepare()
+
+            }
+        }
+
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         // 创造通道
         createChannel()
@@ -151,8 +207,10 @@ class MusicService : Service() {
             isPlaying?.apply {
                 if (this) {
                     mediaPlayer?.pause()
+                    mediaSessionCallback?.onPause()
                 } else {
                     mediaPlayer?.start()
+                    mediaSessionCallback?.onPlay()
                 }
             }
             sendMusicBroadcast()
@@ -181,7 +239,7 @@ class MusicService : Service() {
          * 获取当前进度
          */
         override fun getProgress(): Int {
-            return mediaPlayer?.currentPosition ?: 0
+            return mediaPlayer?.currentPosition?: 0
         }
 
         /**
@@ -189,7 +247,8 @@ class MusicService : Service() {
          */
         override fun setProgress(newProgress: Int) {
             mediaPlayer?.seekTo(newProgress)
-            refreshNotification()
+            mediaSessionCallback?.onPlay()
+            // refreshNotification()
         }
 
         /**
@@ -337,37 +396,29 @@ class MusicService : Service() {
      */
     private fun refreshNotification() {
         val song = musicBinder.getNowSongData()
-        val mediaSession = MediaSessionCompat(this, "MusicService")
-        mediaSession.setMetadata(
+
+        mediaSession?.setMetadata(
             MediaMetadataCompat.Builder()
-                .putLong(MediaMetadata.METADATA_KEY_DURATION, (MyApplication.musicBinderInterface?.getDuration()?:0).toLong())
+                .putLong(
+                    MediaMetadata.METADATA_KEY_DURATION,
+                    (MyApplication.musicBinderInterface?.getDuration() ?: 0).toLong()
+                )
                 .build()
         )
-        mediaSession.setPlaybackState(
+        mediaSession?.setPlaybackState(
             PlaybackStateCompat.Builder()
-                .setState(PlaybackStateCompat.STATE_PLAYING, (MyApplication.musicBinderInterface?.getProgress()?:0).toLong(), 0f)
+                .setState(
+                    PlaybackStateCompat.STATE_PLAYING,
+                    (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
+                    1f
+                )
                 .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
                 .build()
         )
-        mediaSession.setCallback(object : MediaSessionCompat.Callback() {
-            override fun onSeekTo(pos: Long) {
-                super.onSeekTo(pos)
-                // musicBinder.setProgress(pos.toInt())
-                MyApplication.musicBinderInterface?.setProgress(pos.toInt())
-                mediaSession.setPlaybackState(
-                    PlaybackStateCompat.Builder()
-                        .setState(PlaybackStateCompat.STATE_PLAYING, (MyApplication.musicBinderInterface?.getProgress()?:0).toLong(), 0f)
-                        .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
-                        .build()
-                )
-            }
 
-            override fun onPlay() {
-                super.onPlay()
-            }
-
-        })
-        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession.sessionToken)
+        mediaSession?.setCallback(mediaSessionCallback)
+        mediaSession?.isActive = true // 必须设置为true，这样才能开始接收各种信息
+        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession?.sessionToken)
         if (song != null) {
             loge("歌曲图片url" + song.imageUrl)
             StandardGET.getSongBitmap(song.id) {
@@ -385,7 +436,7 @@ class MusicService : Service() {
                 notificationManager?.notify(10, notification)
             }
         }
-        
+
     }
 }
 
