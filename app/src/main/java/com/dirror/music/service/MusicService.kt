@@ -28,6 +28,7 @@ import com.dirror.music.util.parseArtist
 /**
  * 音乐服务
  * @author Wu Shihao
+ * @since 2020/9
  */
 class MusicService : Service() {
     companion object {
@@ -99,10 +100,6 @@ class MusicService : Service() {
                 onPlay()
             }
 
-            override fun onPrepare() {
-                super.onPrepare()
-
-            }
         }
 
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -113,7 +110,7 @@ class MusicService : Service() {
             .setAutoCancel(true)
             .build()
         // 开启前台服务
-        startForeground(10, notification)
+        // startForeground(10, notification)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -477,6 +474,7 @@ class MusicService : Service() {
                     .addAction(getPlayIcon(), "play", getPendingIntentPlay())
                     .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
                     .setStyle(mediaStyle)
+                    .setOngoing(false)
                     // .setAutoCancel(true)
                     .build()
                 // 更新通知

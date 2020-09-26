@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.CloudMusic
@@ -37,6 +38,7 @@ class PlaylistActivity : BaseActivity() {
     override fun initView() {
         initPlaylist(){
             initRecycleView(it)
+            ivBackground.visibility = View.INVISIBLE
         }
 
         layoutPlay.setOnClickListener {

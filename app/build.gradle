@@ -19,7 +19,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 76
+        versionCode 97
         versionName "1.0.0-beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -56,7 +56,4 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-service:2.3.0-alpha07'
-
-    //noinspection GradleCompatible
-    implementation 'com.android.support:support-media-compat:26.1.0'
 }

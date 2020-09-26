@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.PlaylistActivity">
 
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bq_no_data_song" />
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"

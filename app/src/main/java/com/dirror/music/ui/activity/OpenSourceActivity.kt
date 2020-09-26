@@ -17,45 +17,12 @@ class OpenSourceActivity : BaseActivity() {
 
     override fun initView() {
         val openSourceList = listOf(
-            OpenSourceData("Kotlin Programming Language", "https://github.com/JetBrains/kotlin","""
-                Apache License (Version 2.0)
-            """.trimIndent()),
-
-            OpenSourceData("OkHttp", "https://github.com/square/okhttp","""
-                Copyright 2019 Square, Inc.
-
-                Licensed under the Apache License, Version 2.0 (the "License");
-                you may not use this file except in compliance with the License.
-                You may obtain a copy of the License at
-
-                   http://www.apache.org/licenses/LICENSE-2.0
-
-                Unless required by applicable law or agreed to in writing, software
-                distributed under the License is distributed on an "AS IS" BASIS,
-                WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-                See the License for the specific language governing permissions and
-                limitations under the License.
-            """.trimIndent()),
-
+            OpenSourceData("Kotlin Programming Language", "https://github.com/JetBrains/kotlin","Apache License (Version 2.0)"),
+            OpenSourceData("OkHttp", "https://github.com/square/okhttp", "Apache License (Version 2.0)"),
             OpenSourceData("Gson", "https://github.com/google/gson","BSD, part MIT and Apache 2.0"),
-
             OpenSourceData("Glide", "https://github.com/bumptech/glide","BSD, part MIT and Apache 2.0"),
-
-            OpenSourceData("BlurView", "https://github.com/Dimezis/BlurView","""
-                Copyright 2016 Dmitry Saviuk
-
-                Licensed under the Apache License, Version 2.0 (the "License");
-                you may not use this file except in compliance with the License.
-                You may obtain a copy of the License at
-
-                   http://www.apache.org/licenses/LICENSE-2.0
-
-                Unless required by applicable law or agreed to in writing, software
-                distributed under the License is distributed on an "AS IS" BASIS,
-                WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-                See the License for the specific language governing permissions and
-                limitations under the License.
-            """.trimIndent()),
+            OpenSourceData("BlurView", "https://github.com/Dimezis/BlurView","Apache License (Version 2.0)"),
+            OpenSourceData("Banner", "https://github.com/youth5201314/banner","Apache License (Version 2.0)"),
         )
         rvOpenSource.layoutManager = LinearLayoutManager(this)
         rvOpenSource.adapter = OpenSourceAdapter(openSourceList)
