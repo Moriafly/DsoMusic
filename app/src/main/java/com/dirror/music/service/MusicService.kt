@@ -20,6 +20,7 @@ import com.dirror.music.R
 import com.dirror.music.api.StandardGET
 import com.dirror.music.music.StandardSongData
 import com.dirror.music.ui.activity.MainActivity
+import com.dirror.music.ui.activity.PlayActivity
 import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.loge
 import com.dirror.music.util.parseArtist
@@ -109,7 +110,6 @@ class MusicService : Service() {
         createChannel()
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_cloud_music)
-            .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .build()
         // 开启前台服务
@@ -117,18 +117,23 @@ class MusicService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.getIntExtra("int_code", 0)) {
+        val code = intent?.getIntExtra("int_code", 0)
+        loge("通知 code = $code")
+        when (code) {
             CODE_PREVIOUS -> {
+                loge("通知上一曲")
                 musicBinder.playLast()
             }
             CODE_PLAY -> {
+                loge("通知播放或暂停")
                 musicBinder.changePlayState()
             }
             CODE_NEXT -> {
+                loge("通知下一曲")
                 musicBinder.playNext()
             }
         }
-        refreshNotification()
+        // refreshNotification()
         return START_NOT_STICKY // 非粘性服务
     }
 
@@ -255,7 +260,7 @@ class MusicService : Service() {
          * 获取当前进度
          */
         override fun getProgress(): Int {
-            return mediaPlayer?.currentPosition?: 0
+            return mediaPlayer?.currentPosition ?: 0
         }
 
         /**
@@ -338,14 +343,14 @@ class MusicService : Service() {
          * 获取当前 position
          */
         override fun getNowPosition(): Int {
-            return position?:-1
+            return position ?: -1
         }
 
         /**
          * 获取 AudioSessionId，用于音效
          */
         override fun getAudioSessionId(): Int {
-            return mediaPlayer?.audioSessionId?:0
+            return mediaPlayer?.audioSessionId ?: 0
         }
 
         /**
@@ -392,19 +397,24 @@ class MusicService : Service() {
 
     }
 
-    private val pendingIntent: PendingIntent by lazy { PendingIntent.getActivity(
-        this,
-        0,
-        Intent(this, MainActivity::class.java),
-        PendingIntent.FLAG_UPDATE_CURRENT
-    ) }
+    private fun getPendingIntentActivity(): PendingIntent {
+        val intentMain = Intent(this, MainActivity::class.java)
+        val intentPlayer = Intent(this, PlayActivity::class.java)
+        val intents = arrayOf(intentMain, intentPlayer)
+        return PendingIntent.getActivities(
+            this,
+            1,
+            intents,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
 
     private fun getPendingIntentPrevious(): PendingIntent {
         val intent = Intent(this, MusicService::class.java)
         intent.putExtra("int_code", CODE_PREVIOUS)
         return PendingIntent.getService(
             this,
-            1,
+            2,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -413,23 +423,13 @@ class MusicService : Service() {
     private fun getPendingIntentPlay(): PendingIntent {
         val intent = Intent(this, MusicService::class.java)
         intent.putExtra("int_code", CODE_PLAY)
-        return PendingIntent.getService(
-            this,
-            1,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        return PendingIntent.getService(this, 3, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun getPendingIntentNext(): PendingIntent {
         val intent = Intent(this, MusicService::class.java)
         intent.putExtra("int_code", CODE_NEXT)
-        return PendingIntent.getService(
-            this,
-            1,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        return PendingIntent.getService(this, 4, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     /**
@@ -446,23 +446,38 @@ class MusicService : Service() {
                 )
                 .build()
         )
+        mediaSession?.setPlaybackState(
+            PlaybackStateCompat.Builder()
+                .setState(
+                    PlaybackStateCompat.STATE_PLAYING,
+                    (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
+                    1f
+                )
+                .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                .build()
+        )
         mediaSession?.setCallback(mediaSessionCallback)
+        if (!musicBinder.getPlayState()) {
+            mediaSessionCallback?.onPause()
+        }
         mediaSession?.isActive = true // 必须设置为true，这样才能开始接收各种信息
-        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession?.sessionToken)
+        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
+            .setMediaSession(mediaSession?.sessionToken)
+            .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
             loge("歌曲图片url" + song.imageUrl)
             StandardGET.getSongBitmap(song.id) {
                 val notification = NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_cloud_music)
+                    .setLargeIcon(it)
                     .setContentTitle(song.name)
                     .setContentText(parseArtist(song.artists))
-                    .setContentIntent(pendingIntent)
+                    .setContentIntent(getPendingIntentActivity())
                     .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
                     .addAction(getPlayIcon(), "play", getPendingIntentPlay())
                     .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
                     .setStyle(mediaStyle)
-                    .setLargeIcon(it)
-                    .setAutoCancel(true)
+                    // .setAutoCancel(true)
                     .build()
                 // 更新通知
                 notificationManager?.notify(10, notification)
@@ -496,8 +511,8 @@ interface MusicBinderInterface {
     fun getPlayMode(): Int
     fun playLast()
     fun playNext()
-    fun getNowPosition():Int
-    fun getAudioSessionId():Int
+    fun getNowPosition(): Int
+    fun getAudioSessionId(): Int
     fun sendBroadcast()
 }
 
