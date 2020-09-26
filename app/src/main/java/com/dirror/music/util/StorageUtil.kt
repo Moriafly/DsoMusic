@@ -9,7 +9,7 @@ object StorageUtil {
 
     private const val DATA_NAME = "foyou"
 
-    const val CLOUD_MUSIC_UID = "int_cloud_music_uid" // 用户 uid
+    const val CLOUD_MUSIC_UID = "long_cloud_music_uid" // 用户 uid
     const val PlAY_MODE = "int_play_mode" // 播放模式
 
     fun putInt(singleName: String, value: Int) {
@@ -20,6 +20,16 @@ object StorageUtil {
     fun getInt(singleName: String, defaultValue: Int): Int {
         return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE)
             .getInt(singleName, defaultValue)
+    }
+
+    fun putLong(singleName: String, value: Long) {
+        context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE)
+            .edit{ putLong(singleName, value) }
+    }
+
+    fun getLong(singleName: String, defaultValue: Long): Long {
+        return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE)
+            .getLong(singleName, defaultValue)
     }
 
     fun putFloat(singleName: String, value: Float) {

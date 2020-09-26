@@ -17,6 +17,9 @@ import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.fragment_my.*
 
 class MyFragment : BaseFragment() {
+
+    val defaultUid = 316065764L // 默认 -1，可是设置一个默认用户
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_my
     }
@@ -27,10 +30,7 @@ class MyFragment : BaseFragment() {
 
     override fun initView() {
         getUserDetail()
-
-
         getPlaylist()
-
     }
 
     override fun initListener() {
@@ -56,13 +56,16 @@ class MyFragment : BaseFragment() {
 
     }
 
+    /**
+     * 获取用户详情
+     */
     private fun getUserDetail() {
         // 获取是否在线登录成功
         CloudMusic.getLoginStatus {  }
 
-        val uid = StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1)
-        if (uid != -1) {
-            CloudMusic.getUserDetail(StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1), {
+        val uid = StorageUtil.getLong(StorageUtil.CLOUD_MUSIC_UID, defaultUid)
+        if (uid != -1L) {
+            CloudMusic.getUserDetail(uid, {
                 refreshUserDetail(it)
             }, {
                 toast(it)
@@ -87,7 +90,7 @@ class MyFragment : BaseFragment() {
     }
 
     private fun getPlaylist() {
-        CloudMusic.getPlaylist(StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1), object : CloudMusic.PlaylistCallback {
+        CloudMusic.getPlaylist(StorageUtil.getLong(StorageUtil.CLOUD_MUSIC_UID, defaultUid), object : CloudMusic.PlaylistCallback {
             override fun success(userPlaylistData: UserPlaylistData) {
 
                 val playlist = userPlaylistData.playlist

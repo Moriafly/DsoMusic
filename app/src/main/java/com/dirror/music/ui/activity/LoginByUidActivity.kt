@@ -18,7 +18,7 @@ class LoginByUidActivity : BaseActivity() {
             if (text == "") {
                 toast("请输入 UID")
             } else {
-                CloudMusic.loginByUid(etUid.text.toString().toInt()) {
+                CloudMusic.loginByUid(etUid.text.toString().toLong()) {
                     finish()
                 }
             }

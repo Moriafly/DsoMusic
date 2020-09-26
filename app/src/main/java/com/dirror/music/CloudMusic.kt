@@ -32,9 +32,9 @@ object CloudMusic {
                         200 -> {
                             toast("登录成功\n用户名：${loginData.profile.nickname}")
                             success.invoke()
-                            StorageUtil.putInt(
+                            StorageUtil.putLong(
                                 StorageUtil.CLOUD_MUSIC_UID,
-                                loginData.profile.userId
+                                loginData.profile.userId.toLong()
                             )
                         }
                         400 -> toast("用户不存在")
@@ -53,11 +53,11 @@ object CloudMusic {
 
     }
 
-    fun loginByUid(uid: Int, success: () -> Unit) {
+    fun loginByUid(uid: Long, success: () -> Unit) {
         getUserDetail(uid, {
             toast("登录成功")
             success.invoke()
-            StorageUtil.putInt(StorageUtil.CLOUD_MUSIC_UID, it.profile?.userId!!)
+            StorageUtil.putLong(StorageUtil.CLOUD_MUSIC_UID, it.profile?.userId!!.toLong())
         }, {
             toast(it)
         })
@@ -66,7 +66,7 @@ object CloudMusic {
     /**
      * 用户歌单
      */
-    fun getPlaylist(uid: Int, callback: PlaylistCallback) {
+    fun getPlaylist(uid: Long, callback: PlaylistCallback) {
         MagicHttp.OkHttpManager().get(
             "${API_MUSIC_API}/user/playlist?uid=$uid${timestamp()}",
             object : MagicHttp.MagicCallback {
@@ -91,7 +91,7 @@ object CloudMusic {
      * @param success 成功的回调
      * @param failure 失败的回调
      */
-    fun getUserDetail(uid: Int, success: (result: UserDetailData) -> Unit, failure: (error: String) -> Unit) {
+    fun getUserDetail(uid: Long, success: (result: UserDetailData) -> Unit, failure: (error: String) -> Unit) {
         MagicHttp.OkHttpManager().newGet("${API_MUSIC_API}/user/detail?uid=$uid", {
             val userDetailData = Gson().fromJson(it, UserDetailData::class.java)
             when (userDetailData.code) {
