@@ -57,6 +57,7 @@ class MyFragment : BaseFragment() {
     }
 
     private fun getUserDetail() {
+        // 获取是否在线登录成功
         CloudMusic.getLoginStatus {  }
 
         val uid = StorageUtil.getInt(StorageUtil.CLOUD_MUSIC_UID, -1)

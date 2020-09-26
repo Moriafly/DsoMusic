@@ -49,26 +49,18 @@ object CloudMusic {
         })
     }
 
-    interface LoginCallback {
-        fun success()
-    }
-
     fun loginByEmail(email: String, password: String) {
 
     }
 
-    fun loginByUid(uid: Int, callback: LoginByUidCallback) {
+    fun loginByUid(uid: Int, success: () -> Unit) {
         getUserDetail(uid, {
             toast("登录成功")
-            callback.success()
+            success.invoke()
             StorageUtil.putInt(StorageUtil.CLOUD_MUSIC_UID, it.profile?.userId!!)
         }, {
             toast(it)
         })
-    }
-
-    interface LoginByUidCallback {
-        fun success()
     }
 
     /**
@@ -198,7 +190,7 @@ object CloudMusic {
                     if (loginStatusData.code == 200) {
                         toast("登录状态：已经登录")
                     } else {
-                        toast("code:${loginStatusData.code}msg:${loginStatusData.msg}")
+                        // toast("code:${loginStatusData.code}msg:${loginStatusData.msg}")
                     }
                 }
             } catch (e: Exception) {

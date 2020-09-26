@@ -151,7 +151,10 @@ class MusicService : Service() {
         }
     }
 
-    // 调用 Service 内部方法
+    /**
+     * 内部类
+     * MusicBinder
+     */
     inner class MusicBinder : Binder(), MusicBinderInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
@@ -478,7 +481,8 @@ class MusicService : Service() {
                     // .setAutoCancel(true)
                     .build()
                 // 更新通知
-                notificationManager?.notify(10, notification)
+                // notificationManager?.notify(10, notification)
+                startForeground(10, notification)
             }
         }
 

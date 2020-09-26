@@ -18,11 +18,9 @@ class LoginByUidActivity : BaseActivity() {
             if (text == "") {
                 toast("请输入 UID")
             } else {
-                CloudMusic.loginByUid(etUid.text.toString().toInt(), object : CloudMusic.LoginByUidCallback {
-                    override fun success() {
-                        finish()
-                    }
-                })
+                CloudMusic.loginByUid(etUid.text.toString().toInt()) {
+                    finish()
+                }
             }
         }
     }

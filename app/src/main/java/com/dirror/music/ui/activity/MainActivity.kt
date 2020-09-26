@@ -45,7 +45,8 @@ class MainActivity : BaseActivity() {
 
 
     override fun initView() {
-
+        // 请求广播
+        MyApplication.musicBinderInterface?.sendBroadcast()
         // window.insetsController?.setSystemBarsAppearance(APPEARANCE_LIGHT_NAVIGATION_BARS, APPEARANCE_LIGHT_NAVIGATION_BARS)
 
         val radius = 20f
@@ -89,7 +90,7 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        viewPager2.currentItem = 1 // 默认打开首页
+        // viewPager2.currentItem = 1 // 默认打开首页
         ViewPager2Util.changeToNeverMode(viewPager2)
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->

@@ -17,9 +17,7 @@ class MyApplication: Application() {
         val musicConnection by lazy { MusicConnection() }
 
         val cookieStore: HashMap<String, List<Cookie>> = HashMap() // cookie
-
     }
-
 
     override fun onCreate() {
         super.onCreate()
@@ -34,11 +32,6 @@ class MyApplication: Application() {
         startService(intent) // 开启
         bindService(intent, musicConnection, BIND_AUTO_CREATE)
     }
-
-
-
-
-
 }
 
 class MusicConnection: ServiceConnection {
