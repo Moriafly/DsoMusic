@@ -56,6 +56,17 @@ class MusicService : Service() {
     override fun onCreate() {
         super.onCreate()
         mediaSession = MediaSessionCompat(this, "MusicService")
+        initMediaSessionCallback()
+        // 初始化通道
+        initChannel()
+
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
+
+    /**
+     * 初始化 MediaSession 回调
+     */
+    private fun initMediaSessionCallback() {
         mediaSessionCallback = object : MediaSessionCompat.Callback() {
             override fun onPlay() {
                 mediaSession?.setPlaybackState(
@@ -101,16 +112,6 @@ class MusicService : Service() {
             }
 
         }
-
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        // 创造通道
-        createChannel()
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_cloud_music)
-            .setAutoCancel(true)
-            .build()
-        // 开启前台服务
-        // startForeground(10, notification)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -139,7 +140,7 @@ class MusicService : Service() {
         return musicBinder
     }
 
-    private fun createChannel() {
+    private fun initChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
             val name = "My notification 1"
@@ -379,9 +380,7 @@ class MusicService : Service() {
                         position?.plus(1)
                     }
                 }
-                MODE_REPEAT_ONE -> {
-
-                }
+                MODE_REPEAT_ONE -> {}
                 MODE_RANDOM -> {
                     position = (0..playlist?.lastIndex!!).random()
                 }
@@ -391,7 +390,6 @@ class MusicService : Service() {
 
         override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
 //            toast("错误")
-            // playNext()
             return true
         }
 
@@ -401,23 +399,13 @@ class MusicService : Service() {
         val intentMain = Intent(this, MainActivity::class.java)
         val intentPlayer = Intent(this, PlayActivity::class.java)
         val intents = arrayOf(intentMain, intentPlayer)
-        return PendingIntent.getActivities(
-            this,
-            1,
-            intents,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        return PendingIntent.getActivities(this, 1, intents, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun getPendingIntentPrevious(): PendingIntent {
         val intent = Intent(this, MusicService::class.java)
         intent.putExtra("int_code", CODE_PREVIOUS)
-        return PendingIntent.getService(
-            this,
-            2,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        return PendingIntent.getService(this, 2, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun getPendingIntentPlay(): PendingIntent {
@@ -468,7 +456,7 @@ class MusicService : Service() {
             loge("歌曲图片url" + song.imageUrl)
             StandardGET.getSongBitmap(song.id) {
                 val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_cloud_music)
+                    .setSmallIcon(R.drawable.ic_music_launcher_foreground)
                     .setLargeIcon(it)
                     .setContentTitle(song.name)
                     .setContentText(parseArtist(song.artists))
@@ -499,6 +487,9 @@ class MusicService : Service() {
 
 }
 
+/**
+ * 音乐服务接口
+ */
 interface MusicBinderInterface {
     fun setPlaylist(songListData: ArrayList<StandardSongData>)
     fun getPlaylist(): ArrayList<StandardSongData>?
