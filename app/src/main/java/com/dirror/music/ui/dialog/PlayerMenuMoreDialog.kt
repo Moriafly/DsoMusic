@@ -22,8 +22,18 @@ class PlayerMenuMoreDialog: Dialog {
         // setCanceledOnTouchOutside(false)
     }
 
+    private var speed = 1f
+    private var pitch = 1f
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        speed = MyApplication.musicBinderInterface?.getSpeed()?:1f
+
+
+        refreshPitch()
+
+
         // editView.setText(editTextStr)
         itemSongInfo.setOnClickListener {
             SongInfoDialog(context).apply {
@@ -31,6 +41,22 @@ class PlayerMenuMoreDialog: Dialog {
             }
             // 自己消失
             dismiss()
+        }
+
+        ivIncreasePitch.setOnClickListener {
+            if (pitch < 1.8f) {
+                pitch += 0.2f
+                MyApplication.musicBinderInterface?.setPitch(pitch)
+                refreshPitch()
+            }
+        }
+
+        ivDecreasePitch.setOnClickListener {
+            if (pitch > 0.2f) {
+                pitch -= 0.2f
+                MyApplication.musicBinderInterface?.setPitch(pitch)
+                refreshPitch()
+            }
         }
 
         itemSpeed.setOnClickListener {
@@ -42,5 +68,16 @@ class PlayerMenuMoreDialog: Dialog {
         }
 
 
+    }
+
+    private fun refreshPitch() {
+        pitch = MyApplication.musicBinderInterface?.getPitch()?:1f
+        if (pitch > 0f) {
+            tvPitch.text = "+$pitch"
+        } else if (pitch == 0f) {
+            tvPitch.text = "$pitch"
+        } else {
+            tvPitch.text = "-$pitch"
+        }
     }
 }

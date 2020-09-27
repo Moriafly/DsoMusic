@@ -53,15 +53,17 @@ class MusicService : Service() {
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
     private var mediaSession: MediaSessionCompat? = null
 
+    private var speed = 1f
+    private var pitch = 1f
+
     override fun onCreate() {
         super.onCreate()
+        mediaPlayer = MediaPlayer()
         mediaSession = MediaSessionCompat(this, "MusicService")
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
         initMediaSessionCallback()
         // 初始化通道
         initChannel()
-
-
     }
 
     /**
@@ -219,6 +221,7 @@ class MusicService : Service() {
             p0?.start()
             sendMusicBroadcast()
             refreshNotification()
+            setPlaybackParams()
         }
 
         /**
@@ -365,22 +368,42 @@ class MusicService : Service() {
         /**
          * 设置播放速度
          */
-        override fun setSpeed(speed: Float) {
-            if (isPrepared) {
-                mediaPlayer?.let {
-                    val playbackParams = it.playbackParams
-                    playbackParams.speed = speed
-                    playbackParams.pitch = 2f
-                    it.playbackParams = playbackParams
-                }
-            }
+        override fun setSpeed(source: Float) {
+            speed = source
+            setPlaybackParams()
         }
 
         /**
          * 设置音高
          */
-        override fun setPitch(pitch: Float) {
+        override fun setPitch(source: Float) {
+            pitch = source
+            setPlaybackParams()
+        }
 
+        /**
+         * 获取播放速度
+         */
+        override fun getSpeed(): Float {
+            return speed
+        }
+
+        /**
+         * 获取音高
+         */
+        override fun getPitch(): Float {
+            return pitch
+        }
+
+        private fun setPlaybackParams() {
+            if (isPrepared) {
+                mediaPlayer?.let {
+                    val playbackParams = it.playbackParams
+                    playbackParams.speed = speed
+                    playbackParams.pitch = pitch
+                    it.playbackParams = playbackParams
+                }
+            }
         }
 
         /**
@@ -531,4 +554,6 @@ interface MusicBinderInterface {
     fun sendBroadcast()
     fun setSpeed(speed: Float) // 设置播放速度
     fun setPitch(pitch: Float) // 设置音高
+    fun getSpeed(): Float // 获取播放速度
+    fun getPitch(): Float // 获取音高
 }

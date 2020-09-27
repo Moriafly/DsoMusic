@@ -16,7 +16,6 @@ import com.dirror.music.music.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.layout_play.view.*
 
@@ -36,7 +35,10 @@ class PlaylistActivity : BaseActivity() {
     }
 
     override fun initView() {
-        initPlaylist(){
+        val playlistId = intent.getLongExtra("long_playlist_id", -1)
+
+        initPlaylistInfo(playlistId)
+        initPlaylist(playlistId){
             initRecycleView(it)
             ivBackground.visibility = View.INVISIBLE
         }
@@ -55,6 +57,13 @@ class PlaylistActivity : BaseActivity() {
             PlaylistDialog(this).show()
         }
 
+    }
+
+    private fun initPlaylistInfo(id: Long) {
+        PlaylistUtil.getPlaylistInfo(id) {
+            it.coverImgUrl?.let { it1 -> GlideUtil.load(it1, ivCover) }
+            tvName.text = it.name
+        }
     }
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
@@ -95,9 +104,8 @@ class PlaylistActivity : BaseActivity() {
         }
     }
 
-    private fun initPlaylist(success: (ArrayList<StandardSongData>) -> Unit) {
-        val playlistId = intent.getLongExtra("long_playlist_id", -1)
-        PlaylistUtil.getDetailPlaylist(playlistId, {
+    private fun initPlaylist(id: Long, success: (ArrayList<StandardSongData>) -> Unit) {
+        PlaylistUtil.getDetailPlaylist(id, {
             success.invoke(it)
         }, {
 

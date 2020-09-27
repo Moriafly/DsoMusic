@@ -35,6 +35,41 @@
             android:orientation="vertical"
             android:paddingBottom="96dp">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clInfo"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvCover"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="16dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/ivCover"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:srcCompat="@tools:sample/avatars" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="28dp"
+                    android:text="TextView"
+                    android:textColor="@color/colorTextForeground"
+                    app:layout_constraintStart_toEndOf="@+id/cvCover"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvDetailPlaylist"
                 android:layout_width="match_parent"

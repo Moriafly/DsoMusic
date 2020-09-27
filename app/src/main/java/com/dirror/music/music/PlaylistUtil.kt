@@ -2,6 +2,7 @@ package com.dirror.music.music
 
 import com.dirror.music.api.API_MUSIC_API
 import com.dirror.music.data.DetailPlaylistData
+import com.dirror.music.data.DetailPlaylistInnerData
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
 
@@ -36,7 +37,6 @@ object PlaylistUtil {
 
     }
 
-
     private fun getSongListByIds(ids: ArrayList<Long>, success: (ArrayList<StandardSongData>) -> Unit) {
         var idsString = ""
         for (id in 0..ids.lastIndex) {
@@ -48,6 +48,19 @@ object PlaylistUtil {
         MagicHttp.OkHttpManager().newGet(url, {
             val data = Gson().fromJson(it, CompatSearchData::class.java)
             success.invoke(compatSearchDataToStandardPlaylistData(data))
+        }, {
+
+        })
+    }
+
+    /**
+     * 获取歌单信息
+     */
+    fun getPlaylistInfo(id: Long, success: (DetailPlaylistInnerData) -> Unit) {
+        val url = "$API_MUSIC_API/playlist/detail?id=$id"
+        MagicHttp.OkHttpManager().newGet(url, { response ->
+            val playlistInfo = Gson().fromJson(response, DetailPlaylistData::class.java).playlist
+            success.invoke(playlistInfo)
         }, {
 
         })
