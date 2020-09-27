@@ -24,6 +24,22 @@
             android:paddingBottom="16dp">
 
             <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemPitch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:text="音高（实验性）">
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:text="倍速（实验性）">
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemSongInfo"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

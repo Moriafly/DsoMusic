@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import kotlinx.android.synthetic.main.dialog_play_more.*
 
@@ -32,8 +33,14 @@ class PlayerMenuMoreDialog: Dialog {
             dismiss()
         }
 
+        itemSpeed.setOnClickListener {
+            MyApplication.musicBinderInterface?.setSpeed(1f)
+        }
+
         clDialog.setOnClickListener {
             dismiss()
         }
+
+
     }
 }

@@ -25,12 +25,15 @@
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:singleLine="true"
         android:text="TextView"
         android:textColor="@color/colorTextForeground"
+        app:layout_constraintEnd_toStartOf="@+id/tvLikedCount"
         app:layout_constraintStart_toEndOf="@+id/cvCover"
         app:layout_constraintTop_toTopOf="parent" />
 

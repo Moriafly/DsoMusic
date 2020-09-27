@@ -56,11 +56,12 @@ class MusicService : Service() {
     override fun onCreate() {
         super.onCreate()
         mediaSession = MediaSessionCompat(this, "MusicService")
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
         initMediaSessionCallback()
         // 初始化通道
         initChannel()
 
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
     }
 
     /**
@@ -362,6 +363,27 @@ class MusicService : Service() {
         }
 
         /**
+         * 设置播放速度
+         */
+        override fun setSpeed(speed: Float) {
+            if (isPrepared) {
+                mediaPlayer?.let {
+                    val playbackParams = it.playbackParams
+                    playbackParams.speed = speed
+                    playbackParams.pitch = 2f
+                    it.playbackParams = playbackParams
+                }
+            }
+        }
+
+        /**
+         * 设置音高
+         */
+        override fun setPitch(pitch: Float) {
+
+        }
+
+        /**
          * 歌曲完成后的回调，自动播放下一曲
          */
         override fun onCompletion(p0: MediaPlayer?) {
@@ -507,5 +529,6 @@ interface MusicBinderInterface {
     fun getNowPosition(): Int
     fun getAudioSessionId(): Int
     fun sendBroadcast()
+    fun setSpeed(speed: Float) // 设置播放速度
+    fun setPitch(pitch: Float) // 设置音高
 }
-
