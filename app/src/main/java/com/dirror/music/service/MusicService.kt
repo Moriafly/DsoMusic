@@ -185,7 +185,7 @@ class MusicService : Service() {
             isPrepared = false
             position = songPosition
             // 获取当前 position 的歌曲 id
-            val songId = playlist!![position!!].id
+            val songId = playlist?.get(position?:0)?.id?:0L
             // 如果 MediaPlayer 已经存在，释放
             if (mediaPlayer != null) {
                 mediaPlayer?.reset()
@@ -368,16 +368,16 @@ class MusicService : Service() {
         /**
          * 设置播放速度
          */
-        override fun setSpeed(source: Float) {
-            speed = source
+        override fun setSpeed(speed: Float) {
+            this@MusicService.speed = speed
             setPlaybackParams()
         }
 
         /**
          * 设置音高
          */
-        override fun setPitch(source: Float) {
-            pitch = source
+        override fun setPitch(pitch: Float) {
+            this@MusicService.pitch = pitch
             setPlaybackParams()
         }
 
