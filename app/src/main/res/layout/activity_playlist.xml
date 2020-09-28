@@ -38,12 +38,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clInfo"
                 android:layout_width="match_parent"
-                android:layout_height="125dp">
+                android:layout_height="128dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvCover"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
                     android:layout_marginStart="32dp"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="0dp"
@@ -63,11 +63,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="32dp"
+                    android:lines="2"
+                    android:maxLines="2"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvDescription"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/cvCover"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,11 +80,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:lines="2"
+                    android:maxLines="2"
                     android:textColor="@color/colorSubTextForeground"
                     android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/cvCover"
                     app:layout_constraintTop_toBottomOf="@+id/tvName" />
             </androidx.constraintlayout.widget.ConstraintLayout>

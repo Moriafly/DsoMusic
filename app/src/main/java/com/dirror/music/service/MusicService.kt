@@ -53,12 +53,12 @@ class MusicService : Service() {
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
     private var mediaSession: MediaSessionCompat? = null
 
-    private var speed = 1f
-    private var pitch = 1f
+    private var speed = 1f // 播放速度
+    private var pitch = 1f // 音高
 
     override fun onCreate() {
         super.onCreate()
-        mediaPlayer = MediaPlayer()
+        // mediaPlayer = MediaPlayer()
         mediaSession = MediaSessionCompat(this, "MusicService")
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
         initMediaSessionCallback()
@@ -111,7 +111,9 @@ class MusicService : Service() {
 
             override fun onSeekTo(pos: Long) {
                 mediaPlayer?.seekTo(pos.toInt())
-                onPlay()
+                if (musicBinder.getPlayState()) {
+                    onPlay()
+                }
             }
 
         }
