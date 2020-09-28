@@ -59,10 +59,16 @@ class PlaylistActivity : BaseActivity() {
 
     }
 
+    /**
+     * 初始化歌单信息
+     */
     private fun initPlaylistInfo(id: Long) {
         PlaylistUtil.getPlaylistInfo(id) {
             it.coverImgUrl?.let { it1 -> GlideUtil.load(it1, ivCover) }
-            tvName.text = it.name
+            runOnUiThread {
+                tvName.text = it.name
+                tvDescription.text = it.description
+            }
         }
     }
 

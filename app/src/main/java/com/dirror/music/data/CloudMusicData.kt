@@ -46,7 +46,7 @@ data class DetailPlaylistInnerData(
     val trackIds: List<TrackIdsData>,
     val coverImgUrl: String?, // 歌单图片
     val name: String?, // 歌单名字
-
+    val description: String?, // 描述
 )
 
 data class TracksData(
