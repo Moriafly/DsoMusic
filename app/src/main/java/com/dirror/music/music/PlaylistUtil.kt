@@ -1,9 +1,13 @@
 package com.dirror.music.music
 
 import com.dirror.music.api.API_MUSIC_API
+import com.dirror.music.api.API_MUSIC_ELEUU
+import com.dirror.music.api.API_NETEASE
 import com.dirror.music.data.DetailPlaylistData
 import com.dirror.music.data.DetailPlaylistInnerData
 import com.dirror.music.util.MagicHttp
+import com.dirror.music.util.loge
+import com.dirror.music.util.toast
 import com.google.gson.Gson
 
 object PlaylistUtil {
@@ -44,10 +48,18 @@ object PlaylistUtil {
         }
         idsString = idsString.substring(0, idsString.lastIndex)
 
-        val url = "http://music.163.com/api/song/detail/?ids=%5B${idsString}%5D"
+        // val url = "${API_MUSIC_ELEUU}/song/detail/?ids=${idsString}"
+        // val url = "${API_NETEASE}/song/detail/?ids=%5B${idsString}%5D&proxy=http://121.196.226.246:84"
+        val url = "${API_NETEASE}/song/detail/?ids=%5B${idsString}%5D"
+        loge(url)
         MagicHttp.OkHttpManager().newGet(url, {
+            loge(it)
             val data = Gson().fromJson(it, CompatSearchData::class.java)
-            success.invoke(compatSearchDataToStandardPlaylistData(data))
+            if (data.code == -460) {
+                toast("-460 Cheating")
+            } else {
+                success.invoke(compatSearchDataToStandardPlaylistData(data))
+            }
         }, {
 
         })

@@ -2,6 +2,7 @@ package com.dirror.music.music
 // 搜索的解析
 data class CompatSearchData(
     val songs: ArrayList<CompatSearchSongData>,
+    val code: Int
 )
 
 data class CompatSearchSongData(

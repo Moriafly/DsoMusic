@@ -42,8 +42,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvCover"
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
                     android:layout_marginStart="32dp"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="0dp"
@@ -68,7 +68,7 @@
                     android:lines="2"
                     android:maxLines="2"
                     android:textColor="@color/colorTextForeground"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/tvDescription"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
