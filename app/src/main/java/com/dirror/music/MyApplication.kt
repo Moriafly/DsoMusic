@@ -8,6 +8,8 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
+import com.dirror.music.util.Secure
+import com.dirror.music.util.toast
 import okhttp3.Cookie
 
 class MyApplication: Application() {
@@ -22,10 +24,30 @@ class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext // 全局 context
-
-        startMusicService()
+        if (isSecure()) {
+            toast("Dso Music")
+            startMusicService()
+        } else {
+            toast("检测到盗版 Dso Music")
+        }
     }
 
+    /**
+     * 检查安全
+     * @return true 通过检测
+     */
+    private fun isSecure(): Boolean {
+        val signature = Secure.getSignature("com.dirror.music")
+        // toast(signature.toString())
+        if (signature != Secure.SIGNATURE) {
+            return false
+        }
+        return true
+    }
+
+    /**
+     * 启动音乐服务
+     */
     private fun startMusicService() {
         // 通过 Service 播放音乐，混合启动
         val intent = Intent(this, MusicService::class.java)
@@ -35,13 +57,16 @@ class MyApplication: Application() {
 }
 
 class MusicConnection: ServiceConnection {
-    // 连接
+    /**
+     * 服务连接后
+     */
     override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
-
         MyApplication.musicBinderInterface = p1 as MusicBinderInterface
     }
 
-    // 意外断开连接
+    /**
+     * 服务意外断开连接
+     */
     override fun onServiceDisconnected(p0: ComponentName?) {
 
     }

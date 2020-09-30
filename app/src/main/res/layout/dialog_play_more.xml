@@ -48,6 +48,7 @@
                     android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/colorTextForeground"
+                    android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivIncreasePitch"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -29,21 +29,17 @@
             android:name=".ui.activity.LoginActivity"
             android:theme="@style/AppTheme.FullScreen" />
         <activity
-            android:launchMode="singleTask"
             android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <service android:name=".service.MusicService" />
-        <service
-            android:name=".service.MyService"
-            android:enabled="true"
-            android:exported="false" />
+        <service android:name=".service.MusicService"
+            android:exported="false"/>
     </application>
 
 </manifest>

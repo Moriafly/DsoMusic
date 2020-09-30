@@ -29,11 +29,11 @@
             </com.dirror.music.widget.ItemLayout>
 
 
-
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemSourceCode"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:visibility="gone"
                 app:text="源代码（Github）">
 
             </com.dirror.music.widget.ItemLayout>

@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.fragment_my.*
 
 class MyFragment : BaseFragment() {
 
-    val defaultUid = 316065764L // 默认 -1，可是设置一个默认用户
-
+    private val defaultUid = -1L // 默认 -1，可设置一个默认用户
+    // 316065764L
     override fun getLayoutId(): Int {
         return R.layout.fragment_my
     }
