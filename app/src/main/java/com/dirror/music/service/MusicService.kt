@@ -426,7 +426,7 @@ class MusicService : Service() {
             if (isPrepared) {
                 mediaPlayer?.let {
                     val playbackParams = it.playbackParams
-                    playbackParams.speed = speed
+                    // playbackParams.speed = speed // 0 表示暂停
                     playbackParams.pitch = pitch
                     it.playbackParams = playbackParams
                 }

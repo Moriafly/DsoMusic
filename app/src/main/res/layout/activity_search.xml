@@ -58,6 +58,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:singleLine="true"
+                android:textCursorDrawable="@drawable/text_cursor_drawable"
                 android:textSize="14sp" />
         </androidx.cardview.widget.CardView>
 

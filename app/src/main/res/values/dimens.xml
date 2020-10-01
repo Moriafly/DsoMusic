@@ -3,4 +3,7 @@
     <dimen name="bigTextSize">16sp</dimen>
     <dimen name="smallTextSize">14sp</dimen>
     <dimen name="lyricLineHeight">42dp</dimen>
+
+    <!-- 标准字体  -->
+    <dimen name="defaultTextSize">16sp</dimen>
 </resources>
