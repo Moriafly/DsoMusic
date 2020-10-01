@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import kotlinx.android.synthetic.main.dialog_play_more.*
+import kotlin.math.abs
 
-class PlayerMenuMoreDialog: Dialog {
+class PlayerMenuMoreDialog : Dialog {
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
@@ -23,12 +24,11 @@ class PlayerMenuMoreDialog: Dialog {
     }
 
     private var speed = 1f
-    private var pitch = 1f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        speed = MyApplication.musicBinderInterface?.getSpeed()?:1f
+        speed = MyApplication.musicBinderInterface?.getSpeed() ?: 1f
 
 
         refreshPitch()
@@ -44,19 +44,13 @@ class PlayerMenuMoreDialog: Dialog {
         }
 
         ivIncreasePitch.setOnClickListener {
-            if (pitch < 1.8f) {
-                pitch += 0.2f
-                MyApplication.musicBinderInterface?.setPitch(pitch)
-                refreshPitch()
-            }
+            MyApplication.musicBinderInterface?.increasePitchLevel()
+            refreshPitch()
         }
 
         ivDecreasePitch.setOnClickListener {
-            if (pitch > 0.2f) {
-                pitch -= 0.2f
-                MyApplication.musicBinderInterface?.setPitch(pitch)
-                refreshPitch()
-            }
+            MyApplication.musicBinderInterface?.decreasePitchLevel()
+            refreshPitch()
         }
 
         itemSpeed.setOnClickListener {
@@ -70,14 +64,10 @@ class PlayerMenuMoreDialog: Dialog {
 
     }
 
+    /**
+     * 刷新 Pitch
+     */
     private fun refreshPitch() {
-        pitch = MyApplication.musicBinderInterface?.getPitch()?:1f
-        if (pitch > 0f) {
-            tvPitch.text = "+$pitch"
-        } else if (pitch == 0f) {
-            tvPitch.text = "$pitch"
-        } else {
-            tvPitch.text = "-$pitch"
-        }
+        tvPitch.text = MyApplication.musicBinderInterface?.getPitchLevel().toString()
     }
 }

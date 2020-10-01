@@ -17,10 +17,8 @@ import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.BuildConfig
 import com.dirror.music.MyApplication
 import com.dirror.music.music.StandardArtistData
-
-
 /**
- * 顶层函数类
+ * 顶层函数
  */
 
 /**
@@ -111,39 +109,23 @@ fun getStatusBarHeight(window: Window, context: Context): Int {
     return StatusBarUtil.getStatusBarHeight(window, context)
 }
 
+/**
+ * 获取底部导航栏高度
+ */
 fun getNavigationBarHeight(activity: Activity): Int {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-        val display = activity.windowManager.defaultDisplay
-        val size = Point()
-        val realSize = Point()
-        display.getSize(size)
-        display.getRealSize(realSize)
-        val resources: Resources = activity.resources
-        val resourceId: Int = resources.getIdentifier("navigation_bar_height", "dimen", "android")
-        val height: Int = resources.getDimensionPixelSize(resourceId)
-        //超出系统默认的导航栏高度以上，则认为存在虚拟导航
-        if (realSize.y - size.y > height - 10) {
-            height
-        } else 0
-    } else {
-        val menu = ViewConfiguration.get(activity).hasPermanentMenuKey()
-        val back = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)
-        if (menu || back) {
-            0
-        } else {
-            val resources: Resources = activity.resources
-            val resourceId: Int =
-                resources.getIdentifier("navigation_bar_height", "dimen", "android")
-            resources.getDimensionPixelSize(resourceId)
-        }
-    }
+    return ScreenUtil.getNavigationBarHeight(activity)
 }
 
-// 获取版本号
+/**
+ * 获取版本号
+ */
 fun getVisionCode(): Int {
     return BuildConfig.VERSION_CODE
 }
 
+/**
+ * 获取版本名
+ */
 fun getVisionName(): String {
     return BuildConfig.VERSION_NAME
 }

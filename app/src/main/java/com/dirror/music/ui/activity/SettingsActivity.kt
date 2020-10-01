@@ -19,6 +19,10 @@ class SettingsActivity : BaseActivity() {
     }
 
     override fun initView() {
+        itemVersion.setValue("${getVisionName()}(${getVisionCode()})")
+    }
+
+    override fun initListener() {
         itemOpenSource.setOnClickListener {
             startActivity(Intent(this, OpenSourceActivity::class.java))
         }
@@ -26,10 +30,6 @@ class SettingsActivity : BaseActivity() {
         itemSourceCode.setOnClickListener {
             openUrlByBrowser(this, "https://github.com/Moriafly/dirror-music")
         }
-
-        itemVersion.setValue("${getVisionName()}(${getVisionCode()})")
-
-
     }
 
     override fun finish() {

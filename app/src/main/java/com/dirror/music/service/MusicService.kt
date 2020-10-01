@@ -55,6 +55,8 @@ class MusicService : Service() {
 
     private var speed = 1f // 播放速度
     private var pitch = 1f // 音高
+    private var pitchLevel = 0 // 音高等级
+    private val pitchUnit = 0.1f // 音高单元
 
     override fun onCreate() {
         super.onCreate()
@@ -376,14 +378,6 @@ class MusicService : Service() {
         }
 
         /**
-         * 设置音高
-         */
-        override fun setPitch(pitch: Float) {
-            this@MusicService.pitch = pitch
-            setPlaybackParams()
-        }
-
-        /**
          * 获取播放速度
          */
         override fun getSpeed(): Float {
@@ -391,12 +385,43 @@ class MusicService : Service() {
         }
 
         /**
-         * 获取音高
+         * 获取音高等级
          */
-        override fun getPitch(): Float {
-            return pitch
+        override fun getPitchLevel(): Int {
+            return pitchLevel
         }
 
+        /**
+         * 升调
+         */
+        override fun increasePitchLevel() {
+            pitchLevel++
+            val value = pitchUnit * (pitchLevel + 1f / pitchUnit)
+            if (value < 2f) {
+                pitch = value
+                setPlaybackParams()
+            } else {
+                decreasePitchLevel()
+            }
+        }
+
+        /**
+         * 降调
+         */
+        override fun decreasePitchLevel() {
+            pitchLevel--
+            val value = pitchUnit * (pitchLevel + 1f / pitchUnit)
+            if (value > 0f) {
+                pitch = value
+                setPlaybackParams()
+            } else {
+                increasePitchLevel()
+            }
+        }
+
+        /**
+         * 设置 setPlaybackParams
+         */
         private fun setPlaybackParams() {
             if (isPrepared) {
                 mediaPlayer?.let {
@@ -555,7 +580,8 @@ interface MusicBinderInterface {
     fun getAudioSessionId(): Int
     fun sendBroadcast()
     fun setSpeed(speed: Float) // 设置播放速度
-    fun setPitch(pitch: Float) // 设置音高
     fun getSpeed(): Float // 获取播放速度
-    fun getPitch(): Float // 获取音高
+    fun getPitchLevel(): Int // 获取音高等级
+    fun increasePitchLevel() // 升调
+    fun decreasePitchLevel() // 降调
 }
