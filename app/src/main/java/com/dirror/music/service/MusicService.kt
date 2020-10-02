@@ -53,8 +53,8 @@ class MusicService : Service() {
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
     private var mediaSession: MediaSessionCompat? = null
 
-    private var speed = 1f // 播放速度
-    private var pitch = 1f // 音高
+    private var speed = 1f // 默认播放速度，0f 表示暂停
+    private var pitch = 1f // 默认音高
     private var pitchLevel = 0 // 音高等级
     private val pitchUnit = 0.1f // 音高单元
 
