@@ -22,7 +22,6 @@ import com.dirror.music.music.StandardSongData
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayActivity
 import com.dirror.music.util.StorageUtil
-import com.dirror.music.util.loge
 import com.dirror.music.util.parseArtist
 
 /**
@@ -40,7 +39,7 @@ class MusicService : Service() {
         const val CODE_PLAY = 2 // 按钮事件，播放或者暂停
         const val CODE_NEXT = 3 // 按钮事件，下一曲
 
-        const val CHANNEL_ID = "my notification id" // 通知通道 ID
+        const val CHANNEL_ID = "Dso Music Channel Id" // 通知通道 ID
     }
 
     private var mediaPlayer: MediaPlayer? = null // 定义 MediaPlayer
@@ -60,9 +59,9 @@ class MusicService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        // mediaPlayer = MediaPlayer()
         mediaSession = MediaSessionCompat(this, "MusicService")
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
+        // 初始化 MediaSession 回调
         initMediaSessionCallback()
         // 初始化通道
         initChannel()
@@ -122,27 +121,17 @@ class MusicService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val code = intent?.getIntExtra("int_code", 0)
-        loge("通知 code = $code")
-        when (code) {
-            CODE_PREVIOUS -> {
-                loge("通知上一曲")
-                musicBinder.playLast()
-            }
-            CODE_PLAY -> {
-                loge("通知播放或暂停")
-                musicBinder.changePlayState()
-            }
-            CODE_NEXT -> {
-                loge("通知下一曲")
-                musicBinder.playNext()
-            }
+        when (intent?.getIntExtra("int_code", 0)) {
+            CODE_PREVIOUS -> musicBinder.playLast()
+            CODE_PLAY -> musicBinder.changePlayState()
+            CODE_NEXT -> musicBinder.playNext()
         }
-        // refreshNotification()
         return START_NOT_STICKY // 非粘性服务
     }
 
-    // 绑定
+    /**
+     * 绑定
+     */
     override fun onBind(p0: Intent?): IBinder? {
         return musicBinder
     }
@@ -497,35 +486,37 @@ class MusicService : Service() {
      */
     private fun refreshNotification() {
         val song = musicBinder.getNowSongData()
+        mediaSession?.apply {
+            setMetadata(
+                MediaMetadataCompat.Builder()
+                    .putLong(
+                        MediaMetadata.METADATA_KEY_DURATION,
+                        (MyApplication.musicBinderInterface?.getDuration() ?: 0).toLong()
+                    )
+                    .build()
+            )
+            setPlaybackState(
+                PlaybackStateCompat.Builder()
+                    .setState(
+                        PlaybackStateCompat.STATE_PLAYING,
+                        (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
+                        1f
+                    )
+                    .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                    .build()
+            )
+            setCallback(mediaSessionCallback)
+            isActive = true // 必须设置为true，这样才能开始接收各种信息
+        }
 
-        mediaSession?.setMetadata(
-            MediaMetadataCompat.Builder()
-                .putLong(
-                    MediaMetadata.METADATA_KEY_DURATION,
-                    (MyApplication.musicBinderInterface?.getDuration() ?: 0).toLong()
-                )
-                .build()
-        )
-        mediaSession?.setPlaybackState(
-            PlaybackStateCompat.Builder()
-                .setState(
-                    PlaybackStateCompat.STATE_PLAYING,
-                    (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
-                    1f
-                )
-                .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
-                .build()
-        )
-        mediaSession?.setCallback(mediaSessionCallback)
         if (!musicBinder.getPlayState()) {
             mediaSessionCallback?.onPause()
         }
-        mediaSession?.isActive = true // 必须设置为true，这样才能开始接收各种信息
+
         val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
             .setMediaSession(mediaSession?.sessionToken)
             .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
-            loge("歌曲图片url" + song.imageUrl)
             StandardGET.getSongBitmap(song.id) {
                 val notification = NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_music_launcher_foreground)
@@ -548,6 +539,9 @@ class MusicService : Service() {
 
     }
 
+    /**
+     * 获取通知栏播放的图标
+     */
     private fun getPlayIcon(): Int {
         return if (musicBinder.getPlayState()) {
             R.drawable.ic_baseline_pause_24
