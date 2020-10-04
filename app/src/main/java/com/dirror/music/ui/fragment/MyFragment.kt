@@ -9,8 +9,8 @@ import com.dirror.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistAdapter
+import com.dirror.music.data.PlaylistData
 import com.dirror.music.data.UserDetailData
-import com.dirror.music.data.UserPlaylistData
 import com.dirror.music.ui.activity.LoginActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.*
@@ -21,6 +21,8 @@ class MyFragment : BaseFragment() {
     private val defaultUid = 316065764L
     // private val defaultUid = -1L // 默认 -1，可设置一个默认用户
     // 316065764L
+    private val userPlaylist = ArrayList<PlaylistData>()
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_my
     }
@@ -30,8 +32,12 @@ class MyFragment : BaseFragment() {
     }
 
     override fun initView() {
+        rvPlaylist.layoutManager =  LinearLayoutManager(activity)
+        rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
+
         getUserDetail()
         getPlaylist()
+
     }
 
     override fun initListener() {
@@ -50,11 +56,6 @@ class MyFragment : BaseFragment() {
                 getPlaylist()
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-
     }
 
     /**
@@ -91,39 +92,30 @@ class MyFragment : BaseFragment() {
     }
 
     private fun getPlaylist() {
-        CloudMusic.getPlaylist(StorageUtil.getLong(StorageUtil.CLOUD_MUSIC_UID, defaultUid), object : CloudMusic.PlaylistCallback {
-            override fun success(userPlaylistData: UserPlaylistData) {
+        CloudMusic.getPlaylist(StorageUtil.getLong(StorageUtil.CLOUD_MUSIC_UID, defaultUid)){
+            val playlist = it.playlist
+            val linearLayoutManager: LinearLayoutManager =
+                object : LinearLayoutManager(activity) {
+                    override fun canScrollVertically(): Boolean {
+                        return false
+                    }
 
-                val playlist = userPlaylistData.playlist
-                runOnMainThread {
-                    val linearLayoutManager: LinearLayoutManager =
-                        object : LinearLayoutManager(context) {
-                            override fun canScrollVertically(): Boolean {
-                                return false
-                            }
+                    override fun onMeasure(
+                        recycler: RecyclerView.Recycler,
+                        state: RecyclerView.State,
+                        widthSpec: Int,
+                        heightSpec: Int
+                    ) {
+                        super.onMeasure(recycler, state, widthSpec, heightSpec)
+                        setMeasuredDimension(widthSpec, (playlist.size * dp2px(64f)).toInt())
+                    }
+                }.apply { orientation = LinearLayoutManager.VERTICAL }
 
-                            override fun onMeasure(
-                                recycler: RecyclerView.Recycler,
-                                state: RecyclerView.State,
-                                widthSpec: Int,
-                                heightSpec: Int
-                            ) {
-                                super.onMeasure(recycler, state, widthSpec, heightSpec)
-                                setMeasuredDimension(widthSpec, (playlist.size * dp2px(64f)).toInt())
-                            }
-                        }
-
-                    // rvPlaylist.setHasFixedSize(true)
-                    // rvPlaylist.isNestedScrollingEnabled = false
-                    rvPlaylist.layoutManager =  linearLayoutManager//FullyLinearLayoutManager(context)
-                    rvPlaylist.adapter = PlaylistAdapter(playlist)
-
-
-                }
-
+            runOnMainThread {
+                rvPlaylist.layoutManager =  linearLayoutManager
+                rvPlaylist.adapter = PlaylistAdapter(playlist)
             }
-
-        })
+        }
     }
 
 }

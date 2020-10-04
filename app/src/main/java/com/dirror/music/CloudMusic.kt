@@ -66,13 +66,13 @@ object CloudMusic {
     /**
      * 用户歌单
      */
-    fun getPlaylist(uid: Long, callback: PlaylistCallback) {
+    fun getPlaylist(uid: Long, success: (UserPlaylistData) -> Unit) {
         MagicHttp.OkHttpManager().get(
             "${API_MUSIC_API}/user/playlist?uid=$uid${timestamp()}",
             object : MagicHttp.MagicCallback {
                 override fun success(response: String) {
                     val userPlaylistData = Gson().fromJson(response, UserPlaylistData::class.java)
-                    callback.success(userPlaylistData)
+                    success.invoke(userPlaylistData)
                 }
 
                 override fun failure(throwable: Throwable) {

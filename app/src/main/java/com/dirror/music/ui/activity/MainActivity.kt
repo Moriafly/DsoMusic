@@ -6,17 +6,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.view.View
-import android.view.WindowInsetsController
-import android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
-import android.widget.TextView
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.CloudMusic
-import com.dirror.music.DirrorMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
@@ -26,7 +18,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_play.view.*
-
 
 class MainActivity : BaseActivity() {
 
@@ -66,7 +57,7 @@ class MainActivity : BaseActivity() {
         // 适配状态栏
         val statusBarHeight = getStatusBarHeight(window, this) // px
         titleBar.translationY = statusBarHeight.toFloat()
-        blurView.scaleY = (dp2px(56f) + statusBarHeight).toFloat() / dp2px(56f)
+        blurView.scaleY = (dp2px(56f) + statusBarHeight) / dp2px(56f)
         blurView.translationY = statusBarHeight.toFloat() / 2
         blurViewBottom.scaleY = blurView.scaleY
         blurViewBottom.translationY = statusBarHeight.toFloat() / 2

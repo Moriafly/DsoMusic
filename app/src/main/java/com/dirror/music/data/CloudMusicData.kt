@@ -26,7 +26,7 @@ data class ProfileData(
 )
 
 data class UserPlaylistData(
-    val playlist: List<PlaylistData>
+    val playlist: ArrayList<PlaylistData>
 )
 
 data class PlaylistData(

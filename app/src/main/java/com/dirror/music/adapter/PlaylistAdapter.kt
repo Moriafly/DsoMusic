@@ -13,9 +13,9 @@ import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.ui.activity.PlaylistActivity
 
-class PlaylistAdapter(private val playlist: List<PlaylistData>): RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
+class PlaylistAdapter(val playlist: ArrayList<PlaylistData>) : RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
 
-    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val clTrack: ConstraintLayout = view.findViewById(R.id.clTrack)
         val ivCover: ImageView = view.findViewById(R.id.ivCover)
         val tvName: TextView = view.findViewById(R.id.tvName)
@@ -23,9 +23,8 @@ class PlaylistAdapter(private val playlist: List<PlaylistData>): RecyclerView.Ad
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        LayoutInflater.from(parent.context).inflate(R.layout.layout_playlist, parent, false).apply {
-            return ViewHolder(this)
-        }
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_playlist, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
