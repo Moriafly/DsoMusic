@@ -17,6 +17,9 @@ buildscript {
 allprojects {
     repositories {
         maven { url 'https://jitpack.io' }
+        // Bmob 的 maven 仓库地址 -- 必填
+        maven {url 'https://dl.bintray.com/chaozhouzhang/maven' }
+
         google()
         jcenter()
     }

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPageBackground"
+    tools:context=".ui.activity.FeedbackActivity">
+
+    <com.dirror.music.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:text="反馈">
+
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:background="@drawable/background_transparency"
+            android:minWidth="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="上传"
+            android:textColor="@color/colorAppThemeColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.dirror.music.widget.TitleBarLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="反馈内容"
+            android:textSize="12sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/itemFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                android:minHeight="36dp"
+                app:cardBackgroundColor="@color/colorEditTextBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_min="36dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/etFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_transparency"
+                    android:padding="8dp"
+                    android:textCursorDrawable="@drawable/text_cursor_drawable"
+                    android:textSize="14sp" />
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="联系方式"
+            android:textSize="12sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/itemContact"
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvContact"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="@color/colorEditTextBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/etContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_transparency"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@drawable/text_cursor_drawable"
+                    android:textSize="14sp" />
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

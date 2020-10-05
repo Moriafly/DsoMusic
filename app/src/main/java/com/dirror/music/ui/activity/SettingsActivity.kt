@@ -1,6 +1,7 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
+import android.view.View
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.getVisionCode
@@ -23,6 +24,11 @@ class SettingsActivity : BaseActivity() {
     }
 
     override fun initListener() {
+        // 反馈
+        itemFeedback.setOnClickListener {
+            startActivity(Intent(this, FeedbackActivity::class.java))
+        }
+
         itemOpenSource.setOnClickListener {
             startActivity(Intent(this, OpenSourceActivity::class.java))
         }

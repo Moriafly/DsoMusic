@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import cn.bmob.v3.Bmob
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
 import com.dirror.music.util.Secure
@@ -27,8 +28,12 @@ class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext // 全局 context
+
         if (Secure.isSecure()) {
             toast("Dso Music")
+            // 初始化 Bmob
+            Bmob.initialize(this, "0d1d3b9214e037c76de958993ddd6563");
+            // 开启服务
             startMusicService()
         } else {
             toast("检测到盗版 Dso Music")
