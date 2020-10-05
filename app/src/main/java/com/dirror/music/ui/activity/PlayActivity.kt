@@ -6,10 +6,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
+import android.graphics.ColorSpace
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Message
+import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
+import androidx.core.graphics.drawable.toBitmap
+import androidx.palette.graphics.Palette
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -19,7 +25,11 @@ import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
+import eightbitlab.com.blurview.RenderScriptBlur
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_play.*
+import kotlinx.android.synthetic.main.activity_play.blurView
+import kotlinx.android.synthetic.main.activity_play.titleBar
 
 
 private const val MSG_PROGRESS = 0 // Handle 消息，播放进度
@@ -55,6 +65,44 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         getNowSongData()
         updateProgress()
         refreshPlayState()
+
+        titleBar.translationY = getStatusBarHeight(window, this).toFloat()
+
+        loge("height=${ivBackground.height}")
+        loge("width=${ivBackground.width}")
+        ivBackground.scaleY = 1.5f
+        ivBackground.scaleX = 2.5f
+
+
+        val radius = 20f
+        val decorView: View = window.decorView
+        val windowBackground: Drawable = decorView.background
+        blurView.setupWith(decorView.findViewById(R.id.clBackground))
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setHasFixedTransformationMatrix(true)
+
+        ivPlay.setColorFilter(Color.rgb(100, 100, 100))
+        ivLast.setColorFilter(Color.rgb(100, 100, 100))
+        ivNext.setColorFilter(Color.rgb(100, 100, 100))
+    }
+
+    /**
+     * 初始化播放模式
+     */
+    private fun initPlayMode() {
+        when (mode) {
+            MusicService.MODE_CIRCLE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
+            MusicService.MODE_REPEAT_ONE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
+            MusicService.MODE_RANDOM -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
+        }
+    }
+
+    override fun initListener() {
+        ivBack.setOnClickListener {
+            finish()
+        }
 
         ivPlay.setOnClickListener {
             // 更新
@@ -100,31 +148,19 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         clCd.setOnClickListener {
             AnimationUtil.fadeOut(clCd, true)
             AnimationUtil.fadeOut(clMenu, true) // 菜单淡出
+            clLyric.visibility = View.VISIBLE
         }
 
         clLyric.setOnClickListener {
             AnimationUtil.fadeIn(clCd)
             AnimationUtil.fadeIn(clMenu) // 菜单
+            clLyric.visibility = View.INVISIBLE
         }
 
 
         // 进度条变化的监听
         seekBar.setOnSeekBarChangeListener(this)
 
-    }
-
-    /**
-     * 初始化播放模式
-     */
-    private fun initPlayMode() {
-        when (mode) {
-            MusicService.MODE_CIRCLE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
-            MusicService.MODE_REPEAT_ONE -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
-            MusicService.MODE_RANDOM -> ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
-        }
-    }
-
-    override fun initListener() {
         ivDownload.setOnClickListener {
             toast("暂未开放")
         }
@@ -181,6 +217,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         rotation = ivCover.rotation
         loge("rotation:$rotation")
         objectAnimator.pause()
+        objectAnimatorBackground.pause()
     }
 
     private val objectAnimator: ObjectAnimator by lazy {
@@ -192,9 +229,19 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         }
     }
 
+    private val objectAnimatorBackground: ObjectAnimator by lazy {
+        ObjectAnimator.ofFloat(ivBackground, "rotation", rotation, rotation + 360f).apply {
+            interpolator = LinearInterpolator()
+            duration = 50000
+            repeatCount = -1
+            start()
+        }
+    }
+
 
     private fun startRotateAlways() {
         objectAnimator.resume()
+        objectAnimatorBackground.resume()
     }
 
     override fun onDestroy() {
@@ -284,13 +331,29 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     private fun getNowSongData() {
         song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
-            CloudMusic.getSongImage(song!!.id?:-1L){
+            CloudMusic.getSongImage(song!!.id?:-1L) { url ->
                 // val bitmap = (ivCover.drawable as BitmapDrawable).bitmap
                 if (ivCover.drawable != null) {
-                    GlideUtil.load(it, ivCover, ivCover.drawable)
+                    GlideUtil.load(url, ivCover, ivCover.drawable)
+                    GlideUtil.loadPlayerBackground(url, ivBackground, ivBackground)
+
+                    Palette.Builder(ivCover.drawable.toBitmap())
+                        // .setRegion(0,0,backgroundImage.width,(backgroundImage.height * 0.1).toInt())
+                        .generate { palette ->
+                            palette?.vibrantSwatch?.rgb.let {
+                                if (it != null) {
+                                    ivPlay.setColorFilter(it)
+                                    ivLast.setColorFilter(it)
+                                    ivNext.setColorFilter(it)
+                                }
+
+                            }
+                        }
                 } else {
-                    GlideUtil.load(it, ivCover)
+                    GlideUtil.load(url, ivCover)
+                    GlideUtil.loadPlayerBackground(url, ivBackground)
                 }
+
             }
 
 

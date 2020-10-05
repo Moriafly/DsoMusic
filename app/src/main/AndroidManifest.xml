@@ -21,7 +21,9 @@
         <activity android:name=".ui.activity.CommentActivity" />
         <activity android:name=".ui.activity.OpenSourceActivity" />
         <activity android:name=".ui.activity.SettingsActivity" />
-        <activity android:name=".ui.activity.PlayActivity" android:launchMode="singleTask"/>
+        <activity android:name=".ui.activity.PlayActivity"
+            android:theme="@style/AppTheme.FullScreen"
+            android:launchMode="singleTask"/>
         <activity android:name=".ui.activity.PlaylistActivity" />
         <activity android:name=".ui.activity.LoginByUidActivity" />
         <activity android:name=".ui.activity.LoginByPhoneActivity" />
