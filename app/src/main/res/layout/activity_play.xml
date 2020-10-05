@@ -33,10 +33,24 @@
         android:id="@+id/blurView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/blurViewCover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80FAFAFA"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clLyric"
@@ -206,8 +220,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="-2dp"
         android:text="00:00"
-        android:textColor="@color/colorSubTextForeground"
+        android:textColor="#646464"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
@@ -216,9 +231,10 @@
         android:id="@+id/tvDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-2dp"
         android:layout_marginEnd="32dp"
         android:text="00:00"
-        android:textColor="@color/colorSubTextForeground"
+        android:textColor="#646464"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
@@ -254,7 +270,7 @@
             android:layout_marginBottom="9dp"
             android:singleLine="true"
             android:text="艺术家"
-            android:textColor="@color/colorSubTextForeground"
+            android:textColor="#646464"
             android:textSize="12sp"
             android:transitionName="tvArtist"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -287,7 +303,6 @@
             android:id="@+id/ivPlay"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:alpha="0.72"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -299,7 +314,6 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="16dp"
-            android:alpha="0.72"
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivPlay"
@@ -311,7 +325,6 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginEnd="16dp"
-            android:alpha="0.72"
             android:padding="16dp"
             android:rotation="180"
             app:layout_constraintBottom_toBottomOf="parent"

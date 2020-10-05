@@ -37,7 +37,7 @@ class LyricView: View {
     init {
         bigTextSize = resources.getDimension(R.dimen.bigTextSize)
         smallTextSize = resources.getDimension(R.dimen.smallTextSize)
-        commonColor = resources.getColor(R.color.colorCommonTextForeground)
+        commonColor = resources.getColor(R.color.colorLyricSubForeground)
         focusColor = resources.getColor(R.color.colorTextForeground)
         lyricLineHeight = resources.getDimensionPixelOffset(R.dimen.lyricLineHeight)
 
