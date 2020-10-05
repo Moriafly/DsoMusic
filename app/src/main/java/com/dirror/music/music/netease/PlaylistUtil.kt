@@ -1,10 +1,12 @@
-package com.dirror.music.music
+package com.dirror.music.music.netease
 
 import com.dirror.music.api.API_MUSIC_API
-import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.api.API_NETEASE
 import com.dirror.music.data.DetailPlaylistData
 import com.dirror.music.data.DetailPlaylistInnerData
+import com.dirror.music.music.compat.CompatSearchData
+import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
+import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.toast
 import com.google.gson.Gson

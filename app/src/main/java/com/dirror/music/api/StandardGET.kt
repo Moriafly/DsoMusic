@@ -1,12 +1,10 @@
 package com.dirror.music.api
 
 import android.graphics.Bitmap
-import com.dirror.music.CloudMusic
+import com.dirror.music.music.CloudMusic
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.MagicHttp
-import com.dirror.music.util.loge
 import com.google.gson.Gson
-import org.jetbrains.annotations.NotNull
 
 /**
  * 标准获取歌曲各种信息类

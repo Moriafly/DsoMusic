@@ -1,4 +1,4 @@
-package com.dirror.music
+package com.dirror.music.music
 
 import android.util.Log
 import com.dirror.music.api.API_FCZBL_VIP
@@ -6,7 +6,8 @@ import com.dirror.music.api.API_MUSIC_API
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.api.API_MUSIC_LAKE
 import com.dirror.music.data.*
-import com.dirror.music.music.StandardSongData
+import com.dirror.music.music.standard.SOURCE_NETEASE
+import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.util.*
 import com.google.gson.Gson
 import java.lang.Exception
@@ -112,11 +113,10 @@ object CloudMusic {
     fun getSongDetail(id: Long, success: (StandardSongData) -> Unit, failure: (String) -> Unit) {
         val url = "${API_MUSIC_ELEUU}/song/detail?ids=$id"
         MagicHttp.OkHttpManager().newGet(url, {
-            loge(url)
-            loge(it)
             val songData = Gson().fromJson(it, SongData::class.java)
 
             val standardSongData = StandardSongData(
+                SOURCE_NETEASE,
                 songData.songs[0].id,
                 songData.songs[0].name?:"",
                 songData.songs[0].al.picUrl,

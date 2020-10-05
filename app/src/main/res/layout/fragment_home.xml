@@ -30,14 +30,14 @@
                 android:text="Dirror 音乐库 FLAC 试听"
                 android:textColor="@color/colorTextForeground"
                 android:textSize="18sp"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp">
 

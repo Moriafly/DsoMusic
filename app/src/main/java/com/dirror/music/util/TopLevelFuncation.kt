@@ -3,10 +3,7 @@ package com.dirror.music.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
-import android.graphics.Point
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,7 +13,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.BuildConfig
 import com.dirror.music.MyApplication
-import com.dirror.music.music.StandardArtistData
+import com.dirror.music.music.standard.StandardArtistData
 /**
  * 顶层函数
  */

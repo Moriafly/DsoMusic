@@ -18,7 +18,7 @@ import androidx.core.app.NotificationCompat
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
-import com.dirror.music.music.StandardSongData
+import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayActivity
 import com.dirror.music.util.StorageUtil
@@ -517,23 +517,25 @@ class MusicService : Service() {
             .setMediaSession(mediaSession?.sessionToken)
             .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
-            StandardGET.getSongBitmap(song.id) {
-                val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_music_launcher_foreground)
-                    .setLargeIcon(it)
-                    .setContentTitle(song.name)
-                    .setContentText(parseArtist(song.artists))
-                    .setContentIntent(getPendingIntentActivity())
-                    .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
-                    .addAction(getPlayIcon(), "play", getPendingIntentPlay())
-                    .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
-                    .setStyle(mediaStyle)
-                    .setOngoing(false)
-                    // .setAutoCancel(true)
-                    .build()
-                // 更新通知
-                // notificationManager?.notify(10, notification)
-                startForeground(10, notification)
+            song.id?.let {
+                StandardGET.getSongBitmap(it) { bitmap ->
+                    val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_music_launcher_foreground)
+                        .setLargeIcon(bitmap)
+                        .setContentTitle(song.name)
+                        .setContentText(song.artists?.let { it1 -> parseArtist(it1) })
+                        .setContentIntent(getPendingIntentActivity())
+                        .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
+                        .addAction(getPlayIcon(), "play", getPendingIntentPlay())
+                        .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
+                        .setStyle(mediaStyle)
+                        .setOngoing(false)
+                        // .setAutoCancel(true)
+                        .build()
+                    // 更新通知
+                    // notificationManager?.notify(10, notification)
+                    startForeground(10, notification)
+                }
             }
         }
 

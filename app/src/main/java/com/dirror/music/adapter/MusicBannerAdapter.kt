@@ -7,9 +7,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dirror.music.R
-import com.dirror.music.music.BannerUtil
+import com.dirror.music.music.netease.BannerUtil
 import com.youth.banner.adapter.BannerAdapter
-import kotlinx.android.synthetic.main.dirrorx_banner_layout.view.*
 
 class MusicBannerAdapter(data: List<BannerUtil.BannerData>) : BannerAdapter<BannerUtil.BannerData, BannerViewHolder>(data) {
 

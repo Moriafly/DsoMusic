@@ -1,4 +1,4 @@
-package com.dirror.music.music
+package com.dirror.music.music.netease
 
 import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.data.LyricData

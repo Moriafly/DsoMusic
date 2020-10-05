@@ -71,4 +71,9 @@ object GlideUtil {
         val imageUrl = "${API_FCZBL_VIP}/?type=single&id=$musicId"
         load(imageUrl, imageView)
     }
+
+    fun loadPlayerBackground() {
+
+    }
+    
 }

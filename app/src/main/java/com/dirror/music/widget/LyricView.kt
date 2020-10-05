@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.dirror.music.R
 import com.dirror.music.data.LyricData
-import com.dirror.music.music.LyricUtil
+import com.dirror.music.music.netease.LyricUtil
 
 /**
  * @name LyricView

@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.dirror.music.CloudMusic
+import com.dirror.music.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
@@ -140,8 +140,8 @@ class MainActivity : BaseActivity() {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
                 itemPlay.tvName.text = song.name
-                itemPlay.tvArtist.text = parseArtist(song.artists)
-                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id), itemPlay.ivCover, itemPlay.ivCover)
+                itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
+                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), itemPlay.ivCover, itemPlay.ivCover)
             }
             refreshPlayState()
         }

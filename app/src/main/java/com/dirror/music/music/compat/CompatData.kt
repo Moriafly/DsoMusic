@@ -1,4 +1,9 @@
-package com.dirror.music.music
+package com.dirror.music.music.compat
+
+import com.dirror.music.music.standard.SOURCE_NETEASE
+import com.dirror.music.music.standard.StandardArtistData
+import com.dirror.music.music.standard.StandardSongData
+
 // 搜索的解析
 data class CompatSearchData(
     val songs: ArrayList<CompatSearchSongData>,
@@ -36,6 +41,7 @@ fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): 
         }
 
         val standardSongData = StandardSongData(
+            SOURCE_NETEASE,
             song.id,
             song.name,
             song.album.artist.img1v1Url,

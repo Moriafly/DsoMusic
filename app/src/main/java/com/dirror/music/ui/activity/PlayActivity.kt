@@ -10,11 +10,11 @@ import android.os.Handler
 import android.os.Message
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
-import com.dirror.music.CloudMusic
+import com.dirror.music.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
-import com.dirror.music.music.StandardSongData
+import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -131,7 +131,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
         ivLike.setOnClickListener {
             if (song != null) {
-                CloudMusic.likeSong(song!!.id)
+                CloudMusic.likeSong(song!!.id?:-1L)
             }
         }
 
@@ -284,7 +284,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     private fun getNowSongData() {
         song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
-            CloudMusic.getSongImage(song!!.id){
+            CloudMusic.getSongImage(song!!.id?:-1L){
                 // val bitmap = (ivCover.drawable as BitmapDrawable).bitmap
                 if (ivCover.drawable != null) {
                     GlideUtil.load(it, ivCover, ivCover.drawable)
@@ -296,7 +296,7 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
 
             tvName.text = song!!.name
-            tvArtist.text = parseArtist(song!!.artists)
+            tvArtist.text = song!!.artists?.let { parseArtist(it) }
         }
 
 

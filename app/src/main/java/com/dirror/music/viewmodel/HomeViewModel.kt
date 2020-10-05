@@ -3,9 +3,8 @@ package com.dirror.music.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dirror.music.music.BannerUtil
-import com.dirror.music.music.BannerUtil.BannerData
-import com.dirror.music.util.loge
+import com.dirror.music.music.netease.BannerUtil
+import com.dirror.music.music.netease.BannerUtil.BannerData
 import com.dirror.music.util.runOnMainThread
 
 class HomeViewModel: ViewModel() {

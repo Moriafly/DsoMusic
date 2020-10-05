@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.music.StandardSongData
+import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.activity.PlayActivity
 import com.dirror.music.util.parseArtist
 
@@ -40,7 +40,7 @@ class DetailPlaylistAdapter(val songDataList: ArrayList<StandardSongData>): Recy
 //            .into(holder.ivCover)
         val song = songDataList[position]
         holder.tvName.text = song.name
-        holder.tvArtist.text = parseArtist(song.artists)
+        holder.tvArtist.text = song.artists?.let { parseArtist(it) }
 
         holder.clSong.setOnClickListener {
             if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) { // 歌单相同

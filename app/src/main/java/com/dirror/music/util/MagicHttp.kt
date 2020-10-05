@@ -44,7 +44,7 @@ object MagicHttp {
                     .build()
                 val request = Request.Builder()
                     .url(url)
-                    // .addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows 7)")
+                     // .addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows 7)")
                     // .addHeader("X-Real-IP", "211.161.244.70")
                     .get()
                     .build()
@@ -85,6 +85,7 @@ object MagicHttp {
                     .build()
                 val request = Request.Builder()
                     .url(url)
+                    // .addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows 7)") // 添加 Header
                     .get()
                     .build()
 

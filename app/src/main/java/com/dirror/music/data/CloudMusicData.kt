@@ -1,6 +1,7 @@
 package com.dirror.music.data
 
-import com.dirror.music.music.StandardArtistData
+import com.dirror.music.music.standard.StandardArtistData
+import com.google.gson.annotations.SerializedName
 
 class CloudMusicData {
 }
@@ -26,27 +27,27 @@ data class ProfileData(
 )
 
 data class UserPlaylistData(
-    val playlist: ArrayList<PlaylistData>
+    @SerializedName("playlist") val playlist: ArrayList<PlaylistData>
 )
 
 data class PlaylistData(
-    val coverImgUrl: String, // 歌单图片
-    val name: String, // 歌单名称
-    val trackCount: Int, // 歌单歌曲数量
-    val id: Long, // 歌单 id
+    @SerializedName("coverImgUrl") val coverImgUrl: String, // 歌单图片
+    @SerializedName("name") val name: String, // 歌单名称
+    @SerializedName("trackCount") val trackCount: Int, // 歌单歌曲数量
+    @SerializedName("id") val id: Long, // 歌单 id
 )
 
 data class DetailPlaylistData(
-    val code: Int,
-    val playlist: DetailPlaylistInnerData
+    @SerializedName("code") val code: Int,
+    @SerializedName("playlist") val playlist: DetailPlaylistInnerData
 )
 
 data class DetailPlaylistInnerData(
-    val tracks: List<TracksData>,
-    val trackIds: List<TrackIdsData>,
-    val coverImgUrl: String?, // 歌单图片
-    val name: String?, // 歌单名字
-    val description: String?, // 描述
+    @SerializedName("tracks") val tracks: List<TracksData>,
+    @SerializedName("trackIds") val trackIds: List<TrackIdsData>,
+    @SerializedName("coverImgUrl") val coverImgUrl: String?, // 歌单图片
+    @SerializedName("name") val name: String?, // 歌单名字
+    @SerializedName("description") val description: String?, // 描述
 )
 
 data class TracksData(

@@ -1,6 +1,6 @@
 package com.dirror.music.ui.activity
 
-import com.dirror.music.CloudMusic
+import com.dirror.music.music.CloudMusic
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_login_by_phone.*

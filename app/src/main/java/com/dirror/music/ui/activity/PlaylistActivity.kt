@@ -7,18 +7,22 @@ import android.content.IntentFilter
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dirror.music.CloudMusic
+import com.dirror.music.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
-import com.dirror.music.music.PlaylistUtil
-import com.dirror.music.music.StandardSongData
+import com.dirror.music.music.netease.PlaylistUtil
+import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.layout_play.view.*
 
+/**
+ * 歌单 Activity
+ * 最新要求：兼容 网易和 QQ
+ */
 class PlaylistActivity : BaseActivity() {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
@@ -43,6 +47,9 @@ class PlaylistActivity : BaseActivity() {
             ivBackground.visibility = View.INVISIBLE
         }
 
+    }
+
+    override fun initListener() {
         layoutPlay.setOnClickListener {
             startActivity(Intent(this, PlayActivity::class.java))
             overridePendingTransition(
@@ -56,7 +63,6 @@ class PlaylistActivity : BaseActivity() {
         layoutPlay.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
         }
-
     }
 
     /**
@@ -77,8 +83,8 @@ class PlaylistActivity : BaseActivity() {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
                 layoutPlay.tvName.text = song.name
-                layoutPlay.tvArtist.text = parseArtist(song.artists)
-                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id), layoutPlay.ivCover, layoutPlay.ivCover)
+                layoutPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
+                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), layoutPlay.ivCover, layoutPlay.ivCover)
             }
             refreshPlayState()
         }
@@ -104,9 +110,9 @@ class PlaylistActivity : BaseActivity() {
     private fun refreshLayoutPlay() {
         val song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
-            GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id), layoutPlay.ivCover)
+            GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), layoutPlay.ivCover)
             layoutPlay.tvName.text = song.name
-            layoutPlay.tvArtist.text = parseArtist(song.artists)
+            layoutPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
         }
     }
 

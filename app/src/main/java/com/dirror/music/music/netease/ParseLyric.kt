@@ -1,6 +1,4 @@
-package com.dirror.music.music
-
-import org.jetbrains.annotations.TestOnly
+package com.dirror.music.music.netease
 
 fun main() {
     val source = """
@@ -68,7 +66,7 @@ fun main() {
         [04:27.35]【攻徳无量扫文组整理】
         [04:31.87]
     """.trimIndent()
-    ParseLyric.parse(source){
+    ParseLyric.parse(source) {
 
     }
 }
@@ -129,7 +127,8 @@ object ParseLyric {
                 println(line)
             }
 
-            success.invoke(Lyric(
+            success.invoke(
+                Lyric(
                 artists = "",
                 title = "",
                 by = "",
@@ -137,7 +136,8 @@ object ParseLyric {
                 offset = 0,
                 content = content,
                 other = ""
-            ))
+            )
+            )
         }
 
 

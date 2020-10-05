@@ -7,6 +7,17 @@
     android:background="@color/colorPageBackground"
     tools:context=".ui.activity.PlayActivity">
 
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clLyric"
         android:layout_width="0dp"
@@ -34,7 +45,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/colorPageBackground"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -121,20 +131,20 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvCd"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="114dp"
+            android:layout_width="275dp"
+            android:layout_height="275dp"
             app:cardBackgroundColor="#F5F5F5"
             app:cardCornerRadius="200dp"
             app:cardElevation="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/clMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvCover"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="225dp"
+                android:layout_height="225dp"
                 android:layout_margin="25dp"
                 android:clipChildren="false"
                 android:transitionName="cvCover"
@@ -148,20 +158,6 @@
                     tools:srcCompat="@tools:sample/avatars" />
             </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
-
-        <ImageView
-            android:id="@+id/ivCdPole"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:clickable="false"
-            android:contextClickable="false"
-            android:paddingStart="60dp"
-            android:translationY="-15dp"
-            android:translationZ="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cd" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

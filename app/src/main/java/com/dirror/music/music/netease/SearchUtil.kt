@@ -1,6 +1,9 @@
-package com.dirror.music.music
+package com.dirror.music.music.netease
 
 import com.dirror.music.api.API_MUSIC_API
+import com.dirror.music.music.standard.SOURCE_NETEASE
+import com.dirror.music.music.standard.StandardArtistData
+import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
 
@@ -26,6 +29,7 @@ object SearchUtil {
         val songs = searchUtilData.result.songs
         for (index in 0..songs.lastIndex) {
             val standardSongData = StandardSongData(
+                SOURCE_NETEASE,
                 songs[index].id,
                 songs[index].name,
                 songs[index].album.artist.img1v1Url,

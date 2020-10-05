@@ -26,10 +26,9 @@ class PlaylistDialog: Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // editView.setText(editTextStr)
-        rvPlaylist.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = MyApplication.musicBinderInterface?.getPlaylist()?.let { PlaylistDialogAdapter(it) }
-        }
+
+        rvPlaylist.layoutManager = LinearLayoutManager(context)
+        rvPlaylist.adapter = MyApplication.musicBinderInterface?.getPlaylist()?.let { PlaylistDialogAdapter(it) }
+
     }
 }

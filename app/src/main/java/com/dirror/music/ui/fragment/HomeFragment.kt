@@ -1,15 +1,11 @@
 package com.dirror.music.ui.fragment
 
 import androidx.fragment.app.viewModels
-import com.dirror.music.CloudMusic
-import com.dirror.music.MyApplication
+import com.dirror.music.music.DirrorMusic
 import com.dirror.music.R
 import com.dirror.music.adapter.MusicBannerAdapter
-import com.dirror.music.music.BannerUtil
-import com.dirror.music.music.PlaylistUtil
-import com.dirror.music.music.StandardSongData
+import com.dirror.music.music.netease.BannerUtil
 import com.dirror.music.ui.base.BaseFragment
-import com.dirror.music.util.loge
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.viewmodel.HomeViewModel
 import com.youth.banner.indicator.CircleIndicator
@@ -63,14 +59,18 @@ class HomeFragment : BaseFragment() {
 
     override fun initListener() {
         ivFlac.setOnClickListener {
-            val playlist = ArrayList<StandardSongData>()
-            CloudMusic.getSongDetail(1433167647, {
-                playlist.add(it)
-                MyApplication.musicBinderInterface?.setPlaylist(playlist)
-                MyApplication.musicBinderInterface?.playMusic(0)
-            }, {
+            DirrorMusic.getSongDetail(0) {
 
-            })
+            }
+
+//            val playlist = ArrayList<StandardSongData>()
+//            CloudMusic.getSongDetail(1433167647, {
+//                playlist.add(it)
+//                MyApplication.musicBinderInterface?.setPlaylist(playlist)
+//                MyApplication.musicBinderInterface?.playMusic(0)
+//            }, {
+//
+//            })
 
         }
     }

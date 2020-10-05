@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dirror.music.CloudMusic
+import com.dirror.music.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistAdapter
@@ -18,9 +18,9 @@ import kotlinx.android.synthetic.main.fragment_my.*
 
 class MyFragment : BaseFragment() {
 
-    private val defaultUid = 316065764L
-    // private val defaultUid = -1L // 默认 -1，可设置一个默认用户
-    // 316065764L
+    // private val defaultUid = 316065764L
+    private val defaultUid = -1L // 默认 -1，可设置一个默认用户
+
     private val userPlaylist = ArrayList<PlaylistData>()
 
     override fun getLayoutId(): Int {
@@ -94,6 +94,7 @@ class MyFragment : BaseFragment() {
     private fun getPlaylist() {
         CloudMusic.getPlaylist(StorageUtil.getLong(StorageUtil.CLOUD_MUSIC_UID, defaultUid)){
             val playlist = it.playlist
+            loge("大小：${playlist.size}")
             val linearLayoutManager: LinearLayoutManager =
                 object : LinearLayoutManager(activity) {
                     override fun canScrollVertically(): Boolean {

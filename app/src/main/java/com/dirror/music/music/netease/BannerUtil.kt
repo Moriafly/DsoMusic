@@ -1,4 +1,4 @@
-package com.dirror.music.music
+package com.dirror.music.music.netease
 
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.util.MagicHttp
