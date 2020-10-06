@@ -6,18 +6,14 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build.VERSION
-import android.os.Process
 import com.dirror.music.MyApplication
 import org.jetbrains.annotations.TestOnly
-import java.io.IOException
-import java.lang.Compiler.command
-import kotlin.system.exitProcess
-
 
 /**
  * Dirror 程序安全防护系统
- * @版本 1.0.0
- * @更新时间 2020/10/4
+ *
+ * @版本 1.0.1
+ * @更新时间 2020/10/6
  * @since 2020/10/4
  */
 object Secure {
@@ -44,12 +40,11 @@ object Secure {
         if (!isSignatureCorrect()) {
             return false
         }
-//        if (isApplicationCorrect()) {
-//            toast("APP 正确")
-//        } else {
-//            toast("APP 错误")
-//            return false
-//        }
+        // 检查抓包
+        if (!checkProxy()) {
+            return false
+        }
+
         return true
     }
 
@@ -96,15 +91,7 @@ object Secure {
      * 杀死自己
      */
     fun killMyself() {
-        val pid = Process.myPid()
-        val cmd = "kill -9 $pid"
-        try {
-            Runtime.getRuntime().exec(cmd)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-//        android.os.Process.killProcess(android.os.Process.myPid())
-//        exitProcess(0)
+        android.os.Process.killProcess(android.os.Process.myPid())
     }
 
     /**
@@ -116,6 +103,13 @@ object Secure {
         val trueApplicationName = "MyApplication"
         val nowApplicationName = nowApplication.javaClass.simpleName
         return trueApplicationName == nowApplicationName
+    }
+
+    /**
+     * 防抓包，检查是否有代理
+     */
+    private fun checkProxy(): Boolean {
+        return System.getProperty("http.proxyHost") == null && System.getProperty("http.proxyPort")  == null
     }
 
 }

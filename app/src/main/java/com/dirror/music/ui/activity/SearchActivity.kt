@@ -23,13 +23,9 @@ import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_search.itemPlay
 import kotlinx.android.synthetic.main.layout_play.view.*
 
-class SearchActivity : BaseActivity() {
+class SearchActivity : BaseActivity(R.layout.activity_search) {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_search
-    }
 
     override fun initData() {
         val intentFilter = IntentFilter() // Intent 过滤器

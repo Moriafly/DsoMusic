@@ -9,11 +9,7 @@ import com.dirror.music.util.getVisionName
 import com.dirror.music.util.openUrlByBrowser
 import kotlinx.android.synthetic.main.activity_settings.*
 
-class SettingsActivity : BaseActivity() {
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_settings
-    }
+class SettingsActivity : BaseActivity(R.layout.activity_settings) {
 
     override fun initData() {
 

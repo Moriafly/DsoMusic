@@ -6,11 +6,7 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.toast
 import kotlinx.android.synthetic.main.activity_feedback.*
 
-class FeedbackActivity : BaseActivity() {
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_feedback
-    }
+class FeedbackActivity : BaseActivity(R.layout.activity_feedback) {
 
     override fun initData() {
 

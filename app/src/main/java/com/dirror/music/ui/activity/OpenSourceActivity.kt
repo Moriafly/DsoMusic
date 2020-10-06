@@ -1,7 +1,5 @@
 package com.dirror.music.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.R
 import com.dirror.music.adapter.OpenSourceAdapter
@@ -9,11 +7,7 @@ import com.dirror.music.adapter.OpenSourceData
 import com.dirror.music.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_open_source.*
 
-class OpenSourceActivity : BaseActivity() {
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_open_source
-    }
+class OpenSourceActivity : BaseActivity(R.layout.activity_open_source) {
 
     override fun initView() {
         val openSourceList = listOf(

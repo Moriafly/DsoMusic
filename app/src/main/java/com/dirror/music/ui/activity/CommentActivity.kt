@@ -9,11 +9,7 @@ import com.dirror.music.util.runOnMainThread
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.dirrorx_titlebar_layout.view.*
 
-class CommentActivity : BaseActivity() {
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_comment
-    }
+class CommentActivity : BaseActivity(R.layout.activity_comment) {
 
     override fun initView() {
 

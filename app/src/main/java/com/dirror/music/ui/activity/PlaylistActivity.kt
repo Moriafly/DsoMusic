@@ -23,13 +23,9 @@ import kotlinx.android.synthetic.main.layout_play.view.*
  * 歌单 Activity
  * 最新要求：兼容 网易和 QQ
  */
-class PlaylistActivity : BaseActivity() {
+class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_playlist
-    }
 
     override fun initData() {
         val intentFilter = IntentFilter() // Intent 过滤器

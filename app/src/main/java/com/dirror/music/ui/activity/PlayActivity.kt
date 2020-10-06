@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.activity_play.*
 private const val MSG_PROGRESS = 0 // Handle 消息，播放进度
 private const val MSG_LYRIC = 1 // Handle 消息，播放进度
 
-class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
+class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChangeListener {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private var nowProgress = 0 // 当前进度
@@ -48,10 +48,6 @@ class PlayActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             }
         }
     } // 可能泄漏，等待以后解决，Handle 过时问题
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_play
-    }
 
     override fun initData() {
         val intentFilter = IntentFilter() // Intent 过滤器

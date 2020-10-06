@@ -3,20 +3,15 @@ package com.dirror.music.ui.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-abstract class BaseActivity: AppCompatActivity() {
+abstract class BaseActivity(private val layoutId: Int): AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutId())
+        setContentView(layoutId)
         initData() // 初始化数据
         initView()
         initListener() // 监听
     }
-
-    /**
-     * 获取布局 id
-     */
-    abstract fun getLayoutId(): Int
 
     /**
      * 初始化数据

@@ -19,13 +19,9 @@ import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_play.view.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
-    }
 
     override fun initData() {
         val intentFilter = IntentFilter() // Intent 过滤器

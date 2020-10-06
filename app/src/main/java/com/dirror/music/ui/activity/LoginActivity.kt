@@ -6,10 +6,7 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.setStatusBarIconColor
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : BaseActivity() {
-    override fun getLayoutId(): Int {
-        return R.layout.activity_login
-    }
+class LoginActivity : BaseActivity(R.layout.activity_login) {
 
     override fun initView() {
         // 白色状态栏图标

@@ -30,7 +30,6 @@ class MyApplication: Application() {
         context = applicationContext // 全局 context
 
         if (Secure.isSecure()) {
-            toast("Dso Music")
             // 初始化 Bmob
             Bmob.initialize(this, "0d1d3b9214e037c76de958993ddd6563");
             // 开启服务
