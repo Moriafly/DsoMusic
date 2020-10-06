@@ -324,17 +324,23 @@ class MusicService : Service() {
          * 播放下一曲
          */
         override fun playNext() {
-            when (mode) {
-                MODE_RANDOM -> (0..playlist?.lastIndex!!).random()
-                else -> {
-                    position = if (position == playlist?.lastIndex) {
-                        0
-                    } else {
-                        position?.plus(1)
+            playlist?.let {
+                when (mode) {
+                    MODE_RANDOM -> {
+                        position = (0..it.lastIndex).random()
+                    }
+                    else -> {
+                        position = if (position == it.lastIndex) {
+                            0
+                        } else {
+                            position?.plus(1)
+                        }
                     }
                 }
             }
-            position?.let { playMusic(it) }
+            position?.let {
+                playMusic(it)
+            }
         }
 
         /**

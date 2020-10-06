@@ -37,6 +37,7 @@ private const val MSG_LYRIC = 1 // Handle 消息，播放进度
 class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChangeListener {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
+    private var song: StandardSongData? = null
     private var nowProgress = 0 // 当前进度
     private var duration = 0 // 音乐总时长
     private var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MusicService.MODE_CIRCLE)
@@ -69,16 +70,6 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         loge("width=${ivBackground.width}")
         ivBackground.scaleY = 1.5f
         ivBackground.scaleX = 2.5f
-
-
-        val radius = 20f
-        val decorView: View = window.decorView
-        val windowBackground: Drawable = decorView.background
-//        blurView.setupWith(decorView.findViewById(R.id.clBackground))
-//            .setFrameClearDrawable(windowBackground)
-//            .setBlurAlgorithm(RenderScriptBlur(this))
-//            .setBlurRadius(radius)
-//            .setHasFixedTransformationMatrix(true)
 
         ivPlay.setColorFilter(Color.rgb(100, 100, 100))
         ivLast.setColorFilter(Color.rgb(100, 100, 100))
@@ -335,7 +326,6 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         updateProgress()
     }
 
-    private var song: StandardSongData? = null
     private fun getNowSongData() {
         song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
