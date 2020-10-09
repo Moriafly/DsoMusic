@@ -31,7 +31,7 @@ class MyApplication: Application() {
 
         if (Secure.isSecure()) {
             // 初始化 Bmob
-            Bmob.initialize(this, "0d1d3b9214e037c76de958993ddd6563");
+            Bmob.initialize(this, "0d1d3b9214e037c76de958993ddd6563")
             // 开启服务
             startMusicService()
         } else {

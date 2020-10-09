@@ -15,8 +15,6 @@ class ValueView(context: Context, attrs: AttributeSet): androidx.constraintlayou
         LayoutInflater.from(context).inflate(R.layout.dirrorx_value_view_layout, this)
         tvTitle.text = title
         tvValue.text = value
-
-
     }
 
     fun setTitle(string: String) {
@@ -26,6 +24,5 @@ class ValueView(context: Context, attrs: AttributeSet): androidx.constraintlayou
     fun setValue(string: String) {
         tvValue.text = string
     }
-
 
 }
