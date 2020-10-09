@@ -32,3 +32,9 @@ fun ViewPager2.hideScrollMode() {
     ViewPager2Util.changeToNeverMode(this)
 }
 
+/**
+ * dp
+ */
+fun Int.dp(): Int {
+    return dp2px(this.toFloat()).toInt()
+}

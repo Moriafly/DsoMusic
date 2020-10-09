@@ -25,7 +25,7 @@ object LyricUtil {
     /**
      * 解析 Lyric
      */
-    private fun parseLyric(source: String): ArrayList<LyricData> {
+    fun parseLyric(source: String): ArrayList<LyricData> {
         val lyricDataList =ArrayList<LyricData>()
 
         val singleLineList = source.split("\n")

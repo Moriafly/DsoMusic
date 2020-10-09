@@ -34,7 +34,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     override fun initView() {
         // 请求广播
         MyApplication.musicBinderInterface?.sendBroadcast()
-        // window.insetsController?.setSystemBarsAppearance(APPEARANCE_LIGHT_NAVIGATION_BARS, APPEARANCE_LIGHT_NAVIGATION_BARS)
 
         val radius = 20f
         val decorView: View = window.decorView
@@ -66,7 +65,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         blurViewPlayBottom.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
         blurViewPlayBottom.translationY = - navigationBarHeight / 2
 
-
         viewPager2.adapter = object: FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
                 return 2 // 2 个页面
@@ -94,8 +92,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 R.anim.anim_no_anim
             )
         }
-
-
 
         itemPlay.ivPlay.setOnClickListener {
             // 更新
