@@ -4,12 +4,14 @@ import androidx.fragment.app.viewModels
 import com.dirror.music.music.DirrorMusic
 import com.dirror.music.R
 import com.dirror.music.adapter.MusicBannerAdapter
+import com.dirror.music.foyou.sentence.Sentence
 import com.dirror.music.music.netease.BannerUtil
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.viewmodel.HomeViewModel
 import com.youth.banner.indicator.CircleIndicator
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.include_foyou.*
 
 
 class HomeFragment : BaseFragment() {
@@ -25,53 +27,19 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
-        BannerUtil.getBanner { list ->
-            runOnMainThread {
-                banner.apply {
-                    addBannerLifecycleObserver(this@HomeFragment) // 感知生命周期
-                    adapter = MusicBannerAdapter(list)
-                    setIndicator(CircleIndicator(context), false)
-                    setLoopTime(5000) // 轮播时间
-                    // setBannerGalleryMZ(20, 0.85F)
-                    start()
-                }
-            }
-        }
 
-//        homeViewModel.getBannerDataList()
-//        homeViewModel.bannerDataListLive.observe(viewLifecycleOwner) { list ->
 
- //       }
-
-        // banner 点击事件
-        banner.setOnBannerListener { _, position ->
-            // homeViewModel.getBannerDataList()
-//            val bannerData = bannerAdapter.getData(position) // 选中的 Banner
-//            val intent = Intent(context, SearchAlbumActivity::class.java)
-//            intent.putExtra("data_recommend", bannerData.intent)
-//            startActivity(intent)
-//            activity?.overridePendingTransition(
-//                R.xml.activity_enter_alpha,
-//                R.xml.activity_exit_alpha
-//            )
-        }
     }
 
     override fun initListener() {
-        ivFlac.setOnClickListener {
-            DirrorMusic.getSongDetail(0) {
-
+        includeFoyou.setOnClickListener {
+            Sentence.getSentence {
+                runOnMainThread {
+                    tvText.text = it.text
+                    tvAuthor.text = it.author
+                    tvSource.text = it.source
+                }
             }
-
-//            val playlist = ArrayList<StandardSongData>()
-//            CloudMusic.getSongDetail(1433167647, {
-//                playlist.add(it)
-//                MyApplication.musicBinderInterface?.setPlaylist(playlist)
-//                MyApplication.musicBinderInterface?.playMusic(0)
-//            }, {
-//
-//            })
-
         }
     }
 

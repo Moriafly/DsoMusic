@@ -16,40 +16,11 @@
             android:orientation="vertical"
             android:paddingTop="112dp" >
 
-            <com.youth.banner.Banner
-                android:id="@+id/banner"
+            <include
+                android:id="@+id/includeFoyou"
+                layout="@layout/include_foyou"
                 android:layout_width="match_parent"
-                android:layout_height="150dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="8dp"
-                android:text="Dirror 音乐库 FLAC 试听"
-                android:textColor="@color/colorTextForeground"
-                android:textSize="18sp"
-                android:visibility="visible" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:visibility="visible"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/ivFlac"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_bq_home_channel_active_bg" />
-
-            </androidx.cardview.widget.CardView>
-
+                android:layout_height="200dp" />
 
 
         </LinearLayout>

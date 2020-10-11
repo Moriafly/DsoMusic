@@ -67,7 +67,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
         viewPager2.adapter = object: FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
-                return 1 // 2 个页面
+                return 2 // 2 个页面
             }
 
             override fun createFragment(position: Int): Fragment {
