@@ -185,13 +185,15 @@ class MusicService : Service() {
                 mediaPlayer?.release()
                 mediaPlayer = null
             }
+            // 音乐链接
+            val url = "https://music.163.com/song/media/outer/url?id=$songId.mp3"
             // 初始化
             mediaPlayer = MediaPlayer()
             mediaPlayer?.let {
                 it.setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
                 it.setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
                 it.setOnErrorListener(this@MusicBinder)
-                it.setDataSource("https://music.163.com/song/media/outer/url?id=$songId.mp3")
+                it.setDataSource(url)
                 it.prepareAsync()
             }
         }
@@ -325,12 +327,12 @@ class MusicService : Service() {
          */
         override fun playNext() {
             playlist?.let {
-                when (mode) {
+                position = when (mode) {
                     MODE_RANDOM -> {
-                        position = (0..it.lastIndex).random()
+                        (0..it.lastIndex).random()
                     }
                     else -> {
-                        position = if (position == it.lastIndex) {
+                        if (position == it.lastIndex) {
                             0
                         } else {
                             position?.plus(1)

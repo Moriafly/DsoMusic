@@ -24,7 +24,10 @@ class FeedbackActivity : BaseActivity(R.layout.activity_feedback) {
                 feedback.length < 10 -> toast("反馈内容不少于 10 个字符")
                 contact.isEmpty() -> toast("请输入联系方式")
                 else -> {
+                    // 上传反馈内容
                     BmobManager().uploadFeedback(feedback, contact)
+                    // 清空反馈内容，不清除联系方式
+                    etFeedback.setText("")
                 }
             }
         }

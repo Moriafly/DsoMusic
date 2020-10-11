@@ -334,7 +334,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
                     runOnUiThread {
                         val drawable = bitmap.toDrawable(resources)
                         ivCover.setImageDrawable(drawable)
-                        Glide.with(this)
+                        Glide.with(MyApplication.context)
                             .load(drawable)
                             .placeholder(ivBackground.drawable)
                             .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
