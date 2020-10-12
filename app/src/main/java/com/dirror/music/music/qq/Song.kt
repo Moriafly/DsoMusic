@@ -8,7 +8,3 @@ object Song {
         // MagicHttp.OkHttpManager().newGet()
     }
 }
-
-fun main() {
-    println("老陈你好！")
-}

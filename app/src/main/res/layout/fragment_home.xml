@@ -20,7 +20,7 @@
                 android:id="@+id/includeFoyou"
                 layout="@layout/include_foyou"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="250dp" />
 
 
         </LinearLayout>

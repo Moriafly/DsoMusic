@@ -28,7 +28,7 @@ class SongInfoDialog: Dialog {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // editView.setText(editTextStr)
-        StandardGET.getSongInfo(MyApplication.musicBinderInterface?.getNowSongData()?.id?:-1) {
+        StandardGET.getSongInfo((MyApplication.musicBinderInterface?.getNowSongData()?.id?:-1) as Long) {
             val size = parseBit(it.size)
             runOnMainThread {
                 valueViewId.setValue(it.id.toString())

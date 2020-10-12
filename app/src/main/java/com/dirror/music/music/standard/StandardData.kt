@@ -2,11 +2,11 @@ package com.dirror.music.music.standard
 
 const val SOURCE_NATIVE = 0
 const val SOURCE_NETEASE = 1
-const val SOURCE_QQ = 1
+const val SOURCE_QQ = 2
 
 data class StandardSongData(
-    val source: Int, // S
-    val id: Long?,
+    val source: Int, // 歌曲来源，网易，QQ，本地
+    val id: Any?,
     val name: String,
     val imageUrl: String?,
     val artists: ArrayList<StandardArtistData>?,

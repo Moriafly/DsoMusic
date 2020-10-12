@@ -1,15 +1,12 @@
 package com.dirror.music.ui.fragment
 
 import androidx.fragment.app.viewModels
-import com.dirror.music.music.DirrorMusic
 import com.dirror.music.R
-import com.dirror.music.adapter.MusicBannerAdapter
 import com.dirror.music.foyou.sentence.Sentence
-import com.dirror.music.music.netease.BannerUtil
 import com.dirror.music.ui.base.BaseFragment
+import com.dirror.music.util.AnimationUtil
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.viewmodel.HomeViewModel
-import com.youth.banner.indicator.CircleIndicator
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.include_foyou.*
 
@@ -27,25 +24,30 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
-
-
+        changeSentence()
     }
 
     override fun initListener() {
         includeFoyou.setOnClickListener {
-            Sentence.getSentence {
-                runOnMainThread {
-                    tvText.text = it.text
-                    tvAuthor.text = it.author
-                    tvSource.text = it.source
-                }
-            }
+            changeSentence()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun changeSentence() {
 
+        tvText.alpha = 0f
+        tvAuthor.alpha = 0f
+        tvSource.alpha = 0f
+        Sentence.getSentence {
+            runOnMainThread {
+                tvText.text = it.text
+                tvAuthor.text = it.author
+                tvSource.text = it.source
+                AnimationUtil.fadeIn(tvText, 1000)
+                AnimationUtil.fadeIn(tvAuthor, 1000)
+                AnimationUtil.fadeIn(tvSource, 1000)
+            }
+        }
     }
 
 }

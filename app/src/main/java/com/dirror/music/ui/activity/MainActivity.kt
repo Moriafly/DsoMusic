@@ -133,7 +133,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             if (song != null) {
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
-                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), itemPlay.ivCover, itemPlay.ivCover)
+                GlideUtil.load(CloudMusic.getMusicCoverUrl((song.id?:-1L) as Long), itemPlay.ivCover, itemPlay.ivCover)
             }
             refreshPlayState()
         }

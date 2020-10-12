@@ -526,7 +526,7 @@ class MusicService : Service() {
             .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
             song.id?.let {
-                StandardGET.getSongBitmap(it) { bitmap ->
+                StandardGET.getSongBitmap(it as Long) { bitmap ->
                     val notification = NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_music_launcher_foreground)
                         .setLargeIcon(bitmap)

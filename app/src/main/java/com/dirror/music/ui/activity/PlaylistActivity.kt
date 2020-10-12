@@ -80,7 +80,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
             if (song != null) {
                 layoutPlay.tvName.text = song.name
                 layoutPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
-                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), layoutPlay.ivCover, layoutPlay.ivCover)
+                GlideUtil.load(CloudMusic.getMusicCoverUrl((song.id?:-1L) as Long), layoutPlay.ivCover, layoutPlay.ivCover)
             }
             refreshPlayState()
         }
@@ -106,7 +106,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
     private fun refreshLayoutPlay() {
         val song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
-            GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), layoutPlay.ivCover)
+            GlideUtil.load(CloudMusic.getMusicCoverUrl((song.id?:-1L) as Long), layoutPlay.ivCover)
             layoutPlay.tvName.text = song.name
             layoutPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
         }

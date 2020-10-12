@@ -118,7 +118,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         ivComment.setOnClickListener {
             if (song != null) {
                 val intent = Intent(this, CommentActivity::class.java)
-                intent.putExtra("long_music_id", song?.id)
+                intent.putExtra("long_music_id", song?.id as Long)
                 startActivity(intent)
                 overridePendingTransition(
                     R.anim.anim_slide_enter_bottom,
@@ -156,7 +156,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
 
         ivLike.setOnClickListener {
             if (song != null) {
-                CloudMusic.likeSong(song!!.id ?: -1L)
+                CloudMusic.likeSong((song!!.id ?: -1L) as Long)
             }
         }
 
@@ -295,7 +295,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
     }
 
     private fun refreshLyricView() {
-        lyricView.setLyricId(song?.id ?: -1L)
+        lyricView.setLyricId((song?.id ?: -1L) as Long)
         nowProgress = MyApplication.musicBinderInterface?.getProgress()?:0
         duration = MyApplication.musicBinderInterface?.getDuration()?:duration
         lyricView.setSongDuration(duration)
@@ -329,7 +329,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
     private fun getNowSongData() {
         song = MyApplication.musicBinderInterface?.getNowSongData()
         if (song != null) {
-            CloudMusic.getSongImage(song!!.id ?: -1L) { url ->
+            CloudMusic.getSongImage((song!!.id ?: -1L) as Long) { url ->
                 GlideUtil.load(url) { bitmap ->
                     runOnUiThread {
                         val drawable = bitmap.toDrawable(resources)

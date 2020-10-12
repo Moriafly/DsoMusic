@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.core.animation.addListener
+import java.time.Duration
 
 
 object AnimationUtil {
@@ -58,6 +59,17 @@ object AnimationUtil {
         val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "alpha", view.alpha, 1.0f)
         objectAnimator.interpolator = LinearInterpolator()
         objectAnimator.duration = (300 * (1.0f - view.alpha) / 1.0f).toLong()
+        // objectAnimator.repeatCount = 1
+        objectAnimator.start()
+    }
+
+    fun fadeIn(view: View, duration: Int) {
+        if (view.visibility == View.GONE) {
+            view.visibility = View.VISIBLE
+        }
+        val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "alpha", view.alpha, 1.0f)
+        objectAnimator.interpolator = LinearInterpolator()
+        objectAnimator.duration = (duration * (1.0f - view.alpha) / 1.0f).toLong()
         // objectAnimator.repeatCount = 1
         objectAnimator.start()
     }
