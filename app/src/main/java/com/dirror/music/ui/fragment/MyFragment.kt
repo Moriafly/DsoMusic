@@ -86,8 +86,12 @@ class MyFragment : BaseFragment() {
             Glide.with(MyApplication.context)
                 .load(http2https(userDetailData.profile?.avatarUrl.toString()))
                 .into(ivPhoto)
+            // 显示昵称
             tvNickname.text = userDetailData.profile?.nickname
             tvLevel.text = "Lv.${userDetailData.level}"
+            // 关注和粉丝
+            tvFolloweds.text = "关注 ${userDetailData.followeds}"
+            tvFollows.text = "粉丝 ${userDetailData.followeds}"
         }
     }
 

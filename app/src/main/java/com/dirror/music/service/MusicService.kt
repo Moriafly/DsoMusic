@@ -354,9 +354,10 @@ class MusicService : Service() {
 
         /**
          * 获取 AudioSessionId，用于音效
+         * 无则返回 0
          */
         override fun getAudioSessionId(): Int {
-            return mediaPlayer?.audioSessionId ?: 0
+            return mediaPlayer?.audioSessionId?: 0
         }
 
         /**

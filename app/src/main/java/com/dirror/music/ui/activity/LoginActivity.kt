@@ -23,7 +23,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         }
     }
 
-    fun send() {
+    private fun send() {
         val intent = Intent()
         intent.putExtra("boolean_user", true)
         setResult(RESULT_OK, intent)
