@@ -9,14 +9,15 @@ object FoyouOthers {
             SentenceData("马蹄留下踏残的落花，在南国小小的山径。歌人留下了破碎的琴韵，在北方幽幽的寺院。", "痖弦", "秋歌"),
             SentenceData("我们不过是穷乏的小孩子。偶然想假装富有，脸便先红了。", "郑振铎", "赤子之心·赠圣陶"),
             // 名言
+            SentenceData("世人如蝼蚁，笼中把玩物。", "", ""),
             SentenceData("教育植根于爱。", "鲁迅", ""),
             SentenceData("如果你没被你发布的第一版产品尴尬到，你发布地已经太晚了。", "Reid Hoffman", ""),
             SentenceData("地上的人多心不平，天上的星多月不亮。", "", "江阴民谚"),
             SentenceData("贫穷让我们无法入睡，醒来这个世界会好吗？", "阿霜", ""),
             SentenceData("寂静的墙和寂静的我之间，野花膨胀着花蕾，不尽的路途在不尽的墙间延展，有很多事要慢慢对它谈，随手记下谓之写作。", "史铁生", ""),
-
+            SentenceData("指南针如何导航，你是我唯一方向。", "蒲熠星、郭文韬", ""),
             SentenceData("怎么，暴动吗？不，陛下，是革命。", "", "得知巴士底狱被攻占后，法国国王路易十六与利昂古尔公爵的一段对话"),
-            SentenceData("Hollo, world!", "Brian Kernighan", ""),
+            SentenceData("Hello, world!", "Brian Kernighan", ""),
             SentenceData("再好的设计也无法拯救低质量的内容。", "Edward R. Tufte", ""),
 
             // foyou

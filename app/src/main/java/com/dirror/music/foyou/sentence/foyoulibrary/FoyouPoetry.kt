@@ -62,6 +62,9 @@ object FoyouPoetry {
             SentenceData("了却君王天下事，赢得生前身后名。可怜白发生。", "辛弃疾", "破阵子·为陈同甫赋壮词以寄之"),
             SentenceData("鹏北海，凤朝阳。又携书剑路茫茫。", "辛弃疾", "鹧鸪天"),
             SentenceData("对酒不觉眠，落花盈我衣。醉起步溪月，鸟还人亦稀。", "李白", "自遣"),
+            SentenceData("竹斋眠听雨，梦里长青苔。", "方岳", "听雨"),
+            SentenceData("杯盘罢，争些醉煞，和月宿芦花。", "赵显宏", "中吕·满庭芳"),
+            SentenceData("若无闲事挂心头，便是人间好时节。", "释梵思", "颂古九首"),
         )
         val index = (0..arrayStr.lastIndex).random()
         return SentenceData(arrayStr[index].text, arrayStr[index].author, arrayStr[index].source)

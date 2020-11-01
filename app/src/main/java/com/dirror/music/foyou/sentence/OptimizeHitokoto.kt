@@ -1,6 +1,8 @@
-package com.dirror.foyou.sentence
+package com.dirror.music.foyou.sentence
 
 import android.util.Log
+import com.dirror.foyou.sentence.SentenceData
+import com.dirror.music.util.isChinese
 
 /**
  * 优化来自一言的句子单例
@@ -78,22 +80,11 @@ object OptimizeHitokoto {
 
     // 为某些没加结束标点符号的句子加上标点符号
     private fun sentenceTextRepair(string: String): String {
-        val last = string.last().toString()
-        var sentenceTextStr = string
-        val lastList = arrayOf("语", "狱", "源", "弹", "鬼", "了", "一", "血", "哭", "谁",
-            "誉", "望", "吧", "的", "年", "啊", "多", "见", "也", "说", "心", "华", "子", "之", "么", "海",
-            "允", "色", "忧", "点", "眉", "人", "星", "冕", "尘", "玉", "机", "生", "歉", "介", "浪", "起",
-            "言", "去", "灯", "知", "邪", "忘", "山", "强", "身", "相", "留", "想", "长", "界", "你", "发",
-            "地", "音", "缘", "先", "伤", "轻", "暗", "患", "凰", "确", "然", "帝", "我", "家", "枝", "焉",
-            "情", "前", "由", "己", "氓", "小", "幸", "沦", "题", "光", "物", "天", "错", "乐", "误", "活",
-            "记", "着", "端", "弱", "开", "歌", "仰", "迹", "改", "害", "江", "功", "排", "处", "样", "好",
-            "义", "至", "合", "悔", "流", "藏", "真", "步", "在", "息", "手", "倾", "啦", "常", "负", "夜",
-            "盘", "厘", "诗", "苦", "做", "过", "后", "别", "层", "逢", "间", "完", "价", "归", "油", "限",
-            "憾", "琛", "始", "为", "弃", "接", "口", "会", "已", "事", "成", "谓", "寒", "重", "以", "迹",
-            "来", "柔", "平", "励", "大", "派", "笑", "梦", "贺", "神", "念", "性", "亮", "桶", "遇", "能",
-            "球")
-        if (last in lastList) sentenceTextStr += "。"
-        return sentenceTextStr
+        return if (string.last().isChinese()) {
+            "${string}。"
+        } else {
+            string
+        }
     }
 
     fun sentenceTextNewLine(string: String): String {

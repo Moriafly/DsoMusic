@@ -9,6 +9,7 @@ import android.os.IBinder
 import cn.bmob.v3.Bmob
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
+import com.dirror.music.util.LanguageUtils
 import com.dirror.music.util.Secure
 import com.dirror.music.util.toast
 import okhttp3.Cookie
@@ -39,6 +40,9 @@ class MyApplication: Application() {
             // 杀死自己
             Secure.killMyself()
         }
+
+        // 设置语言
+        LanguageUtils.setLanguage(1)
     }
 
     /**

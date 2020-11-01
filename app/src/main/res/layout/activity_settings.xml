@@ -55,6 +55,22 @@
 
             </com.dirror.music.widget.ValueView>
 
+            <com.dirror.music.widget.ValueView
+                android:id="@+id/itemFoyouVersion"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="Foyou 库版本"
+                app:value="1.0.0">
+
+            </com.dirror.music.widget.ValueView>
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="中文 / English">
+
+            </com.dirror.music.widget.ItemLayout>
         </LinearLayout>
     </ScrollView>
 

@@ -9,7 +9,6 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Message
 import android.view.View
@@ -58,22 +57,31 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
     }
 
     override fun initView() {
-        initPlayMode()
-        // 获取现在歌曲信息
-        getNowSongData()
-        updateProgress()
-        refreshPlayState()
+        val navigationBarHeight = getNavigationBarHeight(this).toFloat()
+
+        // 底部适配
+        clControl.translationY = - navigationBarHeight
+        seekBar.translationY = - navigationBarHeight
+        clMenu.translationY = - navigationBarHeight
+        tvProgress.translationY = - navigationBarHeight
+        tvDuration.translationY = - navigationBarHeight
 
         titleBar.translationY = getStatusBarHeight(window, this).toFloat()
 
-        loge("height=${ivBackground.height}")
-        loge("width=${ivBackground.width}")
         ivBackground.scaleY = 1.5f
         ivBackground.scaleX = 2.5f
 
         ivPlay.setColorFilter(Color.rgb(100, 100, 100))
         ivLast.setColorFilter(Color.rgb(100, 100, 100))
         ivNext.setColorFilter(Color.rgb(100, 100, 100))
+
+        initPlayMode()
+        // 获取现在歌曲信息
+        getNowSongData()
+        updateProgress()
+        refreshPlayState()
+
+
     }
 
     /**

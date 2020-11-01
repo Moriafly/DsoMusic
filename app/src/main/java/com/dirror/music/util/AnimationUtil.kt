@@ -63,14 +63,25 @@ object AnimationUtil {
         objectAnimator.start()
     }
 
-    fun fadeIn(view: View, duration: Int) {
+    /**
+     * @param smooth 平滑
+     */
+    fun fadeIn(view: View, duration: Int, smooth: Boolean) {
         if (view.visibility == View.GONE) {
             view.visibility = View.VISIBLE
         }
-        val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "alpha", view.alpha, 1.0f)
+        val startAlpha = if (smooth) {
+            view.alpha
+        } else {
+            0f
+        }
+        val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "alpha", startAlpha, 1.0f)
         objectAnimator.interpolator = LinearInterpolator()
-        objectAnimator.duration = (duration * (1.0f - view.alpha) / 1.0f).toLong()
-        // objectAnimator.repeatCount = 1
+        if (smooth) {
+            objectAnimator.duration = (duration * (1.0f - view.alpha) / 1.0f).toLong()
+        } else {
+            objectAnimator.duration = duration.toLong()
+        }
         objectAnimator.start()
     }
 

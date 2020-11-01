@@ -34,7 +34,6 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun changeSentence() {
-
         tvText.alpha = 0f
         tvAuthor.alpha = 0f
         tvSource.alpha = 0f
@@ -43,9 +42,9 @@ class HomeFragment : BaseFragment() {
                 tvText.text = it.text
                 tvAuthor.text = it.author
                 tvSource.text = it.source
-                AnimationUtil.fadeIn(tvText, 1000)
-                AnimationUtil.fadeIn(tvAuthor, 1000)
-                AnimationUtil.fadeIn(tvSource, 1000)
+                AnimationUtil.fadeIn(tvText, 1000, false)
+                AnimationUtil.fadeIn(tvAuthor, 1000, false)
+                AnimationUtil.fadeIn(tvSource, 1000, false)
             }
         }
     }

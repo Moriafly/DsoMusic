@@ -80,8 +80,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             tab.text = when (position) {
-                0 -> "我的"
-                else -> "首页"
+                0 -> getString(R.string.my)
+                else -> getString(R.string.home)
             }
         }.attach()
 

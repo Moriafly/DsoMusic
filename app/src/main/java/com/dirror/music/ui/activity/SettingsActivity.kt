@@ -3,10 +3,9 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import android.view.View
 import com.dirror.music.R
+import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.getVisionCode
-import com.dirror.music.util.getVisionName
-import com.dirror.music.util.openUrlByBrowser
+import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : BaseActivity(R.layout.activity_settings) {
@@ -17,6 +16,7 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
 
     override fun initView() {
         itemVersion.setValue("${getVisionName()}(${getVisionCode()})")
+        itemFoyouVersion.setValue(FoyouLibrary.VERSION)
     }
 
     override fun initListener() {
@@ -31,6 +31,18 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
 
         itemSourceCode.setOnClickListener {
             openUrlByBrowser(this, "https://github.com/Moriafly/dirror-music")
+        }
+
+        // 语言
+        itemLanguage.setOnClickListener {
+            var language = StorageUtil.getInt(StorageUtil.LANGUAGE, 0)
+            language = if (language == 0) {
+                1
+            } else {
+                0
+            }
+            StorageUtil.putInt(StorageUtil.LANGUAGE, language)
+            LanguageUtils.setLanguage(language)
         }
     }
 
