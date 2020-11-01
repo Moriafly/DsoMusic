@@ -7,6 +7,9 @@ import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.audio.AudioEffect
+import com.dirror.music.util.loge
+import com.dirror.music.util.toast
 import kotlinx.android.synthetic.main.dialog_play_more.*
 import kotlin.math.abs
 
@@ -41,6 +44,19 @@ class PlayerMenuMoreDialog : Dialog {
             }
             // 自己消失
             dismiss()
+        }
+
+        // 降噪
+        switchNoiseSuppressor.setOnCheckedChangeListener { buttonView, isChecked ->
+            // 开启降噪
+            val audioSession = MyApplication.musicBinderInterface?.getAudioSessionId()?:0
+            toast("${audioSession}")
+            // loge("你好audio: ${audioSession}")
+            // AudioEffect.noiseSuppressor(audioSession, true)
+        }
+
+        itemNoiseSuppressor.setOnClickListener {
+            switchNoiseSuppressor.isChecked = !switchNoiseSuppressor.isChecked
         }
 
         ivIncreasePitch.setOnClickListener {

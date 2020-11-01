@@ -55,7 +55,7 @@ class MusicService : Service() {
     private var speed = 1f // 默认播放速度，0f 表示暂停
     private var pitch = 1f // 默认音高
     private var pitchLevel = 0 // 音高等级
-    private val pitchUnit = 0.1f // 音高单元
+    private val pitchUnit = 0.05f // 音高单元，每次改变的音高单位
 
     override fun onCreate() {
         super.onCreate()
@@ -395,7 +395,7 @@ class MusicService : Service() {
         override fun increasePitchLevel() {
             pitchLevel++
             val value = pitchUnit * (pitchLevel + 1f / pitchUnit)
-            if (value < 2f) {
+            if (value < 1.5f) {
                 pitch = value
                 setPlaybackParams()
             } else {
@@ -409,7 +409,7 @@ class MusicService : Service() {
         override fun decreasePitchLevel() {
             pitchLevel--
             val value = pitchUnit * (pitchLevel + 1f / pitchUnit)
-            if (value > 0f) {
+            if (value > 0.5f) {
                 pitch = value
                 setPlaybackParams()
             } else {

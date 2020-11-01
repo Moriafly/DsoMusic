@@ -9,9 +9,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/colorDialogBackground"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,6 +27,29 @@
             android:orientation="vertical"
             android:paddingTop="16dp"
             android:paddingBottom="16dp">
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemNoiseSuppressor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:itemType="item_no"
+                app:text="降噪">
+
+                <Switch
+                    android:id="@+id/switchNoiseSuppressor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:showText="false"
+                    android:splitTrack="false"
+                    android:switchMinWidth="42dp"
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_track"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+            </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemPitch"

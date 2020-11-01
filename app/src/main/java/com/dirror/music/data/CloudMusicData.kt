@@ -17,8 +17,6 @@ data class UserDetailData(
     val level: Int, // 用户等级
     val code: Int?, // 参数，一般为错误代码，可能是空
     val profile: ProfileData?,
-    val followeds: Int, // 关注
-    val follows: Int, // 粉丝
 )
 
 // 用户简单信息
@@ -26,6 +24,8 @@ data class ProfileData(
     val nickname: String,
     val userId: Int,
     val avatarUrl: String, // 头像
+    val follows: Int, // 关注
+    val followeds: Int, // 粉丝
 )
 
 data class UserPlaylistData(

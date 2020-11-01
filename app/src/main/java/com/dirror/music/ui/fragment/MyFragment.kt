@@ -90,8 +90,8 @@ class MyFragment : BaseFragment() {
             tvNickname.text = userDetailData.profile?.nickname
             tvLevel.text = "Lv.${userDetailData.level}"
             // 关注和粉丝
-            tvFolloweds.text = "关注 ${userDetailData.followeds}"
-            tvFollows.text = "粉丝 ${userDetailData.followeds}"
+            tvFollows.text = "关注 ${userDetailData.profile?.follows}"
+            tvFolloweds.text = "粉丝 ${userDetailData.profile?.followeds}"
         }
     }
 

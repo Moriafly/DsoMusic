@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/itemAccount"
             android:layout_width="match_parent"
-            android:layout_height="112dp"
+            android:layout_height="96dp"
             android:background="@drawable/background_item_default">
 
             <androidx.cardview.widget.CardView
@@ -43,7 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="28dp"
                 android:layout_marginEnd="16dp"
                 android:alpha="0.9"
                 android:textColor="@color/colorTextForeground"
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="34dp"
+                android:layout_marginBottom="28dp"
                 android:alpha="0.9"
                 android:textSize="12sp"
                 android:textStyle="bold|italic"
@@ -81,26 +81,30 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/itemInformation"
             android:layout_width="match_parent"
-            android:layout_height="36dp">
+            android:layout_height="42dp">
 
             <TextView
                 android:id="@+id/tvFolloweds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:text="关注"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/colorTextForeground"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/tvFollows"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvFollows"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
                 android:text="粉丝"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvFolloweds"
+                android:textColor="@color/colorTextForeground"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

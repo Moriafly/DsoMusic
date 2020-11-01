@@ -131,11 +131,23 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         override fun onReceive(context: Context, intent: Intent) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
+                setPlayerVisibility(true)
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
                 GlideUtil.load(CloudMusic.getMusicCoverUrl((song.id?:-1L) as Long), itemPlay.ivCover, itemPlay.ivCover)
+            } else {
+                // 隐藏底部界面
+                setPlayerVisibility(false)
             }
             refreshPlayState()
+        }
+    }
+
+    private fun setPlayerVisibility(state: Boolean) {
+        if (state) {
+            clPlay.visibility = View.VISIBLE
+        } else {
+            clPlay.visibility = View.INVISIBLE
         }
     }
 
