@@ -32,6 +32,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
 
     override fun initView() {
+        setPlayerVisibility(false)
         // 请求广播
         MyApplication.musicBinderInterface?.sendBroadcast()
 
@@ -146,8 +147,12 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     private fun setPlayerVisibility(state: Boolean) {
         if (state) {
             clPlay.visibility = View.VISIBLE
+            blurViewPlay.visibility = View.VISIBLE
+            blurViewPlayBottom.visibility = View.VISIBLE
         } else {
             clPlay.visibility = View.INVISIBLE
+            blurViewPlay.visibility = View.INVISIBLE
+            blurViewPlayBottom.visibility = View.INVISIBLE
         }
     }
 

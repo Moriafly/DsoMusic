@@ -21,8 +21,10 @@ import com.dirror.music.api.StandardGET
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayActivity
+import com.dirror.music.util.InternetState
 import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.parseArtist
+import com.dirror.music.util.toast
 
 /**
  * 音乐服务
@@ -178,7 +180,7 @@ class MusicService : Service() {
             isPrepared = false
             position = songPosition
             // 获取当前 position 的歌曲 id
-            val songId = playlist?.get(position?:0)?.id?:0L
+            val songId = playlist?.get(position ?: 0)?.id ?: 0L
             // 如果 MediaPlayer 已经存在，释放
             if (mediaPlayer != null) {
                 mediaPlayer?.reset()
@@ -189,12 +191,16 @@ class MusicService : Service() {
             val url = "https://music.163.com/song/media/outer/url?id=$songId.mp3"
             // 初始化
             mediaPlayer = MediaPlayer()
-            mediaPlayer?.let {
-                it.setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
-                it.setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
-                it.setOnErrorListener(this@MusicBinder)
-                it.setDataSource(url)
-                it.prepareAsync()
+            if (!InternetState.isWifi(MyApplication.context) && !StorageUtil.getBoolean(StorageUtil.PLAY_ON_MOBILE, false)) {
+                toast("移动网络下已禁止播放")
+            } else {
+                mediaPlayer?.let {
+                    it.setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
+                    it.setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
+                    it.setOnErrorListener(this@MusicBinder)
+                    it.setDataSource(url)
+                    it.prepareAsync()
+                }
             }
         }
 
@@ -248,11 +254,11 @@ class MusicService : Service() {
          * 获取总进度
          * getDuration 必须在 prepared 回调完成后才可以调用。
          */
-        override fun getDuration(): Int? {
+        override fun getDuration(): Int {
             return if (isPrepared) {
                 mediaPlayer?.duration ?: 0
             } else {
-                null
+                0
             }
         }
 
@@ -260,7 +266,11 @@ class MusicService : Service() {
          * 获取当前进度
          */
         override fun getProgress(): Int {
-            return mediaPlayer?.currentPosition ?: 0
+            return if (isPrepared) {
+                mediaPlayer?.currentPosition?: 0
+            } else {
+                0
+            }
         }
 
         /**
@@ -357,7 +367,7 @@ class MusicService : Service() {
          * 无则返回 0
          */
         override fun getAudioSessionId(): Int {
-            return mediaPlayer?.audioSessionId?: 0
+            return mediaPlayer?.audioSessionId ?: 0
         }
 
         /**
@@ -450,7 +460,8 @@ class MusicService : Service() {
                         position?.plus(1)
                     }
                 }
-                MODE_REPEAT_ONE -> {}
+                MODE_REPEAT_ONE -> {
+                }
                 MODE_RANDOM -> {
                     position = (0..playlist?.lastIndex!!).random()
                 }
@@ -573,7 +584,7 @@ interface MusicBinderInterface {
     fun playMusic(songPosition: Int)
     fun changePlayState()
     fun getPlayState(): Boolean
-    fun getDuration(): Int?
+    fun getDuration(): Int
     fun getProgress(): Int
     fun setProgress(newProgress: Int)
     fun getNowSongData(): StandardSongData?

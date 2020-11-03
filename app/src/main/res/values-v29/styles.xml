@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">#EBEBEB</item>
+
+        <item name="android:windowLightStatusBar">@bool/statusBarForeground</item>
+        <item name="android:statusBarColor">@color/colorStatusBar</item>
+
+        <!--        <item name="android:windowBackground">@drawable/ic_wechat</item>-->
+        <item name="android:windowContentTransitions">true</item>
+
+        <!-- 禁用系统黑暗模式 -->
+        <item name="android:forceDarkAllowed">true</item>
+    </style>
+</resources>

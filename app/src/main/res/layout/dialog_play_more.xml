@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:itemType="item_no"
-                app:text="降噪">
+                app:text="降噪（测试）">
 
                 <Switch
                     android:id="@+id/switchNoiseSuppressor"

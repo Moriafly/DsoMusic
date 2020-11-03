@@ -21,6 +21,26 @@
             android:orientation="vertical" >
 
             <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemPlayOnMobile"
+                app:text="移动网络下播放歌曲"
+                app:itemType="item_no"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Switch
+                    android:id="@+id/switchPlayOnMobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_track"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemFeedback"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

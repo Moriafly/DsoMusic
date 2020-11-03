@@ -1,11 +1,17 @@
 package com.dirror.music.util
 
+import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 
+
 object InternetState {
+
+    /**
+     * 判断网络是否有用
+     */
     @Suppress("DEPRECATION")
     fun isInternetAvailable(context: Context): Boolean {
         var result = false
@@ -34,4 +40,15 @@ object InternetState {
         }
         return result
     }
+
+    /**
+     * 判断是 wifi 还是移动网络
+     *
+     */
+    fun isWifi(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.type == ConnectivityManager.TYPE_WIFI
+    }
+
 }

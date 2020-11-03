@@ -9,6 +9,7 @@ import android.os.IBinder
 import cn.bmob.v3.Bmob
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
+import com.dirror.music.util.InternetState
 import com.dirror.music.util.LanguageUtils
 import com.dirror.music.util.Secure
 import com.dirror.music.util.toast
@@ -19,6 +20,8 @@ import okhttp3.Cookie
  */
 class MyApplication: Application() {
     companion object {
+        const val BMOB_APP_KEY = "0d1d3b9214e037c76de958993ddd6563" // Bmob App Key
+
         lateinit var context: Context // 注入懒加载 全局 context
         var musicBinderInterface: MusicBinderInterface? = null
         val musicConnection by lazy { MusicConnection() }
@@ -32,8 +35,8 @@ class MyApplication: Application() {
 
         if (Secure.isSecure()) {
             // 初始化 Bmob
-            Bmob.initialize(this, "0d1d3b9214e037c76de958993ddd6563")
-            // 开启服务
+            Bmob.initialize(this, BMOB_APP_KEY)
+            // 开启音乐服务
             startMusicService()
         } else {
             toast("检测到盗版 Dso Music")
@@ -42,7 +45,10 @@ class MyApplication: Application() {
         }
 
         // 设置语言
-        LanguageUtils.setLanguage(1)
+        // LanguageUtils.setLanguage(1)
+
+
+
     }
 
     /**

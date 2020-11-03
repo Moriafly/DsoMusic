@@ -15,6 +15,8 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
     }
 
     override fun initView() {
+        switchPlayOnMobile.isChecked = StorageUtil.getBoolean(StorageUtil.PLAY_ON_MOBILE, false)
+
         itemVersion.setValue("${getVisionName()}(${getVisionCode()})")
         itemFoyouVersion.setValue(FoyouLibrary.VERSION)
     }
@@ -43,6 +45,14 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
             }
             StorageUtil.putInt(StorageUtil.LANGUAGE, language)
             LanguageUtils.setLanguage(language)
+        }
+
+        itemPlayOnMobile.setOnClickListener {
+            switchPlayOnMobile.isChecked = !switchPlayOnMobile.isChecked
+        }
+
+        switchPlayOnMobile.setOnCheckedChangeListener { buttonView, isChecked ->
+            StorageUtil.putBoolean(StorageUtil.PLAY_ON_MOBILE, isChecked)
         }
     }
 

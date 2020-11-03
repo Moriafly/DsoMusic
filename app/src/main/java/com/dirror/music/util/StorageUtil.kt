@@ -12,6 +12,7 @@ object StorageUtil {
     const val CLOUD_MUSIC_UID = "long_cloud_music_uid" // 用户 uid
     const val PlAY_MODE = "int_play_mode" // 播放模式
     const val LANGUAGE = "int_language" // 语言
+    const val PLAY_ON_MOBILE = "boolean_play_on_mobile" // 是否在移动数据下播放
 
     fun putInt(singleName: String, value: Int) {
         context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE)
@@ -42,4 +43,15 @@ object StorageUtil {
         return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE)
             .getFloat(singleName, defaultValue)
     }
+
+    fun putBoolean(singleName: String, value: Boolean) {
+        context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE)
+            .edit{ putBoolean(singleName, value) }
+    }
+
+    fun getBoolean(singleName: String, defaultValue: Boolean): Boolean {
+        return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE)
+            .getBoolean(singleName, defaultValue)
+    }
+
 }
