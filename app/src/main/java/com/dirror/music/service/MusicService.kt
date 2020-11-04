@@ -6,8 +6,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.media.MediaMetadata
-import android.media.MediaPlayer
+import android.media.*
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -25,6 +24,7 @@ import com.dirror.music.util.InternetState
 import com.dirror.music.util.StorageUtil
 import com.dirror.music.util.parseArtist
 import com.dirror.music.util.toast
+
 
 /**
  * 音乐服务
@@ -67,6 +67,46 @@ class MusicService : Service() {
         initMediaSessionCallback()
         // 初始化通道
         initChannel()
+        // 初始化音频焦点
+        initAudioFocus()
+    }
+
+    /**
+     * 初始化音频焦点
+     */
+    private fun initAudioFocus() {
+        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_GAME)
+            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            .build()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                .setAudioAttributes(audioAttributes)
+                .setOnAudioFocusChangeListener { focusChange ->
+                    when (focusChange) {
+                        AudioManager.AUDIOFOCUS_GAIN -> musicBinder.start()
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> {
+                        }
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> {
+                        }
+                        AudioManager.AUDIOFOCUS_LOSS -> musicBinder.pause()
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> musicBinder.pause()
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                        }
+                        else -> {
+                        }
+                    }
+                }.build()
+            audioManager.requestAudioFocus(audioFocusRequest)
+            // audioManager.abandonAudioFocusRequest(audioFocusRequest)
+
+        } else {
+
+        }
+
+
+
     }
 
     /**
@@ -227,6 +267,7 @@ class MusicService : Service() {
 
         /**
          * 更新播放状态
+         * 播放或者暂停
          */
         override fun changePlayState() {
             val isPlaying = mediaPlayer?.isPlaying
@@ -239,6 +280,26 @@ class MusicService : Service() {
                     mediaSessionCallback?.onPlay()
                 }
             }
+            sendMusicBroadcast()
+            refreshNotification()
+        }
+
+        /**
+         * 开始播放
+         */
+        override fun start() {
+            mediaPlayer?.start()
+            mediaSessionCallback?.onPlay()
+            sendMusicBroadcast()
+            refreshNotification()
+        }
+
+        /**
+         * 暂停播放
+         */
+        override fun pause() {
+            mediaPlayer?.pause()
+            mediaSessionCallback?.onPause()
             sendMusicBroadcast()
             refreshNotification()
         }
@@ -600,4 +661,6 @@ interface MusicBinderInterface {
     fun getPitchLevel(): Int // 获取音高等级
     fun increasePitchLevel() // 升调
     fun decreasePitchLevel() // 降调
+    fun start() // 开始播放
+    fun pause() // 暂停播放
 }
