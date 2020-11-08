@@ -14,6 +14,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.music.netease.SearchUtil
+import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -25,7 +26,14 @@ import kotlinx.android.synthetic.main.layout_play.view.*
 
 class SearchActivity : BaseActivity(R.layout.activity_search) {
 
+    companion object {
+        const val ENGINE_NETEASE = 1
+        const val ENGINE_QQ = 2
+    }
+
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
+
+    private var engine = ENGINE_NETEASE
 
     override fun initData() {
         val intentFilter = IntentFilter() // Intent 过滤器
@@ -41,9 +49,20 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
     }
 
     override fun initListener() {
-        btnSearch.setOnClickListener {
-            search()
 
+        // 切换搜索引擎
+        ivEngine.setOnClickListener {
+            if (engine == ENGINE_NETEASE) {
+                engine = ENGINE_QQ
+                toast("已经切换成 QQ")
+            } else {
+                engine = ENGINE_NETEASE
+                toast("已经切换成网易云")
+            }
+        }
+
+        btnCancel.setOnClickListener {
+            finish()
         }
 
         itemPlay.setOnClickListener {
@@ -73,8 +92,8 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
             }
 
             addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(s: Editable) {
                     if (etSearch.text.toString() != "") {
                         // btnClear.visibility = View.VISIBLE // 有文字，显示清楚按钮
@@ -92,13 +111,22 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
      */
     private fun search() {
         val keywords = etSearch.text.toString()
-        if (keywords != "") {
-            SearchUtil.searchMusic(keywords, {
-                initRecycleView(it)
-            }, {
-                toast(it)
-            })
+
+        when (engine) {
+            ENGINE_NETEASE -> {
+                SearchUtil.searchMusic(keywords, {
+                    initRecycleView(it)
+                }, {
+                    toast(it)
+                })
+            }
+            ENGINE_QQ -> {
+                SearchSong.search(keywords) {
+                    initRecycleView(it)
+                }
+            }
         }
+
     }
 
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
@@ -120,7 +148,7 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
                     }
                 }
 
-            rvPlaylist.layoutManager =  linearLayoutManager
+            rvPlaylist.layoutManager = linearLayoutManager
             rvPlaylist.adapter = DetailPlaylistAdapter(songList)
 
         }
@@ -132,13 +160,13 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
         unregisterReceiver(musicBroadcastReceiver)
     }
 
-    inner class MusicBroadcastReceiver: BroadcastReceiver() {
+    inner class MusicBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
-                GlideUtil.load(CloudMusic.getMusicCoverUrl((song.id?:-1L) as Long), itemPlay.ivCover, itemPlay.ivCover)
+                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id ?: -1L), itemPlay.ivCover, itemPlay.ivCover)
             }
             refreshPlayState()
         }

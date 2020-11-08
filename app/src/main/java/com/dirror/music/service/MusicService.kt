@@ -17,14 +17,14 @@ import androidx.core.app.NotificationCompat
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
+import com.dirror.music.music.qq.PlayUrl
+import com.dirror.music.music.standard.SOURCE_NETEASE
+import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayActivity
-import com.dirror.music.util.InternetState
-import com.dirror.music.util.StorageUtil
-import com.dirror.music.util.parseArtist
-import com.dirror.music.util.toast
-
+import com.dirror.music.util.*
+import org.jetbrains.annotations.TestOnly
 
 /**
  * 音乐服务
@@ -42,13 +42,14 @@ class MusicService : Service() {
         const val CODE_NEXT = 3 // 按钮事件，下一曲
 
         const val CHANNEL_ID = "Dso Music Channel Id" // 通知通道 ID
+
     }
 
     private var mediaPlayer: MediaPlayer? = null // 定义 MediaPlayer
     private val musicBinder by lazy { MusicBinder() } // 懒加载 musicBinder
     private var playlist: ArrayList<StandardSongData>? = null // 当前歌单
     private var position: Int? = 0 // 当前歌曲在 List 中的下标
-    private var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MODE_CIRCLE)
+    private var mode: Int = StorageUtil.getInt(StorageUtil.PlAY_MODE, MODE_CIRCLE)
     private var notificationManager: NotificationManager? = null // 通知管理
 
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
@@ -58,6 +59,10 @@ class MusicService : Service() {
     private var pitch = 1f // 默认音高
     private var pitchLevel = 0 // 音高等级
     private val pitchUnit = 0.05f // 音高单元，每次改变的音高单位
+
+    private lateinit var audioManager: AudioManager
+    private lateinit var audioAttributes: AudioAttributes
+    private lateinit var audioFocusRequest: AudioFocusRequest
 
     override fun onCreate() {
         super.onCreate()
@@ -74,38 +79,30 @@ class MusicService : Service() {
     /**
      * 初始化音频焦点
      */
+    @TestOnly
     private fun initAudioFocus() {
-        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-        val audioAttributes = AudioAttributes.Builder()
+        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+        audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_GAME)
             .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
             .build()
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
                 .setAudioAttributes(audioAttributes)
                 .setOnAudioFocusChangeListener { focusChange ->
                     when (focusChange) {
                         AudioManager.AUDIOFOCUS_GAIN -> musicBinder.start()
-                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> {
-                        }
-                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> {
-                        }
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> musicBinder.start()
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> musicBinder.start()
                         AudioManager.AUDIOFOCUS_LOSS -> musicBinder.pause()
                         AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> musicBinder.pause()
-                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                        }
-                        else -> {
-                        }
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> musicBinder.pause()
                     }
                 }.build()
             audioManager.requestAudioFocus(audioFocusRequest)
             // audioManager.abandonAudioFocusRequest(audioFocusRequest)
 
-        } else {
-
         }
-
-
 
     }
 
@@ -219,16 +216,35 @@ class MusicService : Service() {
         override fun playMusic(songPosition: Int) {
             isPrepared = false
             position = songPosition
-            // 获取当前 position 的歌曲 id
-            val songId = playlist?.get(position ?: 0)?.id ?: 0L
+            // 当前的歌曲
+            val song = playlist?.get(position ?: 0)
+
             // 如果 MediaPlayer 已经存在，释放
             if (mediaPlayer != null) {
                 mediaPlayer?.reset()
                 mediaPlayer?.release()
                 mediaPlayer = null
             }
-            // 音乐链接
-            val url = "https://music.163.com/song/media/outer/url?id=$songId.mp3"
+
+            var url = ""
+            when (song?.source) {
+                SOURCE_NETEASE -> {
+                    url = "https://music.163.com/song/media/outer/url?id=${song.id}.mp3"
+                    startPlayUrl(url)
+                }
+                SOURCE_QQ -> {
+                    PlayUrl.getPlayUrl(song.id as String) {
+                        loge("QQ 音乐链接：${it}")
+                        url = it
+                        startPlayUrl(url)
+                    }
+                }
+            }
+
+
+        }
+
+        private fun startPlayUrl(url: String) {
             // 初始化
             mediaPlayer = MediaPlayer()
             if (!InternetState.isWifi(MyApplication.context) && !StorageUtil.getBoolean(StorageUtil.PLAY_ON_MOBILE, false)) {
@@ -269,10 +285,11 @@ class MusicService : Service() {
          * 更新播放状态
          * 播放或者暂停
          */
+        @Deprecated("不推荐使用，切换为 start 或者 pause")
         override fun changePlayState() {
             val isPlaying = mediaPlayer?.isPlaying
-            isPlaying?.apply {
-                if (this) {
+            isPlaying?.let {
+                if (it) {
                     mediaPlayer?.pause()
                     mediaSessionCallback?.onPause()
                 } else {
@@ -328,7 +345,7 @@ class MusicService : Service() {
          */
         override fun getProgress(): Int {
             return if (isPrepared) {
-                mediaPlayer?.currentPosition?: 0
+                mediaPlayer?.currentPosition ?: 0
             } else {
                 0
             }
@@ -598,25 +615,23 @@ class MusicService : Service() {
             .setMediaSession(mediaSession?.sessionToken)
             .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
-            song.id?.let {
-                StandardGET.getSongBitmap(it as Long) { bitmap ->
-                    val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_music_launcher_foreground)
-                        .setLargeIcon(bitmap)
-                        .setContentTitle(song.name)
-                        .setContentText(song.artists?.let { it1 -> parseArtist(it1) })
-                        .setContentIntent(getPendingIntentActivity())
-                        .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
-                        .addAction(getPlayIcon(), "play", getPendingIntentPlay())
-                        .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
-                        .setStyle(mediaStyle)
-                        .setOngoing(false)
-                        // .setAutoCancel(true)
-                        .build()
-                    // 更新通知
-                    // notificationManager?.notify(10, notification)
-                    startForeground(10, notification)
-                }
+            StandardGET.getSongBitmap(song) { bitmap ->
+                val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_music_launcher_foreground)
+                    .setLargeIcon(bitmap)
+                    .setContentTitle(song.name)
+                    .setContentText(song.artists?.let { it1 -> parseArtist(it1) })
+                    .setContentIntent(getPendingIntentActivity())
+                    .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
+                    .addAction(getPlayIcon(), "play", getPendingIntentPlay())
+                    .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
+                    .setStyle(mediaStyle)
+                    .setOngoing(false)
+                    // .setAutoCancel(true)
+                    .build()
+                // 更新通知
+                // notificationManager?.notify(10, notification)
+                startForeground(10, notification)
             }
         }
 
@@ -632,8 +647,6 @@ class MusicService : Service() {
             R.drawable.ic_baseline_play_arrow_24
         }
     }
-
-
 }
 
 /**
@@ -654,8 +667,8 @@ interface MusicBinderInterface {
     fun playLast()
     fun playNext()
     fun getNowPosition(): Int
-    fun getAudioSessionId(): Int
-    fun sendBroadcast()
+    fun getAudioSessionId(): Int // 获取音频 Session ID
+    fun sendBroadcast() // 发送广播
     fun setSpeed(speed: Float) // 设置播放速度
     fun getSpeed(): Float // 获取播放速度
     fun getPitchLevel(): Int // 获取音高等级

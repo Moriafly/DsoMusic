@@ -1,7 +1,12 @@
 package com.dirror.music.api
 
 import android.graphics.Bitmap
+import com.dirror.music.MyApplication
 import com.dirror.music.music.CloudMusic
+import com.dirror.music.music.qq.Picture
+import com.dirror.music.music.standard.SOURCE_NETEASE
+import com.dirror.music.music.standard.SOURCE_QQ
+import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
@@ -36,10 +41,24 @@ object StandardGET {
         }
     }
 
-    fun getSongBitmap(id: Long, success: (Bitmap) -> Unit) {
-        CloudMusic.getSongImage(id) {
-            GlideUtil.load(it) { bitmap ->
-                success.invoke(bitmap)
+    /**
+     * 获取大图
+     * 300
+     */
+    fun getSongBitmap(song: StandardSongData, success: (Bitmap) -> Unit) {
+        when (song.source) {
+            SOURCE_NETEASE -> {
+                CloudMusic.getSongImage(song.id as Long) {
+                    GlideUtil.load(it) { bitmap ->
+                        success.invoke(bitmap)
+                    }
+                }
+            }
+            SOURCE_QQ -> {
+                GlideUtil.load(Picture.getPictureUrl(song.imageUrl?:"")) { bitmap ->
+                    success.invoke(bitmap)
+                }
+
             }
         }
     }

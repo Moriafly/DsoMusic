@@ -42,6 +42,7 @@ class DetailPlaylistAdapter(val songDataList: ArrayList<StandardSongData>): Recy
         holder.tvName.text = song.name
         holder.tvArtist.text = song.artists?.let { parseArtist(it) }
 
+        // 点击项目
         holder.clSong.setOnClickListener {
             if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) { // 歌单相同
                 if (position == MyApplication.musicBinderInterface?.getNowPosition()) { // position 相同

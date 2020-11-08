@@ -154,11 +154,14 @@ object CloudMusic {
      * 获取歌曲图片
      * 固定大小 300 * 300
      */
-    fun getMusicCoverUrl(musicId: Long): String {
-        var url = "$API_FCZBL_VIP/?type=cover&id=$musicId"
-        url = url.replace("?param=300y300", "?param=1000y60")
-        loge("图片url：${url}")
-        return url
+    fun getMusicCoverUrl(musicId: Any): String {
+        if (musicId is Long) {
+            var url = "$API_FCZBL_VIP/?type=cover&id=$musicId"
+            url = url.replace("?param=300y300", "?param=1000y60")
+            loge("图片url：${url}")
+            return url
+        }
+        return ""
     }
 
 

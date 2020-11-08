@@ -28,7 +28,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.dirror.music.widget.TitleBarLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/titleBar"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -45,7 +45,7 @@
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+            app:layout_constraintEnd_toStartOf="@+id/btnCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -63,20 +63,20 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/btnSearch"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:background="@color/colorTransparency"
             android:minWidth="0dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="搜索"
+            android:text="取消"
             android:textColor="@color/colorAppThemeColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <View
             android:id="@+id/divider"
@@ -87,7 +87,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-    </com.dirror.music.widget.TitleBarLayout>
+        <ImageView
+            android:id="@+id/ivEngine"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_cloud_music" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
         android:id="@+id/itemPlay"
