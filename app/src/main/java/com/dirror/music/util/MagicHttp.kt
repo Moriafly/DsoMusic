@@ -15,7 +15,7 @@ object MagicHttp {
     interface MagicHttpInterface {
         @Deprecated("get() 过时，请使用 newGet()")
         fun get(url: String, callBack: MagicCallback)
-        
+
         fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit) // 新的 get 请求接口，使用 Lambda
     }
 

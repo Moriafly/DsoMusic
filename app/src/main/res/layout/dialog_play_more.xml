@@ -102,6 +102,14 @@
             </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemFeedback"
+                app:text="错误反馈"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemSongInfo"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -109,6 +117,7 @@
 
             </com.dirror.music.widget.ItemLayout>
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

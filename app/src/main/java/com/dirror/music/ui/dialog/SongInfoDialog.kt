@@ -37,6 +37,7 @@ class SongInfoDialog: Dialog {
                         val size = parseBit(data.size)
                         runOnMainThread {
                             valueViewId.setValue(it.id.toString())
+                            valueViewSource.setValue("网易云音乐")
                             valueViewBitrate.setValue("${data.br/1000} kbps")
                             valueViewSize.setValue(size)
                             valueViewType.setValue(data.type?:"未知")
@@ -44,9 +45,16 @@ class SongInfoDialog: Dialog {
                     }
                 }
                 SOURCE_QQ -> {
-
+                    runOnMainThread {
+                        valueViewId.setValue(it.id.toString())
+                        valueViewSource.setValue("QQ 音乐")
+                        valueViewBitrate.setValue("未知")
+                        valueViewSize.setValue("未知")
+                        valueViewType.setValue("未知")
+                    }
                 }
             }
+
         }
 
 

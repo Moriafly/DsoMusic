@@ -34,6 +34,14 @@
                 app:text="歌曲 ID" />
 
             <com.dirror.music.widget.ValueView
+                android:id="@+id/valueViewSource"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:text="来源">
+
+            </com.dirror.music.widget.ValueView>
+
+            <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewBitrate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

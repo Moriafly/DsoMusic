@@ -2,12 +2,14 @@ package com.dirror.music.ui.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.audio.AudioEffect
+import com.dirror.music.ui.activity.FeedbackActivity
 import com.dirror.music.util.loge
 import com.dirror.music.util.toast
 import kotlinx.android.synthetic.main.dialog_play_more.*
@@ -75,6 +77,11 @@ class PlayerMenuMoreDialog : Dialog {
 
         clDialog.setOnClickListener {
             dismiss()
+        }
+
+        // 反馈
+        itemFeedback.setOnClickListener {
+            ownerActivity?.startActivity(Intent(ownerActivity, FeedbackActivity::class.java))
         }
 
 
