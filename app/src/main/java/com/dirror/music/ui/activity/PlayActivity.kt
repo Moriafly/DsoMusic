@@ -21,6 +21,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.CloudMusic
+import com.dirror.music.music.qq.Picture
+import com.dirror.music.music.standard.SOURCE_NETEASE
+import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
@@ -125,13 +128,21 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         // 点击评论，跳转
         ivComment.setOnClickListener {
             if (song != null) {
-                val intent = Intent(this, CommentActivity::class.java)
-                intent.putExtra("long_music_id", song?.id as Long)
-                startActivity(intent)
-                overridePendingTransition(
-                    R.anim.anim_slide_enter_bottom,
-                    R.anim.anim_no_anim
-                )
+                when (song?.source) {
+                    SOURCE_NETEASE -> {
+                        val intent = Intent(this, CommentActivity::class.java)
+                        intent.putExtra("long_music_id", song?.id as Long)
+                        startActivity(intent)
+                        overridePendingTransition(
+                            R.anim.anim_slide_enter_bottom,
+                            R.anim.anim_no_anim
+                        )
+                    }
+                    SOURCE_QQ -> {
+                        toast("无评论")
+                    }
+                }
+
             } else {
                 toast("无评论")
             }
@@ -163,8 +174,15 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         }
 
         ivLike.setOnClickListener {
-            if (song != null) {
-                CloudMusic.likeSong((song!!.id ?: -1L) as Long)
+            song?.let {
+                when (it.source) {
+                    SOURCE_NETEASE -> {
+                        CloudMusic.likeSong((song!!.id ?: -1L) as Long)
+                    }
+                    SOURCE_QQ -> {
+                        toast("暂不支持 QQ 音乐来源")
+                    }
+                }
             }
         }
 
@@ -302,14 +320,22 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         handler.sendEmptyMessageDelayed(MSG_PROGRESS, 500)
     }
 
+    // 刷新歌词
     private fun refreshLyricView() {
-        lyricView.setLyricId((song?.id ?: -1L) as Long)
-        nowProgress = MyApplication.musicBinderInterface?.getProgress()?:0
-        duration = MyApplication.musicBinderInterface?.getDuration()?:duration
-        lyricView.setSongDuration(duration)
-        // 更新歌词播放进度
-        lyricView.updateProgress(nowProgress)
-        handler.sendEmptyMessage(MSG_LYRIC)
+        when (MyApplication.musicBinderInterface?.getNowSongData()?.source) {
+            SOURCE_NETEASE -> {
+                lyricView.setLyricId((song?.id ?: -1L) as Long)
+                nowProgress = MyApplication.musicBinderInterface?.getProgress()?:0
+                duration = MyApplication.musicBinderInterface?.getDuration()?:duration
+                lyricView.setSongDuration(duration)
+                // 更新歌词播放进度
+                lyricView.updateProgress(nowProgress)
+                handler.sendEmptyMessage(MSG_LYRIC)
+            }
+            SOURCE_QQ -> {
+
+            }
+        }
     }
 
     /**
@@ -336,49 +362,60 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
 
     private fun getNowSongData() {
         song = MyApplication.musicBinderInterface?.getNowSongData()
-        if (song != null) {
-            CloudMusic.getSongImage((song!!.id ?: -1L) as Long) { url ->
-                GlideUtil.load(url) { bitmap ->
-                    runOnUiThread {
-                        val drawable = bitmap.toDrawable(resources)
-                        ivCover.setImageDrawable(drawable)
-                        Glide.with(MyApplication.context)
-                            .load(drawable)
-                            .placeholder(ivBackground.drawable)
-                            .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
-                            .into(ivBackground)
-                        Palette.from(bitmap)
-                            .clearFilters()
-                            .generate { palette ->
-                                if (palette?.vibrantSwatch != null) {
-                                    palette.vibrantSwatch?.apply {
-                                        rgb.let {
-                                            ivPlay.setColorFilter(it)
-                                            ivLast.setColorFilter(it)
-                                            ivNext.setColorFilter(it)
-
-                                            // 设置 Progress 的颜色
-                                            seekBar.indeterminateDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
-                                        }
-                                    }
-                                } else {
-                                    val color = Color.rgb(100,100,100)
-                                    ivPlay.setColorFilter(color)
-                                    ivLast.setColorFilter(color)
-                                    ivNext.setColorFilter(color)
-                                    loge("获取 palette 失败")
-                                }
-
-                            }
+        song?.let {
+            when (song!!.source) {
+                SOURCE_NETEASE -> {
+                    CloudMusic.getSongImage((song!!.id ?: -1L) as Long) { url ->
+                        loadPicture(url)
                     }
                 }
-
+                SOURCE_QQ -> {
+                    loadPicture(Picture.getPictureUrl(it.imageUrl?:""))
+                }
             }
-
             tvName.text = song!!.name
-            tvArtist.text = song!!.artists?.let { parseArtist(it) }
+            tvArtist.text = song!!.artists?.let {
+                parseArtist(it)
+            }
         }
 
 
+    }
+
+    private fun loadPicture(url: String) {
+        GlideUtil.load(url) { bitmap ->
+            runOnUiThread {
+                val drawable = bitmap.toDrawable(resources)
+                ivCover.setImageDrawable(drawable)
+                Glide.with(MyApplication.context)
+                    .load(drawable)
+                    .placeholder(ivBackground.drawable)
+                    .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
+                    .into(ivBackground)
+                Palette.from(bitmap)
+                    .clearFilters()
+                    .generate { palette ->
+                        if (palette?.vibrantSwatch != null) {
+                            palette.vibrantSwatch?.apply {
+                                rgb.let {
+                                    ivPlay.setColorFilter(it)
+                                    ivLast.setColorFilter(it)
+                                    ivNext.setColorFilter(it)
+
+                                    // 设置 Progress 的颜色
+                                    seekBar.indeterminateDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
+                                }
+                            }
+                        } else {
+                            val color = Color.rgb(100,100,100)
+                            ivPlay.setColorFilter(color)
+                            ivLast.setColorFilter(color)
+                            ivNext.setColorFilter(color)
+                            loge("获取 palette 失败")
+                        }
+
+                    }
+            }
+        }
     }
 }

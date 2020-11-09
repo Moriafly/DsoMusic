@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
+import com.dirror.music.music.standard.SOURCE_NETEASE
+import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.util.runOnMainThread
 import kotlinx.android.synthetic.main.dialog_song_info.*
 
@@ -27,16 +29,26 @@ class SongInfoDialog: Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // editView.setText(editTextStr)
-        StandardGET.getSongInfo((MyApplication.musicBinderInterface?.getNowSongData()?.id?:-1) as Long) {
-            val size = parseBit(it.size)
-            runOnMainThread {
-                valueViewId.setValue(it.id.toString())
-                valueViewBitrate.setValue("${it.br/1000} kbps")
-                valueViewSize.setValue(size)
-                valueViewType.setValue(it.type?:"未知")
+        val song = MyApplication.musicBinderInterface?.getNowSongData()
+        song?.let {
+            when (it.source) {
+                SOURCE_NETEASE -> {
+                    StandardGET.getSongInfo(it.id as Long) {data ->
+                        val size = parseBit(data.size)
+                        runOnMainThread {
+                            valueViewId.setValue(it.id.toString())
+                            valueViewBitrate.setValue("${data.br/1000} kbps")
+                            valueViewSize.setValue(size)
+                            valueViewType.setValue(data.type?:"未知")
+                        }
+                    }
+                }
+                SOURCE_QQ -> {
+
+                }
             }
         }
+
 
         clDialog.setOnClickListener {
             dismiss()

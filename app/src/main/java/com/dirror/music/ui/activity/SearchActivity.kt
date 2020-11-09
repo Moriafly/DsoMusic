@@ -1,5 +1,6 @@
 package com.dirror.music.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -7,6 +8,7 @@ import android.content.IntentFilter
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.music.CloudMusic
@@ -14,11 +16,15 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.music.netease.SearchUtil
+import com.dirror.music.music.qq.Picture
 import com.dirror.music.music.qq.SearchSong
+import com.dirror.music.music.standard.SOURCE_NETEASE
+import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_search.itemPlay
@@ -44,20 +50,35 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
         MyApplication.musicBinderInterface?.sendBroadcast()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun initView() {
-
+        when (StorageUtil.getInt(StorageUtil.SEARCH_ENGINE, SOURCE_NETEASE)) {
+            SOURCE_NETEASE -> {
+                ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
+                engine = SOURCE_NETEASE
+            }
+            SOURCE_QQ -> {
+                ivEngine.setImageDrawable(getDrawable(R.drawable.ic_qq_music_engine))
+                engine = SOURCE_QQ
+            }
+        }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun initListener() {
 
         // 切换搜索引擎
         ivEngine.setOnClickListener {
             if (engine == ENGINE_NETEASE) {
                 engine = ENGINE_QQ
+                ivEngine.setImageDrawable(getDrawable(R.drawable.ic_qq_music_engine))
                 toast("已经切换成 QQ")
+                search()
             } else {
                 engine = ENGINE_NETEASE
+                ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
                 toast("已经切换成网易云")
+                search()
             }
         }
 
@@ -110,19 +131,25 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
      * 搜索音乐
      */
     private fun search() {
-        val keywords = etSearch.text.toString()
+        // 关闭软键盘
+        val inputMethodManager: InputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(this.window?.decorView?.windowToken, 0)
 
-        when (engine) {
-            ENGINE_NETEASE -> {
-                SearchUtil.searchMusic(keywords, {
-                    initRecycleView(it)
-                }, {
-                    toast(it)
-                })
-            }
-            ENGINE_QQ -> {
-                SearchSong.search(keywords) {
-                    initRecycleView(it)
+
+        val keywords = etSearch.text.toString()
+        if (keywords != "") {
+            when (engine) {
+                ENGINE_NETEASE -> {
+                    SearchUtil.searchMusic(keywords, {
+                        initRecycleView(it)
+                    }, {
+                        toast(it)
+                    })
+                }
+                ENGINE_QQ -> {
+                    SearchSong.search(keywords) {
+                        initRecycleView(it)
+                    }
                 }
             }
         }
@@ -158,6 +185,8 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
         super.onDestroy()
         // 解绑广播接收
         unregisterReceiver(musicBroadcastReceiver)
+        // 保存搜索引擎
+        StorageUtil.putInt(StorageUtil.SEARCH_ENGINE, engine)
     }
 
     inner class MusicBroadcastReceiver : BroadcastReceiver() {
@@ -166,7 +195,14 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
             if (song != null) {
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
-                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id ?: -1L), itemPlay.ivCover, itemPlay.ivCover)
+                when (song.source) {
+                    SOURCE_NETEASE -> {
+                        GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), itemPlay.ivCover, itemPlay.ivCover)
+                    }
+                    SOURCE_QQ -> {
+                        GlideUtil.load(Picture.getMin(song.imageUrl?:""), itemPlay.ivCover, itemPlay.ivCover)
+                    }
+                }
             }
             refreshPlayState()
         }
@@ -182,4 +218,7 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
             itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
     }
+
+
+
 }

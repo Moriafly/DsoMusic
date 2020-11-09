@@ -11,6 +11,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.music.qq.Picture
+import com.dirror.music.music.standard.SOURCE_NETEASE
+import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
@@ -135,7 +138,15 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 setPlayerVisibility(true)
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
-                GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), itemPlay.ivCover, itemPlay.ivCover)
+                when (song.source) {
+                    SOURCE_NETEASE -> {
+                        GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), itemPlay.ivCover, itemPlay.ivCover)
+                    }
+                    SOURCE_QQ -> {
+                        GlideUtil.load(Picture.getMin(song.imageUrl?:""), itemPlay.ivCover, itemPlay.ivCover)
+                    }
+                }
+
             } else {
                 // 隐藏底部界面
                 setPlayerVisibility(false)

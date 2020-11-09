@@ -13,6 +13,7 @@ object StorageUtil {
     const val PlAY_MODE = "int_play_mode" // 播放模式
     const val LANGUAGE = "int_language" // 语言
     const val PLAY_ON_MOBILE = "boolean_play_on_mobile" // 是否在移动数据下播放
+    const val SEARCH_ENGINE = "int_search_engine" // 音乐搜索引擎
 
     fun putInt(singleName: String, value: Int) {
         context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE)
