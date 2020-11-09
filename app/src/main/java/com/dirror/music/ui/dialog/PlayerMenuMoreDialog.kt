@@ -8,12 +8,9 @@ import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.audio.AudioEffect
 import com.dirror.music.ui.activity.FeedbackActivity
-import com.dirror.music.util.loge
 import com.dirror.music.util.toast
 import kotlinx.android.synthetic.main.dialog_play_more.*
-import kotlin.math.abs
 
 class PlayerMenuMoreDialog : Dialog {
     constructor(context: Context) : this(context, 0)
@@ -81,7 +78,11 @@ class PlayerMenuMoreDialog : Dialog {
 
         // 反馈
         itemFeedback.setOnClickListener {
-            ownerActivity?.startActivity(Intent(ownerActivity, FeedbackActivity::class.java))
+            val intent = Intent(MyApplication.context, FeedbackActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // 从 Content 跳转 Activity 要加 FLAG
+            MyApplication.context.startActivity(intent)
+            // 隐藏 Dialog
+            dismiss()
         }
 
 

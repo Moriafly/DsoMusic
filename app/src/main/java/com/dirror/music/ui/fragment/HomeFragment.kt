@@ -26,16 +26,6 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
-        // 测试
-        thread {
-            val a = QQMusic.parse("003cnxEk2Pap9I")
-            runOnMainThread {
-                tvTest.text = a
-            }
-        }
-
-
-
         changeSentence()
     }
 
