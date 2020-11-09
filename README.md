@@ -1,8 +1,9 @@
-# dirror-music
+# Dso Music
 
 源码仅供学习，请勿传播软件安装包。
 
 音乐 API 来源（但不限于）：https://github.com/Binaryify/NeteaseCloudMusicApi
+QQ 音乐来源：自己搞的 :)
 
 # 截图
 
