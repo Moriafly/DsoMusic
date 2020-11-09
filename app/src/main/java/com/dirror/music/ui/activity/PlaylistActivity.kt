@@ -109,7 +109,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
      */
     private fun refreshLayoutPlay() {
         val song = MyApplication.musicBinderInterface?.getNowSongData()
-        if (song != null) {
+        if (song != null && itemPlay != null) {
             when (song.source) {
                 SOURCE_NETEASE -> {
                     GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), itemPlay.ivCover, itemPlay.ivCover)
