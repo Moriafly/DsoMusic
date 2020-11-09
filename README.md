@@ -4,7 +4,7 @@
 
 音乐 API 来源（但不限于）：https://github.com/Binaryify/NeteaseCloudMusicApi
 
-QQ 音乐来源：自己搞的 :)
+QQ 音乐来源：自己搞的 : )
 
 # 进度
 - [ ] 搜索历史
