@@ -69,7 +69,13 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         tvProgress.translationY = - navigationBarHeight
         tvDuration.translationY = - navigationBarHeight
 
-        titleBar.translationY = getStatusBarHeight(window, this).toFloat()
+        // 头部适配
+        val statusBarHeight = getStatusBarHeight(window, this).toFloat()
+
+
+        titleBar.translationY = statusBarHeight
+        tvName.translationY = statusBarHeight
+        tvArtist.translationY = statusBarHeight
 
         ivBackground.scaleY = 1.5f
         ivBackground.scaleX = 2.5f
