@@ -9,10 +9,8 @@ import android.os.IBinder
 import cn.bmob.v3.Bmob
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
-import com.dirror.music.util.InternetState
-import com.dirror.music.util.LanguageUtils
-import com.dirror.music.util.Secure
-import com.dirror.music.util.toast
+import com.dirror.music.ui.dialog.UpdateDialog
+import com.dirror.music.util.*
 import okhttp3.Cookie
 
 /**
@@ -46,9 +44,24 @@ class MyApplication: Application() {
 
         // 设置语言
         // LanguageUtils.setLanguage(1)
+        checkNewVersion()
 
 
+    }
 
+    /**
+     * 检查新版本
+     */
+    private fun checkNewVersion() {
+        UpdateUtil.getServerVersion { updateData ->
+            if (updateData.code > getVisionCode()) {
+                // 有新版
+                UpdateDialog(this).also {
+                    it.showInfo(updateData)
+                    it.show()
+                }
+            }
+        }
     }
 
     /**

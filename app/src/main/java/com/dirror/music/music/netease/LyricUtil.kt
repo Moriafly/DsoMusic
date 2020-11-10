@@ -6,7 +6,10 @@ import com.dirror.music.util.MagicHttp
 import kotlin.collections.ArrayList
 
 object LyricUtil {
+
+    @Deprecated("过时，请使用标准库")
     fun getLyric(id: Long, success: (List<LyricData>) -> Unit) {
+
         MagicHttp.OkHttpManager().newGet("${API_FCZBL_VIP}/?type=lrc&id=${id}", { response ->
             val char = response.find {
                 it == '['
@@ -25,6 +28,7 @@ object LyricUtil {
     /**
      * 解析 Lyric
      */
+    @Deprecated("过时")
     fun parseLyric(source: String): ArrayList<LyricData> {
         val lyricDataList =ArrayList<LyricData>()
 
@@ -50,6 +54,7 @@ object LyricUtil {
         return lyricDataList
     }
 
+    @Deprecated("过时")
     private fun parseTime(get: String): Int {
         val time = get.substring(1)
         val list = time.split(":")

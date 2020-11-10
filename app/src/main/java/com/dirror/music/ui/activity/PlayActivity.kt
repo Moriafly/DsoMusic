@@ -186,7 +186,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
                         CloudMusic.likeSong((song!!.id ?: -1L) as Long)
                     }
                     SOURCE_QQ -> {
-                        toast("暂不支持 QQ 音乐来源")
+                        toast("暂不支持此音源")
                     }
                 }
             }
@@ -328,19 +328,15 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
 
     // 刷新歌词
     private fun refreshLyricView() {
-        when (MyApplication.musicBinderInterface?.getNowSongData()?.source) {
-            SOURCE_NETEASE -> {
-                lyricView.setLyricId((song?.id ?: -1L) as Long)
-                nowProgress = MyApplication.musicBinderInterface?.getProgress()?:0
-                duration = MyApplication.musicBinderInterface?.getDuration()?:duration
-                lyricView.setSongDuration(duration)
-                // 更新歌词播放进度
-                lyricView.updateProgress(nowProgress)
-                handler.sendEmptyMessage(MSG_LYRIC)
-            }
-            SOURCE_QQ -> {
-
-            }
+        val song = MyApplication.musicBinderInterface?.getNowSongData()
+        song?.let {
+            lyricView.setLyricId(song)
+            nowProgress = MyApplication.musicBinderInterface?.getProgress()?:0
+            duration = MyApplication.musicBinderInterface?.getDuration()?:duration
+            lyricView.setSongDuration(duration)
+            // 更新歌词播放进度
+            lyricView.updateProgress(nowProgress)
+            handler.sendEmptyMessage(MSG_LYRIC)
         }
     }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="bigTextSize">16sp</dimen>
+    <dimen name="bigTextSize">20sp</dimen>
     <dimen name="smallTextSize">14sp</dimen>
-    <dimen name="lyricLineHeight">42dp</dimen>
+    <dimen name="lyricLineHeight">46dp</dimen>
 
     <!-- 标准字体  -->
     <dimen name="defaultTextSize">16sp</dimen>

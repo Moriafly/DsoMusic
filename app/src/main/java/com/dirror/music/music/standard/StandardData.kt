@@ -4,6 +4,14 @@ const val SOURCE_NATIVE = 0
 const val SOURCE_NETEASE = 1
 const val SOURCE_QQ = 2
 
+val EMPTY_STANDARD_SONG = StandardSongData(
+    SOURCE_NATIVE,
+    -1L,
+    "",
+    "",
+    ArrayList()
+)
+
 data class StandardSongData(
     val source: Int, // 歌曲来源，网易，QQ，本地
     val id: Any?,
