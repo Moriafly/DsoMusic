@@ -10,6 +10,7 @@ import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.util.*
 import com.google.gson.Gson
+import org.jetbrains.annotations.TestOnly
 import java.lang.Exception
 
 /**
@@ -50,6 +51,7 @@ object CloudMusic {
         })
     }
 
+    @TestOnly
     fun loginByEmail(email: String, password: String) {
 
     }
@@ -110,6 +112,7 @@ object CloudMusic {
     /**
      * 获取歌曲详情
      */
+    @TestOnly
     fun getSongDetail(id: Long, success: (StandardSongData) -> Unit, failure: (String) -> Unit) {
         val url = "${API_MUSIC_ELEUU}/song/detail?ids=$id"
         MagicHttp.OkHttpManager().newGet(url, {
@@ -154,6 +157,7 @@ object CloudMusic {
      * 获取歌曲图片
      * 固定大小 300 * 300
      */
+    @Deprecated("推荐使用标准获取，分网易云和 QQ 版本")
     fun getMusicCoverUrl(musicId: Any): String {
         if (musicId is Long) {
             var url = "$API_FCZBL_VIP/?type=cover&id=$musicId"

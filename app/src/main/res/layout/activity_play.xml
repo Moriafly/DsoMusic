@@ -90,6 +90,7 @@
 
         <TextView
             android:id="@+id/tvName"
+            android:textIsSelectable="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
@@ -107,6 +108,7 @@
 
         <TextView
             android:id="@+id/tvArtist"
+            android:textIsSelectable="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"

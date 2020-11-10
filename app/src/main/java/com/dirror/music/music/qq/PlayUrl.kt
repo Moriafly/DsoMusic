@@ -1,5 +1,6 @@
 package com.dirror.music.music.qq
 
+import com.dirror.music.music.dirror.SearchSong
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.google.gson.Gson
@@ -19,7 +20,13 @@ object PlayUrl {
             val ip = vkeyData.req.data.freeflowsip[0]
             // 获取 vkey
             val purl = vkeyData.req_0.data.midurlinfo[0].purl
-            success.invoke(ip + purl)
+
+            if (purl != "") {
+                success.invoke(ip + purl)
+            } else {
+                // 获取 Dirror 音乐
+                success.invoke(SearchSong.getDirrorSongUrl(songmid))
+            }
         }, {
 
         })

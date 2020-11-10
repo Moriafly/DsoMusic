@@ -36,16 +36,16 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
         }
 
         // 语言
-        itemLanguage.setOnClickListener {
-            var language = StorageUtil.getInt(StorageUtil.LANGUAGE, 0)
-            language = if (language == 0) {
-                1
-            } else {
-                0
-            }
-            StorageUtil.putInt(StorageUtil.LANGUAGE, language)
-            LanguageUtils.setLanguage(language)
-        }
+//        itemLanguage.setOnClickListener {
+//            var language = StorageUtil.getInt(StorageUtil.LANGUAGE, 0)
+//            language = if (language == 0) {
+//                1
+//            } else {
+//                0
+//            }
+//            StorageUtil.putInt(StorageUtil.LANGUAGE, language)
+//            LanguageUtils.setLanguage(language)
+//        }
 
         itemPlayOnMobile.setOnClickListener {
             switchPlayOnMobile.isChecked = !switchPlayOnMobile.isChecked
