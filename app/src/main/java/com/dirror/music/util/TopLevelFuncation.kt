@@ -86,11 +86,13 @@ fun parseArtist(artistList: ArrayList<StandardArtistData>): String {
  * @url 网址
  */
 fun openUrlByBrowser(context: Context, url: String) {
-    val intent = Intent()
-    intent.action = "android.intent.action.VIEW"
-    val contentUrl = Uri.parse(url)
-    intent.data = contentUrl
-    startActivity(context, intent, Bundle())
+    if (url != "") {
+        val intent = Intent()
+        intent.action = "android.intent.action.VIEW"
+        val contentUrl = Uri.parse(url)
+        intent.data = contentUrl
+        startActivity(context, intent, Bundle())
+    }
 }
 
 // 毫秒转日期

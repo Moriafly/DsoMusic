@@ -66,7 +66,7 @@
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="56dp"
-            android:background="@color/colorTransparency"
+            android:background="@drawable/background_button_icon"
             android:minWidth="0dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"

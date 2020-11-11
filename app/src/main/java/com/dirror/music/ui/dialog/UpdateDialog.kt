@@ -6,8 +6,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.R
-import com.dirror.music.util.UpdateUtil
-import com.dirror.music.util.runOnMainThread
+import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.dialog_update.*
 import kotlinx.android.synthetic.main.include_foyou.*
 
@@ -25,8 +24,18 @@ class UpdateDialog: Dialog {
         // setCanceledOnTouchOutside(false)
     }
 
+    var url = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        btnCancel.setOnClickListener {
+            dismiss()
+        }
+
+        btnDownload.setOnClickListener {
+            openUrlByBrowser(this.context, url)
+        }
 
     }
 
@@ -34,6 +43,7 @@ class UpdateDialog: Dialog {
         runOnMainThread {
             tvTitle.text = "发现新版本 ${updateData.name}"
             tvContent.text = updateData.content
+            url = updateData.url
         }
     }
 

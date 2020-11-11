@@ -16,6 +16,7 @@ import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
+import com.dirror.music.ui.dialog.UpdateDialog
 import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
@@ -31,6 +32,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
+
+        checkNewVersion()
     }
 
 
@@ -176,6 +179,29 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         } else {
             itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
+    }
+
+    /**
+     * 检查新版本
+     */
+    private fun checkNewVersion() {
+        UpdateUtil.getServerVersion({ updateData ->
+            runOnMainThread {
+                if (updateData.code > getVisionCode()) {
+                    // 有新版
+                    UpdateDialog(this).also {
+                        it.showInfo(updateData)
+                        it.show()
+                    }
+                } else {
+                    // 没有新版
+                    toast("已是最新版本")
+                }
+            }
+        }, {
+            toast("获取服务器版本信息失败")
+            // 失败
+        })
     }
 
 

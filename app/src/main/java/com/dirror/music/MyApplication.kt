@@ -44,24 +44,9 @@ class MyApplication: Application() {
 
         // 设置语言
         // LanguageUtils.setLanguage(1)
-        checkNewVersion()
 
 
-    }
 
-    /**
-     * 检查新版本
-     */
-    private fun checkNewVersion() {
-        UpdateUtil.getServerVersion { updateData ->
-            if (updateData.code > getVisionCode()) {
-                // 有新版
-                UpdateDialog(this).also {
-                    it.showInfo(updateData)
-                    it.show()
-                }
-            }
-        }
     }
 
     /**

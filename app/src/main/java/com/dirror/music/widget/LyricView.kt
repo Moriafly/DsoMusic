@@ -157,7 +157,7 @@ class LyricView : View {
     }
 
     fun setLyricId(songData: StandardSongData) {
-        if (this.songData != songData) {
+        if (this.songData != songData || lyricList.isEmpty()) {
             this.songData = songData
             SearchLyric.getLyric(songData) {
                 lyricList.clear()

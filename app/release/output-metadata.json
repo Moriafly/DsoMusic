@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "properties": [],
-      "versionCode": 141,
-      "versionName": "1.0.0-rc02",
+      "versionCode": 143,
+      "versionName": "1.0.1",
       "enabled": true,
       "outputFile": "app-release.apk"
     }

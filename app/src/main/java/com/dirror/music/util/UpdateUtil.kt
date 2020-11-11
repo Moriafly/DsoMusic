@@ -1,17 +1,22 @@
 package com.dirror.music.util
 
 import com.google.gson.Gson
+import java.lang.Exception
 
 object UpdateUtil {
 
     /**
      * 检查服务器版本
      */
-    fun getServerVersion(success: (UpdateData) -> Unit) {
+    fun getServerVersion(success: (UpdateData) -> Unit, failure: () -> Unit) {
         val url = "https://moriafly.xyz/dirror-music/update.json"
         MagicHttp.OkHttpManager().newGet(url, {
             // 成功
-            success.invoke(Gson().fromJson(it, UpdateData::class.java))
+            try {
+                success.invoke(Gson().fromJson(it, UpdateData::class.java))
+            } catch (e: Exception) {
+                failure.invoke()
+            }
         }, {
 
         })
@@ -20,7 +25,8 @@ object UpdateUtil {
     data class UpdateData(
         val name: String,
         val code: Int,
-        val content: String
+        val content: String,
+        val url: String, // 下载链接
     )
 
 }

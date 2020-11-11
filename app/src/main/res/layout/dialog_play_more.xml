@@ -32,6 +32,7 @@
                 android:id="@+id/itemNoiseSuppressor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 app:itemType="item_no"
                 app:text="降噪（测试）">
 

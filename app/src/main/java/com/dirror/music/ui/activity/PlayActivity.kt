@@ -90,6 +90,8 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         updateProgress()
         refreshPlayState()
 
+        // 每次打开第一次获取歌词
+        refreshLyricView()
 
     }
 

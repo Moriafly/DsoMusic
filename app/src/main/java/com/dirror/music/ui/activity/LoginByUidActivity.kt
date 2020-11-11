@@ -6,9 +6,13 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.toast
 import kotlinx.android.synthetic.main.activity_login_by_uid.*
 
+/**
+ * 通过网易云 UID 登录
+ */
 class LoginByUidActivity : BaseActivity(R.layout.activity_login_by_uid) {
 
     override fun initView() {
+        // 点击登录按钮
         btnLogin.setOnClickListener {
             val text = etUid.text.toString()
             if (text == "") {
