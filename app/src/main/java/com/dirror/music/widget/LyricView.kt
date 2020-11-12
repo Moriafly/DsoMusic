@@ -72,7 +72,7 @@ class LyricView : View {
         var lineTime = 0
         if (lyricList.isNotEmpty()) {
             if (centerLine >= lyricList.lastIndex) {
-                lineTime = duration - lyricList[centerLine].startTime
+                lineTime = duration - lyricList[lyricList.lastIndex].startTime
             } else {
                 val centerStartTime = lyricList[centerLine].startTime
                 val nextStartTime = lyricList[centerLine + 1].startTime

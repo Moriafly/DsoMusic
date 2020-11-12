@@ -11,8 +11,7 @@ import com.dirror.music.data.CommentData
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.msTimeToFormatDate
 
-
-class CommentAdapter(val commentData: CommentData): RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
+class CommentAdapter(private val commentData: CommentData): RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvName: TextView = view.findViewById(R.id.tvName)
         val tvContent: TextView = view.findViewById(R.id.tvContent)

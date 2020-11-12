@@ -15,7 +15,7 @@ class OpenSourceActivity : BaseActivity(R.layout.activity_open_source) {
             OpenSourceData("OkHttp", "https://github.com/square/okhttp", "Apache License (Version 2.0)"),
             OpenSourceData("Gson", "https://github.com/google/gson","BSD, part MIT and Apache 2.0"),
             OpenSourceData("Glide", "https://github.com/bumptech/glide","BSD, part MIT and Apache 2.0"),
-            OpenSourceData("BlurView", "https://github.com/Dimezis/BlurView","Apache License (Version 2.0)"),
+            OpenSourceData("Glide Transformations", "https://github.com/wasabeef/glide-transformations","Apache License (Version 2.0)"),
             OpenSourceData("Banner", "https://github.com/youth5201314/banner","Apache License (Version 2.0)"),
         )
         rvOpenSource.layoutManager = LinearLayoutManager(this)

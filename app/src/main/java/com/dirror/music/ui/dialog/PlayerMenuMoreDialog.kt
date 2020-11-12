@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.audio.AudioEffect
 import com.dirror.music.ui.activity.FeedbackActivity
 import com.dirror.music.util.toast
 import kotlinx.android.synthetic.main.dialog_play_more.*
@@ -49,9 +50,10 @@ class PlayerMenuMoreDialog : Dialog {
         switchNoiseSuppressor.setOnCheckedChangeListener { buttonView, isChecked ->
             // 开启降噪
             val audioSession = MyApplication.musicBinderInterface?.getAudioSessionId()?:0
-            toast("${audioSession}")
+            // toast("${audioSession}")
             // loge("你好audio: ${audioSession}")
-            // AudioEffect.noiseSuppressor(audioSession, true)
+            // AudioEffect.noiseSuppressor(audioSession, isChecked)
+            AudioEffect.automaticGainControl(audioSession, true)
         }
 
         itemNoiseSuppressor.setOnClickListener {

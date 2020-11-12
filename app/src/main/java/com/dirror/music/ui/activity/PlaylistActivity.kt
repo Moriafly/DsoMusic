@@ -7,20 +7,15 @@ import android.content.IntentFilter
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dirror.music.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.music.netease.PlaylistUtil
-import com.dirror.music.music.qq.Picture
-import com.dirror.music.music.standard.SOURCE_NETEASE
-import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.layout_play.view.*
 
@@ -110,15 +105,8 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
      */
     private fun refreshLayoutPlay() {
         val song = MyApplication.musicBinderInterface?.getNowSongData()
-        if (song != null && itemPlay != null) {
-            when (song.source) {
-                SOURCE_NETEASE -> {
-                    GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), itemPlay.ivCover, itemPlay.ivCover)
-                }
-                SOURCE_QQ -> {
-                    GlideUtil.load(Picture.getMin(song.imageUrl?:""), itemPlay.ivCover, itemPlay.ivCover)
-                }
-            }
+        if (song != null) {
+            GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), layoutPlay.ivCover, layoutPlay.ivCover)
             layoutPlay.tvName.text = song.name
             layoutPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
         }

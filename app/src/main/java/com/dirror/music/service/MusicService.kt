@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
+import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
@@ -162,7 +163,13 @@ class MusicService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.getIntExtra("int_code", 0)) {
             CODE_PREVIOUS -> musicBinder.playLast()
-            CODE_PLAY -> musicBinder.changePlayState()
+            CODE_PLAY -> {
+                if (musicBinder.getPlayState()) {
+                    musicBinder.pause()
+                } else {
+                    musicBinder.start()
+                }
+            }
             CODE_NEXT -> musicBinder.playNext()
         }
         return START_NOT_STICKY // 非粘性服务
@@ -178,7 +185,7 @@ class MusicService : Service() {
     private fun initChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
-            val name = "My notification 1"
+            val name = "Dso Music Notification"
             // val descriptionText = getString(R.string.channel_description)
             val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
@@ -226,17 +233,14 @@ class MusicService : Service() {
                 mediaPlayer = null
             }
 
-            var url = ""
             when (song?.source) {
                 SOURCE_NETEASE -> {
-                    url = "https://music.163.com/song/media/outer/url?id=${song.id}.mp3"
-                    startPlayUrl(url)
+                    startPlayUrl(SongUrl.getSongUrl(song.id as Long))
                 }
                 SOURCE_QQ -> {
                     PlayUrl.getPlayUrl(song.id as String) {
                         loge("QQ 音乐链接：${it}")
-                        url = it
-                        startPlayUrl(url)
+                        startPlayUrl(it)
                     }
                 }
             }
