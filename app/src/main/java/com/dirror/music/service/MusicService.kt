@@ -33,6 +33,7 @@ import org.jetbrains.annotations.TestOnly
  * @since 2020/9
  */
 class MusicService : Service() {
+
     companion object {
         const val MODE_CIRCLE = 1 // 列表循环
         const val MODE_REPEAT_ONE = 2 // 单曲循环
@@ -43,7 +44,6 @@ class MusicService : Service() {
         const val CODE_NEXT = 3 // 按钮事件，下一曲
 
         const val CHANNEL_ID = "Dso Music Channel Id" // 通知通道 ID
-
     }
 
     private var mediaPlayer: MediaPlayer? = null // 定义 MediaPlayer
