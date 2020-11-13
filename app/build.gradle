@@ -22,8 +22,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 145
-        versionName "1.0.3"
+        versionCode 146
+        versionName "1.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -73,4 +73,5 @@ dependencies {
     implementation 'com.squareup.okio:okio:2.8.0'
     implementation 'org.jsoup:jsoup:1.12.1'
 
+    implementation 'com.tencent:mmkv-static:1.2.2'
 }

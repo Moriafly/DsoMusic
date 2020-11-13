@@ -8,12 +8,12 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.dirror.music.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.qq.Picture
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
+import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.UpdateDialog
@@ -143,7 +143,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
                 when (song.source) {
                     SOURCE_NETEASE -> {
-                        GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), itemPlay.ivCover, itemPlay.ivCover)
+                        GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), itemPlay.ivCover, itemPlay.ivCover)
                     }
                     SOURCE_QQ -> {
                         GlideUtil.load(Picture.getMin(song.imageUrl?:""), itemPlay.ivCover, itemPlay.ivCover)
@@ -195,11 +195,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                     }
                 } else {
                     // 没有新版
-                    toast("已是最新版本")
+                    // toast("已是最新版本")
                 }
             }
         }, {
-            toast("获取服务器版本信息失败")
+            // toast("获取服务器版本信息失败")
             // 失败
         })
     }

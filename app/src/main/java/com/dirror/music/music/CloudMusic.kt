@@ -120,7 +120,7 @@ object CloudMusic {
 
             val standardSongData = StandardSongData(
                 SOURCE_NETEASE,
-                songData.songs[0].id,
+                songData.songs[0].id.toString(),
                 songData.songs[0].name?:"",
                 songData.songs[0].al.picUrl,
                 songData.songs[0].ar
@@ -172,7 +172,7 @@ object CloudMusic {
     /**
      * 获取歌曲图片
      */
-    fun getSongImage(id: Long, success: (String) -> Unit) {
+    fun getSongImage(id: String, success: (String) -> Unit) {
         val url = "${API_MUSIC_API}/song/detail?ids=$id"
         MagicHttp.OkHttpManager().newGet(url, {
             val songData = Gson().fromJson(it, SongData::class.java)

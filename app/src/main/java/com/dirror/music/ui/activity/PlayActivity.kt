@@ -369,7 +369,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         song?.let {
             when (song!!.source) {
                 SOURCE_NETEASE -> {
-                    CloudMusic.getSongImage((song!!.id ?: -1L) as Long) { url ->
+                    CloudMusic.getSongImage((song!!.id.toString())) { url ->
                         loadPicture(url)
                     }
                 }

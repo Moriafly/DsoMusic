@@ -14,14 +14,25 @@ class LoginByUidActivity : BaseActivity(R.layout.activity_login_by_uid) {
     override fun initView() {
         // 点击登录按钮
         btnLogin.setOnClickListener {
+            // 获取输入
             val text = etUid.text.toString()
-            if (text == "") {
-                toast("请输入 UID")
-            } else {
-                CloudMusic.loginByUid(etUid.text.toString().toLong()) {
-                    finish()
+            // 判断是否直接是网易云分享用户链接
+            if (text != "") {
+                val index = text.indexOf("id=")
+                if (index != -1) {
+                    val netease = text.subSequence(index + 3, text.length).toString()
+                    CloudMusic.loginByUid(netease.toLong()) {
+                        finish()
+                    }
+                } else {
+                    CloudMusic.loginByUid(text.toLong()) {
+                        finish()
+                    }
                 }
+            } else {
+                toast("请输入 UID")
             }
+
         }
     }
 }

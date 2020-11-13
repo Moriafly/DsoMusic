@@ -30,7 +30,7 @@ object SearchUtil {
         for (index in 0..songs.lastIndex) {
             val standardSongData = StandardSongData(
                 SOURCE_NETEASE,
-                songs[index].id,
+                songs[index].id.toString(),
                 songs[index].name,
                 songs[index].album.artist.img1v1Url,
                 songs[index].artists

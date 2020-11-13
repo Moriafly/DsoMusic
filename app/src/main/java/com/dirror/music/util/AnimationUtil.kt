@@ -9,7 +9,6 @@ import java.time.Duration
 
 object AnimationUtil {
 
-
     fun startRotateAlways(view: View) {
         val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "rotation", view.rotation, view.rotation + 360f)
         objectAnimator.interpolator = LinearInterpolator()
@@ -101,5 +100,4 @@ object AnimationUtil {
         objectAnimator2.start()
     }
 
-    // fun clickAlpha(view: View)
 }

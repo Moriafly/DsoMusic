@@ -9,19 +9,21 @@ import android.os.IBinder
 import cn.bmob.v3.Bmob
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
-import com.dirror.music.ui.dialog.UpdateDialog
 import com.dirror.music.util.*
+import com.tencent.mmkv.MMKV
 import okhttp3.Cookie
 
 /**
  * 自定义 Application
  */
 class MyApplication: Application() {
+
     companion object {
         const val BMOB_APP_KEY = "0d1d3b9214e037c76de958993ddd6563" // Bmob App Key
 
         lateinit var context: Context // 注入懒加载 全局 context
-        var musicBinderInterface: MusicBinderInterface? = null
+        lateinit var kv: MMKV
+        var musicBinderInterface: MusicBinderInterface? = null // MusicBinderInterface
         val musicConnection by lazy { MusicConnection() }
 
         val cookieStore: HashMap<String, List<Cookie>> = HashMap() // cookie
@@ -31,6 +33,17 @@ class MyApplication: Application() {
         super.onCreate()
         context = applicationContext // 全局 context
 
+        MMKV.initialize(this)
+        kv = MMKV.defaultMMKV() // MMKV
+
+        checkSecure()
+
+    }
+
+    /**
+     * 安全检查
+     */
+    private fun checkSecure() {
         if (Secure.isSecure()) {
             // 初始化 Bmob
             Bmob.initialize(this, BMOB_APP_KEY)
@@ -41,12 +54,6 @@ class MyApplication: Application() {
             // 杀死自己
             Secure.killMyself()
         }
-
-        // 设置语言
-        // LanguageUtils.setLanguage(1)
-
-
-
     }
 
     /**
@@ -55,9 +62,12 @@ class MyApplication: Application() {
     private fun startMusicService() {
         // 通过 Service 播放音乐，混合启动
         val intent = Intent(this, MusicService::class.java)
-        startService(intent) // 开启
+        // 开启服务
+        startService(intent)
+        // 绑定服务
         bindService(intent, musicConnection, BIND_AUTO_CREATE)
     }
+
 }
 
 class MusicConnection: ServiceConnection {
@@ -74,4 +84,5 @@ class MusicConnection: ServiceConnection {
     override fun onServiceDisconnected(p0: ComponentName?) {
 
     }
+
 }

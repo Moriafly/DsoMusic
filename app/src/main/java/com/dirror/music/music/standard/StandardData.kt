@@ -1,26 +1,31 @@
 package com.dirror.music.music.standard
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 const val SOURCE_NATIVE = 0
 const val SOURCE_NETEASE = 1
 const val SOURCE_QQ = 2
 
 val EMPTY_STANDARD_SONG = StandardSongData(
     SOURCE_NATIVE,
-    -1L,
+    "-1",
     "",
     "",
     ArrayList()
 )
 
+@Parcelize
 data class StandardSongData(
     val source: Int, // 歌曲来源，网易，QQ，本地
-    val id: Any?,
+    val id: String?,
     val name: String,
     val imageUrl: String?,
     val artists: ArrayList<StandardArtistData>?,
-)
+): Parcelable
 
+@Parcelize
 data class StandardArtistData(
     val id: Long?,
     val name: String?
-)
+): Parcelable

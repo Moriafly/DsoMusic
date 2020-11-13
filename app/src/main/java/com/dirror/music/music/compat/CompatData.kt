@@ -42,7 +42,7 @@ fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): 
 
         val standardSongData = StandardSongData(
             SOURCE_NETEASE,
-            song.id,
+            song.id.toString(),
             song.name,
             song.album.artist.img1v1Url,
             standardArtistDataList
