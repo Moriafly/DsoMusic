@@ -235,7 +235,7 @@ class MusicService : Service() {
 
             when (song?.source) {
                 SOURCE_NETEASE -> {
-                    startPlayUrl(SongUrl.getSongUrl(song.id as Long))
+                    startPlayUrl(SongUrl.getSongUrl(song.id.toString()))
                 }
                 SOURCE_QQ -> {
                     PlayUrl.getPlayUrl(song.id as String) {

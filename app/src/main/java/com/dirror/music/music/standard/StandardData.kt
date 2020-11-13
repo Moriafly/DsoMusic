@@ -21,7 +21,7 @@ data class StandardSongData(
     val id: String?,
     val name: String,
     val imageUrl: String?,
-    val artists: ArrayList<StandardArtistData>?,
+    val artists: ArrayList<StandardArtistData>?, //
 ): Parcelable
 
 @Parcelize

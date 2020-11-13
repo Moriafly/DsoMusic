@@ -214,7 +214,7 @@ object CloudMusic {
         val msg: String
     )
 
-    fun likeSong(musicId: Long) {
+    fun likeSong(musicId: String) {
         val url = "${API_MUSIC_LAKE}/like?id=$musicId"
         MagicHttp.OkHttpManager().newGet(url, {
             try {

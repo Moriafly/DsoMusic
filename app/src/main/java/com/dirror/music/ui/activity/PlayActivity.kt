@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.activity_play.*
 private const val MSG_PROGRESS = 0 // Handle 消息，播放进度
 private const val MSG_LYRIC = 1 // Handle 消息，播放进度
 
+@Suppress("DEPRECATION")
 class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChangeListener {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
@@ -139,7 +140,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
                 when (song?.source) {
                     SOURCE_NETEASE -> {
                         val intent = Intent(this, CommentActivity::class.java)
-                        intent.putExtra("long_music_id", song?.id as Long)
+                        intent.putExtra("long_music_id", song?.id)
                         startActivity(intent)
                         overridePendingTransition(
                             R.anim.anim_slide_enter_bottom,
@@ -185,7 +186,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
             song?.let {
                 when (it.source) {
                     SOURCE_NETEASE -> {
-                        CloudMusic.likeSong((song!!.id ?: -1L) as Long)
+                        CloudMusic.likeSong(it.id.toString())
                     }
                     SOURCE_QQ -> {
                         toast("暂不支持此音源")
@@ -366,7 +367,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
 
     private fun getNowSongData() {
         song = MyApplication.musicBinderInterface?.getNowSongData()
-        song?.let {
+        song?.let { standardSongData ->
             when (song!!.source) {
                 SOURCE_NETEASE -> {
                     CloudMusic.getSongImage((song!!.id.toString())) { url ->
@@ -374,11 +375,11 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
                     }
                 }
                 SOURCE_QQ -> {
-                    loadPicture(Picture.getPictureUrl(it.imageUrl?:""))
+                    loadPicture(Picture.getPictureUrl(standardSongData.imageUrl?:""))
                 }
             }
-            tvName.text = song!!.name
-            tvArtist.text = song!!.artists?.let {
+            tvName.text = standardSongData.name
+            tvArtist.text = standardSongData.artists?.let {
                 parseArtist(it)
             }
         }

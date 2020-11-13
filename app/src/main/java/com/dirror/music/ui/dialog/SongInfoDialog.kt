@@ -37,7 +37,7 @@ class SongInfoDialog: Dialog {
         song?.let {
             when (it.source) {
                 SOURCE_NETEASE -> {
-                    StandardGET.getSongInfo(it.id as Long) {data ->
+                    StandardGET.getSongInfo(it.id.toString()) {data ->
                         val size = parseBit(data.size)
                         runOnMainThread {
                             valueViewId.setValue(it.id.toString())
