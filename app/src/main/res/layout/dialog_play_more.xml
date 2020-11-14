@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:itemType="item_no"
-                app:text="音高">
+                app:text="@string/pitch">
 
                 <ImageView
                     android:id="@+id/ivIncreasePitch"
@@ -104,7 +104,7 @@
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemFeedback"
-                app:text="错误反馈"
+                app:text="@string/feedback"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -114,7 +114,7 @@
                 android:id="@+id/itemSongInfo"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:text="歌曲信息">
+                app:text="@string/song_info">
 
             </com.dirror.music.widget.ItemLayout>
         </LinearLayout>

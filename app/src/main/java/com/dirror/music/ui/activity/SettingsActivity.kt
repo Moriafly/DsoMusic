@@ -17,7 +17,6 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
     override fun initView() {
         switchPlayOnMobile.isChecked = StorageUtil.getBoolean(StorageUtil.PLAY_ON_MOBILE, false)
 
-        itemVersion.setValue("${getVisionName()}(${getVisionCode()})")
         itemFoyouVersion.setValue(FoyouLibrary.VERSION)
     }
 
@@ -27,25 +26,9 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
             startActivity(Intent(this, FeedbackActivity::class.java))
         }
 
-        itemOpenSource.setOnClickListener {
-            startActivity(Intent(this, OpenSourceActivity::class.java))
-        }
-
         itemSourceCode.setOnClickListener {
             openUrlByBrowser(this, "https://github.com/Moriafly/dirror-music")
         }
-
-        // 语言
-//        itemLanguage.setOnClickListener {
-//            var language = StorageUtil.getInt(StorageUtil.LANGUAGE, 0)
-//            language = if (language == 0) {
-//                1
-//            } else {
-//                0
-//            }
-//            StorageUtil.putInt(StorageUtil.LANGUAGE, language)
-//            LanguageUtils.setLanguage(language)
-//        }
 
         itemPlayOnMobile.setOnClickListener {
             switchPlayOnMobile.isChecked = !switchPlayOnMobile.isChecked
@@ -53,6 +36,10 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
 
         switchPlayOnMobile.setOnCheckedChangeListener { buttonView, isChecked ->
             StorageUtil.putBoolean(StorageUtil.PLAY_ON_MOBILE, isChecked)
+        }
+
+        itemAbout.setOnClickListener {
+            startActivity(Intent(this, AboutActivity::class.java))
         }
     }
 

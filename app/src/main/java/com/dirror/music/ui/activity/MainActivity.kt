@@ -33,7 +33,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         musicBroadcastReceiver = MusicBroadcastReceiver() //
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
 
-        checkNewVersion()
+        // 检查新版本
+        UpdateUtil.checkNewVersion(this, false)
     }
 
 
@@ -180,29 +181,5 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
     }
-
-    /**
-     * 检查新版本
-     */
-    private fun checkNewVersion() {
-        UpdateUtil.getServerVersion({ updateData ->
-            runOnMainThread {
-                if (updateData.code > getVisionCode()) {
-                    // 有新版
-                    UpdateDialog(this).also {
-                        it.showInfo(updateData)
-                        it.show()
-                    }
-                } else {
-                    // 没有新版
-                    // toast("已是最新版本")
-                }
-            }
-        }, {
-            // toast("获取服务器版本信息失败")
-            // 失败
-        })
-    }
-
 
 }

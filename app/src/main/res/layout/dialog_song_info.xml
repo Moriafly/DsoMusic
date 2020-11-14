@@ -31,13 +31,13 @@
                 android:id="@+id/valueViewId"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:text="歌曲 ID" />
+                app:text="@string/song_id" />
 
             <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewSource"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:text="来源">
+                app:text="@string/source">
 
             </com.dirror.music.widget.ValueView>
 
@@ -45,19 +45,19 @@
                 android:id="@+id/valueViewBitrate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:text="比特率" />
+                app:text="@string/bit_rate" />
 
             <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewSize"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:text="大小" />
+                app:text="@string/size" />
 
             <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewType"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:text="类型" />
+                app:text="@string/type" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

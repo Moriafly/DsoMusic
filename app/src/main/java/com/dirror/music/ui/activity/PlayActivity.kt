@@ -136,25 +136,12 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
 
         // 点击评论，跳转
         ivComment.setOnClickListener {
-            if (song != null) {
-                when (song?.source) {
-                    SOURCE_NETEASE -> {
-                        val intent = Intent(this, CommentActivity::class.java)
-                        intent.putExtra("long_music_id", song?.id)
-                        startActivity(intent)
-                        overridePendingTransition(
-                            R.anim.anim_slide_enter_bottom,
-                            R.anim.anim_no_anim
-                        )
-                    }
-                    SOURCE_QQ -> {
-                        toast("无评论")
-                    }
-                }
-
-            } else {
-                toast("无评论")
-            }
+            val intent = Intent(this, CommentActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(
+                R.anim.anim_slide_enter_bottom,
+                R.anim.anim_no_anim
+            )
         }
 
         ivEqualizer.setOnClickListener {

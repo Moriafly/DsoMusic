@@ -1,9 +1,37 @@
 package com.dirror.music.util
 
+import android.app.Activity
+import com.dirror.music.ui.dialog.UpdateDialog
 import com.google.gson.Gson
 import java.lang.Exception
 
 object UpdateUtil {
+
+    /**
+     * 检查新版本
+     * 传入 [activity]，[showLastedToast] 开启表示显示如果是最新版或是获取数据错误时弹出 Toast
+     */
+    fun checkNewVersion(activity: Activity, showLastedToast: Boolean) {
+        getServerVersion({ updateData ->
+            runOnMainThread {
+                if (updateData.code > getVisionCode()) {
+                    // 有新版
+                    UpdateDialog(activity).also {
+                        it.showInfo(updateData)
+                        it.show()
+                    }
+                } else {
+                    if (showLastedToast) {
+                        toast("已是最新版本")
+                    }
+                }
+            }
+        }, {
+            if (showLastedToast) {
+                toast("获取服务器版本信息失败")
+            }
+        })
+    }
 
     /**
      * 检查服务器版本

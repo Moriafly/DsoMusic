@@ -128,7 +128,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:text="歌单">
+        app:text="@string/playlist">
 
     </com.dirror.music.widget.TitleBarLayout>
 

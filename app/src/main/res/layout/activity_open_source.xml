@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:text="使用开源项目">
+        app:text="@string/open_source_code">
 
     </com.dirror.music.widget.TitleBarLayout>
 

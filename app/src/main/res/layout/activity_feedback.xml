@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:text="反馈">
+        app:text="@string/feedback">
 
         <Button
             android:id="@+id/btnUpload"
@@ -24,7 +24,7 @@
             android:minWidth="0dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="上传"
+            android:text="@string/upload"
             android:textColor="@color/colorAppThemeColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="反馈内容"
+            android:text="@string/content"
             android:textSize="12sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -90,7 +90,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="联系方式"
+            android:text="@string/contact"
             android:textSize="12sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

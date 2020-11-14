@@ -22,7 +22,7 @@
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemPlayOnMobile"
-                app:text="移动网络下播放歌曲"
+                app:text="@string/play_songs_on_mobile"
                 app:itemType="item_no"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -48,20 +48,12 @@
                 android:layout_margin="16dp"
                 android:background="?android:attr/listDivider" />
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemOpenSource"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="使用开源项目">
-
-            </com.dirror.music.widget.ItemLayout>
-
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemSourceCode"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:text="源代码（Github）">
+                app:text="@string/source_code">
 
             </com.dirror.music.widget.ItemLayout>
 
@@ -73,19 +65,10 @@
                 android:background="?android:attr/listDivider" />
 
             <com.dirror.music.widget.ValueView
-                android:id="@+id/itemVersion"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="版本"
-                app:value="1.0.0">
-
-            </com.dirror.music.widget.ValueView>
-
-            <com.dirror.music.widget.ValueView
                 android:id="@+id/itemFoyouVersion"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:text="Foyou 库版本"
+                app:text="Foyou"
                 app:value="1.0.0">
 
             </com.dirror.music.widget.ValueView>
@@ -94,7 +77,15 @@
                 android:id="@+id/itemFeedback"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:text="反馈">
+                app:text="@string/feedback">
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemAbout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:text="@string/about">
 
             </com.dirror.music.widget.ItemLayout>
 
@@ -108,7 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:text="设置">
+        app:text="@string/settings">
 
     </com.dirror.music.widget.TitleBarLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

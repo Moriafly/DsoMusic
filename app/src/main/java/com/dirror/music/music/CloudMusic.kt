@@ -138,7 +138,7 @@ object CloudMusic {
      * @param id 网易云音乐 id
      * @param success 成功的回调
      */
-    fun getMusicComment(id: Long, success: (CommentData) -> Unit) {
+    fun getMusicComment(id: String, success: (CommentData) -> Unit) {
         MagicHttp.OkHttpManager().get(
             "${API_MUSIC_API}/comment/music?id=$id&limit=20&offset=0${timestamp()}",
             object : MagicHttp.MagicCallback {
