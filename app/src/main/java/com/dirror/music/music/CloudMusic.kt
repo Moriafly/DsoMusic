@@ -1,6 +1,7 @@
 package com.dirror.music.music
 
 import android.util.Log
+import com.dirror.music.MyApplication
 import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.api.API_MUSIC_API
 import com.dirror.music.api.API_MUSIC_ELEUU
@@ -56,11 +57,14 @@ object CloudMusic {
 
     }
 
+    /**
+     * 通过 UID 登录
+     */
     fun loginByUid(uid: Long, success: () -> Unit) {
         getUserDetail(uid, {
-            toast("登录成功")
             success.invoke()
-            StorageUtil.putLong(StorageUtil.CLOUD_MUSIC_UID, it.profile?.userId!!.toLong())
+            MyApplication.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
+            toast("登录成功")
         }, {
             toast(it)
         })

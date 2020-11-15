@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_my.*
 class MyFragment : BaseFragment() {
 
     // private val defaultUid = 316065764L
-    private val defaultUid = -1L // 默认 -1，可设置一个默认用户
+    // private val defaultUid = -1L // 默认 -1，可设置一个默认用户
 
     private val userPlaylist = ArrayList<PlaylistData>()
 
@@ -28,7 +28,15 @@ class MyFragment : BaseFragment() {
     }
 
     override fun initData() {
+        checkLogin()
+    }
 
+    private fun checkLogin() {
+        val uid= MyApplication.mmkv.decodeLong(Config.UID, 0L)
+        if (uid == 0L) {
+            val intent = Intent(context, LoginActivity::class.java)
+            startActivityForResult(intent, 0)
+        }
     }
 
     override fun initView() {
@@ -65,8 +73,9 @@ class MyFragment : BaseFragment() {
         // 获取是否在线登录成功
         CloudMusic.getLoginStatus {  }
 
-        val uid = StorageUtil.getLong(StorageUtil.CLOUD_MUSIC_UID, defaultUid)
-        if (uid != -1L) {
+        val uid = MyApplication.mmkv.decodeLong(Config.UID, 0L)
+
+        if (uid != 0L) {
             CloudMusic.getUserDetail(uid, {
                 refreshUserDetail(it)
             }, {
@@ -90,13 +99,13 @@ class MyFragment : BaseFragment() {
             tvNickname.text = userDetailData.profile?.nickname
             tvLevel.text = "Lv.${userDetailData.level}"
             // 关注和粉丝
-            tvFollows.text = "关注 ${userDetailData.profile?.follows}"
-            tvFolloweds.text = "粉丝 ${userDetailData.profile?.followeds}"
+            tvFollows.text = "${getString(R.string.follow)} ${userDetailData.profile?.follows}"
+            tvFolloweds.text = "${getString(R.string.fans)} ${userDetailData.profile?.followeds}"
         }
     }
 
     private fun getPlaylist() {
-        CloudMusic.getPlaylist(StorageUtil.getLong(StorageUtil.CLOUD_MUSIC_UID, defaultUid)){
+        CloudMusic.getPlaylist(MyApplication.mmkv.decodeLong(Config.UID, 0L)){
             val playlist = it.playlist
             loge("大小：${playlist.size}")
             val linearLayoutManager: LinearLayoutManager =

@@ -1,6 +1,7 @@
 package com.dirror.music.music.netease
 
 import com.dirror.music.api.API_MUSIC_API
+import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.api.API_NETEASE
 import com.dirror.music.data.DetailPlaylistData
 import com.dirror.music.data.DetailPlaylistInnerData
@@ -8,17 +9,22 @@ import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.util.MagicHttp
+import com.dirror.music.util.loge
 import com.dirror.music.util.toast
 import com.google.gson.Gson
 
 object PlaylistUtil {
 
     fun getDetailPlaylist(id: Long, success: (ArrayList<StandardSongData>) -> Unit, failure: (String) -> Unit) {
-        val url = "$API_MUSIC_API/playlist/detail?id=$id"
+        val url = "$API_MUSIC_ELEUU/playlist/detail?id=$id"
+        loge("url:$url")
         MagicHttp.OkHttpManager().newGet(url, { response ->
             val detailPlaylistData = Gson().fromJson(response, DetailPlaylistData::class.java)
-            detailPlaylistDataToStandardSongDataList(detailPlaylistData) {
-                success.invoke(it)
+            // 406 为操作频繁错误
+            if (detailPlaylistData.code != 406) {
+                detailPlaylistDataToStandardSongDataList(detailPlaylistData) {
+                    success.invoke(it)
+                }
             }
         }, {
             failure.invoke(it)
@@ -30,11 +36,13 @@ object PlaylistUtil {
         success: (ArrayList<StandardSongData>) -> Unit
     ) {
         // 获取全 id
-        val trackIds = detailPlaylistData.playlist.trackIds
+        val trackIds = detailPlaylistData.playlist?.trackIds
         val ids = ArrayList<Long>()
-        for (trackId in 0..trackIds.lastIndex) {
-            val id = trackIds[trackId].id
-            ids.add(id)
+        if (trackIds != null) {
+            for (trackId in 0..trackIds.lastIndex) {
+                val id = trackIds[trackId].id
+                ids.add(id)
+            }
         }
         getSongListByIds(ids) {
             success.invoke(it)
@@ -71,7 +79,9 @@ object PlaylistUtil {
         val url = "$API_MUSIC_API/playlist/detail?id=$id"
         MagicHttp.OkHttpManager().newGet(url, { response ->
             val playlistInfo = Gson().fromJson(response, DetailPlaylistData::class.java).playlist
-            success.invoke(playlistInfo)
+            if (playlistInfo != null) {
+                success.invoke(playlistInfo)
+            }
         }, {
 
         })

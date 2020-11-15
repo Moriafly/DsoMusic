@@ -35,7 +35,9 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
         // 检查新版本
         UpdateUtil.checkNewVersion(this, false)
+
     }
+
 
 
     override fun initView() {

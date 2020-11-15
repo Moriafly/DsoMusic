@@ -1,6 +1,7 @@
 package com.dirror.music.music.netease
 
 import com.dirror.music.api.API_MUSIC_API
+import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.StandardArtistData
 import com.dirror.music.music.standard.StandardSongData
@@ -9,7 +10,7 @@ import com.google.gson.Gson
 
 object SearchUtil {
     fun searchMusic(keywords: String, success: (ArrayList<StandardSongData>) -> Unit, failure: (String) -> Unit) {
-        val url = "${API_MUSIC_API}/search?keywords=${keywords}"
+        val url = "${API_MUSIC_ELEUU}/search?keywords=${keywords}"
         MagicHttp.OkHttpManager().newGet(url, {
             val searchUtilData = Gson().fromJson(it, SearchUtilData::class.java)
 

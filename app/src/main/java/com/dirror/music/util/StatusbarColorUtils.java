@@ -83,9 +83,7 @@ public class StatusbarColorUtils {
         if (mSetStatusBarColorIcon != null) {
             try {
                 mSetStatusBarColorIcon.invoke(activity, color);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         } else {

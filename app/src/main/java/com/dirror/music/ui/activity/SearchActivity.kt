@@ -20,6 +20,7 @@ import com.dirror.music.music.qq.Picture
 import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
+import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -193,16 +194,9 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
         override fun onReceive(context: Context, intent: Intent) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
+                GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), itemPlay.ivCover, itemPlay.ivCover)
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
-                when (song.source) {
-                    SOURCE_NETEASE -> {
-                        GlideUtil.load(CloudMusic.getMusicCoverUrl(song.id?:-1L), itemPlay.ivCover, itemPlay.ivCover)
-                    }
-                    SOURCE_QQ -> {
-                        GlideUtil.load(Picture.getMin(song.imageUrl?:""), itemPlay.ivCover, itemPlay.ivCover)
-                    }
-                }
             }
             refreshPlayState()
         }

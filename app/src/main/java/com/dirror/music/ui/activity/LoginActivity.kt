@@ -8,9 +8,16 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(R.layout.activity_login) {
 
+    override fun initData() {
+
+    }
+
     override fun initView() {
         // 白色状态栏图标
-        setStatusBarIconColor(this, false)
+        // setStatusBarIconColor(this, false)
+    }
+
+    override fun initListener() {
 
         btnLoginByPhone.setOnClickListener {
             startActivity(Intent(this, LoginByPhoneActivity::class.java))
@@ -21,6 +28,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
             startActivity(Intent(this, LoginByUidActivity::class.java))
             send()
         }
+
     }
 
     private fun send() {
@@ -29,4 +37,5 @@ class LoginActivity : BaseActivity(R.layout.activity_login) {
         setResult(RESULT_OK, intent)
         finish()
     }
+
 }

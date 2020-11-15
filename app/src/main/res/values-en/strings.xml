@@ -24,4 +24,6 @@
     <string name="type">Type</string>
     <string name="size">Size</string>
     <string name="bit_rate">Bit rate</string>
+    <string name="follow">Follow</string>
+    <string name="fans">Fans</string>
 </resources>

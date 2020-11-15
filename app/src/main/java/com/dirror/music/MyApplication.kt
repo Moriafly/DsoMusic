@@ -22,7 +22,7 @@ class MyApplication: Application() {
         const val BMOB_APP_KEY = "0d1d3b9214e037c76de958993ddd6563" // Bmob App Key
 
         lateinit var context: Context // 注入懒加载 全局 context
-        lateinit var kv: MMKV
+        lateinit var mmkv: MMKV
         var musicBinderInterface: MusicBinderInterface? = null // MusicBinderInterface
         val musicConnection by lazy { MusicConnection() }
 
@@ -34,7 +34,7 @@ class MyApplication: Application() {
         context = applicationContext // 全局 context
 
         MMKV.initialize(this)
-        kv = MMKV.defaultMMKV() // MMKV
+        mmkv = MMKV.defaultMMKV() // MMKV
 
         checkSecure()
 

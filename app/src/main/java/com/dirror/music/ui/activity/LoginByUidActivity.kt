@@ -12,6 +12,10 @@ import kotlinx.android.synthetic.main.activity_login_by_uid.*
 class LoginByUidActivity : BaseActivity(R.layout.activity_login_by_uid) {
 
     override fun initView() {
+
+    }
+
+    override fun initListener() {
         // 点击登录按钮
         btnLogin.setOnClickListener {
             // 获取输入
@@ -35,4 +39,5 @@ class LoginByUidActivity : BaseActivity(R.layout.activity_login_by_uid) {
 
         }
     }
+
 }

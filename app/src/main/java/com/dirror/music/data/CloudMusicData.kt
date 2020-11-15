@@ -41,7 +41,7 @@ data class PlaylistData(
 
 data class DetailPlaylistData(
     @SerializedName("code") val code: Int,
-    @SerializedName("playlist") val playlist: DetailPlaylistInnerData
+    @SerializedName("playlist") val playlist: DetailPlaylistInnerData?
 )
 
 data class DetailPlaylistInnerData(
