@@ -29,3 +29,15 @@ data class StandardArtistData(
     val id: Long?,
     val name: String?
 ): Parcelable
+
+
+@Parcelize
+data class StandardLocalPlaylistData(
+    val playlists: ArrayList<StandardPlaylistData>
+): Parcelable
+
+@Parcelize
+data class StandardPlaylistData(
+    val name: String,
+    val songs: ArrayList<StandardSongData>
+): Parcelable

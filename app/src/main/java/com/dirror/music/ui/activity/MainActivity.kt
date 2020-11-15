@@ -10,28 +10,36 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.broadcast.HeadSetChangeReceiver
 import com.dirror.music.music.qq.Picture
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
-import com.dirror.music.ui.dialog.UpdateDialog
 import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_play.view.*
 
+
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
+    private lateinit var headSetChangeReceiver: HeadSetChangeReceiver // 音乐广播接收
 
     override fun initData() {
-        val intentFilter = IntentFilter() // Intent 过滤器
+        var intentFilter = IntentFilter() // Intent 过滤器
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
+
+        intentFilter = IntentFilter()
+        intentFilter.addAction("android.intent.action.HEADSET_PLUG")
+        headSetChangeReceiver = HeadSetChangeReceiver()
+        registerReceiver(headSetChangeReceiver, intentFilter) //注册广播
+
 
         // 检查新版本
         UpdateUtil.checkNewVersion(this, false)
@@ -135,6 +143,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         super.onDestroy()
         // 解绑广播接收
         unregisterReceiver(musicBroadcastReceiver)
+        unregisterReceiver(headSetChangeReceiver)
     }
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
@@ -146,10 +155,14 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
                 when (song.source) {
                     SOURCE_NETEASE -> {
-                        GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), itemPlay.ivCover, itemPlay.ivCover)
+                        GlideUtil.load(
+                            SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE),
+                            itemPlay.ivCover,
+                            itemPlay.ivCover
+                        )
                     }
                     SOURCE_QQ -> {
-                        GlideUtil.load(Picture.getMin(song.imageUrl?:""), itemPlay.ivCover, itemPlay.ivCover)
+                        GlideUtil.load(Picture.getMin(song.imageUrl ?: ""), itemPlay.ivCover, itemPlay.ivCover)
                     }
                 }
 

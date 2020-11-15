@@ -246,7 +246,6 @@ class MusicService : Service() {
                 }
             }
 
-
         }
 
         private fun startPlayUrl(url: String) {

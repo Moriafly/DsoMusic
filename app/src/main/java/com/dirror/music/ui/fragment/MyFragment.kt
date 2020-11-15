@@ -2,19 +2,23 @@ package com.dirror.music.ui.fragment
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dirror.music.music.CloudMusic
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.data.UserDetailData
+import com.dirror.music.music.CloudMusic
+import com.dirror.music.music.standard.StandardLocalPlaylistData
+import com.dirror.music.music.standard.StandardPlaylistData
 import com.dirror.music.ui.activity.LoginActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.fragment_my.*
+
 
 class MyFragment : BaseFragment() {
 
@@ -46,6 +50,8 @@ class MyFragment : BaseFragment() {
         getUserDetail()
         getPlaylist()
 
+        // 获取本地歌单
+        // getLocalPlaylist()
     }
 
     override fun initListener() {
@@ -108,8 +114,8 @@ class MyFragment : BaseFragment() {
         CloudMusic.getPlaylist(MyApplication.mmkv.decodeLong(Config.UID, 0L)){
             val playlist = it.playlist
             loge("大小：${playlist.size}")
-            val linearLayoutManager: LinearLayoutManager =
-                object : LinearLayoutManager(activity) {
+            val gridLayoutManager: GridLayoutManager =
+                object : GridLayoutManager(activity, 2, VERTICAL, false) {
                     override fun canScrollVertically(): Boolean {
                         return false
                     }
@@ -121,14 +127,38 @@ class MyFragment : BaseFragment() {
                         heightSpec: Int
                     ) {
                         super.onMeasure(recycler, state, widthSpec, heightSpec)
-                        setMeasuredDimension(widthSpec, (playlist.size * dp2px(64f)).toInt())
+                        setMeasuredDimension(widthSpec, (playlist.size / 2 * dp2px(80f)).toInt())
                     }
                 }.apply { orientation = LinearLayoutManager.VERTICAL }
 
             runOnMainThread {
-                rvPlaylist.layoutManager =  linearLayoutManager
+                rvPlaylist.layoutManager =  gridLayoutManager
                 rvPlaylist.adapter = PlaylistAdapter(playlist)
             }
+        }
+    }
+
+    private fun getLocalPlaylist() {
+        val localPlaylist = MyApplication.mmkv.decodeParcelable(Config.LOCAL_PLAYLIST, StandardLocalPlaylistData::class.java)
+        val gridLayoutManager: GridLayoutManager =
+            object : GridLayoutManager(activity, 2, VERTICAL, false) {
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
+
+                override fun onMeasure(
+                    recycler: RecyclerView.Recycler,
+                    state: RecyclerView.State,
+                    widthSpec: Int,
+                    heightSpec: Int
+                ) {
+                    super.onMeasure(recycler, state, widthSpec, heightSpec)
+                    setMeasuredDimension(widthSpec, (localPlaylist.playlists.size / 2 * dp2px(80f)).toInt())
+                }
+            }.apply { orientation = LinearLayoutManager.VERTICAL }
+        runOnMainThread {
+            rvLocalPlaylist.layoutManager =  gridLayoutManager
+            // rvLocalPlaylist.adapter = PlaylistAdapter()
         }
     }
 

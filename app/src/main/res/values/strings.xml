@@ -26,4 +26,9 @@
     <string name="bit_rate">比特率</string>
     <string name="follow">关注</string>
     <string name="fans">粉丝</string>
+    <string name="pause_song_after_unplug_headset">拔出耳机后暂停播放</string>
+    <string name="internet_playlist">在线歌单</string>
+    <string name="local_playlist">本地歌单</string>
+    <string name="new_playlist">新建歌单</string>
+    <string name="import_playlist">导入歌单</string>
 </resources>

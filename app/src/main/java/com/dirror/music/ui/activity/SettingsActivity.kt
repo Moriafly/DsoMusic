@@ -2,6 +2,7 @@ package com.dirror.music.ui.activity
 
 import android.content.Intent
 import android.view.View
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.ui.base.BaseActivity
@@ -16,7 +17,7 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
 
     override fun initView() {
         switchPlayOnMobile.isChecked = StorageUtil.getBoolean(StorageUtil.PLAY_ON_MOBILE, false)
-
+        switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
         itemFoyouVersion.setValue(FoyouLibrary.VERSION)
     }
 
@@ -36,6 +37,14 @@ class SettingsActivity : BaseActivity(R.layout.activity_settings) {
 
         switchPlayOnMobile.setOnCheckedChangeListener { buttonView, isChecked ->
             StorageUtil.putBoolean(StorageUtil.PLAY_ON_MOBILE, isChecked)
+        }
+
+        itemPauseSongAfterUnplugHeadset.setOnClickListener {
+            switchPauseSongAfterUnplugHeadset.isChecked = !switchPauseSongAfterUnplugHeadset.isChecked
+        }
+
+        switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { buttonView, isChecked ->
+            MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, isChecked)
         }
 
         itemAbout.setOnClickListener {

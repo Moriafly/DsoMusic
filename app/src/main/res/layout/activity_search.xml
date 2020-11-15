@@ -64,6 +64,7 @@
 
         <Button
             android:id="@+id/btnCancel"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
             android:layout_width="84dp"
             android:layout_height="56dp"
             android:background="@drawable/background_button_icon"
