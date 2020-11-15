@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.broadcast.HeadSetChangeReceiver
+import com.dirror.music.broadcast.HeadsetChangeReceiver
 import com.dirror.music.music.qq.Picture
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.layout_play.view.*
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
-    private lateinit var headSetChangeReceiver: HeadSetChangeReceiver // 音乐广播接收
+    private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
 
     override fun initData() {
         var intentFilter = IntentFilter() // Intent 过滤器
@@ -37,7 +37,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
         intentFilter = IntentFilter()
         intentFilter.addAction("android.intent.action.HEADSET_PLUG")
-        headSetChangeReceiver = HeadSetChangeReceiver()
+        headSetChangeReceiver = HeadsetChangeReceiver()
         registerReceiver(headSetChangeReceiver, intentFilter) //注册广播
 
 

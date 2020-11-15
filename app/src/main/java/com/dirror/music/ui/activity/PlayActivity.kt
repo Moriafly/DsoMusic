@@ -24,6 +24,7 @@ import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.qq.Picture
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
+import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
@@ -352,19 +353,14 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         updateProgress()
     }
 
+    /**
+     * 获取当前音乐
+     */
     private fun getNowSongData() {
         song = MyApplication.musicBinderInterface?.getNowSongData()
         song?.let { standardSongData ->
-            when (song!!.source) {
-                SOURCE_NETEASE -> {
-                    CloudMusic.getSongImage((song!!.id.toString())) { url ->
-                        loadPicture(url)
-                    }
-                }
-                SOURCE_QQ -> {
-                    loadPicture(Picture.getPictureUrl(standardSongData.imageUrl?:""))
-                }
-            }
+            val url = SongPicture.getSongPictureUrl(standardSongData, SongPicture.TYPE_LARGE)
+            loadPicture(url)
             tvName.text = standardSongData.name
             tvArtist.text = standardSongData.artists?.let {
                 parseArtist(it)
