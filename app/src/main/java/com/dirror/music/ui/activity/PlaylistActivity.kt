@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.StandardSongData
@@ -112,7 +113,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
     }
 
     private fun initPlaylist(id: Long, success: (ArrayList<StandardSongData>) -> Unit) {
-        PlaylistUtil.getDetailPlaylist(id, {
+        Playlist.getPlaylist(id, {
             success.invoke(it)
         }, {
 

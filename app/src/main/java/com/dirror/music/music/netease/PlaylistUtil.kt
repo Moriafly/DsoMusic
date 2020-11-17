@@ -15,6 +15,7 @@ import com.google.gson.Gson
 
 object PlaylistUtil {
 
+    @Deprecated("过时")
     fun getDetailPlaylist(id: Long, success: (ArrayList<StandardSongData>) -> Unit, failure: (String) -> Unit) {
         val url = "$API_MUSIC_ELEUU/playlist/detail?id=$id"
         loge("url:$url")
@@ -31,6 +32,7 @@ object PlaylistUtil {
         })
     }
 
+    @Deprecated("过时")
     private fun detailPlaylistDataToStandardSongDataList(
         detailPlaylistData: DetailPlaylistData,
         success: (ArrayList<StandardSongData>) -> Unit
@@ -50,6 +52,7 @@ object PlaylistUtil {
 
     }
 
+    @Deprecated("过时")
     private fun getSongListByIds(ids: ArrayList<Long>, success: (ArrayList<StandardSongData>) -> Unit) {
         var idsString = ""
         for (id in 0..ids.lastIndex) {

@@ -13,7 +13,7 @@ import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.ui.activity.PlaylistActivity
 
-class PlaylistAdapter(val playlist: ArrayList<PlaylistData>) : RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
+class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val clTrack: ConstraintLayout = view.findViewById(R.id.clTrack)
@@ -29,7 +29,7 @@ class PlaylistAdapter(val playlist: ArrayList<PlaylistData>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val play = playlist[position]
-        var url = play.coverImgUrl
+        val url = play.coverImgUrl
         // url = url.replace("http", "https")
         Glide.with(holder.ivCover.context)
             .load(url)

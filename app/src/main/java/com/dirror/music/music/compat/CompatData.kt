@@ -3,6 +3,7 @@ package com.dirror.music.music.compat
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.StandardArtistData
 import com.dirror.music.music.standard.StandardSongData
+import com.dirror.music.util.toast
 
 // 搜索的解析
 data class CompatSearchData(
