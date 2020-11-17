@@ -38,7 +38,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="12dp"
-        android:background="#F5F5F5"
+        android:background="@color/homeWidget"
         android:padding="12dp"
         android:text="TextView"
         android:textSize="12sp"

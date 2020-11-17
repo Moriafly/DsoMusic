@@ -7,39 +7,40 @@
     <bool name="statusBarForeground">true</bool>
 
     <!-- 状态栏背景色 -->
-    <color name="colorStatusBar">#FFFFFF</color>
+    <color name="colorStatusBar">#000000</color>
 
     <!-- 页面背景色-->
-    <color name="colorPageBackground">#FFFFFF</color>
+    <color name="colorPageBackground">#000000</color>
 
     <!-- 图标前景色 -->
-    <color name="colorIconForeground">#000000</color>
+    <color name="colorIconForeground">#FFFFFF</color>
 
     <!-- Item 背景色 -->
-    <color name="colorItemBackground">#FFFFFF</color>
-    <color name="colorItemPressedBackground">#F0F0F0</color>
+    <color name="colorItemBackground">#000000</color>
+    <color name="colorItemPressedBackground">#0F0F0F</color>
 
     <!-- 字体前景色 -->
-    <color name="colorTextForeground">#000000</color>
+    <color name="colorTextForeground">#FFFFFF</color>
     <color name="colorSubTextForeground">#8C8C8C</color>
-    <color name="colorEditTextBackground">#F5F5F5</color>
+    <color name="colorEditTextBackground">#141414</color>
 
     <color name="colorCheckItemBackground">#C8C8C8</color>
 
     <color name="colorTransparency">#00000000</color>
 
     <color name="colorAppThemeColor">#DB2C1F</color>
-    <color name="colorDialogBackground">#FFFFFF</color>
+    <color name="colorDialogBackground">#000000</color>
     <color name="colorHintForeground">#C8C8C8</color>
 
-    <color name="colorBlurViewBackground">#B3FAFAFA</color>
+    <color name="colorBlurViewBackground">#B3050505</color>
     <color name="colorCommonTextForeground">#969696</color>
 
-    <color name="colorDividerBackground">#E6E6E6</color>
+    <color name="colorDividerBackground">#191919</color>
 
     <color name="colorLyricSubForeground">#4B4B4B</color>
     
     <color name="highLight">#0091EA</color>
-    <color name="homeWidget">#F5F5F5</color>
-    <color name="switchBackground">#E6E6E6</color>
+    <color name="homeWidget">#141414</color>
+    <color name="switchBackground">#191919</color>
+
 </resources>

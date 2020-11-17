@@ -55,7 +55,10 @@ object PlaylistUtil {
         for (id in 0..ids.lastIndex) {
             idsString = "$idsString${ids[id]},"
         }
-        idsString = idsString.substring(0, idsString.lastIndex)
+        // loge(idsString)
+        if (idsString != "") {
+            idsString = idsString.substring(0, idsString.lastIndex)
+        }
 
         // val url = "${API_MUSIC_ELEUU}/song/detail/?ids=${idsString}"
         // val url = "${API_NETEASE}/song/detail/?ids=%5B${idsString}%5D&proxy=http://121.196.226.246:84"

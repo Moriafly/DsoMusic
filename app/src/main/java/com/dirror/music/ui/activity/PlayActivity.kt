@@ -21,7 +21,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.CloudMusic
-import com.dirror.music.music.qq.Picture
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.music.standard.SongPicture
@@ -34,11 +33,13 @@ import com.dirror.music.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_play.*
 
-private const val MSG_PROGRESS = 0 // Handle 消息，播放进度
-private const val MSG_LYRIC = 1 // Handle 消息，播放进度
-
 @Suppress("DEPRECATION")
 class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChangeListener {
+
+    companion object {
+        private const val MSG_PROGRESS = 0 // Handle 消息，播放进度
+        private const val MSG_LYRIC = 1 // Handle 消息，播放进度
+    }
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private var song: StandardSongData? = null
@@ -370,6 +371,9 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
 
     }
 
+    /**
+     * 加载图片
+     */
     private fun loadPicture(url: String) {
         GlideUtil.load(url) { bitmap ->
             runOnUiThread {
