@@ -3,6 +3,7 @@ package com.dirror.music.api
 import android.graphics.Bitmap
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.qq.Picture
+import com.dirror.music.music.standard.SOURCE_LOCAL
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.music.standard.StandardSongData
@@ -45,7 +46,7 @@ object StandardGET {
      * 获取大图
      * 300
      */
-    fun getSongBitmap(song: StandardSongData, success: (Bitmap) -> Unit) {
+    fun getSongBitmap(song: StandardSongData, success: (Bitmap?) -> Unit) {
         when (song.source) {
             SOURCE_NETEASE -> {
                 CloudMusic.getSongImage(song.id.toString()) {
@@ -58,7 +59,9 @@ object StandardGET {
                 GlideUtil.load(Picture.getPictureUrl(song.imageUrl?:"")) { bitmap ->
                     success.invoke(bitmap)
                 }
-
+            }
+            SOURCE_LOCAL -> {
+                success.invoke(null)
             }
         }
     }

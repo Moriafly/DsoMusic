@@ -1,12 +1,10 @@
 package com.dirror.music.service
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.media.*
 import android.net.Uri
 import android.os.Binder
@@ -641,25 +639,32 @@ class MusicService : Service() {
             .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
             StandardGET.getSongBitmap(song) { bitmap ->
-                val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_music_launcher_foreground)
-                    .setLargeIcon(bitmap)
-                    .setContentTitle(song.name)
-                    .setContentText(song.artists?.let { it1 -> parseArtist(it1) })
-                    .setContentIntent(getPendingIntentActivity())
-                    .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
-                    .addAction(getPlayIcon(), "play", getPendingIntentPlay())
-                    .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
-                    .setStyle(mediaStyle)
-                    .setOngoing(false)
-                    // .setAutoCancel(true)
-                    .build()
-                // 更新通知
-                // notificationManager?.notify(10, notification)
-                startForeground(START_FOREGROUND_ID, notification)
+                showNotification(mediaStyle, song, bitmap)
             }
         }
 
+    }
+
+    /**
+     * 显示通知
+     */
+    private fun showNotification(mediaStyle: androidx.media.app.NotificationCompat.MediaStyle, song: StandardSongData, bitmap: Bitmap?) {
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_music_launcher_foreground)
+            .setLargeIcon(bitmap)
+            .setContentTitle(song.name)
+            .setContentText(song.artists?.let { it1 -> parseArtist(it1) })
+            .setContentIntent(getPendingIntentActivity())
+            .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
+            .addAction(getPlayIcon(), "play", getPendingIntentPlay())
+            .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
+            .setStyle(mediaStyle)
+            .setOngoing(false)
+            // .setAutoCancel(true)
+            .build()
+        // 更新通知
+        // notificationManager?.notify(10, notification)
+        startForeground(START_FOREGROUND_ID, notification)
     }
 
     /**
