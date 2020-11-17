@@ -4,6 +4,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.1'
@@ -19,6 +20,8 @@ allprojects {
         maven { url 'https://jitpack.io' }
         // Bmob 的 maven 仓库地址 -- 必填
         maven {url 'https://dl.bintray.com/chaozhouzhang/maven' }
+
+        maven { url 'https://dl.bintray.com/umsdk/release' }
 
         google()
         jcenter()

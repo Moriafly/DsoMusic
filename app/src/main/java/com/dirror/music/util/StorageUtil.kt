@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.content.edit
 import com.dirror.music.MyApplication
 
+@Deprecated("过时了，推荐使用 Config + MMKV")
 object StorageUtil {
     private val context = MyApplication.context
 

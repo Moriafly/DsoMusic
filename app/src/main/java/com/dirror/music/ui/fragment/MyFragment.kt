@@ -77,7 +77,7 @@ class MyFragment : BaseFragment() {
         }
 
         clHistory.setOnClickListener {
-
+            toast("功能开发中")
         }
 
     }

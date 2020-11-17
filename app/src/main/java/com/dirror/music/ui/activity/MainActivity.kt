@@ -11,9 +11,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.broadcast.HeadsetChangeReceiver
-import com.dirror.music.music.qq.Picture
-import com.dirror.music.music.standard.SOURCE_NETEASE
-import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -21,7 +18,6 @@ import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_my.*
 import kotlinx.android.synthetic.main.layout_play.view.*
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
@@ -38,12 +34,10 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         intentFilter = IntentFilter()
         intentFilter.addAction("android.intent.action.HEADSET_PLUG")
         headSetChangeReceiver = HeadsetChangeReceiver()
-        registerReceiver(headSetChangeReceiver, intentFilter) //注册广播
-
+        registerReceiver(headSetChangeReceiver, intentFilter) // 注册接收器
 
         // 检查新版本
         UpdateUtil.checkNewVersion(this, false)
-
     }
 
 
@@ -93,7 +87,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             }
         }
 
-        // viewPager2.currentItem = 1 // 默认打开首页
+        // 默认打开首页
+        // viewPager2.currentItem = 1
         ViewPager2Util.changeToNeverMode(viewPager2)
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
@@ -111,11 +106,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             )
         }
 
-        itemPlay.ivPlay.setOnClickListener {
-            // 更新
-            MyApplication.musicBinderInterface?.changePlayState()
-            refreshPlayState()
-        }
+
 
         itemPlay.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
@@ -132,6 +123,13 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     override fun initListener() {
+        // 播放栏
+        itemPlay.ivPlay.setOnClickListener {
+            // 更新
+            MyApplication.musicBinderInterface?.changePlayState()
+            refreshPlayState()
+        }
+
         // 搜索按钮
         ivSearch.setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
@@ -153,19 +151,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 setPlayerVisibility(true)
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
-                when (song.source) {
-                    SOURCE_NETEASE -> {
-                        GlideUtil.load(
-                            SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE),
-                            itemPlay.ivCover,
-                            itemPlay.ivCover
-                        )
-                    }
-                    SOURCE_QQ -> {
-                        GlideUtil.load(Picture.getMin(song.imageUrl ?: ""), itemPlay.ivCover, itemPlay.ivCover)
-                    }
-                }
-
+                // 这里应该用小的，等待修改
+                SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE)
             } else {
                 // 隐藏底部界面
                 setPlayerVisibility(false)

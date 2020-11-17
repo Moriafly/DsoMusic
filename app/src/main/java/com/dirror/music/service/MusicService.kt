@@ -4,6 +4,7 @@ import android.app.*
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.media.*
 import android.net.Uri
@@ -17,6 +18,7 @@ import androidx.core.app.NotificationCompat
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
+import com.dirror.music.broadcast.BecomingNoisyReceiver
 import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
 import com.dirror.music.music.standard.SOURCE_LOCAL
@@ -111,10 +113,17 @@ class MusicService : Service() {
 
     /**
      * 初始化 MediaSession 回调
+     * 媒体绘话的回调
      */
     private fun initMediaSessionCallback() {
+        val intentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+        val myNoisyAudioStreamReceiver = BecomingNoisyReceiver()
+
+        // 媒体会话的回调，Service 控制通知这个 Callback 来控制 MediaPlayer
         mediaSessionCallback = object : MediaSessionCompat.Callback() {
+            // 播放
             override fun onPlay() {
+                registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
                 mediaSession?.setPlaybackState(
                     PlaybackStateCompat.Builder()
                         .setState(
@@ -127,6 +136,7 @@ class MusicService : Service() {
                 )
             }
 
+            // 暂停
             override fun onPause() {
                 mediaSession?.setPlaybackState(
                     PlaybackStateCompat.Builder()
@@ -140,18 +150,23 @@ class MusicService : Service() {
                 )
             }
 
+            // 播放下一首
             override fun onSkipToNext() {
                 musicBinder.playNext()
             }
 
+            // 播放上一首
             override fun onSkipToPrevious() {
                 // AudioPlayer.get().prev()
             }
 
+            // 关闭
             override fun onStop() {
+                unregisterReceiver(myNoisyAudioStreamReceiver)
                 // AudioPlayer.get().stopPlayer()
             }
 
+            // 跳转
             override fun onSeekTo(pos: Long) {
                 mediaPlayer?.seekTo(pos.toInt())
                 if (musicBinder.getPlayState()) {
