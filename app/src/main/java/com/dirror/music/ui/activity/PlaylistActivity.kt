@@ -38,11 +38,10 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
         val playlistId = intent.getLongExtra("long_playlist_id", -1)
 
         initPlaylistInfo(playlistId)
-        initPlaylist(playlistId){
+        initPlaylist(playlistId) {
             initRecycleView(it)
             ivBackground.visibility = View.INVISIBLE
         }
-
     }
 
     override fun initListener() {

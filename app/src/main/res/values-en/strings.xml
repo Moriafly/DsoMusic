@@ -31,4 +31,6 @@
     <string name="local_playlist">Local Playlist</string>
     <string name="new_playlist">New Playlist</string>
     <string name="import_playlist">Import Playlist</string>
+    <string name="local_music">Local Music</string>
+    <string name="history">History</string>
 </resources>

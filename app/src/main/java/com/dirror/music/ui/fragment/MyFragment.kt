@@ -12,8 +12,10 @@ import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.data.UserDetailData
 import com.dirror.music.music.CloudMusic
+import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.music.standard.StandardLocalPlaylistData
 import com.dirror.music.music.standard.StandardPlaylistData
+import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.LoginActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.*
@@ -59,6 +61,25 @@ class MyFragment : BaseFragment() {
             val intent = Intent(context, LoginActivity::class.java)
             startActivityForResult(intent, 0)
         }
+
+        // 新建歌单
+        clNewPlaylist.setOnClickListener {
+            toast("功能开发中")
+        }
+
+        clImportPlaylist.setOnClickListener {
+            toast("功能开发中")
+        }
+
+        clLocalMusic.setOnClickListener {
+            val intent = Intent(this.context, LocalMusicActivity::class.java)
+            startActivity(intent)
+        }
+
+        clHistory.setOnClickListener {
+
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -135,6 +156,7 @@ class MyFragment : BaseFragment() {
                 rvPlaylist.layoutManager =  gridLayoutManager
                 rvPlaylist.adapter = PlaylistAdapter(playlist)
             }
+
         }
     }
 

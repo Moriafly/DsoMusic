@@ -36,7 +36,7 @@ object UpdateUtil {
     /**
      * 检查服务器版本
      */
-    fun getServerVersion(success: (UpdateData) -> Unit, failure: () -> Unit) {
+    private fun getServerVersion(success: (UpdateData) -> Unit, failure: () -> Unit) {
         val url = "https://moriafly.xyz/dirror-music/update.json"
         MagicHttp.OkHttpManager().newGet(url, {
             // 成功

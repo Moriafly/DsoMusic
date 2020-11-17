@@ -21,8 +21,8 @@ import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_my.*
 import kotlinx.android.synthetic.main.layout_play.view.*
-
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
 

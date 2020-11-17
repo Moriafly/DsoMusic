@@ -9,6 +9,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
 import com.dirror.music.music.dirror.SearchSong
+import com.dirror.music.music.standard.SOURCE_LOCAL
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.util.runOnMainThread
@@ -56,6 +57,15 @@ class SongInfoDialog: Dialog {
                         } else {
                             valueViewSource.setValue("QQ 音乐")
                         }
+                        valueViewBitrate.setValue("未知")
+                        valueViewSize.setValue("未知")
+                        valueViewType.setValue("未知")
+                    }
+                }
+                SOURCE_LOCAL -> {
+                    runOnMainThread {
+                        valueViewId.setValue(it.id.toString())
+                        valueViewSource.setValue(context.getString(R.string.local_music))
                         valueViewBitrate.setValue("未知")
                         valueViewSize.setValue("未知")
                         valueViewType.setValue("未知")

@@ -31,4 +31,6 @@
     <string name="local_playlist">本地歌单</string>
     <string name="new_playlist">新建歌单</string>
     <string name="import_playlist">导入歌单</string>
+    <string name="local_music">本地音乐</string>
+    <string name="history">播放历史</string>
 </resources>

@@ -4,9 +4,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.media.*
+import android.net.Uri
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -19,6 +21,7 @@ import com.dirror.music.R
 import com.dirror.music.api.StandardGET
 import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
+import com.dirror.music.music.standard.SOURCE_LOCAL
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
 import com.dirror.music.music.standard.StandardSongData
@@ -244,16 +247,34 @@ class MusicService : Service() {
                         startPlayUrl(it)
                     }
                 }
+                SOURCE_LOCAL -> {
+                    val id = song.id!!.toLong()
+                    val contentUri: Uri =
+                        ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
+
+                    mediaPlayer = MediaPlayer().apply {
+                        setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
+                        setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
+                        setOnErrorListener(this@MusicBinder)
+                        // setAudioStreamType(AudioManager.STREAM_MUSIC)
+                        setDataSource(applicationContext, contentUri)
+                        prepareAsync()
+                    }
+
+                    // ...prepare and start...
+
+                }
             }
 
         }
 
         private fun startPlayUrl(url: String) {
-            // 初始化
-            mediaPlayer = MediaPlayer()
+
             if (!InternetState.isWifi(MyApplication.context) && !StorageUtil.getBoolean(StorageUtil.PLAY_ON_MOBILE, false)) {
                 toast("移动网络下已禁止播放")
             } else {
+                // 初始化
+                mediaPlayer = MediaPlayer()
                 mediaPlayer?.let {
                     it.setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
                     it.setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调

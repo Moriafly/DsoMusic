@@ -3,6 +3,7 @@ package com.dirror.music.ui.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
+@Deprecated("弃用，推荐使用 ViewBinding")
 abstract class BaseActivity(private val layoutId: Int): AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

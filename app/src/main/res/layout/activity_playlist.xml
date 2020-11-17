@@ -45,7 +45,7 @@
                     android:layout_width="88dp"
                     android:layout_height="88dp"
                     android:layout_marginStart="32dp"
-                    app:cardCornerRadius="6dp"
+                    app:cardCornerRadius="8dp"
                     app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +55,7 @@
                         android:id="@+id/ivCover"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
                         tools:srcCompat="@tools:sample/avatars" />
                 </androidx.cardview.widget.CardView>
 
