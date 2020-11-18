@@ -26,8 +26,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 154
-        versionName "1.1.0"
+        versionCode 155
+        versionName "1.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -83,5 +83,7 @@ dependencies {
     implementation 'com.umeng.umsdk:common:9.1.0' // (必选)版本号
     implementation 'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
     implementation 'com.umeng.umsdk:crash:0.0.4' // native crash包依赖(必选)
+
+    // implementation 'com.cv4j.proxy:proxypool:1.1.13'
 
 }

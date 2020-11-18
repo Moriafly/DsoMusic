@@ -152,7 +152,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
                 // 这里应该用小的，等待修改
-                SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE)
+                GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), itemPlay.ivCover, itemPlay.ivCover)
+
             } else {
                 // 隐藏底部界面
                 setPlayerVisibility(false)

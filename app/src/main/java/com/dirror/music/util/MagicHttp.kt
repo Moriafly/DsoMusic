@@ -2,12 +2,15 @@ package com.dirror.music.util
 
 import android.os.Handler
 import android.os.Looper
+// import com.cv4j.proxy.ProxyPool
 import com.dirror.music.MyApplication
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Proxy
 import java.util.concurrent.TimeUnit
 
 
@@ -123,6 +126,8 @@ object MagicHttp {
         override fun post(url: String, json: String, success: (String) -> Unit) {
             try {
                 // val JSON: MediaType = "application/json; charset=utf-8".toMediaType()
+                // val proxyPool = ProxyPool.getProxy()
+
                 val client = OkHttpClient.Builder()
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(3, TimeUnit.SECONDS)
@@ -138,6 +143,7 @@ object MagicHttp {
                         }
 
                     })
+                    // .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyPool.ip, proxyPool.port)))
                     .build()
 
                 val body = okhttp3.FormBody.Builder().add("ids", json).build()

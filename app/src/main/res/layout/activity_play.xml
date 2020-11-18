@@ -96,7 +96,6 @@
             android:layout_marginStart="28dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="28dp"
-            android:singleLine="true"
             android:text="音乐"
             android:textAlignment="viewStart"
             android:textColor="@color/colorTextForeground"
@@ -104,7 +103,8 @@
             android:transitionName="tvName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:maxLines="2" />
 
         <TextView
             android:id="@+id/tvArtist"
