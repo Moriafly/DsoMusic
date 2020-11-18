@@ -80,8 +80,8 @@ dependencies {
     implementation 'com.tencent:mmkv-static:1.2.2'
 
     // 友盟统计SDK
-    implementation  'com.umeng.umsdk:common:9.1.0' // (必选)版本号
-    implementation  'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
+    implementation 'com.umeng.umsdk:common:9.1.0' // (必选)版本号
+    implementation 'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
     implementation 'com.umeng.umsdk:crash:0.0.4' // native crash包依赖(必选)
 
 }

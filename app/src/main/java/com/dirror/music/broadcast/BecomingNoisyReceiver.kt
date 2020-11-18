@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import com.dirror.music.MyApplication
+import com.dirror.music.util.toast
 
 class BecomingNoisyReceiver : BroadcastReceiver() {
 

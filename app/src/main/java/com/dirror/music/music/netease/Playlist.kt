@@ -14,13 +14,19 @@ import org.jetbrains.annotations.TestOnly
  */
 object Playlist {
 
+    private const val SPLIT_PLAYLIST_NUMBER = 200 // 切割歌单，每 200 首
+    private const val CHEATING_CODE = -460 // Cheating 错误
+
+    private const val PLAYLIST_URL = "${API_MUSIC_ELEUU}/playlist/detail?id=" // 获取歌单链接
+    private const val SONG_DETAIL_URL = "https://music.163.com/api/song/detail" // 歌曲详情
+
     /**
      * 传入歌单 [playlistId] id
      */
     @TestOnly
     fun getPlaylist(playlistId: Long, success: (ArrayList<StandardSongData>) -> Unit, failure: () -> Unit) {
         // 请求链接
-        val url = "${API_MUSIC_ELEUU}/playlist/detail?id=$playlistId"
+        val url = PLAYLIST_URL + playlistId
         // 发送 Get 请求获取全部 trackId
         MagicHttp.OkHttpManager().newGet(url, { response ->
             // 解析得到全部 trackIds
@@ -31,12 +37,12 @@ object Playlist {
             // POST 请求全部 trackIds
             // 每 200 首请求一次
             val allSongData = ArrayList<StandardSongData>()
-            averageAssignFixLength(trackIds, 200).forEach { list ->
+            averageAssignFixLength(trackIds, SPLIT_PLAYLIST_NUMBER).forEach { list ->
                 val json = Gson().toJson(list)
-                MagicHttp.OkHttpManager().post("https://music.163.com/api/song/detail", json) { response ->
+                MagicHttp.OkHttpManager().post(SONG_DETAIL_URL, json) { response ->
                     // toast("服务器返回字符数：${response.length.toString()}")
                     val data = Gson().fromJson(response, CompatSearchData::class.java)
-                    if (data.code == -460) {
+                    if (data.code == CHEATING_CODE) {
                         toast("-460 Cheating")
                     } else {
                         compatSearchDataToStandardPlaylistData(data).forEach {

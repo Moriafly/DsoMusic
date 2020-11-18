@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,13 +31,13 @@
             <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewId"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="42dp"
                 app:text="@string/song_id" />
 
             <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewSource"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="42dp"
                 app:text="@string/source">
 
             </com.dirror.music.widget.ValueView>
@@ -44,19 +45,19 @@
             <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewBitrate"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="42dp"
                 app:text="@string/bit_rate" />
 
             <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewSize"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="42dp"
                 app:text="@string/size" />
 
             <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewType"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="42dp"
                 app:text="@string/type" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
