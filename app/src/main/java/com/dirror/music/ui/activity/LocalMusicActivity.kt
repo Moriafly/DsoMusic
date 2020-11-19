@@ -12,7 +12,6 @@ import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.databinding.ActivityLocalMusicBinding
 import com.dirror.music.music.local.LocalMusic
 
-
 class LocalMusicActivity : AppCompatActivity() {
 
     companion object {

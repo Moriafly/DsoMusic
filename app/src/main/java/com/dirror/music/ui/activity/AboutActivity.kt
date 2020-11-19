@@ -1,38 +1,48 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import com.dirror.music.R
-import com.dirror.music.ui.base.BaseActivity
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.dirror.music.databinding.ActivityAboutBinding
 import com.dirror.music.util.UpdateUtil
 import com.dirror.music.util.getVisionCode
 import com.dirror.music.util.getVisionName
 import com.dirror.music.util.openUrlByBrowser
-import kotlinx.android.synthetic.main.activity_about.*
 
-class AboutActivity : BaseActivity(R.layout.activity_about) {
 
-    override fun initData() {
+class AboutActivity : AppCompatActivity() {
 
+    companion object {
+        private const val WEBSITE = "https://moriafly.xyz" // 官方网站
     }
 
-    override fun initView() {
-        tvVersion.text = getVisionName()
-        tvVersionCode.text = getVisionCode().toString()
+    private lateinit var binding: ActivityAboutBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
+        initView()
+        initListener()
     }
 
-    override fun initListener() {
+    private fun initView() {
+        binding.tvVersion.text = getVisionName()
+        binding.tvVersionCode.text = getVisionCode().toString()
+    }
+
+    private fun initListener() {
         // 检查更新
-        itemCheckForUpdates.setOnClickListener {
+        binding.itemCheckForUpdates.setOnClickListener {
             UpdateUtil.checkNewVersion(this, true)
         }
 
         // 打开链接
-        tvUrl.setOnClickListener {
-            openUrlByBrowser(this, "https://moriafly.xyz")
+        binding.tvUrl.setOnClickListener {
+            openUrlByBrowser(this, WEBSITE)
         }
 
-        //
-        itemOpenSource.setOnClickListener {
+        // 开源
+        binding.itemOpenSource.setOnClickListener {
             startActivity(Intent(this, OpenSourceActivity::class.java))
         }
 
