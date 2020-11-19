@@ -5,27 +5,37 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Drawable
+import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.broadcast.HeadsetChangeReceiver
+import com.dirror.music.databinding.ActivityMainBinding
 import com.dirror.music.music.standard.SongPicture
-import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_play.view.*
 
-class MainActivity : BaseActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
 
-    override fun initData() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initData()
+        initView()
+        initListener()
+    }
+
+    private fun initData() {
         var intentFilter = IntentFilter() // Intent 过滤器
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
@@ -42,7 +52,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
 
 
-    override fun initView() {
+    private fun initView() {
         setPlayerVisibility(false)
         // 请求广播
         MyApplication.musicBinderInterface?.sendBroadcast()
@@ -50,12 +60,12 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         val radius = 20f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
-        blurView.setupWith(decorView.findViewById(R.id.viewPager2))
+        binding.blurView.setupWith(decorView.findViewById(R.id.viewPager2))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)
             .setHasFixedTransformationMatrix(true)
-        blurViewPlay.setupWith(decorView.findViewById(R.id.viewPager2))
+        binding.blurViewPlay.setupWith(decorView.findViewById(R.id.viewPager2))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)
@@ -63,21 +73,21 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
         // 适配状态栏
         val statusBarHeight = getStatusBarHeight(window, this) // px
-        titleBar.translationY = statusBarHeight.toFloat()
-        blurView.scaleY = (dp2px(56f) + statusBarHeight) / dp2px(56f)
-        blurView.translationY = statusBarHeight.toFloat() / 2
-        blurViewBottom.scaleY = blurView.scaleY
-        blurViewBottom.translationY = statusBarHeight.toFloat() / 2
+        binding.titleBar.translationY = statusBarHeight.toFloat()
+        binding.blurView.scaleY = (dp2px(56f) + statusBarHeight) / dp2px(56f)
+        binding.blurView.translationY = statusBarHeight.toFloat() / 2
+        binding.blurViewBottom.scaleY = binding.blurView.scaleY
+        binding.blurViewBottom.translationY = statusBarHeight.toFloat() / 2
 
         // 适配导航栏
         val navigationBarHeight = getNavigationBarHeight(this).toFloat()
-        clPlay.translationY = - navigationBarHeight
-        blurViewPlay.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
-        blurViewPlay.translationY = - navigationBarHeight / 2
-        blurViewPlayBottom.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
-        blurViewPlayBottom.translationY = - navigationBarHeight / 2
+        binding.clPlay.translationY = - navigationBarHeight
+        binding.blurViewPlay.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
+        binding.blurViewPlay.translationY = - navigationBarHeight / 2
+        binding.blurViewPlayBottom.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
+        binding.blurViewPlayBottom.translationY = - navigationBarHeight / 2
 
-        viewPager2.adapter = object: FragmentStateAdapter(this) {
+        binding.viewPager2.adapter = object: FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
                 return 2 // 2 个页面
             }
@@ -89,16 +99,16 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
         // 默认打开首页
         // viewPager2.currentItem = 1
-        ViewPager2Util.changeToNeverMode(viewPager2)
+        ViewPager2Util.changeToNeverMode(binding.viewPager2)
 
-        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = when (position) {
                 0 -> getString(R.string.my)
                 else -> getString(R.string.home)
             }
         }.attach()
 
-        itemPlay.setOnClickListener {
+        binding.itemPlay.root.setOnClickListener {
             startActivity(Intent(this, PlayActivity::class.java))
             overridePendingTransition(
                 R.anim.anim_slide_enter_bottom,
@@ -106,13 +116,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             )
         }
 
-
-
-        itemPlay.ivPlaylist.setOnClickListener {
+        binding.itemPlay.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
         }
 
-        ivSettings.setOnClickListener {
+        binding.ivSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
             overridePendingTransition(
                 R.anim.anim_slide_enter_left,
@@ -122,18 +130,21 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     }
 
-    override fun initListener() {
-        // 播放栏
-        itemPlay.ivPlay.setOnClickListener {
-            // 更新
-            MyApplication.musicBinderInterface?.changePlayState()
-            refreshPlayState()
-        }
+    private fun initListener() {
 
-        // 搜索按钮
-        ivSearch.setOnClickListener {
-            startActivity(Intent(this, SearchActivity::class.java))
-        }
+            // 播放栏
+        binding.itemPlay.ivPlay.setOnClickListener {
+                // 更新
+                MyApplication.musicBinderInterface?.changePlayState()
+                refreshPlayState()
+            }
+
+            // 搜索按钮
+        binding.ivSearch.setOnClickListener {
+                startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+            }
+
+
 
     }
 
@@ -149,10 +160,10 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
                 setPlayerVisibility(true)
-                itemPlay.tvName.text = song.name
-                itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
+                binding.itemPlay.tvName.text = song.name
+                binding.itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
                 // 这里应该用小的，等待修改
-                GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), itemPlay.ivCover, itemPlay.ivCover)
+                GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), binding.itemPlay.ivCover, binding.itemPlay.ivCover)
 
             } else {
                 // 隐藏底部界面
@@ -164,13 +175,13 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private fun setPlayerVisibility(state: Boolean) {
         if (state) {
-            clPlay.visibility = View.VISIBLE
-            blurViewPlay.visibility = View.VISIBLE
-            blurViewPlayBottom.visibility = View.VISIBLE
+            binding.clPlay.visibility = View.VISIBLE
+            binding.blurViewPlay.visibility = View.VISIBLE
+            binding.blurViewPlayBottom.visibility = View.VISIBLE
         } else {
-            clPlay.visibility = View.INVISIBLE
-            blurViewPlay.visibility = View.INVISIBLE
-            blurViewPlayBottom.visibility = View.INVISIBLE
+            binding.clPlay.visibility = View.INVISIBLE
+            binding.blurViewPlay.visibility = View.INVISIBLE
+            binding.blurViewPlayBottom.visibility = View.INVISIBLE
         }
     }
 
@@ -179,9 +190,9 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
      */
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-            itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+            binding.itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
-            itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
+            binding.itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
     }
 

@@ -2,7 +2,6 @@ package com.dirror.music.ui.activity
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
-import com.dirror.music.music.CloudMusic
 import com.dirror.music.R
 import com.dirror.music.adapter.CommentAdapter
 import com.dirror.music.music.standard.SongComment
