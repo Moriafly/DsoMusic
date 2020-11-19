@@ -50,7 +50,8 @@ object LocalMusic {
                             id.toString(),
                             title,
                             "",
-                            artistList
+                            artistList,
+                            null
                         )
                     )
 

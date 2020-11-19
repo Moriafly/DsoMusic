@@ -127,7 +127,8 @@ object CloudMusic {
                 songData.songs[0].id.toString(),
                 songData.songs[0].name?:"",
                 songData.songs[0].al.picUrl,
-                songData.songs[0].ar
+                songData.songs[0].ar,
+                null
             )
 
             success.invoke(standardSongData)

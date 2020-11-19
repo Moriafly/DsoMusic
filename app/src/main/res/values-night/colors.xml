@@ -43,4 +43,5 @@
     <color name="homeWidget">#141414</color>
     <color name="switchBackground">#191919</color>
 
+    <color name="songUnable">#646464</color>
 </resources>

@@ -12,16 +12,21 @@ val EMPTY_STANDARD_SONG = StandardSongData(
     "-1",
     "",
     "",
-    ArrayList()
+    ArrayList(),
+    null
 )
 
+/**
+ * 标准歌曲信息
+ */
 @Parcelize
 data class StandardSongData(
     val source: Int, // 歌曲来源，网易，QQ，本地
-    val id: String?,
-    val name: String,
-    val imageUrl: String?,
-    val artists: ArrayList<StandardArtistData>?, //
+    val id: String?, // id
+    val name: String, // 歌曲名称
+    val imageUrl: String?, // 图片 url
+    val artists: ArrayList<StandardArtistData>?, // 艺术家
+    val neteaseInfo: NeteaseInfo?
 ): Parcelable
 
 @Parcelize
@@ -40,4 +45,9 @@ data class StandardLocalPlaylistData(
 data class StandardPlaylistData(
     val name: String,
     val songs: ArrayList<StandardSongData>
+): Parcelable
+
+@Parcelize
+data class NeteaseInfo(
+    val fee: Int, // 是否是网易云 vip 歌曲，0 代表没版权，1 代表 vip
 ): Parcelable

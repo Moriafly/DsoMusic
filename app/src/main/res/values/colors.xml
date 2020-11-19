@@ -42,4 +42,6 @@
     <color name="highLight">#0091EA</color>
     <color name="homeWidget">#F5F5F5</color>
     <color name="switchBackground">#E6E6E6</color>
+
+    <color name="songUnable">#D2D2D2</color>
 </resources>

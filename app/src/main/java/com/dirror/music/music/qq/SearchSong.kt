@@ -23,11 +23,12 @@ object SearchSong {
             for (song in qqSearch.data.song.list) {
                 standardSongList.add(
                     StandardSongData(
-                    SOURCE_QQ,
+                        SOURCE_QQ,
                         song.songmid,
                         song.songname,
                         song.albummid,
-                        song.singer
+                        song.singer,
+                        null
                     )
                 )
             }

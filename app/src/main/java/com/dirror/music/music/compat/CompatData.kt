@@ -1,5 +1,6 @@
 package com.dirror.music.music.compat
 
+import com.dirror.music.music.standard.NeteaseInfo
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.StandardArtistData
 import com.dirror.music.music.standard.StandardSongData
@@ -15,7 +16,8 @@ data class CompatSearchSongData(
     val id: Long,
     val name: String,
     val album: CompatAlbumData,
-    val artists: ArrayList<CompatArtistData>
+    val artists: ArrayList<CompatArtistData>,
+    val fee: Int // 网易云搜索是否是 vip 歌曲，1 为 vip
 )
 
 data class CompatAlbumData(
@@ -46,7 +48,8 @@ fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): 
             song.id.toString(),
             song.name,
             song.album.artist.img1v1Url,
-            standardArtistDataList
+            standardArtistDataList,
+            NeteaseInfo(song.fee)
         )
         standardPlaylistData.add(standardSongData)
     }

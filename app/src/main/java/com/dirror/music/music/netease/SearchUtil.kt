@@ -2,6 +2,7 @@ package com.dirror.music.music.netease
 
 import com.dirror.music.api.API_MUSIC_API
 import com.dirror.music.api.API_MUSIC_ELEUU
+import com.dirror.music.music.standard.NeteaseInfo
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.StandardArtistData
 import com.dirror.music.music.standard.StandardSongData
@@ -34,7 +35,8 @@ object SearchUtil {
                 songs[index].id.toString(),
                 songs[index].name,
                 songs[index].album.artist.img1v1Url,
-                songs[index].artists
+                songs[index].artists,
+                NeteaseInfo(songs[index].fee)
             )
             standardSongDataList.add(standardSongData)
         }
@@ -55,6 +57,7 @@ data class SearchUtilResultData(
 data class SearchUtilSongData(
     val id: Long,
     val name: String,
+    val fee: Int,
     val artists: ArrayList<StandardArtistData>,
     val album: SearchUtilAlbumData
 )

@@ -52,7 +52,7 @@ object MagicHttp {
                     .build()
                 val request = Request.Builder()
                     .url(url)
-                     // .addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows 7)")
+                    // .addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows 7)")
                     // .addHeader("X-Real-IP", "211.161.244.70")
                     .get()
                     .build()
@@ -85,7 +85,9 @@ object MagicHttp {
                             return cookies ?: ArrayList()
                         }
 
+                        // 保存 cookie
                         override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+                            // MyApplication.mmkv.encode("1", cookies)
                             MyApplication.cookieStore[url.host] = cookies
                         }
 
