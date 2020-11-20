@@ -32,7 +32,7 @@ object Playlist {
         MagicHttp.OkHttpManager().newGet(url, { response ->
             // 解析得到全部 trackIds
             val trackIds = ArrayList<Long>()
-            Gson().fromJson(response, PlaylistData::class.java).playlist.trackIds.forEach {
+            Gson().fromJson(response, PlaylistData::class.java).playlist.trackIds?.forEach {
                 trackIds.add(it.id)
             }
             // POST 请求全部 trackIds
@@ -66,7 +66,7 @@ object Playlist {
     )
 
     data class TrackIds(
-        val trackIds: ArrayList<TrackId>
+        val trackIds: ArrayList<TrackId>?
     )
 
     data class TrackId(

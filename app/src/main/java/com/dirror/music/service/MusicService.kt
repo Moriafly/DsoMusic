@@ -283,7 +283,7 @@ class MusicService : Service() {
 
         private fun startPlayUrl(url: String) {
 
-            if (!InternetState.isWifi(MyApplication.context) && !StorageUtil.getBoolean(StorageUtil.PLAY_ON_MOBILE, false)) {
+            if (!InternetState.isWifi(MyApplication.context) && !MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)) {
                 toast("移动网络下已禁止播放")
             } else {
                 // 初始化

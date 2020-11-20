@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
@@ -41,7 +42,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
         initPlaylistInfo(playlistId)
         initPlaylist(playlistId) {
             initRecycleView(it)
-            ivBackground.visibility = View.INVISIBLE
+            // ivBackground.visibility = View.INVISIBLE
         }
     }
 
@@ -58,6 +59,9 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
         }
         layoutPlay.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
+        }
+        stickyNavView.setOnClickListener {
+            detailPlaylistAdapter.playFirst()
         }
     }
 
@@ -120,27 +124,32 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
         })
     }
 
+    var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList())
+
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
         runOnMainThread {
-            val linearLayoutManager: LinearLayoutManager =
-                object : LinearLayoutManager(this@PlaylistActivity) {
-                    override fun canScrollVertically(): Boolean {
-                        return false
-                    }
+            val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this@PlaylistActivity)
+//                object : LinearLayoutManager(this@PlaylistActivity) {
+//                    override fun canScrollVertically(): Boolean {
+//                        return false
+//                    }
+//
+//                    override fun onMeasure(
+//                        recycler: RecyclerView.Recycler,
+//                        state: RecyclerView.State,
+//                        widthSpec: Int,
+//                        heightSpec: Int
+//                    ) {
+//                        super.onMeasure(recycler, state, widthSpec, heightSpec)
+//                        setMeasuredDimension(widthSpec, (songList.size * dp2px(64f)).toInt())
+//                    }
+//                }
 
-                    override fun onMeasure(
-                        recycler: RecyclerView.Recycler,
-                        state: RecyclerView.State,
-                        widthSpec: Int,
-                        heightSpec: Int
-                    ) {
-                        super.onMeasure(recycler, state, widthSpec, heightSpec)
-                        setMeasuredDimension(widthSpec, (songList.size * dp2px(64f)).toInt())
-                    }
-                }
-
+            detailPlaylistAdapter = DetailPlaylistAdapter(songList)
             rvDetailPlaylist.layoutManager =  linearLayoutManager
-            rvDetailPlaylist.adapter = DetailPlaylistAdapter(songList)
+            rvDetailPlaylist.adapter = detailPlaylistAdapter
+            tvPlayAll.text = "播放全部(${songList.size})"
+
 
         }
     }

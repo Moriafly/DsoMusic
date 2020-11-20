@@ -27,7 +27,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 155
-        versionName "1.1.1"
+        versionName "1.1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -74,8 +74,8 @@ dependencies {
     implementation 'cn.bmob.android:bmob-sdk:3.7.8'
     implementation "io.reactivex.rxjava2:rxjava:2.2.10"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.squareup.okio:okio:2.8.0'
-    implementation 'org.jsoup:jsoup:1.12.1'
+    implementation 'com.squareup.okio:okio:2.9.0'
+    implementation 'org.jsoup:jsoup:1.13.1'
 
     implementation 'com.tencent:mmkv-static:1.2.2'
 
@@ -83,6 +83,8 @@ dependencies {
     implementation 'com.umeng.umsdk:common:9.1.0' // (必选)版本号
     implementation 'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
     implementation 'com.umeng.umsdk:crash:0.0.4' // native crash包依赖(必选)
+
+    implementation 'com.github.YvesCheung.TouchEventBus:nestedtouch:1.4.3'
 
     // implementation 'com.cv4j.proxy:proxypool:1.1.13'
 

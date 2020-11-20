@@ -32,41 +32,19 @@ class DetailPlaylistAdapter(val songDataList: ArrayList<StandardSongData>): Recy
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        var url = songData[position].songs[0].al.picUrl
-//        url = url.replace("http", "https")
-//        Log.e("图片", "$url")
-//        Glide.with(holder.ivCover.context)
-//            .load(url)
-//            // .placeholder(R.drawable.photo_placeholder)
-//            .into(holder.ivCover)
         val song = songDataList[position]
         // 1 是要 vip，0 不一定（无语）
-        if (song.neteaseInfo?.fee == 1) {
-            holder.tvNumber.setTextColor(MyApplication.context.getColor(R.color.songUnable))
-            holder.tvName.setTextColor(MyApplication.context.getColor(R.color.songUnable))
-            holder.tvArtist.setTextColor(MyApplication.context.getColor(R.color.songUnable))
-        }
+//        if (song.neteaseInfo?.fee == 1) {
+//            holder.tvNumber.setTextColor(MyApplication.context.getColor(R.color.songUnable))
+//            holder.tvName.setTextColor(MyApplication.context.getColor(R.color.songUnable))
+//            holder.tvArtist.setTextColor(MyApplication.context.getColor(R.color.songUnable))
+//        }
         holder.tvName.text = song.name
         holder.tvArtist.text = song.artists?.let { parseArtist(it) }
 
         // 点击项目
         holder.clSong.setOnClickListener {
-            if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) { // 歌单相同
-                if (position == MyApplication.musicBinderInterface?.getNowPosition()) { // position 相同
-                    it.context.startActivity(Intent(it.context, PlayActivity::class.java))
-                    (it.context as Activity).overridePendingTransition(
-                        R.anim.anim_slide_enter_bottom,
-                        R.anim.anim_no_anim
-                    )
-
-
-                } else {
-                    MyApplication.musicBinderInterface?.playMusic(position)
-                }
-            } else {
-                MyApplication.musicBinderInterface?.setPlaylist(songDataList)
-                MyApplication.musicBinderInterface?.playMusic(position)
-            }
+            playMusic(position, it)
         }
 
         holder.tvNumber.text = (position + 1).toString()
@@ -75,4 +53,28 @@ class DetailPlaylistAdapter(val songDataList: ArrayList<StandardSongData>): Recy
     override fun getItemCount(): Int {
         return songDataList.size
     }
+
+    fun playFirst() {
+        playMusic(0, null)
+    }
+
+    private fun playMusic(position: Int, view: View?) {
+        if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) { // 歌单相同
+            if (position == MyApplication.musicBinderInterface?.getNowPosition()) { // position 相同
+                if (view != null) {
+                    view.context.startActivity(Intent(view.context, PlayActivity::class.java))
+                    (view.context as Activity).overridePendingTransition(
+                        R.anim.anim_slide_enter_bottom,
+                        R.anim.anim_no_anim
+                    )
+                }
+            } else {
+                MyApplication.musicBinderInterface?.playMusic(position)
+            }
+        } else {
+            MyApplication.musicBinderInterface?.setPlaylist(songDataList)
+            MyApplication.musicBinderInterface?.playMusic(position)
+        }
+    }
+
 }

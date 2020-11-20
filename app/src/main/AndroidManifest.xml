@@ -42,7 +42,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen" />
-        <activity android:name=".ui.activity.PlaylistActivity" />
+        <activity android:name=".ui.activity.PlaylistActivity"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".ui.activity.LoginByUidActivity" />
         <activity android:name=".ui.activity.LoginByPhoneActivity" />
         <activity

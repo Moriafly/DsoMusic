@@ -1,53 +1,63 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import android.view.View
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
-import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.*
-import kotlinx.android.synthetic.main.activity_settings.*
 
-class SettingsActivity : BaseActivity(R.layout.activity_settings) {
+class SettingsActivity : AppCompatActivity() {
 
-    override fun initData() {
+    private lateinit var binding: ActivitySettingsBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initData()
+        initView()
+        initListener()
+    }
+    private fun initData() {
 
     }
 
-    override fun initView() {
-        switchPlayOnMobile.isChecked = StorageUtil.getBoolean(StorageUtil.PLAY_ON_MOBILE, false)
-        switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
-        itemFoyouVersion.setValue(FoyouLibrary.VERSION)
+    private fun initView() {
+        binding.switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
+        binding.switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
+        binding.itemFoyouVersion.setValue(FoyouLibrary.VERSION)
     }
 
-    override fun initListener() {
+    private fun initListener() {
         // 反馈
-        itemFeedback.setOnClickListener {
+        binding.itemFeedback.setOnClickListener {
             startActivity(Intent(this, FeedbackActivity::class.java))
         }
 
-        itemSourceCode.setOnClickListener {
+        binding.itemSourceCode.setOnClickListener {
             openUrlByBrowser(this, "https://github.com/Moriafly/dirror-music")
         }
 
-        itemPlayOnMobile.setOnClickListener {
-            switchPlayOnMobile.isChecked = !switchPlayOnMobile.isChecked
+        binding.itemPlayOnMobile.setOnClickListener {
+            binding.switchPlayOnMobile.isChecked = !binding.switchPlayOnMobile.isChecked
         }
 
-        switchPlayOnMobile.setOnCheckedChangeListener { buttonView, isChecked ->
-            StorageUtil.putBoolean(StorageUtil.PLAY_ON_MOBILE, isChecked)
+        binding.switchPlayOnMobile.setOnCheckedChangeListener { buttonView, isChecked ->
+            MyApplication.mmkv.encode(Config.PLAY_ON_MOBILE, isChecked)
         }
 
-        itemPauseSongAfterUnplugHeadset.setOnClickListener {
-            switchPauseSongAfterUnplugHeadset.isChecked = !switchPauseSongAfterUnplugHeadset.isChecked
+        binding.itemPauseSongAfterUnplugHeadset.setOnClickListener {
+            binding.switchPauseSongAfterUnplugHeadset.isChecked = !binding.switchPauseSongAfterUnplugHeadset.isChecked
         }
 
-        switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { buttonView, isChecked ->
             MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, isChecked)
         }
 
-        itemAbout.setOnClickListener {
+        binding.itemAbout.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
         }
     }
