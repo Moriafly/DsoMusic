@@ -49,7 +49,10 @@ object Playlist {
                         compatSearchDataToStandardPlaylistData(data).forEach {
                             allSongData.add(it)
                         }
-                        success.invoke(allSongData)
+                        // 全部读取完成再返回
+                        if (allSongData.size == trackIds.size) {
+                            success.invoke(allSongData)
+                        }
                     }
                 }
             }

@@ -6,4 +6,6 @@ object Config {
     const val LOCAL_PLAYLIST = "local_playlist"
 
     const val PLAY_ON_MOBILE = "boolean_play_on_mobile" // 是否在移动数据下播放
+    const val PLAY_HISTORY = "list_play_history" // 播放历史
+
 }
