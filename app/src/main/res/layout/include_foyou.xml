@@ -34,6 +34,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorTextForeground"
                 android:textSize="16sp"
+                android:textIsSelectable="true"
                 app:layout_constraintBottom_toTopOf="@+id/tvAuthor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

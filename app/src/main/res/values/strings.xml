@@ -33,4 +33,6 @@
     <string name="import_playlist">导入歌单</string>
     <string name="local_music">本地音乐</string>
     <string name="history">播放历史</string>
+    <string name="contact_author">联系作者</string>
+    <string name="author_email">moriafly@163.com</string>
 </resources>

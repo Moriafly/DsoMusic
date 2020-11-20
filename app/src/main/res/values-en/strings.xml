@@ -33,4 +33,6 @@
     <string name="import_playlist">Import Playlist</string>
     <string name="local_music">Local Music</string>
     <string name="history">History</string>
+    <string name="contact_author">Contact author</string>
+    <string name="author_email">moriafly@163.com</string>
 </resources>

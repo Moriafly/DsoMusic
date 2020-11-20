@@ -77,6 +77,13 @@
 
         </com.dirror.music.widget.ItemLayout>
 
+        <com.dirror.music.widget.ValueView
+            android:id="@+id/valueViewContactAuthor"
+            app:text="@string/contact_author"
+            app:value="@string/author_email"
+            android:layout_width="match_parent"
+            android:layout_height="56dp" />
+
 
     </LinearLayout>
 
