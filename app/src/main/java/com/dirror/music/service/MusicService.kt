@@ -203,10 +203,10 @@ class MusicService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
             val name = "Dso Music Notification"
-            // val descriptionText = getString(R.string.channel_description)
+            val descriptionText = "Dso Music 音乐通知"
             val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
-            // mChannel.description = descriptionText
+            channel.description = descriptionText
             notificationManager?.createNotificationChannel(channel)
         }
     }

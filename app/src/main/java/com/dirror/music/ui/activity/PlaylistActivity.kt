@@ -4,10 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
@@ -47,20 +44,20 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
     }
 
     override fun initListener() {
-        layoutPlay.setOnClickListener {
+        includePlay.setOnClickListener {
             startActivity(Intent(this, PlayActivity::class.java))
             overridePendingTransition(
                 R.anim.anim_slide_enter_bottom,
                 R.anim.anim_no_anim
             )
         }
-        layoutPlay.ivPlay.setOnClickListener {
+        includePlay.ivPlay.setOnClickListener {
             MyApplication.musicBinderInterface?.changePlayState()
         }
-        layoutPlay.ivPlaylist.setOnClickListener {
+        includePlay.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
         }
-        stickyNavView.setOnClickListener {
+        clNav.setOnClickListener {
             detailPlaylistAdapter.playFirst()
         }
     }
@@ -79,22 +76,18 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
     }
 
     inner class MusicBroadcastReceiver: BroadcastReceiver() {
+        // 接收
         override fun onReceive(context: Context, intent: Intent) {
-            val song = MyApplication.musicBinderInterface?.getNowSongData()
-            if (song != null) {
-                layoutPlay.tvName.text = song.name
-                layoutPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
-                GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), layoutPlay.ivCover, layoutPlay.ivCover)
-            }
+            refreshLayoutPlay()
             refreshPlayState()
         }
     }
 
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState() == true) {
-            layoutPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+            includePlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
-            layoutPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
+            includePlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
     }
 
@@ -106,14 +99,24 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
 
     /**
      * 刷新下方播放框
+     * 可能导致 stick 丢失
      */
     private fun refreshLayoutPlay() {
-        val song = MyApplication.musicBinderInterface?.getNowSongData()
-        if (song != null) {
-            GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), layoutPlay.ivCover, layoutPlay.ivCover)
-            layoutPlay.tvName.text = song.name
-            layoutPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
+        MyApplication.musicBinderInterface?.getNowSongData()?.let { standardSongData ->
+            includePlay.tvName.text = standardSongData.name
+            includePlay.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
+            GlideUtil.load(SongPicture.getSongPictureUrl(standardSongData, SongPicture.TYPE_LARGE)) {
+
+                    includePlay.ivCover.setImageBitmap(it)
+
+            }
+            // GlideUtil.load(SongPicture.getSongPictureUrl(standardSongData, SongPicture.TYPE_LARGE), includePlay.ivCover, includePlay.ivCover)
         }
+//        if (song != null) {
+//            GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), includePlay.ivCover, includePlay.ivCover)
+//            includePlay.tvName.text = song.name
+//            includePlay.tvArtist.text = song.artists?.let { parseArtist(it) }
+//        }
     }
 
     private fun initPlaylist(id: Long, success: (ArrayList<StandardSongData>) -> Unit) {
@@ -129,29 +132,18 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
         runOnMainThread {
             val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this@PlaylistActivity)
-//                object : LinearLayoutManager(this@PlaylistActivity) {
-//                    override fun canScrollVertically(): Boolean {
-//                        return false
-//                    }
-//
-//                    override fun onMeasure(
-//                        recycler: RecyclerView.Recycler,
-//                        state: RecyclerView.State,
-//                        widthSpec: Int,
-//                        heightSpec: Int
-//                    ) {
-//                        super.onMeasure(recycler, state, widthSpec, heightSpec)
-//                        setMeasuredDimension(widthSpec, (songList.size * dp2px(64f)).toInt())
-//                    }
-//                }
-
             detailPlaylistAdapter = DetailPlaylistAdapter(songList)
-            rvDetailPlaylist.layoutManager =  linearLayoutManager
-            rvDetailPlaylist.adapter = detailPlaylistAdapter
+            rvPlaylist.layoutManager =  linearLayoutManager
+            rvPlaylist.adapter = detailPlaylistAdapter
             tvPlayAll.text = "播放全部(${songList.size})"
 
-
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 解绑
+        unregisterReceiver(musicBroadcastReceiver)
     }
 
 

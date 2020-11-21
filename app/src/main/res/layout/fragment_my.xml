@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/itemAccount"
             android:layout_width="match_parent"
-            android:layout_height="96dp">
+            android:layout_height="108dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cdPhoto"
@@ -42,11 +42,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:alpha="0.9"
-                android:textIsSelectable="true"
                 android:textColor="@color/colorTextForeground"
+                android:textIsSelectable="true"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/ivNext"
@@ -69,10 +69,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="32dp"
+                android:alpha="0.9"
                 android:paddingStart="1dp"
                 android:paddingEnd="1dp"
-                android:alpha="0.9"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -119,107 +119,95 @@
             android:paddingEnd="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clLocalMusic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/drawableTransparent"
+                android:contentDescription="@string/new_playlist">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clLocalMusic"
-                    android:contentDescription="@string/new_playlist"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/drawableTransparent"
-                    tools:layout_editor_absoluteX="411dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cdLocalMusic"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="10dp"
+                    app:cardBackgroundColor="#F5F5F5"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cdLocalMusic"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_marginStart="10dp"
-                        app:cardBackgroundColor="#F5F5F5"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                    <ImageView
+                        android:id="@+id/ivLocalMusic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.72"
+                        app:srcCompat="@drawable/ic_bq_local_music_filter"
+                        tools:ignore="ContentDescription" />
+                </androidx.cardview.widget.CardView>
 
-                        <ImageView
-                            android:id="@+id/ivLocalMusic"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:alpha="0.72"
-                            app:srcCompat="@drawable/ic_bq_local_music_filter"
-                            tools:ignore="ContentDescription" />
-                    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/tvLocalMusic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:singleLine="true"
+                    android:text="@string/local_music"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/cdLocalMusic"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.508" />
 
-                    <TextView
-                        android:id="@+id/tvLocalMusic"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="10dp"
-                        android:singleLine="true"
-                        android:text="@string/local_music"
-                        android:textColor="@color/colorTextForeground"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/cdLocalMusic"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.508" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clHistory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/drawableTransparent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clHistory"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/drawableTransparent"
-                    tools:layout_editor_absoluteX="411dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cdHistory"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="10dp"
+                    app:cardBackgroundColor="#F5F5F5"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cdHistory"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_marginStart="10dp"
-                        app:cardBackgroundColor="#F5F5F5"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                    <ImageView
+                        android:id="@+id/ivHistory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.72"
+                        app:srcCompat="@drawable/ic_bq_history_filter" />
+                </androidx.cardview.widget.CardView>
 
-                        <ImageView
-                            android:id="@+id/ivHistory"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:alpha="0.72"
-                            app:srcCompat="@drawable/ic_bq_history_filter" />
-                    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/tvHistory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:singleLine="true"
+                    android:text="@string/history"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cdHistory"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tvHistory"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="10dp"
-                        android:singleLine="true"
-                        android:text="@string/history"
-                        android:textColor="@color/colorTextForeground"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/cdHistory"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

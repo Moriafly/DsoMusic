@@ -14,6 +14,9 @@ import com.dirror.music.music.standard.StandardSongData
 import com.dirror.music.ui.activity.PlayActivity
 import com.dirror.music.util.parseArtist
 
+/**
+ * 歌单适配器
+ */
 class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData>): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -33,11 +36,11 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val song = songDataList[position]
         // 1 是要 vip，0 不一定（无语）
-        if (song.neteaseInfo?.fee == 1) {
-            holder.tvNumber.setTextColor(MyApplication.context.getColor(R.color.songUnable))
-            holder.tvName.setTextColor(MyApplication.context.getColor(R.color.songUnable))
-            holder.tvArtist.setTextColor(MyApplication.context.getColor(R.color.songUnable))
-        }
+//        if (song.neteaseInfo?.fee == 1) {
+//            holder.tvNumber.setTextColor(MyApplication.context.getColor(R.color.songUnable))
+//            holder.tvName.setTextColor(MyApplication.context.getColor(R.color.songUnable))
+//            holder.tvArtist.setTextColor(MyApplication.context.getColor(R.color.songUnable))
+//        }
         holder.tvName.text = song.name
         holder.tvArtist.text = song.artists?.let { parseArtist(it) }
 

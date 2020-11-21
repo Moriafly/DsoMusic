@@ -22,6 +22,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
+        android:maxWidth="40dp"
+        android:maxHeight="40dp"
         android:transitionName="cvCover"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
@@ -31,8 +33,12 @@
 
         <ImageView
             android:id="@+id/ivCover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:maxWidth="40dp"
+            android:maxHeight="40dp"
+            android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
 

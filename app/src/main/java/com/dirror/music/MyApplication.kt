@@ -39,7 +39,6 @@ class MyApplication: Application() {
         mmkv = MMKV.defaultMMKV() // MMKV
 
         checkSecure()
-
     }
 
     /**

@@ -44,4 +44,5 @@
     <color name="switchBackground">#191919</color>
 
     <color name="songUnable">#646464</color>
+    <color name="playlistPageBackground">#141414</color>
 </resources>
