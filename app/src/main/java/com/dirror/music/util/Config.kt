@@ -9,4 +9,5 @@ object Config {
     const val PLAY_HISTORY = "list_play_history" // 播放历史
 
     const val PLAY_MODE = "int_play_mode" // 播放模式
+    const val SEARCH_ENGINE = "int_search_engine" // 音乐搜索引擎
 }

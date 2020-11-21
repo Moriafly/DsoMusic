@@ -53,7 +53,7 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun initView() {
-        when (StorageUtil.getInt(StorageUtil.SEARCH_ENGINE, SOURCE_NETEASE)) {
+        when (MyApplication.mmkv.decodeInt(Config.SEARCH_ENGINE, SOURCE_NETEASE)) {
             SOURCE_NETEASE -> {
                 ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
                 engine = SOURCE_NETEASE
@@ -187,7 +187,7 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
         // 解绑广播接收
         unregisterReceiver(musicBroadcastReceiver)
         // 保存搜索引擎
-        StorageUtil.putInt(StorageUtil.SEARCH_ENGINE, engine)
+        MyApplication.mmkv.encode(Config.SEARCH_ENGINE, engine)
     }
 
     inner class MusicBroadcastReceiver : BroadcastReceiver() {

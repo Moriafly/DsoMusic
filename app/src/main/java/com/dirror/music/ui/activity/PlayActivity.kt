@@ -45,7 +45,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
     private var song: StandardSongData? = null
     private var nowProgress = 0 // 当前进度
     private var duration = 0 // 音乐总时长
-    private var mode = StorageUtil.getInt(StorageUtil.PlAY_MODE, MusicService.MODE_CIRCLE)
+    private var mode = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MusicService.MODE_CIRCLE)
     private val handler = @SuppressLint("HandlerLeak") object : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {

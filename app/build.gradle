@@ -26,8 +26,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 159
-        versionName "1.1.3-rc01"
+        versionCode 160
+        versionName "1.1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -84,7 +84,7 @@ dependencies {
     implementation 'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
     implementation 'com.umeng.umsdk:crash:0.0.4' // native crash包依赖(必选)
 
-    implementation 'com.github.YvesCheung.TouchEventBus:nestedtouch:1.4.3'
+    // implementation 'com.github.YvesCheung.TouchEventBus:nestedtouch:1.4.3'
 
     // implementation 'com.cv4j.proxy:proxypool:1.1.13'
 

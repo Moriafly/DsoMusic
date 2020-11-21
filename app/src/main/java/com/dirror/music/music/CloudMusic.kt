@@ -35,10 +35,7 @@ object CloudMusic {
                         200 -> {
                             toast("登录成功\n用户名：${loginData.profile.nickname}")
                             success.invoke()
-                            StorageUtil.putLong(
-                                StorageUtil.CLOUD_MUSIC_UID,
-                                loginData.profile.userId.toLong()
-                            )
+                            MyApplication.mmkv.encode(Config.UID, loginData.profile.userId.toLong())
                         }
                         400 -> toast("用户不存在")
                         else -> toast("登录失败\n错误代码：${loginData.code}")
