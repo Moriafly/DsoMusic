@@ -54,7 +54,7 @@ class MusicService : Service() {
     private val musicBinder by lazy { MusicBinder() } // 懒加载 musicBinder
     private var playlist: ArrayList<StandardSongData>? = null // 当前歌单
     private var position: Int? = 0 // 当前歌曲在 List 中的下标
-    private var mode: Int = StorageUtil.getInt(StorageUtil.PlAY_MODE, MODE_CIRCLE)
+    private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
     private var notificationManager: NotificationManager? = null // 通知管理
 
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
@@ -415,7 +415,7 @@ class MusicService : Service() {
                 MODE_RANDOM -> mode = MODE_CIRCLE
             }
             // 将播放模式存储
-            StorageUtil.putInt(StorageUtil.PlAY_MODE, mode)
+            MyApplication.mmkv.encode(Config.PLAY_MODE, mode)
             sendMusicBroadcast()
         }
 
