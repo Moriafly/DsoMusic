@@ -49,7 +49,8 @@ fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): 
             song.name,
             song.album.artist.img1v1Url,
             standardArtistDataList,
-            NeteaseInfo(song.fee)
+            NeteaseInfo(song.fee),
+            null
         )
         standardPlaylistData.add(standardSongData)
     }

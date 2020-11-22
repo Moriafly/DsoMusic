@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -17,6 +18,7 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.activity_playlist.*
 import kotlinx.android.synthetic.main.layout_play.view.*
+import kotlin.math.abs
 
 /**
  * 歌单 Activity
@@ -41,6 +43,30 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
             initRecycleView(it)
             // ivBackground.visibility = View.INVISIBLE
         }
+
+        nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            scrollChangeHeader(scrollY)
+        }
+    }
+
+    private fun scrollChangeHeader(Y: Int) {
+        val headerHeight = dp2px(128f)
+        var scrollY = Y
+        if (scrollY < 0) {
+            scrollY = 0
+        }
+        val alpha = abs(scrollY) * 1.0f / headerHeight
+        if (scrollY <= headerHeight) {
+            // titleBar.alpha = alpha
+            titleBar.setTitleBarText(getString(R.string.playlist))
+            clNavForeground.visibility = View.GONE
+        } else {
+            clNavForeground.visibility = View.VISIBLE
+            if (titleBar.text.toString() != tvName.text.toString()) {
+                titleBar.setTitleBarText(tvName.text.toString())
+            }
+            // titleBar.alpha = 1f
+        }
     }
 
     override fun initListener() {
@@ -58,6 +84,9 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
             PlaylistDialog(this).show()
         }
         clNav.setOnClickListener {
+            detailPlaylistAdapter.playFirst()
+        }
+        clNavForeground.setOnClickListener {
             detailPlaylistAdapter.playFirst()
         }
     }
@@ -106,9 +135,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
             includePlay.tvName.text = standardSongData.name
             includePlay.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
             GlideUtil.load(SongPicture.getSongPictureUrl(standardSongData, SongPicture.TYPE_LARGE)) {
-
-                    includePlay.ivCover.setImageBitmap(it)
-
+                includePlay.ivCover.setImageBitmap(it)
             }
             // GlideUtil.load(SongPicture.getSongPictureUrl(standardSongData, SongPicture.TYPE_LARGE), includePlay.ivCover, includePlay.ivCover)
         }
@@ -136,7 +163,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
             rvPlaylist.layoutManager =  linearLayoutManager
             rvPlaylist.adapter = detailPlaylistAdapter
             tvPlayAll.text = "播放全部(${songList.size})"
-
+            tvPlayAllNavForeground.text = "播放全部(${songList.size})"
         }
     }
 

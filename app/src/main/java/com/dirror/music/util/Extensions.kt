@@ -51,3 +51,17 @@ fun Char.isChinese(): Boolean {
     }
     return false
 }
+
+fun Long.parseSize(): String {
+    val source = this.toDouble()
+    if (this < 1_000) {
+        return "${String.format("%.2f", source)} KB"
+    }
+    if (this < 1_000_000) {
+        return "${String.format("%.2f", source / 1_000)} KB"
+    }
+    if (this < 1_000_000_000) {
+        return "${String.format("%.2f", source / 1_000_000)} MB"
+    }
+    return "${String.format("%.2f", source / 1_000_000_000)} GB"
+}

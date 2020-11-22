@@ -32,4 +32,8 @@ class TitleBarLayout(context: Context, attrs: AttributeSet): androidx.constraint
         }
     }
 
+    fun setTitleBarText(text: String) {
+        tvTitleBar.text = text
+    }
+
 }

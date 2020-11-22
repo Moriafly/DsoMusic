@@ -12,6 +12,7 @@ import com.dirror.music.music.dirror.SearchSong
 import com.dirror.music.music.standard.SOURCE_LOCAL
 import com.dirror.music.music.standard.SOURCE_NETEASE
 import com.dirror.music.music.standard.SOURCE_QQ
+import com.dirror.music.util.parseSize
 import com.dirror.music.util.runOnMainThread
 import kotlinx.android.synthetic.main.dialog_song_info.*
 
@@ -39,12 +40,11 @@ class SongInfoDialog: Dialog {
             when (it.source) {
                 SOURCE_NETEASE -> {
                     StandardGET.getSongInfo(it.id.toString()) {data ->
-                        val size = parseBit(data.size)
                         runOnMainThread {
                             valueViewId.setValue(it.id.toString())
                             valueViewSource.setValue("网易云音乐")
                             valueViewBitrate.setValue("${data.br/1000} kbps")
-                            valueViewSize.setValue(size)
+                            valueViewSize.setValue(data.size.parseSize())
                             valueViewType.setValue(data.type?:"未知")
                         }
                     }
@@ -67,10 +67,12 @@ class SongInfoDialog: Dialog {
                         valueViewId.setValue(it.id.toString())
                         valueViewSource.setValue(context.getString(R.string.local_music))
                         valueViewBitrate.setValue("未知")
-                        valueViewSize.setValue("未知")
+                        val size = song.localInfo?.size ?: 0L
+                        valueViewSize.setValue(size.parseSize())
                         valueViewType.setValue("未知")
                     }
                 }
+
             }
 
         }
@@ -81,14 +83,4 @@ class SongInfoDialog: Dialog {
         }
     }
 
-    private fun parseBit(bit: Long): String {
-        val source = bit.toDouble()
-        if (source > 1000) {
-            if (source > 1_000_000) {
-                return "${String.format("%.2f", source / 1_000_000)} MB"
-            }
-            return "${String.format("%.2f", source / 1000)} KB"
-        }
-        return "$source B"
-    }
 }

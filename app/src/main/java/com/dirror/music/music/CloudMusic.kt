@@ -125,6 +125,7 @@ object CloudMusic {
                 songData.songs[0].name?:"",
                 songData.songs[0].al.picUrl,
                 songData.songs[0].ar,
+                null,
                 null
             )
 

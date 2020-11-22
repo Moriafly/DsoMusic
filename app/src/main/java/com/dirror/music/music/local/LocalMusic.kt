@@ -3,13 +3,19 @@ package com.dirror.music.music.local
 import android.app.Activity
 import android.content.ContentResolver
 import android.database.Cursor
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.core.database.getLongOrNull
+import com.dirror.music.music.standard.LocalInfo
 import com.dirror.music.music.standard.SOURCE_LOCAL
 import com.dirror.music.music.standard.StandardArtistData
 import com.dirror.music.music.standard.StandardSongData
+import com.dirror.music.util.loge
 import com.dirror.music.util.toast
 
 object LocalMusic {
 
+    @RequiresApi(Build.VERSION_CODES.R)
     fun scanLocalMusic(activity: Activity, success: (ArrayList<StandardSongData>) -> Unit, failure: () -> Unit) {
 
         val songList = ArrayList<StandardSongData>()
@@ -32,10 +38,19 @@ object LocalMusic {
                 val titleColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE)
                 val idColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID)
                 val artistColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST)
+                // val bitrateColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.BITRATE) // 码率
+                val sizeColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.SIZE) // 码率
                 do {
                     val id = cursor.getLong(idColumn)
                     val title = cursor.getString(titleColumn)
                     val artist = cursor.getString(artistColumn)
+                    // val bitrate = cursor.getString(bitrateColumn)
+                    val size = cursor.getLong(sizeColumn)
+                    // 过滤无法播放的歌曲
+                    if (title == "" && artist == "<unknown>") {
+                        continue
+                    }
+                    // loge("本地歌曲：$id，标题【$title】，艺术家【$artist】")
 
                     val artistList = ArrayList<StandardArtistData>()
                     artistList.add(
@@ -51,7 +66,8 @@ object LocalMusic {
                             title,
                             "",
                             artistList,
-                            null
+                            null,
+                            LocalInfo(size)
                         )
                     )
 
