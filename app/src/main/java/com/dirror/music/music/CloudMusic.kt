@@ -109,53 +109,6 @@ object CloudMusic {
         })
     }
 
-
-    /**
-     * 获取歌曲详情
-     */
-    @TestOnly
-    fun getSongDetail(id: Long, success: (StandardSongData) -> Unit, failure: (String) -> Unit) {
-        val url = "${API_MUSIC_ELEUU}/song/detail?ids=$id"
-        MagicHttp.OkHttpManager().newGet(url, {
-            val songData = Gson().fromJson(it, SongData::class.java)
-
-            val standardSongData = StandardSongData(
-                SOURCE_NETEASE,
-                songData.songs[0].id.toString(),
-                songData.songs[0].name?:"",
-                songData.songs[0].al.picUrl,
-                songData.songs[0].ar,
-                null,
-                null
-            )
-
-            success.invoke(standardSongData)
-        }, {
-            failure.invoke(it)
-        })
-
-    }
-
-    /**
-     * 获取歌曲评论
-     * @param id 网易云音乐 id
-     * @param success 成功的回调
-     */
-    fun getMusicComment(id: String, success: (CommentData) -> Unit) {
-        MagicHttp.OkHttpManager().get(
-            "${API_MUSIC_API}/comment/music?id=$id&limit=20&offset=0${timestamp()}",
-            object : MagicHttp.MagicCallback {
-                override fun success(response: String) {
-                    val commentData = Gson().fromJson(response, CommentData::class.java)
-                    success.invoke(commentData)
-                }
-
-                override fun failure(throwable: Throwable) {
-                    Log.e("获取歌曲详情错误", throwable.message.toString())
-                }
-            })
-    }
-
     /**
      * 获取歌曲图片
      * 固定大小 300 * 300
@@ -204,7 +157,7 @@ object CloudMusic {
                     }
                 }
             } catch (e: Exception) {
-                toast("API $API_MUSIC_LAKE 连接失败")
+                // toast("API $API_MUSIC_LAKE 连接失败")
             }
         }, {
 

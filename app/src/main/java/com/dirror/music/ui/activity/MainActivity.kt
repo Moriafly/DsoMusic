@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun initView() {
         setPlayerVisibility(false)
         // 请求广播
@@ -81,13 +80,13 @@ class MainActivity : AppCompatActivity() {
 
         // 适配导航栏
         val navigationBarHeight = getNavigationBarHeight(this).toFloat()
-        binding.clPlay.translationY = - navigationBarHeight
+        binding.clPlay.translationY = -navigationBarHeight
         binding.blurViewPlay.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
-        binding.blurViewPlay.translationY = - navigationBarHeight / 2
+        binding.blurViewPlay.translationY = -navigationBarHeight / 2
         binding.blurViewPlayBottom.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
-        binding.blurViewPlayBottom.translationY = - navigationBarHeight / 2
+        binding.blurViewPlayBottom.translationY = -navigationBarHeight / 2
 
-        binding.viewPager2.adapter = object: FragmentStateAdapter(this) {
+        binding.viewPager2.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
                 return 2 // 2 个页面
             }
@@ -120,6 +119,23 @@ class MainActivity : AppCompatActivity() {
             PlaylistDialog(this).show()
         }
 
+    }
+
+    private fun initListener() {
+
+        // 播放栏
+        binding.itemPlay.ivPlay.setOnClickListener {
+            // 更新
+            MyApplication.musicBinderInterface?.changePlayState()
+            refreshPlayState()
+        }
+
+        // 搜索按钮
+        binding.ivSearch.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+        }
+
+        // 设置按钮
         binding.ivSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
             overridePendingTransition(
@@ -130,24 +146,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun initListener() {
-
-            // 播放栏
-        binding.itemPlay.ivPlay.setOnClickListener {
-                // 更新
-                MyApplication.musicBinderInterface?.changePlayState()
-                refreshPlayState()
-            }
-
-            // 搜索按钮
-        binding.ivSearch.setOnClickListener {
-                startActivity(Intent(this@MainActivity, SearchActivity::class.java))
-            }
-
-
-
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         // 解绑广播接收
@@ -155,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         unregisterReceiver(headSetChangeReceiver)
     }
 
-    inner class MusicBroadcastReceiver: BroadcastReceiver() {
+    inner class MusicBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
@@ -163,7 +161,11 @@ class MainActivity : AppCompatActivity() {
                 binding.itemPlay.tvName.text = song.name
                 binding.itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
                 // 这里应该用小的，等待修改
-                GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_SMALL), binding.itemPlay.ivCover, binding.itemPlay.ivCover)
+                GlideUtil.load(
+                    SongPicture.getSongPictureUrl(song, SongPicture.TYPE_SMALL),
+                    binding.itemPlay.ivCover,
+                    binding.itemPlay.ivCover
+                )
 
             } else {
                 // 隐藏底部界面
