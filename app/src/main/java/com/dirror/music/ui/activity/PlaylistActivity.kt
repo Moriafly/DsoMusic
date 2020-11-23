@@ -1,5 +1,6 @@
 package com.dirror.music.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -27,6 +28,8 @@ import kotlin.math.abs
 class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
+
+    private var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList())
 
     override fun initData() {
         val intentFilter = IntentFilter() // Intent 过滤器
@@ -65,7 +68,6 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
             if (titleBar.text.toString() != tvName.text.toString()) {
                 titleBar.setTitleBarText(tvName.text.toString())
             }
-            // titleBar.alpha = 1f
         }
     }
 
@@ -137,13 +139,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
             GlideUtil.load(SongPicture.getSongPictureUrl(standardSongData, SongPicture.TYPE_LARGE)) {
                 includePlay.ivCover.setImageBitmap(it)
             }
-            // GlideUtil.load(SongPicture.getSongPictureUrl(standardSongData, SongPicture.TYPE_LARGE), includePlay.ivCover, includePlay.ivCover)
         }
-//        if (song != null) {
-//            GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), includePlay.ivCover, includePlay.ivCover)
-//            includePlay.tvName.text = song.name
-//            includePlay.tvArtist.text = song.artists?.let { parseArtist(it) }
-//        }
     }
 
     private fun initPlaylist(id: Long, success: (ArrayList<StandardSongData>) -> Unit) {
@@ -154,11 +150,11 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
         })
     }
 
-    var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList())
-
+    @SuppressLint("SetTextI18n")
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
         runOnMainThread {
-            val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this@PlaylistActivity)
+            clLoading.visibility = View.GONE
+            val linearLayoutManager = LinearLayoutManager(this@PlaylistActivity)
             detailPlaylistAdapter = DetailPlaylistAdapter(songList)
             rvPlaylist.layoutManager =  linearLayoutManager
             rvPlaylist.adapter = detailPlaylistAdapter
