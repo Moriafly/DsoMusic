@@ -68,9 +68,9 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
      */
     private fun playMusic(position: Int, view: View?) {
         // 空歌单跳出
-        if (MyApplication.musicBinderInterface?.getPlaylist() == null) {
-            return
-        }
+//        if (MyApplication.musicBinderInterface?.getPlaylist() == null) {
+//            return
+//        }
         if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) { // 歌单相同
             if (position == MyApplication.musicBinderInterface?.getNowPosition()) { // position 相同
                 if (view != null) {

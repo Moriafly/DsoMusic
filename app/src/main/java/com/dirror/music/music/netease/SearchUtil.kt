@@ -1,6 +1,5 @@
 package com.dirror.music.music.netease
 
-import com.dirror.music.api.API_MUSIC_API
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.standard.NeteaseInfo
 import com.dirror.music.music.standard.SOURCE_NETEASE

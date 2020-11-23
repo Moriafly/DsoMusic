@@ -1,6 +1,6 @@
 package com.dirror.music.foyou.sentence.foyoulibrary
 
-import com.dirror.foyou.sentence.SentenceData
+import com.dirror.music.foyou.sentence.SentenceData
 
 object FoyouLiterature {
     fun getLiterature (): SentenceData {

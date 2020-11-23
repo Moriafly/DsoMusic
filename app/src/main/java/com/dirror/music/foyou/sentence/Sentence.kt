@@ -1,6 +1,5 @@
 package com.dirror.music.foyou.sentence
 
-import com.dirror.foyou.sentence.SentenceData
 import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.MyApplication
 import com.dirror.music.util.InternetState

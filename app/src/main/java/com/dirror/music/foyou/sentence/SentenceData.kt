@@ -1,4 +1,4 @@
-package com.dirror.foyou.sentence
+package com.dirror.music.foyou.sentence
 
 data class SentenceData(
     val text: String,

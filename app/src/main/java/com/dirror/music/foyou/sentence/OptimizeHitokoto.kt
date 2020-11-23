@@ -1,7 +1,6 @@
 package com.dirror.music.foyou.sentence
 
 import android.util.Log
-import com.dirror.foyou.sentence.SentenceData
 import com.dirror.music.util.isChinese
 
 /**
