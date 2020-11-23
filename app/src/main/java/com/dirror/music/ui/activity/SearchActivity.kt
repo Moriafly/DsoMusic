@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,6 +54,10 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun initView() {
+        clTip.visibility = View.GONE
+        if (MyApplication.mmkv.decodeBool(Config.SEARCH_ENGINE_TIP, true)) {
+            clTip.visibility = View.VISIBLE
+        }
         when (MyApplication.mmkv.decodeInt(Config.SEARCH_ENGINE, SOURCE_NETEASE)) {
             SOURCE_NETEASE -> {
                 ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
@@ -124,6 +129,11 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
                     }
                 }
             })
+        }
+
+        btnCloseTip.setOnClickListener {
+            MyApplication.mmkv.encode(Config.SEARCH_ENGINE_TIP, false)
+            clTip.visibility = View.GONE
         }
 
     }

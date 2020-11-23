@@ -10,4 +10,6 @@ object Config {
 
     const val PLAY_MODE = "int_play_mode" // 播放模式
     const val SEARCH_ENGINE = "int_search_engine" // 音乐搜索引擎
+
+    const val SEARCH_ENGINE_TIP = "boolean_search_engine_tip" // 音乐搜索引擎提示
 }
