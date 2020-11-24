@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivitySettingsBinding
-import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.util.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -28,7 +27,6 @@ class SettingsActivity : AppCompatActivity() {
     private fun initView() {
         binding.switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
         binding.switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
-        binding.itemFoyouVersion.setValue(FoyouLibrary.VERSION)
     }
 
     private fun initListener() {
@@ -45,7 +43,7 @@ class SettingsActivity : AppCompatActivity() {
             binding.switchPlayOnMobile.isChecked = !binding.switchPlayOnMobile.isChecked
         }
 
-        binding.switchPlayOnMobile.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.switchPlayOnMobile.setOnCheckedChangeListener { _, isChecked ->
             MyApplication.mmkv.encode(Config.PLAY_ON_MOBILE, isChecked)
         }
 
@@ -53,7 +51,7 @@ class SettingsActivity : AppCompatActivity() {
             binding.switchPauseSongAfterUnplugHeadset.isChecked = !binding.switchPauseSongAfterUnplugHeadset.isChecked
         }
 
-        binding.switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { _, isChecked ->
             MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, isChecked)
         }
 

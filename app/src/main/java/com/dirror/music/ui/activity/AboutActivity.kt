@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.databinding.ActivityAboutBinding
+import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.util.UpdateUtil
 import com.dirror.music.util.getVisionCode
 import com.dirror.music.util.getVisionName
@@ -29,6 +30,7 @@ class AboutActivity : AppCompatActivity() {
     private fun initView() {
         binding.tvVersion.text = getVisionName()
         binding.tvVersionCode.text = getVisionCode().toString()
+        binding.itemFoyouVersion.setValue(FoyouLibrary.VERSION)
     }
 
     private fun initListener() {

@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
-import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
 import com.dirror.music.music.dirror.SearchSong

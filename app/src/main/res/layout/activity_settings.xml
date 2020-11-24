@@ -84,15 +84,6 @@
                 android:layout_margin="16dp"
                 android:background="?android:attr/listDivider" />
 
-            <com.dirror.music.widget.ValueView
-                android:id="@+id/itemFoyouVersion"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="Foyou"
-                app:value="1.0.0">
-
-            </com.dirror.music.widget.ValueView>
-
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemFeedback"
                 android:layout_width="match_parent"
