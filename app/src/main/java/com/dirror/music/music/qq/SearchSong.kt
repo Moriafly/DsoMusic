@@ -26,7 +26,7 @@ object SearchSong {
                         SOURCE_QQ,
                         song.songmid,
                         song.songname,
-                        song.albummid,
+                        song.albummid, // 歌单 id
                         song.singer,
                         null,
                         null

@@ -25,9 +25,14 @@ class FeedbackActivity : BaseActivity(R.layout.activity_feedback) {
                 contact.isEmpty() -> toast("请输入联系方式")
                 else -> {
                     // 上传反馈内容
-                    BmobManager().uploadFeedback(feedback, contact)
-                    // 清空反馈内容，不清除联系方式
-                    etFeedback.setText("")
+                    BmobManager().uploadFeedback(feedback, contact, {
+                        // 上传成功
+                        toast("上传成功，感谢反馈")
+                        finish()
+                    }, {
+                        // 上传失败
+                        toast("上传失败，请稍后重试")
+                    })
                 }
             }
         }

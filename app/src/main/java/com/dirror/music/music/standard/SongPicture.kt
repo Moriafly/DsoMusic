@@ -25,7 +25,7 @@ object SongPicture {
 
             }
             SOURCE_QQ -> {
-                "https://y.gtimg.cn/music/photo_new/T002R300x300M000${songData.id as String}.jpg?max_age=2592000"
+                "https://y.gtimg.cn/music/photo_new/T002R300x300M000${songData.imageUrl as String}.jpg?max_age=2592000"
             }
             else -> {
                 ""

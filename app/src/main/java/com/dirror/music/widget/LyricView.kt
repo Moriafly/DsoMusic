@@ -132,11 +132,7 @@ class LyricView : View {
                 // 其他行
                 for (index in 0 until lyricList.lastIndex) {
                     // progress 大于等于当前行开始时间小于下一行开始时间
-                    val currentStartTime = if (lyricList[index].startTime != null) {
-                        lyricList[index].startTime
-                    } else {
-                        0
-                    }
+                    val currentStartTime = lyricList[index].startTime
                     val nextStartTime = lyricList[index + 1].startTime
                     if (progress in currentStartTime until nextStartTime) {
                         centerLine = index
