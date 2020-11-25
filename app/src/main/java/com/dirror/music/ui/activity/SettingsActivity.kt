@@ -20,6 +20,7 @@ class SettingsActivity : AppCompatActivity() {
         initView()
         initListener()
     }
+    
     private fun initData() {
 
     }

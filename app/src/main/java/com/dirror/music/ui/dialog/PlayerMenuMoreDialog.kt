@@ -37,9 +37,10 @@ class PlayerMenuMoreDialog : Dialog {
         refreshPitch()
 
 
-        // editView.setText(editTextStr)
+        // 歌曲信息
         itemSongInfo.setOnClickListener {
             SongInfoDialog(context).apply {
+                MyApplication.musicBinderInterface?.getNowSongData()?.let { it1 -> setSongData(it1) }
                 show()
             }
             // 自己消失

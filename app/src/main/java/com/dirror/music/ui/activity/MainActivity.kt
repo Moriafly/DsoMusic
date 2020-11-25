@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initView() {
-        setPlayerVisibility(false)
         // 请求广播
         MyApplication.musicBinderInterface?.sendBroadcast()
 
@@ -157,7 +156,6 @@ class MainActivity : AppCompatActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
-                setPlayerVisibility(true)
                 binding.itemPlay.tvName.text = song.name
                 binding.itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
                 // 这里应该用小的，等待修改
@@ -167,23 +165,8 @@ class MainActivity : AppCompatActivity() {
                     binding.itemPlay.ivCover
                 )
 
-            } else {
-                // 隐藏底部界面
-                setPlayerVisibility(false)
             }
             refreshPlayState()
-        }
-    }
-
-    private fun setPlayerVisibility(state: Boolean) {
-        if (state) {
-            binding.clPlay.visibility = View.VISIBLE
-            binding.blurViewPlay.visibility = View.VISIBLE
-            binding.blurViewPlayBottom.visibility = View.VISIBLE
-        } else {
-            binding.clPlay.visibility = View.INVISIBLE
-            binding.blurViewPlay.visibility = View.INVISIBLE
-            binding.blurViewPlayBottom.visibility = View.INVISIBLE
         }
     }
 

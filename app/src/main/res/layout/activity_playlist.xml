@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toTopOf="@+id/includePlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,9 +133,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clLoading"
-                android:background="@color/colorPageBackground"
                 android:layout_width="match_parent"
-                android:layout_height="56dp">
+                android:layout_height="56dp"
+                android:background="@color/colorPageBackground">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivLoading"
