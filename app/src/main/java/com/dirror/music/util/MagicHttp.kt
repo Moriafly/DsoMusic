@@ -113,7 +113,7 @@ object MagicHttp {
                     }
 
                     override fun onFailure(call: Call, e: IOException) {
-                        toast("MagicHttp 错误")
+                        toast("网络连接错误")
                         failure.invoke(e.message.toString())
                     }
                 })

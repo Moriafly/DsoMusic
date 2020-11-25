@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.dirror.music.R
 import com.dirror.music.data.LyricData
-import com.dirror.music.music.netease.LyricUtil
 import com.dirror.music.music.standard.EMPTY_STANDARD_SONG
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.StandardSongData
@@ -159,7 +158,7 @@ class LyricView : View {
     fun setLyricId(songData: StandardSongData) {
         if (this.songData != songData || lyricList.isEmpty()) {
             this.songData = songData
-            SearchLyric.getLyric(songData) {
+            SearchLyric.getLyric(songData) { it ->
                 lyricList.clear()
                 lyricList.addAll(it)
             }

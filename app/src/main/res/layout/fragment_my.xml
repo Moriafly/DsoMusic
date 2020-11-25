@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/drawableTransparent"
+                android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/new_playlist">
 
                 <androidx.cardview.widget.CardView
@@ -171,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/drawableTransparent">
+                android:background="?attr/selectableItemBackground">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cdHistory"
@@ -243,7 +243,7 @@
                     android:contentDescription="@string/new_playlist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/drawableTransparent"
+                    android:background="?attr/selectableItemBackground"
                     tools:layout_editor_absoluteX="411dp">
 
                     <androidx.cardview.widget.CardView
@@ -297,7 +297,7 @@
                     android:id="@+id/clImportPlaylist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/drawableTransparent"
+                    android:background="?attr/selectableItemBackground"
                     tools:layout_editor_absoluteX="411dp">
 
                     <androidx.cardview.widget.CardView

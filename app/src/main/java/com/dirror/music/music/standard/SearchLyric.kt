@@ -1,12 +1,8 @@
 package com.dirror.music.music.standard
 
-import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.data.LyricData
 import com.dirror.music.util.MagicHttp
-import com.dirror.music.util.loge
-import com.dirror.music.util.runOnMainThread
 import com.google.gson.Gson
-import org.jetbrains.annotations.TestOnly
 
 object SearchLyric {
 
@@ -19,24 +15,34 @@ object SearchLyric {
         when (songData.source) {
             // 网易云
             SOURCE_NETEASE -> {
-                url = "$API_FCZBL_VIP/?type=lrc&id=${songData.id}"
+                url = "http://music.eleuu.com/lyric?id=${songData.id}"
+                //url = "$API_FCZBL_VIP/?type=lrc&id=${songData.id}"
             }
             // QQ
             SOURCE_QQ -> {
                 url = "https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid=${songData.id}&format=json&nobase64=1"
             }
         }
+
         MagicHttp.OkHttpManager().newGet(url, { response ->
             var lyric = response
             println("歌词：$lyric")
 
-            if (songData.source == SOURCE_QQ) {
-                if (Gson().fromJson(lyric, QQSongLyric::class.java).lyric != null) {
-                    lyric = Gson().fromJson(lyric, QQSongLyric::class.java).lyric.toString()
-                } else {
-                    success.invoke(listOf(LyricData(0, "暂无歌词")))
+            when (songData.source) {
+                SOURCE_QQ -> {
+                    if (Gson().fromJson(lyric, QQSongLyric::class.java).lyric != null) {
+                        lyric = Gson().fromJson(lyric, QQSongLyric::class.java).lyric.toString()
+                    } else {
+                        success.invoke(listOf(LyricData(0, "暂无歌词")))
+                    }
                 }
-
+                SOURCE_NETEASE -> {
+                    if (Gson().fromJson(lyric, NeteaseSongLyric::class.java).lrc != null) {
+                        lyric = Gson().fromJson(lyric, NeteaseSongLyric::class.java).lrc?.lyric.toString()
+                    } else {
+                        success.invoke(listOf(LyricData(0, "暂无歌词")))
+                    }
+                }
             }
 
 
@@ -58,6 +64,13 @@ object SearchLyric {
         val lyric: String?
     )
 
+    data class NeteaseSongLyric(
+        val lrc: NeteaseSongLrc?
+    )
+
+    data class NeteaseSongLrc(
+        val lyric: String?
+    )
 
 
     /**
