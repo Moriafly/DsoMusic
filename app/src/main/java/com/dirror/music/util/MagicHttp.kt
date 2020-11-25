@@ -79,19 +79,20 @@ object MagicHttp {
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(3, TimeUnit.SECONDS)
                     .writeTimeout(3, TimeUnit.SECONDS)
-                    .cookieJar(object : CookieJar {
-                        override fun loadForRequest(url: HttpUrl): List<Cookie> {
-                            val cookies = MyApplication.cookieStore[url.host]
-                            return cookies ?: ArrayList()
-                        }
-
-                        // 保存 cookie
-                        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
-                            // MyApplication.mmkv.encode("1", cookies)
-                            MyApplication.cookieStore[url.host] = cookies
-                        }
-
-                    })
+                        // 跨域 cookie 可能会报错，如将网易云的 cookie 提交给 QQ，这里先禁用了
+//                    .cookieJar(object : CookieJar {
+//                        override fun loadForRequest(url: HttpUrl): List<Cookie> {
+//                            val cookies = MyApplication.cookieStore[url.host]
+//                            return cookies ?: ArrayList()
+//                        }
+//
+//                        // 保存 cookie
+//                        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+//                            // MyApplication.mmkv.encode("1", cookies)
+//                            MyApplication.cookieStore[url.host] = cookies
+//                        }
+//
+//                    })
                     .build()
                 val request = Request.Builder()
                     .url(url)

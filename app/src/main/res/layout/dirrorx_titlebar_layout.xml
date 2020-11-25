@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/background_button_icon"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:srcCompat="@drawable/ic_back" />
 
     <TextView

@@ -5,7 +5,7 @@
     android:id="@+id/clSong"
     android:layout_width="match_parent"
     android:layout_height="64dp"
-    android:background="@drawable/background_item_default">
+    android:background="?attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/tvName"

@@ -5,7 +5,7 @@
     android:id="@+id/clTrack"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="@drawable/drawableTransparent">
+    android:background="?attr/selectableItemBackground">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

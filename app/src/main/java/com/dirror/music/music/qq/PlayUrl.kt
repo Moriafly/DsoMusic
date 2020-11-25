@@ -26,6 +26,8 @@ object PlayUrl {
 
                 if (purl != "") {
                     success.invoke(ip + purl)
+                    loge(ip + purl)
+                    loge("http://dl.stream.qqmusic.qq.com/M800001L6DVu3OB1c9.mp3?vkey=419F0FD2E2552C95C4E76BFDFBF2BC331A2983AAEDC9CF91BBD4195603FE19B6550874248A1A87410D84D0405B2ABBD0F533F192C9B8EB35&guid=YYFM&uin=123456&fromtag=53\n")
                 } else {
                     // 获取 Dirror 音乐
                     success.invoke(SearchSong.getDirrorSongUrl(songmid))

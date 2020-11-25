@@ -35,4 +35,6 @@
     <string name="history">History</string>
     <string name="contact_author">Contact author</string>
     <string name="author_email">moriafly@163.com</string>
+    <string name="more">More</string>
+    <string name="comment">Comment</string>
 </resources>
