@@ -18,6 +18,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/ivBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/avatars" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <eightbitlab.com.blurview.BlurView
@@ -225,12 +232,6 @@
                     android:layout_height="match_parent"
                     tools:srcCompat="@tools:sample/avatars" />
 
-                <ImageView
-                    android:id="@+id/ivBackground"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/avatars" />
             </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
 
