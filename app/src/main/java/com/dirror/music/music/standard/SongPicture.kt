@@ -1,7 +1,6 @@
 package com.dirror.music.music.standard
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.graphics.drawable.toBitmap
 import com.dirror.music.MyApplication
@@ -17,6 +16,26 @@ object SongPicture {
 
     const val TYPE_LARGE = 1
     const val TYPE_SMALL = 2
+
+
+    /**
+     * 标准
+     */
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun getSongPicture(songData: StandardSongData, type: Int, success: (Bitmap) -> Unit) {
+        // 普通背景
+        if (songData.source == SOURCE_LOCAL) {
+            val commonBitmap: Bitmap? = MyApplication.context.getDrawable(R.drawable.bq_no_data_song)?.toBitmap()
+            if (commonBitmap != null) {
+                success.invoke(commonBitmap)
+            }
+        } else {
+            val url = getSongPictureUrl(songData, type)
+            GlideUtil.load(url) {
+                success.invoke(it)
+            }
+        }
+    }
 
     /**
      * 获取图片
@@ -39,29 +58,10 @@ object SongPicture {
                 "https://y.gtimg.cn/music/photo_new/T002R300x300M000${songData.imageUrl as String}.jpg?max_age=2592000"
             }
             else -> {
-                ""
+                "https://s4.music.126.net/style/web2/img/default/default_album.jpg"
             }
         }
 
-    }
-
-    /**
-     * 标准
-     */
-    @SuppressLint("UseCompatLoadingForDrawables")
-    fun getSongPicture(songData: StandardSongData, type: Int, success: (Bitmap) -> Unit) {
-        // 普通背景
-        if (songData.source == SOURCE_LOCAL) {
-            val commonBitmap: Bitmap? = MyApplication.context.getDrawable(R.mipmap.ic_launcher)?.toBitmap()
-            if (commonBitmap != null) {
-                success.invoke(commonBitmap)
-            }
-        } else {
-            val url = getSongPictureUrl(songData, type)
-            GlideUtil.load(url) {
-                success.invoke(it)
-            }
-        }
     }
 
 }

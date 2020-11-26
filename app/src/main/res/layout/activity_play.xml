@@ -94,7 +94,7 @@
             android:layout_marginStart="28dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="28dp"
-            android:text="音乐"
+            android:text="@string/music"
             android:textAlignment="viewStart"
             android:textColor="@color/colorTextForeground"
             android:textSize="24sp"
@@ -113,7 +113,7 @@
             android:layout_marginEnd="28dp"
             android:paddingStart="1dp"
             android:singleLine="true"
-            android:text="艺术家"
+            android:text="@string/artist"
             android:textAlignment="viewStart"
             android:textColor="@color/colorSubTextForeground"
             android:textIsSelectable="true"
@@ -230,7 +230,7 @@
                     android:id="@+id/ivCover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    android:src="@drawable/bq_no_data_song" />
 
             </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>

@@ -37,4 +37,6 @@
     <string name="author_email">moriafly@163.com</string>
     <string name="more">更多</string>
     <string name="comment">评论</string>
+    <string name="music">音乐</string>
+    <string name="artist">艺术家</string>
 </resources>
