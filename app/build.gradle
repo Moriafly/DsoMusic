@@ -13,8 +13,8 @@ android {
         // useIR = true
     }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding = true
     }
 
     compileOptions {

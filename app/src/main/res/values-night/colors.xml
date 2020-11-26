@@ -22,7 +22,7 @@
     <!-- 字体前景色 -->
     <color name="colorTextForeground">#FFFFFF</color>
     <color name="colorSubTextForeground">#8C8C8C</color>
-    <color name="colorEditTextBackground">#141414</color>
+    <color name="colorEditTextBackground">#1E1E1E</color>
 
     <color name="colorCheckItemBackground">#C8C8C8</color>
 
