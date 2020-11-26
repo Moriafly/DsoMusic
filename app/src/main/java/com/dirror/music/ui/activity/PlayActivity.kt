@@ -21,10 +21,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.CloudMusic
-import com.dirror.music.music.standard.SOURCE_NETEASE
-import com.dirror.music.music.standard.SOURCE_QQ
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.SongPicture
-import com.dirror.music.music.standard.StandardSongData
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog

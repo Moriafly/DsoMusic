@@ -1,6 +1,6 @@
 package com.dirror.music.data
 
-import com.dirror.music.music.standard.StandardArtistData
+import com.dirror.music.music.standard.data.StandardArtistData
 import com.google.gson.annotations.SerializedName
 
 class CloudMusicData {

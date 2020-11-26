@@ -12,9 +12,7 @@ import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.data.UserDetailData
 import com.dirror.music.music.CloudMusic
-import com.dirror.music.music.local.LocalMusic
-import com.dirror.music.music.standard.StandardLocalPlaylistData
-import com.dirror.music.music.standard.StandardPlaylistData
+import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.LoginActivity
 import com.dirror.music.ui.base.BaseFragment

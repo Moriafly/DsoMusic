@@ -2,7 +2,7 @@ package com.dirror.music.music.local
 
 import android.os.Parcelable
 import com.dirror.music.MyApplication
-import com.dirror.music.music.standard.StandardSongData
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.Config
 import kotlinx.android.parcel.Parcelize
 import org.jetbrains.annotations.TestOnly

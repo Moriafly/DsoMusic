@@ -1,6 +1,9 @@
 package com.dirror.music.music.standard
 
 import com.dirror.music.data.LyricData
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.music.standard.data.SOURCE_QQ
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
 

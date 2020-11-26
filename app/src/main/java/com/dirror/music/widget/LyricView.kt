@@ -8,9 +8,9 @@ import android.util.AttributeSet
 import android.view.View
 import com.dirror.music.R
 import com.dirror.music.data.LyricData
-import com.dirror.music.music.standard.EMPTY_STANDARD_SONG
+import com.dirror.music.music.standard.data.EMPTY_STANDARD_SONG
 import com.dirror.music.music.standard.SearchLyric
-import com.dirror.music.music.standard.StandardSongData
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.dp2px
 
 /**

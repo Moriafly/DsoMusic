@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
 import com.dirror.music.music.dirror.SearchSong
-import com.dirror.music.music.standard.SOURCE_LOCAL
-import com.dirror.music.music.standard.SOURCE_NETEASE
-import com.dirror.music.music.standard.SOURCE_QQ
-import com.dirror.music.music.standard.StandardSongData
+import com.dirror.music.music.standard.data.SOURCE_LOCAL
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.music.standard.data.SOURCE_QQ
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.parseSize
 import com.dirror.music.util.runOnMainThread
 import kotlinx.android.synthetic.main.dialog_song_info.*

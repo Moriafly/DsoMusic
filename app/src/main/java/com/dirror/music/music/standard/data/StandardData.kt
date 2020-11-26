@@ -1,4 +1,4 @@
-package com.dirror.music.music.standard
+package com.dirror.music.music.standard.data
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -41,12 +41,6 @@ data class StandardArtistData(
 @Parcelize
 data class StandardLocalPlaylistData(
     val playlists: ArrayList<StandardPlaylistData>
-): Parcelable
-
-@Parcelize
-data class StandardPlaylistData(
-    val name: String,
-    val songs: ArrayList<StandardSongData>
 ): Parcelable
 
 @Parcelize

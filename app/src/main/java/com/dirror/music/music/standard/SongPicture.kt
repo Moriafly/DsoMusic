@@ -1,6 +1,9 @@
 package com.dirror.music.music.standard
 
 import com.dirror.music.api.API_FCZBL_VIP
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.music.standard.data.SOURCE_QQ
+import com.dirror.music.music.standard.data.StandardSongData
 
 object SongPicture {
 

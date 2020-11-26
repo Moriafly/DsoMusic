@@ -7,7 +7,7 @@ import com.dirror.music.data.DetailPlaylistData
 import com.dirror.music.data.DetailPlaylistInnerData
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
-import com.dirror.music.music.standard.StandardSongData
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.dirror.music.util.toast

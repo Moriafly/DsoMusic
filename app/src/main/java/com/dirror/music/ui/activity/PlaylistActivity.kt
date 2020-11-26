@@ -13,7 +13,7 @@ import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
 import com.dirror.music.music.standard.SongPicture
-import com.dirror.music.music.standard.StandardSongData
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*

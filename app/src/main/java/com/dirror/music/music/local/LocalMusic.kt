@@ -5,12 +5,10 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.database.getLongOrNull
-import com.dirror.music.music.standard.LocalInfo
-import com.dirror.music.music.standard.SOURCE_LOCAL
-import com.dirror.music.music.standard.StandardArtistData
-import com.dirror.music.music.standard.StandardSongData
-import com.dirror.music.util.loge
+import com.dirror.music.music.standard.data.LocalInfo
+import com.dirror.music.music.standard.data.SOURCE_LOCAL
+import com.dirror.music.music.standard.data.StandardArtistData
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.toast
 
 object LocalMusic {

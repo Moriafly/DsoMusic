@@ -1,12 +1,9 @@
 package com.dirror.music.adapter
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -33,15 +30,13 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerV
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val play = playlist[position]
         val url = play.coverImgUrl
-        // url = url.replace("http", "https")
+
         Glide.with(holder.ivCover.context)
             .load(url)
-            // .placeholder(R.drawable.photo_placeholder)
             .into(holder.ivCover)
         holder.tvName.text = play.name
         holder.tvTrackCount.text = "${play.trackCount} 首"
         holder.clTrack.setOnClickListener {
-            // it.animation = AnimationUtils.loadAnimation(it.context, R.anim.anim_click)
             val intent = Intent(it.context, PlaylistActivity::class.java)
             intent.putExtra("long_playlist_id", play.id)
             it.context.startActivity(intent)
@@ -52,4 +47,5 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerV
     override fun getItemCount(): Int {
         return playlist.size
     }
+
 }
