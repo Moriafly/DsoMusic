@@ -41,7 +41,7 @@
             android:maxWidth="40dp"
             android:maxHeight="40dp"
             android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:srcCompat="@mipmap/ic_launcher" />
     </androidx.cardview.widget.CardView>
 
     <TextView

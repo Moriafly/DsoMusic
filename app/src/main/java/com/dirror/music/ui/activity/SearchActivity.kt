@@ -24,9 +24,11 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
+import kotlinx.android.synthetic.main.activity_playlist.*
 
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_search.itemPlay
+import kotlinx.android.synthetic.main.activity_search.rvPlaylist
 import kotlinx.android.synthetic.main.layout_play.view.*
 
 class SearchActivity : BaseActivity(R.layout.activity_search) {
@@ -201,7 +203,9 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
         override fun onReceive(context: Context, intent: Intent) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
-                GlideUtil.load(SongPicture.getSongPictureUrl(song, SongPicture.TYPE_LARGE), itemPlay.ivCover, itemPlay.ivCover)
+                SongPicture.getSongPicture(song, SongPicture.TYPE_LARGE) {
+                    includePlay.ivCover.setImageBitmap(it)
+                }
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
             }

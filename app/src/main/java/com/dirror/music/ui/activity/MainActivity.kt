@@ -159,12 +159,9 @@ class MainActivity : AppCompatActivity() {
                 binding.itemPlay.tvName.text = song.name
                 binding.itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
                 // 这里应该用小的，等待修改
-                GlideUtil.load(
-                    SongPicture.getSongPictureUrl(song, SongPicture.TYPE_SMALL),
-                    binding.itemPlay.ivCover,
-                    binding.itemPlay.ivCover
-                )
-
+                SongPicture.getSongPicture(song, SongPicture.TYPE_LARGE) {
+                    binding.itemPlay.ivCover.setImageBitmap(it)
+                }
             }
             refreshPlayState()
         }

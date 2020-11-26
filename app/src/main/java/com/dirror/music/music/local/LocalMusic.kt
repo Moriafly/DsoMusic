@@ -13,7 +13,6 @@ import com.dirror.music.util.toast
 
 object LocalMusic {
 
-    @RequiresApi(Build.VERSION_CODES.R)
     fun scanLocalMusic(activity: Activity, success: (ArrayList<StandardSongData>) -> Unit, failure: () -> Unit) {
 
         val songList = ArrayList<StandardSongData>()

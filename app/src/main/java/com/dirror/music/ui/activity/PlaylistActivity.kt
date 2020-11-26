@@ -136,7 +136,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
         MyApplication.musicBinderInterface?.getNowSongData()?.let { standardSongData ->
             includePlay.tvName.text = standardSongData.name
             includePlay.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
-            GlideUtil.load(SongPicture.getSongPictureUrl(standardSongData, SongPicture.TYPE_LARGE)) {
+            SongPicture.getSongPicture(standardSongData, SongPicture.TYPE_LARGE) {
                 includePlay.ivCover.setImageBitmap(it)
             }
         }

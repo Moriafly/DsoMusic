@@ -6,11 +6,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Handler
 import android.os.Message
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
@@ -66,11 +68,11 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         val navigationBarHeight = getNavigationBarHeight(this).toFloat()
 
         // 底部适配
-        clControl.translationY = - navigationBarHeight
-        seekBar.translationY = - navigationBarHeight
-        clMenu.translationY = - navigationBarHeight
-        tvProgress.translationY = - navigationBarHeight
-        tvDuration.translationY = - navigationBarHeight
+        clControl.translationY = -navigationBarHeight
+        seekBar.translationY = -navigationBarHeight
+        clMenu.translationY = -navigationBarHeight
+        tvProgress.translationY = -navigationBarHeight
+        tvDuration.translationY = -navigationBarHeight
 
         // 头部适配
         val statusBarHeight = getStatusBarHeight(window, this).toFloat()
@@ -109,6 +111,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initListener() {
         ivBack.setOnClickListener {
             finish()
@@ -150,11 +153,26 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
             IntentUtil.openEqualizer(this)
         }
 
-        // 点击播放器 cd 界面，cd 界面淡出
-        clCd.setOnClickListener {
-            AnimationUtil.fadeOut(clCd, true)
-            AnimationUtil.fadeOut(clMenu, true) // 菜单淡出
-            clLyric.visibility = View.VISIBLE
+        var oldY = 0f
+        clCd.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    oldY = event.y
+                    // loge("触发 Down ${event.y}")
+                }
+                MotionEvent.ACTION_UP -> {
+                    // loge("触发 Up ${event.y}")
+                    // toast("nowY:${event.y}, oldY:${oldY}")
+                    if (event.y - oldY > 100f) {
+                        finish()
+                    } else {
+                        AnimationUtil.fadeOut(clCd, true)
+                        AnimationUtil.fadeOut(clMenu, true) // 菜单淡出
+                        clLyric.visibility = View.VISIBLE
+                    }
+                }
+            }
+            return@setOnTouchListener true
         }
 
         clLyric.setOnClickListener {
@@ -215,7 +233,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
             ivPlay.setImageResource(R.drawable.ic_pause_btn)
             startRotateAlways()
             // 开启进度更新
-            handler.sendEmptyMessageDelayed(MSG_PROGRESS,500)
+            handler.sendEmptyMessageDelayed(MSG_PROGRESS, 500)
             handler.sendEmptyMessage(MSG_LYRIC)
         } else {
             // 暂停
@@ -269,7 +287,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         handler.removeCallbacksAndMessages(null)
     }
 
-    inner class MusicBroadcastReceiver: BroadcastReceiver() {
+    inner class MusicBroadcastReceiver : BroadcastReceiver() {
         // private var mode = MusicService.MODE_CIRCLE // 默认
         override fun onReceive(context: Context, intent: Intent) {
             getNowSongData()
@@ -280,9 +298,9 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
     }
 
     private fun refreshPlayMode() {
-        if (mode != MyApplication.musicBinderInterface?.getPlayMode()?:mode) {
+        if (mode != MyApplication.musicBinderInterface?.getPlayMode() ?: mode) {
             // 赋值
-            mode = MyApplication.musicBinderInterface?.getPlayMode()?:mode
+            mode = MyApplication.musicBinderInterface?.getPlayMode() ?: mode
             when (mode) {
                 MusicService.MODE_CIRCLE -> {
                     ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
@@ -306,8 +324,8 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
     private fun updateProgress() {
 
         // 获取当前进度
-        nowProgress = MyApplication.musicBinderInterface?.getProgress()?:0
-        duration = MyApplication.musicBinderInterface?.getDuration()?:duration
+        nowProgress = MyApplication.musicBinderInterface?.getProgress() ?: 0
+        duration = MyApplication.musicBinderInterface?.getDuration() ?: duration
         // 设置进度条最大值
         seekBar.max = duration
         // 更新进度条
@@ -323,8 +341,8 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         val song = MyApplication.musicBinderInterface?.getNowSongData()
         song?.let {
             lyricView.setLyricId(song)
-            nowProgress = MyApplication.musicBinderInterface?.getProgress()?:0
-            duration = MyApplication.musicBinderInterface?.getDuration()?:duration
+            nowProgress = MyApplication.musicBinderInterface?.getProgress() ?: 0
+            duration = MyApplication.musicBinderInterface?.getDuration() ?: duration
             lyricView.setSongDuration(duration)
             // 更新歌词播放进度
             lyricView.updateProgress(nowProgress)
@@ -360,54 +378,52 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
     private fun getNowSongData() {
         song = MyApplication.musicBinderInterface?.getNowSongData()
         song?.let { standardSongData ->
-            val url = SongPicture.getSongPictureUrl(standardSongData, SongPicture.TYPE_LARGE)
-            loadPicture(url)
+            SongPicture.getSongPicture(standardSongData, SongPicture.TYPE_LARGE) {
+                loadPicture(it)
+            }
             tvName.text = standardSongData.name
             tvArtist.text = standardSongData.artists?.let {
                 parseArtist(it)
             }
         }
-
-
     }
 
     /**
      * 加载图片
      */
-    private fun loadPicture(url: String) {
-        GlideUtil.load(url) { bitmap ->
-            runOnUiThread {
-                val drawable = bitmap.toDrawable(resources)
-                ivCover.setImageDrawable(drawable)
-                Glide.with(MyApplication.context)
-                    .load(drawable)
-                    .placeholder(ivBackground.drawable)
-                    .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
-                    .into(ivBackground)
-                Palette.from(bitmap)
-                    .clearFilters()
-                    .generate { palette ->
-                        if (palette?.vibrantSwatch != null) {
-                            palette.vibrantSwatch?.apply {
-                                rgb.let {
-                                    ivPlay.setColorFilter(it)
-                                    ivLast.setColorFilter(it)
-                                    ivNext.setColorFilter(it)
+    private fun loadPicture(bitmap: Bitmap) {
+        runOnUiThread {
+            val drawable = bitmap.toDrawable(resources)
+            ivCover.setImageDrawable(drawable)
+            Glide.with(MyApplication.context)
+                .load(drawable)
+                .placeholder(ivBackground.drawable)
+                .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
+                .into(ivBackground)
+            Palette.from(bitmap)
+                .clearFilters()
+                .generate { palette ->
+                    if (palette?.vibrantSwatch != null) {
+                        palette.vibrantSwatch?.apply {
+                            rgb.let {
+                                ivPlay.setColorFilter(it)
+                                ivLast.setColorFilter(it)
+                                ivNext.setColorFilter(it)
 
-                                    // 设置 Progress 的颜色
-                                    seekBar.indeterminateDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
-                                }
+                                // 设置 Progress 的颜色
+                                seekBar.indeterminateDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
                             }
-                        } else {
-                            val color = Color.rgb(100,100,100)
-                            ivPlay.setColorFilter(color)
-                            ivLast.setColorFilter(color)
-                            ivNext.setColorFilter(color)
-                            loge("获取 palette 失败")
                         }
-
+                    } else {
+                        val color = Color.rgb(100, 100, 100)
+                        ivPlay.setColorFilter(color)
+                        ivLast.setColorFilter(color)
+                        ivNext.setColorFilter(color)
+                        loge("获取 palette 失败")
                     }
-            }
+
+                }
         }
+
     }
 }

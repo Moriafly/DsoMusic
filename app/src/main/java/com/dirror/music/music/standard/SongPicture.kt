@@ -1,9 +1,17 @@
 package com.dirror.music.music.standard
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Bitmap
+import androidx.core.graphics.drawable.toBitmap
+import com.dirror.music.MyApplication
+import com.dirror.music.R
 import com.dirror.music.api.API_FCZBL_VIP
+import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.util.GlideUtil
 
 object SongPicture {
 
@@ -13,7 +21,7 @@ object SongPicture {
     /**
      * 获取图片
      */
-    fun getSongPictureUrl(songData: StandardSongData, type: Int): String {
+    private fun getSongPictureUrl(songData: StandardSongData, type: Int): String {
         return when (songData.source) {
             SOURCE_NETEASE -> {
                 // url = url.replace("?param=300y300", "?param=1000y60")
@@ -35,6 +43,25 @@ object SongPicture {
             }
         }
 
+    }
+
+    /**
+     * 标准
+     */
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun getSongPicture(songData: StandardSongData, type: Int, success: (Bitmap) -> Unit) {
+        // 普通背景
+        if (songData.source == SOURCE_LOCAL) {
+            val commonBitmap: Bitmap? = MyApplication.context.getDrawable(R.mipmap.ic_launcher)?.toBitmap()
+            if (commonBitmap != null) {
+                success.invoke(commonBitmap)
+            }
+        } else {
+            val url = getSongPictureUrl(songData, type)
+            GlideUtil.load(url) {
+                success.invoke(it)
+            }
+        }
     }
 
 }

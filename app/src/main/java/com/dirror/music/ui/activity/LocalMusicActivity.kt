@@ -1,6 +1,10 @@
 package com.dirror.music.ui.activity
 
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -8,9 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dirror.music.MyApplication
+import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.databinding.ActivityLocalMusicBinding
 import com.dirror.music.music.local.LocalMusic
+import com.dirror.music.music.standard.SongPicture
+import com.dirror.music.ui.dialog.PlaylistDialog
+import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.parseArtist
+import kotlinx.android.synthetic.main.activity_playlist.*
+import kotlinx.android.synthetic.main.layout_play.view.*
 
 class LocalMusicActivity : AppCompatActivity() {
 
@@ -20,21 +32,52 @@ class LocalMusicActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLocalMusicBinding
 
+    private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLocalMusicBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
+        initData()
         initListener()
 
         scanLocalMusicByCheckPermission()
+    }
+
+    private fun initData() {
+        val intentFilter = IntentFilter() // Intent 过滤器
+        intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
+        musicBroadcastReceiver = MusicBroadcastReceiver() //
+        registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
+
+        // 请求广播
+        MyApplication.musicBinderInterface?.sendBroadcast()
     }
 
     private fun initListener() {
 
         binding.ivScanMusic.setOnClickListener {
             scanLocalMusicByCheckPermission()
+        }
+
+        // 播放栏
+        binding.includePlayer.ivPlay.setOnClickListener {
+            // 更新
+            MyApplication.musicBinderInterface?.changePlayState()
+            refreshPlayState()
+        }
+
+        binding.includePlayer.ivPlaylist.setOnClickListener {
+            PlaylistDialog(this).show()
+        }
+
+        binding.includePlayer.root.setOnClickListener {
+            startActivity(Intent(this, PlayActivity::class.java))
+            overridePendingTransition(
+                R.anim.anim_slide_enter_bottom,
+                R.anim.anim_no_anim
+            )
         }
 
     }
@@ -70,6 +113,7 @@ class LocalMusicActivity : AppCompatActivity() {
     }
 
     private fun scanLocalMusic() {
+
         LocalMusic.scanLocalMusic(this, {
             binding.rvLocalMusic.adapter = DetailPlaylistAdapter(it)
             binding.rvLocalMusic.layoutManager = LinearLayoutManager(this)
@@ -78,6 +122,37 @@ class LocalMusicActivity : AppCompatActivity() {
         })
     }
 
+    inner class MusicBroadcastReceiver : BroadcastReceiver() {
+        // 接收
+        override fun onReceive(context: Context, intent: Intent) {
+            refreshLayoutPlay()
+            refreshPlayState()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 解绑广播接收
+        unregisterReceiver(musicBroadcastReceiver)
+    }
+
+    private fun refreshPlayState() {
+        if (MyApplication.musicBinderInterface?.getPlayState() == true) {
+            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+        } else {
+            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
+        }
+    }
+
+    private fun refreshLayoutPlay() {
+        MyApplication.musicBinderInterface?.getNowSongData()?.let { standardSongData ->
+            binding.includePlayer.tvName.text = standardSongData.name
+            binding.includePlayer.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
+            SongPicture.getSongPicture(standardSongData, SongPicture.TYPE_LARGE) {
+                binding.includePlayer.ivCover.setImageBitmap(it)
+            }
+        }
+    }
 
 
 }
