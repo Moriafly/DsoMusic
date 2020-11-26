@@ -24,7 +24,6 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
-import kotlinx.android.synthetic.main.activity_playlist.*
 
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_search.itemPlay
@@ -204,7 +203,7 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
                 SongPicture.getSongPicture(song, SongPicture.TYPE_LARGE) {
-                    includePlay.ivCover.setImageBitmap(it)
+                    itemPlay.ivCover.setImageBitmap(it)
                 }
                 itemPlay.tvName.text = song.name
                 itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
