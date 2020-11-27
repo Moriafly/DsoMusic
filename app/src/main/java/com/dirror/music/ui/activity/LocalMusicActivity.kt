@@ -23,10 +23,6 @@ import com.dirror.music.util.parseArtist
 
 class LocalMusicActivity : AppCompatActivity() {
 
-    companion object {
-
-    }
-
     private lateinit var binding: ActivityLocalMusicBinding
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
@@ -115,7 +111,6 @@ class LocalMusicActivity : AppCompatActivity() {
     }
 
     private fun scanLocalMusic() {
-
         LocalMusic.scanLocalMusic(this, {
             binding.rvLocalMusic.adapter = DetailPlaylistAdapter(it)
             binding.rvLocalMusic.layoutManager = LinearLayoutManager(this)
@@ -155,6 +150,5 @@ class LocalMusicActivity : AppCompatActivity() {
             }
         }
     }
-
 
 }
