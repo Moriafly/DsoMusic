@@ -19,10 +19,7 @@ import com.dirror.music.databinding.ActivityLocalMusicBinding
 import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.dialog.PlaylistDialog
-import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.parseArtist
-import kotlinx.android.synthetic.main.activity_playlist.*
-import kotlinx.android.synthetic.main.layout_play.view.*
 
 class LocalMusicActivity : AppCompatActivity() {
 
@@ -101,10 +98,15 @@ class LocalMusicActivity : AppCompatActivity() {
                 this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
+            || ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE),
                 1
             )
         } else {
