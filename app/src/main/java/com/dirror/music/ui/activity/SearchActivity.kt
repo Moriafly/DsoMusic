@@ -5,43 +5,52 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.databinding.ActivitySearchBinding
 import com.dirror.music.music.netease.SearchUtil
 import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
-
-import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.activity_search.itemPlay
 import kotlinx.android.synthetic.main.activity_search.rvPlaylist
-import kotlinx.android.synthetic.main.layout_play.view.*
 
-class SearchActivity : BaseActivity(R.layout.activity_search) {
+class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val ENGINE_NETEASE = 1
         const val ENGINE_QQ = 2
     }
 
+    private lateinit var binding: ActivitySearchBinding
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
 
     private var engine = ENGINE_NETEASE
 
-    override fun initData() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initData()
+        initView()
+        initListener()
+    }
+
+    private fun initData() {
         val intentFilter = IntentFilter() // Intent 过滤器
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
@@ -51,42 +60,42 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    override fun initView() {
-        clTip.visibility = View.GONE
+    private fun initView() {
+        binding.clTip.visibility = View.GONE
         if (MyApplication.mmkv.decodeBool(Config.SEARCH_ENGINE_TIP, true)) {
-            clTip.visibility = View.VISIBLE
+            binding.clTip.visibility = View.VISIBLE
         }
         when (MyApplication.mmkv.decodeInt(Config.SEARCH_ENGINE, SOURCE_NETEASE)) {
             SOURCE_NETEASE -> {
-                ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
+                binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
                 engine = SOURCE_NETEASE
             }
             SOURCE_QQ -> {
-                ivEngine.setImageDrawable(getDrawable(R.drawable.ic_qq_music_engine))
+                binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_qq_music_engine))
                 engine = SOURCE_QQ
             }
         }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    override fun initListener() {
+    private fun initListener() {
 
         // 切换搜索引擎
-        ivEngine.setOnClickListener {
+        binding.ivEngine.setOnClickListener {
             if (engine == ENGINE_NETEASE) {
                 engine = ENGINE_QQ
-                ivEngine.setImageDrawable(getDrawable(R.drawable.ic_qq_music_engine))
+                binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_qq_music_engine))
                 toast("已经切换成 QQ")
                 search()
             } else {
                 engine = ENGINE_NETEASE
-                ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
+                binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
                 toast("已经切换成网易云")
                 search()
             }
         }
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             finish()
         }
 
@@ -98,17 +107,17 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
             )
         }
 
-        itemPlay.ivPlay.setOnClickListener {
+        binding.itemPlay.ivPlay.setOnClickListener {
             // 更新
             MyApplication.musicBinderInterface?.changePlayState()
             refreshPlayState()
         }
-        itemPlay.ivPlaylist.setOnClickListener {
+        binding.itemPlay.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
         }
 
         // 搜索框
-        etSearch.apply {
+        binding.etSearch.apply {
             setOnEditorActionListener { _, p1, _ ->
                 if (p1 == EditorInfo.IME_ACTION_SEARCH) { // 软键盘点击了搜索
                     search()
@@ -120,7 +129,7 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(s: Editable) {
-                    if (etSearch.text.toString() != "") {
+                    if (binding.etSearch.text.toString() != "") {
                         // btnClear.visibility = View.VISIBLE // 有文字，显示清楚按钮
                     } else {
                         // btnClear.visibility = View.INVISIBLE // 隐藏
@@ -129,9 +138,9 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
             })
         }
 
-        btnCloseTip.setOnClickListener {
+        binding.btnCloseTip.setOnClickListener {
             MyApplication.mmkv.encode(Config.SEARCH_ENGINE_TIP, false)
-            clTip.visibility = View.GONE
+            binding.clTip.visibility = View.GONE
         }
 
     }
@@ -145,7 +154,7 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
         inputMethodManager.hideSoftInputFromWindow(this.window?.decorView?.windowToken, 0)
 
 
-        val keywords = etSearch.text.toString()
+        val keywords = binding.etSearch.text.toString()
         if (keywords != "") {
             when (engine) {
                 ENGINE_NETEASE -> {
@@ -203,10 +212,10 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
                 SongPicture.getSongPicture(song, SongPicture.TYPE_LARGE) {
-                    itemPlay.ivCover.setImageBitmap(it)
+                    binding.itemPlay.ivCover.setImageBitmap(it)
                 }
-                itemPlay.tvName.text = song.name
-                itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
+                binding.itemPlay.tvName.text = song.name
+                binding.itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
             }
             refreshPlayState()
         }
@@ -217,9 +226,9 @@ class SearchActivity : BaseActivity(R.layout.activity_search) {
      */
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-            itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+            binding.itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
-            itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
+            binding.itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
     }
 
