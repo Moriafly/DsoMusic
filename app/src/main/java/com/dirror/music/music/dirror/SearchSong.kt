@@ -4,16 +4,7 @@ import org.jetbrains.annotations.TestOnly
 
 object SearchSong {
 
-    /**
-     * 搜索功能待实现
-     * 测试林俊杰歌曲
-     *
-     */
     @TestOnly
-    fun search() {
-        val url = "https://link.gimhoy.com/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3UvcyFBajFUUjdlaXVuaWRoWDNnNHQ4czVHTDJKTVluP2U9WU5EMUJm.mp3" // 幸存者
-    }
-
     fun getDirrorSongUrl(songmid: String): String {
         return when (songmid) {
             "812400", "001BaZ263wqkmP" -> "https://link.gimhoy.com/1drv/aHR0cHM6Ly8xZHJ2Lm1zL3UvcyFBajFUUjdlaXVuaWRoZ1FDYVZIbHNPTkZHbnVMP2U9Z0VVZzhU.mp3" // ラムジ - PLANET

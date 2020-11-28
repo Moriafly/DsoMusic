@@ -34,11 +34,12 @@ class OpenSourceAdapter(private val openSourceList: List<OpenSourceData>): Recyc
         return openSourceList.size
     }
 
-    data class OpenSourceData(
-        val name: String,
-        val url: String,
-        val license: String
-    )
-    
+
+
 }
 
+data class OpenSourceData(
+    val name: String,
+    val url: String,
+    val license: String
+)

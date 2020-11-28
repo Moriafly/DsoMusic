@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_my.*
 class MyFragment : BaseFragment() {
 
     // private val defaultUid = 316065764L
-    // private val defaultUid = -1L // 默认 -1，可设置一个默认用户
+    private val defaultUid = 2032512397L // 默认 0L，可设置一个默认用户
 
     private val userPlaylist = ArrayList<PlaylistData>()
 
@@ -36,7 +36,7 @@ class MyFragment : BaseFragment() {
     }
 
     private fun checkLogin() {
-        val uid= MyApplication.mmkv.decodeLong(Config.UID, 0L)
+        val uid= MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
         if (uid == 0L) {
             val intent = Intent(context, LoginActivity::class.java)
             startActivityForResult(intent, 0)
@@ -98,7 +98,7 @@ class MyFragment : BaseFragment() {
         // 获取是否在线登录成功
         CloudMusic.getLoginStatus {  }
 
-        val uid = MyApplication.mmkv.decodeLong(Config.UID, 0L)
+        val uid = MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
 
         if (uid != 0L) {
             CloudMusic.getUserDetail(uid, {
@@ -130,7 +130,7 @@ class MyFragment : BaseFragment() {
     }
 
     private fun getPlaylist() {
-        CloudMusic.getPlaylist(MyApplication.mmkv.decodeLong(Config.UID, 0L)){
+        CloudMusic.getPlaylist(MyApplication.mmkv.decodeLong(Config.UID, defaultUid)){
             val playlist = it.playlist
             loge("大小：${playlist.size}")
             val gridLayoutManager: GridLayoutManager =
