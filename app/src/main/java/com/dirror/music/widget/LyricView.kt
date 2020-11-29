@@ -38,6 +38,9 @@ class LyricView : View {
     var duration = 0 // 歌曲总时长
     var progress = 0 // 当前播放进度
 
+    /**
+     * 初始化
+     */
     init {
         bigTextSize = resources.getDimension(R.dimen.bigTextSize)
         smallTextSize = resources.getDimension(R.dimen.smallTextSize)
@@ -45,22 +48,15 @@ class LyricView : View {
         focusColor = resources.getColor(R.color.colorTextForeground)
         lyricLineHeight = resources.getDimensionPixelOffset(R.dimen.lyricLineHeight)
 
-        // paint 属性
-        // paint.textAlign = Paint.Align.CENTER // 文本 x 坐标居中
         paint.textAlign = Paint.Align.LEFT // 文本 x 坐标居中
-
-        lyricList.add(LyricData(0, ""))
-        // 循环添加歌词单句 data
-//        for (i in 0..30) {
-//            lyricList.add(LyricData(2000 * i, "正在播放第${i}行歌词"))
-//        }
     }
 
+    /**
+     * 绘制
+     */
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
         drawMultiLine(canvas)
-
     }
 
     /**
@@ -131,7 +127,7 @@ class LyricView : View {
                 // 其他行
                 for (index in 0 until lyricList.lastIndex) {
                     // progress 大于等于当前行开始时间小于下一行开始时间
-                    val currentStartTime = lyricList[index].startTime
+                    val currentStartTime = lyricList[index].startTime // 常报空指针
                     val nextStartTime = lyricList[index + 1].startTime
                     if (progress in currentStartTime until nextStartTime) {
                         centerLine = index

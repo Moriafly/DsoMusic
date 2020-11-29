@@ -19,11 +19,9 @@ import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.fragment_my.*
 
-
 class MyFragment : BaseFragment() {
 
-    // private val defaultUid = 316065764L
-    private val defaultUid = 2032512397L // 默认 0L，可设置一个默认用户
+    private val defaultUid = 0L // 默认 0L，可设置一个默认用户
 
     private val userPlaylist = ArrayList<PlaylistData>()
 
