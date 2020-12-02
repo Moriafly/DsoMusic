@@ -355,12 +355,15 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private fun refreshLyricView() {
         val song = MyApplication.musicBinderInterface?.getNowSongData()
         song?.let {
+            nowProgress = MyApplication.musicBinderInterface?.getProgress() ?: 0 // 当前时长
+            duration = MyApplication.musicBinderInterface?.getDuration() ?: duration // 歌曲时长
+
             lyricView.setLyricId(song)
-            nowProgress = MyApplication.musicBinderInterface?.getProgress() ?: 0
-            duration = MyApplication.musicBinderInterface?.getDuration() ?: duration
             lyricView.setSongDuration(duration)
             // 更新歌词播放进度
             lyricView.updateProgress(nowProgress)
+
+            // 更新
             handler.sendEmptyMessage(MSG_LYRIC)
         }
     }

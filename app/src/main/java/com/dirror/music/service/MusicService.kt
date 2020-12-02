@@ -77,8 +77,8 @@ class MusicService : Service() {
         initMediaSessionCallback()
         // 初始化通道
         initChannel()
-        // 初始化音频焦点
-        initAudioFocus()
+        // 初始化音频焦点（暂时禁用，等待测试）
+        // initAudioFocus()
     }
 
     /**

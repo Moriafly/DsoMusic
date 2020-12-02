@@ -32,6 +32,8 @@ class LyricView : View {
     private var focusColor = 0
     private var lyricLineHeight = 0
 
+    private var lyricLoaded = false // 是否完成歌词的加载
+
     private var songId: Any = 0
     private var songData: StandardSongData = EMPTY_STANDARD_SONG
 
@@ -118,29 +120,29 @@ class LyricView : View {
      * 传递当前播放进度
      */
     fun updateProgress(progress: Int) {
-        this.progress = progress
-        if (lyricList.isNotEmpty()) {
-            // 先判断居中行是不是最后一行
-            if (progress >= lyricList[lyricList.lastIndex].startTime) {
-                centerLine = lyricList.lastIndex
-            } else {
-                // 其他行
-                for (index in 0 until lyricList.lastIndex) {
-                    // progress 大于等于当前行开始时间小于下一行开始时间
-                    val currentStartTime = lyricList[index].startTime // 常报空指针
-                    val nextStartTime = lyricList[index + 1].startTime
-                    if (progress in currentStartTime until nextStartTime) {
-                        centerLine = index
-                        break
+        if (lyricLoaded) {
+            this.progress = progress
+            if (lyricList.isNotEmpty()) {
+                // 先判断居中行是不是最后一行
+                if (progress >= lyricList[lyricList.lastIndex].startTime) {
+                    centerLine = lyricList.lastIndex
+                } else {
+                    // 其他行
+                    for (index in 0 until lyricList.lastIndex) {
+                        // progress 大于等于当前行开始时间小于下一行开始时间
+                        val currentStartTime = lyricList[index].startTime // 常报空指针
+                        val nextStartTime = lyricList[index + 1].startTime
+                        if (progress in currentStartTime until nextStartTime) {
+                            centerLine = index
+                            break
+                        }
                     }
                 }
             }
+
+            // 找到后绘制
+            invalidate() // onDraw
         }
-
-
-        // 找到后绘制
-        invalidate() // onDraw
-
     }
 
 
@@ -151,12 +153,17 @@ class LyricView : View {
         this.duration = duration
     }
 
+    /**
+     * 获取歌词
+     */
     fun setLyricId(songData: StandardSongData) {
         if (this.songData != songData || lyricList.isEmpty()) {
             this.songData = songData
+            lyricLoaded = false // 歌词未加载
             SearchLyric.getLyric(songData) { it ->
                 lyricList.clear()
                 lyricList.addAll(it)
+                lyricLoaded = true // 歌词加载完成
             }
         }
     }
