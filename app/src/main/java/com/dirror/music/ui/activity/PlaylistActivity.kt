@@ -47,29 +47,29 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
             // ivBackground.visibility = View.INVISIBLE
         }
 
-        nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            scrollChangeHeader(scrollY)
-        }
+//        nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+//            scrollChangeHeader(scrollY)
+//        }
     }
 
-    private fun scrollChangeHeader(Y: Int) {
-        val headerHeight = dp2px(128f)
-        var scrollY = Y
-        if (scrollY < 0) {
-            scrollY = 0
-        }
-        val alpha = abs(scrollY) * 1.0f / headerHeight
-        if (scrollY <= headerHeight) {
-            // titleBar.alpha = alpha
-            titleBar.setTitleBarText(getString(R.string.playlist))
-            clNavForeground.visibility = View.GONE
-        } else {
-            clNavForeground.visibility = View.VISIBLE
-            if (titleBar.text.toString() != tvName.text.toString()) {
-                titleBar.setTitleBarText(tvName.text.toString())
-            }
-        }
-    }
+//    private fun scrollChangeHeader(Y: Int) {
+//        val headerHeight = dp2px(128f)
+//        var scrollY = Y
+//        if (scrollY < 0) {
+//            scrollY = 0
+//        }
+//        val alpha = abs(scrollY) * 1.0f / headerHeight
+//        if (scrollY <= headerHeight) {
+//            // titleBar.alpha = alpha
+//            titleBar.setTitleBarText(getString(R.string.playlist))
+//            clNavForeground.visibility = View.GONE
+//        } else {
+//            clNavForeground.visibility = View.VISIBLE
+//            if (titleBar.text.toString() != tvName.text.toString()) {
+//                titleBar.setTitleBarText(tvName.text.toString())
+//            }
+//        }
+//    }
 
     override fun initListener() {
         includePlay.setOnClickListener {
@@ -88,9 +88,9 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
         clNav.setOnClickListener {
             detailPlaylistAdapter.playFirst()
         }
-        clNavForeground.setOnClickListener {
-            detailPlaylistAdapter.playFirst()
-        }
+//        clNavForeground.setOnClickListener {
+//            detailPlaylistAdapter.playFirst()
+//        }
     }
 
     /**
@@ -159,7 +159,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
             rvPlaylist.layoutManager =  linearLayoutManager
             rvPlaylist.adapter = detailPlaylistAdapter
             tvPlayAll.text = "播放全部(${songList.size})"
-            tvPlayAllNavForeground.text = "播放全部(${songList.size})"
+            // tvPlayAllNavForeground.text = "播放全部(${songList.size})"
         }
     }
 

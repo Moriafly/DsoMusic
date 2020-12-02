@@ -38,6 +38,8 @@ class MyApplication: Application() {
         MMKV.initialize(this)
         mmkv = MMKV.defaultMMKV() // MMKV
 
+        // BGASwipeBackHelper.init(this, null);
+
         checkSecure()
     }
 

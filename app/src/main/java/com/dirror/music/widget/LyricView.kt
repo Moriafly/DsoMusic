@@ -24,7 +24,7 @@ class LyricView : View {
 
     private val paint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) } // 通过惰性加载创建抗锯齿画笔
     private val linePaint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) }
-    private val lyricList by lazy { ArrayList<LyricData>() }
+    private val lyricList = ArrayList<LyricData>()
     private var centerLine = 0
     private var bigTextSize = 0f
     private var smallTextSize = 0f

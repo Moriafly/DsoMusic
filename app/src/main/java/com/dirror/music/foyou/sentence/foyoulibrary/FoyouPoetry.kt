@@ -2,10 +2,12 @@ package com.dirror.music.foyou.sentence.foyoulibrary
 
 import com.dirror.music.foyou.sentence.SentenceData
 
+
 object FoyouPoetry {
+    
     fun getFoyouPoetry(): SentenceData {
         val arrayStr: Array<SentenceData> = arrayOf(
-            SentenceData("汉之广矣，不可泳思。江之永矣，不可方思。", "", "诗经·国风·周南·汉广"),
+            SentenceData("#汉之广矣，不可泳思。江之永矣，不可方思。", "", "诗经·国风·周南·汉广"),
             SentenceData("山际见来烟，竹中窥落日。鸟向檐上飞，云从窗里出。", "吴均", "山中杂诗"),
             SentenceData("春江秋月冬冰雪，不听陈言只听天。", "杨万里", "读张文潜诗"),
             SentenceData("寄意寒星荃不察，我以我血荐轩辕。", "鲁迅", "自题小像"),
@@ -69,4 +71,5 @@ object FoyouPoetry {
         val index = (0..arrayStr.lastIndex).random()
         return SentenceData(arrayStr[index].text, arrayStr[index].author, arrayStr[index].source)
     }
+
 }

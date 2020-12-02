@@ -58,7 +58,6 @@ object FoyouOthers {
             SentenceData("你要活，我陪你；你想死，也陪你。", "", "毒战"),
             SentenceData("你若遇上麻烦，不要逞强，你就跑，远远跑开。", "", "阿甘正传"),
             SentenceData("做羹要讲究火候，火候不到，众口难调，火候过了，事情就焦，做人也是一样。", "", "一代宗师"),
-            SentenceData("After all this times?Always.", "", "哈利波特"),
             SentenceData("人人心中都有个龙猫，童年就永远不会消失。", "宫崎骏", "龙猫"),
             SentenceData("拯救一人，如同拯救整个世界。", "", "辛德勒名单"),
             SentenceData("不要忘记你的名字才能找到回家的路。", "", "千与千寻"),

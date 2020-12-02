@@ -22,6 +22,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
 <!--        <item name="android:windowTranslucentNavigation">true</item>-->
+<!--        <item name="android:windowIsTranslucent">true</item>-->
     </style>
 
     <!--解决冷启动白屏问题-->

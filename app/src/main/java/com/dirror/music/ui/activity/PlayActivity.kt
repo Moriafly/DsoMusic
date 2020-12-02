@@ -10,12 +10,14 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
@@ -28,15 +30,16 @@ import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.service.MusicService
-import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_play.*
+import kotlinx.android.synthetic.main.activity_play.titleBar
 
 @Suppress("DEPRECATION")
-class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChangeListener {
+class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     companion object {
         private const val MSG_PROGRESS = 0 // Handle 消息，播放进度
@@ -57,14 +60,26 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
         }
     } // 可能泄漏，等待以后解决，Handle 过时问题
 
-    override fun initData() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_play)
+        initData()
+        initView()
+        initListener()
+    }
+
+    private fun initData() {
+//        val slideBackLayout = SlideBackLayout(this, clCd)
+//        slideBackLayout.bind()
+
         val intentFilter = IntentFilter() // Intent 过滤器
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
     }
 
-    override fun initView() {
+    private fun initView() {
         val navigationBarHeight = getNavigationBarHeight(this).toFloat()
 
         // 底部适配
@@ -112,7 +127,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun initListener() {
+    private fun initListener() {
         ivBack.setOnClickListener {
             finish()
         }
@@ -162,7 +177,7 @@ class PlayActivity : BaseActivity(R.layout.activity_play), SeekBar.OnSeekBarChan
                 }
                 MotionEvent.ACTION_UP -> {
                     // loge("触发 Up ${event.y}")
-                    // toast("nowY:${event.y}, oldY:${oldY}")
+                     //toast("nowY:${event.y}, oldY:${oldY}")
                     if (event.y - oldY > 100f) {
                         finish()
                     } else {

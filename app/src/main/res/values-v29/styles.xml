@@ -15,5 +15,7 @@
 
         <!-- 禁用系统黑暗模式 -->
         <item name="android:forceDarkAllowed">false</item>
+
+<!--        <item name="android:windowIsTranslucent">true</item>-->
     </style>
 </resources>
