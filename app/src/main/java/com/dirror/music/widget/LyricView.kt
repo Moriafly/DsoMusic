@@ -24,7 +24,7 @@ class LyricView : View {
 
     private val paint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) } // 通过惰性加载创建抗锯齿画笔
     private val linePaint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) }
-    private val lyricList = ArrayList<LyricData>()
+    private var lyricList = ArrayList<LyricData>()
     private var centerLine = 0
     private var bigTextSize = 0f
     private var smallTextSize = 0f
@@ -157,14 +157,16 @@ class LyricView : View {
      * 获取歌词
      */
     fun setLyricId(songData: StandardSongData) {
-        if (this.songData != songData || lyricList.isEmpty()) {
+        if (this.songData != songData) {
             this.songData = songData
+
+            this.progress = 0
             lyricLoaded = false // 歌词未加载
-            SearchLyric.getLyric(songData) { it ->
-                lyricList.clear()
-                lyricList.addAll(it)
+            SearchLyric.getLyric(songData) {
+                lyricList = it
                 lyricLoaded = true // 歌词加载完成
             }
+
         }
     }
 

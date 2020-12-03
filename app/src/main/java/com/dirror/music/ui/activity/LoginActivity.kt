@@ -3,7 +3,6 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import com.dirror.music.R
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.setStatusBarIconColor
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(R.layout.activity_login) {

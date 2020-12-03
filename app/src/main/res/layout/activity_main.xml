@@ -149,7 +149,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <include
-            android:id="@+id/itemPlay"
+            android:id="@+id/includePlayer"
             layout="@layout/layout_play"
             android:layout_width="0dp"
             android:layout_height="0dp"

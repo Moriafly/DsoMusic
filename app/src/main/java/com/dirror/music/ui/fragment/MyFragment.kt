@@ -14,7 +14,7 @@ import com.dirror.music.data.UserDetailData
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
-import com.dirror.music.ui.activity.LoginActivity
+import com.dirror.music.ui.activity.LoginActivity2
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.fragment_my.*
@@ -33,11 +33,13 @@ class MyFragment : BaseFragment() {
         checkLogin()
     }
 
+    /**
+     * 检查是否已经登录
+     */
     private fun checkLogin() {
         val uid= MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
         if (uid == 0L) {
-            val intent = Intent(context, LoginActivity::class.java)
-            startActivityForResult(intent, 0)
+            startLoginActivity()
         }
     }
 
@@ -54,8 +56,7 @@ class MyFragment : BaseFragment() {
 
     override fun initListener() {
         itemAccount.setOnClickListener {
-            val intent = Intent(context, LoginActivity::class.java)
-            startActivityForResult(intent, 0)
+            startLoginActivity()
         }
 
         // 新建歌单
@@ -82,7 +83,7 @@ class MyFragment : BaseFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             0 -> if (resultCode == RESULT_OK) {
-                val user = data?.getBooleanExtra("boolean_user", true)
+                // val user = data?.getBooleanExtra("boolean_user", true)
                 getUserDetail()
                 getPlaylist()
             }
@@ -178,6 +179,15 @@ class MyFragment : BaseFragment() {
             rvLocalPlaylist.layoutManager =  gridLayoutManager
             // rvLocalPlaylist.adapter = PlaylistAdapter()
         }
+    }
+
+    private fun startLoginActivity() {
+        val intent = Intent(context, LoginActivity2::class.java)
+        startActivityForResult(intent, 0)
+        activity?.overridePendingTransition(
+            R.anim.anim_slide_enter_bottom,
+            R.anim.anim_no_anim
+        )
     }
 
 }

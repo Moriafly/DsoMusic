@@ -13,7 +13,7 @@ object SearchLyric {
      * 标准库获取歌词
      * 传入 [songData] ，返回地址
      */
-    fun getLyric(songData: StandardSongData, success: (List<LyricData>) -> Unit) {
+    fun getLyric(songData: StandardSongData, success: (ArrayList<LyricData>) -> Unit) {
         var url = ""
         when (songData.source) {
             // 网易云
@@ -29,21 +29,24 @@ object SearchLyric {
 
         MagicHttp.OkHttpManager().newGet(url, { response ->
             var lyric = response
-            println("歌词：$lyric")
+            val lyricDataList = ArrayList<LyricData>()
+            // println("歌词：$lyric")
 
             when (songData.source) {
                 SOURCE_QQ -> {
                     if (Gson().fromJson(lyric, QQSongLyric::class.java).lyric != null) {
                         lyric = Gson().fromJson(lyric, QQSongLyric::class.java).lyric.toString()
                     } else {
-                        success.invoke(listOf(LyricData(0, "暂无歌词")))
+                        lyricDataList.add(LyricData(0, "暂无歌词"))
+                        success.invoke(lyricDataList)
                     }
                 }
                 SOURCE_NETEASE -> {
                     if (Gson().fromJson(lyric, NeteaseSongLyric::class.java).lrc != null) {
                         lyric = Gson().fromJson(lyric, NeteaseSongLyric::class.java).lrc?.lyric.toString()
                     } else {
-                        success.invoke(listOf(LyricData(0, "暂无歌词")))
+                        lyricDataList.add(LyricData(0, "暂无歌词"))
+                        success.invoke(lyricDataList)
                     }
                 }
             }
@@ -56,7 +59,8 @@ object SearchLyric {
                 val source = lyric.replace("这似乎是一首纯音乐呢，请尽情欣赏它吧！","纯音乐，请欣赏")
                 success.invoke(parseLyric(source))
             } else {
-                success.invoke(listOf(LyricData(0, "暂无歌词")))
+                // lyricDataList.add(LyricData(0, "暂无歌词"))
+                success.invoke(lyricDataList)
             }
         }, {
 
@@ -79,7 +83,7 @@ object SearchLyric {
     /**
      * 解析 Lyric
      */
-    fun parseLyric(source: String): ArrayList<LyricData> {
+    private fun parseLyric(source: String): ArrayList<LyricData> {
         val lyricDataList =ArrayList<LyricData>()
         val parseSource = source.replace("\r", "")
         val singleLineList = parseSource.split("\n")

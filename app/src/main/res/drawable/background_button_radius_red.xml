@@ -4,13 +4,13 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <solid android:color="@color/colorAppThemeColor"/>
-            <corners android:radius="30dp"/>
+            <corners android:radius="8dp"/>
         </shape>
     </item>
     <item tools:ignore="StateListReachable">
         <shape android:shape="rectangle">
             <solid android:color="#FF3A3A"/>
-            <corners android:radius="30dp"/>
+            <corners android:radius="8dp"/>
         </shape>
     </item>
 

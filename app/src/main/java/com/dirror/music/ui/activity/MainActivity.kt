@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
 
-        binding.itemPlay.root.setOnClickListener {
+        binding.includePlayer.root.setOnClickListener {
             startActivity(Intent(this, PlayActivity::class.java))
             overridePendingTransition(
                 R.anim.anim_slide_enter_bottom,
@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        binding.itemPlay.ivPlaylist.setOnClickListener {
+        binding.includePlayer.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
         }
 
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
     private fun initListener() {
 
         // 播放栏
-        binding.itemPlay.ivPlay.setOnClickListener {
+        binding.includePlayer.ivPlay.setOnClickListener {
             // 更新
             MyApplication.musicBinderInterface?.changePlayState()
             refreshPlayState()
@@ -156,11 +156,11 @@ class MainActivity : AppCompatActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
-                binding.itemPlay.tvName.text = song.name
-                binding.itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
+                binding.includePlayer.tvName.text = song.name
+                binding.includePlayer.tvArtist.text = song.artists?.let { parseArtist(it) }
                 // 这里应该用小的，等待修改
                 SongPicture.getSongPicture(song, SongPicture.TYPE_LARGE) {
-                    binding.itemPlay.ivCover.setImageBitmap(it)
+                    binding.includePlayer.ivCover.setImageBitmap(it)
                 }
             }
             refreshPlayState()
@@ -172,9 +172,9 @@ class MainActivity : AppCompatActivity() {
      */
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-            binding.itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
-            binding.itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
+            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
     }
 
