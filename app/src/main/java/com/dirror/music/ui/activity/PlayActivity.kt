@@ -177,13 +177,16 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 }
                 MotionEvent.ACTION_UP -> {
                     // loge("触发 Up ${event.y}")
-                     //toast("nowY:${event.y}, oldY:${oldY}")
+                    // toast("nowY:${event.y}, oldY:${oldY}")
                     if (event.y - oldY > 100f) {
                         finish()
                     } else {
-                        AnimationUtil.fadeOut(clCd, true)
-                        AnimationUtil.fadeOut(clMenu, true) // 菜单淡出
-                        clLyric.visibility = View.VISIBLE
+                        if (clLyric.visibility == View.INVISIBLE) {
+                            AnimationUtil.fadeOut(clCd, true)
+                            AnimationUtil.fadeOut(clMenu, true) // 菜单淡出
+                            clLyric.visibility = View.VISIBLE
+                        }
+
                     }
                 }
             }
