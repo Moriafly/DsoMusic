@@ -4,26 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="100dp"
     tools:context=".ui.fragment.HomeFragment">
 
+
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="112dp" >
+            android:layout_height="match_parent">
 
-            <include
-                android:id="@+id/includeFoyou"
-                layout="@layout/include_foyou"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvPlaylistRecommend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:height="28dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="歌单推荐"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.dirror.music.widget.RecyclerViewAtViewPager2
+                    android:id="@+id/rvPlaylistRecommend"
+                    android:layout_width="match_parent"
+                    android:layout_height="156dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp" />
+
+                <TextView
+                    android:id="@+id/tvFoyou"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:height="28dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="句子推荐"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <include
+                    android:id="@+id/includeFoyou"
+                    layout="@layout/include_foyou"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
 
 
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
