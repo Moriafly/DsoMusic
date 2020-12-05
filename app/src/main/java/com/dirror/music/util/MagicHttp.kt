@@ -149,9 +149,11 @@ object MagicHttp {
                     // .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyPool.ip, proxyPool.port)))
                     .build()
 
-                val body = okhttp3.FormBody.Builder().add("ids", json).build()
+                val body = okhttp3.FormBody.Builder()
+                    .add("ids", json)
+                    .build()
                 val request: Request = Request.Builder()
-                    .url(url)
+                    .url("${url}?timestamp=${getCurrentTime()}")
                     .post(body)
                     .build()
 

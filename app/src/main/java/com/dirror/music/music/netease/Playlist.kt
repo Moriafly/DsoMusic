@@ -15,12 +15,15 @@ import org.jetbrains.annotations.TestOnly
  */
 object Playlist {
 
-    private const val SPLIT_PLAYLIST_NUMBER = 200 // 切割歌单，每 200 首
+    private const val SPLIT_PLAYLIST_NUMBER = 500 // 切割歌单，每 200 首
     private const val CHEATING_CODE = -460 // Cheating 错误
 
     private const val PLAYLIST_URL = "${API_MUSIC_ELEUU}/playlist/detail?id=" // 获取歌单链接
-    private const val SONG_DETAIL_URL = "https://music.163.com/api/song/detail" // 歌曲详情
+
+    // private const val SONG_DETAIL_URL = "https://music.163.com/api/song/detail" // 歌曲详情
     // private const val SONG_DETAIL_URL = "${API_MUSIC_ELEUU}/song/detail" // 歌曲详情
+    private const val SONG_DETAIL_URL = "https://autumnfish.cn/song/detail" // 歌曲详情
+
 
     /**
      * 传入歌单 [playlistId] id
@@ -42,8 +45,8 @@ object Playlist {
             averageAssignFixLength(trackIds, SPLIT_PLAYLIST_NUMBER).forEach { list ->
                 var json = Gson().toJson(list)
 
-                // json = json.replace("[", "")
-                // json = json.replace("]", "")
+                json = json.replace("[", "")
+                json = json.replace("]", "")
 
                 loge("json:${json}")
 

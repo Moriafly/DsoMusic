@@ -14,19 +14,20 @@ data class CompatSearchData(
 data class CompatSearchSongData(
     val id: Long,
     val name: String,
-    val album: CompatAlbumData,
-    val artists: ArrayList<CompatArtistData>,
+    val al: CompatAlbumData, // val album: CompatAlbumData,
+    val ar: ArrayList<CompatArtistData>, // 艺术家
     val fee: Int // 网易云搜索是否是 vip 歌曲，1 为 vip
 )
 
 data class CompatAlbumData(
-    val artist: CompatArtistData
+    val picUrl: String,
+    // val artist: CompatArtistData
 )
 
 data class CompatArtistData(
     val id: Long,
     val name: String,
-    val img1v1Url: String
+    // val img1v1Url: String
 )
 
 fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): ArrayList<StandardSongData> {
@@ -34,10 +35,10 @@ fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): 
     for (song in compatSearchData.songs) {
         val standardArtistDataList = ArrayList<StandardArtistData>()
         // song.artists
-        for (index in 0..song.artists.lastIndex) {
+        for (index in 0..song.ar.lastIndex) {
             val standardArtistData = StandardArtistData(
-                song.artists[index].id,
-                song.artists[index].name
+                song.ar[index].id,
+                song.ar[index].name
             )
             standardArtistDataList.add(standardArtistData)
         }
@@ -46,7 +47,7 @@ fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): 
             SOURCE_NETEASE,
             song.id.toString(),
             song.name,
-            song.album.artist.img1v1Url,
+            song.al.picUrl,
             standardArtistDataList,
             NeteaseInfo(song.fee),
             null
