@@ -15,6 +15,7 @@ class AboutActivity : AppCompatActivity() {
 
     companion object {
         private const val WEBSITE = "https://moriafly.xyz" // 官方网站
+        private const val UPDATE_LOG = "https://github.com/Moriafly/dirror-music/releases" // 更新日志网站
     }
 
     private lateinit var binding: ActivityAboutBinding
@@ -47,6 +48,10 @@ class AboutActivity : AppCompatActivity() {
         // 开源
         binding.itemOpenSource.setOnClickListener {
             startActivity(Intent(this, OpenSourceActivity::class.java))
+        }
+
+        binding.itemUpdateLog.setOnClickListener {
+            openUrlByBrowser(this, UPDATE_LOG)
         }
 
     }

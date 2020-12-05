@@ -154,6 +154,7 @@ object MagicHttp {
                     .url(url)
                     .post(body)
                     .build()
+
                 client.newCall(request).enqueue(object : Callback {
                     override fun onResponse(call: Call, response: Response) {
                         val string = response.body?.string()!!
