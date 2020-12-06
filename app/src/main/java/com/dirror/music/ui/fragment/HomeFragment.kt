@@ -2,6 +2,7 @@ package com.dirror.music.ui.fragment
 
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistRecommendAdapter
 import com.dirror.music.foyou.sentence.Sentence
@@ -36,6 +37,12 @@ class HomeFragment : BaseFragment() {
     override fun initListener() {
         includeFoyou.setOnClickListener {
             changeSentence()
+        }
+
+        includeFeedback.setOnClickListener {
+            activity?.let {
+                MyApplication.activityManager.startFeedbackActivity(it)
+            }
         }
     }
 

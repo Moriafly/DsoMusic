@@ -79,6 +79,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/bg_edit_text"
+            android:hint="1"
             android:padding="8dp"
             android:textCursorDrawable="@drawable/text_cursor_drawable"
             android:textSize="14sp"
@@ -98,5 +99,32 @@
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:text="什么是网易云 UID ？"
+            android:textColor="@color/highLight"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTip" />
+
+        <TextView
+            android:id="@+id/tvTip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:lineSpacingExtra="4sp"
+            android:text="不知道自己的 UID ？不妨试试在上方输入框中输入 1 ，再点击登录。或者点击下方链接查看教程。"
+            android:textColor="@color/colorSubTextForeground"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLoginByUid" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

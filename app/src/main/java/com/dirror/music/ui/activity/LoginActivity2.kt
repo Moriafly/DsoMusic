@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLogin2Binding
 import com.dirror.music.music.CloudMusic
+import com.dirror.music.util.openUrlByBrowser
 import com.dirror.music.util.toast
 import kotlinx.android.synthetic.main.activity_login_by_uid.*
 
@@ -57,6 +58,10 @@ class LoginActivity2 : AppCompatActivity() {
                 toast("请输入 UID")
             }
 
+        }
+
+        binding.tvHelp.setOnClickListener {
+            openUrlByBrowser(this, "https://moriafly.xyz/foyou/uidlogin.html")
         }
     }
 

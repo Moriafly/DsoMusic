@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import com.dirror.music.R
+import com.dirror.music.ui.activity.FeedbackActivity
 import com.dirror.music.ui.activity.LoginActivity2
 
 class ActivityManager: ActivityManagerInterface {
@@ -15,6 +16,15 @@ class ActivityManager: ActivityManagerInterface {
             R.anim.anim_slide_enter_bottom,
             R.anim.anim_no_anim
         )
+    }
+
+    override fun startFeedbackActivity(activity: Activity) {
+        val intent = Intent(activity, FeedbackActivity::class.java)
+        activity.startActivity(intent)
+//        activity.overridePendingTransition(
+//            R.anim.anim_slide_enter_bottom,
+//            R.anim.anim_no_anim
+//        )
     }
 
 }

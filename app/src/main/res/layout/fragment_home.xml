@@ -9,58 +9,82 @@
 
 
     <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPlaylistRecommend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="12dp"
+                android:height="28dp"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="歌单推荐"
+                android:textColor="@color/colorTextForeground"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvPlaylistRecommend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:height="28dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="歌单推荐"
-                    android:textColor="@color/colorTextForeground"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+            <com.dirror.music.widget.RecyclerViewAtViewPager2
+                android:id="@+id/rvPlaylistRecommend"
+                android:layout_width="match_parent"
+                android:layout_height="156dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp" />
 
-                <com.dirror.music.widget.RecyclerViewAtViewPager2
-                    android:id="@+id/rvPlaylistRecommend"
-                    android:layout_width="match_parent"
-                    android:layout_height="156dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginEnd="0dp" />
+            <TextView
+                android:id="@+id/tvFoyou"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:height="28dp"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="句子推荐"
+                android:textColor="@color/colorTextForeground"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvFoyou"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:height="28dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="句子推荐"
-                    android:textColor="@color/colorTextForeground"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+            <include
+                android:id="@+id/includeFoyou"
+                layout="@layout/include_foyou"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
 
-                <include
-                    android:id="@+id/includeFoyou"
-                    layout="@layout/include_foyou"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp" />
+            <TextView
+                android:id="@+id/tvFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:height="28dp"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="@string/feedback"
+                android:textColor="@color/colorTextForeground"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
+            <include
+                android:id="@+id/includeFeedback"
+                layout="@layout/include_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="8dp" />
 
-            </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
+    </ScrollView>
 
 
 

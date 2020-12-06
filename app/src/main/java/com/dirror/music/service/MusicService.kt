@@ -284,7 +284,7 @@ class MusicService : Service() {
         private fun startPlayUrl(url: String) {
 
             if (!InternetState.isWifi(MyApplication.context) && !MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)) {
-                toast("移动网络下已禁止播放")
+                toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
             } else {
                 // 初始化
                 mediaPlayer = MediaPlayer()
