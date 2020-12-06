@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import cn.bmob.v3.Bmob
+import com.dirror.music.manager.ActivityManager
+import com.dirror.music.manager.UserManager
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
 import com.dirror.music.util.*
@@ -29,6 +31,10 @@ class MyApplication: Application() {
         val musicConnection by lazy { MusicConnection() }
 
         val cookieStore: HashMap<String, List<Cookie>> = HashMap() // cookie
+
+        // 管理
+        lateinit var userManager: UserManager
+        lateinit var activityManager: ActivityManager
     }
 
     override fun onCreate() {
@@ -37,6 +43,9 @@ class MyApplication: Application() {
 
         MMKV.initialize(this)
         mmkv = MMKV.defaultMMKV() // MMKV
+
+        userManager = UserManager()
+        activityManager = ActivityManager()
 
         // BGASwipeBackHelper.init(this, null);
 

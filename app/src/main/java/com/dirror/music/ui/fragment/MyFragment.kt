@@ -21,8 +21,6 @@ import kotlinx.android.synthetic.main.fragment_my.*
 
 class MyFragment : BaseFragment() {
 
-    private val defaultUid = 0L // 默认 0L，可设置一个默认用户
-
     private val userPlaylist = ArrayList<PlaylistData>()
 
     override fun getLayoutId(): Int {
@@ -37,8 +35,7 @@ class MyFragment : BaseFragment() {
      * 检查是否已经登录
      */
     private fun checkLogin() {
-        val uid= MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
-        if (uid == 0L) {
+        if (!MyApplication.userManager.isUidLogin()) {
             startLoginActivity()
         }
     }
@@ -83,6 +80,7 @@ class MyFragment : BaseFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             0 -> if (resultCode == RESULT_OK) {
+                toast("回调成功")
                 // val user = data?.getBooleanExtra("boolean_user", true)
                 getUserDetail()
                 getPlaylist()
@@ -97,17 +95,14 @@ class MyFragment : BaseFragment() {
         // 获取是否在线登录成功
         CloudMusic.getLoginStatus {  }
 
-        val uid = MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
-
-        if (uid != 0L) {
-            CloudMusic.getUserDetail(uid, {
+        if (MyApplication.userManager.isUidLogin()) {
+            CloudMusic.getUserDetail(MyApplication.userManager.getCurrentUid(), {
                 refreshUserDetail(it)
             }, {
                 toast(it)
             })
         } else {
             toast("请先登录")
-            // startActivity(Intent(context, LoginActivity::class.java))
         }
     }
 
@@ -129,7 +124,7 @@ class MyFragment : BaseFragment() {
     }
 
     private fun getPlaylist() {
-        CloudMusic.getPlaylist(MyApplication.mmkv.decodeLong(Config.UID, defaultUid)){
+        CloudMusic.getPlaylist(MyApplication.userManager.getCurrentUid()){
             val playlist = it.playlist
             loge("大小：${playlist.size}")
             val gridLayoutManager: GridLayoutManager =
@@ -180,6 +175,7 @@ class MyFragment : BaseFragment() {
             // rvLocalPlaylist.adapter = PlaylistAdapter()
         }
     }
+
 
     private fun startLoginActivity() {
         val intent = Intent(context, LoginActivity2::class.java)

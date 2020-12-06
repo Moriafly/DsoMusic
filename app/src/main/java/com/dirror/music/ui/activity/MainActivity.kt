@@ -96,7 +96,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 默认打开首页
-        // viewPager2.currentItem = 1
+        if (MyApplication.userManager.isUidLogin()) {
+            binding.viewPager2.currentItem = 1
+        } else {
+            binding.viewPager2.currentItem = 0
+        }
+
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
