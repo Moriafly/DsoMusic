@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.ui.activity.PlaylistActivity
+import com.dirror.music.ui.dialog.SongMenuDialog
 
 class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
 
@@ -41,7 +42,6 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerV
             intent.putExtra("long_playlist_id", play.id)
             it.context.startActivity(intent)
         }
-
     }
 
     override fun getItemCount(): Int {

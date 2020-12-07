@@ -85,12 +85,12 @@ class SearchActivity : AppCompatActivity() {
             if (engine == ENGINE_NETEASE) {
                 engine = ENGINE_QQ
                 binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_qq_music_engine))
-                toast("已经切换成 QQ")
+                // toast("已经切换成 QQ")
                 search()
             } else {
                 engine = ENGINE_NETEASE
                 binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
-                toast("已经切换成网易云")
+                // toast("已经切换成网易云")
                 search()
             }
         }

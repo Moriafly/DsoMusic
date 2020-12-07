@@ -2,6 +2,7 @@ package com.dirror.music.util
 
 import android.animation.ObjectAnimator
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.core.animation.addListener
 import java.time.Duration
@@ -98,6 +99,21 @@ object AnimationUtil {
         objectAnimator2.duration = 300
         // objectAnimator.repeatCount = 1
         objectAnimator2.start()
+    }
+
+
+    fun moveToRight(view: View) {
+        val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "translationX", 0f, dp2px(300f))
+        objectAnimator.interpolator = DecelerateInterpolator()
+        objectAnimator.duration = 250
+        objectAnimator.start()
+    }
+
+    fun moveToLeft(view: View) {
+        val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "translationX", dp2px(300f), 0f)
+        objectAnimator.interpolator = LinearInterpolator()
+        objectAnimator.duration = 250
+        objectAnimator.start()
     }
 
 }

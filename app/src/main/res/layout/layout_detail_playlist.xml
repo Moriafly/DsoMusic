@@ -44,10 +44,10 @@
 
     <ImageView
         android:id="@+id/ivMore"
-        android:layout_width="64dp"
+        android:layout_width="56dp"
         android:layout_height="64dp"
         android:alpha="0.72"
-        android:padding="22dp"
+        android:padding="18dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

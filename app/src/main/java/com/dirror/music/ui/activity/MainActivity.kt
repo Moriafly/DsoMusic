@@ -1,11 +1,13 @@
 package com.dirror.music.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -19,6 +21,7 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -95,6 +98,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // navigationView.itemIconTintList = null
+
         // 默认打开首页
         if (MyApplication.userManager.isUidLogin()) {
             binding.viewPager2.currentItem = 1
@@ -125,6 +130,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("WrongConstant")
     private fun initListener() {
 
         // 播放栏
@@ -139,13 +145,45 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, SearchActivity::class.java))
         }
 
+
         // 设置按钮
         binding.ivSettings.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-            overridePendingTransition(
-                R.anim.anim_slide_enter_left,
-                R.anim.anim_slide_exit_right
-            )
+            binding.drawerLayout.openDrawer(Gravity.START)
+        }
+
+
+
+
+        binding.menuMain.switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
+        binding.menuMain.switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
+
+        // 反馈
+        binding.menuMain.itemFeedback.setOnClickListener {
+            startActivity(Intent(this, FeedbackActivity::class.java))
+        }
+
+        binding.menuMain.itemSourceCode.setOnClickListener {
+            openUrlByBrowser(this, "https://github.com/Moriafly/dirror-music")
+        }
+
+        binding.menuMain.itemPlayOnMobile.setOnClickListener {
+            binding.menuMain.switchPlayOnMobile.isChecked = !binding.menuMain.switchPlayOnMobile.isChecked
+        }
+
+        binding.menuMain.switchPlayOnMobile.setOnCheckedChangeListener { _, isChecked ->
+            MyApplication.mmkv.encode(Config.PLAY_ON_MOBILE, isChecked)
+        }
+
+        binding.menuMain.itemPauseSongAfterUnplugHeadset.setOnClickListener {
+            binding.menuMain.switchPauseSongAfterUnplugHeadset.isChecked = !binding.menuMain.switchPauseSongAfterUnplugHeadset.isChecked
+        }
+
+        binding.menuMain.switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { _, isChecked ->
+            MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, isChecked)
+        }
+
+        binding.menuMain.itemAbout.setOnClickListener {
+            startActivity(Intent(this, AboutActivity::class.java))
         }
 
     }

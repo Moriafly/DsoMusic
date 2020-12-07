@@ -3,12 +3,15 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLogin2Binding
 import com.dirror.music.music.CloudMusic
+import com.dirror.music.util.loge
 import com.dirror.music.util.openUrlByBrowser
 import com.dirror.music.util.toast
 import kotlinx.android.synthetic.main.activity_login_by_uid.*
+import java.util.regex.Pattern
 
 class LoginActivity2 : AppCompatActivity() {
 
@@ -47,12 +50,18 @@ class LoginActivity2 : AppCompatActivity() {
                 if (index != -1) {
                     netease = netease.subSequence(index + 3, netease.length).toString()
                 }
-                CloudMusic.loginByUid(netease.toLong()) {
-                    // 返回信息
-                    val intent = Intent()
-                    // intent.putExtra("boolean_user", true)
-                    setResult(RESULT_OK, intent)
-                    finish()
+                netease = keepDigital(netease)
+                // loge("数字：${netease}")
+                if (netease != "") {
+                    CloudMusic.loginByUid(netease.toLong()) {
+                        // 返回信息
+                        val intent = Intent()
+                        // intent.putExtra("boolean_user", true)
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    }
+                } else {
+                    toast("错误的 UID")
                 }
             } else {
                 toast("请输入 UID")
@@ -61,7 +70,7 @@ class LoginActivity2 : AppCompatActivity() {
         }
 
         binding.tvHelp.setOnClickListener {
-            openUrlByBrowser(this, "https://moriafly.xyz/foyou/uidlogin.html")
+            MyApplication.activityManager.startWebActivity(this, "https://moriafly.xyz/foyou/uidlogin.html")
         }
     }
 
@@ -71,6 +80,18 @@ class LoginActivity2 : AppCompatActivity() {
             R.anim.anim_no_anim,
             R.anim.anim_slide_exit_bottom
         )
+    }
+
+    /**
+     * 只保留数字
+     */
+    private fun keepDigital(oldString: String): String {
+        val newString = StringBuffer()
+        val matcher = Pattern.compile("\\d").matcher(oldString)
+        while (matcher.find()) {
+            newString.append(matcher.group())
+        }
+        return newString.toString()
     }
 
 }

@@ -48,6 +48,10 @@ object LocalMusic {
                     if (title == "" && artist == "<unknown>") {
                         continue
                     }
+                    // 大小为 0 过滤
+                    if (size == 0L) {
+                        continue
+                    }
                     // loge("本地歌曲：$id，标题【$title】，艺术家【$artist】")
 
                     val artistList = ArrayList<StandardArtistData>()

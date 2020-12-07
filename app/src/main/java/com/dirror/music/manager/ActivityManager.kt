@@ -6,6 +6,7 @@ import android.content.Intent
 import com.dirror.music.R
 import com.dirror.music.ui.activity.FeedbackActivity
 import com.dirror.music.ui.activity.LoginActivity2
+import com.dirror.music.ui.activity.WebActivity
 
 class ActivityManager: ActivityManagerInterface {
 
@@ -25,6 +26,12 @@ class ActivityManager: ActivityManagerInterface {
 //            R.anim.anim_slide_enter_bottom,
 //            R.anim.anim_no_anim
 //        )
+    }
+
+    override fun startWebActivity(activity: Activity, url: String) {
+        val intent = Intent(activity, WebActivity::class.java)
+        intent.putExtra("extra_webUrlStr", url)
+        activity.startActivity(intent)
     }
 
 }

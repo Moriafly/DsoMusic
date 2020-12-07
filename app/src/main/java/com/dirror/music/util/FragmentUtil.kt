@@ -5,6 +5,7 @@ import com.dirror.music.ui.fragment.HomeFragment
 import com.dirror.music.ui.fragment.MyFragment
 
 object FragmentUtil {
+
     private val myFragment by lazy { MyFragment() }
     private val homeFragment by lazy { HomeFragment() }
 

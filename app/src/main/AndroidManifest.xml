@@ -28,7 +28,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.LoginActivity2"></activity>
+        <activity android:name=".ui.activity.WebActivity"></activity>
+        <activity android:name=".ui.activity.LoginActivity2" />
         <activity android:name=".ui.activity.LocalMusicActivity" />
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.FeedbackActivity" />

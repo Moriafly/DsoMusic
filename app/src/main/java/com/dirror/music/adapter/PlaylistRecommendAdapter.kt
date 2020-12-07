@@ -48,7 +48,14 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
             it.context.startActivity(intent)
         }
         holder.tvName.text = playlist.name
-        holder.tvPlayCount.text = playlist.playCount.toString()
+
+
+        holder.tvPlayCount.text = when (playlist.playCount) {
+            in 10_000 until 100_000_000 -> "${playlist.playCount / 10000} 万"
+            else -> playlist.playCount.toString()
+        }
+
+        // holder.tvPlayCount.text = playlist.playCount.toString()
     }
 
     override fun getItemCount(): Int {

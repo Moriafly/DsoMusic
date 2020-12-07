@@ -3,13 +3,13 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityAboutBinding
 import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.util.UpdateUtil
 import com.dirror.music.util.getVisionCode
 import com.dirror.music.util.getVisionName
 import com.dirror.music.util.openUrlByBrowser
-
 
 class AboutActivity : AppCompatActivity() {
 
@@ -51,7 +51,7 @@ class AboutActivity : AppCompatActivity() {
         }
 
         binding.itemUpdateLog.setOnClickListener {
-            openUrlByBrowser(this, UPDATE_LOG)
+            MyApplication.activityManager.startWebActivity(this, UPDATE_LOG)
         }
 
     }

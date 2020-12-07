@@ -49,19 +49,21 @@
                 android:layout_margin="16dp"
                 android:textColor="@color/colorTextForeground"
                 android:layout_width="match_parent"
+                android:lineSpacingExtra="2sp"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/tvUpdateLog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
                 android:autoLink="web"
                 android:lineSpacingExtra="4sp"
-                android:layout_margin="16dp"
-                android:text="访问 https://github.com/Moriafly/dirror-music/releases 查看完整更新日志"
+                android:text="查看完整更新日志请访问：\nhttps://github.com/Moriafly/dirror-music/releases"
                 android:textColor="@color/colorSubTextForeground"
                 android:textColorLink="@color/highLight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -73,19 +75,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="16sp"
                     android:background="@color/colorTransparency"
-                    android:text="忽略" />
+                    android:text="忽略"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btnDownload"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="16sp"
                     android:background="@color/colorTransparency"
                     android:text="下载"
-                    android:textColor="@color/colorAppThemeColor" />
+                    android:textColor="@color/colorAppThemeColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

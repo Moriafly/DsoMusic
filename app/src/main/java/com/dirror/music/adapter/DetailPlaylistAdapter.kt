@@ -14,6 +14,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayActivity
+import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.parseArtist
 import com.dirror.music.util.toast
 
@@ -61,7 +62,10 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
         holder.tvNumber.text = (position + 1).toString()
 
         holder.ivMore.setOnClickListener {
-            toast("测试")
+            SongMenuDialog(it.context).apply {
+                setSongData(song)
+                show()
+            }
         }
     }
 

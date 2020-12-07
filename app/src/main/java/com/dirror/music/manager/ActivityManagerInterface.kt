@@ -8,4 +8,6 @@ interface ActivityManagerInterface {
     fun startLoginActivity(context: Context, activity: Activity)
 
     fun startFeedbackActivity(activity: Activity)
+
+    fun startWebActivity(activity: Activity, url: String)
 }

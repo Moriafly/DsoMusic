@@ -20,8 +20,8 @@ class UpdateDialog: Dialog {
         window?.setGravity(Gravity.BOTTOM)
         // 设置大小
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        // editView.setText("你好")
-        // setCanceledOnTouchOutside(false)
+        // 不能点击外部关闭 Dialog
+        setCanceledOnTouchOutside(false)
     }
 
     var url = ""
