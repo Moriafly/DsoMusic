@@ -8,7 +8,11 @@ QQ 音乐来源：自己搞的 : )
 
 # 截图
 
-![pic2](https://moriafly.xyz/images/dirror-music_2.png)
+![pic1](https://img-blog.csdnimg.cn/20201205133344447.jpg)
+
+# 博客地址
+
+https://blog.csdn.net/Moriafly/article/details/109708728
 
 # 开源协议 License
 
