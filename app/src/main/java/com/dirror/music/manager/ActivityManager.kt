@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import com.dirror.music.R
+import com.dirror.music.ui.activity.CommentActivity
 import com.dirror.music.ui.activity.FeedbackActivity
 import com.dirror.music.ui.activity.LoginActivity2
 import com.dirror.music.ui.activity.WebActivity
@@ -32,6 +33,20 @@ class ActivityManager: ActivityManagerInterface {
         val intent = Intent(activity, WebActivity::class.java)
         intent.putExtra("extra_webUrlStr", url)
         activity.startActivity(intent)
+    }
+
+    /**
+     * 启动评论 activity
+     */
+    override fun startCommentActivity(activity: Activity, source: Int, id: String) {
+        val intent = Intent(activity, CommentActivity::class.java)
+        intent.putExtra(CommentActivity.EXTRA_INT_SOURCE, source)
+        intent.putExtra(CommentActivity.EXTRA_STRING_ID, id)
+        activity.startActivity(intent)
+        activity.overridePendingTransition(
+            R.anim.anim_slide_enter_bottom,
+            R.anim.anim_no_anim
+        )
     }
 
 }

@@ -5,9 +5,9 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.dirror.music.music.standard.data.LocalInfo
+import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
-import com.dirror.music.music.standard.data.StandardArtistData
+import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.toast
 

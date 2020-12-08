@@ -21,6 +21,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.dirror.music.widget.ItemLayout
+            android:id="@+id/itemSongComment"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:text="@string/song_comment" />
+
+        <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemSongInfo"
             android:layout_width="match_parent"
             android:layout_height="56dp"

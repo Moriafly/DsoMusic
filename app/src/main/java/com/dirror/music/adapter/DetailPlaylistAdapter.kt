@@ -21,7 +21,7 @@ import com.dirror.music.util.toast
 /**
  * 歌单适配器
  */
-class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData>): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
+class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData>, private val activity: Activity): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvNumber: TextView = view.findViewById(R.id.tvNumber)
@@ -64,6 +64,7 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
         holder.ivMore.setOnClickListener {
             SongMenuDialog(it.context).apply {
                 setSongData(song)
+                setActivity(activity)
                 show()
             }
         }

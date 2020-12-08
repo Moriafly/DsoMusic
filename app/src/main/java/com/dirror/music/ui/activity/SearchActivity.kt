@@ -26,8 +26,6 @@ import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
-import kotlinx.android.synthetic.main.activity_search.itemPlay
-import kotlinx.android.synthetic.main.activity_search.rvPlaylist
 
 class SearchActivity : AppCompatActivity() {
 
@@ -99,7 +97,7 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
-        itemPlay.setOnClickListener {
+        binding.includePlayer.root.setOnClickListener {
             startActivity(Intent(this, PlayActivity::class.java))
             overridePendingTransition(
                 R.anim.anim_slide_enter_bottom,
@@ -107,16 +105,14 @@ class SearchActivity : AppCompatActivity() {
             )
         }
 
-        binding.itemPlay.ivPlay.setOnClickListener {
+        binding.includePlayer.ivPlay.setOnClickListener {
             // 更新
             MyApplication.musicBinderInterface?.changePlayState()
             refreshPlayState()
         }
-        binding.itemPlay.ivPlaylist.setOnClickListener {
+        binding.includePlayer.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
         }
-
-
 
         // 搜索框
         binding.etSearch.apply {
@@ -132,9 +128,9 @@ class SearchActivity : AppCompatActivity() {
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(s: Editable) {
                     if (binding.etSearch.text.toString() != "") {
-                        // btnClear.visibility = View.VISIBLE // 有文字，显示清楚按钮
+                        binding.ivClear.visibility = View.VISIBLE // 有文字，显示清楚按钮
                     } else {
-                        // btnClear.visibility = View.INVISIBLE // 隐藏
+                        binding.ivClear.visibility = View.INVISIBLE // 隐藏
                     }
                 }
             })
@@ -195,8 +191,8 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
 
-            rvPlaylist.layoutManager = linearLayoutManager
-            rvPlaylist.adapter = DetailPlaylistAdapter(songList)
+            binding.rvPlaylist.layoutManager = linearLayoutManager
+            binding.rvPlaylist.adapter = DetailPlaylistAdapter(songList, this)
 
         }
     }
@@ -214,10 +210,10 @@ class SearchActivity : AppCompatActivity() {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
                 SongPicture.getSongPicture(song, SongPicture.TYPE_LARGE) {
-                    binding.itemPlay.ivCover.setImageBitmap(it)
+                    binding.includePlayer.ivCover.setImageBitmap(it)
                 }
-                binding.itemPlay.tvName.text = song.name
-                binding.itemPlay.tvArtist.text = song.artists?.let { parseArtist(it) }
+                binding.includePlayer.tvName.text = song.name
+                binding.includePlayer.tvArtist.text = song.artists?.let { parseArtist(it) }
             }
             refreshPlayState()
         }
@@ -228,9 +224,9 @@ class SearchActivity : AppCompatActivity() {
      */
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-            binding.itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
-            binding.itemPlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
+            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
     }
 

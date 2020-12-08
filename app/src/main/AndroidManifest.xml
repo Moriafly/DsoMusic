@@ -50,9 +50,6 @@
         <activity android:name=".ui.activity.LoginByUidActivity" />
         <activity android:name=".ui.activity.LoginByPhoneActivity" />
         <activity
-            android:name=".ui.activity.LoginActivity"
-            android:theme="@style/AppTheme.FullScreen" />
-        <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.FullScreen">

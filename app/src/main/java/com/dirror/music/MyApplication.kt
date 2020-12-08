@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import cn.bmob.v3.Bmob
 import com.dirror.music.manager.ActivityManager
+import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.manager.UserManager
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
@@ -35,6 +36,7 @@ class MyApplication: Application() {
         // 管理
         lateinit var userManager: UserManager
         lateinit var activityManager: ActivityManager
+        lateinit var cloudMusicManager: CloudMusicManager
     }
 
     override fun onCreate() {
@@ -46,8 +48,8 @@ class MyApplication: Application() {
 
         userManager = UserManager()
         activityManager = ActivityManager()
+        cloudMusicManager = CloudMusicManager()
 
-        // BGASwipeBackHelper.init(this, null);
 
         checkSecure()
     }

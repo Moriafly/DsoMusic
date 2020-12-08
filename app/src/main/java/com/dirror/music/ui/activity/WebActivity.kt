@@ -65,7 +65,10 @@ class WebActivity : AppCompatActivity() {
                     "#TmjYqfd5", // Hot
                     "#bottomMenu",
                     "#BK_body_content_wrapper > div.BK-after-content-wrapper > div.copyright",
-                    "#BK_body_content_wrapper > div.BK-after-content-wrapper > div.bottom-logo"
+                    "#BK_body_content_wrapper > div.BK-after-content-wrapper > div.bottom-logo",
+
+                    // github
+                    // ".subnav",
                 )
                 for (array in arrayStr) {
                     view?.loadUrl(getSelectorUrl(array))

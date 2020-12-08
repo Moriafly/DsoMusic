@@ -29,7 +29,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
 
-    private var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList())
+    private var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList(), this)
 
     override fun initData() {
         val intentFilter = IntentFilter() // Intent 过滤器
@@ -155,7 +155,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
         runOnMainThread {
             clLoading.visibility = View.GONE
             val linearLayoutManager = LinearLayoutManager(this@PlaylistActivity)
-            detailPlaylistAdapter = DetailPlaylistAdapter(songList)
+            detailPlaylistAdapter = DetailPlaylistAdapter(songList, this@PlaylistActivity)
             rvPlaylist.layoutManager =  linearLayoutManager
             rvPlaylist.adapter = detailPlaylistAdapter
             tvPlayAll.text = "播放全部(${songList.size})"

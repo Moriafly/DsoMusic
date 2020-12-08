@@ -40,4 +40,8 @@
     <string name="music">Music</string>
     <string name="artist">Artist</string>
     <string name="update_log">Update log</string>
+    <string name="song_comment">Song comment</string>
+    <string name="playlist_recommend">Playlist recommend</string>
+    <string name="sentence_recommend">Sentence recommend</string>
+    <string name="switch_account">Switch account</string>
 </resources>

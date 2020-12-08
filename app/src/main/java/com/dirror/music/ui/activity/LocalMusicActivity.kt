@@ -112,7 +112,7 @@ class LocalMusicActivity : AppCompatActivity() {
 
     private fun scanLocalMusic() {
         LocalMusic.scanLocalMusic(this, {
-            binding.rvLocalMusic.adapter = DetailPlaylistAdapter(it)
+            binding.rvLocalMusic.adapter = DetailPlaylistAdapter(it, this)
             binding.rvLocalMusic.layoutManager = LinearLayoutManager(this)
         }, {
 

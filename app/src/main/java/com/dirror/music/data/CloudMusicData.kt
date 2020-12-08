@@ -1,6 +1,6 @@
 package com.dirror.music.data
 
-import com.dirror.music.music.standard.data.StandardArtistData
+import com.dirror.music.music.standard.data.StandardSongData
 import com.google.gson.annotations.SerializedName
 
 class CloudMusicData {
@@ -68,7 +68,7 @@ data class SongData(
 data class SongInnerData(
     val name: String?,
     val id: Long,
-    val ar: ArrayList<StandardArtistData>,
+    val ar: ArrayList<StandardSongData.StandardArtistData>,
     val al: AlbumData,
 )
 

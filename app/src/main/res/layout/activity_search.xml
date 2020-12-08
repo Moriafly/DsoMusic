@@ -11,7 +11,7 @@
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/itemPlay"
+        app:layout_constraintBottom_toTopOf="@+id/includePlayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar">
@@ -36,32 +36,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvSearch"
+        <EditText
+            android:id="@+id/etSearch"
+            style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
             android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="56dp"
-            app:cardBackgroundColor="@color/colorEditTextBackground"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_edit_text"
+            android:imeOptions="actionSearch"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/text_cursor_drawable"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnCancel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <EditText
-                android:id="@+id/etSearch"
-                style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/background_transparency"
-                android:imeOptions="actionSearch"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:textCursorDrawable="@drawable/text_cursor_drawable"
-                android:textSize="14sp" />
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintStart_toEndOf="@+id/ivEngine"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnCancel"
@@ -101,6 +91,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_cloud_music" />
+
+        <ImageView
+            android:id="@+id/ivClear"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:alpha="0.6"
+            android:padding="12dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/etSearch"
+            app:layout_constraintEnd_toEndOf="@+id/etSearch"
+            app:layout_constraintTop_toTopOf="@+id/etSearch"
+            app:srcCompat="@drawable/ic_cancel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -157,7 +159,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        android:id="@+id/itemPlay"
+        android:id="@+id/includePlayer"
         layout="@layout/layout_play"
         android:layout_width="0dp"
         android:layout_height="56dp"

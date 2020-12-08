@@ -10,4 +10,6 @@ interface ActivityManagerInterface {
     fun startFeedbackActivity(activity: Activity)
 
     fun startWebActivity(activity: Activity, url: String)
+
+    fun startCommentActivity(activity: Activity, source: Int, id: String)
 }

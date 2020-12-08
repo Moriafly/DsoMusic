@@ -112,7 +112,7 @@
                 android:id="@+id/itemSwitchAccount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:text="切换账号">
+                app:text="@string/switch_account">
 
             </com.dirror.music.widget.ItemLayout>
 

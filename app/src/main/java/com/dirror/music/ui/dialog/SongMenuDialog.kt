@@ -1,13 +1,14 @@
 package com.dirror.music.ui.dialog
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.util.toast
 import com.dirror.music.widget.ItemLayout
 
 class SongMenuDialog : Dialog {
@@ -22,11 +23,12 @@ class SongMenuDialog : Dialog {
     }
 
     private lateinit var songData: StandardSongData
+    private lateinit var activity: Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val itemSongInfo = findViewById<ItemLayout>(R.id.itemSongInfo)
+        val itemSongComment = findViewById<ItemLayout>(R.id.itemSongComment)
 
         // 歌曲信息
         itemSongInfo.setOnClickListener {
@@ -39,10 +41,20 @@ class SongMenuDialog : Dialog {
             dismiss()
         }
 
+        // 歌曲评论
+        itemSongComment.setOnClickListener {
+            MyApplication.activityManager.startCommentActivity(activity, songData.source, songData.id)
+            dismiss()
+        }
+
     }
 
     fun setSongData(standardSongData: StandardSongData) {
         songData = standardSongData
+    }
+
+    fun setActivity(activity: Activity) {
+        this.activity = activity
     }
 
 }

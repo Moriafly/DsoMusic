@@ -1,9 +1,9 @@
 package com.dirror.music.music.netease
 
 import com.dirror.music.api.API_MUSIC_ELEUU
-import com.dirror.music.music.standard.data.NeteaseInfo
+import com.dirror.music.music.standard.data.StandardSongData.NeteaseInfo
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.StandardArtistData
+import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson

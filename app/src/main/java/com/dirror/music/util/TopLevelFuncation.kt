@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.BuildConfig
 import com.dirror.music.MyApplication
-import com.dirror.music.music.standard.data.StandardArtistData
+import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 /**
  * 顶层函数
  */

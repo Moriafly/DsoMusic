@@ -1,7 +1,7 @@
 package com.dirror.music.music.qq
 
 import com.dirror.music.music.standard.data.SOURCE_QQ
-import com.dirror.music.music.standard.data.StandardArtistData
+import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson

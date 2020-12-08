@@ -155,12 +155,9 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
         // 点击评论，跳转
         ivComment.setOnClickListener {
-            val intent = Intent(this, CommentActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(
-                R.anim.anim_slide_enter_bottom,
-                R.anim.anim_no_anim
-            )
+            song?.let {
+                MyApplication.activityManager.startCommentActivity(this, it.source, it.id)
+            }
         }
 
         ivEqualizer.setOnClickListener {
@@ -172,11 +169,8 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     oldY = event.y
-                    // loge("触发 Down ${event.y}")
                 }
                 MotionEvent.ACTION_UP -> {
-                    // loge("触发 Up ${event.y}")
-                    // toast("nowY:${event.y}, oldY:${oldY}")
                     if (event.y - oldY > 100f) {
                         finish()
                     } else {
@@ -339,7 +333,6 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
      * 更新进度
      */
     private fun updateProgress() {
-
         // 获取当前进度
         nowProgress = MyApplication.musicBinderInterface?.getProgress() ?: 0
         duration = MyApplication.musicBinderInterface?.getDuration() ?: duration
