@@ -18,16 +18,19 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.graphics.drawable.toDrawable
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.databinding.ActivityPlayBinding
 import com.dirror.music.music.CloudMusic
+import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
-import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
@@ -36,7 +39,7 @@ import com.dirror.music.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_play.*
-import kotlinx.android.synthetic.main.activity_play.titleBar
+
 
 @Suppress("DEPRECATION")
 class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
@@ -45,6 +48,8 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         private const val MSG_PROGRESS = 0 // Handle 消息，播放进度
         private const val MSG_LYRIC = 1 // Handle 消息，播放进度
     }
+
+    private lateinit var binding: ActivityPlayBinding
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private var song: StandardSongData? = null
@@ -63,16 +68,14 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_play)
+        binding = ActivityPlayBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initData()
         initView()
         initListener()
     }
 
     private fun initData() {
-//        val slideBackLayout = SlideBackLayout(this, clCd)
-//        slideBackLayout.bind()
-
         val intentFilter = IntentFilter() // Intent 过滤器
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
@@ -80,23 +83,19 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun initView() {
-        val navigationBarHeight = getNavigationBarHeight(this).toFloat()
-
         // 底部适配
-        clControl.translationY = -navigationBarHeight
-        seekBar.translationY = -navigationBarHeight
-        clMenu.translationY = -navigationBarHeight
-        tvProgress.translationY = -navigationBarHeight
-        tvDuration.translationY = -navigationBarHeight
-
+        val navigationBarHeight = getNavigationBarHeight(this).toFloat()
+        (binding.clBottom.layoutParams as ConstraintLayout.LayoutParams).apply{
+            bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+            bottomMargin = navigationBarHeight.toInt()
+        }
         // 头部适配
         val statusBarHeight = getStatusBarHeight(window, this).toFloat()
-
-
-        titleBar.translationY = statusBarHeight
-        tvName.translationY = statusBarHeight
-        tvArtist.translationY = statusBarHeight
-
+        (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply{
+            topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+            topMargin = statusBarHeight.toInt()
+        }
+        // 背景图片
         ivBackground.scaleY = 1.5f
         ivBackground.scaleX = 2.5f
 

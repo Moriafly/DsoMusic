@@ -42,13 +42,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:alpha="0.9"
                 android:textColor="@color/colorTextForeground"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tvLevel"
                 app:layout_constraintEnd_toStartOf="@+id/ivNext"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/cdPhoto"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="24dp"
                 android:alpha="0.9"
                 android:paddingStart="1dp"
                 android:paddingEnd="1dp"
@@ -76,7 +78,9 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivNext"
-                app:layout_constraintStart_toEndOf="@+id/cdPhoto" />
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/cdPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/tvNickname" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

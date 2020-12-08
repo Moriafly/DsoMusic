@@ -75,9 +75,9 @@ class PlayerMenuMoreDialog : Dialog {
             MyApplication.musicBinderInterface?.setSpeed(1f)
         }
 
-        clDialog.setOnClickListener {
-            dismiss()
-        }
+//        clDialog.setOnClickListener {
+//            dismiss()
+//        }
 
         // 反馈
         itemFeedback.setOnClickListener {

@@ -22,4 +22,8 @@ object FragmentUtil {
             else -> homeFragment
         }
     }
+
+    fun startLoginActivity() {
+        myFragment.startLoginActivity()
+    }
 }

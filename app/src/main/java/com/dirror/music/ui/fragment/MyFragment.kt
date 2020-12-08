@@ -80,7 +80,7 @@ class MyFragment : BaseFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             0 -> if (resultCode == RESULT_OK) {
-                toast("回调成功")
+                // toast("回调成功")
                 // val user = data?.getBooleanExtra("boolean_user", true)
                 getUserDetail()
                 getPlaylist()
@@ -177,7 +177,7 @@ class MyFragment : BaseFragment() {
     }
 
 
-    private fun startLoginActivity() {
+    fun startLoginActivity() {
         val intent = Intent(context, LoginActivity2::class.java)
         startActivityForResult(intent, 0)
         activity?.overridePendingTransition(

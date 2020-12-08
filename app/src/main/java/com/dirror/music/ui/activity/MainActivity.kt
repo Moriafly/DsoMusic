@@ -152,6 +152,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        // 侧滑
+        binding.menuMain.apply {
+            itemSwitchAccount.setOnClickListener {
+                FragmentUtil.startLoginActivity()
+            }
+        }
 
 
         binding.menuMain.switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
@@ -163,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.menuMain.itemSourceCode.setOnClickListener {
-            openUrlByBrowser(this, "https://github.com/Moriafly/dirror-music")
+            MyApplication.activityManager.startWebActivity(this, "https://github.com/Moriafly/dirror-music")
         }
 
         binding.menuMain.itemPlayOnMobile.setOnClickListener {

@@ -101,6 +101,21 @@
 
             </com.dirror.music.widget.ItemLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="16dp"
+                android:alpha="0.5"
+                android:background="?android:attr/listDivider" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemSwitchAccount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:text="切换账号">
+
+            </com.dirror.music.widget.ItemLayout>
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import com.dirror.music.R
 import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.dp
 import com.dirror.music.util.dp2px
 
 
@@ -35,6 +36,12 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
             val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
             layoutParams.setMargins(dp2px(12f).toInt(), 0, 0, 0)
             holder.clTrack.layoutParams = layoutParams
+
+        }
+        if (position == playlistRecommendDataResult.lastIndex) {
+            val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
+            layoutParams.setMargins(0, 0, 12.dp(), 0)
+            holder.clTrack.layoutParams = layoutParams
         }
 
 
@@ -51,11 +58,10 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
 
 
         holder.tvPlayCount.text = when (playlist.playCount) {
+            in 1 until 10_000 -> playlist.playCount.toString()
             in 10_000 until 100_000_000 -> "${playlist.playCount / 10000} 万"
-            else -> playlist.playCount.toString()
+            else -> "${playlist.playCount / 100_000_000} 亿"
         }
-
-        // holder.tvPlayCount.text = playlist.playCount.toString()
     }
 
     override fun getItemCount(): Int {
