@@ -1,17 +1,20 @@
 package com.dirror.music.adapter
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.CommentData
+import com.dirror.music.ui.activity.CommentActivity
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.msTimeToFormatDate
 
-class CommentAdapter(private val commentData: CommentData): RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
+class CommentAdapter(private val commentData: CommentData, private val activity: Activity): RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvName: TextView = view.findViewById(R.id.tvName)
         val tvContent: TextView = view.findViewById(R.id.tvContent)
@@ -32,6 +35,11 @@ class CommentAdapter(private val commentData: CommentData): RecyclerView.Adapter
         holder.tvLikedCount.text = commentData.hotComments[position].likedCount.toString()
         holder.tvTime.text = msTimeToFormatDate(commentData.hotComments[position].time)
         GlideUtil.loadCloudMusicImage(commentData.hotComments[position].user.avatarUrl, 100, 100, holder.ivCover)
+
+        holder.ivCover.setOnClickListener {
+            MyApplication.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
+        }
+
     }
 
     override fun getItemCount(): Int {

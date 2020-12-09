@@ -109,6 +109,6 @@ data class HotComment(
 
 data class CommentUser(
     val avatarUrl: String, // 头像
-    val nickname: String // 昵称
-
+    val nickname: String, // 昵称
+    val userId: Long //
 )

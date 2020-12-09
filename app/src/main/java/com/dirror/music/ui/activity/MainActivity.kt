@@ -9,8 +9,11 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -18,6 +21,7 @@ import com.dirror.music.broadcast.HeadsetChangeReceiver
 import com.dirror.music.databinding.ActivityMainBinding
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.dialog.PlaylistDialog
+import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
@@ -29,6 +33,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
 
+    private val mainViewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,6 +42,10 @@ class MainActivity : AppCompatActivity() {
         initData()
         initView()
         initListener()
+
+        mainViewModel.getUserId().observe(this, {
+            // toast(it.toString())
+        })
     }
 
     private fun initData() {
@@ -155,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         // 侧滑
         binding.menuMain.apply {
             itemSwitchAccount.setOnClickListener {
-                FragmentUtil.startLoginActivity()
+                MyApplication.activityManager.startLoginActivity(this@MainActivity)
             }
         }
 
@@ -224,6 +234,17 @@ class MainActivity : AppCompatActivity() {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            0 -> if (resultCode == RESULT_OK) {
+                // toast("activity 回调成功")
+                // 通知 viewModel
+                mainViewModel.setUserId()
+            }
         }
     }
 

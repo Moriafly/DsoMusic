@@ -40,7 +40,7 @@ class CommentActivity : AppCompatActivity() {
                 MyApplication.cloudMusicManager.getComment(id?: "", {
                     runOnMainThread {
                         rvComment.layoutManager = LinearLayoutManager(this@CommentActivity)
-                        rvComment.adapter = CommentAdapter(it)
+                        rvComment.adapter = CommentAdapter(it, this@CommentActivity)
                     }
                 }, {
 

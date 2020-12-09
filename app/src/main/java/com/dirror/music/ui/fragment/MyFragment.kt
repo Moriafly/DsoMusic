@@ -1,9 +1,9 @@
 package com.dirror.music.ui.fragment
 
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +16,8 @@ import com.dirror.music.data.UserDetailData
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
-import com.dirror.music.ui.activity.LoginActivity2
-import com.dirror.music.ui.activity.UserActivity
 import com.dirror.music.ui.base.BaseFragment
+import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.fragment_my.*
 
@@ -26,21 +25,11 @@ class MyFragment : BaseFragment() {
 
     private val userPlaylist = ArrayList<PlaylistData>()
 
+    // activity 和 fragment 共享数据
+    private val mainViewModel: MainViewModel by activityViewModels()
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_my
-    }
-
-    override fun initData() {
-        checkLogin()
-    }
-
-    /**
-     * 检查是否已经登录
-     */
-    private fun checkLogin() {
-        if (!MyApplication.userManager.isUidLogin()) {
-            startLoginActivity()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,6 +43,12 @@ class MyFragment : BaseFragment() {
 
         // 获取本地歌单
         // getLocalPlaylist()
+
+        mainViewModel.getUserId().observe(viewLifecycleOwner, {
+            // toast("fragment")
+            getUserDetail()
+            getPlaylist()
+        })
     }
 
     override fun initListener() {
@@ -82,17 +77,6 @@ class MyFragment : BaseFragment() {
             toast("功能开发中")
         }
 
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            0 -> if (resultCode == RESULT_OK) {
-                // toast("回调成功")
-                getUserDetail()
-                getPlaylist()
-            }
-        }
     }
 
     /**
@@ -181,16 +165,6 @@ class MyFragment : BaseFragment() {
             rvLocalPlaylist.layoutManager =  gridLayoutManager
             // rvLocalPlaylist.adapter = PlaylistAdapter()
         }
-    }
-
-
-    fun startLoginActivity() {
-        val intent = Intent(context, LoginActivity2::class.java)
-        startActivityForResult(intent, 0)
-        activity?.overridePendingTransition(
-            R.anim.anim_slide_enter_bottom,
-            R.anim.anim_no_anim
-        )
     }
 
 }

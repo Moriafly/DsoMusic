@@ -8,8 +8,8 @@ import com.dirror.music.ui.activity.*
 
 class ActivityManager: ActivityManagerInterface {
 
-    override fun startLoginActivity(context: Context, activity: Activity) {
-        val intent = Intent(context, LoginActivity2::class.java)
+    override fun startLoginActivity(activity: Activity) {
+        val intent = Intent(activity, LoginActivity2::class.java)
         activity.startActivityForResult(intent, 0)
         activity.overridePendingTransition(
             R.anim.anim_slide_enter_bottom,
