@@ -2,6 +2,8 @@ package com.dirror.music.ui.fragment
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +17,7 @@ import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.LoginActivity2
+import com.dirror.music.ui.activity.UserActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.*
 import kotlinx.android.synthetic.main.fragment_my.*
@@ -40,7 +43,9 @@ class MyFragment : BaseFragment() {
         }
     }
 
-    override fun initView() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         rvPlaylist.layoutManager =  LinearLayoutManager(activity)
         rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
 
@@ -53,7 +58,11 @@ class MyFragment : BaseFragment() {
 
     override fun initListener() {
         itemAccount.setOnClickListener {
-            startLoginActivity()
+            val userId = MyApplication.userManager.getCurrentUid()
+            toast(userId.toString())
+            activity?.let {
+                MyApplication.activityManager.startUserActivity(it, userId)
+            }
         }
 
         // 新建歌单

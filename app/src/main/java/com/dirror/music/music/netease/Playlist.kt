@@ -1,5 +1,6 @@
 package com.dirror.music.music.netease
 
+import com.dirror.music.api.API_AUTU
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
@@ -18,7 +19,7 @@ object Playlist {
     private const val SPLIT_PLAYLIST_NUMBER = 500 // 切割歌单，每 200 首
     private const val CHEATING_CODE = -460 // Cheating 错误
 
-    private const val PLAYLIST_URL = "${API_MUSIC_ELEUU}/playlist/detail?id=" // 获取歌单链接
+    private const val PLAYLIST_URL = "${API_AUTU}/playlist/detail?id=" // 获取歌单链接
 
     // private const val SONG_DETAIL_URL = "https://music.163.com/api/song/detail" // 歌曲详情
     // private const val SONG_DETAIL_URL = "${API_MUSIC_ELEUU}/song/detail" // 歌曲详情
@@ -32,6 +33,7 @@ object Playlist {
     fun getPlaylist(playlistId: Long, success: (ArrayList<StandardSongData>) -> Unit, failure: () -> Unit) {
         // 请求链接
         val url = PLAYLIST_URL + playlistId
+        loge("playlist 请求全部 ids url:$url")
         // 发送 Get 请求获取全部 trackId
         MagicHttp.OkHttpManager().newGet(url, { response ->
             // 解析得到全部 trackIds
@@ -50,10 +52,8 @@ object Playlist {
 
                 loge("json:${json}")
 
-
-
-
                 MagicHttp.OkHttpManager().post(SONG_DETAIL_URL, json) { response ->
+                    loge(response)
                     // toast("服务器返回字符数：${response.length.toString()}")
                     val data = Gson().fromJson(response, CompatSearchData::class.java)
                     if (data.code == CHEATING_CODE) {

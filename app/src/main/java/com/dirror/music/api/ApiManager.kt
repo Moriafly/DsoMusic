@@ -39,3 +39,5 @@ const val API_NETEASE = "https://music.163.com/api"
  * @例子 http://music.eleuu.com/banner?type=1
  */
 const val API_MUSIC_ELEUU = "http://music.eleuu.com"
+
+const val API_AUTU = "https://autumnfish.cn"

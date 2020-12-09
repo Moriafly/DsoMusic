@@ -17,7 +17,7 @@ import com.dirror.music.util.runOnMainThread
 import kotlinx.android.synthetic.main.dialog_song_info.*
 
 class SongInfoDialog: Dialog {
-    // var editTextStr = ""
+
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
@@ -26,7 +26,6 @@ class SongInfoDialog: Dialog {
         window?.setGravity(Gravity.BOTTOM)
         // 设置大小
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        // editView.setText("你好")
         // setCanceledOnTouchOutside(false)
     }
 
@@ -34,7 +33,7 @@ class SongInfoDialog: Dialog {
         super.onCreate(savedInstanceState)
 
         clDialog.setOnClickListener {
-            dismiss()
+            // dismiss()
         }
     }
 

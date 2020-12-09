@@ -141,6 +141,10 @@ class SearchActivity : AppCompatActivity() {
             binding.clTip.visibility = View.GONE
         }
 
+        binding.ivClear.setOnClickListener {
+            binding.etSearch.setText("")
+        }
+
     }
 
     /**

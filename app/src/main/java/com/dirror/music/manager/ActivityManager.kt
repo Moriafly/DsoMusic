@@ -4,10 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import com.dirror.music.R
-import com.dirror.music.ui.activity.CommentActivity
-import com.dirror.music.ui.activity.FeedbackActivity
-import com.dirror.music.ui.activity.LoginActivity2
-import com.dirror.music.ui.activity.WebActivity
+import com.dirror.music.ui.activity.*
 
 class ActivityManager: ActivityManagerInterface {
 
@@ -47,6 +44,12 @@ class ActivityManager: ActivityManagerInterface {
             R.anim.anim_slide_enter_bottom,
             R.anim.anim_no_anim
         )
+    }
+
+    override fun startUserActivity(activity: Activity, userId: Long) {
+        val intent = Intent(activity, UserActivity::class.java)
+        intent.putExtra(UserActivity.EXTRA_LONG_USER_ID, userId)
+        activity.startActivity(intent)
     }
 
 }

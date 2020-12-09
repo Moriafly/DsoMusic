@@ -83,7 +83,8 @@ object PlaylistUtil {
      * 获取歌单信息
      */
     fun getPlaylistInfo(id: Long, success: (DetailPlaylistInnerData) -> Unit) {
-        val url = "$API_MUSIC_ELEUU/playlist/detail?id=$id"
+        val url = "$API_AUTU/playlist/detail?id=$id"
+        loge("playlistActivity 歌单信息 url:$url")
         MagicHttp.OkHttpManager().newGet(url, { response ->
             val playlistInfo = Gson().fromJson(response, DetailPlaylistData::class.java).playlist
             if (playlistInfo != null) {

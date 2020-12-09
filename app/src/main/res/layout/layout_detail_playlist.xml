@@ -47,7 +47,7 @@
         android:layout_width="56dp"
         android:layout_height="64dp"
         android:alpha="0.72"
-        android:padding="18dp"
+        android:padding="18.5dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

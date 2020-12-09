@@ -3,6 +3,10 @@ package com.dirror.music.manager
 import com.dirror.music.MyApplication
 import com.dirror.music.util.Config
 
+/**
+ * user 管理，面向本地
+ * @注意 不能写请求网络功能，网络的写在音乐管理中
+ */
 class UserManager: UserManagerInterface {
 
     private val defaultUid = 0L // 默认 0L，可设置一个默认用户
