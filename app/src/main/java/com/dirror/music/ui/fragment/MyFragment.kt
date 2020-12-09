@@ -59,7 +59,6 @@ class MyFragment : BaseFragment() {
     override fun initListener() {
         itemAccount.setOnClickListener {
             val userId = MyApplication.userManager.getCurrentUid()
-            toast(userId.toString())
             activity?.let {
                 MyApplication.activityManager.startUserActivity(it, userId)
             }
@@ -90,7 +89,6 @@ class MyFragment : BaseFragment() {
         when (requestCode) {
             0 -> if (resultCode == RESULT_OK) {
                 // toast("回调成功")
-                // val user = data?.getBooleanExtra("boolean_user", true)
                 getUserDetail()
                 getPlaylist()
             }
