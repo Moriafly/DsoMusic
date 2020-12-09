@@ -44,7 +44,10 @@ class MainActivity : AppCompatActivity() {
         initListener()
 
         mainViewModel.getUserId().observe(this, {
-            // toast(it.toString())
+            // toast("main:$it")
+            if (it == 0L) {
+                MyApplication.activityManager.startLoginActivity(this@MainActivity)
+            }
         })
     }
 

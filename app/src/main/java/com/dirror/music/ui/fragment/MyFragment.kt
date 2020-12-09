@@ -38,9 +38,6 @@ class MyFragment : BaseFragment() {
         rvPlaylist.layoutManager =  LinearLayoutManager(activity)
         rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
 
-        getUserDetail()
-        getPlaylist()
-
         // 获取本地歌单
         // getLocalPlaylist()
 
@@ -93,7 +90,7 @@ class MyFragment : BaseFragment() {
                 toast(it)
             })
         } else {
-            toast("请先登录")
+            // toast("请先登录")
         }
     }
 
