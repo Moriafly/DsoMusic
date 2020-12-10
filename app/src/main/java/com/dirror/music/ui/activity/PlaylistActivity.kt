@@ -40,7 +40,8 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
     override fun initView() {
         val playlistId = intent.getLongExtra("long_playlist_id", -1)
 
-        // toast("playlistId = $playlistId")
+        lottieLoading.repeatCount = 10
+        lottieLoading.playAnimation()
 
         // 加载歌单信息
         initPlaylistInfo(playlistId)
@@ -132,11 +133,10 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
         runOnMainThread {
             clLoading.visibility = View.GONE
-            val linearLayoutManager = LinearLayoutManager(this@PlaylistActivity)
-            detailPlaylistAdapter = DetailPlaylistAdapter(songList, this@PlaylistActivity)
-            rvPlaylist.layoutManager =  linearLayoutManager
-            rvPlaylist.adapter = detailPlaylistAdapter
+            rvPlaylist.layoutManager =  LinearLayoutManager(this@PlaylistActivity)
+            rvPlaylist.adapter = DetailPlaylistAdapter(songList, this@PlaylistActivity)
             tvPlayAll.text = "播放全部(${songList.size})"
+            lottieLoading.pauseAnimation()
         }
     }
 

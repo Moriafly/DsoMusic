@@ -129,18 +129,18 @@
             android:layout_height="56dp"
             android:background="@color/colorPageBackground">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivLoading"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieLoading"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_loading">
+                app:lottie_rawRes="@raw/lottie_loading">
 
-            </androidx.appcompat.widget.AppCompatImageView>
+            </com.airbnb.lottie.LottieAnimationView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
