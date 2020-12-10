@@ -28,8 +28,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 194
-        versionName "1.5.5-beta"
+        versionCode 195
+        versionName "1.6.0-alpha"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -45,6 +45,7 @@ android {
         }
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -72,7 +73,7 @@ dependencies {
     implementation 'com.eightbitlab:blurview:1.6.3'
     implementation 'com.youth.banner:banner:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'cn.bmob.android:bmob-sdk:3.7.8'
     implementation "io.reactivex.rxjava2:rxjava:2.2.10"

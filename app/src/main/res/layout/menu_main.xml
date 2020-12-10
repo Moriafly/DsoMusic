@@ -28,21 +28,21 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cd"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_marginStart="16dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1px"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" >
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:id="@+id/ivCover"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:srcCompat="@tools:sample/avatars"
-                        tools:ignore="ContentDescription" />
+                        tools:ignore="ContentDescription"
+                        tools:srcCompat="@tools:sample/avatars" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
@@ -50,13 +50,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginEnd="16dp"
-                    android:textSize="15sp"
+                    android:minWidth="28dp"
                     android:textColor="@color/colorTextForeground"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/cd"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivGoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvUserName"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.51"
+                    app:srcCompat="@drawable/ic_next" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.dirror.music.widget.ItemLayout

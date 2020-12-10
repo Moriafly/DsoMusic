@@ -30,10 +30,17 @@ class UserActivity : AppCompatActivity() {
         val userId = intent.getLongExtra(EXTRA_LONG_USER_ID, 0L)
         // toast("userId = $userId")
         MyApplication.cloudMusicManager.getUserDetail(userId, {
-            GlideUtil.load(it.profile.backgroundUrl, binding.ivBackground)
-            GlideUtil.load(it.profile.avatarUrl, binding.ivCover)
-            binding.tvName.text = it.profile.nickname
-            binding.tvUserId.text = "UID: ${it.profile.userId}"
+            runOnUiThread {
+                GlideUtil.load(it.profile.backgroundUrl, binding.ivBackground)
+                GlideUtil.load(it.profile.avatarUrl, binding.ivCover)
+                binding.apply {
+                    tvName.text = it.profile.nickname
+                    tvUserId.text = "UID ${it.profile.userId}"
+                    tvListenSongs.text = "累计听歌 ${it.listenSongs} 首"
+                    tvSignature.text = it.profile.signature
+                    tvFollow.text = "关注 ${it.profile.follows}    粉丝 ${it.profile.followeds}"
+                }
+            }
         }, {
             // 失败
         })

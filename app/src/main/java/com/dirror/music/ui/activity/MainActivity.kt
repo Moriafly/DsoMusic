@@ -12,8 +12,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -25,7 +23,6 @@ import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,7 +43,8 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getUserId().observe(this, { userId ->
             // toast("main:$it")
             if (userId == 0L) {
-                MyApplication.activityManager.startLoginActivity(this@MainActivity)
+                binding.menuMain.tvUserName.text = "立即登录"
+                // MyApplication.activityManager.startLoginActivity(this@MainActivity)
             } else {
                 MyApplication.cloudMusicManager.getUserDetail(userId, {
                     runOnUiThread {
@@ -177,7 +175,11 @@ class MainActivity : AppCompatActivity() {
         // 侧滑
         binding.menuMain.apply {
             clUser.setOnClickListener {
-                MyApplication.activityManager.startUserActivity(this@MainActivity, MyApplication.userManager.getCurrentUid())
+                if (MyApplication.userManager.getCurrentUid() == 0L) {
+                    MyApplication.activityManager.startLoginActivity(this@MainActivity)
+                } else {
+                    MyApplication.activityManager.startUserActivity(this@MainActivity, MyApplication.userManager.getCurrentUid())
+                }
             }
 
             itemSwitchAccount.setOnClickListener {

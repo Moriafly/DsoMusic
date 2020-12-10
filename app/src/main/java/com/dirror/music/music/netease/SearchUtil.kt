@@ -17,36 +17,43 @@ object SearchUtil {
             if (searchUtilData.code == 400) {
                 failure.invoke("未找到歌曲")
             } else {
-                success.invoke(searchUtilDataToStandardSongDataList(searchUtilData))
+                if (searchUtilData.msg != null) {
+                    failure.invoke("加油！明天会更好！")
+                } else {
+                    success.invoke(searchUtilDataToStandardSongDataList(searchUtilData))
+                }
             }
-
         }, {
 
         })
     }
 
-    fun searchUtilDataToStandardSongDataList(searchUtilData: SearchUtilData): ArrayList<StandardSongData> {
+    private fun searchUtilDataToStandardSongDataList(searchUtilData: SearchUtilData): ArrayList<StandardSongData> {
         val standardSongDataList = ArrayList<StandardSongData>()
-        val songs = searchUtilData.result.songs
-        for (index in 0..songs.lastIndex) {
-            val standardSongData = StandardSongData(
-                SOURCE_NETEASE,
-                songs[index].id.toString(),
-                songs[index].name,
-                songs[index].album.artist.img1v1Url,
-                songs[index].artists,
-                NeteaseInfo(songs[index].fee),
-                null
-            )
-            standardSongDataList.add(standardSongData)
+        searchUtilData.result?.let {
+            val songs = it.songs
+            for (index in 0..songs.lastIndex) {
+                val standardSongData = StandardSongData(
+                    SOURCE_NETEASE,
+                    songs[index].id.toString(),
+                    songs[index].name,
+                    songs[index].album.artist.img1v1Url,
+                    songs[index].artists,
+                    NeteaseInfo(songs[index].fee),
+                    null
+                )
+                standardSongDataList.add(standardSongData)
+            }
         }
+
         return standardSongDataList
     }
 
 }
 
 data class SearchUtilData(
-    val result: SearchUtilResultData,
+    val msg: String?,
+    val result: SearchUtilResultData?,
     val code: Int
 )
 

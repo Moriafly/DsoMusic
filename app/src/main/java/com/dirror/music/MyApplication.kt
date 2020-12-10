@@ -16,9 +16,11 @@ import com.dirror.music.util.*
 import com.tencent.mmkv.MMKV
 import com.umeng.commonsdk.UMConfigure
 import okhttp3.Cookie
+import org.jetbrains.annotations.TestOnly
 
 /**
  * 自定义 Application
+ * @author Moriafly
  */
 class MyApplication: Application() {
 
@@ -50,7 +52,6 @@ class MyApplication: Application() {
         activityManager = ActivityManager()
         cloudMusicManager = CloudMusicManager()
 
-
         checkSecure()
     }
 
@@ -75,15 +76,16 @@ class MyApplication: Application() {
     /**
      * 启动音乐服务
      */
+    @TestOnly
     private fun startMusicService() {
         // 通过 Service 播放音乐，混合启动
         val intent = Intent(this, MusicService::class.java)
-        // 安卓 8.0 后开启前台服务
+        // 安卓 8.0 后开启前台服务，要在短时间内响应，现在不知道怎么搞
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 //            startForegroundService(intent)
 //        } else {
         startService(intent)
-        // }
+    // }
         // 绑定服务
         bindService(intent, musicConnection, BIND_AUTO_CREATE)
     }
@@ -94,6 +96,7 @@ class MyApplication: Application() {
  * 音乐连接服务
  */
 class MusicConnection: ServiceConnection {
+
     /**
      * 服务连接后
      */

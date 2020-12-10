@@ -22,26 +22,26 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="420dp">
+                android:layout_height="320dp">
 
                 <ImageView
                     android:id="@+id/ivBackground"
                     android:layout_width="match_parent"
-                    android:layout_height="340dp"
+                    android:layout_height="260dp"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:srcCompat="@tools:sample/avatars"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription"
+                    tools:srcCompat="@tools:sample/avatars" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvCover"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="0dp"
                     app:cardCornerRadius="40dp"
                     app:cardElevation="1px"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -51,19 +51,19 @@
                         android:id="@+id/ivCover"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:srcCompat="@tools:sample/avatars"
-                        tools:ignore="ContentDescription" />
+                        tools:ignore="ContentDescription"
+                        tools:srcCompat="@tools:sample/avatars" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/tvName"
                     android:layout_width="0dp"
-                    android:textIsSelectable="true"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="20dp"
                     android:textColor="@color/colorTextForeground"
+                    android:textIsSelectable="true"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/cvCover"
@@ -72,19 +72,86 @@
                 <TextView
                     android:id="@+id/tvUserId"
                     android:layout_width="0dp"
-                    android:textColor="@color/colorSubTextForeground"
-                    android:textSize="12sp"
-                    android:alpha="0.72"
-                    android:textIsSelectable="true"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="20dp"
+                    android:alpha="0.72"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textIsSelectable="true"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/cvCover"
                     app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvBasicInformation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:height="28dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="基本信息"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvFollow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="20dp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/colorSubTextForeground" />
+
+                <TextView
+                    android:id="@+id/tvListenSongs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="20dp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/colorSubTextForeground" />
+
+                <TextView
+                    android:id="@+id/tvSelfIntroduction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:height="28dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="个人介绍"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSignature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="20dp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/colorSubTextForeground" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

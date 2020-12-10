@@ -63,8 +63,8 @@ class HomeFragment : BaseFragment() {
     private fun refreshPlaylistRecommend() {
         PlaylistRecommend.getPlaylistRecommend({
             runOnMainThread {
-                rvPlaylistRecommend.adapter = PlaylistRecommendAdapter(it)
                 rvPlaylistRecommend.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                rvPlaylistRecommend.adapter = PlaylistRecommendAdapter(it)
             }
         }, {
 
