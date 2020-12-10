@@ -43,10 +43,19 @@ class MainActivity : AppCompatActivity() {
         initView()
         initListener()
 
-        mainViewModel.getUserId().observe(this, {
+        mainViewModel.getUserId().observe(this, { userId ->
             // toast("main:$it")
-            if (it == 0L) {
+            if (userId == 0L) {
                 MyApplication.activityManager.startLoginActivity(this@MainActivity)
+            } else {
+                MyApplication.cloudMusicManager.getUserDetail(userId, {
+                    runOnUiThread {
+                        GlideUtil.load(it.profile.avatarUrl, binding.menuMain.ivCover)
+                        binding.menuMain.tvUserName.text = it.profile.nickname
+                    }
+                }, {
+
+                })
             }
         })
     }
@@ -167,6 +176,10 @@ class MainActivity : AppCompatActivity() {
 
         // 侧滑
         binding.menuMain.apply {
+            clUser.setOnClickListener {
+                MyApplication.activityManager.startUserActivity(this@MainActivity, MyApplication.userManager.getCurrentUid())
+            }
+
             itemSwitchAccount.setOnClickListener {
                 MyApplication.activityManager.startLoginActivity(this@MainActivity)
             }

@@ -7,14 +7,12 @@ import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistRecommendAdapter
 import com.dirror.music.foyou.sentence.Sentence
 import com.dirror.music.music.netease.PlaylistRecommend
-import com.dirror.music.music.qq.QQMusic
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.AnimationUtil
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.include_foyou.*
-import kotlin.concurrent.thread
 
 
 class HomeFragment : BaseFragment() {
