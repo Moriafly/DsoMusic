@@ -6,8 +6,8 @@ import com.dirror.music.ui.fragment.MyFragment
 
 object FragmentUtil {
 
-    private var myFragment: MyFragment = MyFragment()
-    private val homeFragment: HomeFragment = HomeFragment()
+    private val myFragment by lazy { MyFragment() }
+    private val homeFragment by lazy { HomeFragment() }
 
     fun getFragment(id: Int): Fragment {
         return when (id) {

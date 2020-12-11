@@ -40,7 +40,7 @@ class PlaylistActivity : BaseActivity(R.layout.activity_playlist) {
     override fun initView() {
         val playlistId = intent.getLongExtra("long_playlist_id", -1)
 
-        lottieLoading.repeatCount = 10
+        lottieLoading.repeatCount = 20
         lottieLoading.playAnimation()
 
         // 加载歌单信息

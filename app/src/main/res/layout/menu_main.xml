@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="300dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPageBackground"
+    android:background="@color/menuMainBackground"
     android:layout_height="match_parent">
 
 
@@ -18,18 +18,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="48dp">
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clUser"
                 android:layout_width="match_parent"
-                android:layout_height="64dp">
+                android:layout_height="56dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cd"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_marginStart="16dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1px"
@@ -69,100 +68,132 @@
                     app:srcCompat="@drawable/ic_next" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemPlayOnMobile"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:itemType="item_no"
-                app:text="@string/play_songs_on_mobile">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="@color/colorPageBackground"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-                <Switch
-                    android:id="@+id/switchPlayOnMobile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-            </com.dirror.music.widget.ItemLayout>
+                    <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemPlayOnMobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:itemType="item_no"
+                        app:text="@string/play_songs_on_mobile">
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemPauseSongAfterUnplugHeadset"
+                        <Switch
+                            android:id="@+id/switchPlayOnMobile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+
+                            android:thumb="@drawable/switch_thumb"
+                            android:track="@drawable/switch_track"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    </com.dirror.music.widget.ItemLayout>
+
+                    <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemPauseSongAfterUnplugHeadset"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:itemType="item_no"
+                        app:text="@string/pause_song_after_unplug_headset">
+
+                        <Switch
+                            android:id="@+id/switchPauseSongAfterUnplugHeadset"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:thumb="@drawable/switch_thumb"
+                            android:track="@drawable/switch_track"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    </com.dirror.music.widget.ItemLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:itemType="item_no"
-                app:text="@string/pause_song_after_unplug_headset">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-                <Switch
-                    android:id="@+id/switchPauseSongAfterUnplugHeadset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-            </com.dirror.music.widget.ItemLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:alpha="0.5"
-                android:background="?android:attr/listDivider" />
+                    <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemFeedback"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:text="@string/feedback">
 
+                    </com.dirror.music.widget.ItemLayout>
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemSourceCode"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="@string/source_code">
+                    <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemSourceCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        app:text="@string/source_code">
 
-            </com.dirror.music.widget.ItemLayout>
+                    </com.dirror.music.widget.ItemLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:alpha="0.5"
-                android:background="?android:attr/listDivider" />
+                    <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemAbout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:text="@string/about">
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemFeedback"
+                    </com.dirror.music.widget.ItemLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:text="@string/feedback">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-            </com.dirror.music.widget.ItemLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemAbout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:text="@string/about">
+                    <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemSwitchAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:text="@string/switch_account">
 
-            </com.dirror.music.widget.ItemLayout>
+                    </com.dirror.music.widget.ItemLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:alpha="0.5"
-                android:background="?android:attr/listDivider" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemSwitchAccount"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:text="@string/switch_account">
-
-            </com.dirror.music.widget.ItemLayout>
 
         </LinearLayout>
     </ScrollView>

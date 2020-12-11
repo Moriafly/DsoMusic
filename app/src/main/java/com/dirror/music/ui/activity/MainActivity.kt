@@ -9,8 +9,10 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
@@ -99,6 +101,10 @@ class MainActivity : AppCompatActivity() {
         binding.blurView.translationY = statusBarHeight.toFloat() / 2
         binding.blurViewBottom.scaleY = binding.blurView.scaleY
         binding.blurViewBottom.translationY = statusBarHeight.toFloat() / 2
+        // 侧滑状态栏适配
+        (binding.menuMain.clUser.layoutParams as LinearLayout.LayoutParams).apply{
+            topMargin = statusBarHeight
+        }
 
         // 适配导航栏
         val navigationBarHeight = getNavigationBarHeight(this).toFloat()
@@ -185,6 +191,7 @@ class MainActivity : AppCompatActivity() {
             itemSwitchAccount.setOnClickListener {
                 MyApplication.activityManager.startLoginActivity(this@MainActivity)
             }
+
         }
 
 

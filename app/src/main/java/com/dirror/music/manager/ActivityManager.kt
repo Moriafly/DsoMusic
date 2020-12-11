@@ -20,10 +20,6 @@ class ActivityManager: ActivityManagerInterface {
     override fun startFeedbackActivity(activity: Activity) {
         val intent = Intent(activity, FeedbackActivity::class.java)
         activity.startActivity(intent)
-//        activity.overridePendingTransition(
-//            R.anim.anim_slide_enter_bottom,
-//            R.anim.anim_no_anim
-//        )
     }
 
     override fun startWebActivity(activity: Activity, url: String) {

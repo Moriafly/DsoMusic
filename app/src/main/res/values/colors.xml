@@ -46,4 +46,5 @@
     <color name="songUnable">#D2D2D2</color>
 
     <color name="playlistPageBackground">#F7ECEA</color>
+    <color name="menuMainBackground">#F5F5F5</color>
 </resources>

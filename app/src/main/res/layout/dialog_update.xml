@@ -66,15 +66,21 @@
                 android:textSize="12sp" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="56dp">
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnCancel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
                     android:layout_weight="1"
+                    android:alpha="0.72"
                     android:background="@color/colorTransparency"
                     android:text="忽略"
                     android:textColor="@color/colorSubTextForeground"
@@ -84,10 +90,11 @@
                     android:id="@+id/btnDownload"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:background="@color/colorTransparency"
+                    android:background="@drawable/background_button_radius_red"
                     android:text="下载"
-                    android:textColor="@color/colorAppThemeColor"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
