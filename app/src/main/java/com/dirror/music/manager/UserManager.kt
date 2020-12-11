@@ -11,6 +11,7 @@ class UserManager: UserManagerInterface {
 
     companion object {
         const val defaultUid = 0L // 默认 0L，可设置一个默认用户
+        const val DEFAULT_COOKIE = ""
     }
 
     override fun isUidLogin(): Boolean {
@@ -20,6 +21,18 @@ class UserManager: UserManagerInterface {
 
     override fun getCurrentUid(): Long {
         return MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
+    }
+
+    override fun setUid(uid: Long) {
+        MyApplication.mmkv.encode(Config.UID, uid)
+    }
+
+    override fun getCloudMusicCookie(): String {
+        return MyApplication.mmkv.decodeString(Config.CLOUD_MUSIC_COOKIE, DEFAULT_COOKIE)
+    }
+
+    override fun setCloudMusicCookie(cookie: String) {
+        MyApplication.mmkv.encode(Config.CLOUD_MUSIC_COOKIE, cookie)
     }
 
 }

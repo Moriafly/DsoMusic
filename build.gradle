@@ -19,12 +19,14 @@ allprojects {
     repositories {
         maven { url 'https://jitpack.io' }
         // Bmob 的 maven 仓库地址 -- 必填
-        maven {url 'https://dl.bintray.com/chaozhouzhang/maven' }
-
+        maven { url 'https://dl.bintray.com/chaozhouzhang/maven'}
         maven { url 'https://dl.bintray.com/umsdk/release' }
+        // 阿里云
+        maven { url 'https://maven.aliyun.com/repository/public/' }
 
         google()
         jcenter()
+
     }
 }
 

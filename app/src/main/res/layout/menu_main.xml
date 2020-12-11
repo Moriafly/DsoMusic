@@ -135,7 +135,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/colorPageBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -176,7 +177,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/colorPageBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -188,6 +190,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:text="@string/switch_account">
+
+                    </com.dirror.music.widget.ItemLayout>
+
+                    <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemLoginByPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:text="手机号登录（测试）">
 
                     </com.dirror.music.widget.ItemLayout>
 

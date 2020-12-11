@@ -41,3 +41,8 @@ const val API_NETEASE = "https://music.163.com/api"
 const val API_MUSIC_ELEUU = "http://music.eleuu.com"
 
 const val API_AUTU = "https://autumnfish.cn"
+
+/**
+ * Dso Music 默认 API
+ */
+const val API_DEFAULT = "https://cloudmusic.moriafly.xyz"

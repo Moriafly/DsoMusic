@@ -16,7 +16,7 @@ import org.jetbrains.annotations.TestOnly
  */
 object Playlist {
 
-    private const val SPLIT_PLAYLIST_NUMBER = 500 // 切割歌单，每 200 首
+    private const val SPLIT_PLAYLIST_NUMBER = 1000 // 切割歌单，每 200 首
     private const val CHEATING_CODE = -460 // Cheating 错误
 
     private const val PLAYLIST_URL = "${API_AUTU}/playlist/detail?id=" // 获取歌单链接

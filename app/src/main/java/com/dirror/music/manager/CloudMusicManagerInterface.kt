@@ -18,4 +18,8 @@ interface CloudMusicManagerInterface {
      */
     fun getUserDetail(userId: Long, success: (UserDetailData) -> Unit, failure: () -> Unit)
 
+    fun loginByTell(tell: String, password: String, success: (UserDetailData) -> Unit, failure: () -> Unit)
+
+    fun likeSong(songId: String, success: () -> Unit, failure: () -> Unit)
+
 }

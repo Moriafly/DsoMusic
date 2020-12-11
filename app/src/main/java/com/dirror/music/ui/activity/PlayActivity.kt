@@ -204,7 +204,11 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             song?.let {
                 when (it.source) {
                     SOURCE_NETEASE -> {
-                        CloudMusic.likeSong(it.id.toString())
+                        MyApplication.cloudMusicManager.likeSong(it.id, {
+                            toast("添加到我喜欢成功")
+                        }, {
+                            toast("添加到我喜欢失败")
+                        })
                     }
                     SOURCE_QQ -> {
                         toast("暂不支持此音源")
@@ -315,15 +319,15 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             when (mode) {
                 MusicService.MODE_CIRCLE -> {
                     ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
-                    toast("列表循环")
+                    // toast("列表循环")
                 }
                 MusicService.MODE_REPEAT_ONE -> {
                     ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
-                    toast("单曲循环")
+                    // toast("单曲循环")
                 }
                 MusicService.MODE_RANDOM -> {
                     ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
-                    toast("随机播放")
+                    // toast("随机播放")
                 }
             }
         }

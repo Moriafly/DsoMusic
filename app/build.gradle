@@ -28,8 +28,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 200
-        versionName "1.5.5"
+        versionCode 201
+        versionName "2.0.0-alpha"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

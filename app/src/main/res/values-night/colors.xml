@@ -41,10 +41,10 @@
     <color name="colorLyricSubForeground">#4B4B4B</color>
     
     <color name="highLight">#0091EA</color>
-    <color name="homeWidget">#80141414</color>
+    <color name="homeWidget">#BF141414</color>
     <color name="switchBackground">#191919</color>
 
     <color name="songUnable">#646464</color>
     <color name="playlistPageBackground">#141414</color>
-    <color name="menuMainBackground">#0F0F0F</color>
+    <color name="menuMainBackground">#141414</color>
 </resources>

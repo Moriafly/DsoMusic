@@ -14,4 +14,6 @@ interface ActivityManagerInterface {
     fun startCommentActivity(activity: Activity, source: Int, id: String)
 
     fun startUserActivity(activity: Activity, userId: Long)
+
+    fun startLoginByPhoneActivity(activity: Activity)
 }

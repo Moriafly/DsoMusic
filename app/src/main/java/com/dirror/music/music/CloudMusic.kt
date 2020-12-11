@@ -168,6 +168,7 @@ object CloudMusic {
         val msg: String
     )
 
+    @Deprecated("过时，推荐使用 CloudMusicManager")
     fun likeSong(musicId: String) {
         val url = "${API_MUSIC_LAKE}/like?id=$musicId"
         MagicHttp.OkHttpManager().newGet(url, {

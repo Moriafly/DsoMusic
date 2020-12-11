@@ -7,55 +7,92 @@
     android:background="@color/colorPageBackground"
     tools:context=".ui.activity.LoginByPhoneActivity">
 
-    <EditText
-        android:id="@+id/etPhone"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clLoginByPhone"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/background_transparency"
-        android:hint="手机号"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleBarLayout" />
+        android:layout_height="0dp"
+        android:background="@color/colorPageBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar"
+        tools:layout_editor_absoluteX="122dp">
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/background_transparency"
-        android:hint="密码"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPhone" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnLogin"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/background_button_radius_red"
-        android:text="登录"
-        android:textColor="@color/colorItemBackground"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+            <TextView
+                android:id="@+id/tvLoginByPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="手机号"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bg_edit_text"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textCursorDrawable="@drawable/text_cursor_drawable"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="密码"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bg_edit_text"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textCursorDrawable="@drawable/text_cursor_drawable"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnLoginByPhone"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/background_button_radius_red"
+                android:text="@string/login"
+                android:textColor="@color/colorItemBackground"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.dirror.music.widget.TitleBarLayout
-        android:id="@+id/titleBarLayout"
+        app:text="手机号登录"
+        android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:text="手机号登录">
+        app:layout_constraintTop_toTopOf="parent">
 
     </com.dirror.music.widget.TitleBarLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

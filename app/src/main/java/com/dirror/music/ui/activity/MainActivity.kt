@@ -192,6 +192,10 @@ class MainActivity : AppCompatActivity() {
                 MyApplication.activityManager.startLoginActivity(this@MainActivity)
             }
 
+            itemLoginByPhone.setOnClickListener {
+                MyApplication.activityManager.startLoginByPhoneActivity(this@MainActivity)
+            }
+
         }
 
 

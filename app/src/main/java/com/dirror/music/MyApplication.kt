@@ -7,16 +7,19 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import cn.bmob.v3.Bmob
+import com.alibaba.pdns.DNSResolver
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.manager.UserManager
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
-import com.dirror.music.util.*
+import com.dirror.music.util.Secure
+import com.dirror.music.util.toast
 import com.tencent.mmkv.MMKV
 import com.umeng.commonsdk.UMConfigure
 import okhttp3.Cookie
 import org.jetbrains.annotations.TestOnly
+
 
 /**
  * 自定义 Application
@@ -39,6 +42,7 @@ class MyApplication: Application() {
         lateinit var userManager: UserManager
         lateinit var activityManager: ActivityManager
         lateinit var cloudMusicManager: CloudMusicManager
+
     }
 
     override fun onCreate() {
@@ -54,6 +58,7 @@ class MyApplication: Application() {
 
         checkSecure()
     }
+
 
     /**
      * 安全检查

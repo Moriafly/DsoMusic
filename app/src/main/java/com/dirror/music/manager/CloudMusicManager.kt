@@ -1,10 +1,14 @@
 package com.dirror.music.manager
 
+import com.dirror.music.MyApplication
 import com.dirror.music.api.API_AUTU
+import com.dirror.music.api.API_DEFAULT
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.data.CommentData
 import com.dirror.music.music.CloudMusic
+import com.dirror.music.music.netease.data.CodeData
 import com.dirror.music.music.netease.data.UserDetailData
+import com.dirror.music.util.Config
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.google.gson.Gson
@@ -30,6 +34,38 @@ class CloudMusicManager: CloudMusicManagerInterface {
                 failure.invoke()
             } else {
                 success.invoke(userDetail)
+            }
+        }, {
+            failure.invoke()
+        })
+    }
+
+    override fun loginByTell(tell: String, password: String, success: (UserDetailData) -> Unit, failure: () -> Unit) {
+        val url = "${API_DEFAULT}/login/cellphone?phone=${tell}&password=${password}"
+        MagicHttp.OkHttpManager().newGet(url, {
+            val userDetail = Gson().fromJson(it, UserDetailData::class.java)
+            if (userDetail.code != 200) {
+                failure.invoke()
+            } else {
+                MyApplication.userManager.setCloudMusicCookie(userDetail.cookie)
+                MyApplication.userManager.setUid(userDetail.profile.userId)
+                success.invoke(userDetail)
+            }
+        }, {
+            failure.invoke()
+        })
+    }
+
+    override fun likeSong(songId: String, success: () -> Unit, failure: () -> Unit) {
+        val cookie = MyApplication.userManager.getCloudMusicCookie()
+        val url = "${API_DEFAULT}/like?id=${songId}&cookie=${cookie}"
+        MagicHttp.OkHttpManager().newGet(url, {
+            loge("喜欢音乐返回值：${it}")
+            val code = Gson().fromJson(it, CodeData::class.java).code
+            if (code != 200) {
+                failure.invoke()
+            } else {
+                success.invoke()
             }
         }, {
             failure.invoke()
