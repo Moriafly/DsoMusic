@@ -24,7 +24,7 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 
 #### 基于网易云 API
 
-- [x] 手机登录
+- [x] 手机登录 <font color="red">v2.0.0 新增</font>
 - [ ] 邮箱登录
 - [ ] 刷新登录
 - [ ] 发送验证码
@@ -35,7 +35,7 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [ ] 更换绑定手机
 - [ ] 退出登录
 - [ ] 登录状态
-- [ ] 获取用户信息
+- [x] 获取用户信息
 - [ ] 获取账号信息
 - [ ] 获取用户信息 , 歌单，收藏，mv, dj 数量
 - [ ] 获取用户等级信息
@@ -115,7 +115,7 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [ ] 抱一抱评论
 - [ ] 评论抱一抱列表
 - [ ] 发送/删除评论
-- [ ] banner
+- [x] banner <font color="red">v2.0.0 新增</font>
 - [ ] 资源点赞(MV、电台、视频)
 - [ ] 获取点赞过的视频
 - [x] 获得歌曲详情
