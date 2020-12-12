@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import cn.bmob.v3.Bmob
-import com.alibaba.pdns.DNSResolver
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.manager.UserManager

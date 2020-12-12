@@ -60,12 +60,16 @@ class CloudMusicManager: CloudMusicManagerInterface {
         val cookie = MyApplication.userManager.getCloudMusicCookie()
         val url = "${API_DEFAULT}/like?id=${songId}&cookie=${cookie}"
         MagicHttp.OkHttpManager().newGet(url, {
-            loge("喜欢音乐返回值：${it}")
-            val code = Gson().fromJson(it, CodeData::class.java).code
-            if (code != 200) {
+            try {
+                loge("喜欢音乐返回值：${it}")
+                val code = Gson().fromJson(it, CodeData::class.java).code
+                if (code != 200) {
+                    failure.invoke()
+                } else {
+                    success.invoke()
+                }
+            } catch (e: Exception) {
                 failure.invoke()
-            } else {
-                success.invoke()
             }
         }, {
             failure.invoke()
