@@ -18,9 +18,11 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 
 2020年12月12日09:18:10
 
+#### 本项目
 
+- [x] UID 登录
 
-##### 基于网易云 API
+#### 基于网易云 API
 
 - [x] 手机登录
 - [ ] 邮箱登录
@@ -223,6 +225,13 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [ ] 云贝收入
 - [ ] 云贝支出
 - [ ] 关注歌手新 MV
+
+#### QQ 音乐 API
+
+- [x] 搜索音乐
+- [x] 音乐 url
+- [x] 歌词
+
 
 # 开源协议 License
 
