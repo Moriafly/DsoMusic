@@ -96,4 +96,36 @@ class CloudMusicManager: CloudMusicManagerInterface {
         })
     }
 
+    /**
+     * 发送评论
+     * @param t 1 发送 2 回复
+     * @param type 0 歌曲 1 mv 2 歌单 3 专辑 4 电台 5 视频 6 动态
+     * @param id 对应资源 id
+     * @param content 要发送的内容
+     * @param commentId 回复的评论id (回复评论时必填)
+     */
+    override fun sendComment(t: Int, type: Int, id: String, content: String, commentId: Long,success: (CodeData) -> Unit, failure: () -> Unit) {
+        val cookie = MyApplication.userManager.getCloudMusicCookie()
+        var url = "${API_DEFAULT}/comment?t=${t}&type=${type}&id=${id}&content=${content}&cookie=${cookie}"
+        if (commentId != 0L) {
+            url += "&commentId=${commentId}"
+        }
+        MagicHttp.OkHttpManager().newGet(url, {
+            try {
+                loge("评论返回" + it)
+                val codeData = Gson().fromJson(it, CodeData::class.java)
+                if (codeData.code != 200) {
+                    failure.invoke()
+                } else {
+                    success.invoke(codeData)
+                }
+            } catch (e: Exception) {
+                failure.invoke()
+            }
+        }, {
+            failure.invoke()
+        })
+    }
+
+
 }

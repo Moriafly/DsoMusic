@@ -11,6 +11,7 @@ import com.dirror.music.music.standard.SongComment
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.runOnMainThread
+import com.dirror.music.util.toast
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.dirrorx_titlebar_layout.view.*
 import java.lang.Appendable
@@ -24,17 +25,42 @@ class CommentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCommentBinding
 
+    private lateinit var id: String
+    private var source: Int = SOURCE_NETEASE
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        id = intent.getStringExtra(EXTRA_STRING_ID)?:""
+        source = intent.getIntExtra(EXTRA_INT_SOURCE, SOURCE_NETEASE)
         initData()
         initView()
+        initListener()
+    }
+
+    private fun initListener() {
+
+        binding.btnSendComment.setOnClickListener {
+            val content = binding.etCommentContent.text.toString()
+            if (content != "") {
+                when (source) {
+                    SOURCE_NETEASE -> {
+                        MyApplication.cloudMusicManager.sendComment(1, 0, id, content, 0L, {
+                            toast("评论成功")
+                        }, {
+                            toast("评论失败")
+                        })
+                    }
+                }
+            } else {
+                toast("请输入")
+            }
+        }
     }
 
     private fun initData() {
-        val source = intent.getIntExtra(EXTRA_INT_SOURCE, SOURCE_NETEASE)
-        val id = intent.getStringExtra(EXTRA_STRING_ID)
+
         when (source) {
             SOURCE_NETEASE -> {
                 MyApplication.cloudMusicManager.getComment(id?: "", {

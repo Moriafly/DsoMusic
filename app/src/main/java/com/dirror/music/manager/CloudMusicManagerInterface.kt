@@ -2,6 +2,7 @@ package com.dirror.music.manager
 
 import com.dirror.music.data.CommentData
 import com.dirror.music.music.netease.data.BannerData
+import com.dirror.music.music.netease.data.CodeData
 import com.dirror.music.music.netease.data.UserDetailData
 
 /**
@@ -24,5 +25,8 @@ interface CloudMusicManagerInterface {
     fun likeSong(songId: String, success: () -> Unit, failure: () -> Unit)
 
     fun getBanner(success: (BannerData) -> Unit, failure: () -> Unit)
+
+
+    fun sendComment(t: Int, type: Int, id: String, content: String, commentId: Long = 0L, success: (CodeData) -> Unit, failure: () -> Unit)
 
 }
