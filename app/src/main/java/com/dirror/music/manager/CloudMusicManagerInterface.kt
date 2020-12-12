@@ -1,6 +1,7 @@
 package com.dirror.music.manager
 
 import com.dirror.music.data.CommentData
+import com.dirror.music.music.netease.data.BannerData
 import com.dirror.music.music.netease.data.UserDetailData
 
 /**
@@ -21,5 +22,7 @@ interface CloudMusicManagerInterface {
     fun loginByTell(tell: String, password: String, success: (UserDetailData) -> Unit, failure: () -> Unit)
 
     fun likeSong(songId: String, success: () -> Unit, failure: () -> Unit)
+
+    fun getBanner(success: (BannerData) -> Unit, failure: () -> Unit)
 
 }

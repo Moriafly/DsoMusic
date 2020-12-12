@@ -6,6 +6,7 @@ import com.dirror.music.api.API_DEFAULT
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.data.CommentData
 import com.dirror.music.music.CloudMusic
+import com.dirror.music.music.netease.data.BannerData
 import com.dirror.music.music.netease.data.CodeData
 import com.dirror.music.music.netease.data.UserDetailData
 import com.dirror.music.util.Config
@@ -67,6 +68,25 @@ class CloudMusicManager: CloudMusicManagerInterface {
                     failure.invoke()
                 } else {
                     success.invoke()
+                }
+            } catch (e: Exception) {
+                failure.invoke()
+            }
+        }, {
+            failure.invoke()
+        })
+    }
+
+
+    override fun getBanner(success: (BannerData) -> Unit, failure: () -> Unit) {
+        val url = "${API_DEFAULT}/banner?type=2"
+        MagicHttp.OkHttpManager().newGet(url, {
+            try {
+                val bannerData = Gson().fromJson(it, BannerData::class.java)
+                if (bannerData.code != 200) {
+                    failure.invoke()
+                } else {
+                    success.invoke(bannerData)
                 }
             } catch (e: Exception) {
                 failure.invoke()
