@@ -16,4 +16,6 @@ interface ActivityManagerInterface {
     fun startUserActivity(activity: Activity, userId: Long)
 
     fun startLoginByPhoneActivity(activity: Activity)
+
+    fun startSettingsActivity(activity: Activity)
 }

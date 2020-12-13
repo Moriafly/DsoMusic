@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         binding.blurViewBottom.scaleY = binding.blurView.scaleY
         binding.blurViewBottom.translationY = statusBarHeight.toFloat() / 2
         // 侧滑状态栏适配
-        (binding.menuMain.clUser.layoutParams as LinearLayout.LayoutParams).apply{
+        (binding.menuMain.cvUser.layoutParams as LinearLayout.LayoutParams).apply{
             topMargin = statusBarHeight
         }
 
@@ -194,6 +194,10 @@ class MainActivity : AppCompatActivity() {
 
             itemLoginByPhone.setOnClickListener {
                 MyApplication.activityManager.startLoginByPhoneActivity(this@MainActivity)
+            }
+
+            itemSettings.setOnClickListener {
+                MyApplication.activityManager.startSettingsActivity(this@MainActivity)
             }
 
         }

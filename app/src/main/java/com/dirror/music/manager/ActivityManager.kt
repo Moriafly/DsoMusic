@@ -56,4 +56,9 @@ class ActivityManager: ActivityManagerInterface {
 //        )
     }
 
+    override fun startSettingsActivity(activity: Activity) {
+        val intent = Intent(activity, SettingsActivity::class.java)
+        activity.startActivity(intent)
+    }
+
 }

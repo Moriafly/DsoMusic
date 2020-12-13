@@ -2,17 +2,11 @@ package com.dirror.music.util
 
 import android.os.Handler
 import android.os.Looper
-// import com.cv4j.proxy.ProxyPool
 import com.dirror.music.MyApplication
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
-import java.net.InetSocketAddress
-import java.net.Proxy
 import java.util.concurrent.TimeUnit
-
 
 /**
  * @author Moriafly
@@ -115,7 +109,7 @@ object MagicHttp {
                     }
 
                     override fun onFailure(call: Call, e: IOException) {
-                        toast("网络连接错误")
+                        // toast("网络连接错误")
                         failure.invoke(e.message.toString())
                     }
                 })

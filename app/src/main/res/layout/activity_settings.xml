@@ -22,10 +22,11 @@
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemPlayOnMobile"
-                app:text="@string/play_songs_on_mobile"
-                app:itemType="item_no"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:itemType="item_no"
+                app:text="@string/play_songs_on_mobile">
 
                 <Switch
                     android:id="@+id/switchPlayOnMobile"
@@ -43,10 +44,11 @@
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemPauseSongAfterUnplugHeadset"
-                app:text="@string/pause_song_after_unplug_headset"
-                app:itemType="item_no"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:itemType="item_no"
+                app:text="@string/pause_song_after_unplug_headset">
 
                 <Switch
                     android:id="@+id/switchPauseSongAfterUnplugHeadset"
@@ -62,32 +64,36 @@
             </com.dirror.music.widget.ItemLayout>
 
             <View
-                android:alpha="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_margin="16dp"
-                android:background="?android:attr/listDivider" />
+                android:alpha="0.5"
+                android:background="?android:attr/listDivider"
+                android:visibility="gone" />
 
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemSourceCode"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:visibility="gone"
                 app:text="@string/source_code">
 
             </com.dirror.music.widget.ItemLayout>
 
             <View
-                android:alpha="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_margin="16dp"
-                android:background="?android:attr/listDivider" />
+                android:alpha="0.5"
+                android:background="?android:attr/listDivider"
+                android:visibility="gone" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemFeedback"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 app:text="@string/feedback">
 
             </com.dirror.music.widget.ItemLayout>
@@ -96,7 +102,16 @@
                 android:id="@+id/itemAbout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 app:text="@string/about">
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemTestCookie"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="导出 Cookie（仅开发版使用）">
 
             </com.dirror.music.widget.ItemLayout>
 

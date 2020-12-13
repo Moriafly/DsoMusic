@@ -1,6 +1,8 @@
 package com.dirror.music.util
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,6 +12,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.BuildConfig
 import com.dirror.music.MyApplication
@@ -127,4 +130,12 @@ fun getVisionCode(): Int {
  */
 fun getVisionName(): String {
     return BuildConfig.VERSION_NAME
+}
+
+fun copyToClipboard(activity: Activity, text: String) {
+    val clipboardManager = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clipData = ClipData.newPlainText("Label", text)
+    clipboardManager.setPrimaryClip(clipData)
+// Toast 提示
+//    Toast.makeText(,"已复制邮箱地址到剪贴板",Toast.LENGTH_SHORT).show()
 }

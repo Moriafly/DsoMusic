@@ -59,13 +59,23 @@ class SettingsActivity : AppCompatActivity() {
         binding.itemAbout.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
         }
+
+        binding.itemTestCookie.setOnClickListener {
+            val cookie = MyApplication.userManager.getCloudMusicCookie()
+            if (cookie != "") {
+                toast("Cookie 存在，是否过时未知，已经导入剪贴板")
+                copyToClipboard(this, cookie)
+            } else {
+                toast("Cookie 不存在")
+            }
+        }
     }
 
     override fun finish() {
         super.finish()
-        overridePendingTransition(
-            R.anim.anim_slide_enter_right,
-            R.anim.anim_slide_exit_left
-        )
+//        overridePendingTransition(
+//            R.anim.anim_slide_enter_right,
+//            R.anim.anim_slide_exit_left
+//        )
     }
 }
