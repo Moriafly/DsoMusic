@@ -21,6 +21,7 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 #### 本项目
 
 - [x] UID 登录
+- [x] 本地音乐
 
 #### 基于网易云 API
 

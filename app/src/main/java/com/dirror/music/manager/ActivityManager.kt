@@ -1,7 +1,6 @@
 package com.dirror.music.manager
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import com.dirror.music.R
 import com.dirror.music.ui.activity.*
@@ -51,10 +50,10 @@ class ActivityManager: ActivityManagerInterface {
     override fun startLoginByPhoneActivity(activity: Activity) {
         val intent = Intent(activity, LoginByPhoneActivity::class.java)
         activity.startActivityForResult(intent, 0)
-        activity.overridePendingTransition(
-            R.anim.anim_slide_enter_bottom,
-            R.anim.anim_no_anim
-        )
+//        activity.overridePendingTransition(
+//            R.anim.anim_slide_enter_bottom,
+//            R.anim.anim_no_anim
+//        )
     }
 
 }
