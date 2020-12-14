@@ -79,6 +79,23 @@ class MusicService : Service() {
         initChannel()
         // 初始化音频焦点（暂时禁用，等待测试）
         // initAudioFocus()
+        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
+            .setMediaSession(mediaSession?.sessionToken)
+//            .setShowActionsInCompactView(0, 1, 2)
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_music_launcher_foreground)
+//            .setLargeIcon(bitmap)
+            .setContentTitle("聆听好音乐")
+            .setContentText("Dso Music")
+            .setContentIntent(getPendingIntentActivity())
+//            .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
+//            .addAction(getPlayIcon(), "play", getPendingIntentPlay())
+//            .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
+            .setStyle(mediaStyle)
+            .setOngoing(false)
+            // .setAutoCancel(true)
+            .build()
+        startForeground(START_FOREGROUND_ID, notification)
     }
 
     /**
@@ -621,6 +638,7 @@ class MusicService : Service() {
      * 刷新通知
      */
     private fun refreshNotification() {
+
         val song = musicBinder.getNowSongData()
         mediaSession?.apply {
             setMetadata(

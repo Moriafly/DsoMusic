@@ -24,7 +24,7 @@ import org.jetbrains.annotations.TestOnly
  * 自定义 Application
  * @author Moriafly
  */
-class MyApplication: Application() {
+class MyApplication : Application() {
 
     companion object {
         const val BMOB_APP_KEY = "0d1d3b9214e037c76de958993ddd6563" // Bmob App Key
@@ -41,6 +41,8 @@ class MyApplication: Application() {
         lateinit var userManager: UserManager
         lateinit var activityManager: ActivityManager
         lateinit var cloudMusicManager: CloudMusicManager
+
+
 
     }
 
@@ -81,15 +83,15 @@ class MyApplication: Application() {
      * 启动音乐服务
      */
     @TestOnly
-    private fun startMusicService() {
+    fun startMusicService() {
         // 通过 Service 播放音乐，混合启动
         val intent = Intent(this, MusicService::class.java)
         // 安卓 8.0 后开启前台服务，要在短时间内响应，现在不知道怎么搞
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//            startForegroundService(intent)
-//        } else {
-        startService(intent)
-    // }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
         // 绑定服务
         bindService(intent, musicConnection, BIND_AUTO_CREATE)
     }
@@ -99,7 +101,7 @@ class MyApplication: Application() {
 /**
  * 音乐连接服务
  */
-class MusicConnection: ServiceConnection {
+class MusicConnection : ServiceConnection {
 
     /**
      * 服务连接后
@@ -112,7 +114,7 @@ class MusicConnection: ServiceConnection {
      * 服务意外断开连接
      */
     override fun onServiceDisconnected(p0: ComponentName?) {
-
+        // MyApplication.musicBinderInterface = null
     }
 
 }
