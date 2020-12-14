@@ -6,16 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityAboutBinding
 import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
-import com.dirror.music.util.UpdateUtil
-import com.dirror.music.util.getVisionCode
-import com.dirror.music.util.getVisionName
-import com.dirror.music.util.openUrlByBrowser
+import com.dirror.music.util.*
+import com.google.gson.Gson
+import java.lang.Exception
 
 class AboutActivity : AppCompatActivity() {
 
     companion object {
         private const val WEBSITE = "https://moriafly.xyz" // 官方网站
         private const val UPDATE_LOG = "https://github.com/Moriafly/dirror-music/releases" // 更新日志网站
+        private const val WEB_INFO = "https://moriafly.xyz/dirror-music/info.json"
     }
 
     private lateinit var binding: ActivityAboutBinding
@@ -32,6 +32,23 @@ class AboutActivity : AppCompatActivity() {
         binding.tvVersion.text = getVisionName()
         binding.tvVersionCode.text = getVisionCode().toString()
         binding.itemFoyouVersion.setValue(FoyouLibrary.VERSION)
+
+        MagicHttp.OkHttpManager().newGet(WEB_INFO, {
+            try {
+                val infoData: InfoData = Gson().fromJson(it, InfoData::class.java)
+                runOnUiThread {
+                    binding.itemCloudMusicVersion.setValue(infoData.cloudMusic.version)
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    binding.itemCloudMusicVersion.setValue("Unknown")
+                }
+            }
+        }, {
+            runOnUiThread {
+                binding.itemCloudMusicVersion.setValue("Unknown")
+            }
+        })
     }
 
     private fun initListener() {
@@ -54,6 +71,14 @@ class AboutActivity : AppCompatActivity() {
             MyApplication.activityManager.startWebActivity(this, UPDATE_LOG)
         }
 
+    }
+
+    data class InfoData(
+        val cloudMusic: CloudMusicData
+    ) {
+        data class CloudMusicData(
+            val version: String
+        )
     }
 
 }

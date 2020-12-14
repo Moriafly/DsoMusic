@@ -106,6 +106,15 @@
             </com.dirror.music.widget.ValueView>
 
             <com.dirror.music.widget.ValueView
+                android:id="@+id/itemCloudMusicVersion"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="指定云音乐 API 版本"
+                app:value="正在获取服务器版本……">
+
+            </com.dirror.music.widget.ValueView>
+
+            <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewContactAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
