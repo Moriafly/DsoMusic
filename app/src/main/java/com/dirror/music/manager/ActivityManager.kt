@@ -61,4 +61,9 @@ class ActivityManager: ActivityManagerInterface {
         activity.startActivity(intent)
     }
 
+    override fun startPrivateLetterActivity(activity: Activity) {
+        val intent = Intent(activity, PrivateLetterActivity::class.java)
+        activity.startActivity(intent)
+    }
+
 }

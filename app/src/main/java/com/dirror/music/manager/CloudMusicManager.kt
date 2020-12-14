@@ -8,6 +8,7 @@ import com.dirror.music.data.CommentData
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.netease.data.BannerData
 import com.dirror.music.music.netease.data.CodeData
+import com.dirror.music.music.netease.data.PrivateLetterData
 import com.dirror.music.music.netease.data.UserDetailData
 import com.dirror.music.util.Config
 import com.dirror.music.util.MagicHttp
@@ -15,6 +16,10 @@ import com.dirror.music.util.loge
 import com.google.gson.Gson
 
 class CloudMusicManager: CloudMusicManagerInterface {
+
+    companion object {
+        private const val URL_PRIVATE_LETTER = "${API_DEFAULT}}/msg/private" // 私信
+    }
 
     override fun getComment(id: String, success: (CommentData) -> Unit, failure: () -> Unit) {
         val url = "$API_MUSIC_ELEUU/comment/music?id=${id}&limit=20&offset=0${CloudMusic.timestamp()}"
@@ -125,6 +130,28 @@ class CloudMusicManager: CloudMusicManagerInterface {
         }, {
             failure.invoke()
         })
+    }
+
+    override fun getPrivateLetter(success: (PrivateLetterData) -> Unit, failure: () -> Unit) {
+        MagicHttp.OkHttpManager().newGet(URL_PRIVATE_LETTER, {
+            try {
+//                loge("评论返回" + it)
+                val privateLetterData = Gson().fromJson(it, PrivateLetterData::class.java)
+                if (privateLetterData.code != 200) {
+                    failure.invoke()
+                } else {
+                    success.invoke(privateLetterData)
+                }
+            } catch (e: Exception) {
+                failure.invoke()
+            }
+        }, {
+            failure.invoke()
+        })
+    }
+
+    override fun getPicture(url: String, heightOrWeight: Int): String {
+        return "${url}?param=${heightOrWeight}y${heightOrWeight}"
     }
 
 

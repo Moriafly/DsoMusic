@@ -193,6 +193,15 @@ class MainActivity : AppCompatActivity() {
                 MyApplication.activityManager.startSettingsActivity(this@MainActivity)
             }
 
+            itemPrivateLetter.setOnClickListener {
+                val cookie = MyApplication.userManager.getCloudMusicCookie()
+                if (cookie != "") {
+                    MyApplication.activityManager.startPrivateLetterActivity(this@MainActivity)
+                } else {
+                    toast("当前为离线模式，请登录")
+                }
+            }
+
         }
 
 

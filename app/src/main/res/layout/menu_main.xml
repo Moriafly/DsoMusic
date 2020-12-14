@@ -84,6 +84,14 @@
                             app:srcCompat="@drawable/ic_next" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemPrivateLetter"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:text="私信">
+
+                    </com.dirror.music.widget.ItemLayout>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

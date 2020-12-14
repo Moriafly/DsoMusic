@@ -3,6 +3,7 @@ package com.dirror.music.manager
 import com.dirror.music.data.CommentData
 import com.dirror.music.music.netease.data.BannerData
 import com.dirror.music.music.netease.data.CodeData
+import com.dirror.music.music.netease.data.PrivateLetterData
 import com.dirror.music.music.netease.data.UserDetailData
 
 /**
@@ -29,4 +30,8 @@ interface CloudMusicManagerInterface {
 
     fun sendComment(t: Int, type: Int, id: String, content: String, commentId: Long = 0L, success: (CodeData) -> Unit, failure: () -> Unit)
 
+
+    fun getPrivateLetter(success: (PrivateLetterData) -> Unit, failure: () -> Unit)
+
+    fun getPicture(url: String, heightOrWeight: Int): String
 }

@@ -18,4 +18,6 @@ interface ActivityManagerInterface {
     fun startLoginByPhoneActivity(activity: Activity)
 
     fun startSettingsActivity(activity: Activity)
+
+    fun startPrivateLetterActivity(activity: Activity)
 }
