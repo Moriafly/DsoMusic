@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPageBackground"
     tools:context=".ui.activity.PrivateLetterActivity">
 
     <com.dirror.music.widget.TitleBarLayout
@@ -24,5 +25,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleBar" />
+        app:layout_constraintTop_toBottomOf="@+id/titleBar"
+        android:overScrollMode="never"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.adapter.PrivateLetterAdapter
 import com.dirror.music.databinding.ActivityPrivateLetterBinding
+import com.dirror.music.util.toast
 
 class PrivateLetterActivity : AppCompatActivity() {
 
@@ -25,7 +26,7 @@ class PrivateLetterActivity : AppCompatActivity() {
                 binding.rvPrivateLetter.adapter = PrivateLetterAdapter(it.msgs)
             }
         }, {
-
+            toast("获取失败")
         })
 
     }

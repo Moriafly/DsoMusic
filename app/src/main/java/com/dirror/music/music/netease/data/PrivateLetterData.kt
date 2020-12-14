@@ -19,3 +19,7 @@ data class PrivateLetterData(
         )
     }
 }
+
+data class LastMsgData(
+    val msg: String
+)

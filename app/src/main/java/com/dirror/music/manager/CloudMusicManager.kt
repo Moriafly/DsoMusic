@@ -18,7 +18,7 @@ import com.google.gson.Gson
 class CloudMusicManager: CloudMusicManagerInterface {
 
     companion object {
-        private const val URL_PRIVATE_LETTER = "${API_DEFAULT}}/msg/private" // 私信
+        private const val URL_PRIVATE_LETTER = "${API_DEFAULT}/msg/private" // 私信
     }
 
     override fun getComment(id: String, success: (CommentData) -> Unit, failure: () -> Unit) {
@@ -133,9 +133,12 @@ class CloudMusicManager: CloudMusicManagerInterface {
     }
 
     override fun getPrivateLetter(success: (PrivateLetterData) -> Unit, failure: () -> Unit) {
-        MagicHttp.OkHttpManager().newGet(URL_PRIVATE_LETTER, {
+        val cookie = MyApplication.userManager.getCloudMusicCookie()
+        val url = "${URL_PRIVATE_LETTER}?cookie=${cookie}"
+        loge("${url}")
+        MagicHttp.OkHttpManager().newGet(url, {
             try {
-//                loge("评论返回" + it)
+                loge("url:[${url}]私信返回" + it)
                 val privateLetterData = Gson().fromJson(it, PrivateLetterData::class.java)
                 if (privateLetterData.code != 200) {
                     failure.invoke()
