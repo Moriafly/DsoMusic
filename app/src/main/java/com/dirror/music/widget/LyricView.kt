@@ -76,7 +76,9 @@ class LyricView : View {
                 lineTime = nextStartTime - centerStartTime
             }
 
-
+            if (centerLine >= lyricList.lastIndex) {
+                centerLine = lyricList.lastIndex
+            }
             // 偏移时间
             val offsetTime = progress - lyricList[centerLine].startTime
             val offsetPercent = offsetTime / (lineTime).toFloat()

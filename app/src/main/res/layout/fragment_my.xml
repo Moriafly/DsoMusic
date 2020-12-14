@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:overScrollMode="never"
     android:scrollbars="none"
     tools:context=".ui.fragment.MyFragment">
 
@@ -11,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="96dp"
         android:paddingBottom="96dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -226,7 +226,7 @@
             android:paddingEnd="20dp"
             android:text="@string/local_playlist"
             android:textColor="@color/colorTextForeground"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -243,10 +243,10 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clNewPlaylist"
-                    android:contentDescription="@string/new_playlist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@string/new_playlist"
                     tools:layout_editor_absoluteX="411dp">
 
                     <androidx.cardview.widget.CardView
@@ -362,7 +362,7 @@
             android:paddingEnd="20dp"
             android:text="@string/internet_playlist"
             android:textColor="@color/colorTextForeground"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView

@@ -83,11 +83,6 @@ class MainActivity : AppCompatActivity() {
         val radius = 20f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
-        binding.blurView.setupWith(decorView.findViewById(R.id.viewPager2))
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(radius)
-            .setHasFixedTransformationMatrix(true)
         binding.blurViewPlay.setupWith(decorView.findViewById(R.id.viewPager2))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
@@ -96,11 +91,9 @@ class MainActivity : AppCompatActivity() {
 
         // 适配状态栏
         val statusBarHeight = getStatusBarHeight(window, this) // px
-        binding.titleBar.translationY = statusBarHeight.toFloat()
-        binding.blurView.scaleY = (dp2px(56f) + statusBarHeight) / dp2px(56f)
-        binding.blurView.translationY = statusBarHeight.toFloat() / 2
-        binding.blurViewBottom.scaleY = binding.blurView.scaleY
-        binding.blurViewBottom.translationY = statusBarHeight.toFloat() / 2
+        (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply{
+            topMargin = statusBarHeight
+        }
         // 侧滑状态栏适配
         (binding.menuMain.cvUser.layoutParams as LinearLayout.LayoutParams).apply{
             topMargin = statusBarHeight

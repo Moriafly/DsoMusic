@@ -31,37 +31,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/blurView">
+                    app:layout_constraintTop_toBottomOf="@+id/titleBar">
 
                 </androidx.viewpager2.widget.ViewPager2>
-
-                <eightbitlab.com.blurview.BlurView
-                    android:id="@+id/blurView"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </eightbitlab.com.blurview.BlurView>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/blurViewBottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@color/colorBlurViewBackground"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/titleBar"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    app:layout_constraintEnd_toEndOf="@+id/blurView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -76,15 +54,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_search" />
-
-                    <View
-                        android:id="@+id/dividerTitleBar"
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="?android:attr/listDivider"
-                        app:layout_constraintBottom_toBottomOf="@+id/tabLayout"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabLayout"

@@ -10,20 +10,24 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scrollbars="none">
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="100dp"
-            android:paddingBottom="100dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="100dp">
 
             <com.youth.banner.Banner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="100dp" />
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/tvPlaylistRecommend"
@@ -36,16 +40,16 @@
                 android:paddingEnd="20dp"
                 android:text="@string/playlist_recommend"
                 android:textColor="@color/colorTextForeground"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <com.dirror.music.widget.RecyclerViewAtViewPager2
                 android:id="@+id/rvPlaylistRecommend"
-                android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp" />
+                android:layout_marginEnd="0dp"
+                android:overScrollMode="never" />
 
             <TextView
                 android:id="@+id/tvFoyou"
@@ -58,7 +62,7 @@
                 android:paddingEnd="20dp"
                 android:text="@string/sentence_recommend"
                 android:textColor="@color/colorTextForeground"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <include
@@ -78,7 +82,7 @@
                 android:paddingEnd="20dp"
                 android:text="@string/feedback"
                 android:textColor="@color/colorTextForeground"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <include
