@@ -10,10 +10,10 @@ import com.dirror.music.MyApplication
 import org.jetbrains.annotations.TestOnly
 
 /**
- * Dirror 程序安全防护系统
- *
+ * 安全防护
  * @版本 1.0.1
  * @更新时间 2020/10/6
+ * @author Moriafly
  * @since 2020/10/4
  */
 object Secure {

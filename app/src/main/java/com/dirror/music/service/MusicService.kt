@@ -212,7 +212,7 @@ class MusicService : Service() {
     /**
      * 绑定
      */
-    override fun onBind(p0: Intent?): IBinder? {
+    override fun onBind(p0: Intent?): IBinder {
         return musicBinder
     }
 
@@ -269,16 +269,16 @@ class MusicService : Service() {
 
             when (song?.source) {
                 SOURCE_NETEASE -> {
-                    startPlayUrl(SongUrl.getSongUrl(song.id.toString()))
+                    startPlayUrl(SongUrl.getSongUrl(song.id))
                 }
                 SOURCE_QQ -> {
-                    PlayUrl.getPlayUrl(song.id as String) {
+                    PlayUrl.getPlayUrl(song.id) {
                         loge("QQ 音乐链接：${it}")
                         startPlayUrl(it)
                     }
                 }
                 SOURCE_LOCAL -> {
-                    val id = song.id!!.toLong()
+                    val id = song.id.toLong()
                     val contentUri: Uri =
                         ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
 
@@ -340,7 +340,6 @@ class MusicService : Service() {
          * 更新播放状态
          * 播放或者暂停
          */
-        @Deprecated("不推荐使用，切换为 start 或者 pause")
         override fun changePlayState() {
             val isPlaying = mediaPlayer?.isPlaying
             isPlaying?.let {
@@ -712,31 +711,3 @@ class MusicService : Service() {
     }
 }
 
-/**
- * 音乐服务接口
- */
-interface MusicBinderInterface {
-    fun setPlaylist(songListData: ArrayList<StandardSongData>)
-    fun getPlaylist(): ArrayList<StandardSongData>?
-    fun playMusic(songPosition: Int)
-    fun changePlayState()
-    fun getPlayState(): Boolean
-    fun getDuration(): Int
-    fun getProgress(): Int
-    fun setProgress(newProgress: Int)
-    fun getNowSongData(): StandardSongData?
-    fun changePlayMode()
-    fun getPlayMode(): Int
-    fun playLast()
-    fun playNext()
-    fun getNowPosition(): Int
-    fun getAudioSessionId(): Int // 获取音频 Session ID
-    fun sendBroadcast() // 发送广播
-    fun setSpeed(speed: Float) // 设置播放速度
-    fun getSpeed(): Float // 获取播放速度
-    fun getPitchLevel(): Int // 获取音高等级
-    fun increasePitchLevel() // 升调
-    fun decreasePitchLevel() // 降调
-    fun start() // 开始播放
-    fun pause() // 暂停播放
-}

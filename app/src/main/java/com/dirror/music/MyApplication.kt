@@ -31,9 +31,9 @@ class MyApplication : Application() {
         const val UM_APP_KEY = "5fb38e09257f6b73c0961382" // 友盟 SDK APP KEY
 
         lateinit var context: Context // 注入懒加载 全局 context
-        lateinit var mmkv: MMKV
+        lateinit var mmkv: MMKV // mmkv
         var musicBinderInterface: MusicBinderInterface? = null // MusicBinderInterface
-        val musicConnection by lazy { MusicConnection() }
+        val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
 
         val cookieStore: HashMap<String, List<Cookie>> = HashMap() // cookie
 
@@ -41,8 +41,6 @@ class MyApplication : Application() {
         lateinit var userManager: UserManager
         lateinit var activityManager: ActivityManager
         lateinit var cloudMusicManager: CloudMusicManager
-
-
 
     }
 
@@ -63,6 +61,7 @@ class MyApplication : Application() {
 
     /**
      * 安全检查
+     * 自己签名请去除
      */
     private fun checkSecure() {
         if (Secure.isSecure()) {
@@ -93,15 +92,15 @@ class MyApplication : Application() {
             startService(intent)
         }
         // 绑定服务
-        bindService(intent, musicConnection, BIND_AUTO_CREATE)
+        bindService(intent, musicServiceConnection, BIND_AUTO_CREATE)
     }
 
 }
 
 /**
- * 音乐连接服务
+ * 音乐服务连接
  */
-class MusicConnection : ServiceConnection {
+class MusicServiceConnection : ServiceConnection {
 
     /**
      * 服务连接后
