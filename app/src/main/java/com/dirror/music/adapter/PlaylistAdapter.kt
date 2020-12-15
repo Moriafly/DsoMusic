@@ -9,10 +9,13 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
+import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.dp
 
 class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
 
@@ -30,11 +33,8 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerV
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val play = playlist[position]
-        val url = play.coverImgUrl
-
-        Glide.with(holder.ivCover.context)
-            .load(url)
-            .into(holder.ivCover)
+        val url = MyApplication.cloudMusicManager.getPicture(play.coverImgUrl, 56.dp())
+        GlideUtil.load(url, holder.ivCover)
         holder.tvName.text = play.name
         holder.tvTrackCount.text = "${play.trackCount} 首"
         holder.clTrack.setOnClickListener {

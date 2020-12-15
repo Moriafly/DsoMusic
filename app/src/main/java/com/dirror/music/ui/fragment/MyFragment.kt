@@ -9,12 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PlaylistData
-import com.dirror.music.data.UserDetailData
 import com.dirror.music.databinding.FragmentMyBinding
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
@@ -48,23 +46,12 @@ class MyFragment : BaseFragment() {
         binding.rvPlaylist.layoutManager =  LinearLayoutManager(activity)
         binding.rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
 
-        // 获取本地歌单
-        // getLocalPlaylist()
-
         mainViewModel.getUserId().observe(viewLifecycleOwner, {
-            // toast("fragment")
-            getUserDetail()
             getPlaylist()
         })
     }
 
     override fun initListener() {
-        binding.itemAccount.setOnClickListener {
-            val userId = MyApplication.userManager.getCurrentUid()
-            activity?.let {
-                MyApplication.activityManager.startUserActivity(it, userId)
-            }
-        }
 
         // 新建歌单
         binding.clNewPlaylist.setOnClickListener {
@@ -84,41 +71,6 @@ class MyFragment : BaseFragment() {
             toast("功能开发中")
         }
 
-    }
-
-    /**
-     * 获取用户详情
-     */
-    private fun getUserDetail() {
-        // 获取是否在线登录成功
-        CloudMusic.getLoginStatus {  }
-
-        if (MyApplication.userManager.isUidLogin()) {
-            CloudMusic.getUserDetail(MyApplication.userManager.getCurrentUid(), {
-                refreshUserDetail(it)
-            }, {
-                toast(it)
-            })
-        } else {
-            // toast("请先登录")
-        }
-    }
-
-    /**
-     * 获取用户详细信息后刷新界面数据
-     */
-    private fun refreshUserDetail(userDetailData: UserDetailData) {
-        runOnMainThread {
-            Glide.with(MyApplication.context)
-                .load(http2https(userDetailData.profile?.avatarUrl.toString()))
-                .into(binding.ivPhoto)
-            // 显示昵称
-            binding.tvNickname.text = userDetailData.profile?.nickname
-            binding.tvLevel.text = "Lv.${userDetailData.level}"
-            // 关注和粉丝
-            binding.tvFollows.text = "${getString(R.string.follow)} ${userDetailData.profile?.follows}"
-            binding.tvFolloweds.text = "${getString(R.string.fans)} ${userDetailData.profile?.followeds}"
-        }
     }
 
     private fun getPlaylist() {

@@ -450,7 +450,11 @@ class MusicService : Service() {
         override fun playLast() {
             // 设置 position
             position = when (mode) {
-                MODE_RANDOM -> (0..playlist?.lastIndex!!).random()
+                MODE_RANDOM -> {
+                    playlist?.let {
+                        (0..it.lastIndex).random()
+                    }
+                }
                 // 单曲循环或者歌单顺序播放
                 else -> {
                     // 如果当前是第一首，就跳到最后一首播放
