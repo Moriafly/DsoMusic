@@ -565,10 +565,14 @@ class MusicService : Service() {
         private fun setPlaybackParams() {
             if (isPrepared) {
                 mediaPlayer?.let {
-                    val playbackParams = it.playbackParams
-                    // playbackParams.speed = speed // 0 表示暂停
-                    playbackParams.pitch = pitch
-                    it.playbackParams = playbackParams
+                    // 华为机器特殊处理
+                    if(Build.BRAND == "HUAWEI" || Build.MANUFACTURER == "HUAWEI") {
+                        val playbackParams = it.playbackParams
+                        // playbackParams.speed = speed // 0 表示暂停
+                        playbackParams.pitch = pitch
+                        it.playbackParams = playbackParams
+                        toast("华为手机不支持此功能")
+                    }
                 }
             }
         }
