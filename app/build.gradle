@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions' // 过时，正在改
+    id 'kotlin-parcelize'
+    // id 'kotlin-android-extensions' // 过时，正在改
 }
 
 android {
@@ -28,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 208
+        versionCode 209
         versionName "1.6.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

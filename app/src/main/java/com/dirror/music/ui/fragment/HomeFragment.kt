@@ -2,39 +2,32 @@ package com.dirror.music.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
-import com.dirror.music.R
 import com.dirror.music.adapter.BannerAdapter
 import com.dirror.music.adapter.PlaylistRecommendAdapter
+import com.dirror.music.databinding.FragmentHomeBinding
 import com.dirror.music.foyou.sentence.Sentence
 import com.dirror.music.music.netease.PlaylistRecommend
-import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.util.AnimationUtil
 import com.dirror.music.util.dp
 import com.dirror.music.util.runOnMainThread
 import com.youth.banner.indicator.CircleIndicator
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.include_foyou.*
 
+class HomeFragment : Fragment() {
 
-class HomeFragment : BaseFragment() {
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_home
-    }
-
-    override fun initData() {
-
-    }
-
-    override fun initView() {
-        changeSentence()
-        refreshPlaylistRecommend()
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,17 +35,25 @@ class HomeFragment : BaseFragment() {
 
         val windowManager = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val width = windowManager.defaultDisplay.width
-        (banner.layoutParams as LinearLayout.LayoutParams).apply{
+        (binding.banner.layoutParams as LinearLayout.LayoutParams).apply {
             height = ((width - 40.dp()).toFloat() / 108 * 42).toInt() + 8.dp()
         }
+        initView()
         initBanner()
+    }
+
+
+
+    private fun initView() {
+        changeSentence()
+        refreshPlaylistRecommend()
     }
 
     private fun initBanner() {
         MyApplication.cloudMusicManager.getBanner({
             val bannerAdapter = BannerAdapter(it)
             runOnMainThread {
-                banner.apply {
+                binding.banner.apply {
                     addBannerLifecycleObserver(this@HomeFragment) // 感知生命周期
                     adapter = bannerAdapter
                     setIndicator(CircleIndicator(context), false)
@@ -62,7 +63,7 @@ class HomeFragment : BaseFragment() {
                 }
             }
             // banner 点击事件
-            banner.setOnBannerListener { _, position ->
+            binding.banner.setOnBannerListener { _, position ->
 //                val bannerData = bannerAdapter.getData(position) // 选中的 Banner
 //                val intent = Intent(context, SearchAlbumActivity::class.java)
 //                intent.putExtra("data_recommend", bannerData.intent)
@@ -77,12 +78,12 @@ class HomeFragment : BaseFragment() {
         })
     }
 
-    override fun initListener() {
-        includeFoyou.setOnClickListener {
+    private fun initListener() {
+        binding.includeFoyou.root.setOnClickListener {
             changeSentence()
         }
 
-        includeFeedback.setOnClickListener {
+        binding.includeFeedback.root.setOnClickListener {
             activity?.let {
                 MyApplication.activityManager.startFeedbackActivity(it)
             }
@@ -90,17 +91,17 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun changeSentence() {
-        tvText.alpha = 0f
-        tvAuthor.alpha = 0f
-        tvSource.alpha = 0f
+        binding.includeFoyou.tvText.alpha = 0f
+        binding.includeFoyou.tvAuthor.alpha = 0f
+        binding.includeFoyou.tvSource.alpha = 0f
         Sentence.getSentence {
             runOnMainThread {
-                tvText.text = it.text
-                tvAuthor.text = it.author
-                tvSource.text = it.source
-                AnimationUtil.fadeIn(tvText, 1000, false)
-                AnimationUtil.fadeIn(tvAuthor, 1000, false)
-                AnimationUtil.fadeIn(tvSource, 1000, false)
+                binding.includeFoyou.tvText.text = it.text
+                binding.includeFoyou.tvAuthor.text = it.author
+                binding.includeFoyou.tvSource.text = it.source
+                AnimationUtil.fadeIn(binding.includeFoyou.tvText, 1000, false)
+                AnimationUtil.fadeIn(binding.includeFoyou.tvAuthor, 1000, false)
+                AnimationUtil.fadeIn(binding.includeFoyou.tvSource, 1000, false)
             }
         }
     }
@@ -108,13 +109,19 @@ class HomeFragment : BaseFragment() {
     private fun refreshPlaylistRecommend() {
         PlaylistRecommend.getPlaylistRecommend({
             runOnMainThread {
-                rvPlaylistRecommend.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                rvPlaylistRecommend.adapter = PlaylistRecommendAdapter(it)
+                binding.rvPlaylistRecommend.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                binding.rvPlaylistRecommend.adapter = PlaylistRecommendAdapter(it)
             }
         }, {
 
         })
 
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

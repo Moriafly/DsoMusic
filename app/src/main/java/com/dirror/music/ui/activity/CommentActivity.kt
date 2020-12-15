@@ -7,14 +7,9 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.CommentAdapter
 import com.dirror.music.databinding.ActivityCommentBinding
-import com.dirror.music.music.standard.SongComment
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
-import kotlinx.android.synthetic.main.activity_comment.*
-import kotlinx.android.synthetic.main.dirrorx_titlebar_layout.view.*
-import java.lang.Appendable
 
 class CommentActivity : AppCompatActivity() {
 
@@ -65,8 +60,8 @@ class CommentActivity : AppCompatActivity() {
             SOURCE_NETEASE -> {
                 MyApplication.cloudMusicManager.getComment(id?: "", {
                     runOnMainThread {
-                        rvComment.layoutManager = LinearLayoutManager(this@CommentActivity)
-                        rvComment.adapter = CommentAdapter(it, this@CommentActivity)
+                        binding.rvComment.layoutManager = LinearLayoutManager(this@CommentActivity)
+                        binding.rvComment.adapter = CommentAdapter(it, this@CommentActivity)
                     }
                 }, {
 
@@ -77,7 +72,7 @@ class CommentActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        titleBar.tvTitleBar.text = "精彩评论"
+        binding.titleBar.setTitleBarText("精彩评论")
     }
 
     override fun finish() {

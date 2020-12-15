@@ -2,7 +2,9 @@ package com.dirror.music.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,20 +15,28 @@ import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.data.UserDetailData
+import com.dirror.music.databinding.FragmentMyBinding
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
-import kotlinx.android.synthetic.main.fragment_my.*
 
 class MyFragment : BaseFragment() {
+
+    private var _binding: FragmentMyBinding? = null
+    private val binding get() = _binding!!
 
     private val userPlaylist = ArrayList<PlaylistData>()
 
     // activity 和 fragment 共享数据
     private val mainViewModel: MainViewModel by activityViewModels()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentMyBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_my
@@ -35,8 +45,8 @@ class MyFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvPlaylist.layoutManager =  LinearLayoutManager(activity)
-        rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
+        binding.rvPlaylist.layoutManager =  LinearLayoutManager(activity)
+        binding.rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
 
         // 获取本地歌单
         // getLocalPlaylist()
@@ -49,7 +59,7 @@ class MyFragment : BaseFragment() {
     }
 
     override fun initListener() {
-        itemAccount.setOnClickListener {
+        binding.itemAccount.setOnClickListener {
             val userId = MyApplication.userManager.getCurrentUid()
             activity?.let {
                 MyApplication.activityManager.startUserActivity(it, userId)
@@ -57,20 +67,20 @@ class MyFragment : BaseFragment() {
         }
 
         // 新建歌单
-        clNewPlaylist.setOnClickListener {
+        binding.clNewPlaylist.setOnClickListener {
             toast("功能开发中")
         }
 
-        clImportPlaylist.setOnClickListener {
+        binding.clImportPlaylist.setOnClickListener {
             toast("功能开发中")
         }
 
-        clLocalMusic.setOnClickListener {
+        binding.clLocalMusic.setOnClickListener {
             val intent = Intent(this.context, LocalMusicActivity::class.java)
             startActivity(intent)
         }
 
-        clHistory.setOnClickListener {
+        binding.clHistory.setOnClickListener {
             toast("功能开发中")
         }
 
@@ -101,13 +111,13 @@ class MyFragment : BaseFragment() {
         runOnMainThread {
             Glide.with(MyApplication.context)
                 .load(http2https(userDetailData.profile?.avatarUrl.toString()))
-                .into(ivPhoto)
+                .into(binding.ivPhoto)
             // 显示昵称
-            tvNickname.text = userDetailData.profile?.nickname
-            tvLevel.text = "Lv.${userDetailData.level}"
+            binding.tvNickname.text = userDetailData.profile?.nickname
+            binding.tvLevel.text = "Lv.${userDetailData.level}"
             // 关注和粉丝
-            tvFollows.text = "${getString(R.string.follow)} ${userDetailData.profile?.follows}"
-            tvFolloweds.text = "${getString(R.string.fans)} ${userDetailData.profile?.followeds}"
+            binding.tvFollows.text = "${getString(R.string.follow)} ${userDetailData.profile?.follows}"
+            binding.tvFolloweds.text = "${getString(R.string.fans)} ${userDetailData.profile?.followeds}"
         }
     }
 
@@ -133,8 +143,8 @@ class MyFragment : BaseFragment() {
                 }.apply { orientation = LinearLayoutManager.VERTICAL }
 
             runOnMainThread {
-                rvPlaylist.layoutManager =  gridLayoutManager
-                rvPlaylist.adapter = PlaylistAdapter(playlist)
+                binding.rvPlaylist.layoutManager =  gridLayoutManager
+                binding.rvPlaylist.adapter = PlaylistAdapter(playlist)
             }
 
         }
@@ -159,9 +169,14 @@ class MyFragment : BaseFragment() {
                 }
             }.apply { orientation = LinearLayoutManager.VERTICAL }
         runOnMainThread {
-            rvLocalPlaylist.layoutManager =  gridLayoutManager
+            binding.rvLocalPlaylist.layoutManager =  gridLayoutManager
             // rvLocalPlaylist.adapter = PlaylistAdapter()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

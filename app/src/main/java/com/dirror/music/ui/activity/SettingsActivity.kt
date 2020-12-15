@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
-import com.dirror.music.R
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.util.*
 

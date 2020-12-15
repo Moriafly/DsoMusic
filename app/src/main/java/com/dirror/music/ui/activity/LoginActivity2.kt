@@ -7,10 +7,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLogin2Binding
 import com.dirror.music.music.CloudMusic
-import com.dirror.music.util.loge
-import com.dirror.music.util.openUrlByBrowser
 import com.dirror.music.util.toast
-import kotlinx.android.synthetic.main.activity_login_by_uid.*
 import java.util.regex.Pattern
 
 class LoginActivity2 : AppCompatActivity() {
@@ -42,7 +39,7 @@ class LoginActivity2 : AppCompatActivity() {
         // 点击登录按钮
         binding.btnLoginByUid.setOnClickListener {
             // 获取输入
-            var netease = etUid.text.toString()
+            var netease = binding.etUid.text.toString()
 
             // 判断是否直接是网易云分享用户链接
             if (netease != "") {

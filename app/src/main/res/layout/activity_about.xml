@@ -121,6 +121,12 @@
                 app:text="@string/contact_author"
                 app:value="@string/author_email" />
 
+            <com.dirror.music.widget.ValueView
+                android:id="@+id/valueViewQQ"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="QQ"
+                app:value="2456860197" />
 
         </LinearLayout>
     </ScrollView>

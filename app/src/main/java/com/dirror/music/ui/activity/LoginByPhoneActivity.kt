@@ -4,12 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
-import com.dirror.music.music.CloudMusic
-import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
-import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.toast
-import kotlinx.android.synthetic.main.activity_login_by_phone.*
 
 class LoginByPhoneActivity : AppCompatActivity() {
 

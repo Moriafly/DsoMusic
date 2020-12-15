@@ -1,25 +1,27 @@
 package com.dirror.music.ui.activity
 
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.R
 import com.dirror.music.bmob.BmobManager
-import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.databinding.ActivityFeedbackBinding
 import com.dirror.music.util.toast
-import kotlinx.android.synthetic.main.activity_feedback.*
 
-class FeedbackActivity : BaseActivity(R.layout.activity_feedback) {
+class FeedbackActivity : AppCompatActivity(R.layout.activity_feedback) {
 
-    override fun initData() {
+    private lateinit var binding: ActivityFeedbackBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityFeedbackBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initListener()
     }
 
-    override fun initView() {
-
-    }
-
-    override fun initListener() {
-        btnUpload.setOnClickListener {
-            val feedback = etFeedback.text.toString()
-            val contact = etContact.text.toString()
+    private fun initListener() {
+        binding.btnUpload.setOnClickListener {
+            val feedback = binding.etFeedback.text.toString()
+            val contact = binding.etContact.text.toString()
             when {
                 feedback.length < 10 -> toast("反馈内容不少于 10 个字符")
                 contact.isEmpty() -> toast("请输入联系方式")

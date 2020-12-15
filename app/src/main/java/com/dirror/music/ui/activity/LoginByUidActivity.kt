@@ -1,25 +1,31 @@
 package com.dirror.music.ui.activity
 
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.R
-import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.databinding.ActivityLoginByUidBinding
 import com.dirror.music.util.toast
-import kotlinx.android.synthetic.main.activity_login_by_uid.*
 
 /**
  * 通过网易云 UID 登录
  */
-class LoginByUidActivity : BaseActivity(R.layout.activity_login_by_uid) {
+class LoginByUidActivity : AppCompatActivity(R.layout.activity_login_by_uid) {
 
-    override fun initView() {
+    private lateinit var binding: ActivityLoginByUidBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityLoginByUidBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initListener()
     }
 
-    override fun initListener() {
+    private fun initListener() {
         // 点击登录按钮
-        btnLogin.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             // 获取输入
-            val text = etUid.text.toString()
+            val text = binding.etUid.text.toString()
             // 判断是否直接是网易云分享用户链接
             if (text != "") {
                 val index = text.indexOf("id=")

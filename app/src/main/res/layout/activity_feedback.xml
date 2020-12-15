@@ -33,6 +33,7 @@
     </com.dirror.music.widget.TitleBarLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -137,11 +138,21 @@
             android:layout_marginBottom="8dp"
             android:autoLink="web"
             android:lineSpacingExtra="4sp"
-            android:text="还可以访问 https://github.com/Moriafly/dirror-music/issues 向我们提交你所遇到的问题"
+            android:text="Github 问题反馈 https://github.com/Moriafly/dirror-music/issues"
             android:textColor="@color/colorSubTextForeground"
             android:textColorLink="@color/highLight"
             android:textSize="12sp" />
 
     </LinearLayout>
+
+    <com.dirror.music.widget.ValueView
+        android:id="@+id/valueViewQQ"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:text="QQ 联系"
+        app:value="2456860197" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
