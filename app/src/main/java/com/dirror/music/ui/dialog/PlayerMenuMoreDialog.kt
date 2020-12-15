@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.audio.AudioEffect
+import com.dirror.music.databinding.DialogPlayMoreBinding
 import com.dirror.music.ui.activity.FeedbackActivity
-import com.dirror.music.util.toast
-import kotlinx.android.synthetic.main.dialog_play_more.*
 
 class PlayerMenuMoreDialog : Dialog {
+
+    private lateinit var binding: DialogPlayMoreBinding
+
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
@@ -30,6 +32,8 @@ class PlayerMenuMoreDialog : Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DialogPlayMoreBinding.inflate(layoutInflater)
+
 
         speed = MyApplication.musicBinderInterface?.getSpeed() ?: 1f
 
@@ -38,7 +42,7 @@ class PlayerMenuMoreDialog : Dialog {
 
 
         // 歌曲信息
-        itemSongInfo.setOnClickListener {
+        binding.itemSongInfo.setOnClickListener {
             SongInfoDialog(context).apply {
                 MyApplication.musicBinderInterface?.getNowSongData()?.let { it1 -> setSongData(it1) }
                 show()
@@ -48,7 +52,7 @@ class PlayerMenuMoreDialog : Dialog {
         }
 
         // 降噪
-        switchNoiseSuppressor.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.switchNoiseSuppressor.setOnCheckedChangeListener { buttonView, isChecked ->
             // 开启降噪
             val audioSession = MyApplication.musicBinderInterface?.getAudioSessionId()?:0
             // toast("${audioSession}")
@@ -57,21 +61,21 @@ class PlayerMenuMoreDialog : Dialog {
             AudioEffect.automaticGainControl(audioSession, true)
         }
 
-        itemNoiseSuppressor.setOnClickListener {
-            switchNoiseSuppressor.isChecked = !switchNoiseSuppressor.isChecked
+        binding.itemNoiseSuppressor.setOnClickListener {
+            binding.switchNoiseSuppressor.isChecked = !binding.switchNoiseSuppressor.isChecked
         }
 
-        ivIncreasePitch.setOnClickListener {
+        binding.ivIncreasePitch.setOnClickListener {
             MyApplication.musicBinderInterface?.increasePitchLevel()
             refreshPitch()
         }
 
-        ivDecreasePitch.setOnClickListener {
+        binding.ivDecreasePitch.setOnClickListener {
             MyApplication.musicBinderInterface?.decreasePitchLevel()
             refreshPitch()
         }
 
-        itemSpeed.setOnClickListener {
+        binding.itemSpeed.setOnClickListener {
             MyApplication.musicBinderInterface?.setSpeed(1f)
         }
 
@@ -80,7 +84,7 @@ class PlayerMenuMoreDialog : Dialog {
 //        }
 
         // 反馈
-        itemFeedback.setOnClickListener {
+        binding.itemFeedback.setOnClickListener {
             val intent = Intent(MyApplication.context, FeedbackActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // 从 Content 跳转 Activity 要加 FLAG
             MyApplication.context.startActivity(intent)
@@ -95,6 +99,6 @@ class PlayerMenuMoreDialog : Dialog {
      * 刷新 Pitch
      */
     private fun refreshPitch() {
-        tvPitch.text = MyApplication.musicBinderInterface?.getPitchLevel().toString()
+        binding.tvPitch.text = MyApplication.musicBinderInterface?.getPitchLevel().toString()
     }
 }

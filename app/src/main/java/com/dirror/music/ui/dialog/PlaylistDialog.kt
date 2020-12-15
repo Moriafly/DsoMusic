@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistDialogAdapter
-import kotlinx.android.synthetic.main.dialog_play_list.*
+import com.dirror.music.databinding.DialogPlayListBinding
 
 class PlaylistDialog: Dialog {
+
+    private lateinit var binding: DialogPlayListBinding
+
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
@@ -26,9 +29,10 @@ class PlaylistDialog: Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DialogPlayListBinding.inflate(layoutInflater)
 
-        rvPlaylist.layoutManager = LinearLayoutManager(context)
-        rvPlaylist.adapter = MyApplication.musicBinderInterface?.getPlaylist()?.let { PlaylistDialogAdapter(it) }
+        binding.rvPlaylist.layoutManager = LinearLayoutManager(context)
+        binding.rvPlaylist.adapter = MyApplication.musicBinderInterface?.getPlaylist()?.let { PlaylistDialogAdapter(it) }
 
     }
 }

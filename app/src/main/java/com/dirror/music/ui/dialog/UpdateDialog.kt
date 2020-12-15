@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.R
+import com.dirror.music.databinding.DialogUpdateBinding
 import com.dirror.music.util.*
-import kotlinx.android.synthetic.main.dialog_update.*
-import kotlinx.android.synthetic.main.include_foyou.*
 
 class UpdateDialog: Dialog {
+
+    private lateinit var binding: DialogUpdateBinding
 
     constructor(context: Context) : this(context, 0)
 
@@ -28,12 +29,13 @@ class UpdateDialog: Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DialogUpdateBinding.inflate(layoutInflater)
 
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             dismiss()
         }
 
-        btnDownload.setOnClickListener {
+        binding.btnDownload.setOnClickListener {
             openUrlByBrowser(this.context, url)
         }
 
@@ -41,8 +43,8 @@ class UpdateDialog: Dialog {
 
     fun showInfo(updateData: UpdateUtil.UpdateData) {
         runOnMainThread {
-            tvTitle.text = "发现新版本 ${updateData.name}"
-            tvContent.text = updateData.content
+            binding.tvTitle.text = "发现新版本 ${updateData.name}"
+            binding.tvContent.text = updateData.content
             url = updateData.url
         }
     }

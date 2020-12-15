@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
+import com.dirror.music.databinding.DialogSongInfoBinding
 import com.dirror.music.music.dirror.SearchSong
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
@@ -14,9 +15,10 @@ import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.parseSize
 import com.dirror.music.util.runOnMainThread
-import kotlinx.android.synthetic.main.dialog_song_info.*
 
 class SongInfoDialog: Dialog {
+
+    private lateinit var binding: DialogSongInfoBinding
 
     constructor(context: Context) : this(context, 0)
 
@@ -31,8 +33,9 @@ class SongInfoDialog: Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DialogSongInfoBinding.inflate(layoutInflater)
 
-        clDialog.setOnClickListener {
+        binding.clDialog.setOnClickListener {
             // dismiss()
         }
     }
@@ -46,39 +49,39 @@ class SongInfoDialog: Dialog {
                 SOURCE_NETEASE -> {
                     StandardGET.getSongInfo(it.id.toString()) {data ->
                         runOnMainThread {
-                            valueViewId.setValue(it.id.toString())
+                            binding.valueViewId.setValue(it.id.toString())
                             if (SearchSong.getDirrorSongUrl(it.id.toString()) != "") {
-                                valueViewSource.setValue("Dirror 音乐")
+                                binding.valueViewSource.setValue("Dirror 音乐")
                             } else {
-                                valueViewSource.setValue("网易云音乐")
+                                binding.valueViewSource.setValue("网易云音乐")
                             }
-                            valueViewBitrate.setValue("${data.br/1000} kbps")
-                            valueViewSize.setValue(data.size.parseSize())
-                            valueViewType.setValue(data.type?:"未知")
+                            binding.valueViewBitrate.setValue("${data.br/1000} kbps")
+                            binding.valueViewSize.setValue(data.size.parseSize())
+                            binding.valueViewType.setValue(data.type?:"未知")
                         }
                     }
                 }
                 SOURCE_QQ -> {
                     runOnMainThread {
-                        valueViewId.setValue(it.id.toString())
+                        binding.valueViewId.setValue(it.id.toString())
                         if (SearchSong.getDirrorSongUrl(it.id.toString()) != "") {
-                            valueViewSource.setValue("Dirror 音乐")
+                            binding.valueViewSource.setValue("Dirror 音乐")
                         } else {
-                            valueViewSource.setValue("QQ 音乐")
+                            binding.valueViewSource.setValue("QQ 音乐")
                         }
-                        valueViewBitrate.setValue("未知")
-                        valueViewSize.setValue("未知")
-                        valueViewType.setValue("未知")
+                        binding.valueViewBitrate.setValue("未知")
+                        binding.valueViewSize.setValue("未知")
+                        binding.valueViewType.setValue("未知")
                     }
                 }
                 SOURCE_LOCAL -> {
                     runOnMainThread {
-                        valueViewId.setValue(it.id.toString())
-                        valueViewSource.setValue(context.getString(R.string.local_music))
-                        valueViewBitrate.setValue("未知")
+                        binding.valueViewId.setValue(it.id.toString())
+                        binding.valueViewSource.setValue(context.getString(R.string.local_music))
+                        binding.valueViewBitrate.setValue("未知")
                         val size = songData.localInfo?.size ?: 0L
-                        valueViewSize.setValue(size.parseSize())
-                        valueViewType.setValue("未知")
+                        binding.valueViewSize.setValue(size.parseSize())
+                        binding.valueViewType.setValue("未知")
                     }
                 }
 
