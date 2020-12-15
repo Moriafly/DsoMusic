@@ -66,4 +66,9 @@ class ActivityManager: ActivityManagerInterface {
         activity.startActivity(intent)
     }
 
+    override fun startPlayerActivity(activity: Activity) {
+        val intent = Intent(activity, PlayerActivity::class.java)
+        activity.startActivity(intent)
+    }
+
 }

@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         binding.includePlayer.root.setOnClickListener {
-            startActivity(Intent(this, PlayActivity::class.java))
+            startActivity(Intent(this, PlayerActivity::class.java))
             overridePendingTransition(
                 R.anim.anim_slide_enter_bottom,
                 R.anim.anim_no_anim

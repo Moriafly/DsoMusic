@@ -20,4 +20,6 @@ interface ActivityManagerInterface {
     fun startSettingsActivity(activity: Activity)
 
     fun startPrivateLetterActivity(activity: Activity)
+
+    fun startPlayerActivity(activity: Activity)
 }

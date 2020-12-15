@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.PrivateLetterActivity"></activity>
+        <activity android:name=".ui.activity.PrivateLetterActivity" />
         <activity
             android:name=".ui.activity.UserActivity"
             android:theme="@style/AppTheme.FullScreen" />
@@ -45,6 +45,11 @@
         <activity android:name=".ui.activity.SettingsActivity" />
         <activity
             android:name=".ui.activity.PlayActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
+        <activity
+            android:name=".ui.activity.PlayerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen" />
