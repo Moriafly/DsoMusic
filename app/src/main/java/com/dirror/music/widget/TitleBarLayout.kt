@@ -13,17 +13,16 @@ class TitleBarLayout(context: Context, attrs: AttributeSet): androidx.constraint
     context,
     attrs
 ) {
-
     private val typedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleBarLayout)
     val text = typedArray.getString(R.styleable.TitleBarLayout_text)
 
-    private val tvTitleBar = findViewById<TextView>(R.id.tvTitleBar)
-    private val btnBack = findViewById<ImageView>(R.id.btnBack)
+    private lateinit var tvTitleBar: TextView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.dirrorx_titlebar_layout, this)
 
-
+        tvTitleBar = findViewById<TextView>(R.id.tvTitleBar)
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
 
         tvTitleBar.text = text
 

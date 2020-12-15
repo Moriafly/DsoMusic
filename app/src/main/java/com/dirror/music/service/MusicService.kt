@@ -257,6 +257,8 @@ class MusicService : Service() {
         override fun playMusic(songPosition: Int) {
             isPrepared = false
             position = songPosition
+            loge("MusicService songPosition:${position}")
+            loge("MusicService 歌单歌曲数量:${playlist?.size}")
             // 当前的歌曲
             val song = playlist?.get(position ?: 0)
 

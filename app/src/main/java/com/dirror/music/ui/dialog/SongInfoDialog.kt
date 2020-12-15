@@ -23,7 +23,8 @@ class SongInfoDialog: Dialog {
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
-        setContentView(R.layout.dialog_song_info)
+        binding = DialogSongInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         // 设置显示位置
         window?.setGravity(Gravity.BOTTOM)
         // 设置大小
@@ -33,7 +34,7 @@ class SongInfoDialog: Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DialogSongInfoBinding.inflate(layoutInflater)
+
 
         binding.clDialog.setOnClickListener {
             // dismiss()

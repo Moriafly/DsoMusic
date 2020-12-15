@@ -78,8 +78,16 @@ class PlaylistActivity : AppCompatActivity() {
         binding.includePlay.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
         }
+
+        /**
+         * 全部播放
+         * 播放第一首歌
+         */
         binding.clNav.setOnClickListener {
-            detailPlaylistAdapter.playFirst()
+            if (detailPlaylistAdapter.itemCount != 0) {
+                detailPlaylistAdapter.playFirst()
+            }
+            // toast(detailPlaylistAdapter.itemCount.toString())
         }
 
     }
@@ -146,7 +154,9 @@ class PlaylistActivity : AppCompatActivity() {
         runOnMainThread {
             binding.clLoading.visibility = View.GONE
             binding.rvPlaylist.layoutManager =  LinearLayoutManager(this@PlaylistActivity)
-            binding.rvPlaylist.adapter = DetailPlaylistAdapter(songList, this@PlaylistActivity)
+            // 改变全局变量
+            detailPlaylistAdapter = DetailPlaylistAdapter(songList, this@PlaylistActivity)
+            binding.rvPlaylist.adapter = detailPlaylistAdapter
             binding.tvPlayAll.text = "播放全部(${songList.size})"
             binding.lottieLoading.pauseAnimation()
         }

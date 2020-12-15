@@ -16,6 +16,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.parseArtist
+import com.dirror.music.util.toast
 
 /**
  * 歌单适配器
@@ -40,8 +41,6 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.clSong.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycle_item)
-
-
 
         val song = songDataList[position]
         // 1 是要 vip，0 不一定（无语）
@@ -88,8 +87,11 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
 //        if (MyApplication.musicBinderInterface?.getPlaylist() == null) {
 //            return
 //        }
-        if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) { // 歌单相同
-            if (position == MyApplication.musicBinderInterface?.getNowPosition()) { // position 相同
+        // 歌单相同
+        if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) {
+            // toast("歌单相同")
+            // position 相同
+            if (position == MyApplication.musicBinderInterface?.getNowPosition()) {
                 if (view != null) {
                     view.context.startActivity(Intent(view.context, PlayActivity::class.java))
                     (view.context as Activity).overridePendingTransition(
@@ -101,7 +103,9 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
                 MyApplication.musicBinderInterface?.playMusic(position)
             }
         } else {
+            // 设置歌单
             MyApplication.musicBinderInterface?.setPlaylist(songDataList)
+            // 播放歌单
             MyApplication.musicBinderInterface?.playMusic(position)
         }
     }

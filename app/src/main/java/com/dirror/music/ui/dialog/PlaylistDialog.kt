@@ -18,7 +18,8 @@ class PlaylistDialog: Dialog {
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
-        setContentView(R.layout.dialog_play_list)
+        binding = DialogPlayListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         // 设置显示位置
         window?.setGravity(Gravity.BOTTOM)
         // 设置大小
@@ -29,7 +30,7 @@ class PlaylistDialog: Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DialogPlayListBinding.inflate(layoutInflater)
+
 
         binding.rvPlaylist.layoutManager = LinearLayoutManager(context)
         binding.rvPlaylist.adapter = MyApplication.musicBinderInterface?.getPlaylist()?.let { PlaylistDialogAdapter(it) }

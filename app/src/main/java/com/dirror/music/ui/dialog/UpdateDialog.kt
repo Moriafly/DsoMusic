@@ -16,7 +16,8 @@ class UpdateDialog: Dialog {
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
-        setContentView(R.layout.dialog_update)
+        binding = DialogUpdateBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         // 设置显示位置
         window?.setGravity(Gravity.BOTTOM)
         // 设置大小
@@ -29,7 +30,7 @@ class UpdateDialog: Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DialogUpdateBinding.inflate(layoutInflater)
+
 
         binding.btnCancel.setOnClickListener {
             dismiss()
