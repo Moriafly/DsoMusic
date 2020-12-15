@@ -5,8 +5,9 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.ImageView
+import android.widget.TextView
 import com.dirror.music.R
-import kotlinx.android.synthetic.main.dirrorx_titlebar_layout.view.*
 
 class TitleBarLayout(context: Context, attrs: AttributeSet): androidx.constraintlayout.widget.ConstraintLayout(
     context,
@@ -16,9 +17,13 @@ class TitleBarLayout(context: Context, attrs: AttributeSet): androidx.constraint
     private val typedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleBarLayout)
     val text = typedArray.getString(R.styleable.TitleBarLayout_text)
 
-    init {
+    private val tvTitleBar = findViewById<TextView>(R.id.tvTitleBar)
+    private val btnBack = findViewById<ImageView>(R.id.btnBack)
 
+    init {
         LayoutInflater.from(context).inflate(R.layout.dirrorx_titlebar_layout, this)
+
+
 
         tvTitleBar.text = text
 
