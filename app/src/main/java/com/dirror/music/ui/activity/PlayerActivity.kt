@@ -1,5 +1,6 @@
 package com.dirror.music.ui.activity
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,16 +10,25 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.palette.graphics.Palette
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityPlayBinding
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.service.MusicService
+import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
+import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
+import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
  * 新版 PlayActivity
@@ -39,6 +49,7 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         private const val BACKGROUND_SCALE_Y = 1.5F
         private const val BACKGROUND_SCALE_X = 2.5F
         private val DEFAULT_COLOR = Color.rgb(100, 100, 100)
+        private const val CD_SIZE = 240
     }
 
     // 目前还是 activity_play 布局
@@ -63,7 +74,43 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         }
     }
 
+    // CD 旋转动画
+    private val objectAnimator: ObjectAnimator by lazy {
+        ObjectAnimator.ofFloat(binding.ivCover, "rotation", playViewModel.rotation, playViewModel.rotation + 360f).apply {
+            interpolator = LinearInterpolator()
+            duration = 25000
+            repeatCount = -1
+            start()
+        }
+    }
 
+    // 背景 旋转动画
+    private val objectAnimatorBackground: ObjectAnimator by lazy {
+        ObjectAnimator.ofFloat(binding.ivBackground, "rotation", playViewModel.rotationBackground, playViewModel.rotationBackground + 360f).apply {
+            interpolator = LinearInterpolator()
+            duration = 50000
+            repeatCount = -1
+            start()
+        }
+    }
+
+    /**
+     * 开启旋转动画
+     */
+    private fun startRotateAlways() {
+        objectAnimator.resume()
+        objectAnimatorBackground.resume()
+    }
+
+    /**
+     * 关闭旋转动画
+     */
+    private fun pauseRotateAlways() {
+        playViewModel.rotation = binding.ivCover.rotation
+        playViewModel.rotationBackground = binding.ivBackground.rotation
+        objectAnimator.pause()
+        objectAnimatorBackground.pause()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,7 +187,14 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     MyApplication.activityManager.startCommentActivity(this@PlayerActivity, it.source, it.id)
                 }
             }
-
+            // 下载歌曲
+            ivDownload.setOnClickListener { toast("暂未开放") }
+            // 更多菜单
+            ivMore.setOnClickListener { PlayerMenuMoreDialog(this@PlayerActivity).show() }
+            // 播放列表
+            ivList.setOnClickListener { PlaylistDialog(this@PlayerActivity).show() }
+            // 喜欢音乐
+            ivLike.setOnClickListener { playViewModel.likeMusic() }
         }
     }
 
@@ -159,35 +213,68 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             })
             // 当前歌曲的观察
             standardSongData.observe(this@PlayerActivity, {
+                // toast("歌曲改变")
                 it?.let {
                     binding.tvName.text = it.name
                     binding.tvArtist.text = it.artists?.let { artists ->
                         parseArtist(artists)
                     }
+                    it.imageUrl?.let { imageUrl ->
+                        val url = MyApplication.cloudMusicManager.getPicture(imageUrl, CD_SIZE.dp())
+                        GlideUtil.load(url) { bitmap ->
+                            // 设置 CD 图片
+                            binding.ivCover.setImageBitmap(bitmap)
+                            // 设置 背景 图片
+                            Glide.with(MyApplication.context)
+                                .load(bitmap)
+                                .placeholder(binding.ivBackground.drawable)
+                                .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
+                                .into(binding.ivBackground)
+                            // 设置色调
+                            Palette.from(bitmap)
+                                .clearFilters()
+                                .generate { palette ->
+                                    if (palette?.vibrantSwatch != null) {
+                                        palette.vibrantSwatch?.rgb?.let { rgb ->
+                                            binding.ivPlay.setColorFilter(rgb)
+                                            binding.ivLast.setColorFilter(rgb)
+                                            binding.ivNext.setColorFilter(rgb)
+                                        }
+                                    } else {
+                                        binding.ivPlay.setColorFilter(DEFAULT_COLOR)
+                                        binding.ivLast.setColorFilter(DEFAULT_COLOR)
+                                        binding.ivNext.setColorFilter(DEFAULT_COLOR)
+                                    }
+                                }
+                        }
+                    }
+
                 }
             })
             // 播放状态的观察
             playState.observe(this@PlayerActivity, {
                 if (it) {
                     binding.ivPlay.setImageResource(R.drawable.ic_pause_btn)
+                    startRotateAlways()
                     handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                 } else {
                     binding.ivPlay.setImageResource(R.drawable.ic_play_btn)
+                    pauseRotateAlways()
                     handler.removeMessages(MSG_PROGRESS)
 
                     // handler.removeMessages(PlayActivity.MSG_LYRIC)
                 }
+            })
+            // 总时长的观察
+            duration.observe(this@PlayerActivity, {
+                binding.seekBar.max = it
+                binding.tvDuration.text = TimeUtil.parseDuration(it)
             })
             // 进度的观察
             progress.observe(this@PlayerActivity, {
                 binding.seekBar.progress = it
                 binding.tvProgress.text = TimeUtil.parseDuration(it)
                 handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
-            })
-            // 总时长的观察
-            duration.observe(this@PlayerActivity, {
-                binding.seekBar.max = it
-                binding.tvDuration.text = TimeUtil.parseDuration(it)
             })
         }
 

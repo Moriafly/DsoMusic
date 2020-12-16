@@ -7,11 +7,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApplication
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayActivity
+import com.dirror.music.util.toast
 
 class PlayerViewModel: ViewModel() {
 
+    var rotation = 0f
+    var rotationBackground = 0f
 
 
     // 播放模式
@@ -28,12 +33,12 @@ class PlayerViewModel: ViewModel() {
         it.value = MyApplication.musicBinderInterface?.getPlayState()
     }
 
-    var progress = MutableLiveData<Int>().also {
-        it.value = MyApplication.musicBinderInterface?.getProgress()
-    }
-
     var duration = MutableLiveData<Int>().also {
         it.value = MyApplication.musicBinderInterface?.getDuration()
+    }
+
+    var progress = MutableLiveData<Int>().also {
+        it.value = MyApplication.musicBinderInterface?.getProgress()
     }
 
     /**
@@ -41,8 +46,13 @@ class PlayerViewModel: ViewModel() {
      */
     fun refresh() {
         playMode.value = MyApplication.musicBinderInterface?.getPlayMode()
-        standardSongData.value = MyApplication.musicBinderInterface?.getNowSongData()
-        playState.value = MyApplication.musicBinderInterface?.getPlayState()
+        if (standardSongData.value != MyApplication.musicBinderInterface?.getNowSongData()) {
+            standardSongData.value = MyApplication.musicBinderInterface?.getNowSongData()
+        }
+        if (playState.value != MyApplication.musicBinderInterface?.getPlayState()) {
+            playState.value = MyApplication.musicBinderInterface?.getPlayState()
+        }
+        // 还是开启好
         // progress.value = MyApplication.musicBinderInterface?.getProgress()
         duration.value = MyApplication.musicBinderInterface?.getDuration()
     }
@@ -86,6 +96,26 @@ class PlayerViewModel: ViewModel() {
 
     fun setProgress(newProgress: Int) {
         MyApplication.musicBinderInterface?.setProgress(newProgress)
+    }
+
+    fun likeMusic() {
+        standardSongData.let {
+            it.value?.let { song ->
+                when (song.source) {
+                    SOURCE_NETEASE -> {
+                        MyApplication.cloudMusicManager.likeSong(song.id, {
+                            toast("添加到我喜欢成功")
+                        }, {
+                            toast("添加到我喜欢失败")
+                        })
+                    }
+                    SOURCE_QQ -> {
+                        toast("暂不支持此音源")
+                    }
+                }
+            }
+
+        }
     }
 
 }
