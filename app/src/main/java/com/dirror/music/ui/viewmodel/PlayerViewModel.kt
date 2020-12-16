@@ -1,22 +1,18 @@
 package com.dirror.music.ui.viewmodel
 
-import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.Message
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.ui.activity.PlayActivity
 import com.dirror.music.util.toast
 
 class PlayerViewModel: ViewModel() {
 
     var rotation = 0f
     var rotationBackground = 0f
+    var oldY = 0f
 
 
     // 播放模式
@@ -52,9 +48,9 @@ class PlayerViewModel: ViewModel() {
         if (playState.value != MyApplication.musicBinderInterface?.getPlayState()) {
             playState.value = MyApplication.musicBinderInterface?.getPlayState()
         }
-        // 还是开启好
-        // progress.value = MyApplication.musicBinderInterface?.getProgress()
-        duration.value = MyApplication.musicBinderInterface?.getDuration()
+        if (duration.value != MyApplication.musicBinderInterface?.getDuration()) {
+            duration.value = MyApplication.musicBinderInterface?.getDuration()
+        }
     }
 
     fun refreshProgress() {

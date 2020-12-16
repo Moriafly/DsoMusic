@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.databinding.ActivityPlayBinding
+import com.dirror.music.databinding.ActivityPlayerBinding
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
@@ -36,6 +36,7 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 
+@Deprecated("过时，使用新版 PlayerActivity")
 @Suppress("DEPRECATION")
 class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
@@ -44,7 +45,7 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         private const val MSG_LYRIC = 1 // Handle 消息，播放进度
     }
 
-    private lateinit var binding: ActivityPlayBinding
+    private lateinit var binding: ActivityPlayerBinding
 
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private var song: StandardSongData? = null
@@ -63,7 +64,7 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPlayBinding.inflate(layoutInflater)
+        binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initData()
         initView()

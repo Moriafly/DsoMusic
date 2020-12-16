@@ -26,7 +26,7 @@ import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.MainActivity
-import com.dirror.music.ui.activity.PlayActivity
+import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.util.*
 import org.jetbrains.annotations.TestOnly
 
@@ -621,7 +621,7 @@ class MusicService : Service() {
 
     private fun getPendingIntentActivity(): PendingIntent {
         val intentMain = Intent(this, MainActivity::class.java)
-        val intentPlayer = Intent(this, PlayActivity::class.java)
+        val intentPlayer = Intent(this, PlayerActivity::class.java)
         val intents = arrayOf(intentMain, intentPlayer)
         return PendingIntent.getActivities(this, 1, intents, PendingIntent.FLAG_UPDATE_CURRENT)
     }

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPageBackground"
-    tools:context=".ui.activity.PlayActivity">
+    tools:context=".ui.activity.PlayerActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clBackground"

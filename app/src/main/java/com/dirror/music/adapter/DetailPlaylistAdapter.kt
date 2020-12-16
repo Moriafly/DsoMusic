@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.ui.activity.PlayActivity
+import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.parseArtist
-import com.dirror.music.util.toast
+
 
 /**
  * 歌单适配器
@@ -93,7 +93,7 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
             // position 相同
             if (position == MyApplication.musicBinderInterface?.getNowPosition()) {
                 if (view != null) {
-                    view.context.startActivity(Intent(view.context, PlayActivity::class.java))
+                    view.context.startActivity(Intent(view.context, PlayerActivity::class.java))
                     (view.context as Activity).overridePendingTransition(
                         R.anim.anim_slide_enter_bottom,
                         R.anim.anim_no_anim

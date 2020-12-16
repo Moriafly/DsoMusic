@@ -44,11 +44,6 @@
         <activity android:name=".ui.activity.OpenSourceActivity" />
         <activity android:name=".ui.activity.SettingsActivity" />
         <activity
-            android:name=".ui.activity.PlayActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.FullScreen" />
-        <activity
             android:name=".ui.activity.PlayerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

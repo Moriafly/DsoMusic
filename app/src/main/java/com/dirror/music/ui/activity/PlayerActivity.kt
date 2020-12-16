@@ -10,6 +10,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.view.MotionEvent
+import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
@@ -20,9 +22,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.databinding.ActivityPlayBinding
-import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.SOURCE_QQ
+import com.dirror.music.databinding.ActivityPlayerBinding
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -41,11 +41,10 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     companion object {
         private const val MUSIC_BROADCAST_ACTION = "com.dirror.music.MUSIC_BROADCAST"
-        private const val DELAY_MILLIS = 500L
+        private const val DELAY_MILLIS = 5L
         // Handle 消息，播放进度
         private const val MSG_PROGRESS = 0
         // Handle 消息，播放进度
-        private const val MSG_LYRIC = 1
         private const val BACKGROUND_SCALE_Y = 1.5F
         private const val BACKGROUND_SCALE_X = 2.5F
         private val DEFAULT_COLOR = Color.rgb(100, 100, 100)
@@ -53,23 +52,16 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     // 目前还是 activity_play 布局
-    private lateinit var binding: ActivityPlayBinding
-
+    private lateinit var binding: ActivityPlayerBinding
     // 音乐广播接收者
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver
-
     // ViewModel 数据和视图分离
     private val playViewModel: PlayerViewModel by viewModels()
-
     // Looper + Handler，目前还不会
     private val handler = @SuppressLint("HandlerLeak") object : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
-                MSG_PROGRESS -> {
-                    loge("refreshProgress()")
-                    playViewModel.refreshProgress()
-                }
-                // MSG_LYRIC -> refreshLyricView()
+                MSG_PROGRESS -> { playViewModel.refreshProgress() }
             }
         }
     }
@@ -94,29 +86,10 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         }
     }
 
-    /**
-     * 开启旋转动画
-     */
-    private fun startRotateAlways() {
-        objectAnimator.resume()
-        objectAnimatorBackground.resume()
-    }
-
-    /**
-     * 关闭旋转动画
-     */
-    private fun pauseRotateAlways() {
-        playViewModel.rotation = binding.ivCover.rotation
-        playViewModel.rotationBackground = binding.ivBackground.rotation
-        objectAnimator.pause()
-        objectAnimatorBackground.pause()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPlayBinding.inflate(layoutInflater)
+        binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         // 进度条变化的监听
         binding.seekBar.setOnSeekBarChangeListener(this)
         // 初始化广播接受者
@@ -167,6 +140,7 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     /**
      * 初始化监听
      */
+    @SuppressLint("ClickableViewAccessibility")
     private fun initListener() {
         binding.apply {
             // 返回按钮
@@ -195,6 +169,33 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             ivList.setOnClickListener { PlaylistDialog(this@PlayerActivity).show() }
             // 喜欢音乐
             ivLike.setOnClickListener { playViewModel.likeMusic() }
+            // 歌词点击
+            clLyric.setOnClickListener {
+                AnimationUtil.fadeIn(binding.clCd)
+                AnimationUtil.fadeIn(binding.clMenu)
+                binding.clLyric.visibility = View.INVISIBLE
+            }
+            // CD
+            clCd.setOnTouchListener { _, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        playViewModel.oldY = event.y
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        if (event.y - playViewModel.oldY > 100f) {
+                            finish()
+                        } else {
+                            if (binding.clLyric.visibility == View.INVISIBLE) {
+                                AnimationUtil.fadeOut(binding.clCd, true)
+                                AnimationUtil.fadeOut(binding.clMenu, true)
+                                binding.clLyric.visibility = View.VISIBLE
+                            }
+
+                        }
+                    }
+                }
+                return@setOnTouchListener true
+            }
         }
     }
 
@@ -261,23 +262,45 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     binding.ivPlay.setImageResource(R.drawable.ic_play_btn)
                     pauseRotateAlways()
                     handler.removeMessages(MSG_PROGRESS)
-
-                    // handler.removeMessages(PlayActivity.MSG_LYRIC)
                 }
             })
             // 总时长的观察
             duration.observe(this@PlayerActivity, {
                 binding.seekBar.max = it
                 binding.tvDuration.text = TimeUtil.parseDuration(it)
+                binding.lyricView.setSongDuration(it)
             })
             // 进度的观察
             progress.observe(this@PlayerActivity, {
                 binding.seekBar.progress = it
                 binding.tvProgress.text = TimeUtil.parseDuration(it)
                 handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
+                playViewModel.standardSongData.value?.let { song ->
+                    binding.lyricView.setLyricId(song)
+                    // 更新歌词播放进度
+                    binding.lyricView.updateProgress(it)
+                }
             })
         }
 
+    }
+
+    /**
+     * 开启旋转动画
+     */
+    private fun startRotateAlways() {
+        objectAnimator.resume()
+        objectAnimatorBackground.resume()
+    }
+
+    /**
+     * 关闭旋转动画
+     */
+    private fun pauseRotateAlways() {
+        playViewModel.rotation = binding.ivCover.rotation
+        playViewModel.rotationBackground = binding.ivBackground.rotation
+        objectAnimator.pause()
+        objectAnimatorBackground.pause()
     }
 
     override fun onDestroy() {
@@ -319,6 +342,5 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     override fun onStartTrackingTouch(seekBar: SeekBar?) { }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) { }
-
 
 }
