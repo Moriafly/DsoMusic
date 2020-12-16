@@ -43,10 +43,8 @@ class MainActivity : AppCompatActivity() {
         initListener()
 
         mainViewModel.getUserId().observe(this, { userId ->
-            // toast("main:$it")
             if (userId == 0L) {
                 binding.menuMain.tvUserName.text = "立即登录"
-                // MyApplication.activityManager.startLoginActivity(this@MainActivity)
             } else {
                 MyApplication.cloudMusicManager.getUserDetail(userId, {
                     runOnUiThread {
@@ -100,12 +98,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 适配导航栏
-        val navigationBarHeight = getNavigationBarHeight(this).toFloat()
-        binding.clPlay.translationY = -navigationBarHeight
-        binding.blurViewPlay.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
-        binding.blurViewPlay.translationY = -navigationBarHeight / 2
-        binding.blurViewPlayBottom.scaleY = (dp2px(56f) + navigationBarHeight) / dp2px(56f)
-        binding.blurViewPlayBottom.translationY = -navigationBarHeight / 2
+        val navigationBarHeight = getNavigationBarHeight(this)
+        (binding.clPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
+            bottomMargin = navigationBarHeight
+        }
+        (binding.blurViewPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
+            height = 56.dp() + navigationBarHeight
+        }
+        (binding.blurViewPlayBottom.layoutParams as ConstraintLayout.LayoutParams).apply{
+            height = 56.dp() + navigationBarHeight
+        }
 
         binding.viewPager2.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
@@ -164,12 +166,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, SearchActivity::class.java))
         }
 
-
         // 设置按钮
         binding.ivSettings.setOnClickListener {
             binding.drawerLayout.openDrawer(Gravity.START)
         }
-
 
         // 侧滑
         binding.menuMain.apply {

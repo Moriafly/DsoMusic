@@ -20,7 +20,7 @@
     <color name="colorItemPressedBackground">#0F0F0F</color>
 
     <!-- 字体前景色 -->
-    <color name="colorTextForeground">#FFFFFF</color>
+    <color name="colorTextForeground">#EBEBEB</color>
     <color name="colorSubTextForeground">#8C8C8C</color>
     <color name="colorEditTextBackground">#1E1E1E</color>
 

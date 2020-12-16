@@ -228,6 +228,7 @@
                     android:id="@+id/ivCover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/bq_no_data_song" />
 
             </androidx.cardview.widget.CardView>

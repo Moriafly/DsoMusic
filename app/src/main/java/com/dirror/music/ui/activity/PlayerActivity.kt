@@ -23,6 +23,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityPlayerBinding
+import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -32,7 +33,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
  * 新版 PlayActivity
- * 用来取代原先的 PlayActivity，预计 2.0.0 版本上线
+ * 用来取代原先的 PlayActivity，预计 1.6.1 版本上线
  * @目标 更加清晰方便管理，加入 PlayerViewModel
  * @author Moriafly
  * @since 2020年12月15日18:35:46
@@ -221,32 +222,33 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                         parseArtist(artists)
                     }
                     it.imageUrl?.let { imageUrl ->
-                        val url = MyApplication.cloudMusicManager.getPicture(imageUrl, CD_SIZE.dp())
-                        GlideUtil.load(url) { bitmap ->
-                            // 设置 CD 图片
-                            binding.ivCover.setImageBitmap(bitmap)
-                            // 设置 背景 图片
-                            Glide.with(MyApplication.context)
-                                .load(bitmap)
-                                .placeholder(binding.ivBackground.drawable)
-                                .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
-                                .into(binding.ivBackground)
-                            // 设置色调
-                            Palette.from(bitmap)
-                                .clearFilters()
-                                .generate { palette ->
-                                    if (palette?.vibrantSwatch != null) {
-                                        palette.vibrantSwatch?.rgb?.let { rgb ->
-                                            binding.ivPlay.setColorFilter(rgb)
-                                            binding.ivLast.setColorFilter(rgb)
-                                            binding.ivNext.setColorFilter(rgb)
+                        // val url = MyApplication.cloudMusicManager.getPicture(imageUrl, CD_SIZE.dp())
+                        SongPicture.getSongPicture(it, SongPicture.TYPE_LARGE) { bitmap ->
+                                // 设置 CD 图片
+                                binding.ivCover.setImageBitmap(bitmap)
+                                // 设置 背景 图片
+                                Glide.with(MyApplication.context)
+                                    .load(bitmap)
+                                    .placeholder(binding.ivBackground.drawable)
+                                    .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
+                                    .into(binding.ivBackground)
+                                // 设置色调
+                                Palette.from(bitmap)
+                                    .clearFilters()
+                                    .generate { palette ->
+                                        if (palette?.vibrantSwatch != null) {
+                                            palette.vibrantSwatch?.rgb?.let { rgb ->
+                                                binding.ivPlay.setColorFilter(rgb)
+                                                binding.ivLast.setColorFilter(rgb)
+                                                binding.ivNext.setColorFilter(rgb)
+                                            }
+                                        } else {
+                                            binding.ivPlay.setColorFilter(DEFAULT_COLOR)
+                                            binding.ivLast.setColorFilter(DEFAULT_COLOR)
+                                            binding.ivNext.setColorFilter(DEFAULT_COLOR)
                                         }
-                                    } else {
-                                        binding.ivPlay.setColorFilter(DEFAULT_COLOR)
-                                        binding.ivLast.setColorFilter(DEFAULT_COLOR)
-                                        binding.ivNext.setColorFilter(DEFAULT_COLOR)
                                     }
-                                }
+
                         }
                     }
 

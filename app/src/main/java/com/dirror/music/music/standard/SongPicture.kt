@@ -11,6 +11,7 @@ import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.dp
 
 object SongPicture {
 
@@ -22,6 +23,7 @@ object SongPicture {
      * 标准
      */
     @SuppressLint("UseCompatLoadingForDrawables")
+    // @Deprecated("过时，等待新方法")
     fun getSongPicture(songData: StandardSongData, type: Int, success: (Bitmap) -> Unit) {
         // 普通背景
         if (songData.source == SOURCE_LOCAL) {
@@ -46,7 +48,8 @@ object SongPicture {
                 // url = url.replace("?param=300y300", "?param=1000y60")
                 when (type) {
                     TYPE_LARGE -> {
-                        "$API_FCZBL_VIP/?type=cover&id=${songData.id}"
+                        // "${songData.imageUrl}?param=300y300"
+                        "$API_FCZBL_VIP/?type=cover&id=${songData.id}&param=${240.dp()}y${240.dp()}"
                     }
                     else -> {
                         "$API_FCZBL_VIP/?type=cover&id=${songData.id}"

@@ -40,6 +40,7 @@ class HomeFragment : Fragment() {
         }
         initView()
         initBanner()
+        initListener()
     }
 
 
