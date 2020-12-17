@@ -202,6 +202,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            itemLogin.setOnClickListener {
+                startActivity(Intent(this@MainActivity, LoginActivity3::class.java))
+            }
+
         }
 
 

@@ -224,6 +224,14 @@
                     android:orientation="vertical">
 
                     <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:text="LoginActivity3 测试">
+
+                    </com.dirror.music.widget.ItemLayout>
+
+                    <com.dirror.music.widget.ItemLayout
                         android:id="@+id/itemSwitchAccount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

@@ -28,6 +28,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
+        <activity android:name=".ui.activity.LoginActivity3"
+            android:theme="@style/AppTheme.FullScreen"/>
         <activity android:name=".ui.activity.PrivateLetterActivity" />
         <activity
             android:name=".ui.activity.UserActivity"
