@@ -13,4 +13,6 @@ object Config {
 
     const val SEARCH_ENGINE_TIP = "boolean_search_engine_tip" // 音乐搜索引擎提示
     const val CLOUD_MUSIC_COOKIE = "string_cloud_music_cookie"
+
+    // const val FIRST_USE_APP = "boolean_first_use_app" // 第一次使用 APP
 }

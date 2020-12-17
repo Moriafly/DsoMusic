@@ -23,12 +23,14 @@ import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityPlayerBinding
+import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
+import com.dirror.music.widget.lyric.LrcView
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -172,9 +174,7 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             ivLike.setOnClickListener { playViewModel.likeMusic() }
             // 歌词点击
             clLyric.setOnClickListener {
-                AnimationUtil.fadeIn(binding.clCd)
-                AnimationUtil.fadeIn(binding.clMenu)
-                binding.clLyric.visibility = View.INVISIBLE
+
             }
             // CD
             clCd.setOnTouchListener { _, event ->
@@ -197,6 +197,17 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 }
                 return@setOnTouchListener true
             }
+            // lyricView
+            lyricView.setDraggable(true) { time ->
+                playViewModel.setProgress(time.toInt())
+                true
+            }
+            lyricView.setOnSingerClickListener {
+                AnimationUtil.fadeIn(binding.clCd)
+                AnimationUtil.fadeIn(binding.clMenu)
+                binding.clLyric.visibility = View.INVISIBLE
+            }
+
         }
     }
 
@@ -251,6 +262,10 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
                         }
                     }
+                    // 更改歌词
+                    SearchLyric.getLyricString(it) { string ->
+                        binding.lyricView.loadLrc(string)
+                    }
 
                 }
             })
@@ -270,7 +285,8 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             duration.observe(this@PlayerActivity, {
                 binding.seekBar.max = it
                 binding.tvDuration.text = TimeUtil.parseDuration(it)
-                binding.lyricView.setSongDuration(it)
+                // binding.lyricView.
+
             })
             // 进度的观察
             progress.observe(this@PlayerActivity, {
@@ -278,9 +294,11 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 binding.tvProgress.text = TimeUtil.parseDuration(it)
                 handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                 playViewModel.standardSongData.value?.let { song ->
-                    binding.lyricView.setLyricId(song)
                     // 更新歌词播放进度
-                    binding.lyricView.updateProgress(it)
+                    binding.lyricView.updateTime(it.toLong())
+//                    binding.lyricView.setLyricId(song)
+//                    // 更新歌词播放进度
+//                    binding.lyricView.updateProgress(it)
                 }
             })
         }

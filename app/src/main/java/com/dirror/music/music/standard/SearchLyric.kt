@@ -9,6 +9,47 @@ import com.google.gson.Gson
 
 object SearchLyric {
 
+    fun getLyricString(songData: StandardSongData, success: (String) -> Unit) {
+        var url = ""
+        when (songData.source) {
+            // 网易云
+            SOURCE_NETEASE -> {
+                url = "http://music.eleuu.com/lyric?id=${songData.id}"
+                //url = "$API_FCZBL_VIP/?type=lrc&id=${songData.id}"
+            }
+            // QQ
+            SOURCE_QQ -> {
+                url = "https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid=${songData.id}&format=json&nobase64=1"
+            }
+        }
+
+        MagicHttp.OkHttpManager().newGet(url, { response ->
+            var lyric = response
+
+            when (songData.source) {
+                SOURCE_QQ -> {
+                    if (Gson().fromJson(lyric, QQSongLyric::class.java).lyric != null) {
+                        lyric = Gson().fromJson(lyric, QQSongLyric::class.java).lyric.toString()
+                        success.invoke(lyric)
+                    } else {
+                        success.invoke("")
+                    }
+                }
+                SOURCE_NETEASE -> {
+                    if (Gson().fromJson(lyric, NeteaseSongLyric::class.java).lrc != null) {
+                        lyric = Gson().fromJson(lyric, NeteaseSongLyric::class.java).lrc?.lyric.toString()
+                        success.invoke(lyric)
+                    } else {
+                        success.invoke("")
+                    }
+                }
+            }
+
+        }, {
+
+        })
+    }
+
     /**
      * 标准库获取歌词
      * 传入 [songData] ，返回地址

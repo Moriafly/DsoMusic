@@ -152,10 +152,6 @@ class MainActivity : AppCompatActivity() {
                 MyApplication.activityManager.startLoginActivity(this@MainActivity)
             }
 
-            itemLoginByPhone.setOnClickListener {
-                MyApplication.activityManager.startLoginByPhoneActivity(this@MainActivity)
-            }
-
             itemSettings.setOnClickListener {
                 MyApplication.activityManager.startSettingsActivity(this@MainActivity)
             }
@@ -167,10 +163,6 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     toast("当前为离线模式，请登录")
                 }
-            }
-
-            itemLogin.setOnClickListener {
-                startActivity(Intent(this@MainActivity, LoginActivity3::class.java))
             }
 
         }

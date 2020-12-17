@@ -356,10 +356,10 @@ class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             nowProgress = MyApplication.musicBinderInterface?.getProgress() ?: 0 // 当前时长
             duration = MyApplication.musicBinderInterface?.getDuration() ?: duration // 歌曲时长
 
-            binding.lyricView.setLyricId(song)
-            binding.lyricView.setSongDuration(duration)
-            // 更新歌词播放进度
-            binding.lyricView.updateProgress(nowProgress)
+//            binding.lyricView.setLyricId(song)
+//            binding.lyricView.setSongDuration(duration)
+//            // 更新歌词播放进度
+//            binding.lyricView.updateProgress(nowProgress)
 
             // 更新
             handler.sendEmptyMessage(MSG_LYRIC)

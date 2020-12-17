@@ -18,17 +18,21 @@ class LoginByPhoneActivity : AppCompatActivity() {
         binding.btnLoginByPhone.setOnClickListener {
             val phone = binding.etPhone.text.toString()
             val password = binding.etPassword.text.toString()
-            MyApplication.cloudMusicManager.loginByTell(phone, password, {
-                // 发送广播
-                val intent = Intent("com.dirror.music.LOGIN")
-                intent.setPackage(packageName)
-                sendBroadcast(intent)
-                // 通知 Login 关闭
-                setResult(RESULT_OK, Intent())
-                finish()
-            }, {
-                toast("")
-            })
+            if (phone == "" || password == "") {
+                toast("请输入手机号或密码")
+            } else {
+                MyApplication.cloudMusicManager.loginByTell(phone, password, {
+                    // 发送广播
+                    val intent = Intent("com.dirror.music.LOGIN")
+                    intent.setPackage(packageName)
+                    sendBroadcast(intent)
+                    // 通知 Login 关闭
+                    setResult(RESULT_OK, Intent())
+                    finish()
+                }, {
+                    toast("")
+                })
+            }
         }
     }
 

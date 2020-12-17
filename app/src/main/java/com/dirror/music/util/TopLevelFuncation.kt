@@ -139,3 +139,7 @@ fun copyToClipboard(activity: Activity, text: String) {
 // Toast 提示
 //    Toast.makeText(,"已复制邮箱地址到剪贴板",Toast.LENGTH_SHORT).show()
 }
+
+fun shareApp(context: Context) {
+
+}
