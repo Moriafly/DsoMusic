@@ -52,7 +52,7 @@ class PlaylistActivity : AppCompatActivity() {
     private fun initView() {
         val playlistId = intent.getLongExtra("long_playlist_id", -1)
 
-        binding.lottieLoading.repeatCount = 20
+        binding.lottieLoading.repeatCount = -1
         binding.lottieLoading.playAnimation()
 
         // 加载歌单信息

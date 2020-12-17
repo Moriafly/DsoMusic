@@ -33,8 +33,8 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
  * 新版 PlayActivity
- * 用来取代原先的 PlayActivity，预计 1.6.1 版本上线
- * @目标 更加清晰方便管理，加入 PlayerViewModel
+ * 用来取代原先的 PlayActivity，1.6.1 版本已上线
+ * 更加清晰方便管理，加入 PlayerViewModel
  * @author Moriafly
  * @since 2020年12月15日18:35:46
  */

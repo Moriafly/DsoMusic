@@ -18,7 +18,7 @@ class LoginActivity3 : AppCompatActivity() {
     private fun initView() {
         binding.lottieBackground.repeatCount = -1
         binding.lottieBackground.playAnimation()
-
+        binding.lottieBackground.speed = 1f
     }
 
     override fun onDestroy() {

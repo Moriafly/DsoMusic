@@ -36,6 +36,9 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 
+/**
+ * 预计 2.0.0 版本移除
+ */
 @Deprecated("过时，使用新版 PlayerActivity")
 @Suppress("DEPRECATION")
 class PlayActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
