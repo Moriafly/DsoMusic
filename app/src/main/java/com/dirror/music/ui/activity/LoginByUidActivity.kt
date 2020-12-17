@@ -1,11 +1,13 @@
 package com.dirror.music.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLoginByUidBinding
 import com.dirror.music.util.toast
+import java.util.regex.Pattern
 
 /**
  * 通过网易云 UID 登录
@@ -25,25 +27,46 @@ class LoginByUidActivity : AppCompatActivity(R.layout.activity_login_by_uid) {
         // 点击登录按钮
         binding.btnLogin.setOnClickListener {
             // 获取输入
-            val text = binding.etUid.text.toString()
+            var netease = binding.etUid.text.toString()
+
             // 判断是否直接是网易云分享用户链接
-            if (text != "") {
-                val index = text.indexOf("id=")
+            if (netease != "") {
+                val index = netease.indexOf("id=")
                 if (index != -1) {
-                    val netease = text.subSequence(index + 3, text.length).toString()
+                    netease = netease.subSequence(index + 3, netease.length).toString()
+                }
+                netease = keepDigital(netease)
+                // loge("数字：${netease}")
+                if (netease != "") {
                     CloudMusic.loginByUid(netease.toLong()) {
+                        // 发送广播
+                        val intent = Intent("com.dirror.music.LOGIN")
+                        intent.setPackage(packageName)
+                        sendBroadcast(intent)
+                        // 通知 Login 关闭
+                        setResult(RESULT_OK, Intent())
                         finish()
                     }
                 } else {
-                    CloudMusic.loginByUid(text.toLong()) {
-                        finish()
-                    }
+                    toast("错误的 UID")
                 }
             } else {
                 toast("请输入 UID")
             }
 
         }
+    }
+
+    /**
+     * 只保留数字
+     */
+    private fun keepDigital(oldString: String): String {
+        val newString = StringBuffer()
+        val matcher = Pattern.compile("\\d").matcher(oldString)
+        while (matcher.find()) {
+            newString.append(matcher.group())
+        }
+        return newString.toString()
     }
 
 }

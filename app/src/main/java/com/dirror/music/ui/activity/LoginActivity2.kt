@@ -10,6 +10,7 @@ import com.dirror.music.music.CloudMusic
 import com.dirror.music.util.toast
 import java.util.regex.Pattern
 
+@Deprecated("将在 2.0 废弃")
 class LoginActivity2 : AppCompatActivity() {
 
     private lateinit var binding: ActivityLogin2Binding

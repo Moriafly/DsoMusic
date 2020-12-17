@@ -27,9 +27,7 @@ interface CloudMusicManagerInterface {
 
     fun getBanner(success: (BannerData) -> Unit, failure: () -> Unit)
 
-
     fun sendComment(t: Int, type: Int, id: String, content: String, commentId: Long = 0L, success: (CodeData) -> Unit, failure: () -> Unit)
-
 
     fun getPrivateLetter(success: (PrivateLetterData) -> Unit, failure: () -> Unit)
 

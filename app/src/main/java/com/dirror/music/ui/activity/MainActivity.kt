@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
+    private lateinit var loginReceiver: LoginReceiver // 登录广播接收
 
     private val mainViewModel: MainViewModel by viewModels()
 
@@ -41,25 +42,12 @@ class MainActivity : AppCompatActivity() {
         initData()
         initView()
         initListener()
-
-        mainViewModel.getUserId().observe(this, { userId ->
-            if (userId == 0L) {
-                binding.menuMain.tvUserName.text = "立即登录"
-            } else {
-                MyApplication.cloudMusicManager.getUserDetail(userId, {
-                    runOnUiThread {
-                        GlideUtil.load(it.profile.avatarUrl, binding.menuMain.ivCover)
-                        binding.menuMain.tvUserName.text = it.profile.nickname
-                    }
-                }, {
-
-                })
-            }
-        })
+        initObserve()
     }
 
     private fun initData() {
-        var intentFilter = IntentFilter() // Intent 过滤器
+        // Intent 过滤器
+        var intentFilter = IntentFilter()
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
@@ -68,11 +56,14 @@ class MainActivity : AppCompatActivity() {
         intentFilter.addAction("android.intent.action.HEADSET_PLUG")
         headSetChangeReceiver = HeadsetChangeReceiver()
         registerReceiver(headSetChangeReceiver, intentFilter) // 注册接收器
+        intentFilter = IntentFilter()
 
+        intentFilter.addAction("com.dirror.music.LOGIN")
+        loginReceiver = LoginReceiver()
+        registerReceiver(loginReceiver, intentFilter) // 注册接收器
         // 检查新版本
         UpdateUtil.checkNewVersion(this, false)
     }
-
 
     private fun initView() {
         // 请求广播
@@ -119,17 +110,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // navigationView.itemIconTintList = null
-
-        // 默认打开首页
-        if (MyApplication.userManager.isUidLogin()) {
-            binding.viewPager2.currentItem = 1
-        } else {
-            binding.viewPager2.currentItem = 0
-        }
-
-        ViewPager2Util.changeToNeverMode(binding.viewPager2)
-
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = when (position) {
                 0 -> getString(R.string.my)
@@ -137,30 +117,17 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
 
-        binding.includePlayer.root.setOnClickListener {
-            startActivity(Intent(this, PlayerActivity::class.java))
-            overridePendingTransition(
-                R.anim.anim_slide_enter_bottom,
-                R.anim.anim_no_anim
-            )
+        if (MyApplication.userManager.isUidLogin()) {
+            binding.viewPager2.currentItem = 1
+        } else {
+            binding.viewPager2.currentItem = 0
         }
 
-        binding.includePlayer.ivPlaylist.setOnClickListener {
-            PlaylistDialog(this).show()
-        }
-
+        ViewPager2Util.changeToNeverMode(binding.viewPager2)
     }
 
     @SuppressLint("WrongConstant")
     private fun initListener() {
-
-        // 播放栏
-        binding.includePlayer.ivPlay.setOnClickListener {
-            // 更新
-            MyApplication.musicBinderInterface?.changePlayState()
-            refreshPlayState()
-        }
-
         // 搜索按钮
         binding.ivSearch.setOnClickListener {
             startActivity(Intent(this@MainActivity, SearchActivity::class.java))
@@ -241,6 +208,38 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AboutActivity::class.java))
         }
 
+        // Mini Player
+        binding.includePlayer.apply {
+            root.setOnClickListener {
+                MyApplication.activityManager.startPlayerActivity(this@MainActivity)
+            }
+            ivPlay.setOnClickListener {
+                MyApplication.musicBinderInterface?.changePlayState()
+                refreshPlayState()
+            }
+            ivPlaylist.setOnClickListener { PlaylistDialog(this@MainActivity).show() }
+        }
+
+
+    }
+
+    private fun initObserve() {
+        mainViewModel.userId.observe(this, { userId ->
+            // toast("侧栏收到变化：${userId}")
+            if (userId == 0L) {
+                binding.menuMain.tvUserName.text = "立即登录"
+            } else {
+                MyApplication.cloudMusicManager.getUserDetail(userId, {
+                    runOnUiThread {
+                        // toast("通知头像更新")
+                        GlideUtil.load(it.profile.avatarUrl, binding.menuMain.ivCover)
+                        binding.menuMain.tvUserName.text = it.profile.nickname
+                    }
+                }, {
+
+                })
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -248,6 +247,7 @@ class MainActivity : AppCompatActivity() {
         // 解绑广播接收
         unregisterReceiver(musicBroadcastReceiver)
         unregisterReceiver(headSetChangeReceiver)
+        unregisterReceiver(loginReceiver)
     }
 
     inner class MusicBroadcastReceiver : BroadcastReceiver() {
@@ -265,6 +265,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    inner class LoginReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            // 通知 viewModel
+            // toast("收到登录广播")
+            mainViewModel.setUserId()
+        }
+    }
+
     /**
      * 刷新播放状态
      */
@@ -273,17 +281,6 @@ class MainActivity : AppCompatActivity() {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            0 -> if (resultCode == RESULT_OK) {
-                // toast("activity 回调成功")
-                // 通知 viewModel
-                mainViewModel.setUserId()
-            }
         }
     }
 

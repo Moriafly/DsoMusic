@@ -57,9 +57,9 @@ object CloudMusic {
      */
     fun loginByUid(uid: Long, success: () -> Unit) {
         getUserDetail(uid, {
-            success.invoke()
             MyApplication.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
-            toast("登录成功")
+            success.invoke()
+            // toast("登录成功${it.profile?.userId!!.toLong()}")
         }, {
             toast(it)
         })

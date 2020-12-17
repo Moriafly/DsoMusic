@@ -46,7 +46,7 @@ class MyFragment : BaseFragment() {
         binding.rvPlaylist.layoutManager =  LinearLayoutManager(activity)
         binding.rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
 
-        mainViewModel.getUserId().observe(viewLifecycleOwner, {
+        mainViewModel.userId.observe(viewLifecycleOwner, {
             getPlaylist()
         })
     }

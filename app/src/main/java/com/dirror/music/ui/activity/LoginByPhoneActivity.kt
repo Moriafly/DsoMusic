@@ -19,8 +19,12 @@ class LoginByPhoneActivity : AppCompatActivity() {
             val phone = binding.etPhone.text.toString()
             val password = binding.etPassword.text.toString()
             MyApplication.cloudMusicManager.loginByTell(phone, password, {
-                val intent = Intent()
-                setResult(RESULT_OK, intent)
+                // 发送广播
+                val intent = Intent("com.dirror.music.LOGIN")
+                intent.setPackage(packageName)
+                sendBroadcast(intent)
+                // 通知 Login 关闭
+                setResult(RESULT_OK, Intent())
                 finish()
             }, {
                 toast("")
