@@ -22,4 +22,6 @@ interface ActivityManagerInterface {
     fun startPrivateLetterActivity(activity: Activity)
 
     fun startPlayerActivity(activity: Activity)
+
+    fun startLoginByUidActivity(activity: Activity)
 }

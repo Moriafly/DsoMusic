@@ -28,11 +28,12 @@
 
     <color name="colorTransparency">#00000000</color>
 
+<!--    <color name="colorAppThemeColor">#2191FA</color>-->
     <color name="colorAppThemeColor">#DB2C1F</color>
     <color name="colorDialogBackground">#FFFFFF</color>
     <color name="colorHintForeground">#C8C8C8</color>
 
-    <color name="colorBlurViewBackground">#B3FAFAFA</color>
+    <color name="colorBlurViewBackground">#BFFAFAFA</color>
     <color name="colorCommonTextForeground">#969696</color>
 
     <color name="colorDividerBackground">#E6E6E6</color>

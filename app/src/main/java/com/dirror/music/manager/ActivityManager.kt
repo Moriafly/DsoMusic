@@ -49,7 +49,7 @@ class ActivityManager: ActivityManagerInterface {
 
     override fun startLoginByPhoneActivity(activity: Activity) {
         val intent = Intent(activity, LoginByPhoneActivity::class.java)
-        activity.startActivityForResult(intent, 0)
+        activity.startActivity(intent)
 //        activity.overridePendingTransition(
 //            R.anim.anim_slide_enter_bottom,
 //            R.anim.anim_no_anim
@@ -68,6 +68,11 @@ class ActivityManager: ActivityManagerInterface {
 
     override fun startPlayerActivity(activity: Activity) {
         val intent = Intent(activity, PlayerActivity::class.java)
+        activity.startActivity(intent)
+    }
+
+    override fun startLoginByUidActivity(activity: Activity) {
+        val intent = Intent(activity, LoginByUidActivity::class.java)
         activity.startActivity(intent)
     }
 

@@ -10,7 +10,7 @@
     <string name="content">内容</string>
     <string name="upload">上传</string>
     <string name="contact">联系方式</string>
-    <string name="login_by_uid">网易云音乐 UID 登录</string>
+    <string name="login_by_uid">UID 登录</string>
     <string name="login">登录</string>
     <string name="playlist">歌单</string>
     <string name="cancel">取消</string>
@@ -44,4 +44,5 @@
     <string name="playlist_recommend">歌单推荐</string>
     <string name="sentence_recommend">句子推荐</string>
     <string name="switch_account">切换账号</string>
+    <string name="login_by_phone">手机号登录</string>
 </resources>
