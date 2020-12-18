@@ -207,6 +207,11 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 AnimationUtil.fadeIn(binding.clMenu)
                 binding.clLyric.visibility = View.INVISIBLE
             }
+            clLyric.setOnClickListener {
+                AnimationUtil.fadeIn(binding.clCd)
+                AnimationUtil.fadeIn(binding.clMenu)
+                binding.clLyric.visibility = View.INVISIBLE
+            }
         }
     }
 

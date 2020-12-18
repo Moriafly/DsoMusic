@@ -306,33 +306,30 @@ public class LrcView extends View {
 	 * @param secondLrcText 第二种语言歌词文本
 	 */
 	public void loadLrc(final String mainLrcText, final String secondLrcText) {
-		runOnUi(new Runnable() {
-			@Override
-			public void run() {
-				LrcView.this.reset();
+		runOnUi(() -> {
+			LrcView.this.reset();
 
-				StringBuilder sb = new StringBuilder("file://");
-				sb.append(mainLrcText);
-				if (secondLrcText != null) {
-					sb.append("#").append(secondLrcText);
-				}
-				final String flag = sb.toString();
-				LrcView.this.setFlag(flag);
-				new AsyncTask<String, Integer, List<LrcEntry>>() {
-					@Override
-					protected List<LrcEntry> doInBackground(String... params) {
-						return LrcUtils.parseLrc(params);
-					}
-
-					@Override
-					protected void onPostExecute(List<LrcEntry> lrcEntries) {
-						if (getFlag() == flag) {
-							onLrcLoaded(lrcEntries);
-							setFlag(null);
-						}
-					}
-				}.execute(mainLrcText, secondLrcText);
+			StringBuilder sb = new StringBuilder("file://");
+			sb.append(mainLrcText);
+			if (secondLrcText != null) {
+				sb.append("#").append(secondLrcText);
 			}
+			final String flag = sb.toString();
+			LrcView.this.setFlag(flag);
+			new AsyncTask<String, Integer, List<LrcEntry>>() {
+				@Override
+				protected List<LrcEntry> doInBackground(String... params) {
+					return LrcUtils.parseLrc(params);
+				}
+
+				@Override
+				protected void onPostExecute(List<LrcEntry> lrcEntries) {
+					if (getFlag() == flag) {
+						onLrcLoaded(lrcEntries);
+						setFlag(null);
+					}
+				}
+			}.execute(mainLrcText, secondLrcText);
 		});
 	}
 
