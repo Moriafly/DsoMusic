@@ -30,7 +30,6 @@ import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
-import com.dirror.music.widget.lyric.LrcView
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
