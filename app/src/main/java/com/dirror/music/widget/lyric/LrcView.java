@@ -15,12 +15,13 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
+
+import androidx.core.content.ContextCompat;
 
 import com.dirror.music.R;
 
@@ -30,16 +31,18 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 歌词
+ * 歌词控件
+ * 来自 https://github.com/zion223/NeteaseCloudMusic-MVVM
+ * 修改 Moriafly
  */
 @SuppressLint("StaticFieldLeak")
 public class LrcView extends View {
 	private static final long ADJUST_DURATION = 100;
 	private static final long TIMELINE_KEEP_TIME = 4 * DateUtils.SECOND_IN_MILLIS;
 
-	private List<LrcEntry> mLrcEntryList = new ArrayList<>();
-	private TextPaint mLrcPaint = new TextPaint();
-	private TextPaint mTimePaint = new TextPaint();
+	private final List<LrcEntry> mLrcEntryList = new ArrayList<>();
+	private final TextPaint mLrcPaint = new TextPaint();
+	private final TextPaint mTimePaint = new TextPaint();
 	private Paint.FontMetrics mTimeFontMetrics;
 	private Drawable mPlayDrawable;
 	private float mDividerHeight;
@@ -112,18 +115,18 @@ public class LrcView extends View {
 		int defDuration = getResources().getInteger(R.integer.lrc_animation_duration);
 		mAnimationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, defDuration);
 		mAnimationDuration = (mAnimationDuration < 0) ? defDuration : mAnimationDuration;
-		mNormalTextColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, getResources().getColor(R.color.lrc_normal_text_color));
-		mCurrentTextColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, getResources().getColor(R.color.lrc_current_text_color));
-		mTimelineTextColor = ta.getColor(R.styleable.LrcView_lrcTimelineTextColor, getResources().getColor(R.color.lrc_timeline_text_color));
+		mNormalTextColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, ContextCompat.getColor(getContext(), R.color.lrc_normal_text_color));
+		mCurrentTextColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, ContextCompat.getColor(getContext(), R.color.lrc_current_text_color));
+		mTimelineTextColor = ta.getColor(R.styleable.LrcView_lrcTimelineTextColor, ContextCompat.getColor(getContext(), R.color.lrc_timeline_text_color));
 		mDefaultLabel = ta.getString(R.styleable.LrcView_lrcLabel);
 		mDefaultLabel = TextUtils.isEmpty(mDefaultLabel) ? "暂无歌词" : mDefaultLabel;
 		// mDefaultLabel = TextUtils.isEmpty(mDefaultLabel) ? getContext().getString(R.string.lrc_label) : mDefaultLabel;
 		mLrcPadding = ta.getDimension(R.styleable.LrcView_lrcPadding, 0);
-		mTimelineColor = ta.getColor(R.styleable.LrcView_lrcTimelineColor, getResources().getColor(R.color.lrc_timeline_color));
+		mTimelineColor = ta.getColor(R.styleable.LrcView_lrcTimelineColor, ContextCompat.getColor(getContext(), R.color.lrc_timeline_color));
 		float timelineHeight = ta.getDimension(R.styleable.LrcView_lrcTimelineHeight, getResources().getDimension(R.dimen.lrc_timeline_height));
 		mPlayDrawable = ta.getDrawable(R.styleable.LrcView_lrcPlayDrawable);
-		mPlayDrawable = (mPlayDrawable == null) ? getResources().getDrawable(R.drawable.lrc_play) : mPlayDrawable;
-		mTimeTextColor = ta.getColor(R.styleable.LrcView_lrcTimeTextColor, getResources().getColor(R.color.lrc_time_text_color));
+		mPlayDrawable = (mPlayDrawable == null) ? ContextCompat.getDrawable(getContext(), R.drawable.lrc_play) : mPlayDrawable;
+		mTimeTextColor = ta.getColor(R.styleable.LrcView_lrcTimeTextColor, ContextCompat.getColor(getContext(), R.color.lrc_time_text_color));
 		float timeTextSize = ta.getDimension(R.styleable.LrcView_lrcTimeTextSize, getResources().getDimension(R.dimen.lrc_time_text_size));
 		mTextGravity = ta.getInteger(R.styleable.LrcView_lrcTextGravity, LrcEntry.GRAVITY_CENTER);
 
@@ -238,12 +241,9 @@ public class LrcView extends View {
 	 * 设置歌词为空时屏幕中央显示的文字，如“暂无歌词”
 	 */
 	public void setLabel(final String label) {
-		runOnUi(new Runnable() {
-			@Override
-			public void run() {
-				mDefaultLabel = label;
-				LrcView.this.invalidate();
-			}
+		runOnUi(() -> {
+			mDefaultLabel = label;
+			LrcView.this.invalidate();
 		});
 	}
 
@@ -263,33 +263,30 @@ public class LrcView extends View {
 	 * @param secondLrcFile 第二种语言歌词文件
 	 */
 	public void loadLrc(final File mainLrcFile, final File secondLrcFile) {
-		runOnUi(new Runnable() {
-			@Override
-			public void run() {
-				LrcView.this.reset();
+		runOnUi(() -> {
+			LrcView.this.reset();
 
-				StringBuilder sb = new StringBuilder("file://");
-				sb.append(mainLrcFile.getPath());
-				if (secondLrcFile != null) {
-					sb.append("#").append(secondLrcFile.getPath());
-				}
-				final String flag = sb.toString();
-				LrcView.this.setFlag(flag);
-				new AsyncTask<File, Integer, List<LrcEntry>>() {
-					@Override
-					protected List<LrcEntry> doInBackground(File... params) {
-						return LrcUtils.parseLrc(params);
-					}
-
-					@Override
-					protected void onPostExecute(List<LrcEntry> lrcEntries) {
-						if (getFlag() == flag) {
-							onLrcLoaded(lrcEntries);
-							setFlag(null);
-						}
-					}
-				}.execute(mainLrcFile, secondLrcFile);
+			StringBuilder sb = new StringBuilder("file://");
+			sb.append(mainLrcFile.getPath());
+			if (secondLrcFile != null) {
+				sb.append("#").append(secondLrcFile.getPath());
 			}
+			final String flag = sb.toString();
+			LrcView.this.setFlag(flag);
+			new AsyncTask<File, Integer, List<LrcEntry>>() {
+				@Override
+				protected List<LrcEntry> doInBackground(File... params) {
+					return LrcUtils.parseLrc(params);
+				}
+
+				@Override
+				protected void onPostExecute(List<LrcEntry> lrcEntries) {
+					if (getFlag() == flag) {
+						onLrcLoaded(lrcEntries);
+						setFlag(null);
+					}
+				}
+			}.execute(mainLrcFile, secondLrcFile);
 		});
 	}
 
@@ -387,21 +384,18 @@ public class LrcView extends View {
 	 * @param time 当前播放时间
 	 */
 	public void updateTime(final long time) {
-		runOnUi(new Runnable() {
-			@Override
-			public void run() {
-				if (!LrcView.this.hasLrc()) {
-					return;
-				}
+		runOnUi(() -> {
+			if (!LrcView.this.hasLrc()) {
+				return;
+			}
 
-				int line = LrcView.this.findShowLine(time);
-				if (line != mCurrentLine) {
-					mCurrentLine = line;
-					if (!isShowTimeline) {
-						LrcView.this.smoothScrollTo(line);
-					} else {
-						LrcView.this.invalidate();
-					}
+			int line = LrcView.this.findShowLine(time);
+			if (line != mCurrentLine) {
+				mCurrentLine = line;
+				if (!isShowTimeline) {
+					LrcView.this.smoothScrollTo(line);
+				} else {
+					LrcView.this.invalidate();
 				}
 			}
 		});
@@ -472,7 +466,7 @@ public class LrcView extends View {
 				mLrcPaint.setTextSize(mCurrentTextSize);
 				mLrcPaint.setColor(mCurrentTextColor);
 				//中间行歌词显示在BottomMusicView上 LrcView生命周期与BottomMusicView不同  TODO
-				Log.e("LrcView", mLrcEntryList.get(mCurrentLine).getText());
+				// Log.e("LrcView", mLrcEntryList.get(mCurrentLine).getText());
 			} else if (isShowTimeline && i == centerLine) {
 				mLrcPaint.setColor(mTimelineTextColor);
 			} else {
@@ -495,6 +489,7 @@ public class LrcView extends View {
 		canvas.restore();
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
@@ -510,7 +505,7 @@ public class LrcView extends View {
 	/**
 	 * 手势监听器
 	 */
-	private GestureDetector.SimpleOnGestureListener mSimpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
+	private final GestureDetector.SimpleOnGestureListener mSimpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
 		@Override
 		public boolean onDown(MotionEvent e) {
@@ -569,7 +564,7 @@ public class LrcView extends View {
 		}
 	};
 
-	private Runnable hideTimelineRunnable = new Runnable() {
+	private final Runnable hideTimelineRunnable = new Runnable() {
 		@Override
 		public void run() {
 			if (hasLrc() && isShowTimeline) {

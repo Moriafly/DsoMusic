@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.core.widget.NestedScrollView
 
+@Deprecated("过时，预计 2.0 移除")
 class PlaylistNestedScrollView: NestedScrollView {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)

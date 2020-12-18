@@ -17,6 +17,7 @@ import com.dirror.music.util.dp2px
  * @name LyricView
  * 自定义歌词 View
  */
+@Deprecated("过时，预计 2.0 版移除")
 class LyricView : View {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
