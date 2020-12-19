@@ -572,14 +572,19 @@ class MusicService : Service() {
             if (isPrepared) {
                 mediaPlayer?.let {
                     // 华为机器特殊处理
-                    if(Build.BRAND == "HUAWEI" || Build.MANUFACTURER == "HUAWEI") {
-                        toast("华为手机不支持此功能")
-                    } else {
+//                    if(Build.BRAND == "HUAWEI" || Build.MANUFACTURER == "HUAWEI") {
+//                        toast("华为手机不支持此功能")
+//                    } else {
+                    try {
                         val playbackParams = it.playbackParams
                         // playbackParams.speed = speed // 0 表示暂停
                         playbackParams.pitch = pitch
                         it.playbackParams = playbackParams
+                    } catch (e: Exception) {
+
                     }
+
+                    // }
                 }
             }
         }

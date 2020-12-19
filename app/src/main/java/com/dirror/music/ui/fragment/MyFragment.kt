@@ -5,23 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
-import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.databinding.FragmentMyBinding
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
-import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 
-class MyFragment : BaseFragment() {
+class MyFragment : Fragment() {
 
     private var _binding: FragmentMyBinding? = null
     private val binding get() = _binding!!
@@ -36,12 +35,14 @@ class MyFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_my
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+        initListener()
+    }
+
+    private fun initView() {
+
 
         binding.rvPlaylist.layoutManager =  LinearLayoutManager(activity)
         binding.rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
@@ -51,7 +52,7 @@ class MyFragment : BaseFragment() {
         })
     }
 
-    override fun initListener() {
+    private fun initListener() {
 
         // 新建歌单
         binding.clNewPlaylist.setOnClickListener {

@@ -38,7 +38,7 @@ class LoginByUidActivity : AppCompatActivity(R.layout.activity_login_by_uid) {
                 netease = keepDigital(netease)
                 // loge("数字：${netease}")
                 if (netease != "") {
-                    CloudMusic.loginByUid(netease.toLong()) {
+                    CloudMusic.loginByUid(netease) {
                         // 发送广播
                         val intent = Intent("com.dirror.music.LOGIN")
                         intent.setPackage(packageName)

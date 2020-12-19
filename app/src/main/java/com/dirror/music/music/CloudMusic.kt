@@ -55,7 +55,7 @@ object CloudMusic {
     /**
      * 通过 UID 登录
      */
-    fun loginByUid(uid: Long, success: () -> Unit) {
+    fun loginByUid(uid: String, success: () -> Unit) {
         getUserDetail(uid, {
             MyApplication.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
             success.invoke()
@@ -93,7 +93,7 @@ object CloudMusic {
      * @param success 成功的回调
      * @param failure 失败的回调
      */
-    fun getUserDetail(uid: Long, success: (result: UserDetailData) -> Unit, failure: (error: String) -> Unit) {
+    fun getUserDetail(uid: String, success: (result: UserDetailData) -> Unit, failure: (error: String) -> Unit) {
         MagicHttp.OkHttpManager().newGet("${API_MUSIC_API}/user/detail?uid=$uid", {
             val userDetailData = Gson().fromJson(it, UserDetailData::class.java)
             when (userDetailData.code) {

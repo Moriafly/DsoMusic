@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -50,6 +51,14 @@ class PlaylistActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        // 屏幕适配
+        (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
+            topMargin = getStatusBarHeight(window, this@PlaylistActivity)
+        }
+        (binding.includePlay.root.layoutParams as ConstraintLayout.LayoutParams).apply {
+            bottomMargin = getNavigationBarHeight(this@PlaylistActivity)
+        }
+
         val playlistId = intent.getLongExtra("long_playlist_id", -1)
 
         binding.lottieLoading.repeatCount = -1

@@ -296,13 +296,8 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 binding.seekBar.progress = it
                 binding.tvProgress.text = TimeUtil.parseDuration(it)
                 handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
-                playViewModel.standardSongData.value?.let { song ->
                     // 更新歌词播放进度
-                    binding.lyricView.updateTime(it.toLong())
-//                    binding.lyricView.setLyricId(song)
-//                    // 更新歌词播放进度
-//                    binding.lyricView.updateProgress(it)
-                }
+                binding.lyricView.updateTime(it.toLong())
             })
         }
 

@@ -51,7 +51,7 @@ class LoginActivity2 : AppCompatActivity() {
                 netease = keepDigital(netease)
                 // loge("数字：${netease}")
                 if (netease != "") {
-                    CloudMusic.loginByUid(netease.toLong()) {
+                    CloudMusic.loginByUid(netease) {
                         // 返回信息
                         val intent = Intent()
                         // intent.putExtra("boolean_user", true)
