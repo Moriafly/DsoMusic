@@ -6,9 +6,11 @@
 
 QQ 音乐来源：自己搞的 : )
 
-# 截图
+# 效果展示
 
-![pic1](https://img-blog.csdnimg.cn/20201205133344447.jpg)
+![pic1](https://img-blog.csdnimg.cn/20201219112702321.gif)
+
+![pic2](https://img-blog.csdnimg.cn/20201205133344447.jpg)
 
 # 博客地址
 

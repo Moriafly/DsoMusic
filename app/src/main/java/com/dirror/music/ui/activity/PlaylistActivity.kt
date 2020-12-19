@@ -9,7 +9,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
@@ -21,6 +24,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
+import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
  * 歌单 Activity
@@ -58,6 +62,8 @@ class PlaylistActivity : AppCompatActivity() {
         (binding.includePlay.root.layoutParams as ConstraintLayout.LayoutParams).apply {
             bottomMargin = getNavigationBarHeight(this@PlaylistActivity)
         }
+        // 模糊
+
 
         val playlistId = intent.getLongExtra("long_playlist_id", -1)
 
@@ -106,7 +112,17 @@ class PlaylistActivity : AppCompatActivity() {
      */
     private fun initPlaylistInfo(id: Long) {
         PlaylistUtil.getPlaylistInfo(id) {
-            it.coverImgUrl?.let { it1 -> GlideUtil.load(it1, binding.ivCover) }
+            it.coverImgUrl?.let { url ->
+                GlideUtil.load(url) { bitmap ->
+                    binding.ivCover.setImageBitmap(bitmap)
+                    Glide.with(MyApplication.context)
+                        .load(bitmap)
+                        .placeholder(binding.ivBackground.drawable)
+                        .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
+                        .into(binding.ivBackground)
+                }
+
+            }
             runOnUiThread {
                 binding.tvName.text = it.name
                 binding.tvDescription.text = it.description
