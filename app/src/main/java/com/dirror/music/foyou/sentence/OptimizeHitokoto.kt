@@ -79,8 +79,12 @@ object OptimizeHitokoto {
 
     // 为某些没加结束标点符号的句子加上标点符号
     private fun sentenceTextRepair(string: String): String {
-        return if (string.last().isChinese()) {
-            "${string}。"
+        return if (string.isNotEmpty()) {
+            if (string.last().isChinese()) {
+                "${string}。"
+            } else {
+                string
+            }
         } else {
             string
         }

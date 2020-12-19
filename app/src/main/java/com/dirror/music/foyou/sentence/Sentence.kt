@@ -4,6 +4,7 @@ import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.MyApplication
 import com.dirror.music.util.InternetState
 import com.dirror.music.util.MagicHttp
+import com.google.gson.Gson
 
 object Sentence {
     /**
@@ -37,15 +38,25 @@ object Sentence {
     private fun getHitokotoLibrarySentence(success: (SentenceData) -> Unit) {
         val url = "https://v1.hitokoto.cn/?encode=json"
         MagicHttp.OkHttpManager().newGet(url, {
-            val str = it
-            val mainStr = str.substring(str.indexOf("hitokoto",0) + 11,str.indexOf("type",0) -3 )
-            val fromWhoStr = str.substring(str.indexOf("from_who",0) + 11,str.indexOf("creator",0) -3 )
-            val fromStr = str.substring(str.indexOf("from",0) + 7,str.indexOf("from_who",0) -3 )
-            success.invoke(OptimizeHitokoto.optimizeHitokoto(SentenceData(mainStr, fromWhoStr, fromStr)))
+            try {
+                val hitokotoData = Gson().fromJson(it, HitokotoData::class.java)
+                val mainStr: String = hitokotoData.hitokoto?:""
+                val fromWhoStr: String = hitokotoData.from_who?:""
+                val fromStr: String = hitokotoData.from?:""
+                success.invoke(OptimizeHitokoto.optimizeHitokoto(SentenceData(mainStr, fromWhoStr, fromStr)))
+            } catch (e: Exception) {
+                success.invoke(OptimizeHitokoto.optimizeHitokoto(SentenceData("", "", "")))
+            }
         }, {
 
         })
 
     }
+
+    data class HitokotoData(
+        val hitokoto: String?,
+        val from: String?,
+        val from_who: String?
+    )
 
 }
