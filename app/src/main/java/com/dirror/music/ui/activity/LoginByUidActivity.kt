@@ -3,6 +3,7 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.dirror.music.MyApplication
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLoginByUidBinding
@@ -54,6 +55,11 @@ class LoginByUidActivity : AppCompatActivity(R.layout.activity_login_by_uid) {
                 toast("请输入 UID")
             }
 
+        }
+
+        // 帮助
+        binding.tvHelp.setOnClickListener {
+            MyApplication.activityManager.startWebActivity(this, "https://moriafly.xyz/foyou/uidlogin.html")
         }
     }
 

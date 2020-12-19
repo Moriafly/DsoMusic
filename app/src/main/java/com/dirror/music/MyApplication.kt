@@ -71,7 +71,7 @@ class MyApplication : Application() {
             // 初始化友盟
             UMConfigure.init(context, UM_APP_KEY, "", UMConfigure.DEVICE_TYPE_PHONE, "")
             // 选用 AUTO 页面采集模式
-            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
             // 开启音乐服务
             startMusicService()
         } else {

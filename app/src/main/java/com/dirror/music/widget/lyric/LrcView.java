@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * 歌词控件
- * 来自 https://github.com/zion223/NeteaseCloudMusic-MVVM
+ * 来自 https://github.com/zion223/NeteaseCloudMusic-MVVM，十分感谢
  * 修改 Moriafly
  */
 @SuppressLint("StaticFieldLeak")
