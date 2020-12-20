@@ -66,7 +66,7 @@
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="24dp"
-                        app:cardCornerRadius="8dp"
+                        app:cardCornerRadius="@dimen/defaultRadius"
                         app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -149,11 +149,11 @@
                     android:id="@+id/ivPlayAll"
                     android:layout_width="56dp"
                     android:layout_height="0dp"
-                    android:padding="12dp"
+                    android:padding="14dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_bq_play_circle_filled" />
+                    app:srcCompat="@drawable/ic_play_btn" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -16,4 +16,7 @@
     <dimen name="lrc_timeline_height">1dp</dimen>
     <dimen name="lrc_drawable_width">30dp</dimen>
     <dimen name="lrc_time_width">40dp</dimen>
+
+    <!-- 默认圆角 -->
+    <dimen name="defaultRadius">10dp</dimen>
 </resources>

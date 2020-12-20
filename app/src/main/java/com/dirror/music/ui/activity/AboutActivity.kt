@@ -45,7 +45,7 @@ class AboutActivity : AppCompatActivity() {
                 }
             }
         }, {
-            runOnUiThread {
+            runOnMainThread {
                 binding.itemCloudMusicVersion.setValue("Unknown")
             }
         })

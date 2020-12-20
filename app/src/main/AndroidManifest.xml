@@ -35,7 +35,6 @@
             android:name=".ui.activity.UserActivity"
             android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".ui.activity.WebActivity" />
-        <activity android:name=".ui.activity.LoginActivity2" />
         <activity android:name=".ui.activity.LocalMusicActivity" />
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.FeedbackActivity" />
@@ -57,11 +56,10 @@
         <activity android:name=".ui.activity.LoginByPhoneActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -74,6 +72,7 @@
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="com.dirror.music.BmobContentProvider"
             android:exported="false" />
+
     </application>
 
 </manifest>

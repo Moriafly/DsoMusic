@@ -88,7 +88,7 @@ class MyApplication : Application() {
     fun startMusicService() {
         // 通过 Service 播放音乐，混合启动
         val intent = Intent(this, MusicService::class.java)
-        // 安卓 8.0 后开启前台服务，要在短时间内响应，现在不知道怎么搞
+        // 安卓 8.0 后开启前台服务，要在短时间内响应
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             startForegroundService(intent)
         } else {

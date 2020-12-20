@@ -81,7 +81,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.51"
-                            app:srcCompat="@drawable/ic_next" />
+                            app:srcCompat="@drawable/ic_next"
+                            tools:ignore="ContentDescription" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <com.dirror.music.widget.ItemLayout
