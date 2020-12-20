@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.view.MotionEvent
 import android.view.View
@@ -44,8 +45,10 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     companion object {
         private const val MUSIC_BROADCAST_ACTION = "com.dirror.music.MUSIC_BROADCAST"
         private const val DELAY_MILLIS = 5L
+
         // Handle 消息，播放进度
         private const val MSG_PROGRESS = 0
+
         // Handle 消息，播放进度
         private const val BACKGROUND_SCALE_Y = 1.5F
         private const val BACKGROUND_SCALE_X = 2.5F
@@ -55,15 +58,20 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     // 目前还是 activity_play 布局
     private lateinit var binding: ActivityPlayerBinding
+
     // 音乐广播接收者
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver
+
     // ViewModel 数据和视图分离
     private val playViewModel: PlayerViewModel by viewModels()
-    // Looper + Handler，目前还不会
-    private val handler = @SuppressLint("HandlerLeak") object : Handler() {
+
+    // Looper + Handler
+    private val handler = @SuppressLint("HandlerLeak") object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
-                MSG_PROGRESS -> { playViewModel.refreshProgress() }
+                MSG_PROGRESS -> {
+                    playViewModel.refreshProgress()
+                }
             }
         }
     }
@@ -80,7 +88,12 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     // 背景 旋转动画
     private val objectAnimatorBackground: ObjectAnimator by lazy {
-        ObjectAnimator.ofFloat(binding.ivBackground, "rotation", playViewModel.rotationBackground, playViewModel.rotationBackground + 360f).apply {
+        ObjectAnimator.ofFloat(
+            binding.ivBackground,
+            "rotation",
+            playViewModel.rotationBackground,
+            playViewModel.rotationBackground + 360f
+        ).apply {
             interpolator = LinearInterpolator()
             duration = 50000
             repeatCount = -1
@@ -235,35 +248,32 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     binding.tvArtist.text = it.artists?.let { artists ->
                         parseArtist(artists)
                     }
-                    it.imageUrl?.let { imageUrl ->
-                        // val url = MyApplication.cloudMusicManager.getPicture(imageUrl, CD_SIZE.dp())
-                        SongPicture.getSongPicture(it, SongPicture.TYPE_LARGE) { bitmap ->
-                                // 设置 CD 图片
-                                binding.ivCover.setImageBitmap(bitmap)
-                                // 设置 背景 图片
-                                Glide.with(MyApplication.context)
-                                    .load(bitmap)
-                                    .placeholder(binding.ivBackground.drawable)
-                                    .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
-                                    .into(binding.ivBackground)
-                                // 设置色调
-                                Palette.from(bitmap)
-                                    .clearFilters()
-                                    .generate { palette ->
-                                        if (palette?.vibrantSwatch != null) {
-                                            palette.vibrantSwatch?.rgb?.let { rgb ->
-                                                binding.ivPlay.setColorFilter(rgb)
-                                                binding.ivLast.setColorFilter(rgb)
-                                                binding.ivNext.setColorFilter(rgb)
-                                            }
-                                        } else {
-                                            binding.ivPlay.setColorFilter(DEFAULT_COLOR)
-                                            binding.ivLast.setColorFilter(DEFAULT_COLOR)
-                                            binding.ivNext.setColorFilter(DEFAULT_COLOR)
-                                        }
+                    // val url = MyApplication.cloudMusicManager.getPicture(imageUrl, CD_SIZE.dp())
+                    SongPicture.getPlayerActivityCoverBitmap(it, CD_SIZE.dp()) { bitmap ->
+                        // 设置 CD 图片
+                        binding.ivCover.setImageBitmap(bitmap)
+                        // 设置 背景 图片
+                        Glide.with(MyApplication.context)
+                            .load(bitmap)
+                            .placeholder(binding.ivBackground.drawable)
+                            .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
+                            .into(binding.ivBackground)
+                        // 设置色调
+                        Palette.from(bitmap)
+                            .clearFilters()
+                            .generate { palette ->
+                                if (palette?.vibrantSwatch != null) {
+                                    palette.vibrantSwatch?.rgb?.let { rgb ->
+                                        binding.ivPlay.setColorFilter(rgb)
+                                        binding.ivLast.setColorFilter(rgb)
+                                        binding.ivNext.setColorFilter(rgb)
                                     }
-
-                        }
+                                } else {
+                                    binding.ivPlay.setColorFilter(DEFAULT_COLOR)
+                                    binding.ivLast.setColorFilter(DEFAULT_COLOR)
+                                    binding.ivNext.setColorFilter(DEFAULT_COLOR)
+                                }
+                            }
                     }
                     // 更改歌词
                     SearchLyric.getLyricString(it) { string ->
@@ -296,7 +306,7 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 binding.seekBar.progress = it
                 binding.tvProgress.text = TimeUtil.parseDuration(it)
                 handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
-                    // 更新歌词播放进度
+                // 更新歌词播放进度
                 binding.lyricView.updateTime(it.toLong())
             })
         }
@@ -357,8 +367,8 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         }
     }
 
-    override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-    override fun onStopTrackingTouch(seekBar: SeekBar?) { }
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 
 }

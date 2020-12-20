@@ -2,6 +2,7 @@ package com.dirror.music.music.standard
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -12,6 +13,8 @@ import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
+import com.dirror.music.util.loge
+import org.jetbrains.annotations.TestOnly
 
 object SongPicture {
 
@@ -62,6 +65,42 @@ object SongPicture {
             }
             else -> {
                 "https://s4.music.126.net/style/web2/img/default/default_album.jpg"
+            }
+        }
+
+    }
+
+    /**
+     * 获取 PlayerActivityCover 图片
+     */
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @TestOnly
+    fun getPlayerActivityCoverBitmap(songData: StandardSongData, size: Int, success: (Bitmap) -> Unit) {
+        when(songData.source) {
+            SOURCE_NETEASE -> {
+                val url = if (songData.imageUrl == "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg") {
+                    "$API_FCZBL_VIP/?type=cover&id=${songData.id}&param=${size}y${size}"
+                } else {
+                    songData.imageUrl
+                }?:""
+                loge("getPlayerActivityCoverBitmap网易云图片url【${songData.imageUrl}】")
+                GlideUtil.load(url) {
+                    success.invoke(it)
+                }
+            }
+            SOURCE_QQ -> {
+                // val url = "https://y.gtimg.cn/music/photo_new/T002R${size}x${size}M000${songData.imageUrl}.jpg?max_age=2592000"
+                val url = "https://y.gtimg.cn/music/photo_new/T002R300x300M000${songData.imageUrl}.jpg?max_age=2592000"
+                loge("getPlayerActivityCoverBitmapQQ图片url【${url}】")
+                GlideUtil.load(url) {
+                    success.invoke(it)
+                }
+            }
+            else -> {
+                val commonBitmap: Bitmap? = MyApplication.context.getDrawable(R.drawable.bq_no_data_song)?.toBitmap()
+                if (commonBitmap != null) {
+                    success.invoke(commonBitmap)
+                }
             }
         }
 
