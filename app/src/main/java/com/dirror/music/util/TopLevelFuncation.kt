@@ -12,13 +12,13 @@ import android.os.Looper
 import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.BuildConfig
 import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
+
 /**
- * 顶层函数
+ * Kotlin 顶层函数
  */
 
 /**
@@ -39,6 +39,13 @@ fun toast(msg: String) {
 }
 
 /**
+ * 运行在主线程，更新 UI
+ */
+fun runOnMainThread(runnable: Runnable) {
+    Handler(Looper.getMainLooper()).post(runnable)
+}
+
+/**
  * 全局 log
  */
 fun loge(msg: String) {
@@ -47,15 +54,14 @@ fun loge(msg: String) {
     }
 }
 
-// 运行在主线程，更新 UI
-fun runOnMainThread(runnable: Runnable) {
-    Handler(Looper.getMainLooper()).post(runnable)
-}
-
-// dp 转 px
+/**
+ * dp 转 px
+ */
 fun dp2px(dp: Float): Float = dp * MyApplication.context.resources.displayMetrics.density
 
-// http 转 https
+/**
+ * http 转 https
+ */
 fun http2https(http: String): String {
     return http.replace("http", "https")
 }
@@ -98,7 +104,9 @@ fun openUrlByBrowser(context: Context, url: String) {
     }
 }
 
-// 毫秒转日期
+/**
+ * 毫秒转日期
+ */
 fun msTimeToFormatDate(msTime: Long): String {
     return TimeUtil.msTimeToFormatDate(msTime)
 }
@@ -136,8 +144,8 @@ fun copyToClipboard(activity: Activity, text: String) {
     val clipboardManager = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val clipData = ClipData.newPlainText("Label", text)
     clipboardManager.setPrimaryClip(clipData)
-// Toast 提示
-//    Toast.makeText(,"已复制邮箱地址到剪贴板",Toast.LENGTH_SHORT).show()
+//  Toast 提示
+//  Toast.makeText(,"已复制邮箱地址到剪贴板",Toast.LENGTH_SHORT).show()
 }
 
 fun shareApp(context: Context) {

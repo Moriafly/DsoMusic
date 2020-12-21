@@ -78,7 +78,9 @@ object SongPicture {
     fun getPlayerActivityCoverBitmap(songData: StandardSongData, size: Int, success: (Bitmap) -> Unit) {
         when(songData.source) {
             SOURCE_NETEASE -> {
-                val url = if (songData.imageUrl == "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg") {
+                loge("getPlayerActivityCoverBitmap网易云图片原url【${songData.imageUrl}】")
+                val url = if (songData.imageUrl == "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"
+                    || songData.imageUrl == "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg") {
                     "$API_FCZBL_VIP/?type=cover&id=${songData.id}&param=${size}y${size}"
                 } else {
                     songData.imageUrl

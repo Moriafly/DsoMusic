@@ -432,6 +432,7 @@ public class LrcView extends View {
 			mLrcPaint.setColor(mCurrentTextColor);
 			@SuppressLint("DrawAllocation")
 			StaticLayout staticLayout = new StaticLayout(mDefaultLabel, mLrcPaint,
+					// 有个 BUG java.lang.IllegalArgumentException: Layout: -181 < 0
 					(int) getLrcWidth(), Layout.Alignment.ALIGN_CENTER, 1f, 0f, false);
 			drawText(canvas, staticLayout, centerY);
 			return;
