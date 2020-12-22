@@ -96,6 +96,14 @@
 
             </com.dirror.music.widget.ItemLayout>
 
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemHistoryVersion"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="历史版本">
+
+            </com.dirror.music.widget.ItemLayout>
+
             <com.dirror.music.widget.ValueView
                 android:id="@+id/itemFoyouVersion"
                 android:layout_width="match_parent"

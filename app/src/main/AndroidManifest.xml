@@ -28,8 +28,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.LoginActivity3"
-            android:theme="@style/AppTheme.FullScreen"/>
+        <activity android:name=".ui.activity.PlayHistoryActivity"></activity>
+        <activity
+            android:name=".ui.activity.LoginActivity3"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".ui.activity.PrivateLetterActivity" />
         <activity
             android:name=".ui.activity.UserActivity"
@@ -56,11 +58,15 @@
         <activity android:name=".ui.activity.LoginByPhoneActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:launchMode="standard"
-            android:theme="@style/AppTheme.FullScreen"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.FullScreen"></activity>
+        <activity
+            android:name=".ui.activity.SplashActivity"
+            android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -73,7 +79,6 @@
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="com.dirror.music.BmobContentProvider"
             android:exported="false" />
-
     </application>
 
 </manifest>

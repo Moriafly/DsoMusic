@@ -19,6 +19,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
 import com.dirror.music.broadcast.BecomingNoisyReceiver
+import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
@@ -336,6 +337,10 @@ class MusicService : Service() {
             sendMusicBroadcast()
             refreshNotification()
             setPlaybackParams()
+            // 添加到播放历史
+            getNowSongData()?.let {
+                PlayHistory.addPlayHistory(it)
+            }
         }
 
         /**

@@ -81,4 +81,9 @@ class ActivityManager: ActivityManagerInterface {
         activity.startActivityForResult(intent, 0)
     }
 
+    override fun startPlayHistoryActivity(activity: Activity) {
+        val intent = Intent(activity, PlayHistoryActivity::class.java)
+        activity.startActivity(intent)
+    }
+
 }

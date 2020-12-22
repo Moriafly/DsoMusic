@@ -114,16 +114,18 @@ class PlaylistActivity : AppCompatActivity() {
         PlaylistUtil.getPlaylistInfo(id) {
             it.coverImgUrl?.let { url ->
                 GlideUtil.load(url) { bitmap ->
-                    binding.ivCover.setImageBitmap(bitmap)
-                    Glide.with(MyApplication.context)
-                        .load(bitmap)
-                        .placeholder(binding.ivBackground.drawable)
-                        .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
-                        .into(binding.ivBackground)
+                    runOnMainThread {
+                        binding.ivCover.setImageBitmap(bitmap)
+                        Glide.with(MyApplication.context)
+                            .load(bitmap)
+                            .placeholder(binding.ivBackground.drawable)
+                            .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
+                            .into(binding.ivBackground)
+                    }
                 }
 
             }
-            runOnUiThread {
+            runOnMainThread {
                 binding.tvName.text = it.name
                 binding.tvDescription.text = it.description
             }

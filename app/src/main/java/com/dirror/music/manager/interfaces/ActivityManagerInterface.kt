@@ -24,4 +24,6 @@ interface ActivityManagerInterface {
     fun startPlayerActivity(activity: Activity)
 
     fun startLoginByUidActivity(activity: Activity)
+
+    fun startPlayHistoryActivity(activity: Activity)
 }

@@ -17,6 +17,7 @@ import com.dirror.music.databinding.FragmentMyBinding
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
+import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 
@@ -69,7 +70,10 @@ class MyFragment : Fragment() {
         }
 
         binding.clHistory.setOnClickListener {
-            toast("功能开发中")
+            toast("功能开发中，预计不久上线")
+            // val intent = Intent(this.context, PlayHistoryActivity::class.java)
+            // startActivity(intent)
+            // MyApplication.activityManager.startPlayHistoryActivity(this.context)
         }
 
     }

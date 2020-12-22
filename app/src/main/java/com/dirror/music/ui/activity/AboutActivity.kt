@@ -16,6 +16,7 @@ class AboutActivity : AppCompatActivity() {
         private const val WEBSITE = "https://moriafly.xyz" // 官方网站
         private const val UPDATE_LOG = "https://github.com/Moriafly/dirror-music/releases" // 更新日志网站
         private const val WEB_INFO = "https://moriafly.xyz/dirror-music/info.json"
+        private const val HISTORY_VERSION = "https://moriafly.xyz/foyou/dsomusic/history-version.html"
     }
 
     private lateinit var binding: ActivityAboutBinding
@@ -69,6 +70,10 @@ class AboutActivity : AppCompatActivity() {
 
         binding.itemUpdateLog.setOnClickListener {
             MyApplication.activityManager.startWebActivity(this, UPDATE_LOG)
+        }
+
+        binding.itemHistoryVersion.setOnClickListener {
+            MyApplication.activityManager.startWebActivity(this, HISTORY_VERSION)
         }
 
     }
