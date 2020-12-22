@@ -17,6 +17,7 @@ import java.lang.Exception
  * @author Moriafly
  * @since 2020年9月14日15:07:36
  */
+@Deprecated("过时，正在迁移")
 object CloudMusic {
 
     fun timestamp(): String {
@@ -58,6 +59,8 @@ object CloudMusic {
     fun loginByUid(uid: String, success: () -> Unit) {
         getUserDetail(uid, {
             MyApplication.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
+            // UID 登录清空 Cookie
+            MyApplication.userManager.setCloudMusicCookie("")
             success.invoke()
             // toast("登录成功${it.profile?.userId!!.toLong()}")
         }, {

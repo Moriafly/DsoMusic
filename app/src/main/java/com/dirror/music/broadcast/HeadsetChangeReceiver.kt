@@ -11,6 +11,7 @@ import com.dirror.music.util.toast
  * 耳机检查
  * 广播处理接口
  */
+@Deprecated("过时")
 class HeadsetChangeReceiver : BroadcastReceiver() {
 
     companion object {

@@ -46,7 +46,7 @@
             <com.dirror.music.widget.RecyclerViewAtViewPager2
                 android:id="@+id/rvPlaylistRecommend"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="320dp"
                 android:layout_marginStart="0dp"
                 android:layout_marginEnd="0dp"
                 android:overScrollMode="never" />

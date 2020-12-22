@@ -83,7 +83,7 @@ object Secure {
     /**
      * 判断当前是否是 Debug 状态
      */
-    private fun isDebug(): Boolean {
+    fun isDebug(): Boolean {
         return context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
     }
 

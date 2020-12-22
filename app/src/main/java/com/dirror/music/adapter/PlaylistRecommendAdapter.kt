@@ -32,13 +32,14 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position == 0) {
+        if (position == 0 || position == 1) {
             val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
             layoutParams.setMargins(dp2px(12f).toInt(), 0, 0, 0)
             holder.clTrack.layoutParams = layoutParams
 
         }
-        if (position == playlistRecommendDataResult.lastIndex) {
+        if (position == playlistRecommendDataResult.lastIndex
+            || position == playlistRecommendDataResult.lastIndex - 1) {
             val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
             layoutParams.setMargins(0, 0, 12.dp(), 0)
             holder.clTrack.layoutParams = layoutParams

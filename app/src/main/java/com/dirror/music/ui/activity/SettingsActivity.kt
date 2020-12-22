@@ -2,6 +2,7 @@ package com.dirror.music.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySettingsBinding
@@ -27,16 +28,38 @@ class SettingsActivity : AppCompatActivity() {
     private fun initView() {
         binding.switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
         binding.switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
+
+        if (!Secure.isDebug()) {
+            binding.itemTestCookie.visibility = View.GONE
+        }
+
     }
 
     private fun initListener() {
-        // 反馈
-        binding.itemFeedback.setOnClickListener {
-            startActivity(Intent(this, FeedbackActivity::class.java))
-        }
+        binding.apply {
+            itemFeedback.setOnClickListener {
+                startActivity(Intent(this@SettingsActivity, FeedbackActivity::class.java))
+            }
+            itemSourceCode.setOnClickListener {
+                openUrlByBrowser(this@SettingsActivity, "https://github.com/Moriafly/dirror-music")
+            }
 
-        binding.itemSourceCode.setOnClickListener {
-            openUrlByBrowser(this, "https://github.com/Moriafly/dirror-music")
+            // Kart Jim
+            itemJim.setOnClickListener { openJim(this@SettingsActivity) }
+            // Cookie 导出
+            itemTestCookie.setOnClickListener {
+                if (Secure.isDebug()) {
+                    val cookie = MyApplication.userManager.getCloudMusicCookie()
+                    if (cookie != "") {
+                        toast("Cookie 存在，是否过时未知，已经导入剪贴板")
+                        copyToClipboard(this@SettingsActivity, cookie)
+                    } else {
+                        toast("Cookie 不存在")
+                    }
+                } else {
+                    toast("非开发版")
+                }
+            }
         }
 
         binding.itemPlayOnMobile.setOnClickListener {
@@ -59,22 +82,6 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(Intent(this, AboutActivity::class.java))
         }
 
-        binding.itemTestCookie.setOnClickListener {
-            val cookie = MyApplication.userManager.getCloudMusicCookie()
-            if (cookie != "") {
-                toast("Cookie 存在，是否过时未知，已经导入剪贴板")
-                copyToClipboard(this, cookie)
-            } else {
-                toast("Cookie 不存在")
-            }
-        }
     }
 
-    override fun finish() {
-        super.finish()
-//        overridePendingTransition(
-//            R.anim.anim_slide_enter_right,
-//            R.anim.anim_slide_exit_left
-//        )
-    }
 }

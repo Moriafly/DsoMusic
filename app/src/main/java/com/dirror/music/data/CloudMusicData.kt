@@ -3,9 +3,6 @@ package com.dirror.music.data
 import com.dirror.music.music.standard.data.StandardSongData
 import com.google.gson.annotations.SerializedName
 
-class CloudMusicData {
-}
-
 // 登录数据
 data class LoginData(
     val code: Int,

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.TestOnly
 /**
  * 音频效果
  */
+@Deprecated("过时")
 object AudioEffect {
 
     init {

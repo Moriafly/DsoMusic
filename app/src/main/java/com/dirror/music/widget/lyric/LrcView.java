@@ -38,7 +38,7 @@ import java.util.List;
 @SuppressLint("StaticFieldLeak")
 public class LrcView extends View {
 	private static final long ADJUST_DURATION = 100;
-	private static final long TIMELINE_KEEP_TIME = 4 * DateUtils.SECOND_IN_MILLIS;
+	private static final long TIMELINE_KEEP_TIME = 3 * DateUtils.SECOND_IN_MILLIS;
 
 	private final List<LrcEntry> mLrcEntryList = new ArrayList<>();
 	private final TextPaint mLrcPaint = new TextPaint();
@@ -505,13 +505,17 @@ public class LrcView extends View {
 	 */
 	private final GestureDetector.SimpleOnGestureListener mSimpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
+		/**
+		 * 按下
+		 */
 		@Override
 		public boolean onDown(MotionEvent e) {
+			// 有歌词并且设置了 mOnPlayClickListener
 			if (hasLrc() && mOnPlayClickListener != null) {
 				mScroller.forceFinished(true);
 				removeCallbacks(hideTimelineRunnable);
 				isTouching = true;
-				isShowTimeline = true;
+				// isShowTimeline = true;
 				invalidate();
 				return true;
 			}
@@ -521,6 +525,8 @@ public class LrcView extends View {
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 			if (hasLrc()) {
+				// 滚动显示时间线
+				isShowTimeline = true;
 				mOffset += -distanceY;
 				mOffset = Math.min(mOffset, getOffset(0));
 				mOffset = Math.max(mOffset, getOffset(mLrcEntryList.size() - 1));

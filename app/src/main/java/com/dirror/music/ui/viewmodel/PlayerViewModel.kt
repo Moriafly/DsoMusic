@@ -8,12 +8,15 @@ import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.toast
 
+/**
+ * PlayerActivity ViewModel
+ * @author Moriafly
+ */
 class PlayerViewModel: ViewModel() {
 
     var rotation = 0f
     var rotationBackground = 0f
     var oldY = 0f
-
 
     // 播放模式
     var playMode = MutableLiveData<Int>().also {
@@ -53,6 +56,9 @@ class PlayerViewModel: ViewModel() {
         }
     }
 
+    /**
+     * 刷新 progress
+     */
     fun refreshProgress() {
         progress.value = MyApplication.musicBinderInterface?.getProgress()
     }
@@ -90,10 +96,16 @@ class PlayerViewModel: ViewModel() {
         MyApplication.musicBinderInterface?.changePlayMode()
     }
 
+    /**
+     * 设置 progress
+     */
     fun setProgress(newProgress: Int) {
         MyApplication.musicBinderInterface?.setProgress(newProgress)
     }
 
+    /**
+     * 喜欢音乐
+     */
     fun likeMusic() {
         standardSongData.let {
             it.value?.let { song ->

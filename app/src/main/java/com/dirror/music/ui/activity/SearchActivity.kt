@@ -73,6 +73,14 @@ class SearchActivity : AppCompatActivity() {
                 engine = SOURCE_QQ
             }
         }
+        // 获取推荐关键词
+        MyApplication.cloudMusicManager.getSearchDefault {
+            runOnMainThread {
+                // toast(it)
+                binding.etSearch.hint = it
+            }
+        }
+
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

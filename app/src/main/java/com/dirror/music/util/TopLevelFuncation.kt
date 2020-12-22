@@ -10,12 +10,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.*
+import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.BuildConfig
 import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
+import java.lang.Exception
+
 
 /**
  * Kotlin 顶层函数
@@ -150,4 +152,14 @@ fun copyToClipboard(activity: Activity, text: String) {
 
 fun shareApp(context: Context) {
 
+}
+
+fun openJim(context: Context) {
+    try {
+        val intent = Intent()
+        intent.setClassName("com.ckh.jim", "com.ckh.jim.activity.MainActivity")
+        context.startActivity(intent)
+    } catch (e: Exception) {
+        toast("失败")
+    }
 }

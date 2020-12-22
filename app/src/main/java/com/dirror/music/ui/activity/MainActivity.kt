@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         (binding.blurViewPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
             height = 56.dp() + navigationBarHeight
         }
-        (binding.blurViewPlayBottom.layoutParams as ConstraintLayout.LayoutParams).apply{
+        (binding.blurViewPlayBottom.layoutParams as ConstraintLayout.LayoutParams).apply {
             height = 56.dp() + navigationBarHeight
         }
 
@@ -167,8 +167,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
-        binding.menuMain.switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
         binding.menuMain.switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
 
         // 反馈
@@ -178,14 +176,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.menuMain.itemSourceCode.setOnClickListener {
             MyApplication.activityManager.startWebActivity(this, "https://github.com/Moriafly/dirror-music")
-        }
-
-        binding.menuMain.itemPlayOnMobile.setOnClickListener {
-            binding.menuMain.switchPlayOnMobile.isChecked = !binding.menuMain.switchPlayOnMobile.isChecked
-        }
-
-        binding.menuMain.switchPlayOnMobile.setOnCheckedChangeListener { _, isChecked ->
-            MyApplication.mmkv.encode(Config.PLAY_ON_MOBILE, isChecked)
         }
 
         binding.menuMain.itemPauseSongAfterUnplugHeadset.setOnClickListener {

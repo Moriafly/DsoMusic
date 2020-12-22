@@ -4,13 +4,11 @@ import com.dirror.music.MyApplication
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.api.API_DEFAULT
 import com.dirror.music.api.API_MUSIC_ELEUU
+import com.dirror.music.api.CloudMusicApi
 import com.dirror.music.data.CommentData
+import com.dirror.music.manager.interfaces.CloudMusicManagerInterface
 import com.dirror.music.music.CloudMusic
-import com.dirror.music.music.netease.data.BannerData
-import com.dirror.music.music.netease.data.CodeData
-import com.dirror.music.music.netease.data.PrivateLetterData
-import com.dirror.music.music.netease.data.UserDetailData
-import com.dirror.music.util.Config
+import com.dirror.music.music.netease.data.*
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.google.gson.Gson
@@ -155,6 +153,24 @@ class CloudMusicManager: CloudMusicManagerInterface {
 
     override fun getPicture(url: String, heightOrWeight: Int): String {
         return "${url}?param=${heightOrWeight}y${heightOrWeight}"
+    }
+
+
+    override fun getSearchDefault(success: (String) -> Unit) {
+        val url = CloudMusicApi.SEARCH_DEFAULT
+        MagicHttp.OkHttpManager().newGet(url, {
+            try {
+                val searchDefaultData = Gson().fromJson(it, SearchDefaultData::class.java)
+                if (searchDefaultData.code == 200) {
+                    success.invoke(searchDefaultData.data.showKeyword)
+                }
+            } catch (e: java.lang.Exception) {
+
+            }
+
+        }, {
+
+        })
     }
 
 

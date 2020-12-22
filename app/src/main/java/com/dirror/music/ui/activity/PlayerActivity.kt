@@ -34,7 +34,7 @@ import com.dirror.music.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
- * 新版 PlayActivity
+ * 新版 PlayerActivity
  * 用来取代原先的 PlayActivity，1.6.1 版本已上线
  * 更加清晰方便管理，加入 PlayerViewModel
  * @author Moriafly

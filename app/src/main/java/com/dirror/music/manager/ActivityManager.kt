@@ -3,6 +3,7 @@ package com.dirror.music.manager
 import android.app.Activity
 import android.content.Intent
 import com.dirror.music.R
+import com.dirror.music.manager.interfaces.ActivityManagerInterface
 import com.dirror.music.ui.activity.*
 
 class ActivityManager: ActivityManagerInterface {

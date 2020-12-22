@@ -1,6 +1,7 @@
 package com.dirror.music.manager
 
 import com.dirror.music.MyApplication
+import com.dirror.music.manager.interfaces.UserManagerInterface
 import com.dirror.music.util.Config
 
 /**
@@ -31,6 +32,9 @@ class UserManager: UserManagerInterface {
         return MyApplication.mmkv.decodeString(Config.CLOUD_MUSIC_COOKIE, DEFAULT_COOKIE)
     }
 
+    /**
+     * 设置网易云音乐用户 Cookie
+     */
     override fun setCloudMusicCookie(cookie: String) {
         MyApplication.mmkv.encode(Config.CLOUD_MUSIC_COOKIE, cookie)
     }

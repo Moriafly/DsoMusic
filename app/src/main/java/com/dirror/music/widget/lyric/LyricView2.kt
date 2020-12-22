@@ -13,6 +13,7 @@ import java.time.OffsetTime
  * @author Moriafly
  * @since 2020.11.24
  */
+@Deprecated("过时")
 class LyricView2 : View {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)

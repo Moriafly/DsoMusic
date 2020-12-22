@@ -11,7 +11,7 @@ object PlaylistRecommend {
 
     fun getPlaylistRecommend(success: (ArrayList<PlaylistRecommendDataResult>) -> Unit, failure: () -> Unit) {
 
-        val url = "http://musicapi.leanapp.cn/personalized?limit=6"
+        val url = "http://musicapi.leanapp.cn/personalized?limit=12"
 
         MagicHttp.OkHttpManager().newGet(url, {
             loge("推荐歌单：$it")

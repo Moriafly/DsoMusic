@@ -84,16 +84,6 @@
                             app:srcCompat="@drawable/ic_next"
                             tools:ignore="ContentDescription" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <com.dirror.music.widget.ItemLayout
-                        android:id="@+id/itemPrivateLetter"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone"
-                        app:text="私信">
-
-                    </com.dirror.music.widget.ItemLayout>
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -114,24 +104,11 @@
                     android:orientation="vertical">
 
                     <com.dirror.music.widget.ItemLayout
-                        android:id="@+id/itemPlayOnMobile"
+                        android:id="@+id/itemPrivateLetter"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:itemType="item_no"
-                        app:text="@string/play_songs_on_mobile">
+                        app:text="私信">
 
-                        <Switch
-                            android:id="@+id/switchPlayOnMobile"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-
-                            android:thumb="@drawable/switch_thumb"
-                            android:track="@drawable/switch_track"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="UseSwitchCompatOrMaterialXml" />
                     </com.dirror.music.widget.ItemLayout>
 
                     <com.dirror.music.widget.ItemLayout
@@ -139,6 +116,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:itemType="item_no"
+                        android:visibility="gone"
                         app:text="@string/pause_song_after_unplug_headset">
 
                         <Switch
@@ -153,16 +131,6 @@
                             app:layout_constraintTop_toTopOf="parent"
                             tools:ignore="UseSwitchCompatOrMaterialXml" />
                     </com.dirror.music.widget.ItemLayout>
-
-                    <com.dirror.music.widget.ItemLayout
-                        android:id="@+id/itemSettings"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone"
-                        app:text="@string/settings">
-
-                    </com.dirror.music.widget.ItemLayout>
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -181,6 +149,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
+                    <com.dirror.music.widget.ItemLayout
+                        android:id="@+id/itemSettings"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:text="@string/settings">
+
+                    </com.dirror.music.widget.ItemLayout>
 
                     <com.dirror.music.widget.ItemLayout
                         android:id="@+id/itemFeedback"

@@ -11,12 +11,11 @@ import com.dirror.music.util.*
 
 class UpdateDialog: Dialog {
 
-    private lateinit var binding: DialogUpdateBinding
+    private var binding: DialogUpdateBinding = DialogUpdateBinding.inflate(layoutInflater)
 
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
-        binding = DialogUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // 设置显示位置
         window?.setGravity(Gravity.BOTTOM)
@@ -37,6 +36,11 @@ class UpdateDialog: Dialog {
         }
 
         binding.btnDownload.setOnClickListener {
+//
+//            ownerActivity?.let {
+//                MyApplication.activityManager.startWebActivity(it, url)
+//            }
+
             openUrlByBrowser(this.context, url)
         }
 

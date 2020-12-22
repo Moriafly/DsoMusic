@@ -18,6 +18,7 @@ object MagicHttp {
         fun get(url: String, callBack: MagicCallback)
 
         fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit) // 新的 get 请求接口，使用 Lambda
+
         fun post(url: String, json: String, success: (String) -> Unit)
     }
 
