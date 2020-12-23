@@ -28,6 +28,7 @@ class OpenSourceActivity : AppCompatActivity() {
             OpenSourceData("Banner", "https://github.com/youth5201314/banner","Apache License (Version 2.0)"),
             OpenSourceData("MMKV", "https://github.com/Tencent/MMKV","BSD 3-Clause license"),
             OpenSourceData("Lottie", "https://github.com/airbnb/lottie-android","Apache-2.0 License"),
+            OpenSourceData("EdgeTranslucent", "https://github.com/qinci/EdgeTranslucent","Unknown"),
         )
         binding.rvOpenSource.layoutManager = LinearLayoutManager(this)
         binding.rvOpenSource.adapter = OpenSourceAdapter(openSourceList)

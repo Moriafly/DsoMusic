@@ -6,6 +6,9 @@ package com.dirror.music.music.local
  */
 object LyricParse {
 
+    /**
+     * 获取网络歌词
+     */
     fun getLyric(): String {
 
         return ""

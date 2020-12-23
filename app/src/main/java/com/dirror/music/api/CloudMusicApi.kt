@@ -9,4 +9,10 @@ object CloudMusicApi {
      */
     const val SEARCH_DEFAULT = "${API_AUTU}/search/default"
 
+    /**
+     * 首页-发现说明 : 调用此接口 , 可获取APP首页信息
+     * 可选参数 : refresh: 是否刷新数据,默认为true
+     */
+    const val HOME_FIND = "${API_AUTU}/homepage/block/page"
+
 }
