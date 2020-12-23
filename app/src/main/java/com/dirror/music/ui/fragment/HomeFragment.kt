@@ -36,11 +36,11 @@ class HomeFragment : Fragment() {
 
         val windowManager = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val width = windowManager.defaultDisplay.width
+        initBanner()
         (binding.banner.layoutParams as LinearLayout.LayoutParams).apply {
             height = ((width - 40.dp()).toFloat() / 108 * 42).toInt() + 8.dp()
         }
         initView()
-        initBanner()
         initListener()
     }
 

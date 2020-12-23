@@ -70,10 +70,9 @@ class MyFragment : Fragment() {
         }
 
         binding.clHistory.setOnClickListener {
-            toast("功能开发中，预计不久上线")
-            // val intent = Intent(this.context, PlayHistoryActivity::class.java)
-            // startActivity(intent)
-            // MyApplication.activityManager.startPlayHistoryActivity(this.context)
+            // toast("功能开发中，预计不久上线")
+            val intent = Intent(this.context, PlayHistoryActivity::class.java)
+            startActivity(intent)
         }
 
     }

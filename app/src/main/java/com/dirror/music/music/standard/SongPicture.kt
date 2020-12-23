@@ -81,11 +81,12 @@ object SongPicture {
                 loge("getPlayerActivityCoverBitmap网易云图片原url【${songData.imageUrl}】")
                 val url = if (songData.imageUrl == "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"
                     || songData.imageUrl == "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg") {
-                    "$API_FCZBL_VIP/?type=cover&id=${songData.id}&param=${size}y${size}"
+                    "$API_FCZBL_VIP/?type=cover&id=${songData.id}"
                 } else {
-                    songData.imageUrl
-                }?:""
-                loge("getPlayerActivityCoverBitmap网易云图片url【${songData.imageUrl}】")
+                    "${songData.imageUrl}?param=${size}y${size}"
+                }
+                loge("getPlayerActivityCoverBitmap网易云图片url【${songData.imageUrl}?param=${size}y${size}】")
+
                 GlideUtil.load(url) {
                     success.invoke(it)
                 }

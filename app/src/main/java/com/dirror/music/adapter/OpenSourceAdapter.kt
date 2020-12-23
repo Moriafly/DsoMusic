@@ -34,8 +34,6 @@ class OpenSourceAdapter(private val openSourceList: List<OpenSourceData>): Recyc
         return openSourceList.size
     }
 
-
-
 }
 
 data class OpenSourceData(

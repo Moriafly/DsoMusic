@@ -62,9 +62,6 @@ class PlaylistActivity : AppCompatActivity() {
         (binding.includePlay.root.layoutParams as ConstraintLayout.LayoutParams).apply {
             bottomMargin = getNavigationBarHeight(this@PlaylistActivity)
         }
-        // 模糊
-
-
         val playlistId = intent.getLongExtra("long_playlist_id", -1)
 
         binding.lottieLoading.repeatCount = -1
@@ -75,6 +72,25 @@ class PlaylistActivity : AppCompatActivity() {
         // 加载歌单歌曲
         initPlaylist(playlistId) {
             initRecycleView(it)
+        }
+
+        binding.coordinatorLayout.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+
+        }
+
+        var rvPlaylistScrollY = 0
+        binding.rvPlaylist.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            rvPlaylistScrollY += oldScrollY
+            // loge("y = $y")
+            if (rvPlaylistScrollY < 0) {
+                if (binding.titleBar.text == "歌单") {
+                    binding.titleBar.setTitleBarText(binding.tvName.text.toString())
+                }
+            } else {
+                // if (binding.titleBar.text != "歌单") {
+                    binding.titleBar.setTitleBarText("歌单")
+                // }
+            }
         }
 
     }

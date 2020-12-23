@@ -63,17 +63,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar">
 
-        <com.dirror.music.widget.lyric.LrcView
-            android:id="@+id/lyricView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+        <me.qinc.lib.edgetranslucent.EdgeTransparentView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lrcPadding="33dp">
+            app:edge_width="56dp"
+            app:edge_position="top|bottom">
 
-        </com.dirror.music.widget.lyric.LrcView>
+            <com.dirror.music.widget.lyric.LrcView
+                android:id="@+id/lyricView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:lrcPadding="33dp">
+
+            </com.dirror.music.widget.lyric.LrcView>
+
+        </me.qinc.lib.edgetranslucent.EdgeTransparentView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

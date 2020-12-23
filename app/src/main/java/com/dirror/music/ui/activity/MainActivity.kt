@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         }
         // 侧滑状态栏适配
         (binding.menuMain.cvUser.layoutParams as LinearLayout.LayoutParams).apply{
-            topMargin = statusBarHeight
+            topMargin = statusBarHeight + 8.dp()
         }
 
         // 适配导航栏

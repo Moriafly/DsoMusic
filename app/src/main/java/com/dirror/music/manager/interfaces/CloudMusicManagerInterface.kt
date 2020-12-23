@@ -1,10 +1,7 @@
 package com.dirror.music.manager.interfaces
 
 import com.dirror.music.data.CommentData
-import com.dirror.music.music.netease.data.BannerData
-import com.dirror.music.music.netease.data.CodeData
-import com.dirror.music.music.netease.data.PrivateLetterData
-import com.dirror.music.music.netease.data.UserDetailData
+import com.dirror.music.music.netease.data.*
 
 /**
  * 网易云音乐接口管理
@@ -33,5 +30,5 @@ interface CloudMusicManagerInterface {
 
     fun getPicture(url: String, heightOrWeight: Int): String
 
-    fun getSearchDefault(success: (String) -> Unit)
+    fun getSearchDefault(success: (SearchDefaultData) -> Unit)
 }

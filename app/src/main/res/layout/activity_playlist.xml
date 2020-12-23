@@ -26,6 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="none"
@@ -199,10 +200,6 @@
                 android:overScrollMode="never" />
 
         </LinearLayout>
-
-
-
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

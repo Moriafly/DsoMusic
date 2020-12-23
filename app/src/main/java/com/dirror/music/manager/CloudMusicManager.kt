@@ -156,13 +156,13 @@ class CloudMusicManager: CloudMusicManagerInterface {
     }
 
 
-    override fun getSearchDefault(success: (String) -> Unit) {
+    override fun getSearchDefault(success: (SearchDefaultData) -> Unit) {
         val url = CloudMusicApi.SEARCH_DEFAULT
         MagicHttp.OkHttpManager().newGet(url, {
             try {
                 val searchDefaultData = Gson().fromJson(it, SearchDefaultData::class.java)
                 if (searchDefaultData.code == 200) {
-                    success.invoke(searchDefaultData.data.showKeyword)
+                    success.invoke(searchDefaultData)
                 }
             } catch (e: java.lang.Exception) {
 

@@ -38,6 +38,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
 
     private var engine = ENGINE_NETEASE
+    private var realKeyWord = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,8 @@ class SearchActivity : AppCompatActivity() {
         MyApplication.cloudMusicManager.getSearchDefault {
             runOnMainThread {
                 // toast(it)
-                binding.etSearch.hint = it
+                binding.etSearch.hint = it.data.showKeyword
+                realKeyWord = it.data.realkeyword
             }
         }
 
@@ -164,7 +166,10 @@ class SearchActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(this.window?.decorView?.windowToken, 0)
 
 
-        val keywords = binding.etSearch.text.toString()
+        var keywords = binding.etSearch.text.toString()
+        if (keywords == "") {
+            keywords = realKeyWord
+        }
         if (keywords != "") {
             when (engine) {
                 ENGINE_NETEASE -> {
@@ -181,6 +186,7 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
         }
+
 
     }
 

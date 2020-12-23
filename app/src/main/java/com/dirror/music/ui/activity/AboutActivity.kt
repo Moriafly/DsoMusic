@@ -1,5 +1,6 @@
 package com.dirror.music.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -29,9 +30,9 @@ class AboutActivity : AppCompatActivity() {
         initListener()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView() {
-        binding.tvVersion.text = getVisionName()
-        binding.tvVersionCode.text = getVisionCode().toString()
+        binding.tvVersion.text = "版本：${getVisionName()}(${getVisionCode()})"
         binding.itemFoyouVersion.setValue(FoyouLibrary.VERSION)
 
         MagicHttp.OkHttpManager().newGet(WEB_INFO, {

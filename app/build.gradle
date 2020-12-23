@@ -28,8 +28,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 234
-        versionName "2.0.3"
+        versionCode 240
+        versionName "2.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -87,4 +87,6 @@ dependencies {
     implementation 'com.umeng.umsdk:crash:0.0.4'
     // lottie
     implementation 'com.airbnb.android:lottie:3.4.1'
+    // View 边界渐变透明
+    implementation 'ren.qinc.edgetranslucent:lib:0.0.3'
 }
