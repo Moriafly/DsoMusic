@@ -28,7 +28,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.PlayHistoryActivity"></activity>
+        <activity android:name=".ui.activity.ArtistActivity"></activity>
+        <activity android:name=".ui.activity.PlayHistoryActivity" />
         <activity
             android:name=".ui.activity.LoginActivity3"
             android:theme="@style/AppTheme.FullScreen" />
@@ -60,7 +61,7 @@
             android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.FullScreen"></activity>
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".ui.activity.SplashActivity"
             android:theme="@style/AppTheme.FullScreen">

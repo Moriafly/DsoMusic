@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -43,6 +44,11 @@ class MyFragment : Fragment() {
     }
 
     private fun initView() {
+
+
+//        (binding.llMain.layoutParams as LinearLayout.LayoutParams).apply {
+//
+//        }
 
 
         binding.rvPlaylist.layoutManager =  LinearLayoutManager(activity)
