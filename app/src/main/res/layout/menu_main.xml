@@ -66,7 +66,7 @@
                             android:layout_marginStart="10dp"
                             android:minWidth="28dp"
                             android:textColor="@color/colorTextForeground"
-                            android:textSize="15sp"
+                            android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/ivGoto"
                             app:layout_constraintStart_toEndOf="@+id/cd"

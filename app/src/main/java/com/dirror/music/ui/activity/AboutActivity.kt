@@ -40,51 +40,53 @@ class AboutActivity : AppCompatActivity() {
         } else {
             "正式版"
         }
-        binding.tvVersion.text = "${versionType}\n版本：${getVisionName()}(${getVisionCode()})"
-        binding.itemFoyouVersion.setValue(FoyouLibrary.VERSION)
+        binding.tvVersion.text = """
+            ${getVisionName()}(${getVisionCode()}) - $versionType
+            Foyou：${FoyouLibrary.VERSION}
+        """.trimIndent()
 
-        MagicHttp.OkHttpManager().newGet(WEB_INFO, {
-            try {
-                val infoData: InfoData = Gson().fromJson(it, InfoData::class.java)
-                runOnUiThread {
-                    binding.itemCloudMusicVersion.setValue(infoData.cloudMusic.version)
-                }
-            } catch (e: Exception) {
-                runOnUiThread {
-                    binding.itemCloudMusicVersion.setValue("Unknown")
-                }
-            }
-        }, {
-            runOnMainThread {
-                binding.itemCloudMusicVersion.setValue("Unknown")
-            }
-        })
+//        MagicHttp.OkHttpManager().newGet(WEB_INFO, {
+//            try {
+//                val infoData: InfoData = Gson().fromJson(it, InfoData::class.java)
+//                runOnUiThread {
+//                    binding.itemCloudMusicVersion.setValue(infoData.cloudMusic.version)
+//                }
+//            } catch (e: Exception) {
+//                runOnUiThread {
+//                    binding.itemCloudMusicVersion.setValue("Unknown")
+//                }
+//            }
+//        }, {
+//            runOnMainThread {
+//                binding.itemCloudMusicVersion.setValue("Unknown")
+//            }
+//        })
 
 
     }
 
     private fun initListener() {
-        // 检查更新
-        binding.itemCheckForUpdates.setOnClickListener {
-            UpdateUtil.checkNewVersion(this, true)
-        }
 
         // 打开链接
-        binding.tvUrl.setOnClickListener {
-            openUrlByBrowser(this, WEBSITE)
-        }
+//        binding.tvUrl.setOnClickListener {
+//            openUrlByBrowser(this, WEBSITE)
+//        }
 
-        // 开源
-        binding.itemOpenSource.setOnClickListener {
-            startActivity(Intent(this, OpenSourceActivity::class.java))
-        }
-
-        binding.itemUpdateLog.setOnClickListener {
-            MyApplication.activityManager.startWebActivity(this, UPDATE_LOG)
-        }
-
-        binding.itemHistoryVersion.setOnClickListener {
-            MyApplication.activityManager.startWebActivity(this, HISTORY_VERSION)
+        binding.apply {
+            // 检查更新
+            btnCheckForUpdates.setOnClickListener {
+                UpdateUtil.checkNewVersion(this@AboutActivity, true)
+            }
+            // 开源
+            btnOpenSourceCode.setOnClickListener {
+                startActivity(Intent(this@AboutActivity, OpenSourceActivity::class.java))
+            }
+            btnUpdateLog.setOnClickListener {
+                MyApplication.activityManager.startWebActivity(this@AboutActivity, UPDATE_LOG)
+            }
+            btnHistoryVersion.setOnClickListener {
+                MyApplication.activityManager.startWebActivity(this@AboutActivity, HISTORY_VERSION)
+            }
         }
 
     }

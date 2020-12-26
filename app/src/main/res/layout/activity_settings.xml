@@ -141,8 +141,7 @@
                 android:id="@+id/itemFilterRecord"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:itemType="item_no"
-                app:text="过滤录音文件（测试）">
+                app:itemType="item_no">
 
                 <Switch
                     android:id="@+id/switchFilterRecord"
@@ -155,17 +154,58 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                <TextView
+                    android:id="@+id/tvFilterRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="过滤录音文件"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFilterRecordContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center_vertical"
+                    android:text="暂仅支持 Flyme"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
             </com.dirror.music.widget.ItemLayout>
 
-            <TextView
+
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemLocalMusicParseLyric"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp"
-                android:text="暂仅支持 Flyme"/>
+                android:layout_height="match_parent"
+                app:itemType="item_no"
+                app:text="自动匹配网络歌词">
+
+                <Switch
+                    android:id="@+id/switchLocalMusicParseLyric"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_track"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+            </com.dirror.music.widget.ItemLayout>
+
+
 
 
 

@@ -17,5 +17,7 @@ object Config {
 
     const val FILTER_RECORD = "boolean_filter_record" // 过滤录音
 
+    const val PARSE_INTERNET_LYRIC_LOCAL_MUSIC = "boolean_parse_internet_lyric_local_music" // 为本地音乐自动匹配网络歌词
+
     // const val FIRST_USE_APP = "boolean_first_use_app" // 第一次使用 APP
 }

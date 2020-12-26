@@ -24,7 +24,7 @@
         android:layout_height="0dp"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/tvUrl"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar">
@@ -42,7 +42,53 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/bg_github">
+                android:background="@drawable/bg_github"
+                android:paddingBottom="16dp">
+
+                <Button
+                    android:id="@+id/btnUpdateLog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_button_icon"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/update_log"
+                    android:textAllCaps="false"
+                    android:textColor="@color/highLight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnCheckForUpdates" />
+
+                <Button
+                    android:id="@+id/btnCheckForUpdates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_button_icon"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/check_for_updates"
+                    android:textAllCaps="false"
+                    android:textColor="@color/highLight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvVersion" />
+
+                <Button
+                    android:id="@+id/btnHistoryVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_button_icon"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="历史版本"
+                    android:textAllCaps="false"
+                    android:textColor="@color/highLight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnUpdateLog" />
 
                 <TextView
                     android:id="@+id/tvVersion"
@@ -51,10 +97,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
                     android:text="100"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivAppIcon" />
@@ -90,7 +134,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/bg_github">
+                android:background="@drawable/bg_github"
+                android:paddingBottom="16dp">
 
                 <TextView
                     android:id="@+id/tvLicense"
@@ -99,11 +144,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
                     android:text="本项目基于 GNU General Public License v3.0 开源许可协议"
                     android:textColor="@color/colorSubTextForeground"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivGithub" />
@@ -131,98 +174,88 @@
                     app:layout_constraintStart_toEndOf="@+id/ivGithub"
                     app:layout_constraintTop_toTopOf="@+id/ivGithub" />
 
+                <Button
+                    android:id="@+id/btnOpenSourceCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_button_icon"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/open_source_code"
+                    android:textAllCaps="false"
+                    android:textColor="@color/highLight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLicense" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemCheckForUpdates"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="@string/check_for_updates">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_github"
+                android:paddingBottom="16dp">
 
-            </com.dirror.music.widget.ItemLayout>
+                <ImageView
+                    android:id="@+id/ivContactAuthor"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:mipmap/sym_def_app_icon" />
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemOpenSource"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="@string/open_source_code">
+                <TextView
+                    android:id="@+id/tvContactAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/contact_author"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivContactAuthor"
+                    app:layout_constraintStart_toEndOf="@+id/ivContactAuthor"
+                    app:layout_constraintTop_toTopOf="@+id/ivContactAuthor" />
 
-            </com.dirror.music.widget.ItemLayout>
+                <TextView
+                    android:id="@+id/tvSlogan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/slogan"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivContactAuthor" />
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemUpdateLog"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="@string/update_log">
+                <TextView
+                    android:id="@+id/tvAuthor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="邮箱：moriafly@163.com\n网址：https://moriafly.xyz\nQQ：2456860197"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSlogan" />
 
-            </com.dirror.music.widget.ItemLayout>
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemHistoryVersion"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="历史版本">
-
-            </com.dirror.music.widget.ItemLayout>
-
-            <com.dirror.music.widget.ValueView
-                android:id="@+id/itemFoyouVersion"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="Foyou"
-                app:value="1.0.0">
-
-            </com.dirror.music.widget.ValueView>
-
-            <com.dirror.music.widget.ValueView
-                android:id="@+id/itemCloudMusicVersion"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="指定云音乐 API 版本"
-                app:value="正在获取服务器版本……">
-
-            </com.dirror.music.widget.ValueView>
-
-            <com.dirror.music.widget.ValueView
-                android:id="@+id/valueViewContactAuthor"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="@string/contact_author"
-                app:value="@string/author_email" />
-
-            <com.dirror.music.widget.ValueView
-                android:id="@+id/valueViewQQ"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:text="QQ"
-                app:value="2456860197" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/tvSlogan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/slogan"
-        android:textColor="@color/colorSubTextForeground"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tvUrl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="https://moriafly.xyz"
-        android:textColor="@color/highLight"
-        app:layout_constraintBottom_toTopOf="@+id/tvSlogan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

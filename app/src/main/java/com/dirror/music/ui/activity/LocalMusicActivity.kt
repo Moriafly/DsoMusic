@@ -114,6 +114,7 @@ class LocalMusicActivity : AppCompatActivity() {
         LocalMusic.scanLocalMusic(this, {
             binding.rvLocalMusic.adapter = DetailPlaylistAdapter(it, this)
             binding.rvLocalMusic.layoutManager = LinearLayoutManager(this)
+            binding.titleBar.setTitleBarText("本地音乐(${it.size})")
         }, {
 
         })
