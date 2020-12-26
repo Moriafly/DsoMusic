@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.CommentData
-import com.dirror.music.ui.activity.CommentActivity
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.msTimeToFormatDate
 

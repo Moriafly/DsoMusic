@@ -33,7 +33,7 @@ import org.jetbrains.annotations.TestOnly
 
 /**
  * 音乐服务
- * @author Wu Shihao
+ * @author Moriafly
  * @since 2020/9
  */
 class MusicService : Service() {
@@ -712,7 +712,8 @@ class MusicService : Service() {
             .addAction(getPlayIcon(), "play", getPendingIntentPlay())
             .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
             .setStyle(mediaStyle)
-            .setOngoing(false)
+            .setOngoing(true)
+            // .setTicker("Dso") 魅族状态栏歌词的实现方法
             // .setAutoCancel(true)
             .build()
         // 更新通知

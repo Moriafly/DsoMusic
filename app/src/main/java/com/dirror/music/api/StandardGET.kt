@@ -32,16 +32,6 @@ object StandardGET {
         })
     }
 
-
-    /**
-     * 获取歌曲播放地址
-     */
-    fun getSongUrl(id: String, success: (String?) -> Unit) {
-        getSongInfo(id) {
-            success.invoke(it.url)
-        }
-    }
-
     /**
      * 获取大图
      * 300

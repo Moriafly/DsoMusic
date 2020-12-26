@@ -1,6 +1,7 @@
 package com.dirror.music.util
 
 object Config {
+
     const val UID = "long_uid"
     const val PAUSE_SONG_AFTER_UNPLUG_HEADSET = "pause_song_after_unplug_headset"
     const val LOCAL_PLAYLIST = "local_playlist"
@@ -13,6 +14,8 @@ object Config {
 
     const val SEARCH_ENGINE_TIP = "boolean_search_engine_tip" // 音乐搜索引擎提示
     const val CLOUD_MUSIC_COOKIE = "string_cloud_music_cookie"
+
+    const val FILTER_RECORD = "boolean_filter_record" // 过滤录音
 
     // const val FIRST_USE_APP = "boolean_first_use_app" // 第一次使用 APP
 }

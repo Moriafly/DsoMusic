@@ -26,8 +26,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        binding.switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
-        binding.switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
+        // 按钮
+        binding.apply {
+            switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
+            switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
+            switchFilterRecord.isChecked = MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, false)
+        }
 
         if (!Secure.isDebug()) {
             binding.itemTestCookie.visibility = View.GONE
@@ -59,6 +63,11 @@ class SettingsActivity : AppCompatActivity() {
                 } else {
                     toast("非开发版")
                 }
+            }
+
+            itemFilterRecord.setOnClickListener { switchFilterRecord.isChecked = !switchFilterRecord.isChecked }
+            switchFilterRecord.setOnCheckedChangeListener { _, isChecked ->
+                MyApplication.mmkv.encode(Config.FILTER_RECORD, isChecked)
             }
         }
 

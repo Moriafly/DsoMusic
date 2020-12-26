@@ -8,12 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.ui.activity.PlaylistActivity
-import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
 

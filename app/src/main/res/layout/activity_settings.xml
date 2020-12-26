@@ -20,9 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
-
-
+            
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
@@ -32,6 +30,15 @@
                 android:textSize="12sp"
                 android:textColor="@color/colorSubTextForeground"
                 android:text="音乐"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.75"
+                android:background="?android:attr/listDivider" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemPauseSongAfterUnplugHeadset"
@@ -92,14 +99,6 @@
 
             </com.dirror.music.widget.ItemLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:alpha="0.5"
-                android:background="?android:attr/listDivider"
-                android:visibility="gone" />
-
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemFeedback"
                 android:layout_width="match_parent"
@@ -127,7 +126,68 @@
                 android:paddingEnd="16dp"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp"
+                android:text="本地"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.75"
+                android:background="?android:attr/listDivider" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemFilterRecord"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:itemType="item_no"
+                app:text="过滤录音文件（测试）">
+
+                <Switch
+                    android:id="@+id/switchFilterRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_track"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+            </com.dirror.music.widget.ItemLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp"
+                android:text="暂仅支持 Flyme"/>
+
+
+
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp"
                 android:text="实验性"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.75"
+                android:background="?android:attr/listDivider" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemJim"

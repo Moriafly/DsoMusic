@@ -2,7 +2,6 @@ package com.dirror.music.music.standard
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.dirror.music.MyApplication
 import com.dirror.music.R

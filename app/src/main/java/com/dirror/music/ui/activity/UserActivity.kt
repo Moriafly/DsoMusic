@@ -7,7 +7,6 @@ import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityUserBinding
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.getStatusBarHeight
-import com.dirror.music.util.toast
 
 class UserActivity : AppCompatActivity() {
 

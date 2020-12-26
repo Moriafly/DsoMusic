@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -21,9 +20,9 @@ import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
+import com.dirror.music.util.GlideUtil
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**

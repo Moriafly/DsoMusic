@@ -1,6 +1,7 @@
 package com.dirror.music.music.standard
 
 import com.dirror.music.data.LyricData
+import com.dirror.music.music.local.LyricParse
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
@@ -20,6 +21,11 @@ object SearchLyric {
             // QQ
             SOURCE_QQ -> {
                 url = "https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid=${songData.id}&format=json&nobase64=1"
+            }
+            else -> {
+                LyricParse.getLyric(songData.name) {
+                    success.invoke(it)
+                }
             }
         }
 

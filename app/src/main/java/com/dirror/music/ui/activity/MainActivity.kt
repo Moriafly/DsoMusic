@@ -23,6 +23,7 @@ import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
+import com.dirror.music.util.GlideUtil
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 

@@ -8,18 +8,16 @@ import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.audio.AudioEffect
 import com.dirror.music.databinding.DialogPlayMoreBinding
 import com.dirror.music.ui.activity.FeedbackActivity
 
 class PlayerMenuMoreDialog : Dialog {
 
-    private lateinit var binding: DialogPlayMoreBinding
+    private var binding: DialogPlayMoreBinding = DialogPlayMoreBinding.inflate(layoutInflater)
 
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
-        binding = DialogPlayMoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // 设置显示位置
         window?.setGravity(Gravity.BOTTOM)
@@ -59,7 +57,7 @@ class PlayerMenuMoreDialog : Dialog {
             // toast("${audioSession}")
             // loge("你好audio: ${audioSession}")
             // AudioEffect.noiseSuppressor(audioSession, isChecked)
-            AudioEffect.automaticGainControl(audioSession, true)
+            // AudioEffect.automaticGainControl(audioSession, true)
         }
 
         binding.itemNoiseSuppressor.setOnClickListener {

@@ -5,10 +5,12 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.util.Config
 import com.dirror.music.util.toast
 
 object LocalMusic {
@@ -39,9 +41,9 @@ object LocalMusic {
                 val sizeColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.SIZE) // 码率
                 // val titleColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.VOLUME_NAME)
                 do {
-                    val id = cursor.getLong(idColumn)
-                    val title = cursor.getString(titleColumn)
-                    val artist = cursor.getString(artistColumn)
+                    val id = cursor.getLong(idColumn) // 音乐 id
+                    val title = cursor.getString(titleColumn) // 音乐名称
+                    val artist = cursor.getString(artistColumn) // 艺术家
                     // val bitrate = cursor.getString(bitrateColumn)
                     val size = cursor.getLong(sizeColumn)
                     // 过滤无法播放的歌曲
@@ -51,6 +53,12 @@ object LocalMusic {
                     // 大小为 0 过滤
                     if (size == 0L) {
                         continue
+                    }
+                    // 是否过滤录音
+                    if (MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, false)) {
+                        if (artist == "Meizu Recorder") {
+                            continue
+                        }
                     }
                     // loge("本地歌曲：$id，标题【$title】，艺术家【$artist】")
 
@@ -79,7 +87,6 @@ object LocalMusic {
             }
         }
         cursor?.close()
-
 
     }
 

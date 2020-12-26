@@ -28,8 +28,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 242
-        versionName "2.1.0"
+        versionCode 244
+        versionName "2.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -68,7 +68,7 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
+
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
     implementation 'com.eightbitlab:blurview:1.6.3'
     implementation 'com.youth.banner:banner:2.1.0'
@@ -76,7 +76,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'cn.bmob.android:bmob-sdk:3.7.8'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.10"
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.11'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.squareup.okio:okio:2.9.0'
     implementation 'org.jsoup:jsoup:1.13.1'
@@ -89,4 +89,6 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.4.1'
     // View 边界渐变透明
     implementation 'ren.qinc.edgetranslucent:lib:0.0.3'
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 }
