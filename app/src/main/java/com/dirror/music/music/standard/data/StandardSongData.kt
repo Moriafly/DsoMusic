@@ -1,7 +1,7 @@
 package com.dirror.music.music.standard.data
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * 标准歌曲信息

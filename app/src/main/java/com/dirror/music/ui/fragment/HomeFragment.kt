@@ -1,6 +1,7 @@
 package com.dirror.music.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +10,14 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.adapter.BannerAdapter
 import com.dirror.music.adapter.PlaylistRecommendAdapter
 import com.dirror.music.databinding.FragmentHomeBinding
 import com.dirror.music.foyou.sentence.Sentence
 import com.dirror.music.music.netease.PlaylistRecommend
+import com.dirror.music.music.standard.data.SOURCE_DIRROR
+import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.util.AnimationUtil
 import com.dirror.music.util.dp
 import com.dirror.music.util.runOnMainThread
@@ -89,6 +91,13 @@ class HomeFragment : Fragment() {
             activity?.let {
                 MyApplication.activityManager.startFeedbackActivity(it)
             }
+        }
+
+        binding.clDso.setOnClickListener {
+            val intent = Intent(this.context, PlaylistActivity::class.java)
+            intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_DIRROR)
+            intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, 0)
+            startActivity(intent)
         }
     }
 

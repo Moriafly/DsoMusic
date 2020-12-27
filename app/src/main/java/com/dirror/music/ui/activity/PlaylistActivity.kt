@@ -19,10 +19,14 @@ import com.dirror.music.databinding.ActivityPlaylistBinding
 import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
 import com.dirror.music.music.standard.SongPicture
+import com.dirror.music.music.standard.data.SOURCE_DIRROR
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.music.standard.data.StandardPlaylistData
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import com.dirror.music.util.GlideUtil
+import com.google.gson.Gson
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -30,6 +34,11 @@ import jp.wasabeef.glide.transformations.BlurTransformation
  * 最新要求：兼容 网易和 QQ
  */
 class PlaylistActivity : AppCompatActivity() {
+
+    companion object {
+        const val EXTRA_PLAYLIST_SOURCE = "int_playlist_source"
+        const val EXTRA_LONG_PLAYLIST_ID = "int_playlist_id"
+    }
 
     private lateinit var binding: ActivityPlaylistBinding
 
@@ -61,34 +70,25 @@ class PlaylistActivity : AppCompatActivity() {
         (binding.includePlay.root.layoutParams as ConstraintLayout.LayoutParams).apply {
             bottomMargin = getNavigationBarHeight(this@PlaylistActivity)
         }
-        val playlistId = intent.getLongExtra("long_playlist_id", -1)
+        // 获取歌单来源
+        val playlistSource = intent.getIntExtra(EXTRA_PLAYLIST_SOURCE, 0)
+        // 获取歌单 id
+        val playlistId = intent.getLongExtra(EXTRA_LONG_PLAYLIST_ID, -1)
 
         binding.lottieLoading.repeatCount = -1
         binding.lottieLoading.playAnimation()
 
-        // 加载歌单信息
-        initPlaylistInfo(playlistId)
-        // 加载歌单歌曲
-        initPlaylist(playlistId) {
-            initRecycleView(it)
-        }
-
-        binding.coordinatorLayout.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-
-        }
+        initPlaylist(playlistSource, playlistId)
 
         var rvPlaylistScrollY = 0
         binding.rvPlaylist.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             rvPlaylistScrollY += oldScrollY
-            // loge("y = $y")
             if (rvPlaylistScrollY < 0) {
                 if (binding.titleBar.text == "歌单") {
                     binding.titleBar.setTitleBarText(binding.tvName.text.toString())
                 }
             } else {
-                // if (binding.titleBar.text != "歌单") {
-                    binding.titleBar.setTitleBarText("歌单")
-                // }
+                binding.titleBar.setTitleBarText("歌单")
             }
         }
 
@@ -120,6 +120,30 @@ class PlaylistActivity : AppCompatActivity() {
             // toast(detailPlaylistAdapter.itemCount.toString())
         }
 
+    }
+
+    private fun initPlaylist(source: Int, id: Long) {
+        when (source) {
+            SOURCE_NETEASE -> {
+                // 加载歌单信息
+                initPlaylistInfo(id)
+                // 加载歌单歌曲
+                initPlaylistSongs(id) {
+                    initRecycleView(it)
+                }
+            }
+            SOURCE_DIRROR -> {
+                val url = "https://moriafly.xyz/dirror-music/json/music.json"
+                MagicHttp.OkHttpManager().newGet(url, {
+                    val playlistData = Gson().fromJson(it, StandardPlaylistData::class.java)
+                    binding.tvName.text = playlistData.name
+                    binding.tvDescription.text = playlistData.description
+                    initRecycleView(playlistData.songs)
+                }, {
+
+                })
+            }
+        }
     }
 
     /**
@@ -183,7 +207,7 @@ class PlaylistActivity : AppCompatActivity() {
         }
     }
 
-    private fun initPlaylist(id: Long, success: (ArrayList<StandardSongData>) -> Unit) {
+    private fun initPlaylistSongs(id: Long, success: (ArrayList<StandardSongData>) -> Unit) {
         Playlist.getPlaylist(id, {
             success.invoke(it)
         }, {

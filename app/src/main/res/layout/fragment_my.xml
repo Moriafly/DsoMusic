@@ -128,7 +128,7 @@
             android:paddingEnd="20dp"
             android:text="@string/local_playlist"
             android:textColor="@color/colorTextForeground"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -264,7 +264,7 @@
             android:paddingEnd="20dp"
             android:text="@string/internet_playlist"
             android:textColor="@color/colorTextForeground"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView

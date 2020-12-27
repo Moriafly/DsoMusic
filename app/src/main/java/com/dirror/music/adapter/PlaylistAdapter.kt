@@ -1,5 +1,6 @@
 package com.dirror.music.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
@@ -29,6 +31,7 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerV
         return ViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val play = playlist[position]
         val url = MyApplication.cloudMusicManager.getPicture(play.coverImgUrl, 56.dp())
@@ -37,6 +40,7 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerV
         holder.tvTrackCount.text = "${play.trackCount} 首"
         holder.clTrack.setOnClickListener {
             val intent = Intent(it.context, PlaylistActivity::class.java)
+            intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, SOURCE_NETEASE)
             intent.putExtra("long_playlist_id", play.id)
             it.context.startActivity(intent)
         }

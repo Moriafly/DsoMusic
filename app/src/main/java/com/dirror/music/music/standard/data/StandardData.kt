@@ -1,11 +1,12 @@
 package com.dirror.music.music.standard.data
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
-const val SOURCE_LOCAL = 0
-const val SOURCE_NETEASE = 1
-const val SOURCE_QQ = 2
+const val SOURCE_LOCAL = 1
+const val SOURCE_NETEASE = 2
+const val SOURCE_QQ = 3
+const val SOURCE_DIRROR = 4
 
 val EMPTY_STANDARD_SONG = StandardSongData(
     SOURCE_LOCAL,
