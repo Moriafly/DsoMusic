@@ -16,7 +16,7 @@ object SearchSong {
     // http://search.kuwo.cn/r.s?songname=%E6%90%81%E6%B5%85&ft=music&rformat=json&encoding=utf8&rn=8&callback=song&vipver=MUSIC_8.0.3.1
     fun search(keywords: String, success: (ArrayList<StandardSongData>) -> Unit) {
 
-        val url = "http://search.kuwo.cn/r.s?songname=${keywords}&ft=music&rformat=json&encoding=utf8&rn=8&callback=song&vipver=MUSIC_8.0.3.1"
+        val url = "http://search.kuwo.cn/r.s?songname=${keywords}&ft=music&rformat=json&encoding=utf8&rn=30&callback=song&vipver=MUSIC_8.0.3.1"
         MagicHttp.OkHttpManager().newGet(url, {
             var string = it
             // 适配 JSON
@@ -39,7 +39,7 @@ object SearchSong {
                             SOURCE_KUWO,
                             kuwoSong.MUSICRID,
                             kuwoSong.NAME,
-                            "",
+                            kuwoSong.hts_MVPIC,
                             artistList,
                             null,
                             null,
@@ -76,7 +76,8 @@ object SearchSong {
         data class SongData(
             val MUSICRID: String,
             val NAME: String,
-            val ARTIST: String
+            val ARTIST: String,
+            val hts_MVPIC: String // 图片
         )
     }
 
