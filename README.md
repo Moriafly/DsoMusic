@@ -6,6 +6,9 @@
 
 QQ 音乐来源：自己搞的 : )
 
+酷我音乐来源：自己搞的 : )
+其中酷我音乐支持 VIP 歌曲
+
 # 效果展示
 
 ![pic1](https://img-blog.csdnimg.cn/20201219112702321.gif)
@@ -236,6 +239,12 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [x] 音乐 url
 - [x] 歌词
 
+#### 酷我音乐 API
+
+- [x] VIP 歌曲
+- [x] 搜索音乐
+- [x] 音乐 url
+- [x] 歌词
 
 # 开源协议 License
 
