@@ -12,6 +12,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
@@ -32,6 +33,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val ENGINE_NETEASE = 1
         const val ENGINE_QQ = 2
+        const val ENGINE_KUWO = 3
     }
 
     private lateinit var binding: ActivitySearchBinding
@@ -60,20 +62,11 @@ class SearchActivity : AppCompatActivity() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun initView() {
-        binding.clTip.visibility = View.GONE
-        if (MyApplication.mmkv.decodeBool(Config.SEARCH_ENGINE_TIP, true)) {
-            binding.clTip.visibility = View.VISIBLE
-        }
-        when (MyApplication.mmkv.decodeInt(Config.SEARCH_ENGINE, SOURCE_NETEASE)) {
-            SOURCE_NETEASE -> {
-                binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
-                engine = SOURCE_NETEASE
-            }
-            SOURCE_QQ -> {
-                binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_qq_music_engine))
-                engine = SOURCE_QQ
-            }
-        }
+
+        binding.clNetease.background = ContextCompat.getDrawable(this, R.drawable.bg_edit_text)
+
+        changeSearchEngine(MyApplication.mmkv.decodeInt(Config.SEARCH_ENGINE, SOURCE_NETEASE))
+
         // 获取推荐关键词
         MyApplication.cloudMusicManager.getSearchDefault {
             runOnMainThread {
@@ -87,24 +80,21 @@ class SearchActivity : AppCompatActivity() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun initListener() {
+        binding.apply {
+            // 搜索
+            btnSearch.setOnClickListener { search() }
 
-        // 切换搜索引擎
-        binding.ivEngine.setOnClickListener {
-            if (engine == ENGINE_NETEASE) {
-                engine = ENGINE_QQ
-                binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_qq_music_engine))
-                // toast("已经切换成 QQ")
-                search()
-            } else {
-                engine = ENGINE_NETEASE
-                binding.ivEngine.setImageDrawable(getDrawable(R.drawable.ic_cloud_music_engine))
-                // toast("已经切换成网易云")
-                search()
+            // 网易云
+            clNetease.setOnClickListener {
+                changeSearchEngine(ENGINE_NETEASE)
             }
-        }
-
-        binding.btnCancel.setOnClickListener {
-            finish()
+            // QQ
+            clQQ.setOnClickListener {
+                changeSearchEngine(ENGINE_QQ)
+            }
+            clKuwo.setOnClickListener {
+                changeSearchEngine(ENGINE_KUWO)
+            }
         }
 
         binding.includePlayer.root.setOnClickListener {
@@ -146,10 +136,6 @@ class SearchActivity : AppCompatActivity() {
             })
         }
 
-        binding.btnCloseTip.setOnClickListener {
-            MyApplication.mmkv.encode(Config.SEARCH_ENGINE_TIP, false)
-            binding.clTip.visibility = View.GONE
-        }
 
         binding.ivClear.setOnClickListener {
             binding.etSearch.setText("")
@@ -184,6 +170,11 @@ class SearchActivity : AppCompatActivity() {
                         initRecycleView(it)
                     }
                 }
+                ENGINE_KUWO -> {
+                    com.dirror.music.music.kuwo.SearchSong.search(keywords) {
+                        initRecycleView(it)
+                    }
+                }
             }
         }
 
@@ -192,24 +183,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
         runOnMainThread {
-            val linearLayoutManager: LinearLayoutManager =
-                object : LinearLayoutManager(this) {
-                    override fun canScrollVertically(): Boolean {
-                        return false
-                    }
-
-                    override fun onMeasure(
-                        recycler: RecyclerView.Recycler,
-                        state: RecyclerView.State,
-                        widthSpec: Int,
-                        heightSpec: Int
-                    ) {
-                        super.onMeasure(recycler, state, widthSpec, heightSpec)
-                        setMeasuredDimension(widthSpec, (songList.size * dp2px(64f)).toInt())
-                    }
-                }
-
-            binding.rvPlaylist.layoutManager = linearLayoutManager
+            binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
             binding.rvPlaylist.adapter = DetailPlaylistAdapter(songList, this)
 
         }
@@ -222,6 +196,32 @@ class SearchActivity : AppCompatActivity() {
         // 保存搜索引擎
         MyApplication.mmkv.encode(Config.SEARCH_ENGINE, engine)
     }
+
+
+    /**
+     * 改变搜索引擎
+     */
+    private fun changeSearchEngine(engineCode: Int) {
+        binding.apply {
+            clNetease.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.background_transparency)
+            clQQ.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.background_transparency)
+            clKuwo.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.background_transparency)
+        }
+        when (engineCode) {
+            ENGINE_NETEASE -> {
+                binding.clNetease.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+            }
+            ENGINE_QQ -> {
+                binding.clQQ.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+            }
+            ENGINE_KUWO -> {
+                binding.clKuwo.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+            }
+        }
+        engine = engineCode
+        search()
+    }
+
 
     inner class MusicBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {

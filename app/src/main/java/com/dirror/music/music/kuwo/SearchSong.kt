@@ -1,6 +1,12 @@
 package com.dirror.music.music.kuwo
 
+import com.dirror.music.music.standard.data.SOURCE_KUWO
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.MagicHttp
+import com.dirror.music.util.getCurrentTime
+import com.dirror.music.util.loge
+import com.google.gson.Gson
+import java.lang.Exception
 
 /**
  * 搜索酷我音乐
@@ -8,20 +14,74 @@ import com.dirror.music.util.MagicHttp
 object SearchSong {
 
     // http://search.kuwo.cn/r.s?songname=%E6%90%81%E6%B5%85&ft=music&rformat=json&encoding=utf8&rn=8&callback=song&vipver=MUSIC_8.0.3.1
-    fun search(keywords: String) {
+    fun search(keywords: String, success: (ArrayList<StandardSongData>) -> Unit) {
 
         val url = "http://search.kuwo.cn/r.s?songname=${keywords}&ft=music&rformat=json&encoding=utf8&rn=8&callback=song&vipver=MUSIC_8.0.3.1"
         MagicHttp.OkHttpManager().newGet(url, {
             var string = it
             // 适配 JSON
 
-
+            string = string.replace("try{var jsondata=", "")
+            string = string.replace("\n" +
+                    "; song(jsondata);}catch(e){jsonError(e)}", "")
             string = string.replace("\'", "\"")
 
+            loge(string)
+            try {
+                val kuwoSearchData = Gson().fromJson(string, KuwoSearchData::class.java)
+                val songList = kuwoSearchData.abslist
+                val standardSongDataList = ArrayList<StandardSongData>()
+                songList.forEach { kuwoSong ->
+                    val artistList = ArrayList<StandardSongData.StandardArtistData>()
+                    artistList.add(StandardSongData.StandardArtistData(0, kuwoSong.ARTIST))
+                    standardSongDataList.add(
+                        StandardSongData(
+                            SOURCE_KUWO,
+                            kuwoSong.MUSICRID,
+                            kuwoSong.NAME,
+                            "",
+                            artistList,
+                            null,
+                            null,
+                            null
+                        )
+                    )
+                }
+                success.invoke(standardSongDataList)
+            } catch (e: Exception) {
+
+            }
         }, {
 
         })
     }
 
+    fun getUrl(rid: String, success: (String) -> Unit) {
+        val id = rid.replace("MUSIC_", "")
+        val url = "http://www.kuwo.cn/url?format=mp3&rid=${id}&response=url&type=convert_url3&br=128kmp3&from=web&t=${getCurrentTime()}&httpsStatus=1"
+        MagicHttp.OkHttpManager().newGet(url, {
+            val kuwoUrlData = Gson().fromJson(it, KuwoUrlData::class.java)
+            success.invoke(kuwoUrlData.url)
+        }, {
+
+        })
+
+    }
+
     // http://www.kuwo.cn/url?format=mp3&rid=94239&response=url&type=convert_url3&br=128kmp3&from=web&t=1609079909636&httpsStatus=1
+
+    data class KuwoSearchData(
+        val abslist: ArrayList<SongData>
+    ) {
+        data class SongData(
+            val MUSICRID: String,
+            val NAME: String,
+            val ARTIST: String
+        )
+    }
+
+    data class KuwoUrlData(
+        val url: String
+    )
+
 }

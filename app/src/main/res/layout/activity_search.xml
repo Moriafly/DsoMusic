@@ -7,28 +7,17 @@
     android:background="@color/colorPageBackground"
     tools:context=".ui.activity.SearchActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPlaylist"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/includePlayer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleBar">
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/clTip"
+        app:layout_constraintBottom_toTopOf="@id/includePlayer"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvPlaylist"
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
-        </LinearLayout>
-    </ScrollView>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.dirror.music.widget.TitleBarLayout
         android:id="@+id/titleBar"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -41,20 +30,21 @@
             style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:background="@drawable/bg_edit_text"
+            android:background="@drawable/background_transparency"
             android:imeOptions="actionSearch"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:layout_marginStart="56dp"
             android:singleLine="true"
             android:textCursorDrawable="@drawable/text_cursor_drawable"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnCancel"
-            app:layout_constraintStart_toEndOf="@+id/ivEngine"
+            app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnCancel"
+            android:id="@+id/btnSearch"
             style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -62,7 +52,7 @@
             android:minWidth="0dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:text="@string/cancel"
+            android:text="@string/search"
             android:textAllCaps="false"
             android:textColor="@color/colorAppThemeColor"
             android:textSize="14sp"
@@ -71,26 +61,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:ignore="NewApi" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="1px"
-            android:background="@color/colorDividerBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivEngine"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:background="@drawable/background_button_icon"
-            android:padding="18dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_cloud_music" />
 
         <ImageView
             android:id="@+id/ivClear"
@@ -104,48 +74,84 @@
             app:layout_constraintTop_toTopOf="@+id/etSearch"
             app:srcCompat="@drawable/ic_cancel" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.dirror.music.widget.TitleBarLayout>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clTip"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="40dp"
         android:background="@color/colorPageBackground"
         android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleBar">
 
-        <TextView
-            android:id="@+id/tvTip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:text="点击左上方图标可以切换音乐源哦~"
-            android:textColor="@color/colorTextForeground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btnCloseTip"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
-            android:layout_width="84dp"
-            android:layout_height="56dp"
-            android:background="@drawable/background_button_icon"
-            android:minWidth="0dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:text="不再提示"
-            android:textAllCaps="false"
-            android:textColor="@color/colorAppThemeColor"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/dividerTip"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:ignore="NewApi" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clNetease"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_cloud_music_engine" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clQQ"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_qq_music_engine" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clKuwo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_kuwo_music_engine" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
         <View
             android:id="@+id/dividerTip"

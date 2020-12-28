@@ -45,4 +45,5 @@
     <string name="sentence_recommend">句子推荐</string>
     <string name="switch_account">切换账号</string>
     <string name="login_by_phone">手机号登录</string>
+    <string name="search">搜索</string>
 </resources>

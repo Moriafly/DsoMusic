@@ -19,6 +19,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.StandardGET
 import com.dirror.music.broadcast.BecomingNoisyReceiver
+import com.dirror.music.music.kuwo.SearchSong
 import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
@@ -295,6 +296,11 @@ class MusicService : Service() {
                     song.dirrorInfo?.let {
                         // toast(it.url)
                         startPlayUrl(it.url)
+                    }
+                }
+                SOURCE_KUWO -> {
+                    SearchSong.getUrl(song.id) {
+                        startPlayUrl(it)
                     }
                 }
             }

@@ -7,6 +7,7 @@ const val SOURCE_LOCAL = 1
 const val SOURCE_NETEASE = 2
 const val SOURCE_QQ = 3
 const val SOURCE_DIRROR = 4
+const val SOURCE_KUWO = 5
 
 val EMPTY_STANDARD_SONG = StandardSongData(
     SOURCE_LOCAL,

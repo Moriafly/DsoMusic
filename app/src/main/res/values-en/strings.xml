@@ -45,4 +45,5 @@
     <string name="sentence_recommend">Sentence recommend</string>
     <string name="switch_account">Switch account</string>
     <string name="login_by_phone">手机号登录</string>
+    <string name="search">搜索</string>
 </resources>
