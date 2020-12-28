@@ -26,6 +26,7 @@ object SearchSong {
                         song.albummid, // 歌单 id
                         song.singer,
                         null,
+                        null,
                         null
                     )
                 )

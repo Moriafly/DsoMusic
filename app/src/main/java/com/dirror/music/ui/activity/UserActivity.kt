@@ -1,5 +1,6 @@
 package com.dirror.music.ui.activity
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -7,6 +8,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityUserBinding
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.getStatusBarHeight
+import com.dirror.music.util.runOnMainThread
 
 class UserActivity : AppCompatActivity() {
 
@@ -16,6 +18,7 @@ class UserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserBinding.inflate(layoutInflater)
@@ -29,7 +32,7 @@ class UserActivity : AppCompatActivity() {
         val userId = intent.getLongExtra(EXTRA_LONG_USER_ID, 0L)
         // toast("userId = $userId")
         MyApplication.cloudMusicManager.getUserDetail(userId, {
-            runOnUiThread {
+            runOnMainThread {
                 GlideUtil.load(it.profile.backgroundUrl, binding.ivBackground)
                 GlideUtil.load(it.profile.avatarUrl, binding.ivCover)
                 binding.apply {

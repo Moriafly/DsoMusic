@@ -77,7 +77,8 @@ object LocalMusic {
                             "",
                             artistList,
                             null,
-                            LocalInfo(size)
+                            LocalInfo(size),
+                            null
                         )
                     )
 

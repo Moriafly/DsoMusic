@@ -28,6 +28,7 @@ import com.dirror.music.util.*
 import com.dirror.music.util.GlideUtil
 import com.google.gson.Gson
 import jp.wasabeef.glide.transformations.BlurTransformation
+import java.lang.Exception
 
 /**
  * 歌单 Activity
@@ -45,6 +46,8 @@ class PlaylistActivity : AppCompatActivity() {
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
 
     private var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList(), this)
+
+    private var playlistId: Long = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +76,7 @@ class PlaylistActivity : AppCompatActivity() {
         // 获取歌单来源
         val playlistSource = intent.getIntExtra(EXTRA_PLAYLIST_SOURCE, 0)
         // 获取歌单 id
-        val playlistId = intent.getLongExtra(EXTRA_LONG_PLAYLIST_ID, -1)
+        playlistId = intent.getLongExtra(EXTRA_LONG_PLAYLIST_ID, -1)
 
         binding.lottieLoading.repeatCount = -1
         binding.lottieLoading.playAnimation()
@@ -120,6 +123,11 @@ class PlaylistActivity : AppCompatActivity() {
             // toast(detailPlaylistAdapter.itemCount.toString())
         }
 
+        binding.ivShare.setOnClickListener {
+            toast("歌单 ID 已经成功复制到剪贴板")
+            copyToClipboard(this, playlistId.toString())
+        }
+
     }
 
     private fun initPlaylist(source: Int, id: Long) {
@@ -135,10 +143,12 @@ class PlaylistActivity : AppCompatActivity() {
             SOURCE_DIRROR -> {
                 val url = "https://moriafly.xyz/dirror-music/json/music.json"
                 MagicHttp.OkHttpManager().newGet(url, {
-                    val playlistData = Gson().fromJson(it, StandardPlaylistData::class.java)
-                    binding.tvName.text = playlistData.name
-                    binding.tvDescription.text = playlistData.description
-                    initRecycleView(playlistData.songs)
+                    try {
+                        val playlistData = Gson().fromJson(it, StandardPlaylistData::class.java)
+                        binding.tvName.text = playlistData.name
+                        binding.tvDescription.text = playlistData.description
+                        initRecycleView(playlistData.songs)
+                    } catch (e: Exception) { }
                 }, {
 
                 })

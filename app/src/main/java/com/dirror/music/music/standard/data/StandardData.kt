@@ -15,6 +15,7 @@ val EMPTY_STANDARD_SONG = StandardSongData(
     "",
     ArrayList(),
     null,
+    null,
     null
 )
 

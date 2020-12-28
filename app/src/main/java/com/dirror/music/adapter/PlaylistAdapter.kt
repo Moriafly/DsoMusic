@@ -40,8 +40,8 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerV
         holder.tvTrackCount.text = "${play.trackCount} 首"
         holder.clTrack.setOnClickListener {
             val intent = Intent(it.context, PlaylistActivity::class.java)
-            intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, SOURCE_NETEASE)
-            intent.putExtra("long_playlist_id", play.id)
+            intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
+            intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, play.id)
             it.context.startActivity(intent)
         }
     }

@@ -215,6 +215,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:text="@string/playlist">
 
+        <ImageView
+            android:id="@+id/ivShare"
+            android:padding="16dp"
+            android:alpha="0.72"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/mz_titlebar_ic_share_dark" />
     </com.dirror.music.widget.TitleBarLayout>
 
     <include

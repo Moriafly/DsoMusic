@@ -50,6 +50,7 @@ fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): 
             song.al.picUrl,
             standardArtistDataList,
             NeteaseInfo(song.fee),
+            null,
             null
         )
         standardPlaylistData.add(standardSongData)

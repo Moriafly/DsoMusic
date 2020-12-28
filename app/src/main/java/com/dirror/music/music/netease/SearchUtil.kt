@@ -40,6 +40,7 @@ object SearchUtil {
                     songs[index].album.artist.img1v1Url,
                     songs[index].artists,
                     NeteaseInfo(songs[index].fee),
+                    null,
                     null
                 )
                 standardSongDataList.add(standardSongData)

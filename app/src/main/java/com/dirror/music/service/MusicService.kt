@@ -22,10 +22,7 @@ import com.dirror.music.broadcast.BecomingNoisyReceiver
 import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
-import com.dirror.music.music.standard.data.SOURCE_LOCAL
-import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.SOURCE_QQ
-import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.music.standard.data.*
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.util.*
@@ -293,9 +290,12 @@ class MusicService : Service() {
                         setDataSource(applicationContext, contentUri)
                         prepareAsync()
                     }
-
-                    // ...prepare and start...
-
+                }
+                SOURCE_DIRROR -> {
+                    song.dirrorInfo?.let {
+                        // toast(it.url)
+                        startPlayUrl(it.url)
+                    }
                 }
             }
 

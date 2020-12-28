@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.R
 import com.dirror.music.music.netease.PlaylistRecommend
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
@@ -52,7 +53,8 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
         GlideUtil.load(playlist.picUrl, holder.ivCover)
         holder.clTrack.setOnClickListener {
             val intent = Intent(it.context, PlaylistActivity::class.java)
-            intent.putExtra("long_playlist_id", playlist.id)
+            intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
+            intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, playlist.id)
             it.context.startActivity(intent)
         }
         holder.tvName.text = playlist.name

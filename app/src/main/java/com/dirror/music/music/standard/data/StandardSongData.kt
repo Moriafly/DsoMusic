@@ -14,7 +14,8 @@ data class StandardSongData(
     val imageUrl: String?, // 图片 url
     val artists: ArrayList<StandardArtistData>?, // 艺术家
     val neteaseInfo: NeteaseInfo?,
-    val localInfo: LocalInfo?
+    val localInfo: LocalInfo?,
+    val dirrorInfo: DirrorInfo?
 ) : Parcelable {
 
     @Parcelize
@@ -37,6 +38,14 @@ data class StandardSongData(
     @Parcelize
     data class LocalInfo(
         val size: Long,
+    ) : Parcelable
+
+    /**
+     * Dirror 源拓展信息
+     */
+    @Parcelize
+    data class DirrorInfo(
+        val url: String
     ) : Parcelable
 
 }
