@@ -6,10 +6,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.API_FCZBL_VIP
-import com.dirror.music.music.standard.data.SOURCE_LOCAL
-import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.SOURCE_QQ
-import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
 import com.dirror.music.util.loge
@@ -62,6 +59,9 @@ object SongPicture {
             SOURCE_QQ -> {
                 "https://y.gtimg.cn/music/photo_new/T002R300x300M000${songData.imageUrl as String}.jpg?max_age=2592000"
             }
+            SOURCE_KUWO -> {
+                songData.imageUrl?:""
+            }
             else -> {
                 "https://s4.music.126.net/style/web2/img/default/default_album.jpg"
             }
@@ -96,6 +96,13 @@ object SongPicture {
                 loge("getPlayerActivityCoverBitmapQQ图片url【${url}】")
                 GlideUtil.load(url) {
                     success.invoke(it)
+                }
+            }
+            SOURCE_KUWO -> {
+                songData.imageUrl?.let {
+                    GlideUtil.load(it) {
+                        success.invoke(it)
+                    }
                 }
             }
             else -> {
