@@ -25,12 +25,14 @@ object SearchSong {
             string = string.replace("\n" +
                     "; song(jsondata);}catch(e){jsonError(e)}", "")
             string = string.replace("\'", "\"")
+            string = string.replace("&nbsp;", " ")
 
             loge(string)
             try {
                 val kuwoSearchData = Gson().fromJson(string, KuwoSearchData::class.java)
                 val songList = kuwoSearchData.abslist
                 val standardSongDataList = ArrayList<StandardSongData>()
+                // 每首歌适配
                 songList.forEach { kuwoSong ->
                     val artistList = ArrayList<StandardSongData.StandardArtistData>()
                     artistList.add(StandardSongData.StandardArtistData(0, kuwoSong.ARTIST))

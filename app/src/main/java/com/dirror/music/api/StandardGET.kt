@@ -3,10 +3,7 @@ package com.dirror.music.api
 import android.graphics.Bitmap
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.qq.Picture
-import com.dirror.music.music.standard.data.SOURCE_LOCAL
-import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.SOURCE_QQ
-import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
@@ -52,6 +49,13 @@ object StandardGET {
             }
             SOURCE_LOCAL -> {
                 success.invoke(null)
+            }
+            SOURCE_KUWO -> {
+                song.imageUrl?.let {
+                    GlideUtil.load(it) {
+                        success.invoke(it)
+                    }
+                }
             }
         }
     }
