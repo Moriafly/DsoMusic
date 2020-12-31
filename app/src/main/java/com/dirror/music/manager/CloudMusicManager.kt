@@ -47,13 +47,17 @@ class CloudMusicManager: CloudMusicManagerInterface {
     override fun loginByTell(tell: String, password: String, success: (UserDetailData) -> Unit, failure: () -> Unit) {
         val url = "${API_DEFAULT}/login/cellphone?phone=${tell}&password=${password}"
         MagicHttp.OkHttpManager().newGet(url, {
-            val userDetail = Gson().fromJson(it, UserDetailData::class.java)
-            if (userDetail.code != 200) {
+            try {
+                val userDetail = Gson().fromJson(it, UserDetailData::class.java)
+                if (userDetail.code != 200) {
+                    failure.invoke()
+                } else {
+                    MyApplication.userManager.setCloudMusicCookie(userDetail.cookie)
+                    MyApplication.userManager.setUid(userDetail.profile.userId)
+                    success.invoke(userDetail)
+                }
+            } catch (e: Exception) {
                 failure.invoke()
-            } else {
-                MyApplication.userManager.setCloudMusicCookie(userDetail.cookie)
-                MyApplication.userManager.setUid(userDetail.profile.userId)
-                success.invoke(userDetail)
             }
         }, {
             failure.invoke()

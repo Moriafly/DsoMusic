@@ -45,10 +45,8 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     companion object {
         private const val MUSIC_BROADCAST_ACTION = "com.dirror.music.MUSIC_BROADCAST"
         private const val DELAY_MILLIS = 5L
-
         // Handle 消息，播放进度
         private const val MSG_PROGRESS = 0
-
         // Handle 消息，播放进度
         private const val BACKGROUND_SCALE_Y = 1.5F
         private const val BACKGROUND_SCALE_X = 2.5F
@@ -56,17 +54,13 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         private const val CD_SIZE = 240
     }
 
-    // 目前还是 activity_play 布局
     private lateinit var binding: ActivityPlayerBinding
-
     // 音乐广播接收者
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver
-
     // ViewModel 数据和视图分离
     private val playViewModel: PlayerViewModel by viewModels()
-
     // Looper + Handler
-    private val handler = @SuppressLint("HandlerLeak") object : Handler(Looper.getMainLooper()) {
+    private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 MSG_PROGRESS -> {
@@ -185,9 +179,7 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             // 喜欢音乐
             ivLike.setOnClickListener { playViewModel.likeMusic() }
             // 歌词点击
-            clLyric.setOnClickListener {
-
-            }
+            clLyric.setOnClickListener { }
             // CD
             clCd.setOnTouchListener { _, event ->
                 when (event.action) {
@@ -360,6 +352,9 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     }
 
+    /**
+     * 滚动条监听
+     */
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         // 判断是否为用户
         if (fromUser) {

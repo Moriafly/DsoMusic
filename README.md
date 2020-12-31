@@ -23,13 +23,14 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 
 # 开发进度
 
-#### 本项目
+### 本项目
 
 - [x] UID 登录
 - [x] 本地音乐
 - [x] 播放历史
+- [x] 网络歌词适配
 
-#### 基于网易云 API
+### 基于网易云 API
 
 - [x] 通知 - 私信 🥰 完成开发，等待上线
 - [x] 默认搜索关键词 🥰 v2.0.2 新增
@@ -233,13 +234,13 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [ ] 云贝支出
 - [ ] 关注歌手新 MV
 
-#### QQ 音乐 API
+### QQ 音乐 API
 
 - [x] 搜索音乐
 - [x] 音乐 url
 - [x] 歌词
 
-#### 酷我音乐 API
+### 酷我音乐 API
 
 - [x] VIP 歌曲
 - [x] 搜索音乐

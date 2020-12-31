@@ -44,7 +44,7 @@ object MagicHttp {
         override fun get(url: String, callBack: MagicCallback) {
             try {
                 val client = OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.SECONDS) //设置连接超时时间
+                    .connectTimeout(20, TimeUnit.SECONDS) //设置连接超时时间
                     .readTimeout(20, TimeUnit.SECONDS) //设置读取超时时间
                     .build()
                 val request = Request.Builder()

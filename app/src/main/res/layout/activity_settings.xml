@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPageBackground"
+    android:background="@color/menuMainBackground"
     tools:context=".ui.activity.SettingsActivity">
 
     <ScrollView
@@ -19,31 +19,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-            
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:textSize="12sp"
+                android:text="音乐"
                 android:textColor="@color/colorSubTextForeground"
-                android:text="音乐"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:alpha="0.75"
-                android:background="?android:attr/listDivider" />
+                android:textSize="12sp" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemPauseSongAfterUnplugHeadset"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
                 app:itemType="item_no"
                 app:text="@string/pause_song_after_unplug_headset">
 
@@ -63,7 +55,8 @@
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemPlayOnMobile"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
                 app:itemType="item_no"
                 app:text="@string/play_songs_on_mobile">
 
@@ -118,29 +111,20 @@
             </com.dirror.music.widget.ItemLayout>
 
             <TextView
-                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:text="本地"
                 android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp"
-                android:text="本地"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:alpha="0.75"
-                android:background="?android:attr/listDivider" />
+                android:textSize="12sp" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemFilterRecord"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
                 app:itemType="item_no">
 
                 <Switch
@@ -173,7 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="6dp"
                     android:gravity="center_vertical"
                     android:text="暂仅支持 Flyme"
                     android:textColor="@color/colorSubTextForeground"
@@ -184,11 +168,11 @@
             </com.dirror.music.widget.ItemLayout>
 
 
-
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemLocalMusicParseLyric"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
                 app:itemType="item_no"
                 app:text="自动匹配网络歌词">
 
@@ -206,33 +190,21 @@
             </com.dirror.music.widget.ItemLayout>
 
 
-
-
-
             <TextView
-                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:text="实验性"
                 android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp"
-                android:text="实验性"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:alpha="0.75"
-                android:background="?android:attr/listDivider" />
+                android:textSize="12sp" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemJim"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
                 app:text="Kart Jim">
 
             </com.dirror.music.widget.ItemLayout>
@@ -241,10 +213,10 @@
                 android:id="@+id/itemTestCookie"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
                 app:text="导出 Cookie（仅开发版使用）">
 
             </com.dirror.music.widget.ItemLayout>
-
 
 
         </LinearLayout>
@@ -254,6 +226,7 @@
         android:id="@+id/titleBar"
         android:layout_width="0dp"
         android:layout_height="56dp"
+        android:background="@color/colorItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

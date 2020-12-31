@@ -5,6 +5,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.getCurrentTime
 import com.dirror.music.util.loge
+import com.dirror.music.util.toast
 import com.google.gson.Gson
 import java.lang.Exception
 
@@ -59,15 +60,20 @@ object SearchSong {
     }
 
     fun getUrl(rid: String, success: (String) -> Unit) {
-        val id = rid.replace("MUSIC_", "")
-        val url = "http://www.kuwo.cn/url?format=mp3&rid=${id}&response=url&type=convert_url3&br=128kmp3&from=web&t=${getCurrentTime()}&httpsStatus=1"
-        MagicHttp.OkHttpManager().newGet(url, {
-            val kuwoUrlData = Gson().fromJson(it, KuwoUrlData::class.java)
-            success.invoke(kuwoUrlData.url)
-        }, {
 
-        })
+            val id = rid.replace("MUSIC_", "")
+            val url = "http://www.kuwo.cn/url?format=mp3&rid=${id}&response=url&type=convert_url3&br=128kmp3&from=web&t=${getCurrentTime()}&httpsStatus=1"
+            loge("链接: $url")
+            MagicHttp.OkHttpManager().newGet(url, {
+                try {
+                    val kuwoUrlData = Gson().fromJson(it, KuwoUrlData::class.java)
+                    success.invoke(kuwoUrlData.url)
+                } catch (e: Exception) {
+                    toast("获取链接失败")
+                }
+            }, {
 
+            })
     }
 
     // http://www.kuwo.cn/url?format=mp3&rid=94239&response=url&type=convert_url3&br=128kmp3&from=web&t=1609079909636&httpsStatus=1

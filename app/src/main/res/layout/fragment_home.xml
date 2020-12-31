@@ -35,7 +35,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clDaily"
@@ -150,7 +151,8 @@
                 android:text="@string/feedback"
                 android:textColor="@color/colorTextForeground"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/includeFeedback"
@@ -160,7 +162,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>

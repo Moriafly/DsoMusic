@@ -55,7 +55,7 @@
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemPitch"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 app:itemType="item_no"
                 app:text="@string/pitch">
 
@@ -106,7 +106,7 @@
                 android:id="@+id/itemFeedback"
                 app:text="@string/feedback"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="56dp">
 
             </com.dirror.music.widget.ItemLayout>
 

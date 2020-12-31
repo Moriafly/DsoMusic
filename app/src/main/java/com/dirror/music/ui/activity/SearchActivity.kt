@@ -14,7 +14,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
@@ -22,7 +21,6 @@ import com.dirror.music.databinding.ActivitySearchBinding
 import com.dirror.music.music.netease.SearchUtil
 import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -94,6 +92,7 @@ class SearchActivity : AppCompatActivity() {
             }
             clKuwo.setOnClickListener {
                 changeSearchEngine(ENGINE_KUWO)
+                toast("酷我音源暂只支持精确搜索，需要填入完整歌曲名")
             }
         }
 
@@ -247,7 +246,5 @@ class SearchActivity : AppCompatActivity() {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
         }
     }
-
-
 
 }
