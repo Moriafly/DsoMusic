@@ -697,7 +697,7 @@ class MusicService : Service() {
             .setMediaSession(mediaSession?.sessionToken)
             .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
-            toast("图片更新")
+            // toast("图片更新")
             StandardGET.getSongBitmap(song) { bitmap ->
                 showNotification(mediaStyle, song, bitmap)
             }
