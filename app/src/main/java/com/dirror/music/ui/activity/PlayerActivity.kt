@@ -271,7 +271,6 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     SearchLyric.getLyricString(it) { string ->
                         binding.lyricView.loadLrc(string)
                     }
-
                 }
             })
             // 播放状态的观察

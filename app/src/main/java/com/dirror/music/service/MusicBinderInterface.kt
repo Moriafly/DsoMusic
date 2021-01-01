@@ -124,4 +124,5 @@ interface MusicBinderInterface {
      * 暂停播放
      */
     fun pause()
+
 }

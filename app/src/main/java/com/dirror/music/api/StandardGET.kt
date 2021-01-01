@@ -37,7 +37,7 @@ object StandardGET {
     fun getSongBitmap(song: StandardSongData, success: (Bitmap?) -> Unit) {
         when (song.source) {
             SOURCE_NETEASE -> {
-                CloudMusic.getSongImage(song.id.toString()) {
+                CloudMusic.getSongImage(song.id) {
                     GlideUtil.load(it) { bitmap ->
                         success.invoke(bitmap)
                     }
@@ -52,8 +52,8 @@ object StandardGET {
                 success.invoke(null)
             }
             SOURCE_KUWO -> {
-                song.imageUrl?.let {
-                    GlideUtil.load(it) {
+                song.imageUrl?.let { url ->
+                    GlideUtil.load(url) {
                         success.invoke(it)
                     }
                 }

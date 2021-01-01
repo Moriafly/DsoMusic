@@ -697,6 +697,7 @@ class MusicService : Service() {
             .setMediaSession(mediaSession?.sessionToken)
             .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
+            toast("图片更新")
             StandardGET.getSongBitmap(song) { bitmap ->
                 showNotification(mediaStyle, song, bitmap)
             }
@@ -723,7 +724,6 @@ class MusicService : Service() {
             // .setAutoCancel(true)
             .build()
         // 更新通知
-        // notificationManager?.notify(10, notification)
         startForeground(START_FOREGROUND_ID, notification)
     }
 
