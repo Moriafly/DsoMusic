@@ -13,7 +13,11 @@ import com.dirror.music.data.CommentData
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.msTimeToFormatDate
 
+/**
+ * 评论 Adapter
+ */
 class CommentAdapter(private val commentData: CommentData, private val activity: Activity): RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
+
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvName: TextView = view.findViewById(R.id.tvName)
         val tvContent: TextView = view.findViewById(R.id.tvContent)
@@ -29,19 +33,25 @@ class CommentAdapter(private val commentData: CommentData, private val activity:
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvName.text = commentData.hotComments[position].user.nickname
-        holder.tvContent.text = commentData.hotComments[position].content
-        holder.tvLikedCount.text = commentData.hotComments[position].likedCount.toString()
-        holder.tvTime.text = msTimeToFormatDate(commentData.hotComments[position].time)
-        GlideUtil.loadCloudMusicImage(commentData.hotComments[position].user.avatarUrl, 100, 100, holder.ivCover)
+        holder.apply {
+            tvName.text = commentData.hotComments[position].user.nickname
+            tvContent.text = commentData.hotComments[position].content
+            tvLikedCount.text = commentData.hotComments[position].likedCount.toString()
+            tvTime.text = msTimeToFormatDate(commentData.hotComments[position].time)
+            GlideUtil.loadCloudMusicImage(commentData.hotComments[position].user.avatarUrl, 100, 100, holder.ivCover)
 
-        holder.ivCover.setOnClickListener {
-            MyApplication.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
+            ivCover.setOnClickListener {
+                MyApplication.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
+            }
+
+            tvName.setOnClickListener {
+                MyApplication.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
+            }
         }
-
     }
 
     override fun getItemCount(): Int {
         return commentData.hotComments.size
     }
+
 }

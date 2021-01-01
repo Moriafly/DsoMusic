@@ -1,5 +1,11 @@
 package com.dirror.music.api
 
+
+/**
+ * Dso Music 默认 API
+ */
+const val API_DEFAULT = "https://cloudmusic.moriafly.xyz"
+
 /**
  * @名称 音乐湖 网易云 api
  * @限制 每天运行 18 小时
@@ -42,7 +48,4 @@ const val API_MUSIC_ELEUU = "http://music.eleuu.com"
 
 const val API_AUTU = "https://autumnfish.cn"
 
-/**
- * Dso Music 默认 API
- */
-const val API_DEFAULT = "https://cloudmusic.moriafly.xyz"
+

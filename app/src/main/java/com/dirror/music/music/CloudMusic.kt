@@ -24,35 +24,6 @@ object CloudMusic {
         return "&timestamp=${getCurrentTime()}"
     }
 
-    fun loginByPhone(phone: String, password: String, success: () -> Unit) {
-        val url = "${API_MUSIC_LAKE}/login/cellphone?phone=$phone&password=$password"
-        MagicHttp.OkHttpManager().newGet(url, { response ->
-            try {
-                val loginData = Gson().fromJson(response, LoginData::class.java)
-                MagicHttp.runOnMainThread {
-                    when (loginData.code) {
-                        200 -> {
-                            toast("登录成功\n用户名：${loginData.profile.nickname}")
-                            success.invoke()
-                            MyApplication.mmkv.encode(Config.UID, loginData.profile.userId.toLong())
-                        }
-                        400 -> toast("用户不存在")
-                        else -> toast("登录失败\n错误代码：${loginData.code}")
-                    }
-                }
-            } catch (e: Exception) {
-                toast("API $API_MUSIC_LAKE 连接失败")
-            }
-        }, {
-            Log.e("错误", it)
-        })
-    }
-
-    @TestOnly
-    fun loginByEmail(email: String, password: String) {
-
-    }
-
     /**
      * 通过 UID 登录
      */
@@ -84,10 +55,6 @@ object CloudMusic {
                     Log.e("获取用户歌单错误", throwable.message.toString())
                 }
             })
-    }
-
-    interface PlaylistCallback {
-        fun success(userPlaylistData: UserPlaylistData)
     }
 
     /**
@@ -141,36 +108,6 @@ object CloudMusic {
 
     }
 
-    /**
-     * 获取登录状态
-     */
-    fun getLoginStatus(success: (String) -> Unit) {
-        val url = "${API_MUSIC_LAKE}/login/status"
-        MagicHttp.OkHttpManager().newGet(url, {
-            try {
-                val loginStatusData = Gson().fromJson(it, LoginStatusData::class.java)
-                // success.invoke()
-                runOnMainThread {
-                    if (loginStatusData.code == 200) {
-                        toast("登录状态：已经登录")
-                    } else {
-                        // toast("code:${loginStatusData.code}msg:${loginStatusData.msg}")
-                    }
-                }
-            } catch (e: Exception) {
-                // toast("API $API_MUSIC_LAKE 连接失败")
-            }
-        }, {
-
-        })
-        // https://musiclake.leanapp.cn/login/status
-    }
-
-    data class LoginStatusData(
-        val code: Int,
-        val msg: String
-    )
-
     @Deprecated("过时，推荐使用 CloudMusicManager")
     fun likeSong(musicId: String) {
         val url = "${API_MUSIC_LAKE}/like?id=$musicId"
@@ -197,7 +134,5 @@ object CloudMusic {
     data class CodeData(
         val code: Int
     )
-
-
 
 }

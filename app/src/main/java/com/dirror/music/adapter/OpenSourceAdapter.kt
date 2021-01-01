@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.R
+import com.dirror.music.data.OpenSourceData
 import com.dirror.music.util.openUrlByBrowser
 
 class OpenSourceAdapter(private val openSourceList: List<OpenSourceData>): RecyclerView.Adapter<OpenSourceAdapter.ViewHolder>() {
@@ -36,8 +37,4 @@ class OpenSourceAdapter(private val openSourceList: List<OpenSourceData>): Recyc
 
 }
 
-data class OpenSourceData(
-    val name: String,
-    val url: String,
-    val license: String
-)
+

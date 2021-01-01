@@ -20,7 +20,6 @@ import com.umeng.commonsdk.UMConfigure
 import okhttp3.Cookie
 import org.jetbrains.annotations.TestOnly
 
-
 /**
  * 自定义 Application
  * @author Moriafly
@@ -42,20 +41,20 @@ class MyApplication : Application() {
         lateinit var userManager: UserManager
         lateinit var activityManager: ActivityManager
         lateinit var cloudMusicManager: CloudMusicManager
-
     }
 
     override fun onCreate() {
         super.onCreate()
-        context = applicationContext // 全局 context
-
+        // 全局 context
+        context = applicationContext
+        // MMKV 初始化
         MMKV.initialize(this)
         mmkv = MMKV.defaultMMKV() // MMKV
-
+        // 管理初始化
         userManager = UserManager()
         activityManager = ActivityManager()
         cloudMusicManager = CloudMusicManager()
-
+        // 安全检查
         checkSecure()
     }
 

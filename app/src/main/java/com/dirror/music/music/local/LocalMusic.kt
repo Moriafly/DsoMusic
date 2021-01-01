@@ -55,7 +55,7 @@ object LocalMusic {
                         continue
                     }
                     // 是否过滤录音
-                    if (MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, false)) {
+                    if (MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, true)) {
                         if (artist == "Meizu Recorder") {
                             continue
                         }

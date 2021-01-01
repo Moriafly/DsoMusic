@@ -11,6 +11,9 @@ import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.parseArtist
 
+/**
+ * 播放列表适配器
+ */
 class PlaylistDialogAdapter(private val list: ArrayList<StandardSongData>): RecyclerView.Adapter<PlaylistDialogAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -36,4 +39,5 @@ class PlaylistDialogAdapter(private val list: ArrayList<StandardSongData>): Recy
     override fun getItemCount(): Int {
         return list.size
     }
+
 }

@@ -30,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.apply {
             switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
             switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
-            switchFilterRecord.isChecked = MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, false)
+            switchFilterRecord.isChecked = MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, true)
             switchLocalMusicParseLyric.isChecked = MyApplication.mmkv.decodeBool(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, true)
         }
 

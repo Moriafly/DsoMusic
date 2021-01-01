@@ -28,8 +28,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 254
-        versionName "2.2.0-beta"
+        versionCode 255
+        versionName "2.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -80,6 +80,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.squareup.okio:okio:2.9.0'
     implementation 'org.jsoup:jsoup:1.13.1'
+    // MMKV
     implementation 'com.tencent:mmkv-static:1.2.2'
     // 友盟统计SDK
     implementation 'com.umeng.umsdk:common:9.1.0'

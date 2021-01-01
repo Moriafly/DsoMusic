@@ -59,6 +59,9 @@ object SearchSong {
         })
     }
 
+    /**
+     * 获取链接
+     */
     fun getUrl(rid: String, success: (String) -> Unit) {
 
             val id = rid.replace("MUSIC_", "")

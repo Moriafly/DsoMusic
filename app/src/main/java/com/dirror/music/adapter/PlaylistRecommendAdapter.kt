@@ -16,7 +16,9 @@ import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
 import com.dirror.music.util.dp2px
 
-
+/**
+ * 歌单推荐适配器
+ */
 class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayList<PlaylistRecommend.PlaylistRecommendDataResult>) : RecyclerView.Adapter<PlaylistRecommendAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -45,7 +47,6 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
             layoutParams.setMargins(0, 0, 12.dp(), 0)
             holder.clTrack.layoutParams = layoutParams
         }
-
 
         // 获取当前歌单
         val playlist = playlistRecommendDataResult[position]

@@ -11,6 +11,7 @@ import com.google.gson.Gson
 /**
  * 标准获取歌曲各种信息类
  */
+@Deprecated("弃用")
 object StandardGET {
 
     /**

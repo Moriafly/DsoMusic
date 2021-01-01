@@ -17,6 +17,9 @@ import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
 
+/**
+ * 我的歌单适配器
+ */
 class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>) : RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

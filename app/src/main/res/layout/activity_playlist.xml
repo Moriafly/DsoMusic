@@ -62,8 +62,8 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvCover"
-                        android:layout_width="84dp"
-                        android:layout_height="84dp"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="24dp"

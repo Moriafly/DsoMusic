@@ -10,6 +10,9 @@ import com.dirror.music.R
 import com.dirror.music.music.netease.data.BannerData
 import com.youth.banner.adapter.BannerAdapter
 
+/**
+ * 主页 Banner Adapter
+ */
 class BannerAdapter(private val data: BannerData) : BannerAdapter<BannerData.BannersData, com.dirror.music.adapter.BannerAdapter.BannerViewHolder>(data.banners) {
 
     inner class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

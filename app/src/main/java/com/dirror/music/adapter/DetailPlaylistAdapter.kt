@@ -17,7 +17,6 @@ import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.parseArtist
 
-
 /**
  * 歌单适配器
  */
@@ -39,31 +38,40 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        holder.clSong.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycle_item)
-
-        val song = songDataList[position]
-        // 1 是要 vip，0 不一定（无语）
+        holder.apply {
+            // 动画
+            clSong.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycle_item)
+            // 获取当前 song
+            val song = songDataList[position]
+            // 1 是要 vip，0 不一定（无语）
 //        if (song.neteaseInfo?.fee == 1) {
 //            holder.tvNumber.setTextColor(MyApplication.context.getColor(R.color.songUnable))
 //            holder.tvName.setTextColor(MyApplication.context.getColor(R.color.songUnable))
 //            holder.tvArtist.setTextColor(MyApplication.context.getColor(R.color.songUnable))
 //        }
-        holder.tvName.text = song.name
-        holder.tvArtist.text = song.artists?.let { parseArtist(it) }
-
-        // 点击项目
-        holder.clSong.setOnClickListener {
-            playMusic(position, it)
-        }
-
-        holder.tvNumber.text = (position + 1).toString()
-
-        holder.ivMore.setOnClickListener {
-            SongMenuDialog(it.context).apply {
-                setSongData(song)
-                setActivity(activity)
-                show()
+            tvNumber.text = (position + 1).toString()
+            tvName.text = song.name
+            tvArtist.text = song.artists?.let { parseArtist(it) }
+            // 点击项目
+            clSong.setOnClickListener {
+                playMusic(position, it)
+            }
+            // 更多点击，每首歌右边的三点菜单
+            ivMore.setOnClickListener {
+                SongMenuDialog(it.context).apply {
+                    setSongData(song)
+                    setActivity(activity)
+                    show()
+                }
+            }
+            // 长按
+            clSong.setOnLongClickListener {
+                SongMenuDialog(it.context).apply {
+                    setSongData(song)
+                    setActivity(activity)
+                    show()
+                }
+                return@setOnLongClickListener true
             }
         }
     }

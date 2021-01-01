@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.adapter.OpenSourceAdapter
-import com.dirror.music.adapter.OpenSourceData
+import com.dirror.music.data.OpenSourceData
 import com.dirror.music.databinding.ActivityOpenSourceBinding
 
 class OpenSourceActivity : AppCompatActivity() {

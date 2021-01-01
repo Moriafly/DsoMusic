@@ -14,15 +14,15 @@ import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
 import com.google.gson.Gson
 
+/**
+ * 私信适配器
+ */
 class PrivateLetterAdapter(private val privateLetterMsgsData: ArrayList<PrivateLetterData.MsgsData>) : RecyclerView.Adapter<PrivateLetterAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        // val clTrack: ConstraintLayout = view.findViewById(R.id.clTrack)
         val ivCover: ImageView = view.findViewById(R.id.ivCover)
         val tvName: TextView = view.findViewById(R.id.tvName)
         val tvContent: TextView = view.findViewById(R.id.tvContent)
-        // val tvPlayCount: TextView = view.findViewById(R.id.tvPlayCount)
-        // val tvTrackCount: TextView = view.findViewById(R.id.tvTrackCount)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
