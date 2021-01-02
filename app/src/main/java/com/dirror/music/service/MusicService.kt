@@ -133,13 +133,20 @@ class MusicService : Service() {
      */
     private fun initMediaSessionCallback() {
         val intentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+
+        var myNoisyAudioStreamReceiverTag = false
         val myNoisyAudioStreamReceiver = BecomingNoisyReceiver()
 
         // 媒体会话的回调，Service 控制通知这个 Callback 来控制 MediaPlayer
         mediaSessionCallback = object : MediaSessionCompat.Callback() {
             // 播放
             override fun onPlay() {
-                registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
+                // 注册广播
+                if (!myNoisyAudioStreamReceiverTag) {
+                    registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
+                    myNoisyAudioStreamReceiverTag = true
+                }
+
                 mediaSession?.setPlaybackState(
                     PlaybackStateCompat.Builder()
                         .setState(
@@ -178,7 +185,11 @@ class MusicService : Service() {
 
             // 关闭
             override fun onStop() {
-                unregisterReceiver(myNoisyAudioStreamReceiver)
+                // 注销广播
+                if (myNoisyAudioStreamReceiverTag) {
+                    unregisterReceiver(myNoisyAudioStreamReceiver)
+                    myNoisyAudioStreamReceiverTag = false
+                }
                 // AudioPlayer.get().stopPlayer()
             }
 

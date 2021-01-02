@@ -44,18 +44,11 @@ class MyFragment : Fragment() {
     }
 
     private fun initView() {
-
-
-//        (binding.llMain.layoutParams as LinearLayout.LayoutParams).apply {
-//
-//        }
-
-
         binding.rvPlaylist.layoutManager =  LinearLayoutManager(activity)
         binding.rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
 
         mainViewModel.userId.observe(viewLifecycleOwner, {
-            getPlaylist()
+            getPlaylist(it)
         })
     }
 
@@ -83,8 +76,8 @@ class MyFragment : Fragment() {
 
     }
 
-    private fun getPlaylist() {
-        CloudMusic.getPlaylist(MyApplication.userManager.getCurrentUid()){
+    private fun getPlaylist(id: Long) {
+        CloudMusic.getPlaylist(id){
             val playlist = it.playlist
             loge("大小：${playlist.size}")
             val gridLayoutManager: GridLayoutManager =

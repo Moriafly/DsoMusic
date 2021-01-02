@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
@@ -31,6 +30,7 @@ import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
+import com.dirror.music.widget.SlideBackLayout
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -44,9 +44,11 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     companion object {
         private const val MUSIC_BROADCAST_ACTION = "com.dirror.music.MUSIC_BROADCAST"
-        private const val DELAY_MILLIS = 5L
+        private const val DELAY_MILLIS = 500L
+
         // Handle 消息，播放进度
         private const val MSG_PROGRESS = 0
+
         // Handle 消息，播放进度
         private const val BACKGROUND_SCALE_Y = 1.5F
         private const val BACKGROUND_SCALE_X = 2.5F
@@ -55,10 +57,13 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private lateinit var binding: ActivityPlayerBinding
+
     // 音乐广播接收者
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver
+
     // ViewModel 数据和视图分离
     private val playViewModel: PlayerViewModel by viewModels()
+
     // Looper + Handler
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
@@ -69,6 +74,9 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             }
         }
     }
+
+    // SlideBackLayout 拖拽关闭 Activity
+    private lateinit var slideBackLayout: SlideBackLayout
 
     // CD 旋转动画
     private val objectAnimator: ObjectAnimator by lazy {
@@ -99,6 +107,9 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // 设置 SlideBackLayout
+        slideBackLayout = SlideBackLayout(this, binding.flBase)
+        slideBackLayout.bind()
         // 进度条变化的监听
         binding.seekBar.setOnSeekBarChangeListener(this)
         // 初始化广播接受者
@@ -127,6 +138,8 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
      * 初始化视图
      */
     private fun initView() {
+        // 时长右对齐
+        binding.ttvDuration.setAlignRight()
         // 页面状态栏适配
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topToTop = ConstraintLayout.LayoutParams.PARENT_ID
@@ -178,28 +191,14 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             ivList.setOnClickListener { PlaylistDialog(this@PlayerActivity).show() }
             // 喜欢音乐
             ivLike.setOnClickListener { playViewModel.likeMusic() }
-            // 歌词点击
-            clLyric.setOnClickListener { }
             // CD
-            clCd.setOnTouchListener { _, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        playViewModel.oldY = event.y
-                    }
-                    MotionEvent.ACTION_UP -> {
-                        if (event.y - playViewModel.oldY > 100f) {
-                            finish()
-                        } else {
-                            if (binding.clLyric.visibility == View.INVISIBLE) {
-                                AnimationUtil.fadeOut(binding.clCd, true)
-                                AnimationUtil.fadeOut(binding.clMenu, true)
-                                binding.clLyric.visibility = View.VISIBLE
-                            }
-
-                        }
-                    }
+            clCd.setOnClickListener {
+                if (binding.clLyric.visibility == View.INVISIBLE) {
+                    AnimationUtil.fadeOut(binding.clCd, true)
+                    AnimationUtil.fadeOut(binding.clMenu, true)
+                    binding.clLyric.visibility = View.VISIBLE
+                    slideBackLayout.viewEnabled = false
                 }
-                return@setOnTouchListener true
             }
             // lyricView
             lyricView.setDraggable(true) { time ->
@@ -210,11 +209,13 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 AnimationUtil.fadeIn(binding.clCd)
                 AnimationUtil.fadeIn(binding.clMenu)
                 binding.clLyric.visibility = View.INVISIBLE
+                slideBackLayout.viewEnabled = true
             }
             clLyric.setOnClickListener {
                 AnimationUtil.fadeIn(binding.clCd)
                 AnimationUtil.fadeIn(binding.clMenu)
                 binding.clLyric.visibility = View.INVISIBLE
+                slideBackLayout.viewEnabled = true
             }
         }
     }
@@ -288,14 +289,12 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             // 总时长的观察
             duration.observe(this@PlayerActivity, {
                 binding.seekBar.max = it
-                binding.tvDuration.text = TimeUtil.parseDuration(it)
-                // binding.lyricView.
-
+                binding.ttvDuration.setText(it)
             })
             // 进度的观察
             progress.observe(this@PlayerActivity, {
                 binding.seekBar.progress = it
-                binding.tvProgress.text = TimeUtil.parseDuration(it)
+                binding.ttvProgress.setText(it)
                 handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                 // 更新歌词播放进度
                 binding.lyricView.updateTime(it.toLong())
@@ -328,14 +327,6 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         unregisterReceiver(musicBroadcastReceiver)
         // 清空 Handler 发送的所有消息，防止内存泄漏
         handler.removeCallbacksAndMessages(null)
-    }
-
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(
-            R.anim.anim_no_anim,
-            R.anim.anim_slide_exit_bottom
-        )
     }
 
     /**

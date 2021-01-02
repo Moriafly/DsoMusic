@@ -60,6 +60,12 @@ class SearchActivity : AppCompatActivity() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun initView() {
+        // 获取焦点
+        binding.etSearch.apply {
+            isFocusable = true
+            isFocusableInTouchMode = true
+            requestFocus()
+        }
 
         binding.clNetease.background = ContextCompat.getDrawable(this, R.drawable.bg_edit_text)
 

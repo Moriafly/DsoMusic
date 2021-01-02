@@ -16,7 +16,6 @@ class PlayerViewModel: ViewModel() {
 
     var rotation = 0f
     var rotationBackground = 0f
-    var oldY = 0f
 
     // 播放模式
     var playMode = MutableLiveData<Int>().also {
