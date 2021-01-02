@@ -27,8 +27,11 @@ import org.jetbrains.annotations.TestOnly
 class MyApplication : Application() {
 
     companion object {
-        const val BMOB_APP_KEY = "0d1d3b9214e037c76de958993ddd6563" // Bmob App Key
-        const val UM_APP_KEY = "5fb38e09257f6b73c0961382" // 友盟 SDK APP KEY
+
+        // 加载本地库
+        init {
+            System.loadLibrary("dso")
+        }
 
         lateinit var context: Context // 注入懒加载 全局 context
         lateinit var mmkv: MMKV // mmkv
@@ -41,7 +44,18 @@ class MyApplication : Application() {
         lateinit var userManager: UserManager
         lateinit var activityManager: ActivityManager
         lateinit var cloudMusicManager: CloudMusicManager
+
     }
+
+    /**
+     * 获取 Bmob
+     */
+    private external fun getBmobAppKey(): String
+
+    /**
+     * 获取友盟
+     */
+    private external fun getUmAppKey(): String
 
     override fun onCreate() {
         super.onCreate()
@@ -66,9 +80,9 @@ class MyApplication : Application() {
     private fun checkSecure() {
         if (Secure.isSecure()) {
             // 初始化 Bmob
-            Bmob.initialize(this, BMOB_APP_KEY)
+            Bmob.initialize(this, getBmobAppKey())
             // 初始化友盟
-            UMConfigure.init(context, UM_APP_KEY, "", UMConfigure.DEVICE_TYPE_PHONE, "")
+            UMConfigure.init(context, getUmAppKey(), "", UMConfigure.DEVICE_TYPE_PHONE, "")
             // 选用 AUTO 页面采集模式
             MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
             // 开启音乐服务

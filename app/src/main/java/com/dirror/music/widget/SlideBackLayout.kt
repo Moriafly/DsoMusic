@@ -10,15 +10,18 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.customview.widget.ViewDragHelper
 
+/**
+ * 拖拽关闭 Activity
+ */
 @SuppressLint("ViewConstructor")
 class SlideBackLayout(context: Context, private val scrollableView: View) : FrameLayout(context) {
-    private var mDecorView: ViewGroup? = null
-    private var mRootView: View? = null
-    private var mActivity: Activity? = null
-    private var mViewDragHelper: ViewDragHelper? = null
-    private var mSlideHeight: Float = 0.toFloat()
-    private var mScreenHeight: Int = 0
-
+    private lateinit var decorView: ViewGroup
+    private lateinit var myRootView: View
+    private lateinit var activity: Activity
+    private lateinit var viewDragHelper: ViewDragHelper
+    private var slideHeight: Float = 0.toFloat()
+    private var screenHeight: Int = 0
+    private val cancelHideHeightPercent = 0.15f
     var viewEnabled = true
 
     init {
@@ -26,27 +29,27 @@ class SlideBackLayout(context: Context, private val scrollableView: View) : Fram
     }
 
     private fun init(context: Context) {
-        mActivity = context as Activity
-        mViewDragHelper = ViewDragHelper.create(this, DragCallback())
+        activity = context as Activity
+        viewDragHelper = ViewDragHelper.create(this, DragCallback())
     }
 
     fun bind() {
-        mDecorView = mActivity!!.window.decorView as ViewGroup
-        mRootView = mDecorView!!.getChildAt(0)
-        mDecorView!!.removeView(mRootView)
-        this.addView(mRootView)
-        mDecorView!!.addView(this)
+        decorView = activity.window.decorView as ViewGroup
+        myRootView = decorView.getChildAt(0)
+        decorView.removeView(myRootView)
+        this.addView(myRootView)
+        decorView.addView(this)
 
-        val dm = DisplayMetrics()
-        mActivity!!.windowManager.defaultDisplay.getMetrics(dm)
-        mScreenHeight = dm.heightPixels
-        mSlideHeight = dm.heightPixels * 0.2f
+        val displayMetrics = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        screenHeight = displayMetrics.heightPixels
+        slideHeight = displayMetrics.heightPixels * cancelHideHeightPercent
     }
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         return if (viewEnabled) {
             if (scrollableView.scrollY == 0) {
-                mViewDragHelper!!.shouldInterceptTouchEvent(event)
+                viewDragHelper.shouldInterceptTouchEvent(event)
             } else {
                 false
             }
@@ -55,11 +58,10 @@ class SlideBackLayout(context: Context, private val scrollableView: View) : Fram
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-
-            mViewDragHelper!!.processTouchEvent(event)
-            return true
-
+        viewDragHelper.processTouchEvent(event)
+        return true
     }
 
     internal inner class DragCallback : ViewDragHelper.Callback() {
@@ -70,21 +72,21 @@ class SlideBackLayout(context: Context, private val scrollableView: View) : Fram
 
         override fun onViewReleased(releasedChild: View, xvel: Float, yvel: Float) {
             val top = releasedChild.top
-            if (top <= mSlideHeight) {
-                mViewDragHelper!!.settleCapturedViewAt(0, 0)
+            if (top <= slideHeight) {
+                viewDragHelper.settleCapturedViewAt(0, 0)
             } else {
-                mViewDragHelper!!.settleCapturedViewAt(0, mScreenHeight)
+                viewDragHelper.settleCapturedViewAt(0, screenHeight)
             }
             invalidate()
         }
 
         override fun getViewVerticalDragRange(child: View): Int {
-            return mScreenHeight
+            return screenHeight
         }
 
         override fun onViewPositionChanged(changedView: View, left: Int, top: Int, dx: Int, dy: Int) {
-            if (changedView === mRootView && top >= mScreenHeight) {
-                mActivity!!.finish()
+            if (changedView === myRootView && top >= screenHeight) {
+                activity.finish()
             }
         }
 
@@ -93,14 +95,16 @@ class SlideBackLayout(context: Context, private val scrollableView: View) : Fram
         }
 
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
-            var top = top
-            top = if (top >= 0) top else 0
-            return top
+            return if (top >= 0) {
+                top
+            } else {
+                0
+            }
         }
     }
 
     override fun computeScroll() {
-        if (mViewDragHelper!!.continueSettling(true)) {
+        if (viewDragHelper.continueSettling(true)) {
             invalidate()
         }
     }

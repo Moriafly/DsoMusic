@@ -28,8 +28,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 261
-        versionName "2.2.2"
+        versionCode 262
+        versionName "2.2.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -47,6 +47,13 @@ android {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
         }
     }
 }
