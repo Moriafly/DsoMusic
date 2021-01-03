@@ -108,7 +108,7 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // 设置 SlideBackLayout
-        slideBackLayout = SlideBackLayout(this, binding.flBase)
+        slideBackLayout = SlideBackLayout(this, binding.clBase)
         slideBackLayout.bind()
         // 进度条变化的监听
         binding.seekBar.setOnSeekBarChangeListener(this)

@@ -11,18 +11,20 @@ import org.jetbrains.annotations.TestOnly
 
 /**
  * 安全防护
- * @版本 1.0.1
- * @更新时间 2020/10/6
+ * @版本 1.0.2
+ * @更新时间 2021/1/3
  * @author Moriafly
  * @since 2020/10/4
  */
 object Secure {
-    private const val SIGNATURE = -1550371158 // 应该的签名值
+
     private const val PACKAGE_NAME = "com.dirror.music" // 包名
 
     private const val SKIP_DEBUG_MODE = true // Debug 模式下是否跳过安全检查
 
     val context = MyApplication.context
+
+    private external fun getSignatureHash(): Int
 
     /**
      * 主要方法
@@ -54,7 +56,7 @@ object Secure {
     private fun isSignatureCorrect(): Boolean {
         // 获取当前签名 Hash 值
         val signature = getSignature()
-        return signature == SIGNATURE
+        return signature == getSignatureHash()
     }
 
     /**
