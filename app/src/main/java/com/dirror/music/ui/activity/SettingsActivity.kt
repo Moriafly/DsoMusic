@@ -1,5 +1,7 @@
 package com.dirror.music.ui.activity
 
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -7,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.util.*
+import com.tamsiree.rxkit.RxActivityTool
+import kotlin.system.exitProcess
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -78,7 +82,7 @@ class SettingsActivity : AppCompatActivity() {
 
             // 安卓彩蛋
             itemOpenAndroidPartLogo.setOnClickListener {
-                IntentUtil.openAndroidPartLogo(this@SettingsActivity)
+                // AppExit(this@SettingsActivity)
             }
         }
 

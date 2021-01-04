@@ -3,8 +3,8 @@ package com.dirror.music.music.local
 import android.app.Activity
 import android.content.ContentResolver
 import android.database.Cursor
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
@@ -12,6 +12,8 @@ import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.Config
 import com.dirror.music.util.toast
+import java.io.*
+import java.net.URL
 
 object LocalMusic {
 
@@ -89,6 +91,50 @@ object LocalMusic {
         }
         cursor?.close()
 
+    }
+
+    /**
+     * 得到本地或者网络上的bitmap url - 网络或者本地图片的绝对路径,比如:
+     *
+     * A.网络路径: url="http://blog.foreverlove.us/girl2.png" ;
+     *
+     * B.本地路径: url="file://mnt/sdcard/photo/image.png";
+     *
+     * C.支持的图片格式 ,png, jpg,bmp,gif等等
+     *
+     * @param url
+     * @return
+     */
+    @JvmStatic
+    fun getLocalOrNetBitmap(url: String?): Bitmap? {
+        val inputStream: InputStream?
+        val bufferedOutputStream: BufferedOutputStream?
+
+        return try {
+            inputStream = BufferedInputStream(URL(url).openStream(), 1024)
+
+            val dataStream = ByteArrayOutputStream()
+            bufferedOutputStream = BufferedOutputStream(dataStream, 1024)
+
+            copy(inputStream, bufferedOutputStream)
+            bufferedOutputStream.flush()
+
+            val data = dataStream.toByteArray()
+            BitmapFactory.decodeByteArray(data, 0, data.size)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+
+    }
+
+    @Throws(IOException::class)
+    private fun copy(inputStream: InputStream, out: OutputStream) {
+        val bytes = ByteArray(1024)
+        var read: Int
+        while (inputStream.read(bytes).also { read = it } != -1) {
+            out.write(bytes, 0, read)
+        }
     }
 
 }
