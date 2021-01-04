@@ -246,8 +246,8 @@
                     android:layout_marginEnd="16dp"
                     android:text="邮箱：moriafly@163.com\n网址：https://moriafly.xyz\nQQ：2456860197"
                     android:textSize="12sp"
+                    android:lineSpacingExtra="4sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSlogan" />
 

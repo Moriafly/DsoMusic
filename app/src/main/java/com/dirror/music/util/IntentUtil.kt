@@ -1,6 +1,7 @@
 package com.dirror.music.util
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.media.audiofx.AudioEffect
 import com.dirror.music.MyApplication
@@ -8,6 +9,7 @@ import com.dirror.music.MyApplication.Companion.context
 import com.dirror.music.R
 
 object IntentUtil {
+
     /**
      * 打开系统均衡器
      */
@@ -28,4 +30,18 @@ object IntentUtil {
             toast("设备不支持均衡！")
         }
     }
+
+    /**
+     * 打开安卓彩蛋
+     */
+    fun openAndroidPartLogo(context: Context) {
+        try {
+            val intent = Intent()
+            intent.setClassName("android", "com.android.internal.app.PlatLogoActivity")
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            toast("失败")
+        }
+    }
+
 }

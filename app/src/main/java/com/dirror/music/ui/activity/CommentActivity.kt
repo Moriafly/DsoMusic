@@ -1,15 +1,19 @@
 package com.dirror.music.ui.activity
 
 import android.os.Bundle
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.CommentAdapter
 import com.dirror.music.databinding.ActivityCommentBinding
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.util.getStatusBarHeight
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
+import com.dirror.music.widget.SlideBackLayout
 
 class CommentActivity : AppCompatActivity() {
 
@@ -23,10 +27,18 @@ class CommentActivity : AppCompatActivity() {
     private lateinit var id: String
     private var source: Int = SOURCE_NETEASE
 
+    // SlideBackLayout 拖拽关闭 Activity
+    private lateinit var slideBackLayout: SlideBackLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 设置 SlideBackLayout
+        slideBackLayout = SlideBackLayout(this, binding.clBase)
+        slideBackLayout.bind()
+
         id = intent.getStringExtra(EXTRA_STRING_ID)?:""
         source = intent.getIntExtra(EXTRA_INT_SOURCE, SOURCE_NETEASE)
         initData()
@@ -72,7 +84,18 @@ class CommentActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        binding.titleBar.setTitleBarText("精彩评论")
+
+        (binding.clBase.layoutParams as FrameLayout.LayoutParams).apply {
+            topMargin = getStatusBarHeight(window, this@CommentActivity)
+        }
+
+        var rvPlaylistScrollY = 0
+        binding.rvComment.setOnScrollChangeListener { _, _, _, _, oldScrollY ->
+            rvPlaylistScrollY += oldScrollY
+            slideBackLayout.viewEnabled = rvPlaylistScrollY == 0
+        }
+
+        // binding.titleBar.setTitleBarText("精彩评论")
     }
 
     override fun finish() {

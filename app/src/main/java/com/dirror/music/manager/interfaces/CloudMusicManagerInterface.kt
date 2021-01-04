@@ -31,4 +31,9 @@ interface CloudMusicManagerInterface {
     fun getPicture(url: String, heightOrWeight: Int): String
 
     fun getSearchDefault(success: (SearchDefaultData) -> Unit)
+
+    /**
+     * 获取热搜
+     */
+    fun getSearchHot(success: (SearchHotData) -> Unit)
 }

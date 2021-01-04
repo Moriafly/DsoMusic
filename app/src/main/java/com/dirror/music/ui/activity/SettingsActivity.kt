@@ -75,6 +75,11 @@ class SettingsActivity : AppCompatActivity() {
             switchLocalMusicParseLyric.setOnCheckedChangeListener { _, isChecked ->
                 MyApplication.mmkv.encode(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, isChecked)
             }
+
+            // 安卓彩蛋
+            itemOpenAndroidPartLogo.setOnClickListener {
+                IntentUtil.openAndroidPartLogo(this@SettingsActivity)
+            }
         }
 
         binding.itemPlayOnMobile.setOnClickListener {

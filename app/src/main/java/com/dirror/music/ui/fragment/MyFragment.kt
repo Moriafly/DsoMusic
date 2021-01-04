@@ -24,7 +24,7 @@ import com.dirror.music.util.*
 class MyFragment : Fragment() {
 
     private var _binding: FragmentMyBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding!! // 这里有时候会报一个空指针，现在没发现为什么
 
     private val userPlaylist = ArrayList<PlaylistData>()
 

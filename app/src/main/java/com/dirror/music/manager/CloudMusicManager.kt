@@ -168,10 +168,25 @@ class CloudMusicManager: CloudMusicManagerInterface {
                 if (searchDefaultData.code == 200) {
                     success.invoke(searchDefaultData)
                 }
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
 
             }
+        }, {
 
+        })
+    }
+
+    override fun getSearchHot(success: (SearchHotData) -> Unit) {
+        val url = CloudMusicApi.SEARCH_HOT_DETAIL
+        MagicHttp.OkHttpManager().newGet(url, {
+            try {
+                val searchHotData = Gson().fromJson(it, SearchHotData::class.java)
+                if (searchHotData.code == 200) {
+                    success.invoke(searchHotData)
+                }
+            } catch (e: Exception) {
+
+            }
         }, {
 
         })

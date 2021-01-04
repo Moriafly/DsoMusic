@@ -12,12 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"
-        app:layout_constraintTop_toBottomOf="@id/clTip"
         app:layout_constraintBottom_toTopOf="@id/includePlayer"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clTip" />
 
-    <com.dirror.music.widget.TitleBarLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/titleBar"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -25,16 +25,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:alpha="0.75"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_back" />
+
         <EditText
             android:id="@+id/etSearch"
-            style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginStart="56dp"
             android:background="@drawable/background_transparency"
             android:imeOptions="actionSearch"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:layout_marginStart="56dp"
             android:singleLine="true"
             android:textCursorDrawable="@drawable/text_cursor_drawable"
             android:textSize="14sp"
@@ -45,7 +56,6 @@
 
         <Button
             android:id="@+id/btnSearch"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:background="@drawable/background_button_icon"
@@ -59,8 +69,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:ignore="NewApi" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/ivClear"
@@ -74,7 +83,7 @@
             app:layout_constraintTop_toTopOf="@+id/etSearch"
             app:srcCompat="@drawable/ic_cancel" />
 
-    </com.dirror.music.widget.TitleBarLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -187,5 +196,54 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPanel"
+        android:layout_width="match_parent"
+        android:background="@color/colorPageBackground"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/includePlayer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clTip">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvSearchHot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:height="28dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="热门搜索"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSearchHot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

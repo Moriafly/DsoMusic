@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.adapter.SearchHotAdapter
 import com.dirror.music.databinding.ActivitySearchBinding
 import com.dirror.music.music.netease.SearchUtil
 import com.dirror.music.music.qq.SearchSong
@@ -66,6 +67,9 @@ class SearchActivity : AppCompatActivity() {
             isFocusableInTouchMode = true
             requestFocus()
         }
+        // 关闭软键盘
+//        val inputMethodManager: InputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        inputMethodManager.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT);
 
         binding.clNetease.background = ContextCompat.getDrawable(this, R.drawable.bg_edit_text)
 
@@ -79,12 +83,36 @@ class SearchActivity : AppCompatActivity() {
                 realKeyWord = it.data.realkeyword
             }
         }
-
+        // 获取热搜
+        MyApplication.cloudMusicManager.getSearchHot {
+            runOnMainThread {
+                binding.rvSearchHot.layoutManager = LinearLayoutManager(this)
+                val searchHotAdapter = SearchHotAdapter(it)
+                searchHotAdapter.setOnItemClick(object : SearchHotAdapter.OnItemClick {
+                    override fun onItemClick(view: View?, position: Int) {
+                        val searchWord = it.data[position].searchWord
+                        binding.etSearch.setText(searchWord)
+                        binding.etSearch.setSelection(searchWord.length)
+                        search()
+                        // toast(it.data[position].searchWord)
+                    }
+                })
+                binding.rvSearchHot.adapter = searchHotAdapter
+            }
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun initListener() {
         binding.apply {
+            // ivBack
+            ivBack.setOnClickListener {
+                if (clPanel.visibility == View.VISIBLE) {
+                    finish()
+                } else {
+                    clPanel.visibility = View.VISIBLE
+                }
+            }
             // 搜索
             btnSearch.setOnClickListener { search() }
 
@@ -100,6 +128,7 @@ class SearchActivity : AppCompatActivity() {
                 changeSearchEngine(ENGINE_KUWO)
                 toast("酷我音源暂只支持精确搜索，需要填入完整歌曲名")
             }
+
         }
 
         binding.includePlayer.root.setOnClickListener {
@@ -160,6 +189,8 @@ class SearchActivity : AppCompatActivity() {
         var keywords = binding.etSearch.text.toString()
         if (keywords == "") {
             keywords = realKeyWord
+            binding.etSearch.setText(keywords)
+            binding.etSearch.setSelection(keywords.length)
         }
         if (keywords != "") {
             when (engine) {
@@ -181,6 +212,7 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
             }
+            binding.clPanel.visibility = View.GONE
         }
 
 
@@ -202,6 +234,13 @@ class SearchActivity : AppCompatActivity() {
         MyApplication.mmkv.encode(Config.SEARCH_ENGINE, engine)
     }
 
+    override fun onBackPressed() {
+        if (binding.clPanel.visibility == View.VISIBLE) {
+            super.onBackPressed()
+        } else {
+            binding.clPanel.visibility = View.VISIBLE
+        }
+    }
 
     /**
      * 改变搜索引擎

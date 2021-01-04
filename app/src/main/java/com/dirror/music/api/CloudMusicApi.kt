@@ -15,4 +15,10 @@ object CloudMusicApi {
      */
     const val HOME_FIND = "${API_AUTU}/homepage/block/page"
 
+    /**
+     * 热搜列表(详细)
+     * 说明 : 调用此接口,可获取热门搜索列表
+     */
+    const val SEARCH_HOT_DETAIL = "${API_AUTU}/search/hot/detail"
+
 }

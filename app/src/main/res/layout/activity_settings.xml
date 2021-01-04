@@ -218,6 +218,14 @@
 
             </com.dirror.music.widget.ItemLayout>
 
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemOpenAndroidPartLogo"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
+                app:text="Android Part Logo">
+
+            </com.dirror.music.widget.ItemLayout>
 
         </LinearLayout>
     </ScrollView>

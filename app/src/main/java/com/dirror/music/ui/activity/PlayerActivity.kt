@@ -329,6 +329,14 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         handler.removeCallbacksAndMessages(null)
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(
+            R.anim.anim_no_anim,
+            R.anim.anim_slide_exit_bottom
+        )
+    }
+
     /**
      * 内部类
      * 音乐广播接收器
