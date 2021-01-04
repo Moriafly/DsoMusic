@@ -19,7 +19,7 @@ data class UserDetailData(
 // 用户简单信息
 data class ProfileData(
     val nickname: String,
-    val userId: Int,
+    val userId: Long,
     val avatarUrl: String, // 头像
     val follows: Int, // 关注
     val followeds: Int, // 粉丝

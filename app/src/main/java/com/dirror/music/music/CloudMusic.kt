@@ -63,13 +63,17 @@ object CloudMusic {
      * @param success 成功的回调
      * @param failure 失败的回调
      */
-    fun getUserDetail(uid: String, success: (result: UserDetailData) -> Unit, failure: (error: String) -> Unit) {
+    private fun getUserDetail(uid: String, success: (result: UserDetailData) -> Unit, failure: (error: String) -> Unit) {
         MagicHttp.OkHttpManager().newGet("${API_MUSIC_API}/user/detail?uid=$uid", {
-            val userDetailData = Gson().fromJson(it, UserDetailData::class.java)
-            when (userDetailData.code) {
-                400 -> failure.invoke("获取用户详细信息错误")
-                404 -> failure.invoke("用户不存在")
-                else -> success.invoke(userDetailData)
+            try {
+                val userDetailData = Gson().fromJson(it, UserDetailData::class.java)
+                when (userDetailData.code) {
+                    400 -> failure.invoke("获取用户详细信息错误")
+                    404 -> failure.invoke("用户不存在")
+                    else -> success.invoke(userDetailData)
+                }
+            } catch (e: Exception) {
+                failure.invoke("解析错误")
             }
         }, {
             failure.invoke("MagicHttp 错误\n${it}")
