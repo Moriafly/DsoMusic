@@ -86,4 +86,10 @@ class ActivityManager: ActivityManagerInterface {
         activity.startActivity(intent)
     }
 
+    override fun startArtistActivity(activity: Activity, artistId: Long) {
+        val intent = Intent(activity, ArtistActivity::class.java)
+        intent.putExtra(ArtistActivity.EXTRA_LONG_ARTIST_ID, artistId)
+        activity.startActivity(intent)
+    }
+
 }

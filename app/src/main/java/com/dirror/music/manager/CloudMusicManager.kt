@@ -12,6 +12,9 @@ import com.dirror.music.music.netease.data.*
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.google.gson.internal.Primitives
+import java.lang.reflect.Type
 
 class CloudMusicManager: CloudMusicManagerInterface {
 
@@ -19,15 +22,27 @@ class CloudMusicManager: CloudMusicManagerInterface {
         private const val URL_PRIVATE_LETTER = "${API_DEFAULT}/msg/private" // 私信
     }
 
-    override fun getComment(id: String, success: (CommentData) -> Unit, failure: () -> Unit) {
-        val url = "$API_MUSIC_ELEUU/comment/music?id=${id}&limit=20&offset=0${CloudMusic.timestamp()}"
-        loge("评论 url：$url")
+    /**
+     * 返回泛型数据类
+     */
+    private fun <T> getDataClass(url: String, dataClassOfT: Class<T>?, success: (T) -> Unit, failure: () -> Unit) {
         MagicHttp.OkHttpManager().newGet(url, {
-            val commentData = Gson().fromJson(it, CommentData::class.java)
-            success.invoke(commentData)
+            try {
+                val dataClass = Gson().fromJson(url, dataClassOfT)
+                success.invoke(dataClass)
+            } catch (e: Exception) {
+                failure.invoke()
+            }
         }, {
             failure.invoke()
         })
+    }
+
+    override fun getComment(id: String, success: (CommentData) -> Unit, failure: () -> Unit) {
+        val url = "$API_MUSIC_ELEUU/comment/music?id=${id}&limit=20&offset=0${CloudMusic.timestamp()}"
+        getDataClass(url, CommentData::class.java, {
+            success.invoke(it)
+        }, { })
     }
 
     override fun getUserDetail(userId: Long, success: (UserDetailData) -> Unit, failure: () -> Unit) {
@@ -111,7 +126,15 @@ class CloudMusicManager: CloudMusicManagerInterface {
      * @param content 要发送的内容
      * @param commentId 回复的评论id (回复评论时必填)
      */
-    override fun sendComment(t: Int, type: Int, id: String, content: String, commentId: Long,success: (CodeData) -> Unit, failure: () -> Unit) {
+    override fun sendComment(
+        t: Int,
+        type: Int,
+        id: String,
+        content: String,
+        commentId: Long,
+        success: (CodeData) -> Unit,
+        failure: () -> Unit
+    ) {
         val cookie = MyApplication.userManager.getCloudMusicCookie()
         var url = "${API_DEFAULT}/comment?t=${t}&type=${type}&id=${id}&content=${content}&cookie=${cookie}"
         if (commentId != 0L) {
@@ -178,18 +201,20 @@ class CloudMusicManager: CloudMusicManagerInterface {
 
     override fun getSearchHot(success: (SearchHotData) -> Unit) {
         val url = CloudMusicApi.SEARCH_HOT_DETAIL
-        MagicHttp.OkHttpManager().newGet(url, {
-            try {
-                val searchHotData = Gson().fromJson(it, SearchHotData::class.java)
-                if (searchHotData.code == 200) {
-                    success.invoke(searchHotData)
-                }
-            } catch (e: Exception) {
-
+        getDataClass(url, SearchHotData::class.java, {
+            if (it.code == 200) {
+                success.invoke(it)
             }
-        }, {
+        }, { })
+    }
 
-        })
+    override fun getArtists(artistId: Long, success: (ArtistsData) -> Unit) {
+        val url = CloudMusicApi.ARTISTS + "?id=$artistId"
+        getDataClass(url, ArtistsData::class.java, {
+            if (it.code == 200) {
+                success.invoke(it)
+            }
+        }, { })
     }
 
 

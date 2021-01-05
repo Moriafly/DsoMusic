@@ -36,4 +36,6 @@ interface CloudMusicManagerInterface {
      * 获取热搜
      */
     fun getSearchHot(success: (SearchHotData) -> Unit)
+
+    fun getArtists(artistId: Long, success: (ArtistsData) -> Unit)
 }

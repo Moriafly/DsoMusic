@@ -25,6 +25,7 @@ import com.dirror.music.R
 import com.dirror.music.databinding.ActivityPlayerBinding
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.SongPicture
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -32,6 +33,7 @@ import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
 import com.dirror.music.widget.SlideBackLayout
 import jp.wasabeef.glide.transformations.BlurTransformation
+import org.jetbrains.annotations.TestOnly
 
 /**
  * 新版 PlayerActivity
@@ -54,6 +56,16 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         private const val BACKGROUND_SCALE_X = 2.5F
         private val DEFAULT_COLOR = Color.rgb(100, 100, 100)
         private const val CD_SIZE = 240
+
+        // 模糊
+        private const val BLUR_RADIUS = 15
+        private const val BLUR_SAMPLING = 5
+
+        // 动画循环时长
+        private const val DURATION_CD = 25_000L
+        private const val DURATION_BACKGROUND = 50_000L
+        private const val ANIMATION_REPEAT_COUNTS = -1
+        private const val ANIMATION_PROPERTY_NAME = "rotation"
     }
 
     private lateinit var binding: ActivityPlayerBinding
@@ -80,10 +92,15 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     // CD 旋转动画
     private val objectAnimator: ObjectAnimator by lazy {
-        ObjectAnimator.ofFloat(binding.ivCover, "rotation", playViewModel.rotation, playViewModel.rotation + 360f).apply {
+        ObjectAnimator.ofFloat(
+            binding.ivCover,
+            ANIMATION_PROPERTY_NAME,
+            playViewModel.rotation,
+            playViewModel.rotation + 360f
+        ).apply {
             interpolator = LinearInterpolator()
-            duration = 25000
-            repeatCount = -1
+            duration = DURATION_CD
+            repeatCount = ANIMATION_REPEAT_COUNTS
             start()
         }
     }
@@ -92,13 +109,13 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private val objectAnimatorBackground: ObjectAnimator by lazy {
         ObjectAnimator.ofFloat(
             binding.ivBackground,
-            "rotation",
+            ANIMATION_PROPERTY_NAME,
             playViewModel.rotationBackground,
             playViewModel.rotationBackground + 360f
         ).apply {
             interpolator = LinearInterpolator()
-            duration = 50000
-            repeatCount = -1
+            duration = DURATION_BACKGROUND
+            repeatCount = ANIMATION_REPEAT_COUNTS
             start()
         }
     }
@@ -184,7 +201,7 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 }
             }
             // 下载歌曲
-            ivDownload.setOnClickListener { toast("暂未开放") }
+            ivDownload.setOnClickListener { toast("还在研究，敬请期待") }
             // 更多菜单
             ivMore.setOnClickListener { PlayerMenuMoreDialog(this@PlayerActivity).show() }
             // 播放列表
@@ -216,6 +233,21 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 AnimationUtil.fadeIn(binding.clMenu)
                 binding.clLyric.visibility = View.INVISIBLE
                 slideBackLayout.viewEnabled = true
+            }
+            // 艺术家
+            clArtist.setOnClickListener {
+                // 测试
+                playViewModel.standardSongData.value?.let { standardSongData ->
+                    if (standardSongData.source == SOURCE_NETEASE) {
+                        standardSongData.artists?.let {
+                            it[0].id?.let { artistId ->
+                                MyApplication.activityManager.startArtistActivity(this@PlayerActivity, artistId)
+                            }
+                        }
+                    } else {
+                        toast("未找到信息")
+                    }
+                }
             }
         }
     }
@@ -249,7 +281,7 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                         Glide.with(MyApplication.context)
                             .load(bitmap)
                             .placeholder(binding.ivBackground.drawable)
-                            .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
+                            .apply(RequestOptions.bitmapTransform(BlurTransformation(BLUR_RADIUS, BLUR_SAMPLING)))
                             .into(binding.ivBackground)
                         // 设置色调
                         Palette.from(bitmap)

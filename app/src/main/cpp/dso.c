@@ -16,3 +16,5 @@ JNIEXPORT jint JNICALL
 Java_com_dirror_music_util_Secure_getSignatureHash(JNIEnv *env, jobject thiz) {
     return -1550371158;
 }
+
+//

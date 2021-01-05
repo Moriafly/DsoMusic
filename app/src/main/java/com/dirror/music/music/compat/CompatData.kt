@@ -19,6 +19,9 @@ data class CompatSearchSongData(
     val fee: Int // 网易云搜索是否是 vip 歌曲，1 为 vip
 )
 
+/**
+ * 专辑
+ */
 data class CompatAlbumData(
     val picUrl: String,
     // val artist: CompatArtistData

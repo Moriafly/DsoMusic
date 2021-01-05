@@ -21,4 +21,13 @@ object CloudMusicApi {
      */
     const val SEARCH_HOT_DETAIL = "${API_AUTU}/search/hot/detail"
 
+    /**
+     * 获取歌手部分信息和歌手单曲
+     * 说明 : 调用此接口 , 传入歌手 id, 可获得歌手部分信息和热门歌曲
+     * 必选参数 : id: 歌手 id, 可由搜索接口获得
+     * 接口地址 : /artists
+     * 调用例子 : /artists?id=6452
+     */
+    const val ARTISTS = "${API_AUTU}/artists"
+
 }

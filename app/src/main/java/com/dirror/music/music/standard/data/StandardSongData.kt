@@ -9,19 +9,23 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class StandardSongData(
     val source: Int, // 歌曲来源，网易，QQ，本地
-    val id: String, // id
+    val id: String, // 歌曲 id
     val name: String, // 歌曲名称
     val imageUrl: String?, // 图片 url
     val artists: ArrayList<StandardArtistData>?, // 艺术家
+
     val neteaseInfo: NeteaseInfo?,
     val localInfo: LocalInfo?,
     val dirrorInfo: DirrorInfo?
 ) : Parcelable {
 
+    /**
+     * 标准艺术家数据
+     */
     @Parcelize
     data class StandardArtistData(
-        val id: Long?,
-        val name: String?
+        val id: Long?, // 艺术家 id
+        val name: String? // 艺术家名称
     ) : Parcelable
 
     /**

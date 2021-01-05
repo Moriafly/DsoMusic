@@ -86,6 +86,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clArtist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="4dp"
+            android:paddingStart="4dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvName">
+
+            <TextView
+                android:id="@+id/tvArtist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/artist"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp"
+                android:transitionName="tvArtist"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivArtist"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:alpha="0.72"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvArtist"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_next" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/tvName"
             android:layout_width="0dp"
@@ -103,24 +142,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvArtist"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="32dp"
-            android:singleLine="true"
-            android:text="@string/artist"
-            android:textAlignment="viewStart"
-            android:textColor="@color/colorSubTextForeground"
-            android:textIsSelectable="true"
-            android:textSize="12sp"
-            android:transitionName="tvArtist"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clMenu"

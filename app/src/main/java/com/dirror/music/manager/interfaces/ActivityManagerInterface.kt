@@ -26,4 +26,6 @@ interface ActivityManagerInterface {
     fun startLoginByUidActivity(activity: Activity)
 
     fun startPlayHistoryActivity(activity: Activity)
+
+    fun startArtistActivity(activity: Activity, artistId: Long)
 }
