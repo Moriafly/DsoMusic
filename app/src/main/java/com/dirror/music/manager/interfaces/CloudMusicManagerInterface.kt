@@ -1,11 +1,13 @@
 package com.dirror.music.manager.interfaces
 
+import androidx.annotation.Keep
 import com.dirror.music.data.CommentData
 import com.dirror.music.music.netease.data.*
 
 /**
  * 网易云音乐接口管理
  */
+@Keep
 interface CloudMusicManagerInterface {
 
     /**
@@ -38,4 +40,6 @@ interface CloudMusicManagerInterface {
     fun getSearchHot(success: (SearchHotData) -> Unit)
 
     fun getArtists(artistId: Long, success: (ArtistsData) -> Unit)
+
+    fun getLyric(songId: Long, success: (LyricData) -> Unit)
 }

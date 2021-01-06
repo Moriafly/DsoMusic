@@ -1,5 +1,8 @@
 package com.dirror.music.music.netease.data
 
+import androidx.annotation.Keep
+
+@Keep
 data class PrivateLetterData(
     val msgs: ArrayList<MsgsData>,
     val code: Int,

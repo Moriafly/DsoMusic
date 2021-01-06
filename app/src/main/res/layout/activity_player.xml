@@ -27,7 +27,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </eightbitlab.com.blurview.BlurView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/blurViewCover"
@@ -50,11 +52,47 @@
         app:layout_constraintBottom_toTopOf="@id/clBottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleBar">
+        app:layout_constraintTop_toBottomOf="@+id/titleBar"
+        tools:visibility="visible">
+
+        <SeekBar
+            android:id="@+id/seekBarVolume"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="17.5dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="17.5dp"
+            android:alpha="0.72"
+            android:maxHeight="2dp"
+            android:minHeight="4dp"
+            android:progressDrawable="@drawable/background_seek_bar_music"
+            android:splitTrack="false"
+            android:thumb="@drawable/background_seek_bar_thumb"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/edgeTransparentView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivTranslation"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:alpha="0.6"
+            android:background="@drawable/background_button_icon"
+            android:padding="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edgeTransparentView"
+            app:srcCompat="@drawable/ic_translation" />
 
         <me.qinc.lib.edgetranslucent.EdgeTransparentView
+            android:id="@+id/edgeTransparentView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="56dp"
+            android:layout_marginBottom="56dp"
             app:edge_position="top|bottom"
             app:edge_width="56dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,7 +122,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleBar">
+        app:layout_constraintTop_toBottomOf="@+id/titleBar"
+        tools:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clArtist"
@@ -103,6 +142,7 @@
                 android:id="@+id/tvArtist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="100dp"
                 android:singleLine="true"
                 android:text="@string/artist"
                 android:textAlignment="viewStart"
@@ -137,7 +177,7 @@
             android:textAlignment="viewStart"
             android:textColor="@color/colorTextForeground"
             android:textIsSelectable="true"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:transitionName="tvName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

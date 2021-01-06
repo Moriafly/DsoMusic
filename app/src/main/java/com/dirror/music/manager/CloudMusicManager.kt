@@ -1,5 +1,6 @@
 package com.dirror.music.manager
 
+import androidx.annotation.Keep
 import com.dirror.music.MyApplication
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.api.API_DEFAULT
@@ -11,11 +12,10 @@ import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.netease.data.*
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
+import com.dirror.music.util.runOnMainThread
 import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
-import com.google.gson.internal.Primitives
-import java.lang.reflect.Type
 
+@Keep
 class CloudMusicManager: CloudMusicManagerInterface {
 
     companion object {
@@ -25,24 +25,28 @@ class CloudMusicManager: CloudMusicManagerInterface {
     /**
      * 返回泛型数据类
      */
-    private fun <T> getDataClass(url: String, dataClassOfT: Class<T>?, success: (T) -> Unit, failure: () -> Unit) {
-        MagicHttp.OkHttpManager().newGet(url, {
-            try {
-                val dataClass = Gson().fromJson(url, dataClassOfT)
-                success.invoke(dataClass)
-            } catch (e: Exception) {
-                failure.invoke()
-            }
-        }, {
-            failure.invoke()
-        })
-    }
+//    @Throws(JsonSyntaxException::class)
+//    private fun <T> getDataClass(url: String, dataClassOfT: Class<T>?, success: (T) -> Unit, failure: () -> Unit) {
+//        MagicHttp.OkHttpManager().newGet(url, {
+//            // try {
+//            val dataClass = Gson().fromJson(url, dataClassOfT)
+//            success.invoke(dataClass)
+//            // } catch (e: Exception) {
+//            // failure.invoke()
+//            // }
+//        }, {
+//            failure.invoke()
+//        })
+//    }
 
     override fun getComment(id: String, success: (CommentData) -> Unit, failure: () -> Unit) {
         val url = "$API_MUSIC_ELEUU/comment/music?id=${id}&limit=20&offset=0${CloudMusic.timestamp()}"
-        getDataClass(url, CommentData::class.java, {
-            success.invoke(it)
-        }, { })
+        MagicHttp.OkHttpManager().newGet(url, {
+            val commentData = Gson().fromJson(it, CommentData::class.java)
+            success.invoke(commentData)
+        }, {
+
+        })
     }
 
     override fun getUserDetail(userId: Long, success: (UserDetailData) -> Unit, failure: () -> Unit) {
@@ -201,21 +205,42 @@ class CloudMusicManager: CloudMusicManagerInterface {
 
     override fun getSearchHot(success: (SearchHotData) -> Unit) {
         val url = CloudMusicApi.SEARCH_HOT_DETAIL
-        getDataClass(url, SearchHotData::class.java, {
-            if (it.code == 200) {
-                success.invoke(it)
+        MagicHttp.OkHttpManager().newGet(url, {
+            try {
+                val searchHotData = Gson().fromJson(it, SearchHotData::class.java)
+                if (searchHotData.code == 200) {
+                    success.invoke(searchHotData)
+                }
+            } catch (e: Exception) {
+
             }
-        }, { })
+        }, {
+
+        })
     }
 
     override fun getArtists(artistId: Long, success: (ArtistsData) -> Unit) {
         val url = CloudMusicApi.ARTISTS + "?id=$artistId"
-        getDataClass(url, ArtistsData::class.java, {
-            if (it.code == 200) {
-                success.invoke(it)
+        MagicHttp.OkHttpManager().newGet(url, {
+            val artistsData = Gson().fromJson(it, ArtistsData::class.java)
+            if (artistsData.code == 200) {
+                success.invoke(artistsData)
             }
-        }, { })
+        }, {
+
+        })
     }
 
+    override fun getLyric(songId: Long, success: (LyricData) -> Unit) {
+        val url = CloudMusicApi.LYRIC + "?id=$songId"
+        MagicHttp.OkHttpManager().newGet(url, {
+            val lyricData = Gson().fromJson(it, LyricData::class.java)
+            if (lyricData .code == 200) {
+                success.invoke(lyricData)
+            }
+        }, {
+
+        })
+    }
 
 }

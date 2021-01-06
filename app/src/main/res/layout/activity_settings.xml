@@ -74,6 +74,28 @@
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
             </com.dirror.music.widget.ItemLayout>
 
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemSkipErrorMusic"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
+                app:itemType="item_no"
+                app:text="跳过播放错误音乐">
+
+                <Switch
+                    android:id="@+id/switchSkipErrorMusic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_track"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+            </com.dirror.music.widget.ItemLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

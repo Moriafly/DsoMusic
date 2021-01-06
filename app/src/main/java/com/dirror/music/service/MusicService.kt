@@ -639,8 +639,17 @@ class MusicService : Service() {
             playMusic(position ?: 0)
         }
 
+        /**
+         * 播放错误回调
+         */
         override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
-            toast("播放错误")
+            if (MyApplication.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)) {
+                // 播放下一首
+                toast("播放错误，开始播放下一首")
+                playNext()
+            } else {
+                toast("播放错误")
+            }
             return true
         }
 

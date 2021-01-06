@@ -23,7 +23,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityPlayerBinding
-import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.service.MusicService
@@ -33,7 +32,6 @@ import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
 import com.dirror.music.widget.SlideBackLayout
 import jp.wasabeef.glide.transformations.BlurTransformation
-import org.jetbrains.annotations.TestOnly
 
 /**
  * 新版 PlayerActivity
@@ -42,7 +40,7 @@ import org.jetbrains.annotations.TestOnly
  * @author Moriafly
  * @since 2020年12月15日18:35:46
  */
-class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
+class PlayerActivity : AppCompatActivity() {
 
     companion object {
         private const val MUSIC_BROADCAST_ACTION = "com.dirror.music.MUSIC_BROADCAST"
@@ -51,13 +49,12 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         // Handle 消息，播放进度
         private const val MSG_PROGRESS = 0
 
-        // Handle 消息，播放进度
         private const val BACKGROUND_SCALE_Y = 1.5F
         private const val BACKGROUND_SCALE_X = 2.5F
         private val DEFAULT_COLOR = Color.rgb(100, 100, 100)
         private const val CD_SIZE = 240
 
-        // 模糊
+        // 背景模糊系数
         private const val BLUR_RADIUS = 15
         private const val BLUR_SAMPLING = 5
 
@@ -127,8 +124,6 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         // 设置 SlideBackLayout
         slideBackLayout = SlideBackLayout(this, binding.clBase)
         slideBackLayout.bind()
-        // 进度条变化的监听
-        binding.seekBar.setOnSeekBarChangeListener(this)
         // 初始化广播接受者
         initBroadcastReceiver()
         // 初始化视图
@@ -174,6 +169,8 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         binding.ivPlay.setColorFilter(DEFAULT_COLOR)
         binding.ivLast.setColorFilter(DEFAULT_COLOR)
         binding.ivNext.setColorFilter(DEFAULT_COLOR)
+        // 默认隐藏翻译按钮
+        binding.ivTranslation.visibility = View.GONE
     }
 
     /**
@@ -249,6 +246,25 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                     }
                 }
             }
+            // 翻译更改
+            ivTranslation.setOnClickListener {
+                playViewModel.setLyricTranslation(playViewModel.lyricTranslation.value != true)
+            }
+            // 歌曲进度条变化的监听
+            seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    // 判断是否为用户
+                    if (fromUser) {
+                        playViewModel.setProgress(progress)
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) { }
+
+            })
         }
     }
 
@@ -300,10 +316,8 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                                 }
                             }
                     }
-                    // 更改歌词
-                    SearchLyric.getLyricString(it) { string ->
-                        binding.lyricView.loadLrc(string)
-                    }
+                    // 刷新歌词
+                    playViewModel.updateLyric()
                 }
             })
             // 播放状态的观察
@@ -330,6 +344,28 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                 handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                 // 更新歌词播放进度
                 binding.lyricView.updateTime(it.toLong())
+            })
+            // 翻译观察
+            lyricTranslation.observe(this@PlayerActivity, {
+                if (it == true) {
+                    binding.ivTranslation.alpha = 0.6F
+                } else {
+                    binding.ivTranslation.alpha = 0.3F
+                }
+            })
+            // 歌词观察
+            lyricViewData.observe(this@PlayerActivity, {
+                // 翻译歌词为空
+                binding.ivTranslation.visibility = if (it.secondLyric.isEmpty()) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
+                if (playViewModel.lyricTranslation.value == true) {
+                    binding.lyricView.loadLrc(it.lyric, it.secondLyric)
+                } else {
+                    binding.lyricView.loadLrc(it.lyric)
+                }
             })
         }
 
@@ -381,19 +417,5 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         }
 
     }
-
-    /**
-     * 滚动条监听
-     */
-    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        // 判断是否为用户
-        if (fromUser) {
-            playViewModel.setProgress(progress)
-        }
-    }
-
-    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 
 }

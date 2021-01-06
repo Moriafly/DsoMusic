@@ -30,7 +30,12 @@ class ArtistActivity : AppCompatActivity() {
         MyApplication.cloudMusicManager.getArtists(artistId) {
             runOnMainThread {
                 binding.titleBar.setTitleBarText(it.artist.name)
-                binding.tvDescription.text = it.artist.briefDesc
+                val description = it.artist.briefDesc
+                binding.tvDescription.text = if (description == "") {
+                    description
+                } else {
+                    "暂无介绍"
+                }
             }
         }
     }

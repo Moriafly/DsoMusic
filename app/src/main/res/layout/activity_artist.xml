@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="4dp"
             android:padding="20dp"
-            android:text="介绍"
+            android:text=""
             android:textColor="@color/colorTextForeground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

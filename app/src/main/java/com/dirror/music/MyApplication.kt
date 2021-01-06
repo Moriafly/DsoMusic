@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import androidx.annotation.Keep
 import cn.bmob.v3.Bmob
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.TestOnly
  * 自定义 Application
  * @author Moriafly
  */
+@Keep
 class MyApplication : Application() {
 
     companion object {
@@ -77,6 +79,7 @@ class MyApplication : Application() {
      * 安全检查
      * 自己签名请去除
      */
+    @Keep
     private fun checkSecure() {
         if (Secure.isSecure()) {
             // 初始化 Bmob

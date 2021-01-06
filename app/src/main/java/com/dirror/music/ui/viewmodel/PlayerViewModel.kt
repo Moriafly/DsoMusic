@@ -1,18 +1,25 @@
 package com.dirror.music.ui.viewmodel
 
+import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApplication
+import com.dirror.music.data.LyricViewData
+import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.util.Config
+import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
 
 /**
  * PlayerActivity ViewModel
  * @author Moriafly
  */
+@Keep
 class PlayerViewModel: ViewModel() {
+
 
     var rotation = 0f
     var rotationBackground = 0f
@@ -37,6 +44,19 @@ class PlayerViewModel: ViewModel() {
 
     var progress = MutableLiveData<Int>().also {
         it.value = MyApplication.musicBinderInterface?.getProgress()
+    }
+
+    var lyricTranslation = MutableLiveData<Boolean>().also {
+        it.value = MyApplication.mmkv.decodeBool(Config.LYRIC_TRANSLATION, true)
+    }
+
+    // 对内
+    private var _lyricViewData = MutableLiveData<LyricViewData>().also {
+        it.value = LyricViewData("", "")
+    }
+
+    var lyricViewData = MutableLiveData<LyricViewData>().also {
+        it.value = LyricViewData("", "")
     }
 
     /**
@@ -123,6 +143,40 @@ class PlayerViewModel: ViewModel() {
             }
 
         }
+    }
+
+    fun updateLyric() {
+        // 更改歌词
+        standardSongData.value?.let {
+            if (it.source == SOURCE_NETEASE) {
+                MyApplication.cloudMusicManager.getLyric(it.id.toLong()) { lyric ->
+                    runOnMainThread {
+                        _lyricViewData.value = LyricViewData(lyric.lrc?.lyric?:"", lyric.tlyric?.lyric?:"")
+                        if (lyricTranslation.value == true) {
+                            lyricViewData.value = _lyricViewData.value
+                        } else {
+                            lyricViewData.value = LyricViewData(_lyricViewData.value!!.lyric, "true")
+                        }
+                    }
+                }
+            } else {
+                SearchLyric.getLyricString(it) { string ->
+                    _lyricViewData.value = LyricViewData(string, "")
+                    lyricViewData.value = _lyricViewData.value
+                }
+            }
+        }
+    }
+
+    fun setLyricTranslation(open: Boolean) {
+        lyricTranslation.value = open
+        if (lyricTranslation.value == true) {
+            lyricViewData.value = _lyricViewData.value
+        } else {
+            lyricViewData.value = LyricViewData(_lyricViewData.value!!.lyric, "true")
+        }
+        // updateLyric()
+        MyApplication.mmkv.encode(Config.LYRIC_TRANSLATION, open)
     }
 
 }

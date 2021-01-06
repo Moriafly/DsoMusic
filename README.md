@@ -2,7 +2,7 @@
 
 源码仅供学习，请勿传播软件安装包。
 
-音乐 API 来源（但不限于）：https://github.com/Binaryify/NeteaseCloudMusicApi
+网易云音乐来源（但不限于）：https://github.com/Binaryify/NeteaseCloudMusicApi
 
 QQ 音乐来源：自己搞的 : )
 
@@ -34,6 +34,7 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 
 - [x] 热搜列表(详细)
 - [x] 通知 - 私信
+- [x] 喜欢音乐
 - [x] 默认搜索关键词 🥰 v2.0.2 新增
 - [x] banner 🥰 v1.6.0 新增
 - [x] 手机登录 🥰 v1.6.0 新增
@@ -148,7 +149,6 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [ ] 获取历史日推详情数据
 - [ ] 私人 FM
 - [ ] 签到
-- [ ] 喜欢音乐
 - [ ] 喜欢音乐列表
 - [ ] 垃圾桶
 - [ ] 新碟上架
@@ -246,6 +246,12 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [x] 搜索音乐
 - [x] 音乐 url
 - [x] 歌词
+
+# 项目构建
+
+compileSdkVersion 30
+Android Gradle Plugin Version 4.1.1
+Gradle Version 6.7.1
 
 # 开源协议 License
 

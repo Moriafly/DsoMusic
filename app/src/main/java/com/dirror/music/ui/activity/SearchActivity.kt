@@ -263,7 +263,9 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         engine = engineCode
-        search()
+        if (binding.clPanel.visibility != View.VISIBLE) {
+            search()
+        }
     }
 
 

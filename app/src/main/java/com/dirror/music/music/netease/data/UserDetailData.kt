@@ -1,9 +1,12 @@
 package com.dirror.music.music.netease.data
 
+import androidx.annotation.Keep
+
 
 /**
  * 用户详细信息
  */
+@Keep
 data class UserDetailData(
     val level: Int, // 等级
     val listenSongs: Int, // 听过歌的数量
@@ -13,7 +16,7 @@ data class UserDetailData(
     val createTime: Long,
     val cookie: String = "", // 默认空
 ) {
-
+    @Keep
     data class ProfileData(
         val userId: Long, // 用户 id
         val avatarUrl: String, // 头像链接

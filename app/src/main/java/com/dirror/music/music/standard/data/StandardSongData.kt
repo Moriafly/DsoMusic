@@ -1,11 +1,13 @@
 package com.dirror.music.music.standard.data
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
 /**
  * 标准歌曲信息
  */
+@Keep
 @Parcelize
 data class StandardSongData(
     val source: Int, // 歌曲来源，网易，QQ，本地

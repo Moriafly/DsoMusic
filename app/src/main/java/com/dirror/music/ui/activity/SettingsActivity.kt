@@ -1,7 +1,5 @@
 package com.dirror.music.ui.activity
 
-import android.app.ActivityManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -9,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.util.*
-import com.tamsiree.rxkit.RxActivityTool
-import kotlin.system.exitProcess
 
+/**
+ * 设置 Activity
+ */
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
@@ -34,6 +33,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.apply {
             switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
             switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
+            switchSkipErrorMusic.isChecked = MyApplication.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)
             switchFilterRecord.isChecked = MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, true)
             switchLocalMusicParseLyric.isChecked = MyApplication.mmkv.decodeBool(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, true)
         }
@@ -80,10 +80,11 @@ class SettingsActivity : AppCompatActivity() {
                 MyApplication.mmkv.encode(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, isChecked)
             }
 
-            // 安卓彩蛋
-            itemOpenAndroidPartLogo.setOnClickListener {
-                // AppExit(this@SettingsActivity)
+            itemSkipErrorMusic.setOnClickListener { switchSkipErrorMusic.isChecked = !switchSkipErrorMusic.isChecked }
+            switchSkipErrorMusic.setOnCheckedChangeListener { _, isChecked ->
+                MyApplication.mmkv.encode(Config.SKIP_ERROR_MUSIC, isChecked)
             }
+
         }
 
         binding.itemPlayOnMobile.setOnClickListener {

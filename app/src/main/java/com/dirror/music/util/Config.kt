@@ -1,5 +1,8 @@
 package com.dirror.music.util
 
+/**
+ * 配置
+ */
 object Config {
 
     const val UID = "long_uid"
@@ -24,6 +27,12 @@ object Config {
     const val FILTER_RECORD = "boolean_filter_record" // 过滤录音
 
     const val PARSE_INTERNET_LYRIC_LOCAL_MUSIC = "boolean_parse_internet_lyric_local_music" // 为本地音乐自动匹配网络歌词
+
+    // 跳过错误原因，自动播放下一首
+    const val SKIP_ERROR_MUSIC = "boolean_skip_error_music"
+
+    // 歌词翻译
+    const val LYRIC_TRANSLATION = "boolean_lyric_translation"
 
     // const val FIRST_USE_APP = "boolean_first_use_app" // 第一次使用 APP
 }

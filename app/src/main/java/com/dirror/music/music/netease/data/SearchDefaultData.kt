@@ -1,5 +1,8 @@
 package com.dirror.music.music.netease.data
 
+import androidx.annotation.Keep
+
+@Keep
 data class SearchDefaultData(
     val code: Int,
     val message: String?,

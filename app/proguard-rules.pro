@@ -20,5 +20,40 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class com.dirror.music.music.** { *; }
+-keep class com.dirror.music.data.** { *; }
+
+-ignorewarnings
+
+-keepattributes Signature, *Annotation*
+
+# keep BmobSDK
+-dontwarn cn.bmob.v3.**
+-keep class cn.bmob.v3.** {*;}
+
+# keep 友盟
+-keep class com.umeng.** {*;}
+# 您如果使用了稳定性模块可以加入该混淆
+-keep class com.uc.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# keep okhttp3、okio
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *;}
+-keep interface okhttp3.** { *; }
+-dontwarn okio.**
+
+# keep rx
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
 
 

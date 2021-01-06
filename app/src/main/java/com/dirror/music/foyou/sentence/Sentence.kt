@@ -1,5 +1,6 @@
 package com.dirror.music.foyou.sentence
 
+import androidx.annotation.Keep
 import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.MyApplication
 import com.dirror.music.util.InternetState
@@ -53,6 +54,7 @@ object Sentence {
 
     }
 
+    @Keep
     data class HitokotoData(
         val hitokoto: String?,
         val from: String?,

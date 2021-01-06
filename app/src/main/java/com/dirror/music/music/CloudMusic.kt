@@ -1,6 +1,7 @@
 package com.dirror.music.music
 
 import android.util.Log
+import androidx.annotation.Keep
 import com.dirror.music.MyApplication
 import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.api.API_MUSIC_API
@@ -17,6 +18,7 @@ import java.lang.Exception
  * @author Moriafly
  * @since 2020年9月14日15:07:36
  */
+@Keep
 @Deprecated("过时，正在迁移")
 object CloudMusic {
 
