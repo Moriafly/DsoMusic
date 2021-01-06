@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
@@ -22,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.audio.VolumeManager
 import com.dirror.music.databinding.ActivityPlayerBinding
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
@@ -171,6 +173,9 @@ class PlayerActivity : AppCompatActivity() {
         binding.ivNext.setColorFilter(DEFAULT_COLOR)
         // 默认隐藏翻译按钮
         binding.ivTranslation.visibility = View.GONE
+        // 初始化音量调节
+        binding.seekBarVolume.max = VolumeManager.maxVolume
+        binding.seekBarVolume.progress = VolumeManager.getCurrentVolume()
     }
 
     /**
@@ -257,6 +262,22 @@ class PlayerActivity : AppCompatActivity() {
                     // 判断是否为用户
                     if (fromUser) {
                         playViewModel.setProgress(progress)
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) { }
+
+            })
+            // 音量调节监听
+            seekBarVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    // 判断是否为用户
+                    if (fromUser) {
+                        playViewModel.currentVolume.value = progress
+                        VolumeManager.setStreamVolume(progress)
                     }
                 }
 
@@ -367,6 +388,10 @@ class PlayerActivity : AppCompatActivity() {
                     binding.lyricView.loadLrc(it.lyric)
                 }
             })
+            // 音量观察
+            currentVolume.observe(this@PlayerActivity, {
+                binding.seekBarVolume.progress = it
+            })
         }
 
     }
@@ -416,6 +441,23 @@ class PlayerActivity : AppCompatActivity() {
             playViewModel.refresh()
         }
 
+    }
+
+    /**
+     * 监听音量物理按键
+     */
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_VOLUME_UP -> {
+                playViewModel.addVolume()
+                return true
+            }
+            KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                playViewModel.reduceVolume()
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
 }

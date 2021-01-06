@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApplication
+import com.dirror.music.audio.VolumeManager
 import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
@@ -57,6 +58,10 @@ class PlayerViewModel: ViewModel() {
 
     var lyricViewData = MutableLiveData<LyricViewData>().also {
         it.value = LyricViewData("", "")
+    }
+
+    var currentVolume = MutableLiveData<Int>().also {
+        it.value = VolumeManager.getCurrentVolume()
     }
 
     /**
@@ -177,6 +182,28 @@ class PlayerViewModel: ViewModel() {
         }
         // updateLyric()
         MyApplication.mmkv.encode(Config.LYRIC_TRANSLATION, open)
+    }
+
+    fun addVolume() {
+        currentVolume.value?.let {
+            if (it < VolumeManager.maxVolume) {
+                currentVolume.value = currentVolume.value!!.plus(1)
+            } else {
+                currentVolume.value = VolumeManager.maxVolume
+            }
+            VolumeManager.setStreamVolume(currentVolume.value!!)
+        }
+    }
+
+    fun reduceVolume() {
+        currentVolume.value?.let {
+            if (it > 0) {
+                currentVolume.value = currentVolume.value!!.minus(1)
+            } else {
+                currentVolume.value = 0
+            }
+            VolumeManager.setStreamVolume(currentVolume.value!!)
+        }
     }
 
 }

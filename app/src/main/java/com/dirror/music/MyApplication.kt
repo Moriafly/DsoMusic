@@ -79,7 +79,6 @@ class MyApplication : Application() {
      * 安全检查
      * 自己签名请去除
      */
-    @Keep
     private fun checkSecure() {
         if (Secure.isSecure()) {
             // 初始化 Bmob
@@ -100,8 +99,7 @@ class MyApplication : Application() {
     /**
      * 启动音乐服务
      */
-    @TestOnly
-    fun startMusicService() {
+    private fun startMusicService() {
         // 通过 Service 播放音乐，混合启动
         val intent = Intent(this, MusicService::class.java)
         // 安卓 8.0 后开启前台服务，要在短时间内响应
