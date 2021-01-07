@@ -46,4 +46,5 @@
     <string name="switch_account">切换账号</string>
     <string name="login_by_phone">手机号登录</string>
     <string name="search">搜索</string>
+    <string name="experimental">实验性</string>
 </resources>

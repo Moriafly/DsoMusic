@@ -3,8 +3,6 @@ package com.dirror.music.audio
 import android.content.Context
 import android.media.AudioManager
 import com.dirror.music.MyApplication
-import com.dirror.music.util.toast
-import org.jetbrains.annotations.TestOnly
 
 /**
  * 音量设置
@@ -27,11 +25,9 @@ object VolumeManager {
         audioManger.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0)
     }
 
-    fun addVolume() {
-
-    }
-
-    // 获取当前媒体音
+    /**
+     * 获取当前媒体音
+     */
     fun getCurrentVolume(): Int {
         return audioManger.getStreamVolume(AudioManager.STREAM_MUSIC)
     }

@@ -31,7 +31,7 @@ class ArtistActivity : AppCompatActivity() {
             runOnMainThread {
                 binding.titleBar.setTitleBarText(it.artist.name)
                 val description = it.artist.briefDesc
-                binding.tvDescription.text = if (description == "") {
+                binding.tvDescription.text = if (description.isNotEmpty()) {
                     description
                 } else {
                     "暂无介绍"

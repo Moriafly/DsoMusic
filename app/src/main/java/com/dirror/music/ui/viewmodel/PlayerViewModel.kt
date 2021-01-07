@@ -150,6 +150,9 @@ class PlayerViewModel: ViewModel() {
         }
     }
 
+    /**
+     * 更新歌词
+     */
     fun updateLyric() {
         // 更改歌词
         standardSongData.value?.let {
@@ -173,6 +176,9 @@ class PlayerViewModel: ViewModel() {
         }
     }
 
+    /**
+     * 设置歌词翻译
+     */
     fun setLyricTranslation(open: Boolean) {
         lyricTranslation.value = open
         if (lyricTranslation.value == true) {
@@ -184,6 +190,9 @@ class PlayerViewModel: ViewModel() {
         MyApplication.mmkv.encode(Config.LYRIC_TRANSLATION, open)
     }
 
+    /**
+     * 音量加
+     */
     fun addVolume() {
         currentVolume.value?.let {
             if (it < VolumeManager.maxVolume) {
@@ -195,6 +204,9 @@ class PlayerViewModel: ViewModel() {
         }
     }
 
+    /**
+     * 音量减
+     */
     fun reduceVolume() {
         currentVolume.value?.let {
             if (it > 0) {

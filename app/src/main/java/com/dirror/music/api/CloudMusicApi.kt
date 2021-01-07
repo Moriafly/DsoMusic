@@ -1,7 +1,9 @@
 package com.dirror.music.api
 
+/**
+ * 网易云 API 地址
+ */
 object CloudMusicApi {
-
 
     /**
      * 默认搜索关键词

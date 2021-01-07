@@ -11,8 +11,8 @@ import com.dirror.music.manager.interfaces.CloudMusicManagerInterface
 import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.netease.data.*
 import com.dirror.music.util.MagicHttp
+import com.dirror.music.util.getCurrentTime
 import com.dirror.music.util.loge
-import com.dirror.music.util.runOnMainThread
 import com.google.gson.Gson
 
 @Keep
@@ -20,6 +20,13 @@ class CloudMusicManager: CloudMusicManagerInterface {
 
     companion object {
         private const val URL_PRIVATE_LETTER = "${API_DEFAULT}/msg/private" // 私信
+    }
+
+    /**
+     * 时间戳
+     */
+    fun timestamp(): String {
+        return "&timestamp=${getCurrentTime()}"
     }
 
     /**
@@ -164,7 +171,6 @@ class CloudMusicManager: CloudMusicManagerInterface {
     override fun getPrivateLetter(success: (PrivateLetterData) -> Unit, failure: () -> Unit) {
         val cookie = MyApplication.userManager.getCloudMusicCookie()
         val url = "${URL_PRIVATE_LETTER}?cookie=${cookie}"
-        loge("${url}")
         MagicHttp.OkHttpManager().newGet(url, {
             try {
                 loge("url:[${url}]私信返回" + it)
@@ -185,7 +191,6 @@ class CloudMusicManager: CloudMusicManagerInterface {
     override fun getPicture(url: String, heightOrWeight: Int): String {
         return "${url}?param=${heightOrWeight}y${heightOrWeight}"
     }
-
 
     override fun getSearchDefault(success: (SearchDefaultData) -> Unit) {
         val url = CloudMusicApi.SEARCH_DEFAULT

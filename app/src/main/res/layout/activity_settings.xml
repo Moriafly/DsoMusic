@@ -27,7 +27,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="音乐"
+                android:text="@string/music"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -138,7 +138,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="本地"
+                android:text="@string/local_music"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -218,7 +218,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="实验性"
+                android:text="@string/experimental"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -237,15 +237,6 @@
                 android:layout_height="56dp"
                 android:background="@color/colorItemBackground"
                 app:text="导出 Cookie（仅开发版使用）">
-
-            </com.dirror.music.widget.ItemLayout>
-
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemOpenAndroidPartLogo"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@color/colorItemBackground"
-                app:text="Android Part Logo">
 
             </com.dirror.music.widget.ItemLayout>
 

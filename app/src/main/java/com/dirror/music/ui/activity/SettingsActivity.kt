@@ -85,27 +85,29 @@ class SettingsActivity : AppCompatActivity() {
                 MyApplication.mmkv.encode(Config.SKIP_ERROR_MUSIC, isChecked)
             }
 
+            itemPlayOnMobile.setOnClickListener {
+                binding.switchPlayOnMobile.isChecked = !binding.switchPlayOnMobile.isChecked
+            }
+
+            switchPlayOnMobile.setOnCheckedChangeListener { _, isChecked ->
+                MyApplication.mmkv.encode(Config.PLAY_ON_MOBILE, isChecked)
+            }
+
+            itemPauseSongAfterUnplugHeadset.setOnClickListener {
+                binding.switchPauseSongAfterUnplugHeadset.isChecked = !binding.switchPauseSongAfterUnplugHeadset.isChecked
+            }
+
+            switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { _, isChecked ->
+                MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, isChecked)
+            }
+
+            itemAbout.setOnClickListener {
+                startActivity(Intent(this@SettingsActivity, AboutActivity::class.java))
+            }
+
         }
 
-        binding.itemPlayOnMobile.setOnClickListener {
-            binding.switchPlayOnMobile.isChecked = !binding.switchPlayOnMobile.isChecked
-        }
 
-        binding.switchPlayOnMobile.setOnCheckedChangeListener { _, isChecked ->
-            MyApplication.mmkv.encode(Config.PLAY_ON_MOBILE, isChecked)
-        }
-
-        binding.itemPauseSongAfterUnplugHeadset.setOnClickListener {
-            binding.switchPauseSongAfterUnplugHeadset.isChecked = !binding.switchPauseSongAfterUnplugHeadset.isChecked
-        }
-
-        binding.switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { _, isChecked ->
-            MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, isChecked)
-        }
-
-        binding.itemAbout.setOnClickListener {
-            startActivity(Intent(this, AboutActivity::class.java))
-        }
 
     }
 
