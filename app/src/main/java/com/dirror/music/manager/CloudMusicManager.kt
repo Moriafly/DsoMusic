@@ -78,7 +78,7 @@ class CloudMusicManager: CloudMusicManagerInterface {
                 if (userDetail.code != 200) {
                     failure.invoke()
                 } else {
-                    MyApplication.userManager.setCloudMusicCookie(userDetail.cookie)
+                    userDetail.cookie?.let { it1 -> MyApplication.userManager.setCloudMusicCookie(it1) }
                     MyApplication.userManager.setUid(userDetail.profile.userId)
                     success.invoke(userDetail)
                 }

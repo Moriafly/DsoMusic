@@ -1,5 +1,6 @@
 package com.dirror.music.bmob
 
+import androidx.annotation.Keep
 import cn.bmob.v3.exception.BmobException
 import cn.bmob.v3.listener.SaveListener
 import com.dirror.music.util.toast
@@ -7,6 +8,7 @@ import com.dirror.music.util.toast
 /**
  * @author 24568
  */
+@Keep
 class BmobManager {
 
     /**

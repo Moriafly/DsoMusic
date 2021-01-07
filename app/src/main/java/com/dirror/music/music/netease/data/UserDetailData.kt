@@ -14,7 +14,7 @@ data class UserDetailData(
 
     val code: Int, // 服务器返回
     val createTime: Long,
-    val cookie: String = "", // 默认空
+    val cookie: String?, // 默认空
 ) {
     @Keep
     data class ProfileData(

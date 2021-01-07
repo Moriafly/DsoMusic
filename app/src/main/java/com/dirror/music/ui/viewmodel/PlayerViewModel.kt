@@ -169,8 +169,10 @@ class PlayerViewModel: ViewModel() {
                 }
             } else {
                 SearchLyric.getLyricString(it) { string ->
-                    _lyricViewData.value = LyricViewData(string, "")
-                    lyricViewData.value = _lyricViewData.value
+                    runOnMainThread {
+                        _lyricViewData.value = LyricViewData(string, "")
+                        lyricViewData.value = _lyricViewData.value
+                    }
                 }
             }
         }

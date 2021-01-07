@@ -250,7 +250,9 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 # 项目构建
 
 compileSdkVersion 30
+
 Android Gradle Plugin Version 4.1.1
+
 Gradle Version 6.7.1
 
 # 开源协议 License

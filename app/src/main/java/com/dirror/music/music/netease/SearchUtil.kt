@@ -30,16 +30,15 @@ object SearchUtil {
 
     private fun searchUtilDataToStandardSongDataList(searchUtilData: SearchUtilData): ArrayList<StandardSongData> {
         val standardSongDataList = ArrayList<StandardSongData>()
-        searchUtilData.result?.let {
-            val songs = it.songs
-            for (index in 0..songs.lastIndex) {
+        searchUtilData.result?.songs?.let {
+            for (index in 0..it.lastIndex) {
                 val standardSongData = StandardSongData(
                     SOURCE_NETEASE,
-                    songs[index].id.toString(),
-                    songs[index].name,
-                    songs[index].album.artist.img1v1Url,
-                    songs[index].artists,
-                    NeteaseInfo(songs[index].fee),
+                    it[index].id.toString(),
+                    it[index].name,
+                    it[index].album.artist.img1v1Url,
+                    it[index].artists,
+                    NeteaseInfo(it[index].fee),
                     null,
                     null
                 )
@@ -59,7 +58,7 @@ data class SearchUtilData(
 )
 
 data class SearchUtilResultData(
-    val songs: ArrayList<SearchUtilSongData>
+    val songs: ArrayList<SearchUtilSongData>?
 )
 
 data class SearchUtilSongData(

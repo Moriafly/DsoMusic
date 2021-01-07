@@ -10,7 +10,6 @@ import com.dirror.music.api.API_MUSIC_LAKE
 import com.dirror.music.data.*
 import com.dirror.music.util.*
 import com.google.gson.Gson
-import org.jetbrains.annotations.TestOnly
 import java.lang.Exception
 
 /**
@@ -45,18 +44,12 @@ object CloudMusic {
      * 用户歌单
      */
     fun getPlaylist(uid: Long, success: (UserPlaylistData) -> Unit) {
-        MagicHttp.OkHttpManager().get(
-            "${API_MUSIC_ELEUU}/user/playlist?uid=$uid${timestamp()}",
-            object : MagicHttp.MagicCallback {
-                override fun success(response: String) {
-                    val userPlaylistData = Gson().fromJson(response, UserPlaylistData::class.java)
-                    success.invoke(userPlaylistData)
-                }
+        MagicHttp.OkHttpManager().newGet("${API_MUSIC_ELEUU}/user/playlist?uid=$uid${timestamp()}", {
+            val userPlaylistData = Gson().fromJson(it, UserPlaylistData::class.java)
+            success.invoke(userPlaylistData)
+        }, {
 
-                override fun failure(throwable: Throwable) {
-                    Log.e("获取用户歌单错误", throwable.message.toString())
-                }
-            })
+        })
     }
 
     /**
