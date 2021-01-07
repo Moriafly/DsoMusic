@@ -1,10 +1,12 @@
 package com.dirror.music.util
 
 import android.app.Activity
+import androidx.annotation.Keep
 import com.dirror.music.ui.dialog.UpdateDialog
 import com.google.gson.Gson
 import java.lang.Exception
 
+@Keep
 object UpdateUtil {
 
     /**
@@ -22,7 +24,7 @@ object UpdateUtil {
                     }
                 } else {
                     if (showLastedToast) {
-                        toast("已是最新版本")
+                        toast("已是最新版本\n服务器版本：${updateData.code}")
                     }
                 }
             }
