@@ -52,6 +52,7 @@ object UpdateUtil {
         })
     }
 
+    @Keep
     data class UpdateData(
         val name: String,
         val code: Int,
