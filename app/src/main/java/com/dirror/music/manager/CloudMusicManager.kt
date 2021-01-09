@@ -1,18 +1,14 @@
 package com.dirror.music.manager
 
+import android.util.Log
 import androidx.annotation.Keep
 import com.dirror.music.MyApplication
-import com.dirror.music.api.API_AUTU
-import com.dirror.music.api.API_DEFAULT
-import com.dirror.music.api.API_MUSIC_ELEUU
-import com.dirror.music.api.CloudMusicApi
+import com.dirror.music.api.*
 import com.dirror.music.data.CommentData
+import com.dirror.music.data.UserPlaylistData
 import com.dirror.music.manager.interfaces.CloudMusicManagerInterface
-import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.netease.data.*
-import com.dirror.music.util.MagicHttp
-import com.dirror.music.util.getCurrentTime
-import com.dirror.music.util.loge
+import com.dirror.music.util.*
 import com.google.gson.Gson
 
 @Keep
@@ -47,7 +43,7 @@ class CloudMusicManager: CloudMusicManagerInterface {
 //    }
 
     override fun getComment(id: String, success: (CommentData) -> Unit, failure: () -> Unit) {
-        val url = "$API_MUSIC_ELEUU/comment/music?id=${id}&limit=20&offset=0${CloudMusic.timestamp()}"
+        val url = "$API_MUSIC_ELEUU/comment/music?id=${id}&limit=20&offset=0${timestamp()}"
         MagicHttp.OkHttpManager().newGet(url, {
             val commentData = Gson().fromJson(it, CommentData::class.java)
             success.invoke(commentData)
@@ -59,14 +55,40 @@ class CloudMusicManager: CloudMusicManagerInterface {
     override fun getUserDetail(userId: Long, success: (UserDetailData) -> Unit, failure: () -> Unit) {
         val url = "${API_AUTU}/user/detail?uid=${userId}"
         MagicHttp.OkHttpManager().newGet(url, {
-            val userDetail = Gson().fromJson(it, UserDetailData::class.java)
-            if (userDetail.code != 200) {
+            try {
+                val userDetail = Gson().fromJson(it, UserDetailData::class.java)
+                if (userDetail.code != 200) {
+                    failure.invoke()
+                } else {
+                    success.invoke(userDetail)
+                }
+            } catch (e: java.lang.Exception) {
                 failure.invoke()
-            } else {
-                success.invoke(userDetail)
             }
         }, {
             failure.invoke()
+        })
+    }
+
+    override fun getUserDetail(
+        uid: String,
+        success: (result: com.dirror.music.data.UserDetailData) -> Unit,
+        failure: (error: String) -> Unit
+    ) {
+        MagicHttp.OkHttpManager().newGet("${API_MUSIC_API}/user/detail?uid=$uid", {
+            try {
+                val userDetailData = Gson().fromJson(it, com.dirror.music.data.UserDetailData::class.java)
+                when (userDetailData.code) {
+                    400 -> failure.invoke("获取用户详细信息错误")
+                    404 -> failure.invoke("用户不存在")
+                    else -> success.invoke(userDetailData)
+                }
+            } catch (e: java.lang.Exception) {
+                failure.invoke("解析错误")
+            }
+        }, {
+            failure.invoke("MagicHttp 错误\n${it}")
+            Log.e("无法连接到服务器", it)
         })
     }
 
@@ -248,4 +270,36 @@ class CloudMusicManager: CloudMusicManagerInterface {
         })
     }
 
+    override fun getSongInfo(id: String, success: (SongUrlData.UrlData) -> Unit) {
+        val url = "${API_MUSIC_ELEUU}/song/url?id=${id}${timestamp()}"
+        MagicHttp.OkHttpManager().newGet(url, {
+            val songUrlData = Gson().fromJson(it, SongUrlData::class.java)
+            if (songUrlData.code == 200) {
+                success.invoke(songUrlData.data[0])
+            }
+        }, {
+
+        })
+    }
+
+    override fun loginByUid(uid: String, success: () -> Unit) {
+        getUserDetail(uid, {
+            MyApplication.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
+            // UID 登录清空 Cookie
+            MyApplication.userManager.setCloudMusicCookie("")
+            success.invoke()
+            // toast("登录成功${it.profile?.userId!!.toLong()}")
+        }, {
+            toast(it)
+        })
+    }
+
+    override fun getUserPlaylist(uid: Long, success: (UserPlaylistData) -> Unit) {
+        MagicHttp.OkHttpManager().newGet("${API_MUSIC_ELEUU}/user/playlist?uid=$uid${timestamp()}", {
+            val userPlaylistData = Gson().fromJson(it, UserPlaylistData::class.java)
+            success.invoke(userPlaylistData)
+        }, {
+
+        })
+    }
 }

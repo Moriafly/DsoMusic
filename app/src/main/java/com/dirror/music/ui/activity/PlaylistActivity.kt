@@ -66,6 +66,8 @@ class PlaylistActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        window.allowEnterTransitionOverlap = true
+        window.allowReturnTransitionOverlap = true
         // 屏幕适配
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@PlaylistActivity)

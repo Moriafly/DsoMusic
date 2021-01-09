@@ -14,7 +14,6 @@ import com.dirror.music.MyApplication
 import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.databinding.FragmentMyBinding
-import com.dirror.music.music.CloudMusic
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
@@ -44,7 +43,7 @@ class MyFragment : Fragment() {
 
     private fun initView() {
         binding.rvPlaylist.layoutManager =  LinearLayoutManager(activity)
-        binding.rvPlaylist.adapter = PlaylistAdapter(userPlaylist)
+        binding.rvPlaylist.adapter = activity?.let { PlaylistAdapter(userPlaylist, it) }
 
         mainViewModel.userId.observe(viewLifecycleOwner, {
             getPlaylist(it)
@@ -76,7 +75,7 @@ class MyFragment : Fragment() {
     }
 
     private fun getPlaylist(id: Long) {
-        CloudMusic.getPlaylist(id){
+        MyApplication.cloudMusicManager.getUserPlaylist(id) {
             val playlist = it.playlist
             loge("大小：${playlist.size}")
             val gridLayoutManager: GridLayoutManager =
@@ -98,7 +97,7 @@ class MyFragment : Fragment() {
 
             runOnMainThread {
                 binding.rvPlaylist.layoutManager =  gridLayoutManager
-                binding.rvPlaylist.adapter = PlaylistAdapter(playlist)
+                binding.rvPlaylist.adapter = activity?.let { it1 -> PlaylistAdapter(playlist, it1) }
             }
 
         }
@@ -130,6 +129,11 @@ class MyFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_playlist_page"
-    tools:context=".ui.activity.PlaylistActivity">
+    tools:context=".ui.activity.PlaylistActivity"
+    >
 
     <ImageView
         android:id="@+id/ivBackground"
@@ -62,6 +63,8 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvCover"
+                        android:transitionName="transCvCover"
+                        android:background="@color/colorTransparency"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
                         android:layout_marginStart="16dp"
@@ -78,7 +81,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            android:transitionName="transIvCover"
+                            app:srcCompat="@drawable/bq_no_data_song" />
                     </androidx.cardview.widget.CardView>
 
                     <TextView

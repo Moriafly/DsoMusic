@@ -5,27 +5,22 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
+import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.api.StandardGET
 import com.dirror.music.databinding.DialogSongInfoBinding
 import com.dirror.music.music.dirror.SearchSong
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.parseSize
 import com.dirror.music.util.runOnMainThread
 
-class SongInfoDialog : Dialog {
+class SongInfoDialog(context: Context) : Dialog(context, R.style.style_default_dialog) {
 
     private var binding: DialogSongInfoBinding = DialogSongInfoBinding.inflate(layoutInflater)
 
-    constructor(context: Context) : this(context, 0)
-
-    constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
+    init {
         setContentView(binding.root)
-        // 设置显示位置
         window?.setGravity(Gravity.BOTTOM)
-        // 设置大小
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        // setCanceledOnTouchOutside(false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +47,7 @@ class SongInfoDialog : Dialog {
         songData.let {
             when (it.source) {
                 SOURCE_NETEASE -> {
-                    StandardGET.getSongInfo(it.id) { data ->
+                    MyApplication.cloudMusicManager.getSongInfo(it.id) { data ->
                         runOnMainThread {
                             if (SearchSong.getDirrorSongUrl(it.id) != "") {
                                 binding.valueViewSource.setValue("Dirror 音乐")

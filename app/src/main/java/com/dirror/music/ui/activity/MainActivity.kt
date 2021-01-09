@@ -21,6 +21,8 @@ import com.dirror.music.broadcast.HeadsetChangeReceiver
 import com.dirror.music.databinding.ActivityMainBinding
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.dialog.PlaylistDialog
+import com.dirror.music.ui.fragment.HomeFragment
+import com.dirror.music.ui.fragment.MyFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.GlideUtil
@@ -44,6 +46,9 @@ class MainActivity : AppCompatActivity() {
         initView()
         initListener()
         initObserve()
+
+//        val radius = ScreenUtil.getCornerRadiusTop(this)
+//        toast("顶部圆角大小：$radius")
     }
 
     private fun initData() {
@@ -67,6 +72,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        window.allowEnterTransitionOverlap = true
+        window.allowReturnTransitionOverlap = true
         // 请求广播
         MyApplication.musicBinderInterface?.sendBroadcast()
 
@@ -107,7 +114,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun createFragment(position: Int): Fragment {
-                return FragmentUtil.getFragment(position)
+                return when (position) {
+                    0 -> mainViewModel.myFragment
+                    else -> mainViewModel.homeFragment
+                }
+                // return FragmentUtil.getFragment(position)
             }
         }
 

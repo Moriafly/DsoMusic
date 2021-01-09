@@ -2,6 +2,7 @@ package com.dirror.music.manager.interfaces
 
 import androidx.annotation.Keep
 import com.dirror.music.data.CommentData
+import com.dirror.music.data.UserPlaylistData
 import com.dirror.music.music.netease.data.*
 
 /**
@@ -42,4 +43,15 @@ interface CloudMusicManagerInterface {
     fun getArtists(artistId: Long, success: (ArtistsData) -> Unit)
 
     fun getLyric(songId: Long, success: (LyricData) -> Unit)
+
+    /**
+     * 获取歌曲信息
+     */
+    fun getSongInfo(id: String, success: (SongUrlData.UrlData) -> Unit)
+
+    fun loginByUid(uid: String, success: () -> Unit)
+
+    fun getUserDetail(uid: String, success: (result: com.dirror.music.data.UserDetailData) -> Unit, failure: (error: String) -> Unit)
+
+    fun getUserPlaylist(uid: Long, success: (UserPlaylistData) -> Unit)
 }

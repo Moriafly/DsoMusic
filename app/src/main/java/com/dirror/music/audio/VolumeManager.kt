@@ -5,7 +5,9 @@ import android.media.AudioManager
 import com.dirror.music.MyApplication
 
 /**
- * 音量设置
+ * 音量管理
+ * @author Moriafly
+ * @since 2021年1月8日19:52:46
  */
 object VolumeManager {
 
@@ -19,14 +21,15 @@ object VolumeManager {
     val mode = audioManger.ringerMode
 
     /**
-     * 设置音量
+     * 传入 [volume] 设置音量
      */
     fun setStreamVolume(volume: Int) {
-        audioManger.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0)
+        audioManger.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_SHOW_UI)
     }
 
     /**
      * 获取当前媒体音
+     * @return 当前音量
      */
     fun getCurrentVolume(): Int {
         return audioManger.getStreamVolume(AudioManager.STREAM_MUSIC)

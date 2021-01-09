@@ -10,6 +10,11 @@ package com.dirror.music.music.netease
  */
 object Playlist2 {
 
+    /**
+     * 获取歌单
+     */
+    fun getPlaylist() {
 
+    }
 
 }

@@ -17,12 +17,12 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationCompat
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.api.StandardGET
 import com.dirror.music.broadcast.BecomingNoisyReceiver
 import com.dirror.music.music.kuwo.SearchSong
 import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
+import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayerActivity
@@ -270,7 +270,7 @@ class MusicService : Service() {
             loge("MusicService songPosition:${position}")
             loge("MusicService 歌单歌曲数量:${playlist?.size}")
             // 当前的歌曲
-            val song = playlist?.get(position?: 0)
+            val song = playlist?.get(position ?: 0)
 
             // 如果 MediaPlayer 已经存在，释放
             if (mediaPlayer != null) {
@@ -320,7 +320,11 @@ class MusicService : Service() {
 
         private fun startPlayUrl(url: String) {
 
-            if (!InternetState.isWifi(MyApplication.context) && !MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)) {
+            if (!InternetState.isWifi(MyApplication.context) && !MyApplication.mmkv.decodeBool(
+                    Config.PLAY_ON_MOBILE,
+                    false
+                )
+            ) {
                 toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
             } else {
                 // 初始化
@@ -717,8 +721,7 @@ class MusicService : Service() {
             .setMediaSession(mediaSession?.sessionToken)
             .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
-            // toast("图片更新")
-            StandardGET.getSongBitmap(song) { bitmap ->
+            SongPicture.getPlayerActivityCoverBitmap(song, 100.dp()) { bitmap ->
                 showNotification(mediaStyle, song, bitmap)
             }
         }
@@ -728,7 +731,11 @@ class MusicService : Service() {
     /**
      * 显示通知
      */
-    private fun showNotification(mediaStyle: androidx.media.app.NotificationCompat.MediaStyle, song: StandardSongData, bitmap: Bitmap?) {
+    private fun showNotification(
+        mediaStyle: androidx.media.app.NotificationCompat.MediaStyle,
+        song: StandardSongData,
+        bitmap: Bitmap?
+    ) {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_music_launcher_foreground)
             .setLargeIcon(bitmap)

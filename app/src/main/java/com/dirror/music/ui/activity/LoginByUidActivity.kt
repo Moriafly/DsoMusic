@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
-import com.dirror.music.music.CloudMusic
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLoginByUidBinding
 import com.dirror.music.util.toast
@@ -39,7 +38,7 @@ class LoginByUidActivity : AppCompatActivity(R.layout.activity_login_by_uid) {
                 netease = keepDigital(netease)
                 // loge("数字：${netease}")
                 if (netease != "") {
-                    CloudMusic.loginByUid(netease) {
+                    MyApplication.cloudMusicManager.loginByUid(netease) {
                         // 发送广播
                         val intent = Intent("com.dirror.music.LOGIN")
                         intent.setPackage(packageName)

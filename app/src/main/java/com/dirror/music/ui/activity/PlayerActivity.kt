@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -15,7 +16,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.palette.graphics.Palette
@@ -63,6 +63,7 @@ class PlayerActivity : AppCompatActivity() {
         // 动画循环时长
         private const val DURATION_CD = 25_000L
         private const val DURATION_BACKGROUND = 50_000L
+        private const val DURATION_TAPE = 6_000L
         private const val ANIMATION_REPEAT_COUNTS = -1
         private const val ANIMATION_PROPERTY_NAME = "rotation"
     }
@@ -73,7 +74,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver
 
     // ViewModel 数据和视图分离
-    private val playViewModel: PlayerViewModel by viewModels()
+    private val playViewModel = PlayerViewModel()
 
     // Looper + Handler
     private val handler = object : Handler(Looper.getMainLooper()) {
@@ -119,6 +120,36 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
+    // 前动画
+    private val objectAnimatorTapeNormal: ObjectAnimator by lazy {
+        ObjectAnimator.ofFloat(
+            binding.ivTypePrevious,
+            ANIMATION_PROPERTY_NAME,
+            playViewModel.rotationTypeNormal,
+            playViewModel.rotationTypeNormal - 360f
+        ).apply {
+            interpolator = LinearInterpolator()
+            duration = DURATION_TAPE
+            repeatCount = ANIMATION_REPEAT_COUNTS
+            start()
+        }
+    }
+
+    // 后动画
+    private val objectAnimatorTapeNextNormal: ObjectAnimator by lazy {
+        ObjectAnimator.ofFloat(
+            binding.ivTypeNext,
+            ANIMATION_PROPERTY_NAME,
+            playViewModel.rotationTypeNormal,
+            playViewModel.rotationTypeNormal - 360f
+        ).apply {
+            interpolator = LinearInterpolator()
+            duration = DURATION_TAPE
+            repeatCount = ANIMATION_REPEAT_COUNTS
+            start()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
@@ -126,6 +157,17 @@ class PlayerActivity : AppCompatActivity() {
         // 设置 SlideBackLayout
         slideBackLayout = SlideBackLayout(this, binding.clBase)
         slideBackLayout.bind()
+        // 屏幕旋转
+        val configuration = this.resources.configuration //获取设置的配置信息
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //横屏
+            val decorView = window.decorView
+            val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+            decorView.systemUiVisibility = uiOptions
+        }
         // 初始化广播接受者
         initBroadcastReceiver()
         // 初始化视图
@@ -230,7 +272,7 @@ class PlayerActivity : AppCompatActivity() {
                 binding.clLyric.visibility = View.INVISIBLE
                 slideBackLayout.viewEnabled = true
             }
-            clLyric.setOnClickListener {
+            edgeTransparentView.setOnClickListener {
                 AnimationUtil.fadeIn(binding.clCd)
                 AnimationUtil.fadeIn(binding.clMenu)
                 binding.clLyric.visibility = View.INVISIBLE
@@ -265,9 +307,9 @@ class PlayerActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-                override fun onStopTrackingTouch(seekBar: SeekBar?) { }
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 
             })
             // 音量调节监听
@@ -281,11 +323,19 @@ class PlayerActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-                override fun onStopTrackingTouch(seekBar: SeekBar?) { }
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 
             })
+
+            // 横屏
+            clTapeCenter?.setOnClickListener { playViewModel.changePlayState() }
+            // 横屏上一曲
+            ivTypePrevious?.setOnClickListener { playViewModel.playLast() }
+            // 横屏下一曲
+            ivTypeNext?.setOnClickListener { playViewModel.playNext() }
+
         }
     }
 
@@ -304,7 +354,6 @@ class PlayerActivity : AppCompatActivity() {
             })
             // 当前歌曲的观察
             standardSongData.observe(this@PlayerActivity, {
-                // toast("歌曲改变")
                 it?.let {
                     binding.tvName.text = it.name
                     binding.tvArtist.text = it.artists?.let { artists ->
@@ -402,6 +451,8 @@ class PlayerActivity : AppCompatActivity() {
     private fun startRotateAlways() {
         objectAnimator.resume()
         objectAnimatorBackground.resume()
+        objectAnimatorTapeNormal.resume()
+        objectAnimatorTapeNextNormal.resume()
     }
 
     /**
@@ -410,8 +461,13 @@ class PlayerActivity : AppCompatActivity() {
     private fun pauseRotateAlways() {
         playViewModel.rotation = binding.ivCover.rotation
         playViewModel.rotationBackground = binding.ivBackground.rotation
+        binding.ivTypePrevious?.rotation?.let {
+            playViewModel.rotationTypeNormal = it
+        }
         objectAnimator.pause()
         objectAnimatorBackground.pause()
+        objectAnimatorTapeNormal.pause()
+        objectAnimatorTapeNextNormal.pause()
     }
 
     override fun onDestroy() {

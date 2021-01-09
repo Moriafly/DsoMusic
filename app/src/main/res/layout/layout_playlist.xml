@@ -8,18 +8,21 @@
     android:background="?attr/selectableItemBackground">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cvCover"
+        android:transitionName="transCvCover"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="10dp"
         app:cardCornerRadius="@dimen/defaultRadius"
         app:cardElevation="0dp"
+        android:background="@color/colorTransparency"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/ivCover"
+            android:transitionName="transIvCover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -38,7 +41,7 @@
         android:textColor="@color/colorTextForeground"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintStart_toEndOf="@+id/cvCover"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -52,5 +55,5 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView" />
+        app:layout_constraintStart_toEndOf="@+id/cvCover" />
 </androidx.constraintlayout.widget.ConstraintLayout>
