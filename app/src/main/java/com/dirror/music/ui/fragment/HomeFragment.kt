@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dirror.music.MyApplication
+import com.dirror.music.R
 import com.dirror.music.adapter.BannerAdapter
 import com.dirror.music.adapter.PlaylistRecommendAdapter
 import com.dirror.music.databinding.FragmentHomeBinding
@@ -38,19 +39,30 @@ class HomeFragment : Fragment() {
 
         val windowManager = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val width = windowManager.defaultDisplay.width
-        initBanner()
+
         (binding.banner.layoutParams as LinearLayout.LayoutParams).apply {
             height = ((width - 40.dp()).toFloat() / 108 * 42).toInt() + 8.dp()
         }
         initView()
         initListener()
+        update()
     }
 
-
-
     private fun initView() {
-        changeSentence()
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAppThemeColor)
+    }
+
+    /**
+     * 刷新整个页面
+     */
+    private fun update() {
+        binding.swipeRefreshLayout.isRefreshing = true
+        // Banner
+        initBanner()
+        // 推荐歌单
         refreshPlaylistRecommend()
+        // 更改句子
+        changeSentence()
     }
 
     private fun initBanner() {
@@ -64,6 +76,8 @@ class HomeFragment : Fragment() {
                     setLoopTime(5000) // 轮播时间
                     // setBannerGalleryMZ(20, 0.85F)
                     start()
+
+                    binding.swipeRefreshLayout.isRefreshing = false
                 }
             }
             // banner 点击事件
@@ -99,6 +113,8 @@ class HomeFragment : Fragment() {
             intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, 0)
             startActivity(intent)
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener { update() }
     }
 
     private fun changeSentence() {
@@ -123,6 +139,8 @@ class HomeFragment : Fragment() {
                 binding.rvPlaylistRecommend.layoutManager = GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)
                 // binding.rvPlaylistRecommend.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 binding.rvPlaylistRecommend.adapter = PlaylistRecommendAdapter(it)
+
+
             }
         }, {
 

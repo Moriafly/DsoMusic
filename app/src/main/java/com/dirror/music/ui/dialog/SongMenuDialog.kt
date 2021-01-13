@@ -8,17 +8,18 @@ import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.databinding.DialogSongMenuBinding
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.widget.ItemLayout
+import com.dirror.music.util.Secure
+import com.dirror.music.util.toast
 
-class SongMenuDialog : Dialog {
-    constructor(context: Context) : this(context, 0)
+class SongMenuDialog(context: Context) : Dialog(context, R.style.style_default_dialog) {
 
-    constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
-        setContentView(R.layout.dialog_song_menu)
-        // 设置显示位置
+    private var binding = DialogSongMenuBinding.inflate(layoutInflater)
+
+    init {
+        setContentView(binding.root)
         window?.setGravity(Gravity.BOTTOM)
-        // 设置大小
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
@@ -27,26 +28,35 @@ class SongMenuDialog : Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val itemSongInfo = findViewById<ItemLayout>(R.id.itemSongInfo)
-        val itemSongComment = findViewById<ItemLayout>(R.id.itemSongComment)
+        initListener()
+    }
 
-        // 歌曲信息
-        itemSongInfo.setOnClickListener {
-            // toast("歌曲信息 ${ songData.id }")
-            SongInfoDialog(context).let { dialog ->
-                dialog.setSongData(songData)
-                dialog.show()
+    private fun initListener() {
+        binding.apply {
+            // 歌曲信息
+            itemSongInfo.setOnClickListener {
+                // toast("歌曲信息 ${ songData.id }")
+                SongInfoDialog(context).let { dialog ->
+                    dialog.setSongData(songData)
+                    dialog.show()
+                }
+                // 自己消失
+                dismiss()
             }
-            // 自己消失
-            dismiss()
+            // 歌曲评论
+            itemSongComment.setOnClickListener {
+                MyApplication.activityManager.startCommentActivity(activity, songData.source, songData.id)
+                dismiss()
+            }
+            // 歌曲删除
+            itemDeleteSong.setOnClickListener {
+                if (Secure.isDebug()) {
+                    toast("开发中")
+                } else {
+                    toast("测试")
+                }
+            }
         }
-
-        // 歌曲评论
-        itemSongComment.setOnClickListener {
-            MyApplication.activityManager.startCommentActivity(activity, songData.source, songData.id)
-            dismiss()
-        }
-
     }
 
     fun setSongData(standardSongData: StandardSongData) {

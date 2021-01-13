@@ -5,7 +5,6 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.core.animation.addListener
-import java.time.Duration
 
 
 object AnimationUtil {

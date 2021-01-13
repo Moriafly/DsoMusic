@@ -6,12 +6,17 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * 标准歌单数据类
+ * @author Moriafly
  */
 @Keep
 @Parcelize
 data class StandardPlaylistData(
-    val name: String, // 歌单名字
-    val description: String, // 描述
+    // 歌单名字
+    val name: String,
+    // 歌单描述
+    val description: String,
+    // 歌单图片
     val picUrl: String,
-    val songs: ArrayList<StandardSongData> // 内含歌曲
+    // 内含歌曲
+    val songs: ArrayList<StandardSongData>
 ): Parcelable

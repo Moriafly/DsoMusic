@@ -17,6 +17,7 @@ import com.dirror.music.databinding.FragmentMyBinding
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
+import com.dirror.music.ui.dialog.CreateLocalPlaylistDialog
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 
@@ -45,6 +46,8 @@ class MyFragment : Fragment() {
         binding.rvPlaylist.layoutManager =  LinearLayoutManager(activity)
         binding.rvPlaylist.adapter = activity?.let { PlaylistAdapter(userPlaylist, it) }
 
+
+
         mainViewModel.userId.observe(viewLifecycleOwner, {
             getPlaylist(it)
         })
@@ -54,7 +57,8 @@ class MyFragment : Fragment() {
 
         // 新建歌单
         binding.clNewPlaylist.setOnClickListener {
-            toast("功能开发中")
+            toast("功能开发中，敬请期待")
+            // this.context?.let { it1 -> CreateLocalPlaylistDialog(it1).show() }
         }
 
         binding.clImportPlaylist.setOnClickListener {

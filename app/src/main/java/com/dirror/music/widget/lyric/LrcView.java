@@ -448,7 +448,7 @@ public class LrcView extends View {
 
 			mTimePaint.setColor(mTimeTextColor);
 			String timeText = LrcUtils.formatTime(mLrcEntryList.get(centerLine).getTime());
-			float timeX = getWidth() - mTimeTextWidth / 2;
+			float timeX = getWidth() - (float)mTimeTextWidth / 2;
 			float timeY = centerY - (mTimeFontMetrics.descent + mTimeFontMetrics.ascent) / 2;
 			canvas.drawText(timeText, timeX, timeY, mTimePaint);
 		}
@@ -463,7 +463,7 @@ public class LrcView extends View {
 			if (i == mCurrentLine) {
 				mLrcPaint.setTextSize(mCurrentTextSize);
 				mLrcPaint.setColor(mCurrentTextColor);
-				//中间行歌词显示在BottomMusicView上 LrcView生命周期与BottomMusicView不同  TODO
+				// 中间行歌词显示在BottomMusicView上 LrcView生命周期与BottomMusicView不同  TODO
 				// Log.e("LrcView", mLrcEntryList.get(mCurrentLine).getText());
 			} else if (isShowTimeline && i == centerLine) {
 				mLrcPaint.setColor(mTimelineTextColor);
@@ -628,7 +628,7 @@ public class LrcView extends View {
 			lrcEntry.init(mLrcPaint, (int) getLrcWidth(), mTextGravity);
 		}
 
-		mOffset = getHeight() / 2;
+		mOffset = (float)getHeight() / 2;
 	}
 
 	private void reset() {
@@ -668,12 +668,9 @@ public class LrcView extends View {
 		mAnimator = ValueAnimator.ofFloat(mOffset, offset);
 		mAnimator.setDuration(duration);
 		mAnimator.setInterpolator(new LinearInterpolator());
-		mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				mOffset = (float) animation.getAnimatedValue();
-				LrcView.this.invalidate();
-			}
+		mAnimator.addUpdateListener(animation -> {
+			mOffset = (float) animation.getAnimatedValue();
+			LrcView.this.invalidate();
 		});
 		LrcUtils.resetDurationScale();
 		mAnimator.start();
@@ -733,7 +730,7 @@ public class LrcView extends View {
 	 */
 	private float getOffset(int line) {
 		if (mLrcEntryList.get(line).getOffset() == Float.MIN_VALUE) {
-			float offset = getHeight() / 2;
+			float offset = (float)getHeight() / 2;
 			for (int i = 1; i <= line; i++) {
 				offset -= ((mLrcEntryList.get(i - 1).getHeight() + mLrcEntryList.get(i).getHeight()) >> 1) + mDividerHeight;
 			}

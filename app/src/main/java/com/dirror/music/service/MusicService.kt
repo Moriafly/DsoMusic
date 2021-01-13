@@ -102,6 +102,9 @@ class MusicService : Service() {
      */
     @TestOnly
     private fun initAudioFocus() {
+
+
+
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_GAME)
@@ -736,6 +739,7 @@ class MusicService : Service() {
         song: StandardSongData,
         bitmap: Bitmap?
     ) {
+
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_music_launcher_foreground)
             .setLargeIcon(bitmap)

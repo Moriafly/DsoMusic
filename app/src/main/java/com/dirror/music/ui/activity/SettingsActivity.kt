@@ -54,7 +54,10 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             // Kart Jim
-            itemJim.setOnClickListener { openJim(this@SettingsActivity) }
+            itemJim.setOnClickListener {
+                MyApplication.activityManager.startWebActivity(this@SettingsActivity, "https://moriafly.xyz/MoreAndroid/#/")
+                // openJim(this@SettingsActivity)
+            }
             // Cookie 导出
             itemTestCookie.setOnClickListener {
                 if (Secure.isDebug()) {

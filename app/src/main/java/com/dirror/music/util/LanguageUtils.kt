@@ -26,9 +26,5 @@ object LanguageUtils {
         config.setLocale(locale)
         // MyApplication.context.createConfigurationContext(config)
         resources.updateConfiguration(config, resources.displayMetrics)
-
-
-
-
     }
 }

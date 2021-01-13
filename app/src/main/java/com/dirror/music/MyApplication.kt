@@ -19,7 +19,6 @@ import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import okhttp3.Cookie
-import org.jetbrains.annotations.TestOnly
 
 /**
  * 自定义 Application

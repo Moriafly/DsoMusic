@@ -11,6 +11,7 @@ import com.dirror.music.music.netease.data.*
 import com.dirror.music.util.*
 import com.google.gson.Gson
 
+@Deprecated("MVVM 分发到各个模块，避免单例跑")
 @Keep
 class CloudMusicManager: CloudMusicManagerInterface {
 
@@ -21,7 +22,7 @@ class CloudMusicManager: CloudMusicManagerInterface {
     /**
      * 时间戳
      */
-    fun timestamp(): String {
+    private fun timestamp(): String {
         return "&timestamp=${getCurrentTime()}"
     }
 

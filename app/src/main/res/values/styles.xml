@@ -34,5 +34,10 @@
         <item name="android:windowBackground">@drawable/drawableTransparent</item>
     </style>
 
+    <style name="dialog_animation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_slide_enter_bottom</item>
+        <item name="android:windowExitAnimation">@anim/anim_slide_exit_bottom</item>
+    </style>
+
     <drawable name="drawableTransparent">#00000000</drawable>
 </resources>

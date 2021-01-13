@@ -8,6 +8,7 @@ import com.dirror.music.music.netease.data.*
 /**
  * 网易云音乐接口管理
  */
+@Deprecated("MVVM 分发到各个模块，避免单例跑")
 @Keep
 interface CloudMusicManagerInterface {
 
@@ -54,4 +55,5 @@ interface CloudMusicManagerInterface {
     fun getUserDetail(uid: String, success: (result: com.dirror.music.data.UserDetailData) -> Unit, failure: (error: String) -> Unit)
 
     fun getUserPlaylist(uid: Long, success: (UserPlaylistData) -> Unit)
+
 }

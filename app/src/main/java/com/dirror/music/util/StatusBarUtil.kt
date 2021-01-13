@@ -10,14 +10,14 @@ object StatusBarUtil {
     fun getStatusBarHeight(window: Window, context: Context): Int {
         val localRect = Rect()
         window.decorView.getWindowVisibleDisplayFrame(localRect)
-        var mStatusBarHeight = localRect.top
-        if (0 == mStatusBarHeight) {
+        var statusBarHeight = localRect.top
+        if (0 == statusBarHeight) {
             try {
                 val localClass = Class.forName("com.android.internal.R\$dimen")
                 val localObject = localClass.newInstance()
                 val i5 =
                     localClass.getField("status_bar_height")[localObject].toString().toInt()
-                mStatusBarHeight = context.resources.getDimensionPixelSize(i5)
+                statusBarHeight = context.resources.getDimensionPixelSize(i5)
             } catch (var6: ClassNotFoundException) {
                 var6.printStackTrace()
             } catch (var7: IllegalAccessException) {
@@ -34,13 +34,13 @@ object StatusBarUtil {
                 var12.printStackTrace()
             }
         }
-        if (0 == mStatusBarHeight) {
+        if (0 == statusBarHeight) {
             val resourceId: Int =
                 context.resources.getIdentifier("status_bar_height", "dimen", "android")
             if (resourceId > 0) {
-                mStatusBarHeight = context.resources.getDimensionPixelSize(resourceId)
+                statusBarHeight = context.resources.getDimensionPixelSize(resourceId)
             }
         }
-        return mStatusBarHeight
+        return statusBarHeight
     }
 }

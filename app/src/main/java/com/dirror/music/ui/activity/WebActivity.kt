@@ -103,13 +103,13 @@ class WebActivity : AppCompatActivity() {
         binding.webView.loadUrl(extraWebUrlStr.toString())
         // Toast.makeText(this@WebActivity, "%" + extraWebUrlStr.toString() + "%", Toast.LENGTH_SHORT).show()
 
-        binding.webView.setDownloadListener(DownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
+        binding.webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
             val intent = Intent()
             intent.action = "android.intent.action.VIEW"
             val contentUrl = Uri.parse(url)
             intent.data = contentUrl
             ContextCompat.startActivity(this, intent, Bundle())
-        })
+        }
     }
 
     private fun getSelectorUrl(selector: String): String {

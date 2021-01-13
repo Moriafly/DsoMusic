@@ -137,7 +137,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:autoLink="web"
-            android:lineSpacingExtra="4sp"
+            android:lineSpacingExtra="6sp"
             android:text="Github 问题反馈\nhttps://github.com/Moriafly/dirror-music/issues"
             android:textColor="@color/colorSubTextForeground"
             android:textColorLink="@color/highLight"
