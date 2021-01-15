@@ -135,7 +135,7 @@ class CloudMusicManager: CloudMusicManagerInterface {
 
 
     override fun getBanner(success: (BannerData) -> Unit, failure: () -> Unit) {
-        val url = "${API_DEFAULT}/banner?type=2"
+        val url = "${API_AUTU}/banner?type=2"
         MagicHttp.OkHttpManager().newGet(url, {
             try {
                 val bannerData = Gson().fromJson(it, BannerData::class.java)

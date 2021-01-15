@@ -637,7 +637,11 @@ class MusicService : Service() {
                         position?.plus(1)
                     }
                 }
+                // 单曲循环
                 MODE_REPEAT_ONE -> {
+                    setProgress(0)
+                    start()
+                    return
                 }
                 MODE_RANDOM -> {
                     position = (0..playlist?.lastIndex!!).random()

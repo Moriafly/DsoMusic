@@ -63,6 +63,39 @@ object SearchSong {
     }
 
     /**
+     * pn 页码数，rn 此页歌曲数
+     */
+    fun newSearch(keywords: String, success: (ArrayList<StandardSongData>) -> Unit) {
+        val url = "http://search.kuwo.cn/r.s?all=${keywords}&ft=music&%20itemset=web_2013&client=kt&pn=0&rn=30&rformat=json&encoding=utf8"
+        MagicHttp.OkHttpManager().newGet(url, {
+            try {
+                val kuwoSearchData = Gson().fromJson(it, KuwoSearchData::class.java)
+                val songList = kuwoSearchData.abslist
+                val standardSongDataList = ArrayList<StandardSongData>()
+                // 每首歌适配
+                songList.forEach { kuwoSong ->
+                    val artistList = ArrayList<StandardSongData.StandardArtistData>()
+                    artistList.add(StandardSongData.StandardArtistData(0, kuwoSong.ARTIST))
+                    standardSongDataList.add(
+                        StandardSongData(
+                            SOURCE_KUWO,
+                            kuwoSong.MUSICRID,
+                            kuwoSong.NAME,
+                            kuwoSong.hts_MVPIC,
+                            artistList,
+                            null,
+                            null,
+                            null
+                        )
+                    )
+                }
+                success.invoke(standardSongDataList)
+            } catch (e: Exception) { }
+        }, { })
+
+    }
+
+    /**
      * 获取链接
      * 音质
      * 128 / 192 / 320
