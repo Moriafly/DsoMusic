@@ -79,10 +79,8 @@ class PlayerActivity : AppCompatActivity() {
     // Looper + Handler
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
-            when (msg.what) {
-                MSG_PROGRESS -> {
-                    playViewModel.refreshProgress()
-                }
+            if (msg.what == MSG_PROGRESS) {
+                playViewModel.refreshProgress()
             }
         }
     }
@@ -194,8 +192,7 @@ class PlayerActivity : AppCompatActivity() {
      * 初始化视图
      */
     private fun initView() {
-        // 时长右对齐
-        binding.ttvDuration.setAlignRight()
+
         // 页面状态栏适配
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topToTop = ConstraintLayout.LayoutParams.PARENT_ID
@@ -206,18 +203,22 @@ class PlayerActivity : AppCompatActivity() {
             bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
             bottomMargin = getNavigationBarHeight(this@PlayerActivity)
         }
-        // 背景图片放大
-        binding.ivBackground.scaleY = BACKGROUND_SCALE_Y
-        binding.ivBackground.scaleX = BACKGROUND_SCALE_X
-        // 开始 / 暂停、上一曲和下一曲设置初始颜色
-        binding.ivPlay.setColorFilter(DEFAULT_COLOR)
-        binding.ivLast.setColorFilter(DEFAULT_COLOR)
-        binding.ivNext.setColorFilter(DEFAULT_COLOR)
-        // 默认隐藏翻译按钮
-        binding.ivTranslation.visibility = View.GONE
-        // 初始化音量调节
-        binding.seekBarVolume.max = VolumeManager.maxVolume
-        binding.seekBarVolume.progress = VolumeManager.getCurrentVolume()
+        binding.apply {
+            // 时长右对齐
+            ttvDuration.setAlignRight()
+            // 背景图片放大
+            ivBackground.scaleY = BACKGROUND_SCALE_Y
+            ivBackground.scaleX = BACKGROUND_SCALE_X
+            // 开始 / 暂停、上一曲和下一曲设置初始颜色
+            ivPlay.setColorFilter(DEFAULT_COLOR)
+            ivLast.setColorFilter(DEFAULT_COLOR)
+            ivNext.setColorFilter(DEFAULT_COLOR)
+            // 默认隐藏翻译按钮
+            ivTranslation.visibility = View.GONE
+            // 初始化音量调节
+            seekBarVolume.max = VolumeManager.maxVolume
+            seekBarVolume.progress = VolumeManager.getCurrentVolume()
+        }
     }
 
     /**
@@ -491,12 +492,10 @@ class PlayerActivity : AppCompatActivity() {
      * 音乐广播接收器
      */
     inner class MusicBroadcastReceiver : BroadcastReceiver() {
-
         override fun onReceive(context: Context, intent: Intent) {
             // ViewModel 数据刷新
             playViewModel.refresh()
         }
-
     }
 
     /**

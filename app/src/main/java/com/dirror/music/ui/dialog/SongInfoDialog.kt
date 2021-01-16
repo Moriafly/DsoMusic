@@ -13,7 +13,7 @@ import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.parseSize
 import com.dirror.music.util.runOnMainThread
 
-class SongInfoDialog(context: Context) : Dialog(context, R.style.style_default_dialog) {
+class SongInfoDialog(context: Context, private val songData: StandardSongData) : Dialog(context, R.style.style_default_dialog) {
 
     private var binding: DialogSongInfoBinding = DialogSongInfoBinding.inflate(layoutInflater)
 
@@ -26,16 +26,6 @@ class SongInfoDialog(context: Context) : Dialog(context, R.style.style_default_d
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        binding.clDialog.setOnClickListener {
-            // dismiss()
-        }
-    }
-
-    /**
-     * 传入 songData
-     */
-    fun setSongData(songData: StandardSongData) {
         binding.apply {
             valueViewId.setValue(songData.id) // ID
             valueViewSource.setValue("未知")
@@ -83,6 +73,7 @@ class SongInfoDialog(context: Context) : Dialog(context, R.style.style_default_d
             }
 
         }
+
     }
 
 }

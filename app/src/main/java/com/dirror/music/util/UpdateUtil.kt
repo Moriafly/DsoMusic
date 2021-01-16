@@ -18,10 +18,7 @@ object UpdateUtil {
             runOnMainThread {
                 if (updateData.code > getVisionCode()) {
                     // 有新版
-                    UpdateDialog(activity).also {
-                        it.showInfo(updateData)
-                        it.show()
-                    }
+                    UpdateDialog(activity, updateData).show()
                 } else {
                     if (showLastedToast) {
                         toast("已是最新版本\n服务器版本：${updateData.code}")

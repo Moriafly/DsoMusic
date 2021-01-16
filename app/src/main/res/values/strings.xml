@@ -47,5 +47,5 @@
     <string name="login_by_phone">手机号登录</string>
     <string name="search">搜索</string>
     <string name="experimental">实验性</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">确定</string>
 </resources>

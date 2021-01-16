@@ -21,7 +21,6 @@ import com.dirror.music.util.toast
 @Keep
 class PlayerViewModel: ViewModel() {
 
-
     var rotation = 0f
     var rotationBackground = 0f
     var rotationTypeNormal = 0f

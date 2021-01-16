@@ -9,7 +9,6 @@ import com.dirror.music.databinding.ActivityPrivateLetterBinding
 import com.dirror.music.util.toast
 
 class PrivateLetterActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityPrivateLetterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

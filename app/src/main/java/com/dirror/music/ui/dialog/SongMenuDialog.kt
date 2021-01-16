@@ -36,10 +36,7 @@ class SongMenuDialog(context: Context) : Dialog(context, R.style.style_default_d
             // 歌曲信息
             itemSongInfo.setOnClickListener {
                 // toast("歌曲信息 ${ songData.id }")
-                SongInfoDialog(context).let { dialog ->
-                    dialog.setSongData(songData)
-                    dialog.show()
-                }
+                SongInfoDialog(context, songData).show()
                 // 自己消失
                 dismiss()
             }

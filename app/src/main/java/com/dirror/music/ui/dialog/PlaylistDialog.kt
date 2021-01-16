@@ -13,12 +13,11 @@ import com.dirror.music.databinding.DialogPlayListBinding
 
 class PlaylistDialog: Dialog {
 
-    private lateinit var binding: DialogPlayListBinding
+    private var binding: DialogPlayListBinding = DialogPlayListBinding.inflate(layoutInflater)
 
     constructor(context: Context) : this(context, 0)
 
     constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
-        binding = DialogPlayListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // 设置显示位置
         window?.setGravity(Gravity.BOTTOM)
@@ -30,7 +29,6 @@ class PlaylistDialog: Dialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         binding.rvPlaylist.layoutManager = LinearLayoutManager(context)
         binding.rvPlaylist.adapter = MyApplication.musicBinderInterface?.getPlaylist()?.let { PlaylistDialogAdapter(it) }

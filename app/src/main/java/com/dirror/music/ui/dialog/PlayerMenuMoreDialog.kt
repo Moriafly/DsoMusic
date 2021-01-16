@@ -37,9 +37,8 @@ class PlayerMenuMoreDialog(context: Context) : BottomSheetDialog(context, R.styl
 
         // 歌曲信息
         binding.itemSongInfo.setOnClickListener {
-            SongInfoDialog(context).apply {
-                MyApplication.musicBinderInterface?.getNowSongData()?.let { it1 -> setSongData(it1) }
-                show()
+            MyApplication.musicBinderInterface?.getNowSongData()?.let { it1 ->
+                SongInfoDialog(context, it1).show()
             }
             // 自己消失
             dismiss()

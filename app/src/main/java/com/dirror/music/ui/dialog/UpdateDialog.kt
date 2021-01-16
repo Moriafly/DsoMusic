@@ -1,5 +1,6 @@
 package com.dirror.music.ui.dialog
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -9,13 +10,11 @@ import com.dirror.music.R
 import com.dirror.music.databinding.DialogUpdateBinding
 import com.dirror.music.util.*
 
-class UpdateDialog: Dialog {
+class UpdateDialog(context: Context, private val updateData: UpdateUtil.UpdateData): Dialog(context, R.style.style_default_dialog) {
 
     private var binding: DialogUpdateBinding = DialogUpdateBinding.inflate(layoutInflater)
 
-    constructor(context: Context) : this(context, 0)
-
-    constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
+    init {
         setContentView(binding.root)
         // 设置显示位置
         window?.setGravity(Gravity.BOTTOM)
@@ -25,32 +24,18 @@ class UpdateDialog: Dialog {
         setCanceledOnTouchOutside(false)
     }
 
-    var url = ""
-
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        binding.tvTitle.text = "发现新版本 ${updateData.name}"
+        binding.tvContent.text = updateData.content
 
         binding.btnCancel.setOnClickListener {
             dismiss()
         }
 
         binding.btnDownload.setOnClickListener {
-//
-//            ownerActivity?.let {
-//                MyApplication.activityManager.startWebActivity(it, url)
-//            }
-
-            openUrlByBrowser(this.context, url)
-        }
-
-    }
-
-    fun showInfo(updateData: UpdateUtil.UpdateData) {
-        runOnMainThread {
-            binding.tvTitle.text = "发现新版本 ${updateData.name}"
-            binding.tvContent.text = updateData.content
-            url = updateData.url
+            openUrlByBrowser(this.context, updateData.url)
         }
     }
 
