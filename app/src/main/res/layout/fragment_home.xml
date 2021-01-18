@@ -6,15 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.HomeFragment">
 
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -27,164 +26,148 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="100dp">
-
-            <com.youth.banner.Banner
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="10dp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="vertical"
+                android:paddingBottom="100dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clDaily"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1">
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp" />
 
-                    <ImageView
-                        android:id="@+id/ivDaily"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_rd"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/tvDaily"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="2dp"
-                        android:text="每日推荐"
-                        android:textColor="@color/colorTextForeground"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivDaily" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clDaily"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clDso"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/ivDaily"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_rd"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/ivDso"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_dso"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/tvDaily"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:text="每日推荐"
+                            android:textColor="@color/colorTextForeground"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ivDaily" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/tvDso"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="2dp"
-                        android:text="Dso"
-                        android:textColor="@color/colorTextForeground"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivDso" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clDso"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/ivDso"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_dso"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvDso"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:text="Dso"
+                            android:textColor="@color/colorTextForeground"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ivDso" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvPlaylistRecommend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:height="28dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/playlist_recommend"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.dirror.music.widget.RecyclerViewAtViewPager2
+                    android:id="@+id/rvPlaylistRecommend"
+                    android:layout_width="match_parent"
+                    android:layout_height="320dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:overScrollMode="never" />
+
+                <TextView
+                    android:id="@+id/tvFoyou"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:height="28dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/sentence_recommend"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <include
+                    android:id="@+id/includeFoyou"
+                    layout="@layout/include_foyou"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
+
+                <TextView
+                    android:id="@+id/tvFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:height="28dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/feedback"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvPlaylistRecommend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:height="28dp"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="@string/playlist_recommend"
-                android:textColor="@color/colorTextForeground"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <com.dirror.music.widget.RecyclerViewAtViewPager2
-                android:id="@+id/rvPlaylistRecommend"
-                android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
-                android:overScrollMode="never" />
-
-            <TextView
-                android:id="@+id/tvFoyou"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:height="28dp"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="@string/sentence_recommend"
-                android:textColor="@color/colorTextForeground"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <include
-                android:id="@+id/includeFoyou"
-                layout="@layout/include_foyou"
-                android:layout_width="match_parent"
-                android:layout_height="250dp" />
-
-            <TextView
-                android:id="@+id/tvFeedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:height="28dp"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="@string/feedback"
-                android:textColor="@color/colorTextForeground"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <include
-                android:id="@+id/includeFeedback"
-                layout="@layout/include_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone" />
-
-        </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

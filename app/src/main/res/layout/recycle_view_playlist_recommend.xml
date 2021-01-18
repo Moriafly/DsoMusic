@@ -31,41 +31,35 @@
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <LinearLayout
-                android:id="@+id/llTag"
+            <TextView
+                android:id="@+id/tvPlayCount"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="2dp"
-                android:orientation="horizontal"
+                android:layout_height="18dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical"
+                android:paddingStart="0dp"
+                android:paddingTop="0dp"
+                android:paddingEnd="6dp"
+                android:paddingBottom="0dp"
+                android:text="100 万"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                android:alpha="0.85"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:paddingStart="4dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_pause" />
-
-                <TextView
-                    android:id="@+id/tvPlayCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center_vertical"
-                    android:paddingStart="0dp"
-                    android:paddingTop="0dp"
-                    android:paddingEnd="6dp"
-                    android:paddingBottom="0dp"
-                    android:text="100 万"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </LinearLayout>
+                app:srcCompat="@drawable/ic_play_btn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

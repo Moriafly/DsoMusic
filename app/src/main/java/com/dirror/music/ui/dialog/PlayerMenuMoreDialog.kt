@@ -9,6 +9,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.DialogPlayMoreBinding
 import com.dirror.music.ui.activity.FeedbackActivity
+import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class PlayerMenuMoreDialog(context: Context) : BottomSheetDialog(context, R.style.style_default_dialog) {
@@ -44,20 +45,6 @@ class PlayerMenuMoreDialog(context: Context) : BottomSheetDialog(context, R.styl
             dismiss()
         }
 
-        // 降噪
-        binding.switchNoiseSuppressor.setOnCheckedChangeListener { buttonView, isChecked ->
-            // 开启降噪
-            val audioSession = MyApplication.musicBinderInterface?.getAudioSessionId()?:0
-            // toast("${audioSession}")
-            // loge("你好audio: ${audioSession}")
-            // AudioEffect.noiseSuppressor(audioSession, isChecked)
-            // AudioEffect.automaticGainControl(audioSession, true)
-        }
-
-        binding.itemNoiseSuppressor.setOnClickListener {
-            binding.switchNoiseSuppressor.isChecked = !binding.switchNoiseSuppressor.isChecked
-        }
-
         binding.ivIncreasePitch.setOnClickListener {
             MyApplication.musicBinderInterface?.increasePitchLevel()
             refreshPitch()
@@ -67,9 +54,9 @@ class PlayerMenuMoreDialog(context: Context) : BottomSheetDialog(context, R.styl
             MyApplication.musicBinderInterface?.decreasePitchLevel()
             refreshPitch()
         }
-
-        binding.itemSpeed.setOnClickListener {
-            MyApplication.musicBinderInterface?.setSpeed(1f)
+        // 播放历史
+        binding.itemPlayHistory.setOnClickListener {
+            it.context.startActivity(Intent(it.context, PlayHistoryActivity::class.java))
         }
 
         // 反馈
@@ -91,6 +78,5 @@ class PlayerMenuMoreDialog(context: Context) : BottomSheetDialog(context, R.styl
     private fun refreshPitch() {
         binding.tvPitch.text = MyApplication.musicBinderInterface?.getPitchLevel().toString()
     }
-
 
 }

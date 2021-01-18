@@ -22,36 +22,12 @@
             android:id="@+id/tvSongName"
             android:text="@string/music"
             android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingStart="@dimen/defaultPadding"
+            android:paddingEnd="@dimen/defaultPadding"
             android:textSize="@dimen/defaultTextSize"
             android:textColor="@color/colorTextForeground"
             android:layout_width="wrap_content"
             android:layout_height="56dp" />
-
-        <com.dirror.music.widget.ItemLayout
-            android:id="@+id/itemNoiseSuppressor"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            app:itemType="item_no"
-            app:text="降噪（测试）">
-
-            <Switch
-                android:id="@+id/switchNoiseSuppressor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:showText="false"
-                android:splitTrack="false"
-                android:switchMinWidth="42dp"
-                android:thumb="@drawable/switch_thumb"
-                android:track="@drawable/switch_track"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-        </com.dirror.music.widget.ItemLayout>
 
         <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemPitch"
@@ -95,13 +71,10 @@
         </com.dirror.music.widget.ItemLayout>
 
         <com.dirror.music.widget.ItemLayout
-            android:id="@+id/itemSpeed"
+            android:id="@+id/itemPlayHistory"
+            app:text="@string/history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            app:text="倍速（实验性）">
-
-        </com.dirror.music.widget.ItemLayout>
+            android:layout_height="56dp" />
 
         <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemFeedback"

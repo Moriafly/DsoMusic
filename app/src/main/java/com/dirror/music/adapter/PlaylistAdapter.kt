@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -46,7 +47,7 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>, val activit
         val url = MyApplication.cloudMusicManager.getPicture(play.coverImgUrl, 56.dp())
         GlideUtil.load(url, holder.ivCover)
         holder.tvName.text = play.name
-        holder.tvTrackCount.text = "${play.trackCount} 首"
+        holder.tvTrackCount.text = holder.itemView.context.getString(R.string.songs, play.trackCount)
         holder.clTrack.setOnClickListener {
             val intent = Intent(it.context, PlaylistActivity::class.java)
 

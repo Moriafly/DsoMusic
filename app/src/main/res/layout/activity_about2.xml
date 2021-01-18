@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.AboutActivity2">
+
+    <com.dirror.music.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:text="@string/about">
+
+    </com.dirror.music.widget.TitleBarLayout>
+
+    <ScrollView
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/defaultPadding"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/ivLogo"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/tvAppName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+                <TextView
+                    android:id="@+id/tvVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/version"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAppName" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemCheckForUpdates"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="@string/check_for_updates" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemUpdateLog"
+                app:text="@string/update_log"
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemHistoryVersion"
+                app:text="历史版本"
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemOpenSourceCode"
+                app:text="使用开源项目"
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
+
+            <TextView
+                android:paddingStart="@dimen/defaultPadding"
+                android:paddingEnd="@dimen/defaultPadding"
+                android:text="@string/open_source_introduction"
+                style="@style/sub_title"/>
+
+            <TextView
+                android:textSize="12sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/defaultPadding"
+                android:paddingEnd="@dimen/defaultPadding"
+                android:paddingTop="8dp"
+                android:lineSpacingExtra="4sp"
+                android:paddingBottom="8dp"
+                android:text="Moriafly/DsoMusic 项目基于 GNU General Public License v3.0 开源许可协议"/>
+
+            <TextView
+                android:paddingStart="@dimen/defaultPadding"
+                android:paddingEnd="@dimen/defaultPadding"
+                android:text="@string/contact_author"
+                style="@style/sub_title"/>
+
+            <TextView
+                android:textSize="12sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/defaultPadding"
+                android:paddingEnd="@dimen/defaultPadding"
+                android:paddingTop="8dp"
+                android:lineSpacingExtra="4sp"
+                android:paddingBottom="8dp"
+                android:text="@string/slogan"/>
+
+            <com.dirror.music.widget.ValueView
+                app:text="邮箱"
+                app:value="@string/author_email"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <com.dirror.music.widget.ValueView
+                app:text="QQ"
+                app:value="2456860197"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <com.dirror.music.widget.ValueView
+                app:text="网站"
+                app:value="https://moriafly.xyz"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

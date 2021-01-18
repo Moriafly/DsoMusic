@@ -255,17 +255,8 @@
 
         <TextView
             android:id="@+id/tvInternetPlaylist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:height="28dp"
-            android:gravity="center_vertical"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
             android:text="@string/internet_playlist"
-            android:textColor="@color/colorTextForeground"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            style="@style/sub_title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPlaylist"

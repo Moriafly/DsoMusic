@@ -101,12 +101,6 @@ class HomeFragment : Fragment() {
             changeSentence()
         }
 
-        binding.includeFeedback.root.setOnClickListener {
-            activity?.let {
-                MyApplication.activityManager.startFeedbackActivity(it)
-            }
-        }
-
         binding.clDso.setOnClickListener {
             val intent = Intent(this.context, PlaylistActivity::class.java)
             intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_DIRROR)

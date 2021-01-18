@@ -85,9 +85,9 @@ class CommentActivity : AppCompatActivity() {
 
     private fun initView() {
 
-        (binding.clBase.layoutParams as FrameLayout.LayoutParams).apply {
-            topMargin = getStatusBarHeight(window, this@CommentActivity)
-        }
+//        (binding.clBase.layoutParams as FrameLayout.LayoutParams).apply {
+//            topMargin = getStatusBarHeight(window, this@CommentActivity)
+//        }
 
         var rvPlaylistScrollY = 0
         binding.rvComment.setOnScrollChangeListener { _, _, _, _, oldScrollY ->

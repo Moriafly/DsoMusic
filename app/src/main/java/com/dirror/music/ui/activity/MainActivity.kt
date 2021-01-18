@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -21,14 +20,15 @@ import com.dirror.music.broadcast.HeadsetChangeReceiver
 import com.dirror.music.databinding.ActivityMainBinding
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.dialog.PlaylistDialog
-import com.dirror.music.ui.fragment.HomeFragment
-import com.dirror.music.ui.fragment.MyFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.GlideUtil
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 
+/**
+ * MainActivity
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
     private lateinit var loginReceiver: LoginReceiver // 登录广播接收
 
-    private val mainViewModel: MainViewModel by viewModels()
+    private val mainViewModel = MainViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         initView()
         initListener()
         initObserve()
-
 //        val radius = ScreenUtil.getCornerRadiusTop(this)
 //        toast("顶部圆角大小：$radius")
     }
@@ -140,15 +139,18 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("WrongConstant")
     private fun initListener() {
-        // 搜索按钮
-        binding.ivSearch.setOnClickListener {
-            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+        //
+        binding.apply {
+            // 搜索按钮
+            ivSearch.setOnClickListener {
+                startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+            }
+            // 设置按钮
+            ivSettings.setOnClickListener {
+                binding.drawerLayout.openDrawer(Gravity.START)
+            }
         }
 
-        // 设置按钮
-        binding.ivSettings.setOnClickListener {
-            binding.drawerLayout.openDrawer(Gravity.START)
-        }
 
         // 侧滑
         binding.menuMain.apply {
@@ -176,30 +178,18 @@ class MainActivity : AppCompatActivity() {
                     toast("当前为离线模式，请登录")
                 }
             }
-
-        }
-
-        binding.menuMain.switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
-
-        // 反馈
-        binding.menuMain.itemFeedback.setOnClickListener {
-            startActivity(Intent(this, FeedbackActivity::class.java))
+            // 反馈
+            itemFeedback.setOnClickListener {
+                startActivity(Intent(this@MainActivity, FeedbackActivity::class.java))
+            }
         }
 
         binding.menuMain.itemSourceCode.setOnClickListener {
-            MyApplication.activityManager.startWebActivity(this, "https://github.com/Moriafly/dirror-music")
-        }
-
-        binding.menuMain.itemPauseSongAfterUnplugHeadset.setOnClickListener {
-            binding.menuMain.switchPauseSongAfterUnplugHeadset.isChecked = !binding.menuMain.switchPauseSongAfterUnplugHeadset.isChecked
-        }
-
-        binding.menuMain.switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { _, isChecked ->
-            MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, isChecked)
+            MyApplication.activityManager.startWebActivity(this, "https://github.com/Moriafly/DsoMusic")
         }
 
         binding.menuMain.itemAbout.setOnClickListener {
-            startActivity(Intent(this, AboutActivity::class.java))
+            startActivity(Intent(this, AboutActivity2::class.java))
         }
 
         // Mini Player

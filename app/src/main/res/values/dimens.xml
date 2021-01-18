@@ -19,4 +19,6 @@
 
     <!-- 默认圆角 -->
     <dimen name="defaultRadius">10dp</dimen>
+
+    <dimen name="defaultPadding">16dp</dimen>
 </resources>

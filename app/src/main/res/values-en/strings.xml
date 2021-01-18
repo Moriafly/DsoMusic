@@ -44,8 +44,13 @@
     <string name="playlist_recommend">Playlist recommend</string>
     <string name="sentence_recommend">Sentence recommend</string>
     <string name="switch_account">Switch account</string>
-    <string name="login_by_phone">手机号登录</string>
-    <string name="search">搜索</string>
+    <string name="login_by_phone">Login by phone</string>
+    <string name="search">Search</string>
     <string name="experimental">Experimental</string>
     <string name="confirm">Confirm</string>
+    <string name="version">%s(%d) - %s</string>
+    <string name="open_source_introduction">Introduction of open source</string>
+    <string name="send">Send</string>
+    <string name="songs">%d songs</string>
+    <string name="hot_search">Hot search</string>
 </resources>

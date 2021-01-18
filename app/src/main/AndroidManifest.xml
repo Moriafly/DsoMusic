@@ -16,6 +16,7 @@
 
     <application
         android:name=".MyApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
@@ -23,8 +24,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:targetApi="n"
-        android:allowBackup="true">
+        tools:targetApi="n">
+        <activity android:name=".ui.activity.AboutActivity2" />
         <activity android:name=".ui.activity.PlaylistInfoActivity" />
         <activity android:name=".ui.activity.ArtistActivity" />
         <activity android:name=".ui.activity.PlayHistoryActivity" />
@@ -44,16 +45,16 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.CommentActivity"
-            android:theme="@style/AppTheme.TranslucentFullScreen" />
+            android:theme="@style/AppTheme.FullScreen.Translucent" />
         <activity android:name=".ui.activity.OpenSourceActivity" />
         <activity android:name=".ui.activity.SettingsActivity" />
         <activity
             android:name=".ui.activity.PlayerActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.TranslucentFullScreen" />
+            android:theme="@style/AppTheme.FullScreen.Translucent" />
         <activity
             android:name=".ui.activity.PlaylistActivity"
-            android:theme="@style/AppTheme.TranslucentFullScreen" />
+            android:theme="@style/AppTheme.FullScreen.Translucent" />
         <activity android:name=".ui.activity.LoginByUidActivity" />
         <activity android:name=".ui.activity.LoginByPhoneActivity" />
         <activity

@@ -267,7 +267,7 @@ compileSdkVersion 30
 
 Android Gradle Plugin Version 4.1.1
 
-Gradle Version 6.7.1
+Gradle Version 6.8
 
 # 开源协议 License
 

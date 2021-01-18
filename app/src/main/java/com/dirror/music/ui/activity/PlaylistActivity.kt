@@ -75,6 +75,8 @@ class PlaylistActivity : AppCompatActivity() {
         (binding.includePlay.root.layoutParams as ConstraintLayout.LayoutParams).apply {
             bottomMargin = getNavigationBarHeight(this@PlaylistActivity)
         }
+        // 色彩
+        binding.ivPlayAll.setColorFilter(getColor(R.color.colorAppThemeColor))
         // 获取歌单来源
         val playlistSource = intent.getIntExtra(EXTRA_PLAYLIST_SOURCE, 0)
         // 获取歌单 id
@@ -86,14 +88,14 @@ class PlaylistActivity : AppCompatActivity() {
         initPlaylist(playlistSource, playlistId)
 
         var rvPlaylistScrollY = 0
-        binding.rvPlaylist.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        binding.rvPlaylist.setOnScrollChangeListener { _, _, _, _, oldScrollY ->
             rvPlaylistScrollY += oldScrollY
             if (rvPlaylistScrollY < 0) {
-                if (binding.titleBar.text == "歌单") {
+                if (binding.titleBar.text == getString(R.string.playlist)) {
                     binding.titleBar.setTitleBarText(binding.tvName.text.toString())
                 }
             } else {
-                binding.titleBar.setTitleBarText("歌单")
+                binding.titleBar.setTitleBarText(getString(R.string.playlist))
             }
         }
 

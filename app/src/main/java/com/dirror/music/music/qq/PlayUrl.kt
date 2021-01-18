@@ -65,5 +65,4 @@ object PlayUrl {
         val vkey: String
     )
 
-
 }

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPageBackground"
     tools:context=".ui.activity.SearchActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -226,7 +225,7 @@
                     android:paddingEnd="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="热门搜索"
+                    android:text="@string/hot_search"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="16sp"
                     android:textStyle="bold" />
