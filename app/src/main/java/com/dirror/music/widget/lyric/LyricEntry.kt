@@ -3,13 +3,12 @@ package com.dirror.music.widget.lyric
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
-import android.text.TextUtils
 
 /**
  * 一行歌词实体
  * @since 2021年1月19日09:51:40 Moriafly 基于 LrcEntry 改造，转换为 kt ，移除部分过时方法
  */
-internal class LyricEntry : Comparable<LyricEntry?> {
+internal class LyricEntry : Comparable<LyricEntry> {
 
     companion object {
         const val GRAVITY_CENTER = 0
@@ -28,23 +27,34 @@ internal class LyricEntry : Comparable<LyricEntry?> {
         this.secondText = secondText
     }
 
-    // 时间
+    /**
+     * 时间
+     */
     val time: Long
 
-    // 文本
+    /**
+     * 文本
+     */
     val text: String
 
-    // 第二文本
+    /**
+     * 第二文本
+     */
     private var secondText: String? = null
 
+    /**
+     * 显示的文本
+     */
     private val showText: String
-        get() = if (!TextUtils.isEmpty(secondText)) {
-            "$text\\n$secondText"
-        } else {
+        get() = if (secondText.isNullOrEmpty()) {
             text
+        } else {
+            "$text\n$secondText"
         }
 
-    // staticLayout
+    /**
+     * staticLayout
+     */
     var staticLayout: StaticLayout? = null
         private set
 
@@ -57,11 +67,7 @@ internal class LyricEntry : Comparable<LyricEntry?> {
      * 高度
      */
     val height: Int
-        get() = if (staticLayout == null) {
-            0
-        } else {
-            staticLayout!!.height
-        }
+        get() = staticLayout?.height ?: 0
 
     /**
      * 初始化
@@ -73,12 +79,12 @@ internal class LyricEntry : Comparable<LyricEntry?> {
             GRAVITY_RIGHT -> Layout.Alignment.ALIGN_OPPOSITE
             else -> Layout.Alignment.ALIGN_CENTER
         }
-        val staticLayoutBuilder = StaticLayout.Builder.obtain(showText, 0, showText.lastIndex + 1, paint, width)
+        val staticLayoutBuilder = StaticLayout.Builder
+            .obtain(showText, 0, showText.length, paint, width)
             .setAlignment(align)
             .setLineSpacing(0f, 1f)
             .setIncludePad(false)
         staticLayout = staticLayoutBuilder.build()
-        // staticLayout = StaticLayout(showText, paint, width, align, 1f, 0f, false)
         offset = Float.MIN_VALUE
     }
 
@@ -92,12 +98,8 @@ internal class LyricEntry : Comparable<LyricEntry?> {
     /**
      * 比较
      */
-    override fun compareTo(other: LyricEntry?): Int {
-        return if (other == null) {
-            -1
-        } else {
-            (time - other.time).toInt()
-        }
+    override fun compareTo(other: LyricEntry): Int {
+        return (time - other.time).toInt()
     }
 
 }
