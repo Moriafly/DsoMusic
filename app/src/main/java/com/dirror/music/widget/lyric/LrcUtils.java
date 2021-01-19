@@ -32,19 +32,19 @@ class LrcUtils {
     /**
      * 从文件解析双语歌词
      */
-    static List<LrcEntry> parseLrc(File[] lrcFiles) {
+    static List<LyricEntry> parseLrc(File[] lrcFiles) {
         if (lrcFiles == null || lrcFiles.length != 2 || lrcFiles[0] == null) {
             return null;
         }
 
         File mainLrcFile = lrcFiles[0];
         File secondLrcFile = lrcFiles[1];
-        List<LrcEntry> mainEntryList = parseLrc(mainLrcFile);
-        List<LrcEntry> secondEntryList = parseLrc(secondLrcFile);
+        List<LyricEntry> mainEntryList = parseLrc(mainLrcFile);
+        List<LyricEntry> secondEntryList = parseLrc(secondLrcFile);
 
         if (mainEntryList != null && secondEntryList != null) {
-            for (LrcEntry mainEntry : mainEntryList) {
-                for (LrcEntry secondEntry : secondEntryList) {
+            for (LyricEntry mainEntry : mainEntryList) {
+                for (LyricEntry secondEntry : secondEntryList) {
                     if (mainEntry.getTime() == secondEntry.getTime()) {
                         mainEntry.setSecondText(secondEntry.getText());
                     }
@@ -57,17 +57,17 @@ class LrcUtils {
     /**
      * 从文件解析歌词
      */
-    private static List<LrcEntry> parseLrc(File lrcFile) {
+    private static List<LyricEntry> parseLrc(File lrcFile) {
         if (lrcFile == null || !lrcFile.exists()) {
             return null;
         }
 
-        List<LrcEntry> entryList = new ArrayList<>();
+        List<LyricEntry> entryList = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(lrcFile), StandardCharsets.UTF_8));
             String line;
             while ((line = br.readLine()) != null) {
-                List<LrcEntry> list = parseLine(line);
+                List<LyricEntry> list = parseLine(line);
                 if (list != null && !list.isEmpty()) {
                     entryList.addAll(list);
                 }
@@ -84,19 +84,19 @@ class LrcUtils {
     /**
      * 从文本解析双语歌词
      */
-    static List<LrcEntry> parseLrc(String[] lrcTexts) {
+    static List<LyricEntry> parseLrc(String[] lrcTexts) {
         if (lrcTexts == null || lrcTexts.length != 2 || TextUtils.isEmpty(lrcTexts[0])) {
             return null;
         }
 
         String mainLrcText = lrcTexts[0];
         String secondLrcText = lrcTexts[1];
-        List<LrcEntry> mainEntryList = parseLrc(mainLrcText);
-        List<LrcEntry> secondEntryList = parseLrc(secondLrcText);
+        List<LyricEntry> mainEntryList = parseLrc(mainLrcText);
+        List<LyricEntry> secondEntryList = parseLrc(secondLrcText);
 
         if (mainEntryList != null && secondEntryList != null) {
-            for (LrcEntry mainEntry : mainEntryList) {
-                for (LrcEntry secondEntry : secondEntryList) {
+            for (LyricEntry mainEntry : mainEntryList) {
+                for (LyricEntry secondEntry : secondEntryList) {
                     if (mainEntry.getTime() == secondEntry.getTime()) {
                         mainEntry.setSecondText(secondEntry.getText());
                     }
@@ -109,7 +109,7 @@ class LrcUtils {
     /**
      * 从文本解析歌词
      */
-    private static List<LrcEntry> parseLrc(String lrcText) {
+    private static List<LyricEntry> parseLrc(String lrcText) {
         if (TextUtils.isEmpty(lrcText)) {
             return null;
         }
@@ -118,10 +118,10 @@ class LrcUtils {
             lrcText = lrcText.replace("\uFEFF", "");
         }
 
-        List<LrcEntry> entryList = new ArrayList<>();
+        List<LyricEntry> entryList = new ArrayList<>();
         String[] array = lrcText.split("\\n");
         for (String line : array) {
-            List<LrcEntry> list = parseLine(line);
+            List<LyricEntry> list = parseLine(line);
             if (list != null && !list.isEmpty()) {
                 entryList.addAll(list);
             }
@@ -163,7 +163,7 @@ class LrcUtils {
     /**
      * 解析一行歌词
      */
-    private static List<LrcEntry> parseLine(String line) {
+    private static List<LyricEntry> parseLine(String line) {
         if (TextUtils.isEmpty(line)) {
             return null;
         }
@@ -177,7 +177,7 @@ class LrcUtils {
 
         String times = lineMatcher.group(1);
         String text = lineMatcher.group(3);
-        List<LrcEntry> entryList = new ArrayList<>();
+        List<LyricEntry> entryList = new ArrayList<>();
 
         // [00:17.65]
         Matcher timeMatcher = PATTERN_TIME.matcher(times);
@@ -191,7 +191,7 @@ class LrcUtils {
                 mil = mil * 10;
             }
             long time = min * DateUtils.MINUTE_IN_MILLIS + sec * DateUtils.SECOND_IN_MILLIS + mil;
-            entryList.add(new LrcEntry(time, text));
+            entryList.add(new LyricEntry(time, text));
         }
         return entryList;
     }

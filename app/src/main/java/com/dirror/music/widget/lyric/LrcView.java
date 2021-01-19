@@ -40,7 +40,7 @@ public class LrcView extends View {
 	private static final long ADJUST_DURATION = 100;
 	private static final long TIMELINE_KEEP_TIME = 3 * DateUtils.SECOND_IN_MILLIS;
 
-	private final List<LrcEntry> mLrcEntryList = new ArrayList<>();
+	private final List<LyricEntry> mLrcEntryList = new ArrayList<>();
 	private final TextPaint mLrcPaint = new TextPaint();
 	private final TextPaint mTimePaint = new TextPaint();
 	private Paint.FontMetrics mTimeFontMetrics;
@@ -128,7 +128,7 @@ public class LrcView extends View {
 		mPlayDrawable = (mPlayDrawable == null) ? ContextCompat.getDrawable(getContext(), R.drawable.lrc_play) : mPlayDrawable;
 		mTimeTextColor = ta.getColor(R.styleable.LrcView_lrcTimeTextColor, ContextCompat.getColor(getContext(), R.color.lrc_time_text_color));
 		float timeTextSize = ta.getDimension(R.styleable.LrcView_lrcTimeTextSize, getResources().getDimension(R.dimen.lrc_time_text_size));
-		mTextGravity = ta.getInteger(R.styleable.LrcView_lrcTextGravity, LrcEntry.GRAVITY_CENTER);
+		mTextGravity = ta.getInteger(R.styleable.LrcView_lrcTextGravity, LyricEntry.GRAVITY_CENTER);
 
 		ta.recycle();
 
@@ -273,14 +273,14 @@ public class LrcView extends View {
 			}
 			final String flag = sb.toString();
 			LrcView.this.setFlag(flag);
-			new AsyncTask<File, Integer, List<LrcEntry>>() {
+			new AsyncTask<File, Integer, List<LyricEntry>>() {
 				@Override
-				protected List<LrcEntry> doInBackground(File... params) {
+				protected List<LyricEntry> doInBackground(File... params) {
 					return LrcUtils.parseLrc(params);
 				}
 
 				@Override
-				protected void onPostExecute(List<LrcEntry> lrcEntries) {
+				protected void onPostExecute(List<LyricEntry> lrcEntries) {
 					if (getFlag() == flag) {
 						onLrcLoaded(lrcEntries);
 						setFlag(null);
@@ -316,14 +316,14 @@ public class LrcView extends View {
 			}
 			final String flag = sb.toString();
 			LrcView.this.setFlag(flag);
-			new AsyncTask<String, Integer, List<LrcEntry>>() {
+			new AsyncTask<String, Integer, List<LyricEntry>>() {
 				@Override
-				protected List<LrcEntry> doInBackground(String... params) {
+				protected List<LyricEntry> doInBackground(String... params) {
 					return LrcUtils.parseLrc(params);
 				}
 
 				@Override
-				protected void onPostExecute(List<LrcEntry> lrcEntries) {
+				protected void onPostExecute(List<LyricEntry> lrcEntries) {
 					if (getFlag() == flag) {
 						onLrcLoaded(lrcEntries);
 						setFlag(null);
@@ -600,7 +600,7 @@ public class LrcView extends View {
 		super.onDetachedFromWindow();
 	}
 
-	private void onLrcLoaded(List<LrcEntry> entryList) {
+	private void onLrcLoaded(List<LyricEntry> entryList) {
 		if (entryList != null && !entryList.isEmpty()) {
 			mLrcEntryList.addAll(entryList);
 		}
@@ -624,7 +624,7 @@ public class LrcView extends View {
 			return;
 		}
 
-		for (LrcEntry lrcEntry : mLrcEntryList) {
+		for (LyricEntry lrcEntry : mLrcEntryList) {
 			lrcEntry.init(mLrcPaint, (int) getLrcWidth(), mTextGravity);
 		}
 

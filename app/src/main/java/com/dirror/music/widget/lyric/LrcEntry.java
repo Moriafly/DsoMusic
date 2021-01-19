@@ -8,6 +8,7 @@ import android.text.TextUtils;
 /**
  * 一行歌词实体
  */
+@Deprecated
 class LrcEntry implements Comparable<LrcEntry> {
     private final long time;
     private final String text;

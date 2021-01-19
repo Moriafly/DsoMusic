@@ -50,7 +50,7 @@
     <color name="menuMainBackground">#FAFAFA</color>
 
     <color name="lrc_normal_text_color">#6C6C6C</color>
-    <color name="lrc_current_text_color">#000000</color>
+    <color name="lrc_current_text_color">@color/colorTextForeground</color>
     <color name="lrc_timeline_text_color">#343434</color>
     <color name="lrc_timeline_color">#809E9E9E</color>
     <color name="lrc_time_text_color">#809E9E9E</color>
