@@ -6,6 +6,16 @@ Kotlin 开发的美观的安卓音乐软件。
 
 注意：源码仅供学习，请勿传播软件安装包。
 
+# 应用下载
+
+## Github
+
+https://github.com/Moriafly/DsoMusic/releases
+
+## 蓝奏云
+
+https://foyou.lanzous.com/b00tzgaof 密码:h221
+
 # 音源
 
 网易云音乐来源（但不限于）：https://github.com/Binaryify/NeteaseCloudMusicApi
