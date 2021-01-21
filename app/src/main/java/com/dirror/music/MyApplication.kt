@@ -1,11 +1,8 @@
 package com.dirror.music
 
 import android.app.Application
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
-import android.os.IBinder
 import androidx.annotation.Keep
 import cn.bmob.v3.Bmob
 import com.dirror.music.manager.ActivityManager
@@ -13,6 +10,7 @@ import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.manager.UserManager
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
+import com.dirror.music.service.MusicServiceConnection
 import com.dirror.music.util.Secure
 import com.dirror.music.util.toast
 import com.tencent.mmkv.MMKV
@@ -109,27 +107,6 @@ class MyApplication : Application() {
         }
         // 绑定服务
         bindService(intent, musicServiceConnection, BIND_AUTO_CREATE)
-    }
-
-}
-
-/**
- * 音乐服务连接
- */
-class MusicServiceConnection : ServiceConnection {
-
-    /**
-     * 服务连接后
-     */
-    override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
-        MyApplication.musicBinderInterface = p1 as MusicBinderInterface
-    }
-
-    /**
-     * 服务意外断开连接
-     */
-    override fun onServiceDisconnected(p0: ComponentName?) {
-        // MyApplication.musicBinderInterface = null
     }
 
 }
