@@ -1,6 +1,7 @@
 package com.dirror.music.widget.lyric
 
 import android.animation.ValueAnimator
+import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
@@ -27,7 +28,6 @@ import com.dirror.music.widget.lyric.LyricUtil.getContentFromNetwork
 import com.dirror.music.widget.lyric.LyricUtil.resetDurationScale
 import java.io.File
 import java.util.*
-import kotlin.math.abs
 
 /**
  * 歌词控件
@@ -38,42 +38,37 @@ import kotlin.math.abs
 @SuppressLint("StaticFieldLeak")
 class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     View(context, attrs, defStyleAttr) {
-
-    companion object {
-        private const val ADJUST_DURATION: Long = 100
-        private const val TIMELINE_KEEP_TIME = 3 * DateUtils.SECOND_IN_MILLIS
-    }
-
-    private val lyricEntryList: MutableList<LyricEntry> = ArrayList() // 每一句歌词
-    private val lyricPaint = TextPaint() // 歌词画笔
-    private val timePaint = TextPaint() // 时间画笔
-    private var timeFontMetrics: Paint.FontMetrics? = null
-    private var playDrawable: Drawable? = null // 播放按钮
-    private var dividerHeight = 0f
-    private var animationDuration: Long = 0
-    private var normalTextColor = 0
-    private var normalTextSize = 0f
-    private var currentTextColor = 0
-    private var currentTextSize = 0f
-    private var timelineTextColor = 0
-    private var timelineColor = 0
-    private var timeTextColor = 0
-    private var drawableWidth = 0
-    private var timeTextWidth = 0
-    private var defaultLabel: String = ""
-    private var lrcPadding = 0f
-    private var onPlayClickListener: OnPlayClickListener? = null
-    private var onSingerClickListener: OnSingleClickListener? = null
-    private var animator: ValueAnimator? = null
-    private var gestureDetector: GestureDetector? = null
-    private var scroller: Scroller? = null
-    private var offset = 0f
-    private var currentLine = 0
+    private val mLrcEntryList: MutableList<LyricEntry> = ArrayList()
+    private val mLrcPaint = TextPaint()
+    private val mTimePaint = TextPaint()
+    private var mTimeFontMetrics: Paint.FontMetrics? = null
+    private var mPlayDrawable: Drawable? = null
+    private var mDividerHeight = 0f
+    private var mAnimationDuration: Long = 0
+    private var mNormalTextColor = 0
+    private var mNormalTextSize = 0f
+    private var mCurrentTextColor = 0
+    private var mCurrentTextSize = 0f
+    private var mTimelineTextColor = 0
+    private var mTimelineColor = 0
+    private var mTimeTextColor = 0
+    private var mDrawableWidth = 0
+    private var mTimeTextWidth = 0
+    private var mDefaultLabel: String? = null
+    private var mLrcPadding = 0f
+    private var mOnPlayClickListener: OnPlayClickListener? = null
+    private var mOnSingerClickListener: OnSingleClickListener? = null
+    private var mAnimator: ValueAnimator? = null
+    private var mGestureDetector: GestureDetector? = null
+    private var mScroller: Scroller? = null
+    private var mOffset = 0f
+    private var mCurrentLine = 0
     private var flag: Any? = null
-    private var isShowTimeline = false // 显示时间线
+    private var isShowTimeline = false
     private var isTouching = false
     private var isFling = false
-    private var textGravity = 0 // 歌词显示位置，靠左 / 居中 / 靠右
+    private var mTextGravity //歌词显示位置，靠左/居中/靠右
+            = 0
 
     /**
      * 播放按钮点击监听器，点击后应该跳转到指定播放位置
@@ -81,6 +76,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     interface OnPlayClickListener {
         /**
          * 播放按钮被点击，应该跳转到指定播放位置
+         *
          * @return 是否成功消费该事件，如果成功消费，则会更新UI
          */
         fun onPlayClick(time: Long): Boolean
@@ -93,76 +89,69 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         fun onClick()
     }
 
-    init {
-        init(attrs)
-    }
-
-    /**
-     * 初始化
-     */
     @SuppressLint("CustomViewStyleable")
     private fun init(attrs: AttributeSet?) {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.LrcView)
-        currentTextSize = ta.getDimension(R.styleable.LrcView_lrcTextSize, resources.getDimension(R.dimen.lrc_text_size))
-        normalTextSize =
+        mCurrentTextSize = ta.getDimension(R.styleable.LrcView_lrcTextSize, resources.getDimension(R.dimen.lrc_text_size))
+        mNormalTextSize =
             ta.getDimension(R.styleable.LrcView_lrcNormalTextSize, resources.getDimension(R.dimen.lrc_text_size))
-        if (normalTextSize == 0f) {
-            normalTextSize = currentTextSize
+        if (mNormalTextSize == 0f) {
+            mNormalTextSize = mCurrentTextSize
         }
-        dividerHeight =
+        mDividerHeight =
             ta.getDimension(R.styleable.LrcView_lrcDividerHeight, resources.getDimension(R.dimen.lrc_divider_height))
         val defDuration = resources.getInteger(R.integer.lrc_animation_duration)
-        animationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, defDuration).toLong()
-        animationDuration = if (animationDuration < 0) defDuration.toLong() else animationDuration
-        normalTextColor = ta.getColor(
+        mAnimationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, defDuration).toLong()
+        mAnimationDuration = if (mAnimationDuration < 0) defDuration.toLong() else mAnimationDuration
+        mNormalTextColor = ta.getColor(
             R.styleable.LrcView_lrcNormalTextColor,
             ContextCompat.getColor(context, R.color.lrc_normal_text_color)
         )
-        currentTextColor = ta.getColor(
+        mCurrentTextColor = ta.getColor(
             R.styleable.LrcView_lrcCurrentTextColor,
             ContextCompat.getColor(context, R.color.lrc_current_text_color)
         )
-        timelineTextColor = ta.getColor(
+        mTimelineTextColor = ta.getColor(
             R.styleable.LrcView_lrcTimelineTextColor,
             ContextCompat.getColor(context, R.color.lrc_timeline_text_color)
         )
-        defaultLabel = ta.getString(R.styleable.LrcView_lrcLabel).toString()
-        defaultLabel = if (TextUtils.isEmpty(defaultLabel)) "暂无歌词" else defaultLabel
+        mDefaultLabel = ta.getString(R.styleable.LrcView_lrcLabel)
+        mDefaultLabel = if (TextUtils.isEmpty(mDefaultLabel)) "暂无歌词" else mDefaultLabel
         // mDefaultLabel = TextUtils.isEmpty(mDefaultLabel) ? getContext().getString(R.string.lrc_label) : mDefaultLabel;
-        lrcPadding = ta.getDimension(R.styleable.LrcView_lrcPadding, 0f)
-        timelineColor =
+        mLrcPadding = ta.getDimension(R.styleable.LrcView_lrcPadding, 0f)
+        mTimelineColor =
             ta.getColor(R.styleable.LrcView_lrcTimelineColor, ContextCompat.getColor(context, R.color.lrc_timeline_color))
         val timelineHeight =
             ta.getDimension(R.styleable.LrcView_lrcTimelineHeight, resources.getDimension(R.dimen.lrc_timeline_height))
-        playDrawable = ta.getDrawable(R.styleable.LrcView_lrcPlayDrawable)
-        playDrawable = if (playDrawable == null) ContextCompat.getDrawable(context, R.drawable.lrc_play) else playDrawable
-        timeTextColor =
+        mPlayDrawable = ta.getDrawable(R.styleable.LrcView_lrcPlayDrawable)
+        mPlayDrawable = if (mPlayDrawable == null) ContextCompat.getDrawable(context, R.drawable.lrc_play) else mPlayDrawable
+        mTimeTextColor =
             ta.getColor(R.styleable.LrcView_lrcTimeTextColor, ContextCompat.getColor(context, R.color.lrc_time_text_color))
         val timeTextSize =
             ta.getDimension(R.styleable.LrcView_lrcTimeTextSize, resources.getDimension(R.dimen.lrc_time_text_size))
-        textGravity = ta.getInteger(R.styleable.LrcView_lrcTextGravity, LyricEntry.GRAVITY_CENTER)
+        mTextGravity = ta.getInteger(R.styleable.LrcView_lrcTextGravity, LyricEntry.GRAVITY_CENTER)
         ta.recycle()
-        drawableWidth = resources.getDimension(R.dimen.lrc_drawable_width).toInt()
-        timeTextWidth = resources.getDimension(R.dimen.lrc_time_width).toInt()
-        lyricPaint.isAntiAlias = true
-        lyricPaint.textSize = currentTextSize
-        lyricPaint.textAlign = Paint.Align.LEFT
-        timePaint.isAntiAlias = true
-        timePaint.textSize = timeTextSize
-        timePaint.textAlign = Paint.Align.CENTER
-        timePaint.strokeWidth = timelineHeight
-        timePaint.strokeCap = Paint.Cap.ROUND
-        timeFontMetrics = timePaint.fontMetrics
-        gestureDetector = GestureDetector(context, mSimpleOnGestureListener)
-        gestureDetector!!.setIsLongpressEnabled(false)
-        scroller = Scroller(context)
+        mDrawableWidth = resources.getDimension(R.dimen.lrc_drawable_width).toInt()
+        mTimeTextWidth = resources.getDimension(R.dimen.lrc_time_width).toInt()
+        mLrcPaint.isAntiAlias = true
+        mLrcPaint.textSize = mCurrentTextSize
+        mLrcPaint.textAlign = Paint.Align.LEFT
+        mTimePaint.isAntiAlias = true
+        mTimePaint.textSize = timeTextSize
+        mTimePaint.textAlign = Paint.Align.CENTER
+        mTimePaint.strokeWidth = timelineHeight
+        mTimePaint.strokeCap = Paint.Cap.ROUND
+        mTimeFontMetrics = mTimePaint.fontMetrics
+        mGestureDetector = GestureDetector(context, mSimpleOnGestureListener)
+        mGestureDetector!!.setIsLongpressEnabled(false)
+        mScroller = Scroller(context)
     }
 
     /**
      * 设置非当前行歌词字体颜色
      */
     fun setNormalColor(normalColor: Int) {
-        normalTextColor = normalColor
+        mNormalTextColor = normalColor
         postInvalidate()
     }
 
@@ -170,21 +159,21 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      * 普通歌词文本字体大小
      */
     fun setNormalTextSize(size: Float) {
-        normalTextSize = size
+        mNormalTextSize = size
     }
 
     /**
      * 当前歌词文本字体大小
      */
     fun setCurrentTextSize(size: Float) {
-        currentTextSize = size
+        mCurrentTextSize = size
     }
 
     /**
      * 设置当前行歌词的字体颜色
      */
     fun setCurrentColor(currentColor: Int) {
-        currentTextColor = currentColor
+        mCurrentTextColor = currentColor
         postInvalidate()
     }
 
@@ -192,7 +181,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      * 设置拖动歌词时选中歌词的字体颜色
      */
     fun setTimelineTextColor(timelineTextColor: Int) {
-        this.timelineTextColor = timelineTextColor
+        mTimelineTextColor = timelineTextColor
         postInvalidate()
     }
 
@@ -200,7 +189,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      * 设置拖动歌词时时间线的颜色
      */
     fun setTimelineColor(timelineColor: Int) {
-        this.timelineColor = timelineColor
+        mTimelineColor = timelineColor
         postInvalidate()
     }
 
@@ -208,7 +197,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      * 设置拖动歌词时右侧时间字体颜色
      */
     fun setTimeTextColor(timeTextColor: Int) {
-        this.timeTextColor = timeTextColor
+        mTimeTextColor = timeTextColor
         postInvalidate()
     }
 
@@ -218,7 +207,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      * @param onPlayClickListener 设置歌词拖动后播放按钮点击监听器，如果允许拖动，则不能为 null
      */
     fun setDraggable(draggable: Boolean, onPlayClickListener: OnPlayClickListener?) {
-        this.onPlayClickListener = if (draggable) {
+        mOnPlayClickListener = if (draggable) {
             requireNotNull(onPlayClickListener) { "if draggable == true, onPlayClickListener must not be null" }
             onPlayClickListener
         } else {
@@ -227,30 +216,43 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     }
 
     /**
-     * 设置点击布局
+     * 设置播放按钮点击监听器
+     * @param onPlayClickListener 如果为非 null ，则激活歌词拖动功能，否则将将禁用歌词拖动功能
      */
+    @Deprecated("use {@link #setDraggable(boolean, OnPlayClickListener)} instead")
+    fun setOnPlayClickListener(onPlayClickListener: OnPlayClickListener?) {
+        mOnPlayClickListener = onPlayClickListener
+    }
+
     fun setOnSingerClickListener(mOnSingerClickListener: OnSingleClickListener?) {
-        this.onSingerClickListener = mOnSingerClickListener
+        this.mOnSingerClickListener = mOnSingerClickListener
     }
 
     /**
      * 设置歌词为空时屏幕中央显示的文字，如“暂无歌词”
      */
-    fun setLabel(label: String) {
+    fun setLabel(label: String?) {
         runOnUi {
-            defaultLabel = label
+            mDefaultLabel = label
             this@LyricView.invalidate()
         }
     }
 
     /**
+     * 加载歌词文件
+     * @param lrcFile 歌词文件
+     */
+    fun loadLrc(lrcFile: File) {
+        loadLrc(lrcFile, null)
+    }
+
+    /**
      * 加载双语歌词文件，两种语言的歌词时间戳需要一致
+     *
      * @param mainLrcFile   第一种语言歌词文件
      * @param secondLrcFile 第二种语言歌词文件
      */
-    @SuppressLint
-    @JvmOverloads
-    fun loadLrc(mainLrcFile: File, secondLrcFile: File? = null) {
+    private fun loadLrc(mainLrcFile: File, secondLrcFile: File?) {
         runOnUi {
             reset()
             val sb = StringBuilder("file://")
@@ -276,12 +278,21 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     }
 
     /**
+     * 加载歌词文本
+     *
+     * @param lrcText 歌词文本
+     */
+    fun loadLrc(lrcText: String?) {
+        loadLrc(lrcText, null)
+    }
+
+    /**
      * 加载双语歌词文本，两种语言的歌词时间戳需要一致
+     *
      * @param mainLrcText   第一种语言歌词文本
      * @param secondLrcText 第二种语言歌词文本
      */
-    @JvmOverloads
-    fun loadLrc(mainLrcText: String?, secondLrcText: String? = null) {
+    fun loadLrc(mainLrcText: String?, secondLrcText: String?) {
         runOnUi {
             reset()
             val sb = StringBuilder("file://")
@@ -305,12 +316,16 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
             }.execute(mainLrcText, secondLrcText)
         }
     }
-
+    /**
+     * 加载在线歌词
+     *
+     * @param lrcUrl  歌词文件的网络地址
+     * @param charset 编码格式
+     */
     /**
      * 加载在线歌词，默认使用 utf-8 编码
      *
      * @param lrcUrl 歌词文件的网络地址
-     * @param charset 编码格式，默认使用 utf-8 编码
      */
     @JvmOverloads
     fun loadLrcByUrl(lrcUrl: String, charset: String? = "utf-8") {
@@ -331,30 +346,42 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
 
     /**
      * 歌词是否有效
+     *
      * @return true，如果歌词有效，否则false
      */
     fun hasLrc(): Boolean {
-        return lyricEntryList.isNotEmpty()
+        return mLrcEntryList.isNotEmpty()
     }
 
     /**
      * 刷新歌词
+     *
      * @param time 当前播放时间
      */
     fun updateTime(time: Long) {
-        if (hasLrc()) {
-            runOnUi {
-                val line = findShowLine(time)
-                if (line != currentLine) {
-                    currentLine = line
-                    if (isShowTimeline) {
-                        this@LyricView.invalidate()
-                    } else {
-                        smoothScrollTo(line)
-                    }
+        runOnUi {
+            if (!hasLrc()) {
+                return@runOnUi
+            }
+            val line = findShowLine(time)
+            if (line != mCurrentLine) {
+                mCurrentLine = line
+                if (!isShowTimeline) {
+                    smoothScrollTo(line)
+                } else {
+                    this@LyricView.invalidate()
                 }
             }
         }
+    }
+
+    /**
+     * 将歌词滚动到指定时间
+     * @param time 指定的时间
+     */
+    @Deprecated("请使用 {@link #updateTime(long)} 代替", ReplaceWith("updateTime(time)"))
+    fun onDrag(time: Long) {
+        updateTime(time)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -363,74 +390,71 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
             initPlayDrawable()
             initEntryList()
             if (hasLrc()) {
-                smoothScrollTo(currentLine, 0L)
+                smoothScrollTo(mCurrentLine, 0L)
             }
         }
     }
 
-    /**
-     * 绘制
-     */
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val centerY = height / 2
+
         // 无歌词文件
         if (!hasLrc()) {
-            lyricPaint.color = currentTextColor
-            val staticLayoutBuilder = StaticLayout.Builder
-                .obtain(defaultLabel, 0, defaultLabel.length, lyricPaint, lrcWidth.toInt())
-                .setAlignment(Layout.Alignment.ALIGN_CENTER)
-                .setLineSpacing(0f, 1f)
-                .setIncludePad(false)
-            val staticLayout = staticLayoutBuilder.build()
+            mLrcPaint.color = mCurrentTextColor
+            @SuppressLint("DrawAllocation") val staticLayout = StaticLayout(
+                mDefaultLabel, mLrcPaint,  // 有个 BUG java.lang.IllegalArgumentException: Layout: -181 < 0
+                lrcWidth.toInt(), Layout.Alignment.ALIGN_CENTER, 1f, 0f, false
+            )
             drawText(canvas, staticLayout, centerY.toFloat())
             return
         }
         val centerLine = centerLine
         if (isShowTimeline) {
-            playDrawable!!.draw(canvas)
-            timePaint.color = timelineColor
+            mPlayDrawable!!.draw(canvas)
+            mTimePaint.color = mTimelineColor
             canvas.drawLine(
-                timeTextWidth.toFloat(),
+                mTimeTextWidth.toFloat(),
                 centerY.toFloat(),
-                (width - timeTextWidth).toFloat(),
+                (width - mTimeTextWidth).toFloat(),
                 centerY.toFloat(),
-                timePaint
+                mTimePaint
             )
-            timePaint.color = timeTextColor
-            val timeText = formatTime(lyricEntryList[centerLine].time)
-            val timeX = width - timeTextWidth.toFloat() / 2
-            val timeY = centerY - (timeFontMetrics!!.descent + timeFontMetrics!!.ascent) / 2
-            canvas.drawText(timeText, timeX, timeY, timePaint)
+            mTimePaint.color = mTimeTextColor
+            val timeText = formatTime(mLrcEntryList[centerLine].time)
+            val timeX = width - mTimeTextWidth.toFloat() / 2
+            val timeY = centerY - (mTimeFontMetrics!!.descent + mTimeFontMetrics!!.ascent) / 2
+            canvas.drawText(timeText, timeX, timeY, mTimePaint)
         }
-        canvas.translate(0f, offset)
+        canvas.translate(0f, mOffset)
         var y = 0f
-        for (i in lyricEntryList.indices) {
+        for (i in mLrcEntryList.indices) {
             if (i > 0) {
-                y += (lyricEntryList[i - 1].height + lyricEntryList[i].height shr 1) + dividerHeight
+                y += (mLrcEntryList[i - 1].height + mLrcEntryList[i].height shr 1) + mDividerHeight
             }
-            if (i == currentLine) {
-                lyricPaint.textSize = currentTextSize
-                lyricPaint.color = currentTextColor
-                // 中间行歌词显示在 BottomMusicView 上 LrcView 生命周期与 BottomMusicView 不同  TODO
+            if (i == mCurrentLine) {
+                mLrcPaint.textSize = mCurrentTextSize
+                mLrcPaint.color = mCurrentTextColor
+                // 中间行歌词显示在BottomMusicView上 LrcView生命周期与BottomMusicView不同  TODO
                 // Log.e("LrcView", mLrcEntryList.get(mCurrentLine).getText());
             } else if (isShowTimeline && i == centerLine) {
-                lyricPaint.color = timelineTextColor
+                mLrcPaint.color = mTimelineTextColor
             } else {
-                lyricPaint.textSize = normalTextSize
-                lyricPaint.color = normalTextColor
+                mLrcPaint.textSize = mNormalTextSize
+                mLrcPaint.color = mNormalTextColor
             }
-            lyricEntryList[i].staticLayout?.let { drawText(canvas, it, y) }
+            Objects.requireNonNull(mLrcEntryList[i].staticLayout)?.let { drawText(canvas, it, y) }
         }
     }
 
     /**
      * 画一行歌词
+     *
      * @param y 歌词中心 Y 坐标
      */
     private fun drawText(canvas: Canvas, staticLayout: StaticLayout, y: Float) {
         canvas.save()
-        canvas.translate(lrcPadding, y - (staticLayout.height shr 1))
+        canvas.translate(mLrcPadding, y - (staticLayout.height shr 1))
         staticLayout.draw(canvas)
         canvas.restore()
     }
@@ -444,7 +468,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
                 postDelayed(hideTimelineRunnable, TIMELINE_KEEP_TIME)
             }
         }
-        return gestureDetector!!.onTouchEvent(event)
+        return mGestureDetector!!.onTouchEvent(event)
     }
 
     /**
@@ -456,8 +480,8 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
          */
         override fun onDown(e: MotionEvent): Boolean {
             // 有歌词并且设置了 mOnPlayClickListener
-            if (hasLrc() && onPlayClickListener != null) {
-                scroller!!.forceFinished(true)
+            if (hasLrc() && mOnPlayClickListener != null) {
+                mScroller!!.forceFinished(true)
                 removeCallbacks(hideTimelineRunnable)
                 isTouching = true
                 // isShowTimeline = true;
@@ -471,9 +495,9 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
             if (hasLrc()) {
                 // 滚动显示时间线
                 isShowTimeline = true
-                offset += -distanceY
-                offset = offset.coerceAtMost(getOffset(0))
-                offset = offset.coerceAtLeast(getOffset(lyricEntryList.size - 1))
+                mOffset += -distanceY
+                mOffset = Math.min(mOffset, getOffset(0))
+                mOffset = Math.max(mOffset, getOffset(mLrcEntryList.size - 1))
                 invalidate()
                 return true
             }
@@ -482,14 +506,14 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
 
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             if (hasLrc()) {
-                scroller!!.fling(
+                mScroller!!.fling(
                     0,
-                    offset.toInt(),
+                    mOffset.toInt(),
                     0,
                     velocityY.toInt(),
                     0,
                     0,
-                    getOffset(lyricEntryList.size - 1).toInt(),
+                    getOffset(mLrcEntryList.size - 1).toInt(),
                     getOffset(0).toInt()
                 )
                 isFling = true
@@ -499,20 +523,20 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         }
 
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-            if (hasLrc() && isShowTimeline && playDrawable!!.bounds.contains(e.x.toInt(), e.y.toInt())) {
+            if (hasLrc() && isShowTimeline && mPlayDrawable!!.bounds.contains(e.x.toInt(), e.y.toInt())) {
                 val centerLine = centerLine
-                val centerLineTime = lyricEntryList[centerLine].time
+                val centerLineTime = mLrcEntryList[centerLine].time
                 // onPlayClick 消费了才更新 UI
-                if (onPlayClickListener != null && onPlayClickListener!!.onPlayClick(centerLineTime)) {
+                if (mOnPlayClickListener != null && mOnPlayClickListener!!.onPlayClick(centerLineTime)) {
                     isShowTimeline = false
                     removeCallbacks(hideTimelineRunnable)
-                    currentLine = centerLine
+                    mCurrentLine = centerLine
                     invalidate()
                     return true
                 }
             } else {
-                if (onSingerClickListener != null) {
-                    onSingerClickListener!!.onClick()
+                if (mOnSingerClickListener != null) {
+                    mOnSingerClickListener!!.onClick()
                 }
             }
             return super.onSingleTapConfirmed(e)
@@ -522,16 +546,16 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     private val hideTimelineRunnable = Runnable {
         if (hasLrc() && isShowTimeline) {
             isShowTimeline = false
-            smoothScrollTo(currentLine)
+            smoothScrollTo(mCurrentLine)
         }
     }
 
     override fun computeScroll() {
-        if (scroller!!.computeScrollOffset()) {
-            offset = scroller!!.currY.toFloat()
+        if (mScroller!!.computeScrollOffset()) {
+            mOffset = mScroller!!.currY.toFloat()
             invalidate()
         }
-        if (isFling && scroller!!.isFinished) {
+        if (isFling && mScroller!!.isFinished) {
             isFling = false
             if (hasLrc() && !isTouching) {
                 adjustCenter()
@@ -546,42 +570,42 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     }
 
     private fun onLrcLoaded(entryList: List<LyricEntry>?) {
-        if (entryList != null && entryList.isNotEmpty()) {
-            lyricEntryList.addAll(entryList)
+        if (entryList != null && !entryList.isEmpty()) {
+            mLrcEntryList.addAll(entryList)
         }
-        lyricEntryList.sort()
+        mLrcEntryList.sort()
         initEntryList()
         invalidate()
     }
 
     private fun initPlayDrawable() {
-        val l = (timeTextWidth - drawableWidth) / 2
-        val t = height / 2 - drawableWidth / 2
-        val r = l + drawableWidth
-        val b = t + drawableWidth
-        playDrawable!!.setBounds(l, t, r, b)
+        val l = (mTimeTextWidth - mDrawableWidth) / 2
+        val t = height / 2 - mDrawableWidth / 2
+        val r = l + mDrawableWidth
+        val b = t + mDrawableWidth
+        mPlayDrawable!!.setBounds(l, t, r, b)
     }
 
     private fun initEntryList() {
         if (!hasLrc() || width == 0) {
             return
         }
-        for (lrcEntry in lyricEntryList) {
-            lrcEntry.init(lyricPaint, lrcWidth.toInt(), textGravity)
+        for (lrcEntry in mLrcEntryList) {
+            lrcEntry.init(mLrcPaint, lrcWidth.toInt(), mTextGravity)
         }
-        offset = height.toFloat() / 2
+        mOffset = height.toFloat() / 2
     }
 
     private fun reset() {
         endAnimation()
-        scroller!!.forceFinished(true)
+        mScroller!!.forceFinished(true)
         isShowTimeline = false
         isTouching = false
         isFling = false
         removeCallbacks(hideTimelineRunnable)
-        lyricEntryList.clear()
-        offset = 0f
-        currentLine = 0
+        mLrcEntryList.clear()
+        mOffset = 0f
+        mCurrentLine = 0
         invalidate()
     }
 
@@ -591,20 +615,22 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     private fun adjustCenter() {
         smoothScrollTo(centerLine, ADJUST_DURATION)
     }
-
     /**
      * 滚动到某一行
      */
-    private fun smoothScrollTo(line: Int, duration: Long = animationDuration) {
+    /**
+     * 滚动到某一行
+     */
+    private fun smoothScrollTo(line: Int, duration: Long = mAnimationDuration) {
         val offset = getOffset(line)
         endAnimation()
-        animator = ValueAnimator.ofFloat(this.offset, offset).apply {
+        mAnimator = ValueAnimator.ofFloat(mOffset, offset).apply {
             setDuration(duration)
-            interpolator = LinearInterpolator()
-            addUpdateListener { animation: ValueAnimator ->
-                this@LyricView.offset = animation.animatedValue as Float
+            setInterpolator(LinearInterpolator())
+            addUpdateListener(AnimatorUpdateListener { animation: ValueAnimator ->
+                mOffset = animation.animatedValue as Float
                 this@LyricView.invalidate()
-            }
+            })
             resetDurationScale()
             start()
         }
@@ -614,10 +640,8 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      * 结束滚动动画
      */
     private fun endAnimation() {
-        animator?.let {
-            if (it.isRunning) {
-                it.end()
-            }
+        if (mAnimator != null && mAnimator!!.isRunning) {
+            mAnimator!!.end()
         }
     }
 
@@ -626,14 +650,14 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      */
     private fun findShowLine(time: Long): Int {
         var left = 0
-        var right = lyricEntryList.size
+        var right = mLrcEntryList.size
         while (left <= right) {
             val middle = (left + right) / 2
-            val middleTime = lyricEntryList[middle].time
+            val middleTime = mLrcEntryList[middle].time
             if (time < middleTime) {
                 right = middle - 1
             } else {
-                if (middle + 1 >= lyricEntryList.size || time < lyricEntryList[middle + 1].time) {
+                if (middle + 1 >= mLrcEntryList.size || time < mLrcEntryList[middle + 1].time) {
                     return middle
                 }
                 left = middle + 1
@@ -649,9 +673,9 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         get() {
             var centerLine = 0
             var minDistance = Float.MAX_VALUE
-            for (i in lyricEntryList.indices) {
-                if (abs(offset - getOffset(i)) < minDistance) {
-                    minDistance = abs(offset - getOffset(i))
+            for (i in mLrcEntryList.indices) {
+                if (Math.abs(mOffset - getOffset(i)) < minDistance) {
+                    minDistance = Math.abs(mOffset - getOffset(i))
                     centerLine = i
                 }
             }
@@ -663,31 +687,39 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      * 采用懒加载方式
      */
     private fun getOffset(line: Int): Float {
-        if (lyricEntryList[line].offset == Float.MIN_VALUE) {
+        if (mLrcEntryList[line].offset == Float.MIN_VALUE) {
             var offset = height.toFloat() / 2
             for (i in 1..line) {
-                offset -= (lyricEntryList[i - 1].height + lyricEntryList[i].height shr 1) + dividerHeight
+                offset -= (mLrcEntryList[i - 1].height + mLrcEntryList[i].height shr 1) + mDividerHeight
             }
-            lyricEntryList[line].offset = offset
+            mLrcEntryList[line].offset = offset
         }
-        return lyricEntryList[line].offset
+        return mLrcEntryList[line].offset
     }
 
     /**
      * 获取歌词宽度
      */
     private val lrcWidth: Float
-        get() = width - lrcPadding * 2
+        get() = width - mLrcPadding * 2
 
     /**
      * 在主线程中运行
      */
-    private fun runOnUi(runnable: Runnable) {
+    private fun runOnUi(r: Runnable) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            runnable.run()
+            r.run()
         } else {
-            post(runnable)
+            post(r)
         }
     }
 
+    companion object {
+        private const val ADJUST_DURATION: Long = 100
+        private const val TIMELINE_KEEP_TIME = 3 * DateUtils.SECOND_IN_MILLIS
+    }
+
+    init {
+        init(attrs)
+    }
 }
