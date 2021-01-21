@@ -21,7 +21,7 @@ internal object LyricUtil {
     /**
      * 从文件解析双语歌词
      */
-    fun parseLrc(lrcFiles: Array<File?>?): List<LyricEntry>? {
+    fun parseLrc(lrcFiles: Array<out File?>?): List<LyricEntry>? {
         if (lrcFiles == null || lrcFiles.size != 2 || lrcFiles[0] == null) {
             return null
         }
@@ -69,14 +69,14 @@ internal object LyricUtil {
     /**
      * 从文本解析双语歌词
      */
-    fun parseLrc(lrcTexts: Array<String>?): List<LyricEntry>? {
+    fun parseLrc(lrcTexts: Array<out String?>?): List<LyricEntry>? {
         if (lrcTexts == null || lrcTexts.size != 2 || TextUtils.isEmpty(lrcTexts[0])) {
             return null
         }
         val mainLrcText = lrcTexts[0]
         val secondLrcText = lrcTexts[1]
-        val mainEntryList = parseLrc(mainLrcText)
-        val secondEntryList = parseLrc(secondLrcText)
+        val mainEntryList = mainLrcText?.let { parseLrc(it) }
+        val secondEntryList = secondLrcText?.let { parseLrc(it) }
         if (mainEntryList != null && secondEntryList != null) {
             for (mainEntry in mainEntryList) {
                 for (secondEntry in secondEntryList) {
@@ -196,4 +196,5 @@ internal object LyricUtil {
             e.printStackTrace()
         }
     }
+
 }

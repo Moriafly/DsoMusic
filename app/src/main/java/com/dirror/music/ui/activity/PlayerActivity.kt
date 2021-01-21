@@ -34,6 +34,7 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
 import com.dirror.music.widget.SlideBackLayout
+import com.dirror.music.widget.lyric.LyricView
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -265,16 +266,22 @@ class PlayerActivity : AppCompatActivity() {
                 }
             }
             // lyricView
-            lyricView.setDraggable(true) { time ->
-                playViewModel.setProgress(time.toInt())
-                true
-            }
-            lyricView.setOnSingerClickListener {
-                AnimationUtil.fadeIn(binding.clCd)
-                AnimationUtil.fadeIn(binding.clMenu)
-                binding.clLyric.visibility = View.INVISIBLE
-                slideBackLayout.viewEnabled = true
-            }
+            lyricView.setDraggable(true, object : LyricView.OnPlayClickListener{
+                override fun onPlayClick(time: Long): Boolean {
+                    playViewModel.setProgress(time.toInt())
+                    return true
+                }
+
+            })
+            lyricView.setOnSingerClickListener(object : LyricView.OnSingleClickListener{
+                override fun onClick() {
+                    AnimationUtil.fadeIn(binding.clCd)
+                    AnimationUtil.fadeIn(binding.clMenu)
+                    binding.clLyric.visibility = View.INVISIBLE
+                    slideBackLayout.viewEnabled = true
+                }
+
+            })
             edgeTransparentView.setOnClickListener {
                 AnimationUtil.fadeIn(binding.clCd)
                 AnimationUtil.fadeIn(binding.clMenu)

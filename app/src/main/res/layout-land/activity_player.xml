@@ -98,13 +98,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.dirror.music.widget.lyric.LrcView
+            <com.dirror.music.widget.lyric.LyricView
                 android:id="@+id/lyricView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:lrcPadding="33dp">
 
-            </com.dirror.music.widget.lyric.LrcView>
+            </com.dirror.music.widget.lyric.LyricView>
 
         </me.qinc.lib.edgetranslucent.EdgeTransparentView>
 
