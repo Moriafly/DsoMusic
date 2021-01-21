@@ -11,13 +11,13 @@ class ValueView(context: Context, attrs: AttributeSet): androidx.constraintlayou
     private val title = typedArray.getString(R.styleable.ValueView_text)
     private val value = typedArray.getString(R.styleable.ValueView_value)
 
-    private lateinit var tvTitle: TextView
-    private lateinit var tvValue: TextView
+    private var tvTitle: TextView
+    private var tvValue: TextView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.dirrorx_value_view_layout, this)
-        tvTitle = findViewById<TextView>(R.id.tvTitle)
-        tvValue = findViewById<TextView>(R.id.tvValue)
+        tvTitle = findViewById(R.id.tvTitle)
+        tvValue = findViewById(R.id.tvValue)
         tvTitle.text = title
         tvValue.text = value
     }

@@ -16,6 +16,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.palette.graphics.Palette
@@ -74,7 +75,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver
 
     // ViewModel 数据和视图分离
-    private val playViewModel = PlayerViewModel()
+    private val playViewModel: PlayerViewModel by viewModels()
 
     // Looper + Handler
     private val handler = object : Handler(Looper.getMainLooper()) {
@@ -160,6 +161,7 @@ class PlayerActivity : AppCompatActivity() {
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //横屏
             val decorView = window.decorView
+            // TODO 解决方法过时问题
             val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                     or View.SYSTEM_UI_FLAG_FULLSCREEN

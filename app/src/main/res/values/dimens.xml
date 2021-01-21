@@ -4,9 +4,8 @@
     <dimen name="smallTextSize">14sp</dimen>
     <dimen name="lyricLineHeight">46dp</dimen>
 
-    <!-- 标准字体  -->
+    <!-- 标准字体 -->
     <dimen name="defaultTextSize">16sp</dimen>
-
 
     <integer name="lrc_animation_duration">1000</integer>
     <dimen name="lrc_text_size">16sp</dimen>
@@ -21,4 +20,9 @@
     <dimen name="defaultRadius">10dp</dimen>
 
     <dimen name="defaultPadding">16dp</dimen>
+
+    <!-- 高度 -->
+    <dimen name="defaultHeight">56dp</dimen>
+    <dimen name="minHeight">40dp</dimen>
+    <dimen name="minPlusHeight">48dp</dimen>
 </resources>

@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.dirror.music.MyApplication
@@ -60,6 +62,16 @@ object GlideUtil {
     fun loadCloudMusicImage(url: String, width: Int, height: Int, imageView: ImageView) {
         val imageUrl = "$url?param=${width}y${height}"
         load(imageUrl, imageView)
+    }
+
+    /**
+     * 加载圆形图片
+     */
+    fun loadCircle(url: String, imageView: ImageView) {
+        Glide.with(MyApplication.context)
+            .load(url)
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .into(imageView)
     }
 
 }

@@ -36,38 +36,33 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clUser"
                     android:layout_width="match_parent"
+                    android:background="@color/colorPageBackground"
                     android:layout_height="56dp">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cd"
+
+                    <ImageView
+                        android:id="@+id/ivCover"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:layout_marginStart="16dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="1px"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription"
+                        tools:srcCompat="@tools:sample/avatars" />
 
-                        <ImageView
-                            android:id="@+id/ivCover"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:ignore="ContentDescription"
-                            tools:srcCompat="@tools:sample/avatars" />
-                    </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:id="@+id/tvUserName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="8dp"
                         android:minWidth="28dp"
                         android:textColor="@color/colorTextForeground"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/ivGoto"
-                        app:layout_constraintStart_toEndOf="@+id/cd"
+                        app:layout_constraintStart_toEndOf="@+id/ivCover"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView

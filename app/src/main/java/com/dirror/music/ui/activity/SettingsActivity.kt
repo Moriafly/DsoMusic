@@ -104,10 +104,6 @@ class SettingsActivity : AppCompatActivity() {
                 MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, isChecked)
             }
 
-            itemAbout.setOnClickListener {
-                startActivity(Intent(this@SettingsActivity, AboutActivity::class.java))
-            }
-
         }
 
 

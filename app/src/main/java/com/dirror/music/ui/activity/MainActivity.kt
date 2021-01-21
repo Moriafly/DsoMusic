@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -36,7 +37,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
     private lateinit var loginReceiver: LoginReceiver // 登录广播接收
 
-    private val mainViewModel = MainViewModel()
+    // 不要写成 mainViewModel = MainViewModel()
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -216,7 +218,7 @@ class MainActivity : AppCompatActivity() {
                 MyApplication.cloudMusicManager.getUserDetail(userId, {
                     runOnUiThread {
                         // toast("通知头像更新")
-                        GlideUtil.load(it.profile.avatarUrl, binding.menuMain.ivCover)
+                        GlideUtil.loadCircle(it.profile.avatarUrl, binding.menuMain.ivCover)
                         binding.menuMain.tvUserName.text = it.profile.nickname
                     }
                 }, {

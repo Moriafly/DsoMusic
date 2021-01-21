@@ -1,6 +1,5 @@
 package com.dirror.music.ui.dialog
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
@@ -10,8 +9,9 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistDialogAdapter
 import com.dirror.music.databinding.DialogPlayListBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class PlaylistDialog: Dialog {
+class PlaylistDialog: BottomSheetDialog {
 
     private var binding: DialogPlayListBinding = DialogPlayListBinding.inflate(layoutInflater)
 
@@ -23,15 +23,17 @@ class PlaylistDialog: Dialog {
         window?.setGravity(Gravity.BOTTOM)
         // 设置大小
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        // editView.setText("你好")
-        // setCanceledOnTouchOutside(false)
+        window?.setWindowAnimations(R.style.dialog_animation)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.rvPlaylist.layoutManager = LinearLayoutManager(context)
-        binding.rvPlaylist.adapter = MyApplication.musicBinderInterface?.getPlaylist()?.let { PlaylistDialogAdapter(it) }
+        MyApplication.musicBinderInterface?.getPlaylist()?.let {
+            binding.rvPlaylist.adapter = PlaylistDialogAdapter(it)
+            binding.tvPlaylist.text = this.context.getString(R.string.playlist_number, it.size)
+        }
 
     }
 }

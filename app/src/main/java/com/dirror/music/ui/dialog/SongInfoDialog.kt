@@ -1,6 +1,5 @@
 package com.dirror.music.ui.dialog
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
@@ -12,8 +11,9 @@ import com.dirror.music.music.dirror.SearchSong
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.parseSize
 import com.dirror.music.util.runOnMainThread
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class SongInfoDialog(context: Context, private val songData: StandardSongData) : Dialog(context, R.style.style_default_dialog) {
+class SongInfoDialog(context: Context, private val songData: StandardSongData) : BottomSheetDialog(context, R.style.style_default_dialog) {
 
     private var binding: DialogSongInfoBinding = DialogSongInfoBinding.inflate(layoutInflater)
 
@@ -21,6 +21,7 @@ class SongInfoDialog(context: Context, private val songData: StandardSongData) :
         setContentView(binding.root)
         window?.setGravity(Gravity.BOTTOM)
         window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        window?.setWindowAnimations(R.style.dialog_animation)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

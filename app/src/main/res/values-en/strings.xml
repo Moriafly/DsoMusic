@@ -53,4 +53,5 @@
     <string name="send">Send</string>
     <string name="songs">%d songs</string>
     <string name="hot_search">Hot search</string>
+    <string name="playlist_number">播放列表（%d）</string>
 </resources>

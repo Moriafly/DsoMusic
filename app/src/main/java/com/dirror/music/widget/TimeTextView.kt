@@ -5,6 +5,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.dirror.music.R
 import com.dirror.music.util.TimeUtil
 import com.dirror.music.util.dp
 
@@ -23,6 +25,7 @@ class TimeTextView: View {
     private val textPaint = Paint().apply {
         isAntiAlias = true
         textSize = TEXT_SIZE.dp().toFloat()
+        color = ContextCompat.getColor(this@TimeTextView.context, R.color.colorTextForeground)
     }
 
     override fun onDraw(canvas: Canvas?) {

@@ -46,9 +46,8 @@ class MyFragment : Fragment() {
         binding.rvPlaylist.layoutManager =  LinearLayoutManager(activity)
         binding.rvPlaylist.adapter = activity?.let { PlaylistAdapter(userPlaylist, it) }
 
-
-
         mainViewModel.userId.observe(viewLifecycleOwner, {
+            // toast("更新歌单")
             getPlaylist(it)
         })
     }

@@ -6,6 +6,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.music.netease.data.UserDetailData
 import com.dirror.music.ui.fragment.HomeFragment
 import com.dirror.music.ui.fragment.MyFragment
+import com.dirror.music.util.toast
 
 class MainViewModel: ViewModel() {
 
@@ -20,6 +21,7 @@ class MainViewModel: ViewModel() {
 
     fun setUserId() {
         userId.value = MyApplication.userManager.getCurrentUid()
+        // toast(userId.value.toString())
     }
 
 }

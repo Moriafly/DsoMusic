@@ -31,17 +31,4 @@ object IntentUtil {
         }
     }
 
-    /**
-     * 打开安卓彩蛋
-     */
-    fun openAndroidPartLogo(context: Context) {
-        try {
-            val intent = Intent()
-            intent.setClassName("android", "com.android.internal.app.PlatLogoActivity")
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            toast("失败")
-        }
-    }
-
 }
