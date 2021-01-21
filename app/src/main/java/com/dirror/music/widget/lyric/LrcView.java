@@ -29,6 +29,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 歌词控件
@@ -276,7 +277,7 @@ public class LrcView extends View {
 			new AsyncTask<File, Integer, List<LyricEntry>>() {
 				@Override
 				protected List<LyricEntry> doInBackground(File... params) {
-					return LrcUtils.parseLrc(params);
+					return LyricUtil.INSTANCE.parseLrc(params);
 				}
 
 				@Override
@@ -319,7 +320,7 @@ public class LrcView extends View {
 			new AsyncTask<String, Integer, List<LyricEntry>>() {
 				@Override
 				protected List<LyricEntry> doInBackground(String... params) {
-					return LrcUtils.parseLrc(params);
+					return LyricUtil.INSTANCE.parseLrc(params);
 				}
 
 				@Override
@@ -354,7 +355,7 @@ public class LrcView extends View {
 		new AsyncTask<String, Integer, String>() {
 			@Override
 			protected String doInBackground(String... params) {
-				return LrcUtils.getContentFromNetwork(params[0], params[1]);
+				return LyricUtil.INSTANCE.getContentFromNetwork(params[0], params[1]);
 			}
 
 			@Override
@@ -447,7 +448,7 @@ public class LrcView extends View {
 			canvas.drawLine(mTimeTextWidth, centerY, getWidth() - mTimeTextWidth, centerY, mTimePaint);
 
 			mTimePaint.setColor(mTimeTextColor);
-			String timeText = LrcUtils.formatTime(mLrcEntryList.get(centerLine).getTime());
+			String timeText = LyricUtil.INSTANCE.formatTime(mLrcEntryList.get(centerLine).getTime());
 			float timeX = getWidth() - (float)mTimeTextWidth / 2;
 			float timeY = centerY - (mTimeFontMetrics.descent + mTimeFontMetrics.ascent) / 2;
 			canvas.drawText(timeText, timeX, timeY, mTimePaint);
@@ -471,7 +472,7 @@ public class LrcView extends View {
 				mLrcPaint.setTextSize(mNormalTextSize);
 				mLrcPaint.setColor(mNormalTextColor);
 			}
-			drawText(canvas, mLrcEntryList.get(i).getStaticLayout(), y);
+			drawText(canvas, Objects.requireNonNull(mLrcEntryList.get(i).getStaticLayout()), y);
 		}
 	}
 
@@ -672,7 +673,7 @@ public class LrcView extends View {
 			mOffset = (float) animation.getAnimatedValue();
 			LrcView.this.invalidate();
 		});
-		LrcUtils.resetDurationScale();
+		LyricUtil.INSTANCE.resetDurationScale();
 		mAnimator.start();
 	}
 
@@ -765,4 +766,5 @@ public class LrcView extends View {
 	private void setFlag(Object flag) {
 		this.mFlag = flag;
 	}
+
 }

@@ -7,8 +7,10 @@ import android.text.TextPaint
 /**
  * 一行歌词实体
  * @since 2021年1月19日09:51:40 Moriafly 基于 LrcEntry 改造，转换为 kt ，移除部分过时方法
+ * @param time 时间
+ * @param text 文本
  */
-internal class LyricEntry : Comparable<LyricEntry> {
+internal class LyricEntry(val time: Long, val text: String) : Comparable<LyricEntry> {
 
     companion object {
         const val GRAVITY_CENTER = 0
@@ -16,31 +18,10 @@ internal class LyricEntry : Comparable<LyricEntry> {
         const val GRAVITY_RIGHT = 2
     }
 
-    constructor(time: Long, text: String) {
-        this.time = time
-        this.text = text
-    }
-
-    constructor(time: Long, text: String, secondText: String?) {
-        this.time = time
-        this.text = text
-        this.secondText = secondText
-    }
-
-    /**
-     * 时间
-     */
-    val time: Long
-
-    /**
-     * 文本
-     */
-    val text: String
-
     /**
      * 第二文本
      */
-    private var secondText: String? = null
+    var secondText: String? = null
 
     /**
      * 显示的文本
@@ -86,13 +67,6 @@ internal class LyricEntry : Comparable<LyricEntry> {
             .setIncludePad(false)
         staticLayout = staticLayoutBuilder.build()
         offset = Float.MIN_VALUE
-    }
-
-    /**
-     * 设置第二文本
-     */
-    fun setSecondText(secondText: String?) {
-        this.secondText = secondText
     }
 
     /**
