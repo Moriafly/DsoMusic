@@ -1,7 +1,6 @@
 package com.dirror.music.widget.lyric
 
 import android.animation.ValueAnimator
-import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
@@ -28,20 +27,33 @@ import com.dirror.music.widget.lyric.LyricUtil.getContentFromNetwork
 import com.dirror.music.widget.lyric.LyricUtil.resetDurationScale
 import java.io.File
 import java.util.*
+import kotlin.math.abs
 
 /**
- * 歌词控件
- * 来自 https://github.com/zion223/NeteaseCloudMusic-MVVM，十分感谢
- * 修改 Moriafly
- * 转换为 Kotlin
+ * LyricView 歌词控件
+ * 基于 https://github.com/zion223/NeteaseCloudMusic-MVVM （十分感谢） Kotlin 重构
+ * 优化代码，移除过时方法等
+ * @修改 Moriafly
+ * @since 2021年1月22日15:25:24
+ *
+ * @param context 上下文
+ * @param attrs 属性，默认 null
+ * @param defStyleAttr 默认 0
  */
 @SuppressLint("StaticFieldLeak")
 class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     View(context, attrs, defStyleAttr) {
 
-    private val mLrcEntryList: MutableList<LyricEntry> = ArrayList()
-    private val mLrcPaint = TextPaint()
-    private val mTimePaint = TextPaint()
+    companion object {
+        private const val ADJUST_DURATION: Long = 100
+        private const val TIMELINE_KEEP_TIME = 3 * DateUtils.SECOND_IN_MILLIS
+    }
+
+
+
+    private val lyricEntryList: MutableList<LyricEntry> = ArrayList() // 单句歌词集合
+    private val mLrcPaint = TextPaint() // 歌词画笔
+    private val mTimePaint = TextPaint() // 时间文字画笔
     private var mTimeFontMetrics: Paint.FontMetrics? = null
     private var mPlayDrawable: Drawable? = null
     private var mDividerHeight = 0f
@@ -87,6 +99,8 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     interface OnSingleClickListener {
         fun onClick()
     }
+
+
 
     @SuppressLint("CustomViewStyleable")
     private fun init(attrs: AttributeSet?) {
@@ -339,7 +353,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      * @return true，如果歌词有效，否则false
      */
     fun hasLrc(): Boolean {
-        return mLrcEntryList.isNotEmpty()
+        return lyricEntryList.isNotEmpty()
     }
 
     /**
@@ -410,16 +424,16 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
                 mTimePaint
             )
             mTimePaint.color = mTimeTextColor
-            val timeText = formatTime(mLrcEntryList[centerLine].time)
+            val timeText = formatTime(lyricEntryList[centerLine].time)
             val timeX = width - mTimeTextWidth.toFloat() / 2
             val timeY = centerY - (mTimeFontMetrics!!.descent + mTimeFontMetrics!!.ascent) / 2
             canvas.drawText(timeText, timeX, timeY, mTimePaint)
         }
         canvas.translate(0f, mOffset)
         var y = 0f
-        for (i in mLrcEntryList.indices) {
+        for (i in lyricEntryList.indices) {
             if (i > 0) {
-                y += (mLrcEntryList[i - 1].height + mLrcEntryList[i].height shr 1) + mDividerHeight
+                y += (lyricEntryList[i - 1].height + lyricEntryList[i].height shr 1) + mDividerHeight
             }
             if (i == mCurrentLine) {
                 mLrcPaint.textSize = mCurrentTextSize
@@ -432,7 +446,13 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
                 mLrcPaint.textSize = mNormalTextSize
                 mLrcPaint.color = mNormalTextColor
             }
-            Objects.requireNonNull(mLrcEntryList[i].staticLayout)?.let { drawText(canvas, it, y) }
+            // 不要改动
+//            lyricEntryList[i].staticLayout?.let {
+//                drawText(canvas, it, y)
+//            }
+            Objects.requireNonNull(lyricEntryList[i].staticLayout)?.let {
+                drawText(canvas, it, y)
+            }
         }
     }
 
@@ -486,7 +506,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
                 isShowTimeline = true
                 mOffset += -distanceY
                 mOffset = mOffset.coerceAtMost(getOffset(0))
-                mOffset = mOffset.coerceAtLeast(getOffset(mLrcEntryList.size - 1))
+                mOffset = mOffset.coerceAtLeast(getOffset(lyricEntryList.size - 1))
                 invalidate()
                 return true
             }
@@ -502,7 +522,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
                     velocityY.toInt(),
                     0,
                     0,
-                    getOffset(mLrcEntryList.size - 1).toInt(),
+                    getOffset(lyricEntryList.size - 1).toInt(),
                     getOffset(0).toInt()
                 )
                 isFling = true
@@ -514,7 +534,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
             if (hasLrc() && isShowTimeline && mPlayDrawable!!.bounds.contains(e.x.toInt(), e.y.toInt())) {
                 val centerLine = centerLine
-                val centerLineTime = mLrcEntryList[centerLine].time
+                val centerLineTime = lyricEntryList[centerLine].time
                 // onPlayClick 消费了才更新 UI
                 if (mOnPlayClickListener != null && mOnPlayClickListener!!.onPlayClick(centerLineTime)) {
                     isShowTimeline = false
@@ -559,10 +579,10 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     }
 
     private fun onLrcLoaded(entryList: List<LyricEntry>?) {
-        if (entryList != null && !entryList.isEmpty()) {
-            mLrcEntryList.addAll(entryList)
+        if (entryList != null && entryList.isNotEmpty()) {
+            lyricEntryList.addAll(entryList)
         }
-        mLrcEntryList.sort()
+        lyricEntryList.sort()
         initEntryList()
         invalidate()
     }
@@ -579,7 +599,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         if (!hasLrc() || width == 0) {
             return
         }
-        for (lrcEntry in mLrcEntryList) {
+        for (lrcEntry in lyricEntryList) {
             lrcEntry.init(mLrcPaint, lrcWidth.toInt(), mTextGravity)
         }
         mOffset = height.toFloat() / 2
@@ -592,7 +612,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         isTouching = false
         isFling = false
         removeCallbacks(hideTimelineRunnable)
-        mLrcEntryList.clear()
+        lyricEntryList.clear()
         mOffset = 0f
         mCurrentLine = 0
         invalidate()
@@ -604,9 +624,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     private fun adjustCenter() {
         smoothScrollTo(centerLine, ADJUST_DURATION)
     }
-    /**
-     * 滚动到某一行
-     */
+
     /**
      * 滚动到某一行
      */
@@ -615,11 +633,11 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         endAnimation()
         mAnimator = ValueAnimator.ofFloat(mOffset, offset).apply {
             setDuration(duration)
-            setInterpolator(LinearInterpolator())
-            addUpdateListener(AnimatorUpdateListener { animation: ValueAnimator ->
+            interpolator = LinearInterpolator()
+            addUpdateListener { animation: ValueAnimator ->
                 mOffset = animation.animatedValue as Float
                 this@LyricView.invalidate()
-            })
+            }
             resetDurationScale()
             start()
         }
@@ -639,14 +657,14 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      */
     private fun findShowLine(time: Long): Int {
         var left = 0
-        var right = mLrcEntryList.size
+        var right = lyricEntryList.size
         while (left <= right) {
             val middle = (left + right) / 2
-            val middleTime = mLrcEntryList[middle].time
+            val middleTime = lyricEntryList[middle].time
             if (time < middleTime) {
                 right = middle - 1
             } else {
-                if (middle + 1 >= mLrcEntryList.size || time < mLrcEntryList[middle + 1].time) {
+                if (middle + 1 >= lyricEntryList.size || time < lyricEntryList[middle + 1].time) {
                     return middle
                 }
                 left = middle + 1
@@ -662,9 +680,9 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         get() {
             var centerLine = 0
             var minDistance = Float.MAX_VALUE
-            for (i in mLrcEntryList.indices) {
-                if (Math.abs(mOffset - getOffset(i)) < minDistance) {
-                    minDistance = Math.abs(mOffset - getOffset(i))
+            for (i in lyricEntryList.indices) {
+                if (abs(mOffset - getOffset(i)) < minDistance) {
+                    minDistance = abs(mOffset - getOffset(i))
                     centerLine = i
                 }
             }
@@ -676,14 +694,14 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
      * 采用懒加载方式
      */
     private fun getOffset(line: Int): Float {
-        if (mLrcEntryList[line].offset == Float.MIN_VALUE) {
+        if (lyricEntryList[line].offset == Float.MIN_VALUE) {
             var offset = height.toFloat() / 2
             for (i in 1..line) {
-                offset -= (mLrcEntryList[i - 1].height + mLrcEntryList[i].height shr 1) + mDividerHeight
+                offset -= (lyricEntryList[i - 1].height + lyricEntryList[i].height shr 1) + mDividerHeight
             }
-            mLrcEntryList[line].offset = offset
+            lyricEntryList[line].offset = offset
         }
-        return mLrcEntryList[line].offset
+        return lyricEntryList[line].offset
     }
 
     /**
@@ -703,12 +721,9 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         }
     }
 
-    companion object {
-        private const val ADJUST_DURATION: Long = 100
-        private const val TIMELINE_KEEP_TIME = 3 * DateUtils.SECOND_IN_MILLIS
-    }
-
+    // 放在最后，不要移动
     init {
         init(attrs)
     }
+
 }
