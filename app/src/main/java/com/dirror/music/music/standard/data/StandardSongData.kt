@@ -2,6 +2,10 @@ package com.dirror.music.music.standard.data
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import androidx.room.*
+import com.dirror.music.room.StandardArtistDataConverter
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -16,8 +20,13 @@ data class StandardSongData(
     val imageUrl: String?, // 图片 url
     val artists: ArrayList<StandardArtistData>?, // 艺术家
 
+    @Embedded
     val neteaseInfo: NeteaseInfo?,
+
+    @Embedded
     val localInfo: LocalInfo?,
+
+    @Embedded
     val dirrorInfo: DirrorInfo?
 ) : Parcelable {
 
@@ -26,7 +35,7 @@ data class StandardSongData(
      */
     @Parcelize
     data class StandardArtistData(
-        val id: Long?, // 艺术家 id
+        @SerializedName("id") val artistId: Long?, // 艺术家 id
         val name: String? // 艺术家名称
     ) : Parcelable
 

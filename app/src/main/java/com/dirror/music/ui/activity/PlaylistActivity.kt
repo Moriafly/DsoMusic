@@ -16,13 +16,11 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.databinding.ActivityPlaylistBinding
+import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
 import com.dirror.music.music.standard.SongPicture
-import com.dirror.music.music.standard.data.SOURCE_DIRROR
-import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.StandardPlaylistData
-import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.music.standard.data.*
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import com.dirror.music.util.GlideUtil
@@ -156,6 +154,14 @@ class PlaylistActivity : AppCompatActivity() {
                 }, {
 
                 })
+            }
+            SOURCE_LOCAL -> {
+                // 我喜欢
+                if (id == 0L) {
+                    MyFavorite.read {
+                        initRecycleView(it)
+                    }
+                }
             }
         }
     }

@@ -49,8 +49,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         private const val TIMELINE_KEEP_TIME = 3 * DateUtils.SECOND_IN_MILLIS
     }
 
-
-
     private val lyricEntryList: MutableList<LyricEntry> = ArrayList() // 单句歌词集合
     private val mLrcPaint = TextPaint() // 歌词画笔
     private val mTimePaint = TextPaint() // 时间文字画笔
@@ -99,8 +97,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     interface OnSingleClickListener {
         fun onClick()
     }
-
-
 
     @SuppressLint("CustomViewStyleable")
     private fun init(attrs: AttributeSet?) {
@@ -251,7 +247,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
 
     /**
      * 加载双语歌词文件，两种语言的歌词时间戳需要一致
-     *
      * @param mainLrcFile   第一种语言歌词文件
      * @param secondLrcFile 第二种语言歌词文件
      */
@@ -282,7 +277,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
 
     /**
      * 加载歌词文本
-     *
      * @param lrcText 歌词文本
      */
     fun loadLrc(lrcText: String?) {
@@ -291,7 +285,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
 
     /**
      * 加载双语歌词文本，两种语言的歌词时间戳需要一致
-     *
      * @param mainLrcText   第一种语言歌词文本
      * @param secondLrcText 第二种语言歌词文本
      */
@@ -319,16 +312,11 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
             }.execute(mainLrcText, secondLrcText)
         }
     }
+
     /**
      * 加载在线歌词
-     *
      * @param lrcUrl  歌词文件的网络地址
      * @param charset 编码格式
-     */
-    /**
-     * 加载在线歌词，默认使用 utf-8 编码
-     *
-     * @param lrcUrl 歌词文件的网络地址
      */
     @JvmOverloads
     fun loadLrcByUrl(lrcUrl: String, charset: String? = "utf-8") {
@@ -358,7 +346,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
 
     /**
      * 刷新歌词
-     *
      * @param time 当前播放时间
      */
     fun updateTime(time: Long) {
@@ -378,15 +365,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         }
     }
 
-    /**
-     * 将歌词滚动到指定时间
-     * @param time 指定的时间
-     */
-    @Deprecated("请使用 {@link #updateTime(long)} 代替", ReplaceWith("updateTime(time)"))
-    fun onDrag(time: Long) {
-        updateTime(time)
-    }
-
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         if (changed) {
@@ -401,12 +379,11 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val centerY = height / 2
-
-        // 无歌词文件
+        // 无歌词
         if (!hasLrc()) {
             mLrcPaint.color = mCurrentTextColor
             @SuppressLint("DrawAllocation") val staticLayout = StaticLayout(
-                mDefaultLabel, mLrcPaint,  // 有个 BUG java.lang.IllegalArgumentException: Layout: -181 < 0
+                mDefaultLabel, mLrcPaint,
                 lrcWidth.toInt(), Layout.Alignment.ALIGN_CENTER, 1f, 0f, false
             )
             drawText(canvas, staticLayout, centerY.toFloat())
@@ -446,11 +423,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
                 mLrcPaint.textSize = mNormalTextSize
                 mLrcPaint.color = mNormalTextColor
             }
-            // 不要改动
-//            lyricEntryList[i].staticLayout?.let {
-//                drawText(canvas, it, y)
-//            }
-            Objects.requireNonNull(lyricEntryList[i].staticLayout)?.let {
+            lyricEntryList[i].staticLayout?.let {
                 drawText(canvas, it, y)
             }
         }

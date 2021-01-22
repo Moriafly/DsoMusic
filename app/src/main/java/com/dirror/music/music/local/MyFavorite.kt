@@ -1,37 +1,40 @@
 package com.dirror.music.music.local
 
-import android.os.Parcelable
 import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData
-import kotlinx.parcelize.Parcelize
+import com.dirror.music.room.MyFavoriteData
 import org.jetbrains.annotations.TestOnly
+import kotlin.concurrent.thread
 
 /**
  * 本地我喜欢的
  */
 object MyFavorite {
 
-    private const val ARRAY_MY_FAVORITE = "array_my_favorite"
+    private val myFavoriteDao = MyApplication.appDatabase.myFavoriteDao()
 
     /**
      * 读取本地歌曲
      */
     @TestOnly
-    fun read(): ArrayList<StandardSongData> {
-        val myFavoriteData = MyApplication.mmkv.decodeParcelable(ARRAY_MY_FAVORITE, MyFavoriteData::class.java, MyFavoriteData(ArrayList()))
-        return myFavoriteData.songList
-    }
-
-    fun addSong() {
-
+    fun read(success: (ArrayList<StandardSongData>) -> Unit) {
+        thread {
+            val data = ArrayList<StandardSongData>()
+            for (myFavorite in myFavoriteDao.loadAll()) {
+                data.add(myFavorite.songData)
+            }
+            success.invoke(data)
+        }
     }
 
     /**
-     * 我喜欢数据
+     * 添加一首歌
      */
-    @Parcelize
-    data class MyFavoriteData(
-        val songList: ArrayList<StandardSongData>
-    ) : Parcelable
+    @TestOnly
+    fun addSong(songData: StandardSongData) {
+        thread {
+            myFavoriteDao.insert(MyFavoriteData(songData))
+        }
+    }
 
 }

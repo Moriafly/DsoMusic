@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.DialogPlayMoreBinding
+import com.dirror.music.music.local.MyFavorite
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.FeedbackActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
+import com.dirror.music.util.toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class PlayerMenuMoreDialog(context: Context) : BottomSheetDialog(context, R.style.style_default_dialog) {
@@ -24,6 +27,7 @@ class PlayerMenuMoreDialog(context: Context) : BottomSheetDialog(context, R.styl
     }
 
     private var speed = 1f
+    private var song: StandardSongData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +38,15 @@ class PlayerMenuMoreDialog(context: Context) : BottomSheetDialog(context, R.styl
 
         MyApplication.musicBinderInterface?.getNowSongData()?.let { it ->
             binding.tvSongName.text = it.name
+            song = it
+        }
+
+        // 添加到本地我喜欢
+        binding.itemAddLocalMyFavorite.setOnClickListener {
+            song?.let { data ->
+                MyFavorite.addSong(data)
+                toast("添加成功")
+            }
         }
 
         // 歌曲信息

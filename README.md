@@ -275,7 +275,7 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 
 compileSdkVersion 30
 
-Android Gradle Plugin Version 4.1.1
+Android Gradle Plugin Version 4.1.2
 
 Gradle Version 6.8
 

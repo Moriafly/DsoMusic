@@ -15,9 +15,11 @@ import com.dirror.music.MyApplication
 import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.databinding.FragmentMyBinding
+import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
+import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
@@ -53,13 +55,18 @@ class MyFragment : Fragment() {
 
     private fun initListener() {
         binding.apply {
+            // 我喜欢的音乐
+            clMyFavorite.setOnClickListener {
+                val intent = Intent(this@MyFragment.context, PlaylistActivity::class.java)
+                intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_LOCAL)
+                intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, 0L)
+                startActivity(intent)
+            }
             // 新建歌单
             clNewPlaylist.setOnClickListener {
                 toast("功能开发中，敬请期待")
                 // this.context?.let { it1 -> CreateLocalPlaylistDialog(it1).show() }
             }
-            // 导入歌单
-//            clImportPlaylist.setOnClickListener { toast("功能开发中") }
             // 本地音乐
             clLocalMusic.setOnClickListener {
                 val intent = Intent(this@MyFragment.context, LocalMusicActivity::class.java)

@@ -294,7 +294,7 @@ class PlayerActivity : AppCompatActivity() {
                 playViewModel.standardSongData.value?.let { standardSongData ->
                     if (standardSongData.source == SOURCE_NETEASE) {
                         standardSongData.artists?.let {
-                            it[0].id?.let { artistId ->
+                            it[0].artistId?.let { artistId ->
                                 MyApplication.activityManager.startArtistActivity(this@PlayerActivity, artistId)
                             }
                         }

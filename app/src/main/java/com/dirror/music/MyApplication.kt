@@ -8,6 +8,7 @@ import cn.bmob.v3.Bmob
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.manager.UserManager
+import com.dirror.music.room.AppDatabase
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
@@ -44,6 +45,9 @@ class MyApplication : Application() {
         lateinit var activityManager: ActivityManager
         lateinit var cloudMusicManager: CloudMusicManager
 
+        // 数据库
+        lateinit var appDatabase: AppDatabase
+
     }
 
     /**
@@ -67,6 +71,8 @@ class MyApplication : Application() {
         userManager = UserManager()
         activityManager = ActivityManager()
         cloudMusicManager = CloudMusicManager()
+        // 初始化数据库
+        appDatabase = AppDatabase.getDatabase(this)
         // 安全检查
         checkSecure()
     }

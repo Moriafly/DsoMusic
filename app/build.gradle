@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -28,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 285
+        versionCode 286
         versionName "2.4.0-alpha"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -102,4 +103,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     // media2
     implementation 'androidx.media2:media2-player:1.1.0'
+    // room
+    implementation 'androidx.room:room-runtime:2.2.5'
+    kapt 'androidx.room:room-compiler:2.2.5'
 }
