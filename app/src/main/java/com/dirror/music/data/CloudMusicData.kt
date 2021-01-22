@@ -30,7 +30,8 @@ data class ProfileData(
 
 @Keep
 data class UserPlaylistData(
-    @SerializedName("playlist") val playlist: ArrayList<PlaylistData>
+    val more: Boolean, // 是否有更多
+    val playlist: ArrayList<PlaylistData>
 )
 
 @Keep

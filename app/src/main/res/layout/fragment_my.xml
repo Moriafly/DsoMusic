@@ -117,19 +117,42 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvLocalPlaylist"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:height="28dp"
-            android:gravity="center_vertical"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:text="@string/local_playlist"
-            android:textColor="@color/colorTextForeground"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_height="28dp">
+
+            <TextView
+                android:id="@+id/tvLocalPlaylist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:height="28dp"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="@string/local_playlist"
+                android:textColor="@color/colorTextForeground"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivNewPlaylist"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="20dp"
+                android:alpha="0.72"
+                android:padding="4dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/mz_titlebar_ic_add_dark"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -140,108 +163,96 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clNewPlaylist"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
-                    android:contentDescription="@string/new_playlist"
-                    tools:layout_editor_absoluteX="411dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cdMyFavorite"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="10dp"
+                    app:cardBackgroundColor="#F5F5F5"
+                    app:cardCornerRadius="@dimen/defaultRadius"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cdNewPlaylist"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_marginStart="10dp"
-                        app:cardBackgroundColor="#F5F5F5"
-                        app:cardCornerRadius="@dimen/defaultRadius"
-                        app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                    <ImageView
+                        android:id="@+id/ivMyFavorite"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.72"
+                        app:srcCompat="@drawable/ic_bq_love_music_filter"
+                        tools:ignore="ContentDescription" />
+                </androidx.cardview.widget.CardView>
 
-                        <ImageView
-                            android:id="@+id/ivNewPlaylist"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:alpha="0.72"
-                            android:padding="16dp"
-                            app:srcCompat="@drawable/mz_titlebar_ic_add_dark"
-                            tools:ignore="ContentDescription" />
-                    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/tvMyFavorite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:singleLine="true"
+                    android:text="@string/my_favorite_songs"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/cdMyFavorite"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.508" />
 
-                    <TextView
-                        android:id="@+id/tvNewPlaylist"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="10dp"
-                        android:singleLine="true"
-                        android:text="@string/new_playlist"
-                        android:textColor="@color/colorTextForeground"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/cdNewPlaylist"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.508" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clNewPlaylist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                tools:layout_editor_absoluteX="411dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clImportPlaylist"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
-                    tools:layout_editor_absoluteX="411dp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cdNewPlaylist"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="10dp"
+                    app:cardBackgroundColor="#F5F5F5"
+                    app:cardCornerRadius="@dimen/defaultRadius"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cdImportPlaylist"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_marginStart="10dp"
-                        app:cardBackgroundColor="#F5F5F5"
-                        app:cardCornerRadius="@dimen/defaultRadius"
-                        app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                    <ImageView
+                        android:id="@+id/ivImportPlaylist"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.72"
+                        android:padding="16dp"
+                        app:srcCompat="@drawable/mz_titlebar_ic_add_dark" />
+                </androidx.cardview.widget.CardView>
 
-                        <ImageView
-                            android:id="@+id/ivImportPlaylist"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:alpha="0.72"
-                            android:padding="16dp"
-                            app:srcCompat="@drawable/mz_titlebar_ic_download_dark" />
-                    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/tvNewPlaylist"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:singleLine="true"
+                    android:text="@string/new_playlist"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cdNewPlaylist"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tvImportPlaylist"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="10dp"
-                        android:singleLine="true"
-                        android:text="@string/import_playlist"
-                        android:textColor="@color/colorTextForeground"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/cdImportPlaylist"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
@@ -255,8 +266,8 @@
 
         <TextView
             android:id="@+id/tvInternetPlaylist"
-            android:text="@string/internet_playlist"
-            style="@style/sub_title" />
+            style="@style/sub_title"
+            android:text="@string/internet_playlist" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPlaylist"

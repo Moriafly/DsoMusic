@@ -18,7 +18,7 @@ object LocalPlaylist {
      * 读取本地歌单集合
      * @return 本地歌单集合返回
      */
-    fun read(): LocalPlaylistArrayData {
+    private fun read(): LocalPlaylistArrayData {
         val defaultData = LocalPlaylistArrayData(ArrayList())
         // MMKV 读取
         return MyApplication.mmkv.decodeParcelable(ARRAY_LOCAL_PLAYLIST, LocalPlaylistArrayData::class.java, defaultData)

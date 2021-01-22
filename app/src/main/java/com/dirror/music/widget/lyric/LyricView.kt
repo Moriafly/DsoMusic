@@ -38,6 +38,7 @@ import java.util.*
 @SuppressLint("StaticFieldLeak")
 class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     View(context, attrs, defStyleAttr) {
+
     private val mLrcEntryList: MutableList<LyricEntry> = ArrayList()
     private val mLrcPaint = TextPaint()
     private val mTimePaint = TextPaint()
@@ -67,8 +68,7 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     private var isShowTimeline = false
     private var isTouching = false
     private var isFling = false
-    private var mTextGravity //歌词显示位置，靠左/居中/靠右
-            = 0
+    private var mTextGravity = 0 // 歌词显示位置，靠左 / 居中 / 靠右
 
     /**
      * 播放按钮点击监听器，点击后应该跳转到指定播放位置
@@ -76,7 +76,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
     interface OnPlayClickListener {
         /**
          * 播放按钮被点击，应该跳转到指定播放位置
-         *
          * @return 是否成功消费该事件，如果成功消费，则会更新UI
          */
         fun onPlayClick(time: Long): Boolean
@@ -117,7 +116,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         )
         mDefaultLabel = ta.getString(R.styleable.LrcView_lrcLabel)
         mDefaultLabel = if (TextUtils.isEmpty(mDefaultLabel)) "暂无歌词" else mDefaultLabel
-        // mDefaultLabel = TextUtils.isEmpty(mDefaultLabel) ? getContext().getString(R.string.lrc_label) : mDefaultLabel;
         mLrcPadding = ta.getDimension(R.styleable.LrcView_lrcPadding, 0f)
         mTimelineColor =
             ta.getColor(R.styleable.LrcView_lrcTimelineColor, ContextCompat.getColor(context, R.color.lrc_timeline_color))
@@ -213,15 +211,6 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
         } else {
             null
         }
-    }
-
-    /**
-     * 设置播放按钮点击监听器
-     * @param onPlayClickListener 如果为非 null ，则激活歌词拖动功能，否则将将禁用歌词拖动功能
-     */
-    @Deprecated("use {@link #setDraggable(boolean, OnPlayClickListener)} instead")
-    fun setOnPlayClickListener(onPlayClickListener: OnPlayClickListener?) {
-        mOnPlayClickListener = onPlayClickListener
     }
 
     fun setOnSingerClickListener(mOnSingerClickListener: OnSingleClickListener?) {
@@ -496,8 +485,8 @@ class LyricView @JvmOverloads constructor(context: Context?, attrs: AttributeSet
                 // 滚动显示时间线
                 isShowTimeline = true
                 mOffset += -distanceY
-                mOffset = Math.min(mOffset, getOffset(0))
-                mOffset = Math.max(mOffset, getOffset(mLrcEntryList.size - 1))
+                mOffset = mOffset.coerceAtMost(getOffset(0))
+                mOffset = mOffset.coerceAtLeast(getOffset(mLrcEntryList.size - 1))
                 invalidate()
                 return true
             }

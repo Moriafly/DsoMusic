@@ -54,6 +54,7 @@ interface CloudMusicManagerInterface {
 
     fun getUserDetail(uid: String, success: (result: com.dirror.music.data.UserDetailData) -> Unit, failure: (error: String) -> Unit)
 
+    @Deprecated("过时")
     fun getUserPlaylist(uid: Long, success: (UserPlaylistData) -> Unit)
 
 }

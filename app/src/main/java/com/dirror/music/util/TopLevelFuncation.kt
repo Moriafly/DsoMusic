@@ -50,9 +50,10 @@ fun runOnMainThread(runnable: Runnable) {
 /**
  * 全局 log
  */
-fun loge(msg: String) {
+@JvmOverloads
+fun loge(msg: String, tag: String = "默认") {
     runOnMainThread {
-        Log.e("Dirror 音乐", "【$msg】")
+        Log.e(tag, "【$msg】")
     }
 }
 

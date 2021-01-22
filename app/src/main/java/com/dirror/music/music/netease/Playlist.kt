@@ -104,13 +104,12 @@ object Playlist {
 
                 var value: List<T>? = null
                 for (i in 0 until splitNum) {
-                    if (i < splitNum - 1) {
-                        value = source.subList(i * splitItemNum, (i + 1) * splitItemNum)
+                    value = if (i < splitNum - 1) {
+                        source.subList(i * splitItemNum, (i + 1) * splitItemNum)
                     } else {
                         // 最后一组
-                        value = source.subList(i * splitItemNum, source.size)
+                        source.subList(i * splitItemNum, source.size)
                     }
-
                     result.add(value)
                 }
             }
