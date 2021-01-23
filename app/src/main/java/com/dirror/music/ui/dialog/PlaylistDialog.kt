@@ -11,29 +11,20 @@ import com.dirror.music.adapter.PlaylistDialogAdapter
 import com.dirror.music.databinding.DialogPlayListBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class PlaylistDialog: BottomSheetDialog {
+class PlaylistDialog(context: Context): BaseBottomSheetDialog(context) {
 
     private var binding: DialogPlayListBinding = DialogPlayListBinding.inflate(layoutInflater)
 
-    constructor(context: Context) : this(context, 0)
-
-    constructor(context: Context, themeResId: Int) : super(context, R.style.style_default_dialog) {
+    init {
         setContentView(binding.root)
-        // 设置显示位置
-        window?.setGravity(Gravity.BOTTOM)
-        // 设置大小
-        window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        window?.setWindowAnimations(R.style.dialog_animation)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun initView() {
+        super.initView()
         binding.rvPlaylist.layoutManager = LinearLayoutManager(context)
         MyApplication.musicBinderInterface?.getPlaylist()?.let {
             binding.rvPlaylist.adapter = PlaylistDialogAdapter(it)
             binding.tvPlaylist.text = this.context.getString(R.string.playlist_number, it.size)
         }
-
     }
 }

@@ -8,30 +8,36 @@ import android.view.Gravity
 import android.view.ViewGroup
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
+import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.databinding.DialogSongMenuBinding
+import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.Secure
 import com.dirror.music.util.toast
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class SongMenuDialog(context: Context) : Dialog(context, R.style.style_default_dialog) {
+class SongMenuDialog
+    @JvmOverloads
+    constructor(context: Context, private val tag: Int = PLAYLIST_TAG_NORMAL) : BaseBottomSheetDialog(context) {
 
     private var binding = DialogSongMenuBinding.inflate(layoutInflater)
 
     init {
         setContentView(binding.root)
-        window?.setGravity(Gravity.BOTTOM)
-        window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     private lateinit var songData: StandardSongData
     private lateinit var activity: Activity
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initListener()
+
+    override fun initView() {
+        super.initView()
+
     }
 
-    private fun initListener() {
+    override fun initListener() {
+        super.initListener()
         binding.apply {
             // 歌曲信息
             itemSongInfo.setOnClickListener {
@@ -47,10 +53,9 @@ class SongMenuDialog(context: Context) : Dialog(context, R.style.style_default_d
             }
             // 歌曲删除
             itemDeleteSong.setOnClickListener {
-                if (Secure.isDebug()) {
-                    toast("开发中")
-                } else {
-                    toast("测试")
+                if (tag == PLAYLIST_TAG_MY_FAVORITE) {
+                    MyFavorite.deleteById(songData.id)
+                    toast("删除成功")
                 }
             }
         }

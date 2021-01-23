@@ -1,7 +1,6 @@
 package com.dirror.music.room
 
 import androidx.room.*
-import com.dirror.music.music.standard.data.StandardSongData
 
 @Dao
 interface MyFavoriteDao {
@@ -17,5 +16,8 @@ interface MyFavoriteDao {
 
     @Delete
     fun delete(myFavoriteData: MyFavoriteData)
+
+    @Query("delete from MyFavoriteData where id = :id")
+    fun deleteById(id: String): Int
 
 }

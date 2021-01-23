@@ -12,6 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
+import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
@@ -20,7 +22,11 @@ import com.dirror.music.util.parseArtist
 /**
  * 歌单适配器
  */
-class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData>, private val activity: Activity): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
+class DetailPlaylistAdapter
+    @JvmOverloads
+    constructor(private val songDataList: ArrayList<StandardSongData>,
+                private val activity: Activity,
+                private val tag: Int = PLAYLIST_TAG_NORMAL): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvNumber: TextView = view.findViewById(R.id.tvNumber)
@@ -58,7 +64,7 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
             }
             // 更多点击，每首歌右边的三点菜单
             ivMore.setOnClickListener {
-                SongMenuDialog(it.context).apply {
+                SongMenuDialog(it.context, tag).apply {
                     setSongData(song)
                     setActivity(activity)
                     show()
@@ -66,7 +72,7 @@ class DetailPlaylistAdapter(private val songDataList: ArrayList<StandardSongData
             }
             // 长按
             clSong.setOnLongClickListener {
-                SongMenuDialog(it.context).apply {
+                SongMenuDialog(it.context, tag).apply {
                     setSongData(song)
                     setActivity(activity)
                     show()

@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -163,4 +164,8 @@ fun openJim(context: Context) {
     } catch (e: Exception) {
         toast("失败")
     }
+}
+
+fun defaultTypeface(context: Context): Typeface {
+    return Typeface.createFromAsset(context.assets, "fonts/Moriafly-Regular.ttf")
 }

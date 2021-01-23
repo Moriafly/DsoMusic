@@ -6,6 +6,8 @@
 
     <!-- 标准字体 -->
     <dimen name="defaultTextSize">16sp</dimen>
+    <dimen name="subTextSize">12sp</dimen>
+    <dimen name="lineSpacingExtra">4dp</dimen>
 
     <integer name="lrc_animation_duration">1000</integer>
     <dimen name="lrc_text_size">16sp</dimen>

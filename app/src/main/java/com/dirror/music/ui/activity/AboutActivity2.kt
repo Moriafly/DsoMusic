@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityAbout2Binding
+import com.dirror.music.ui.dialog.AppInfoDialog
 import com.dirror.music.util.Secure
 import com.dirror.music.util.UpdateUtil
 import com.dirror.music.util.getVisionCode
@@ -64,6 +65,11 @@ class AboutActivity2 : AppCompatActivity() {
             itemHistoryVersion.setOnClickListener { MyApplication.activityManager.startWebActivity(this@AboutActivity2, HISTORY_VERSION) }
             // 使用开源项目
             itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity2, OpenSourceActivity::class.java)) }
+            // ivLogo
+            ivLogo.setOnLongClickListener {
+                AppInfoDialog(this@AboutActivity2).show()
+                return@setOnLongClickListener true
+            }
         }
     }
 

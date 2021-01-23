@@ -37,4 +37,23 @@ object MyFavorite {
         }
     }
 
+    /**
+     * 删除一首歌
+     */
+    @TestOnly
+    fun delete(songData: StandardSongData) {
+        thread {
+            myFavoriteDao.delete(MyFavoriteData(songData))
+        }
+    }
+
+    /**
+     * 通过 id 删除一首歌
+     */
+    fun deleteById(id: String) {
+        thread {
+            myFavoriteDao.deleteById(id)
+        }
+    }
+
 }

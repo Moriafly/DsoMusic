@@ -12,6 +12,10 @@ import com.dirror.music.databinding.ActivityWebBinding
 
 class WebActivity : AppCompatActivity() {
 
+    companion object {
+        const val EXTRA_TITLE = "extra_title"
+    }
+
     private lateinit var binding: ActivityWebBinding
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -21,6 +25,7 @@ class WebActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val extraWebUrlStr = intent.getStringExtra("extra_webUrlStr")
+        val extraTitle = intent.getStringExtra(EXTRA_TITLE)
 
         binding.webView.settings.javaScriptEnabled = true // 禁用 JavaScript
         binding.webView.settings.allowFileAccess = false // 禁止访问私有文件数据

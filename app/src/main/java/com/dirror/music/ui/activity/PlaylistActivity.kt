@@ -15,6 +15,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
+import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.databinding.ActivityPlaylistBinding
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.netease.Playlist
@@ -159,7 +161,7 @@ class PlaylistActivity : AppCompatActivity() {
                 // 我喜欢
                 if (id == 0L) {
                     MyFavorite.read {
-                        initRecycleView(it)
+                        initRecycleView(it, PLAYLIST_TAG_MY_FAVORITE)
                     }
                 }
             }
@@ -236,12 +238,12 @@ class PlaylistActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initRecycleView(songList: ArrayList<StandardSongData>) {
+    private fun initRecycleView(songList: ArrayList<StandardSongData>, tag: Int = PLAYLIST_TAG_NORMAL) {
         runOnMainThread {
             binding.clLoading.visibility = View.GONE
             binding.rvPlaylist.layoutManager =  LinearLayoutManager(this@PlaylistActivity)
             // 改变全局变量
-            detailPlaylistAdapter = DetailPlaylistAdapter(songList, this@PlaylistActivity)
+            detailPlaylistAdapter = DetailPlaylistAdapter(songList, this@PlaylistActivity, tag)
             binding.rvPlaylist.adapter = detailPlaylistAdapter
             binding.tvPlayAll.text = "播放全部(${songList.size})"
             binding.lottieLoading.pauseAnimation()
