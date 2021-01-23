@@ -11,6 +11,8 @@ interface ActivityManagerInterface {
 
     fun startWebActivity(activity: Activity, url: String)
 
+    fun startWebActivity(activity: Activity, url: String, title: String)
+
     fun startCommentActivity(activity: Activity, source: Int, id: String)
 
     fun startUserActivity(activity: Activity, userId: Long)

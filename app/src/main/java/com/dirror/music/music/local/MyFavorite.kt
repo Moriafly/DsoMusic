@@ -3,6 +3,7 @@ package com.dirror.music.music.local
 import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.room.MyFavoriteData
+import com.dirror.music.util.toast
 import org.jetbrains.annotations.TestOnly
 import kotlin.concurrent.thread
 
@@ -21,7 +22,7 @@ object MyFavorite {
         thread {
             val data = ArrayList<StandardSongData>()
             for (myFavorite in myFavoriteDao.loadAll()) {
-                data.add(myFavorite.songData)
+                data.add(0, myFavorite.songData)
             }
             success.invoke(data)
         }
@@ -33,7 +34,13 @@ object MyFavorite {
     @TestOnly
     fun addSong(songData: StandardSongData) {
         thread {
-            myFavoriteDao.insert(MyFavoriteData(songData))
+            val myFavoriteData = MyFavoriteData(songData)
+            if (myFavoriteData !in myFavoriteDao.loadAll()) {
+                myFavoriteDao.insert(myFavoriteData)
+                toast("添加成功")
+            } else {
+                toast("已经添加过了哦~")
+            }
         }
     }
 

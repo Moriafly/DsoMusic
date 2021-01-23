@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.menuMain.itemSourceCode.setOnClickListener {
-            MyApplication.activityManager.startWebActivity(this, "https://github.com/Moriafly/DsoMusic")
+            MyApplication.activityManager.startWebActivity(this, "https://github.com/Moriafly/DsoMusic", getString(R.string.source_code))
         }
 
         binding.menuMain.itemAbout.setOnClickListener {

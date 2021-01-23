@@ -1,15 +1,11 @@
 package com.dirror.music.ui.dialog
 
 import android.content.Context
-import android.os.Bundle
-import android.view.Gravity
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistDialogAdapter
 import com.dirror.music.databinding.DialogPlayListBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class PlaylistDialog(context: Context): BaseBottomSheetDialog(context) {
 

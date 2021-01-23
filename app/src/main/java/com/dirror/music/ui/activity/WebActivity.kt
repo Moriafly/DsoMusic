@@ -88,9 +88,11 @@ class WebActivity : AppCompatActivity() {
         binding.webView.webChromeClient = object : WebChromeClient() {
             override fun onReceivedTitle(view: WebView, title: String) {
                 super.onReceivedTitle(view, title)
-                var titleStr = title
-                titleStr = titleStr.replace("_百度百科", "")
-                binding.titleBar.setTitleBarText(titleStr)
+                if (extraTitle.isNullOrEmpty()) {
+                    binding.titleBar.setTitleBarText(title)
+                } else {
+                    binding.titleBar.setTitleBarText(extraTitle)
+                }
             }
 
 

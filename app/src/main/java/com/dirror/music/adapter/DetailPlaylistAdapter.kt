@@ -12,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
 import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayerActivity
@@ -64,19 +63,11 @@ class DetailPlaylistAdapter
             }
             // 更多点击，每首歌右边的三点菜单
             ivMore.setOnClickListener {
-                SongMenuDialog(it.context, tag).apply {
-                    setSongData(song)
-                    setActivity(activity)
-                    show()
-                }
+                SongMenuDialog(it.context, activity, song, tag).show()
             }
             // 长按
             clSong.setOnLongClickListener {
-                SongMenuDialog(it.context, tag).apply {
-                    setSongData(song)
-                    setActivity(activity)
-                    show()
-                }
+                SongMenuDialog(it.context, activity, song, tag).show()
                 return@setOnLongClickListener true
             }
         }
@@ -97,13 +88,8 @@ class DetailPlaylistAdapter
      * 播放音乐
      */
     private fun playMusic(position: Int, view: View?) {
-        // 空歌单跳出
-//        if (MyApplication.musicBinderInterface?.getPlaylist() == null) {
-//            return
-//        }
         // 歌单相同
         if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) {
-            // toast("歌单相同")
             // position 相同
             if (position == MyApplication.musicBinderInterface?.getNowPosition()) {
                 if (view != null) {

@@ -28,6 +28,13 @@ class ActivityManager: ActivityManagerInterface {
         activity.startActivity(intent)
     }
 
+    override fun startWebActivity(activity: Activity, url: String, title: String) {
+        val intent = Intent(activity, WebActivity::class.java)
+        intent.putExtra("extra_webUrlStr", url)
+        intent.putExtra(WebActivity.EXTRA_TITLE, title)
+        activity.startActivity(intent)
+    }
+
     /**
      * 启动评论 activity
      */

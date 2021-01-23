@@ -5,10 +5,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -49,6 +51,8 @@ class PlaylistActivity : AppCompatActivity() {
 
     private var playlistId: Long = -1L
 
+    private var playlistSource: Int = SOURCE_NETEASE
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
@@ -78,7 +82,7 @@ class PlaylistActivity : AppCompatActivity() {
         // 色彩
         binding.ivPlayAll.setColorFilter(getColor(R.color.colorAppThemeColor))
         // 获取歌单来源
-        val playlistSource = intent.getIntExtra(EXTRA_PLAYLIST_SOURCE, 0)
+        playlistSource = intent.getIntExtra(EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
         // 获取歌单 id
         playlistId = intent.getLongExtra(EXTRA_LONG_PLAYLIST_ID, -1)
 
@@ -160,6 +164,7 @@ class PlaylistActivity : AppCompatActivity() {
             SOURCE_LOCAL -> {
                 // 我喜欢
                 if (id == 0L) {
+                    initPlaylistInfo(id)
                     MyFavorite.read {
                         initRecycleView(it, PLAYLIST_TAG_MY_FAVORITE)
                     }
@@ -171,25 +176,37 @@ class PlaylistActivity : AppCompatActivity() {
     /**
      * 初始化歌单信息
      */
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun initPlaylistInfo(id: Long) {
+        if (playlistSource == SOURCE_LOCAL && playlistId == 0L) {
+            getDrawable(R.drawable.ic_bq_love_music_filter)?.let {
+                binding.ivCover.setImageBitmap(it.toBitmap())
+                binding.tvName.text = getString(R.string.my_favorite_songs)
+                setBackground(it.toBitmap())
+            }
+            return
+        }
         PlaylistUtil.getPlaylistInfo(id) {
             it.coverImgUrl?.let { url ->
                 GlideUtil.load(url) { bitmap ->
-                    runOnMainThread {
-                        binding.ivCover.setImageBitmap(bitmap)
-                        Glide.with(MyApplication.context)
-                            .load(bitmap)
-                            .placeholder(binding.ivBackground.drawable)
-                            .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
-                            .into(binding.ivBackground)
-                    }
+                    setBackground(bitmap)
                 }
-
             }
             runOnMainThread {
                 binding.tvName.text = it.name
                 binding.tvDescription.text = it.description
             }
+        }
+    }
+
+    private fun setBackground(bitmap: Bitmap) {
+        runOnMainThread {
+            binding.ivCover.setImageBitmap(bitmap)
+            Glide.with(MyApplication.context)
+                .load(bitmap)
+                .placeholder(binding.ivBackground.drawable)
+                .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
+                .into(binding.ivBackground)
         }
     }
 
