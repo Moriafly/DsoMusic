@@ -21,7 +21,7 @@ object UpdateUtil {
                     UpdateDialog(activity, updateData).show()
                 } else {
                     if (showLastedToast) {
-                        toast("已是最新版本\n服务器版本：${updateData.code}")
+                        toast("已是最新版本\n服务器版本：${updateData.name}(${updateData.code})")
                     }
                 }
             }

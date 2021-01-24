@@ -5,10 +5,15 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.view.View
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
@@ -19,8 +24,10 @@ import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
+import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.ui.viewmodel.PlaylistViewModel
 import com.dirror.music.util.*
+import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
  * 新版 Playlist
@@ -37,6 +44,7 @@ class PlaylistActivity2: BaseActivity() {
 
     // 音乐广播接收
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver
+    private lateinit var updatePlaylistReceiver: UpdatePlaylistReceiver
 
     private var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList(), this)
 
@@ -72,13 +80,30 @@ class PlaylistActivity2: BaseActivity() {
         playlistViewModel.updatePlaylist()
 
         binding.rvPlaylist.layoutManager =  LinearLayoutManager(this@PlaylistActivity2)
+
+        var rvPlaylistScrollY = 0
+        binding.rvPlaylist.setOnScrollChangeListener { _, _, _, _, oldScrollY ->
+            rvPlaylistScrollY += oldScrollY
+            if (rvPlaylistScrollY < 0) {
+                if (binding.titleBar.text == getString(R.string.playlist)) {
+                    binding.titleBar.setTitleBarText(binding.tvName.text.toString())
+                }
+            } else {
+                binding.titleBar.setTitleBarText(getString(R.string.playlist))
+            }
+        }
     }
 
     override fun initBroadcastReceiver() {
-        val intentFilter = IntentFilter() // Intent 过滤器
+        var intentFilter = IntentFilter() // Intent 过滤器
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
+
+        intentFilter = IntentFilter()
+        intentFilter.addAction(SongMenuDialog.BROADCAST_UPDATE_PLAYLIST)
+        updatePlaylistReceiver = UpdatePlaylistReceiver()
+        registerReceiver(updatePlaylistReceiver, intentFilter) // 注册接收器
     }
 
     override fun initListener() {
@@ -122,6 +147,9 @@ class PlaylistActivity2: BaseActivity() {
             tag.observe(this@PlaylistActivity2, {
                 if (tag.value == PLAYLIST_TAG_MY_FAVORITE) {
                     binding.tvName.text = getString(R.string.my_favorite_songs)
+                    ContextCompat.getDrawable(this@PlaylistActivity2, R.drawable.ic_bq_love_music_filter)?.let { it1 ->
+                        setPicture(it1.toBitmap())
+                    }
                 }
             })
         }
@@ -132,6 +160,12 @@ class PlaylistActivity2: BaseActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             refreshLayoutPlay()
             refreshPlayState()
+        }
+    }
+
+    inner class UpdatePlaylistReceiver: BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            playlistViewModel.updatePlaylist()
         }
     }
 
@@ -167,6 +201,21 @@ class PlaylistActivity2: BaseActivity() {
         super.onDestroy()
         // 解绑
         unregisterReceiver(musicBroadcastReceiver)
+        unregisterReceiver(updatePlaylistReceiver)
+    }
+
+    /**
+     * 设置图片
+     */
+    private fun setPicture(bitmap: Bitmap) {
+        runOnMainThread {
+            binding.ivCover.setImageBitmap(bitmap)
+            Glide.with(MyApplication.context)
+                .load(bitmap)
+                .placeholder(binding.ivBackground.drawable)
+                .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
+                .into(binding.ivBackground)
+        }
     }
 
 

@@ -22,6 +22,7 @@
 
 -keep class com.dirror.music.music.** { *; }
 -keep class com.dirror.music.data.** { *; }
+-keep class com.dirror.music.room.** { *; }
 
 -ignorewarnings
 

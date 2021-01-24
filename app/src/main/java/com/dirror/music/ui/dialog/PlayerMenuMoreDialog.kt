@@ -58,6 +58,7 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
             // 播放历史
             itemPlayHistory.setOnClickListener {
                 it.context.startActivity(Intent(it.context, PlayHistoryActivity::class.java))
+                dismiss()
             }
             // 反馈
             itemFeedback.setOnClickListener {

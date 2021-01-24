@@ -9,6 +9,7 @@ import com.dirror.music.databinding.DialogSongMenuBinding
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseBottomSheetDialog
+import com.dirror.music.util.BroadcastUtil
 import com.dirror.music.util.toast
 
 class SongMenuDialog
@@ -17,6 +18,10 @@ class SongMenuDialog
                 private val activity: Activity,
                 private val songData: StandardSongData,
                 private val tag: Int = PLAYLIST_TAG_NORMAL) : BaseBottomSheetDialog(context) {
+
+    companion object {
+        const val BROADCAST_UPDATE_PLAYLIST = "com.dirror.music.UPDATE_PLAYLIST"
+    }
 
     private var binding = DialogSongMenuBinding.inflate(layoutInflater)
 
@@ -49,6 +54,7 @@ class SongMenuDialog
                 if (tag == PLAYLIST_TAG_MY_FAVORITE) {
                     MyFavorite.deleteById(songData.id)
                     toast("删除成功")
+                    BroadcastUtil.send(this@SongMenuDialog.context, BROADCAST_UPDATE_PLAYLIST)
                     dismiss()
                 }
             }
