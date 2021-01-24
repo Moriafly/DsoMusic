@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.adapter.PlaylistAdapter
+import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.databinding.FragmentMyBinding
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
@@ -20,6 +21,7 @@ import com.dirror.music.music.standard.data.StandardLocalPlaylistData
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.activity.PlaylistActivity
+import com.dirror.music.ui.activity.PlaylistActivity2
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
@@ -57,9 +59,11 @@ class MyFragment : Fragment() {
         binding.apply {
             // 我喜欢的音乐
             clMyFavorite.setOnClickListener {
-                val intent = Intent(this@MyFragment.context, PlaylistActivity::class.java)
-                intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_LOCAL)
-                intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, 0L)
+                val intent = Intent(this@MyFragment.context, PlaylistActivity2::class.java).apply {
+                    putExtra(PlaylistActivity2.EXTRA_PLAYLIST_SOURCE, SOURCE_LOCAL)
+                    putExtra(PlaylistActivity2.EXTRA_LONG_PLAYLIST_ID, 0L)
+                    putExtra(PlaylistActivity2.EXTRA_INT_TAG, PLAYLIST_TAG_MY_FAVORITE)
+                }
                 startActivity(intent)
             }
             // 新建歌单

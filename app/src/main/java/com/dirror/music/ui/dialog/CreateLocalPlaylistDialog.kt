@@ -3,6 +3,7 @@ package com.dirror.music.ui.dialog
 import android.content.Context
 import com.dirror.music.databinding.DialogCreateLocalPlaylistBinding
 import com.dirror.music.music.local.LocalPlaylist
+import com.dirror.music.ui.base.BaseBottomSheetDialog
 import com.dirror.music.util.toast
 
 /**

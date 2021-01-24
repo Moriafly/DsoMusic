@@ -8,6 +8,7 @@ import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.databinding.DialogSongMenuBinding
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.ui.base.BaseBottomSheetDialog
 import com.dirror.music.util.toast
 
 class SongMenuDialog

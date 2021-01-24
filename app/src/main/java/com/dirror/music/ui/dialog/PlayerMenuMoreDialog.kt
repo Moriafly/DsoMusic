@@ -8,7 +8,7 @@ import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.FeedbackActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
-import com.dirror.music.util.toast
+import com.dirror.music.ui.base.BaseBottomSheetDialog
 
 class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
 

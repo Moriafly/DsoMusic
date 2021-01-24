@@ -6,6 +6,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistDialogAdapter
 import com.dirror.music.databinding.DialogPlayListBinding
+import com.dirror.music.ui.base.BaseBottomSheetDialog
 
 class PlaylistDialog(context: Context): BaseBottomSheetDialog(context) {
 

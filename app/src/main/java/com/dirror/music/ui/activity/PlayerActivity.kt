@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
 import android.graphics.Color
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -17,7 +16,6 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
@@ -29,6 +27,7 @@ import com.dirror.music.databinding.ActivityPlayerBinding
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.service.MusicService
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
@@ -44,7 +43,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
  * @author Moriafly
  * @since 2020年12月15日18:35:46
  */
-class PlayerActivity : AppCompatActivity() {
+class PlayerActivity : BaseActivity() {
 
     companion object {
         private const val MUSIC_BROADCAST_ACTION = "com.dirror.music.MUSIC_BROADCAST"
@@ -150,17 +149,19 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun initView() {
         // 设置 SlideBackLayout
         slideBackLayout = SlideBackLayout(this, binding.clBase)
         slideBackLayout.bind()
         // 屏幕旋转
         val configuration = this.resources.configuration //获取设置的配置信息
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            //横屏
+            // 横屏
             val decorView = window.decorView
             // TODO 解决方法过时问题
             val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -169,33 +170,6 @@ class PlayerActivity : AppCompatActivity() {
                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
             decorView.systemUiVisibility = uiOptions
         }
-        // 初始化广播接受者
-        initBroadcastReceiver()
-        // 初始化视图
-        initView()
-        // 初始化监听
-        initListener()
-        // 初始化 ViewModel 观察
-        initViewModelObserve()
-    }
-
-    /**
-     * 初始化广播接受者
-     */
-    private fun initBroadcastReceiver() {
-        // Intent 过滤器，只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(MUSIC_BROADCAST_ACTION)
-        musicBroadcastReceiver = MusicBroadcastReceiver()
-        // 注册接收器
-        registerReceiver(musicBroadcastReceiver, intentFilter)
-    }
-
-    /**
-     * 初始化视图
-     */
-    private fun initView() {
-
         // 页面状态栏适配
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topToTop = ConstraintLayout.LayoutParams.PARENT_ID
@@ -224,11 +198,8 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 初始化监听
-     */
     @SuppressLint("ClickableViewAccessibility")
-    private fun initListener() {
+    override fun initListener() {
         binding.apply {
             // 返回按钮
             ivBack.setOnClickListener { finish() }
@@ -349,10 +320,16 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 初始化观察者
-     */
-    private fun initViewModelObserve() {
+    override fun initBroadcastReceiver() {
+        // Intent 过滤器，只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(MUSIC_BROADCAST_ACTION)
+        musicBroadcastReceiver = MusicBroadcastReceiver()
+        // 注册接收器
+        registerReceiver(musicBroadcastReceiver, intentFilter)
+    }
+
+    override fun initObserver() {
         playViewModel.apply {
             // 播放模式的观察
             playMode.observe(this@PlayerActivity, {
