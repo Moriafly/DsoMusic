@@ -25,7 +25,7 @@ class DetailPlaylistAdapter
     @JvmOverloads
     constructor(private val songDataList: ArrayList<StandardSongData>,
                 private val activity: Activity,
-                private val tag: Int = PLAYLIST_TAG_NORMAL): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
+                private val tag: Int? = PLAYLIST_TAG_NORMAL): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvNumber: TextView = view.findViewById(R.id.tvNumber)
@@ -63,11 +63,15 @@ class DetailPlaylistAdapter
             }
             // 更多点击，每首歌右边的三点菜单
             ivMore.setOnClickListener {
-                SongMenuDialog(it.context, activity, song, tag).show()
+                if (tag != null) {
+                    SongMenuDialog(it.context, activity, song, tag).show()
+                }
             }
             // 长按
             clSong.setOnLongClickListener {
-                SongMenuDialog(it.context, activity, song, tag).show()
+                if (tag != null) {
+                    SongMenuDialog(it.context, activity, song, tag).show()
+                }
                 return@setOnLongClickListener true
             }
         }

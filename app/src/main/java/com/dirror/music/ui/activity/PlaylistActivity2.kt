@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
 import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.databinding.ActivityPlaylistBinding
 import com.dirror.music.music.standard.SongPicture
@@ -62,7 +63,7 @@ class PlaylistActivity2: BaseActivity() {
         // 获取歌单 id
         playlistViewModel.id = intent.getLongExtra(EXTRA_LONG_PLAYLIST_ID, 0L)
         // 获取 tag
-        playlistViewModel.tag = intent.getIntExtra(EXTRA_INT_TAG, PLAYLIST_TAG_NORMAL)
+        playlistViewModel.tag.value = intent.getIntExtra(EXTRA_INT_TAG, PLAYLIST_TAG_NORMAL)
 
         binding.lottieLoading.repeatCount = -1
         binding.lottieLoading.playAnimation()
@@ -112,11 +113,16 @@ class PlaylistActivity2: BaseActivity() {
     override fun initObserver() {
         playlistViewModel.apply {
             playlist.observe(this@PlaylistActivity2, {
-                detailPlaylistAdapter = DetailPlaylistAdapter(it, this@PlaylistActivity2, tag)
+                detailPlaylistAdapter = DetailPlaylistAdapter(it, this@PlaylistActivity2, tag.value)
                 binding.rvPlaylist.adapter = detailPlaylistAdapter
                 binding.tvPlayAll.text = "播放全部(${it.size})"
                 binding.clLoading.visibility = View.GONE
                 binding.lottieLoading.pauseAnimation()
+            })
+            tag.observe(this@PlaylistActivity2, {
+                if (tag.value == PLAYLIST_TAG_MY_FAVORITE) {
+                    binding.tvName.text = getString(R.string.my_favorite_songs)
+                }
             })
         }
     }

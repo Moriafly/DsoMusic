@@ -18,7 +18,9 @@ class PlaylistViewModel: ViewModel() {
     var source = SOURCE_NETEASE
 
     // tag
-    var tag = PLAYLIST_TAG_NORMAL
+    var tag = MutableLiveData<Int>().also {
+        it.value = PLAYLIST_TAG_NORMAL
+    }
 
     // 歌单
     var playlist = MutableLiveData<ArrayList<StandardSongData>>()
@@ -42,6 +44,10 @@ class PlaylistViewModel: ViewModel() {
             }
         }
 
+    }
+
+    fun setTag(newTag: Int) {
+        tag.value = newTag
     }
 
 }
