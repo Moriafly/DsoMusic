@@ -18,12 +18,11 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
         setContentView(binding.root)
     }
 
-    private var speed = 1f
+
     private var song: StandardSongData? = null
 
     override fun initView() {
-        speed = MyApplication.musicBinderInterface?.getSpeed() ?: 1f
-        refreshPitch()
+
         MyApplication.musicBinderInterface?.getNowSongData()?.let { it ->
             binding.tvSongName.text = it.name
             song = it
@@ -47,14 +46,7 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
                 // 自己消失
                 dismiss()
             }
-            ivIncreasePitch.setOnClickListener {
-                MyApplication.musicBinderInterface?.increasePitchLevel()
-                refreshPitch()
-            }
-            ivDecreasePitch.setOnClickListener {
-                MyApplication.musicBinderInterface?.decreasePitchLevel()
-                refreshPitch()
-            }
+
             // 播放历史
             itemPlayHistory.setOnClickListener {
                 it.context.startActivity(Intent(it.context, PlayHistoryActivity::class.java))
@@ -72,11 +64,6 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
         }
     }
 
-    /**
-     * 刷新 Pitch
-     */
-    private fun refreshPitch() {
-        binding.tvPitch.text = MyApplication.musicBinderInterface?.getPitchLevel().toString()
-    }
+
 
 }

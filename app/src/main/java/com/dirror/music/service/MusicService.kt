@@ -70,7 +70,12 @@ class MusicService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        mediaSession = MediaSessionCompat(this, "MusicService")
+        // 初始化 MediaSession
+        // 测试
+        mediaSession = MediaSessionCompat(this, "MusicService").apply {
+            setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
+                    MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+        }
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
         // 初始化 MediaSession 回调
         initMediaSessionCallback()
@@ -102,9 +107,6 @@ class MusicService : Service() {
      */
     @TestOnly
     private fun initAudioFocus() {
-
-
-
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_GAME)

@@ -1,14 +1,7 @@
 package com.dirror.music.data
 
 import androidx.annotation.Keep
-import com.dirror.music.music.standard.data.StandardSongData
 import com.google.gson.annotations.SerializedName
-
-// 登录数据
-data class LoginData(
-    val code: Int,
-    val profile: ProfileData,
-)
 
 // 详细用户信息
 @Keep
@@ -66,45 +59,6 @@ data class TracksData(
 @Keep
 data class TrackIdsData(
     val id: Long, // 歌曲 id
-)
-
-@Keep
-data class SongData(
-    val songs: List<SongInnerData>
-)
-
-@Keep
-data class SongInnerData(
-    val name: String?,
-    val id: Long,
-    val ar: ArrayList<StandardSongData.StandardArtistData>,
-    val al: AlbumData,
-)
-
-@Keep
-data class AlbumData( // 专辑
-    val picUrl: String
-)
-
-data class ArtistData(
-    val name: String
-)
-
-
-
-// 搜索结果
-@Keep
-data class SearchData(
-    val result: SearchResultData
-)
-@Keep
-data class SearchResultData(
-    val songs: List<SearchSongData>
-)
-
-@Keep
-data class SearchSongData(
-    val id: Long,
 )
 
 // 歌曲评论

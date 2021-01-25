@@ -5,6 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+/**
+ * Room 数据库
+ * @author Moriafly
+ */
 @Database(version = AppDatabase.DATABASE_VERSION, entities = [MyFavoriteData::class])
 abstract class AppDatabase: RoomDatabase() {
 
@@ -12,6 +16,7 @@ abstract class AppDatabase: RoomDatabase() {
 
     companion object {
 
+        // 数据库版本
         const val DATABASE_VERSION = 1
 
         private var instance: AppDatabase? = null

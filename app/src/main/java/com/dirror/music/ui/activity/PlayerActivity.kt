@@ -30,6 +30,7 @@ import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
+import com.dirror.music.ui.dialog.SoundEffectDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
 import com.dirror.music.widget.SlideBackLayout
@@ -212,7 +213,7 @@ class PlayerActivity : BaseActivity() {
             // 切换播放模式
             ivMode.setOnClickListener { playViewModel.changePlayMode() }
             // 均衡器
-            ivEqualizer.setOnClickListener { IntentUtil.openEqualizer(this@PlayerActivity) }
+            ivEqualizer.setOnClickListener { SoundEffectDialog(this@PlayerActivity, this@PlayerActivity).show() }
             // 评论
             ivComment.setOnClickListener {
                 playViewModel.standardSongData.value?.let {
@@ -496,6 +497,18 @@ class PlayerActivity : BaseActivity() {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 playViewModel.reduceVolume()
                 return true
+            }
+            // 耳机
+            KeyEvent.KEYCODE_HEADSETHOOK -> {
+                toast("收到耳机监听")
+                event?.let {
+                    when(it.repeatCount) {
+                        0 -> MyApplication.musicBinderInterface?.changePlayState()
+                        1 -> MyApplication.musicBinderInterface?.playNext()
+                        else -> MyApplication.musicBinderInterface?.playLast()
+                    }
+                }
+
             }
         }
         return super.onKeyDown(keyCode, event)

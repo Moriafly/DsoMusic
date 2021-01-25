@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/defaultPadding"
+    android:paddingBottom="@dimen/defaultPadding"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_slide_layout">
+
+    <com.dirror.music.widget.ItemLayout
+        android:id="@+id/itemEqualizer"
+        app:text="@string/equalizer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/defaultHeight" />
+
+    <com.dirror.music.widget.ItemLayout
+        android:id="@+id/itemPitch"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:itemType="item_no"
+        app:text="@string/pitch">
+
+        <ImageView
+            android:id="@+id/ivIncreasePitch"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="16dp"
+            android:alpha="0.72"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_add_circle_24" />
+
+        <TextView
+            android:id="@+id/tvPitch"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@color/colorSubTextForeground"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ivIncreasePitch"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivDecreasePitch"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:alpha="0.72"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvPitch"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_remove_circle_24" />
+    </com.dirror.music.widget.ItemLayout>
+
+</LinearLayout>

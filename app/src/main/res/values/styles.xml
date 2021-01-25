@@ -70,5 +70,16 @@
         <item name="android:background">@drawable/bg_edit_text</item>
     </style>
 
+    <style name="defaultValueText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingStart">@dimen/defaultPadding</item>
+        <item name="android:paddingEnd">@dimen/defaultPadding</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
     <drawable name="drawableTransparent">#00000000</drawable>
 </resources>

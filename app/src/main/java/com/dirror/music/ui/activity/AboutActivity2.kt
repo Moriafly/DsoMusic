@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityAbout2Binding
+import com.dirror.music.service.test.TestMediaCodeInfo
 import com.dirror.music.ui.dialog.AppInfoDialog
 import com.dirror.music.util.Secure
 import com.dirror.music.util.UpdateUtil
@@ -53,6 +54,7 @@ class AboutActivity2 : AppCompatActivity() {
 
             }
         }
+        initMediaCodec()
     }
 
     private fun initListener() {
@@ -71,6 +73,16 @@ class AboutActivity2 : AppCompatActivity() {
                 return@setOnLongClickListener true
             }
         }
+    }
+
+    private fun initMediaCodec() {
+
+        val list = TestMediaCodeInfo.getCodec()
+        var str = ""
+        list.forEach {
+            str += "${it.name}\n"
+        }
+        binding.tvMediaCodec.text = str
     }
 
 }

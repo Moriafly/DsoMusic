@@ -7,6 +7,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.databinding.DialogTextInfoBinding
 import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.room.AppDatabase
+import com.dirror.music.service.test.TestMediaCodeInfo
 import com.dirror.music.ui.base.BaseBottomSheetDialog
 import com.dirror.music.util.Secure
 import com.dirror.music.util.defaultTypeface
@@ -24,6 +25,8 @@ class AppInfoDialog(context: Context) : BaseBottomSheetDialog(context) {
     @SuppressLint("SetTextI18n")
     override fun initView() {
         super.initView()
+
+
         binding.apply {
             tvText.typeface = defaultTypeface(MyApplication.context)
             tvText.text = """

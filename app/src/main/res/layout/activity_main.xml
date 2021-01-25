@@ -64,7 +64,7 @@
                 app:tabRippleColor="@color/colorTransparency"
                 app:tabSelectedTextColor="@color/colorAppThemeColor"
                 app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:tabTextColor="@color/colorSubTextForeground">
+                app:tabTextColor="@color/colorTextForeground">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"

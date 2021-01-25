@@ -25,8 +25,8 @@ interface MusicBinderInterface {
 
     /**
      * 改变播放状态
+     * 取消过时，继续用，也可以用 [start] 或者 [pause]
      */
-    @Deprecated("不推荐使用，切换为 start 或者 pause")
     fun changePlayState()
 
     /**
