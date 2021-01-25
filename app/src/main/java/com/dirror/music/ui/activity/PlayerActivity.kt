@@ -55,7 +55,6 @@ class PlayerActivity : BaseActivity() {
 
         private const val BACKGROUND_SCALE_Y = 1.5F
         private const val BACKGROUND_SCALE_X = 2.5F
-        private val DEFAULT_COLOR = Color.rgb(100, 100, 100)
         private const val CD_SIZE = 240
 
         // 背景模糊系数
@@ -187,10 +186,6 @@ class PlayerActivity : BaseActivity() {
             // 背景图片放大
             ivBackground.scaleY = BACKGROUND_SCALE_Y
             ivBackground.scaleX = BACKGROUND_SCALE_X
-            // 开始 / 暂停、上一曲和下一曲设置初始颜色
-            ivPlay.setColorFilter(DEFAULT_COLOR)
-            ivLast.setColorFilter(DEFAULT_COLOR)
-            ivNext.setColorFilter(DEFAULT_COLOR)
             // 默认隐藏翻译按钮
             ivTranslation.visibility = View.GONE
             // 初始化音量调节
@@ -363,14 +358,10 @@ class PlayerActivity : BaseActivity() {
                             .generate { palette ->
                                 if (palette?.vibrantSwatch != null) {
                                     palette.vibrantSwatch?.rgb?.let { rgb ->
-                                        binding.ivPlay.setColorFilter(rgb)
-                                        binding.ivLast.setColorFilter(rgb)
-                                        binding.ivNext.setColorFilter(rgb)
+                                        playViewModel.color.value = rgb
                                     }
                                 } else {
-                                    binding.ivPlay.setColorFilter(DEFAULT_COLOR)
-                                    binding.ivLast.setColorFilter(DEFAULT_COLOR)
-                                    binding.ivNext.setColorFilter(DEFAULT_COLOR)
+                                    playViewModel.color.value = PlayerViewModel.DEFAULT_COLOR
                                 }
                             }
                     }
@@ -428,6 +419,12 @@ class PlayerActivity : BaseActivity() {
             // 音量观察
             currentVolume.observe(this@PlayerActivity, {
                 binding.seekBarVolume.progress = it
+            })
+            // 颜色观察
+            color.observe(this@PlayerActivity, {
+                binding.ivPlay.setColorFilter(it)
+                binding.ivLast.setColorFilter(it)
+                binding.ivNext.setColorFilter(it)
             })
         }
 
@@ -497,18 +494,6 @@ class PlayerActivity : BaseActivity() {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 playViewModel.reduceVolume()
                 return true
-            }
-            // 耳机
-            KeyEvent.KEYCODE_HEADSETHOOK -> {
-                toast("收到耳机监听")
-                event?.let {
-                    when(it.repeatCount) {
-                        0 -> MyApplication.musicBinderInterface?.changePlayState()
-                        1 -> MyApplication.musicBinderInterface?.playNext()
-                        else -> MyApplication.musicBinderInterface?.playLast()
-                    }
-                }
-
             }
         }
         return super.onKeyDown(keyCode, event)

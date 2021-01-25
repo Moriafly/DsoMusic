@@ -143,7 +143,7 @@
             <TextView
                 android:paddingStart="@dimen/defaultPadding"
                 android:paddingEnd="@dimen/defaultPadding"
-                android:text="媒体解码器"
+                android:text="媒体编解码器"
                 style="@style/sub_title"/>
 
             <TextView

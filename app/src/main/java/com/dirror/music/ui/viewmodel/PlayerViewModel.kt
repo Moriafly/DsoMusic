@@ -1,5 +1,6 @@
 package com.dirror.music.ui.viewmodel
 
+import android.graphics.Color
 import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,10 @@ import com.dirror.music.util.toast
  */
 @Keep
 class PlayerViewModel: ViewModel() {
+
+    companion object {
+        val DEFAULT_COLOR = Color.rgb(100, 100, 100)
+    }
 
     var rotation = 0f
     var rotationBackground = 0f
@@ -62,6 +67,11 @@ class PlayerViewModel: ViewModel() {
 
     var currentVolume = MutableLiveData<Int>().also {
         it.value = VolumeManager.getCurrentVolume()
+    }
+
+    // 界面按钮颜色
+    var color = MutableLiveData<Int>().also {
+        it.value = Color.rgb(100, 100, 100)
     }
 
     /**

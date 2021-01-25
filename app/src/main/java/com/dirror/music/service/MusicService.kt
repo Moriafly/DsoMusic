@@ -8,12 +8,11 @@ import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.media.*
 import android.net.Uri
-import android.os.Binder
-import android.os.Build
-import android.os.IBinder
+import android.os.*
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.view.KeyEvent
 import androidx.core.app.NotificationCompat
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -70,15 +69,10 @@ class MusicService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        // 初始化 MediaSession
-        // 测试
-        mediaSession = MediaSessionCompat(this, "MusicService").apply {
-            setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
-                    MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-        }
+
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
-        // 初始化 MediaSession 回调
-        initMediaSessionCallback()
+        // 初始化 MediaSession
+        initMediaSession()
         // 初始化通道
         initChannel()
         // 初始化音频焦点（暂时禁用，等待测试）
@@ -136,12 +130,11 @@ class MusicService : Service() {
      * 初始化 MediaSession 回调
      * 媒体绘话的回调
      */
-    private fun initMediaSessionCallback() {
+    private fun initMediaSession() {
         val intentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
 
         var myNoisyAudioStreamReceiverTag = false
         val myNoisyAudioStreamReceiver = BecomingNoisyReceiver()
-
         // 媒体会话的回调，Service 控制通知这个 Callback 来控制 MediaPlayer
         mediaSessionCallback = object : MediaSessionCompat.Callback() {
             // 播放
@@ -206,6 +199,55 @@ class MusicService : Service() {
                 }
             }
 
+            override fun onMediaButtonEvent(mediaButtonEvent: Intent?): Boolean {
+                if (mediaButtonEvent != null) {
+                    val keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT) as KeyEvent?
+                    when (mediaButtonEvent.action) {
+                        Intent.ACTION_MEDIA_BUTTON -> {
+                            if (keyEvent != null) {
+                                when (keyEvent.action) {
+                                    KeyEvent.ACTION_DOWN -> { // 按键按下
+                                        when (keyEvent.repeatCount) {
+                                            0 -> { MyApplication.musicBinderInterface?.changePlayState() }
+                                            // else -> { MyApplication.musicBinderInterface?.playLast() }
+                                        }
+                                        when (keyEvent.keyCode) {
+                                            KeyEvent.KEYCODE_MEDIA_PLAY -> { // 播放按钮
+                                                // toast("KEY_PLAY")
+                                                MyApplication.musicBinderInterface?.changePlayState()
+                                            }
+                                            KeyEvent.KEYCODE_MEDIA_NEXT -> { // 下一首
+                                                // toast("KEY_NEXT")
+                                                MyApplication.musicBinderInterface?.playNext()
+                                            }
+                                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> { // 上一首
+                                                // toast("KEY_PREVIOUS")
+                                                MyApplication.musicBinderInterface?.playLast()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return true
+            }
+
+        }
+        // 初始化 MediaSession
+        mediaSession = MediaSessionCompat(this, "MusicService").apply {
+            // 监听按键
+            setFlags(
+                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
+                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+            )
+            // 设置 Callback
+            setCallback(mediaSessionCallback, Handler(Looper.getMainLooper()))
+            // 把 MediaSession 置为 active，这样才能开始接收各种信息
+            if (!isActive) {
+                isActive = true
+            }
         }
     }
 
@@ -240,6 +282,15 @@ class MusicService : Service() {
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
             channel.description = descriptionText
             notificationManager?.createNotificationChannel(channel)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 释放 mediaSession
+        mediaSession?.let {
+            it.setCallback(null)
+            it.release()
         }
     }
 
