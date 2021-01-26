@@ -25,7 +25,7 @@ interface MusicBinderInterface {
 
     /**
      * 改变播放状态
-     * 取消过时，继续用，也可以用 [start] 或者 [pause]
+     * 取消过时，继续用，也可以用 [play] 或者 [pause]
      */
     fun changePlayState()
 
@@ -68,7 +68,7 @@ interface MusicBinderInterface {
     /**
      * 播放上一首
      */
-    fun playLast()
+    fun playPrevious()
 
     /**
      * 播放下一首
@@ -118,7 +118,7 @@ interface MusicBinderInterface {
     /**
      * 开始播放
      */
-    fun start()
+    fun play()
 
     /**
      * 暂停播放

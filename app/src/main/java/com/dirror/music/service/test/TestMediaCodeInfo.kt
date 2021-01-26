@@ -13,17 +13,12 @@ import org.jetbrains.annotations.TestOnly
  */
 object TestMediaCodeInfo {
 
-    fun test() {
-
-    }
-
     /**
-     *
+     * 给定类型 encoder 编码器
      */
     private fun selectCodec(mimeType: String): MediaCodecInfo? {
         val numCodecs = MediaCodecList.getCodecCount()
         for (i in 0 until numCodecs) {
-            // val info = MediaCodecList()
             val codecInfo = MediaCodecList.getCodecInfoAt(i)
             if (!codecInfo.isEncoder) {
                 continue
@@ -47,10 +42,6 @@ object TestMediaCodeInfo {
         val list = ArrayList<MediaCodecInfo>()
         for (i in 0 until numCodecs) {
             val codecInfo = MediaCodecList.getCodecInfoAt(i)
-//            // 过滤 encode
-//            if (!codecInfo.isEncoder) {
-//                continue
-//            }
             list.add(codecInfo)
         }
         return list

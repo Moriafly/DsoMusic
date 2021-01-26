@@ -7,12 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowInsetsController
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
@@ -161,14 +161,16 @@ class PlayerActivity : BaseActivity() {
         // 屏幕旋转
         val configuration = this.resources.configuration //获取设置的配置信息
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // 横屏
-            val decorView = window.decorView
-            // TODO 解决方法过时问题
-            val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
-            decorView.systemUiVisibility = uiOptions
+            // 横屏隐藏状态栏
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                window.insetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE)
+            } else {
+                val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+                window.decorView.systemUiVisibility = uiOptions
+            }
         }
         // 页面状态栏适配
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
@@ -233,14 +235,14 @@ class PlayerActivity : BaseActivity() {
                 }
             }
             // lyricView
-            lyricView.setDraggable(true, object : LyricView.OnPlayClickListener{
+            lyricView.setDraggable(true, object : LyricView.OnPlayClickListener {
                 override fun onPlayClick(time: Long): Boolean {
                     playViewModel.setProgress(time.toInt())
                     return true
                 }
 
             })
-            lyricView.setOnSingerClickListener(object : LyricView.OnSingleClickListener{
+            lyricView.setOnSingerClickListener(object : LyricView.OnSingleClickListener {
                 override fun onClick() {
                     AnimationUtil.fadeIn(binding.clCd)
                     AnimationUtil.fadeIn(binding.clMenu)

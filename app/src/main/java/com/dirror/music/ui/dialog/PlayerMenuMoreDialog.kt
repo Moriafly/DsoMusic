@@ -6,7 +6,6 @@ import com.dirror.music.MyApplication
 import com.dirror.music.databinding.DialogPlayMoreBinding
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.ui.activity.FeedbackActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.base.BaseBottomSheetDialog
 
@@ -53,14 +52,14 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
                 dismiss()
             }
             // 反馈
-            itemFeedback.setOnClickListener {
-                val intent = Intent(MyApplication.context, FeedbackActivity::class.java)
-                // 从 Content 跳转 Activity 要加 FLAG
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                MyApplication.context.startActivity(intent)
-                // 隐藏 Dialog
-                dismiss()
-            }
+//            itemFeedback.setOnClickListener {
+//                val intent = Intent(MyApplication.context, FeedbackActivity::class.java)
+//                // 从 Content 跳转 Activity 要加 FLAG
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                MyApplication.context.startActivity(intent)
+//                // 隐藏 Dialog
+//                dismiss()
+//            }
         }
     }
 

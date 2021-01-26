@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tvSongName"
             android:text="@string/music"
             android:gravity="center_vertical"
@@ -40,14 +41,6 @@
             app:text="@string/history"
             android:layout_width="match_parent"
             android:layout_height="56dp" />
-
-        <com.dirror.music.widget.ItemLayout
-            android:id="@+id/itemFeedback"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            app:text="@string/feedback">
-
-        </com.dirror.music.widget.ItemLayout>
 
         <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemSongInfo"

@@ -32,6 +32,7 @@ import org.jetbrains.annotations.TestOnly
  * 音乐服务
  * @author Moriafly
  * @since 2020/9
+ * TODO 蓝牙耳机切歌、暂停
  */
 class MusicService : Service() {
 
@@ -111,9 +112,9 @@ class MusicService : Service() {
                 .setAudioAttributes(audioAttributes)
                 .setOnAudioFocusChangeListener { focusChange ->
                     when (focusChange) {
-                        AudioManager.AUDIOFOCUS_GAIN -> musicBinder.start()
-                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> musicBinder.start()
-                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> musicBinder.start()
+                        AudioManager.AUDIOFOCUS_GAIN -> musicBinder.play()
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> musicBinder.play()
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> musicBinder.play()
                         AudioManager.AUDIOFOCUS_LOSS -> musicBinder.pause()
                         AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> musicBinder.pause()
                         AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> musicBinder.pause()
@@ -127,8 +128,7 @@ class MusicService : Service() {
     }
 
     /**
-     * 初始化 MediaSession 回调
-     * 媒体绘话的回调
+     * 初始化媒体会话 MediaSession
      */
     private fun initMediaSession() {
         val intentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
@@ -214,7 +214,13 @@ class MusicService : Service() {
                                         when (keyEvent.keyCode) {
                                             KeyEvent.KEYCODE_MEDIA_PLAY -> { // 播放按钮
                                                 // toast("KEY_PLAY")
+                                                MyApplication.musicBinderInterface?.play()
+                                            }
+                                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
                                                 MyApplication.musicBinderInterface?.changePlayState()
+                                            }
+                                            KeyEvent.KEYCODE_MEDIA_PAUSE -> {
+                                                MyApplication.musicBinderInterface?.pause()
                                             }
                                             KeyEvent.KEYCODE_MEDIA_NEXT -> { // 下一首
                                                 // toast("KEY_NEXT")
@@ -222,7 +228,7 @@ class MusicService : Service() {
                                             }
                                             KeyEvent.KEYCODE_MEDIA_PREVIOUS -> { // 上一首
                                                 // toast("KEY_PREVIOUS")
-                                                MyApplication.musicBinderInterface?.playLast()
+                                                MyApplication.musicBinderInterface?.playPrevious()
                                             }
                                         }
                                     }
@@ -237,11 +243,6 @@ class MusicService : Service() {
         }
         // 初始化 MediaSession
         mediaSession = MediaSessionCompat(this, "MusicService").apply {
-            // 监听按键
-            setFlags(
-                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
-                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
-            )
             // 设置 Callback
             setCallback(mediaSessionCallback, Handler(Looper.getMainLooper()))
             // 把 MediaSession 置为 active，这样才能开始接收各种信息
@@ -253,12 +254,12 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.getIntExtra("int_code", 0)) {
-            CODE_PREVIOUS -> musicBinder.playLast()
+            CODE_PREVIOUS -> musicBinder.playPrevious()
             CODE_PLAY -> {
                 if (musicBinder.getPlayState()) {
                     musicBinder.pause()
                 } else {
-                    musicBinder.start()
+                    musicBinder.play()
                 }
             }
             CODE_NEXT -> musicBinder.playNext()
@@ -442,7 +443,7 @@ class MusicService : Service() {
         /**
          * 开始播放
          */
-        override fun start() {
+        override fun play() {
             mediaPlayer?.start()
             mediaSessionCallback?.onPlay()
             sendMusicBroadcast()
@@ -529,7 +530,7 @@ class MusicService : Service() {
         /**
          * 播放上一曲
          */
-        override fun playLast() {
+        override fun playPrevious() {
             // 设置 position
             position = when (mode) {
                 MODE_RANDOM -> {
@@ -693,7 +694,7 @@ class MusicService : Service() {
                 // 单曲循环
                 MODE_REPEAT_ONE -> {
                     setProgress(0)
-                    start()
+                    play()
                     return
                 }
                 MODE_RANDOM -> {
@@ -826,4 +827,3 @@ class MusicService : Service() {
         }
     }
 }
-

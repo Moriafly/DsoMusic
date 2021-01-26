@@ -105,7 +105,7 @@ class PlayerViewModel: ViewModel() {
         if (nowPlayState) {
             MyApplication.musicBinderInterface?.pause()
         } else {
-            MyApplication.musicBinderInterface?.start()
+            MyApplication.musicBinderInterface?.play()
         }
     }
 
@@ -113,7 +113,7 @@ class PlayerViewModel: ViewModel() {
      * 播放上一曲
      */
     fun playLast() {
-        MyApplication.musicBinderInterface?.playLast()
+        MyApplication.musicBinderInterface?.playPrevious()
     }
 
     /**
@@ -141,6 +141,10 @@ class PlayerViewModel: ViewModel() {
      * 喜欢音乐
      */
     fun likeMusic() {
+        if (MyApplication.userManager.getCloudMusicCookie().isEmpty()) {
+            toast("离线模式无法收藏到在线我喜欢~")
+            return
+        }
         standardSongData.let {
             it.value?.let { song ->
                 when (song.source) {
