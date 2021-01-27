@@ -56,4 +56,5 @@
     <string name="playlist_number">播放列表（%d）</string>
     <string name="my_favorite_songs">My favorite songs</string>
     <string name="equalizer">Equalizer</string>
+    <string name="translation">Translation</string>
 </resources>

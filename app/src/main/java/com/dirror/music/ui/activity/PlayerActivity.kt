@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.dirror.lyricviewx.LyricViewX
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.audio.VolumeManager
@@ -27,14 +28,12 @@ import com.dirror.music.databinding.ActivityPlayerBinding
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.service.MusicService
-import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.base.SlideBackActivity
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.SoundEffectDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
-import com.dirror.music.widget.SlideBackLayout
-import com.dirror.music.widget.lyric.LyricView
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -44,7 +43,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
  * @author Moriafly
  * @since 2020年12月15日18:35:46
  */
-class PlayerActivity : BaseActivity() {
+class PlayerActivity : SlideBackActivity() {
 
     companion object {
         private const val MUSIC_BROADCAST_ACTION = "com.dirror.music.MUSIC_BROADCAST"
@@ -86,17 +85,9 @@ class PlayerActivity : BaseActivity() {
         }
     }
 
-    // SlideBackLayout 拖拽关闭 Activity
-    private lateinit var slideBackLayout: SlideBackLayout
-
     // CD 旋转动画
     private val objectAnimator: ObjectAnimator by lazy {
-        ObjectAnimator.ofFloat(
-            binding.ivCover,
-            ANIMATION_PROPERTY_NAME,
-            playViewModel.rotation,
-            playViewModel.rotation + 360f
-        ).apply {
+        ObjectAnimator.ofFloat(binding.ivCover, ANIMATION_PROPERTY_NAME, 0f, 360f).apply {
             interpolator = LinearInterpolator()
             duration = DURATION_CD
             repeatCount = ANIMATION_REPEAT_COUNTS
@@ -106,12 +97,7 @@ class PlayerActivity : BaseActivity() {
 
     // 背景 旋转动画
     private val objectAnimatorBackground: ObjectAnimator by lazy {
-        ObjectAnimator.ofFloat(
-            binding.ivBackground,
-            ANIMATION_PROPERTY_NAME,
-            playViewModel.rotationBackground,
-            playViewModel.rotationBackground + 360f
-        ).apply {
+        ObjectAnimator.ofFloat(binding.ivBackground, ANIMATION_PROPERTY_NAME, 0f, 360f).apply {
             interpolator = LinearInterpolator()
             duration = DURATION_BACKGROUND
             repeatCount = ANIMATION_REPEAT_COUNTS
@@ -124,8 +110,7 @@ class PlayerActivity : BaseActivity() {
         ObjectAnimator.ofFloat(
             binding.ivTypePrevious,
             ANIMATION_PROPERTY_NAME,
-            playViewModel.rotationTypeNormal,
-            playViewModel.rotationTypeNormal - 360f
+            0f, -360f
         ).apply {
             interpolator = LinearInterpolator()
             duration = DURATION_TAPE
@@ -139,8 +124,7 @@ class PlayerActivity : BaseActivity() {
         ObjectAnimator.ofFloat(
             binding.ivTypeNext,
             ANIMATION_PROPERTY_NAME,
-            playViewModel.rotationTypeNormal,
-            playViewModel.rotationTypeNormal - 360f
+            0f, -360f
         ).apply {
             interpolator = LinearInterpolator()
             duration = DURATION_TAPE
@@ -156,8 +140,7 @@ class PlayerActivity : BaseActivity() {
 
     override fun initView() {
         // 设置 SlideBackLayout
-        slideBackLayout = SlideBackLayout(this, binding.clBase)
-        slideBackLayout.bind()
+        bindSlide(this, binding.clBase)
         // 屏幕旋转
         val configuration = this.resources.configuration //获取设置的配置信息
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -231,23 +214,23 @@ class PlayerActivity : BaseActivity() {
                     AnimationUtil.fadeOut(binding.clCd, true)
                     AnimationUtil.fadeOut(binding.clMenu, true)
                     binding.clLyric.visibility = View.VISIBLE
-                    slideBackLayout.viewEnabled = false
+                    slideBackEnabled = false
                 }
             }
             // lyricView
-            lyricView.setDraggable(true, object : LyricView.OnPlayClickListener {
+            lyricView.setDraggable(true, object : LyricViewX.OnPlayClickListener {
                 override fun onPlayClick(time: Long): Boolean {
                     playViewModel.setProgress(time.toInt())
                     return true
                 }
 
             })
-            lyricView.setOnSingerClickListener(object : LyricView.OnSingleClickListener {
+            lyricView.setOnSingerClickListener(object : LyricViewX.OnSingleClickListener {
                 override fun onClick() {
                     AnimationUtil.fadeIn(binding.clCd)
                     AnimationUtil.fadeIn(binding.clMenu)
                     binding.clLyric.visibility = View.INVISIBLE
-                    slideBackLayout.viewEnabled = true
+                    slideBackEnabled = true
                 }
 
             })
@@ -255,7 +238,7 @@ class PlayerActivity : BaseActivity() {
                 AnimationUtil.fadeIn(binding.clCd)
                 AnimationUtil.fadeIn(binding.clMenu)
                 binding.clLyric.visibility = View.INVISIBLE
-                slideBackLayout.viewEnabled = true
+                slideBackEnabled = true
             }
             // 艺术家
             clArtist.setOnClickListener {

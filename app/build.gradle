@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 293
+        versionCode 294
         versionName "2.4.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -106,4 +106,8 @@ dependencies {
     // room
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
+    // ok download
+    implementation 'com.liulishuo.okdownload:okdownload:1.0.7'
+
+    implementation 'com.github.Moriafly:LyricViewX:1.0.0'
 }

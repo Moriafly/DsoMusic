@@ -26,7 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@tools:sample/avatars"
+            tools:ignore="ContentDescription" />
+
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -37,7 +39,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
         android:singleLine="true"
-        android:text="TextView"
+        android:text="@string/slogan"
         android:textColor="@color/colorTextForeground"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"

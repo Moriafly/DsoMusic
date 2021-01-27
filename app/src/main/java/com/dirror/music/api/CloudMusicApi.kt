@@ -63,6 +63,6 @@ object CloudMusicApi {
      * 接口地址 : /user/playlist
      * 调用例子 : /user/playlist?uid=32953014
      */
-    const val USER_PLAYLIST = "${API_AUTU}/user/playlist"
+    const val USER_PLAYLIST = "${API_MUSIC_ELEUU}/user/playlist"
 
 }

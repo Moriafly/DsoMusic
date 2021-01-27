@@ -17,7 +17,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/blurViewCover"
@@ -53,7 +54,8 @@
             app:layout_constraintBottom_toTopOf="@+id/edgeTransparentView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_volume" />
+            app:srcCompat="@drawable/ic_volume"
+            tools:ignore="ContentDescription" />
 
         <SeekBar
             android:id="@+id/seekBarVolume"
@@ -83,7 +85,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edgeTransparentView"
-            app:srcCompat="@drawable/ic_translation" />
+            app:srcCompat="@drawable/ic_translation"
+            android:contentDescription="@string/translation" />
 
         <me.qinc.lib.edgetranslucent.EdgeTransparentView
             android:id="@+id/edgeTransparentView"
@@ -98,13 +101,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.dirror.music.widget.lyric.LyricView
+            <com.dirror.lyricviewx.LyricViewX
                 android:id="@+id/lyricView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:lrcPadding="33dp">
 
-            </com.dirror.music.widget.lyric.LyricView>
+            </com.dirror.lyricviewx.LyricViewX>
 
         </me.qinc.lib.edgetranslucent.EdgeTransparentView>
 

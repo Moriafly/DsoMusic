@@ -1,2 +1,3 @@
+include ':lyricview'
 include ':app'
 rootProject.name = "dirror-music"

@@ -63,17 +63,19 @@ class DetailPlaylistAdapter
             }
             // 更多点击，每首歌右边的三点菜单
             ivMore.setOnClickListener {
-                if (tag != null) {
-                    SongMenuDialog(it.context, activity, song, tag).show()
-                }
+                showSongMenuDialog(song, it)
             }
             // 长按
             clSong.setOnLongClickListener {
-                if (tag != null) {
-                    SongMenuDialog(it.context, activity, song, tag).show()
-                }
+                showSongMenuDialog(song, it)
                 return@setOnLongClickListener true
             }
+        }
+    }
+
+    private fun showSongMenuDialog(songData: StandardSongData, view: View) {
+        if (tag != null) {
+            SongMenuDialog(view.context, activity, songData, tag).show()
         }
     }
 
