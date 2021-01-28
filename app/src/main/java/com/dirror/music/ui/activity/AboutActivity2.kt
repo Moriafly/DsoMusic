@@ -1,12 +1,11 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityAbout2Binding
 import com.dirror.music.service.test.TestMediaCodeInfo
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.AppInfoDialog
 import com.dirror.music.util.Secure
 import com.dirror.music.util.UpdateUtil
@@ -16,31 +15,22 @@ import com.dirror.music.util.getVisionName
 /**
  * 2.0 新版 AboutActivity
  */
-class AboutActivity2 : AppCompatActivity() {
+class AboutActivity2 : BaseActivity() {
 
     companion object {
-        // 官方网站
-        private const val WEBSITE = "https://moriafly.xyz"
         // 更新日志网站
         private const val UPDATE_LOG = "https://github.com/Moriafly/DsoMusic/releases"
-        private const val WEB_INFO = "https://moriafly.xyz/dirror-music/info.json"
         private const val HISTORY_VERSION = "https://moriafly.xyz/foyou/dsomusic/history-version.html"
     }
 
     private lateinit var binding: ActivityAbout2Binding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityAbout2Binding.inflate(layoutInflater)
         setContentView(binding.root)
-        initView()
-        initListener()
     }
 
-    /**
-     * 界面初始化
-     */
-    private fun initView() {
+    override fun initView() {
         binding.apply {
             val versionType = if (Secure.isDebug()) {
                 "测试版"
@@ -57,7 +47,7 @@ class AboutActivity2 : AppCompatActivity() {
         initMediaCodec()
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.apply {
             // 检查更新
             itemCheckForUpdates.setOnClickListener { UpdateUtil.checkNewVersion(this@AboutActivity2, true) }
@@ -76,7 +66,6 @@ class AboutActivity2 : AppCompatActivity() {
     }
 
     private fun initMediaCodec() {
-
         val list = TestMediaCodeInfo.getCodec()
         var str = ""
         list.forEach {

@@ -266,7 +266,7 @@ class MainActivity : AppCompatActivity() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
-            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
+            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
         }
     }
 

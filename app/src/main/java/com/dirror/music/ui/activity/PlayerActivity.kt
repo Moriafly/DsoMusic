@@ -20,7 +20,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.dirror.lyricviewx.LyricViewX
+import com.dirror.lyricviewx.OnPlayClickListener
+import com.dirror.lyricviewx.OnSingleClickListener
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.audio.VolumeManager
@@ -176,6 +177,8 @@ class PlayerActivity : SlideBackActivity() {
             // 初始化音量调节
             seekBarVolume.max = VolumeManager.maxVolume
             seekBarVolume.progress = VolumeManager.getCurrentVolume()
+
+            lyricView.setLabel("暂无歌词")
         }
     }
 
@@ -218,14 +221,14 @@ class PlayerActivity : SlideBackActivity() {
                 }
             }
             // lyricView
-            lyricView.setDraggable(true, object : LyricViewX.OnPlayClickListener {
+            lyricView.setDraggable(true, object : OnPlayClickListener {
                 override fun onPlayClick(time: Long): Boolean {
                     playViewModel.setProgress(time.toInt())
                     return true
                 }
 
             })
-            lyricView.setOnSingerClickListener(object : LyricViewX.OnSingleClickListener {
+            lyricView.setOnSingerClickListener(object : OnSingleClickListener {
                 override fun onClick() {
                     AnimationUtil.fadeIn(binding.clCd)
                     AnimationUtil.fadeIn(binding.clMenu)
@@ -396,9 +399,9 @@ class PlayerActivity : SlideBackActivity() {
                     View.VISIBLE
                 }
                 if (playViewModel.lyricTranslation.value == true) {
-                    binding.lyricView.loadLrc(it.lyric, it.secondLyric)
+                    binding.lyricView.loadLyric(it.lyric, it.secondLyric)
                 } else {
-                    binding.lyricView.loadLrc(it.lyric)
+                    binding.lyricView.loadLyric(it.lyric)
                 }
             })
             // 音量观察

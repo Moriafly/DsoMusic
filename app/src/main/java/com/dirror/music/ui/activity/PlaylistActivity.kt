@@ -223,7 +223,7 @@ class PlaylistActivity : AppCompatActivity() {
         if (MyApplication.musicBinderInterface?.getPlayState() == true) {
             binding.includePlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
-            binding.includePlay.ivPlay.setImageResource(R.drawable.ic_bq_control_play)
+            binding.includePlay.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
         }
     }
 

@@ -11,6 +11,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.CommentData
 import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.dp
 import com.dirror.music.util.msTimeToFormatDate
 
 /**
@@ -38,7 +39,7 @@ class CommentAdapter(private val commentData: CommentData, private val activity:
             tvContent.text = commentData.hotComments[position].content
             tvLikedCount.text = commentData.hotComments[position].likedCount.toString()
             tvTime.text = msTimeToFormatDate(commentData.hotComments[position].time)
-            GlideUtil.loadCloudMusicImage(commentData.hotComments[position].user.avatarUrl, 100, 100, holder.ivCover)
+            GlideUtil.loadCircle(commentData.hotComments[position].user.avatarUrl, holder.ivCover, 36.dp())
 
             ivCover.setOnClickListener {
                 MyApplication.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)

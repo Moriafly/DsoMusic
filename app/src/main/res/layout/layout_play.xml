@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toStartOf="@+id/ivPlaylist"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_bq_control_play" />
+        app:srcCompat="@drawable/ic_mini_player_play" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvCover"

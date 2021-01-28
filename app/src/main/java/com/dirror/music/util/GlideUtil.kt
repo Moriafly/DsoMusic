@@ -76,6 +76,14 @@ object GlideUtil {
             .into(imageView)
     }
 
+    fun loadCircle(url: String, imageView: ImageView, needSize: Int) {
+        Glide.with(MyApplication.context)
+            .load(url)
+            .override(needSize)
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .into(imageView)
+    }
+
     /**
      *
      */
