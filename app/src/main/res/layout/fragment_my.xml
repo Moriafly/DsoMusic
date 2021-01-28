@@ -16,6 +16,7 @@
         android:paddingBottom="96dp">
 
         <LinearLayout
+            android:id="@+id/llTop"
             android:layout_width="match_parent"
             android:layout_height="172dp"
             android:orientation="horizontal"

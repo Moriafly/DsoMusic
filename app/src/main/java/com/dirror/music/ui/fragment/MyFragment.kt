@@ -1,10 +1,13 @@
 package com.dirror.music.ui.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -52,7 +55,12 @@ class MyFragment : Fragment() {
     }
 
     private fun initView() {
+        val windowManager = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val width = windowManager.defaultDisplay.width
 
+        (binding.llTop.layoutParams as LinearLayout.LayoutParams).apply {
+            this.height = (width / 2.4).toInt()
+        }
     }
 
     private fun initListener() {
