@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_playlist_page"
-    tools:context=".ui.activity.PlaylistActivity"
-    >
+    tools:context=".ui.activity.PlaylistActivity">
 
     <ImageView
         android:id="@+id/ivBackground"
@@ -24,33 +22,32 @@
         android:background="@color/colorBlurViewBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scrollbars="none"
-        android:overScrollMode="never"
         android:background="@drawable/background_transparency"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/includePlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleBar"
-        app:layout_constraintBottom_toTopOf="@id/includePlay"
         tools:context=".ui.activity.PlaylistActivity">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:background="@color/colorTransparency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorTransparency"
             app:elevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clHead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                >
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -63,13 +60,12 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvCover"
-                        android:transitionName="transCvCover"
-                        android:background="@color/colorTransparency"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="24dp"
+                        android:background="@color/colorTransparency"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +77,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:transitionName="transIvCover"
                             app:srcCompat="@drawable/bq_no_data_song" />
                     </androidx.cardview.widget.CardView>
 
@@ -125,17 +120,16 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clNav"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                android:background="@drawable/bg_sticky_nav"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@drawable/bg_sticky_nav">
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
 
                 <TextView
                     android:id="@+id/tvPlayAll"
@@ -173,8 +167,6 @@
             app:layout_constraintBottom_toTopOf="@+id/includePlay">
 
 
-
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clLoading"
                 android:layout_width="match_parent"
@@ -206,7 +198,6 @@
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 
 
     <com.dirror.music.widget.TitleBarLayout

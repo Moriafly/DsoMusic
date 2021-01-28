@@ -42,15 +42,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <ImageView
             android:id="@+id/ivVolume"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="33dp"
+            android:alpha="0.94"
             android:padding="2dp"
-            android:alpha="0.73"
             app:layout_constraintBottom_toTopOf="@+id/edgeTransparentView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -79,14 +79,13 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="16dp"
-            android:alpha="0.6"
             android:background="@drawable/background_button_icon"
+            android:contentDescription="@string/translation"
             android:padding="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edgeTransparentView"
-            app:srcCompat="@drawable/ic_translation"
-            android:contentDescription="@string/translation" />
+            app:srcCompat="@drawable/ic_translation" />
 
         <me.qinc.lib.edgetranslucent.EdgeTransparentView
             android:id="@+id/edgeTransparentView"
@@ -124,7 +123,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clArtist"
@@ -197,7 +196,7 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginEnd="16dp"
-                android:alpha="0.75"
+                android:alpha="0.81"
                 android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/more"
                 android:padding="16dp"
@@ -210,7 +209,7 @@
                 android:id="@+id/ivComment"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:alpha="0.74"
+                android:alpha="0.81"
                 android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/comment"
                 android:padding="16dp"
@@ -226,7 +225,7 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
-                android:alpha="0.6"
+                android:alpha="0.65"
                 android:background="@drawable/background_button_icon"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -238,7 +237,7 @@
                 android:id="@+id/ivDownload"
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
-                android:alpha="0.74"
+                android:alpha="0.81"
                 android:background="@drawable/background_button_icon"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -252,7 +251,7 @@
                 android:id="@+id/ivLike"
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
-                android:alpha="0.74"
+                android:alpha="0.81"
                 android:background="@drawable/background_button_icon"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -412,7 +411,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_bq_player_music_list" />
+                app:srcCompat="@drawable/ic_player_playlist" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

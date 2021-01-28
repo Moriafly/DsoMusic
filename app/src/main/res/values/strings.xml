@@ -31,8 +31,8 @@
     <string name="local_playlist">本地歌单</string>
     <string name="new_playlist">新建歌单</string>
     <string name="import_playlist">导入歌单</string>
-    <string name="local_music">本地音乐</string>
-    <string name="history">播放历史</string>
+    <string name="local_music">本地</string>
+    <string name="history">历史</string>
     <string name="contact_author">联系作者</string>
     <string name="author_email">moriafly@163.com</string>
     <string name="more">更多</string>
@@ -54,7 +54,7 @@
     <string name="songs">%d 首</string>
     <string name="hot_search">热门搜索</string>
     <string name="playlist_number">播放列表（%d）</string>
-    <string name="my_favorite_songs">我喜欢的音乐</string>
+    <string name="my_favorite_songs">喜欢</string>
     <string name="equalizer">均衡器</string>
     <string name="translation">Translation</string>
 </resources>

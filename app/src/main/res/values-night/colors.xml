@@ -14,6 +14,7 @@
 
     <!-- 图标前景色 -->
     <color name="colorIconForeground">#FFFFFF</color>
+    <color name="colorSubIconForeground">#C8C8C8</color>
 
     <!-- Item 背景色 -->
     <color name="colorItemBackground">#000000</color>

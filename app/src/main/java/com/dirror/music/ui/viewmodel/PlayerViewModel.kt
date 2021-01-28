@@ -23,7 +23,8 @@ import com.dirror.music.util.toast
 class PlayerViewModel: ViewModel() {
 
     companion object {
-        val DEFAULT_COLOR = Color.rgb(100, 100, 100)
+        val DEFAULT_COLOR = Color.rgb(90, 90, 90)
+        // val DEFAULT_COLOR = Color.rgb(219, 44, 31) // 90, 90, 90
     }
 
     var rotation = 0f

@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 294
-        versionName "2.4.1"
+        versionCode 295
+        versionName "2.5.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -96,7 +96,7 @@ dependencies {
     implementation 'com.umeng.umsdk:asms:1.1.3'
     implementation 'com.umeng.umsdk:crash:0.0.4'
     // lottie
-    implementation 'com.airbnb.android:lottie:3.4.1'
+    implementation 'com.airbnb.android:lottie:3.6.0'
     // View 边界渐变透明
     implementation 'ren.qinc.edgetranslucent:lib:0.0.3'
     // Glide
@@ -109,5 +109,5 @@ dependencies {
     // ok download
     implementation 'com.liulishuo.okdownload:okdownload:1.0.7'
 
-    implementation 'com.github.Moriafly:LyricViewX:1.0.0'
+    implementation 'com.github.Moriafly:LyricViewX:1.0.1'
 }

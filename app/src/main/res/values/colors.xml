@@ -14,6 +14,7 @@
 
     <!-- 图标前景色 -->
     <color name="colorIconForeground">#000000</color>
+    <color name="colorSubIconForeground">#5A5A5A</color>
 
     <!-- Item 背景色 -->
     <color name="colorItemBackground">#FFFFFF</color>
@@ -33,7 +34,7 @@
     <color name="colorDialogBackground">#FFFFFF</color>
     <color name="colorHintForeground">#C8C8C8</color>
 
-    <color name="colorBlurViewBackground">#B3FAFAFA</color>
+    <color name="colorBlurViewBackground">#CCFFFFFF</color>
     <color name="colorCommonTextForeground">#969696</color>
 
     <color name="colorDividerBackground">#E6E6E6</color>

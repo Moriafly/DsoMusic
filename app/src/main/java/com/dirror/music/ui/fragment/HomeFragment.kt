@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
     private fun update() {
         binding.swipeRefreshLayout.isRefreshing = true
         // Banner
-        initBanner()
+        // initBanner()
         // 推荐歌单
         refreshPlaylistRecommend()
         // 更改句子
@@ -134,7 +134,7 @@ class HomeFragment : Fragment() {
                 // binding.rvPlaylistRecommend.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 binding.rvPlaylistRecommend.adapter = PlaylistRecommendAdapter(it)
 
-
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         }, {
 

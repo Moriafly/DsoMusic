@@ -60,7 +60,7 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>, val activit
                     )
             intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
             intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, play.id)
-            it.context.startActivity(intent, options.toBundle())
+            it.context.startActivity(intent)
         }
     }
 

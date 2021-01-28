@@ -262,9 +262,13 @@ class CloudMusicManager: CloudMusicManagerInterface {
     override fun getLyric(songId: Long, success: (LyricData) -> Unit) {
         val url = CloudMusicApi.LYRIC + "?id=$songId"
         MagicHttp.OkHttpManager().newGet(url, {
-            val lyricData = Gson().fromJson(it, LyricData::class.java)
-            if (lyricData .code == 200) {
-                success.invoke(lyricData)
+            try {
+                val lyricData = Gson().fromJson(it, LyricData::class.java)
+                if (lyricData .code == 200) {
+                    success.invoke(lyricData)
+                }
+            } catch (e: Exception) {
+
             }
         }, {
 

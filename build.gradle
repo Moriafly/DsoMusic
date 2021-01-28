@@ -2,6 +2,7 @@
 buildscript {
     ext.kotlin_version = '1.4.21'
     repositories {
+        maven { url 'https://jitpack.io' }
         google()
         jcenter()
         maven { url 'https://dl.bintray.com/umsdk/release' }

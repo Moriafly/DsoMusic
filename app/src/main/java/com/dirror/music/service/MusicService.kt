@@ -206,14 +206,10 @@ class MusicService : Service() {
                         Intent.ACTION_MEDIA_BUTTON -> {
                             if (keyEvent != null) {
                                 when (keyEvent.action) {
-                                    KeyEvent.ACTION_DOWN -> { // 按键按下
-                                        when (keyEvent.repeatCount) {
-                                            0 -> { MyApplication.musicBinderInterface?.changePlayState() }
-                                            // else -> { MyApplication.musicBinderInterface?.playLast() }
-                                        }
+                                    // 按键按下
+                                    KeyEvent.ACTION_DOWN -> {
                                         when (keyEvent.keyCode) {
                                             KeyEvent.KEYCODE_MEDIA_PLAY -> { // 播放按钮
-                                                // toast("KEY_PLAY")
                                                 MyApplication.musicBinderInterface?.play()
                                             }
                                             KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {

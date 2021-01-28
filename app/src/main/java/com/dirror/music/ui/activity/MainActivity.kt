@@ -130,11 +130,11 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
 
-        if (MyApplication.userManager.isUidLogin()) {
-            binding.viewPager2.currentItem = 1
-        } else {
-            binding.viewPager2.currentItem = 0
-        }
+//        if (MyApplication.userManager.isUidLogin()) {
+//            binding.viewPager2.currentItem = 1
+//        } else {
+//            binding.viewPager2.currentItem = 0
+//        }
 
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
     }

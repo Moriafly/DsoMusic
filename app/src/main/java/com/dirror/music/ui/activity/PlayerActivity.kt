@@ -382,7 +382,7 @@ class PlayerActivity : SlideBackActivity() {
             // 翻译观察
             lyricTranslation.observe(this@PlayerActivity, {
                 if (it == true) {
-                    binding.ivTranslation.alpha = 0.6F
+                    binding.ivTranslation.alpha = 1F
                 } else {
                     binding.ivTranslation.alpha = 0.3F
                 }
