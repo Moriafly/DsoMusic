@@ -8,43 +8,52 @@ import com.dirror.music.music.standard.data.StandardSongData
 // 搜索的解析
 data class CompatSearchData(
     val songs: ArrayList<CompatSearchSongData>,
+    val privileges: ArrayList<PrivilegesData>,
     val code: Int
-)
+) {
+    data class CompatSearchSongData(
+        val id: Long,
+        val name: String,
+        val al: CompatAlbumData, // val album: CompatAlbumData,
+        val ar: ArrayList<CompatArtistData>, // 艺术家
+        val fee: Int // 网易云搜索是否是 vip 歌曲
+    ) {
+        /**
+         * 专辑
+         */
+        data class CompatAlbumData(
+            val picUrl: String,
+            // val artist: CompatArtistData
+        )
 
-data class CompatSearchSongData(
-    val id: Long,
-    val name: String,
-    val al: CompatAlbumData, // val album: CompatAlbumData,
-    val ar: ArrayList<CompatArtistData>, // 艺术家
-    val fee: Int // 网易云搜索是否是 vip 歌曲，1 为 vip
-)
+        data class CompatArtistData(
+            val id: Long,
+            val name: String,
+            // val img1v1Url: String
+        )
+    }
 
-/**
- * 专辑
- */
-data class CompatAlbumData(
-    val picUrl: String,
-    // val artist: CompatArtistData
-)
-
-data class CompatArtistData(
-    val id: Long,
-    val name: String,
-    // val img1v1Url: String
-)
+    data class PrivilegesData(
+        val pl: Int,
+        val maxbr: Int,
+        val flag: Int
+    )
+}
 
 fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): ArrayList<StandardSongData> {
     val standardPlaylistData = ArrayList<StandardSongData>()
-    for (song in compatSearchData.songs) {
+    for ((index, song) in compatSearchData.songs.withIndex()) {
         val standardArtistDataList = ArrayList<StandardArtistData>()
         // song.artists
-        for (index in 0..song.ar.lastIndex) {
+        for (i in 0..song.ar.lastIndex) {
             val standardArtistData = StandardArtistData(
-                song.ar[index].id,
-                song.ar[index].name
+                song.ar[i].id,
+                song.ar[i].name
             )
             standardArtistDataList.add(standardArtistData)
         }
+
+        val privileges = compatSearchData.privileges[index]
 
         val standardSongData = StandardSongData(
             SOURCE_NETEASE,
@@ -52,7 +61,12 @@ fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): 
             song.name,
             song.al.picUrl,
             standardArtistDataList,
-            NeteaseInfo(song.fee),
+            NeteaseInfo(
+                song.fee,
+                privileges.pl,
+                privileges.flag,
+                privileges.maxbr
+                ),
             null,
             null
         )

@@ -2,16 +2,13 @@ package com.dirror.music.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ActivityOptions
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -20,8 +17,6 @@ import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
-// Rename the Pair class from the Android framework to avoid a name clash
-import android.util.Pair as UtilPair
 
 /**
  * 我的歌单适配器
@@ -52,12 +47,6 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>, val activit
         holder.tvTrackCount.text = holder.itemView.context.getString(R.string.songs, play.trackCount)
         holder.clTrack.setOnClickListener {
             val intent = Intent(it.context, PlaylistActivity::class.java)
-
-            // val options = ActivityOptions.makeSceneTransitionAnimation(activity, holder.cvCover, "playlistCover")
-            val options = ActivityOptions.makeSceneTransitionAnimation(activity,
-                    // UtilPair.create(holder.ivCover, "transIvCover"),
-                    // UtilPair.create(holder.cvCover, "transCvCover"),
-                    )
             intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
             intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, play.id)
             it.context.startActivity(intent)

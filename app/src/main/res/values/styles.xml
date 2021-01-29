@@ -81,5 +81,14 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
+    <style name="switcher">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="switcher_off_color">@color/switchBackground</item>
+        <item name="switcher_on_color">#E5675E</item>
+        <item name="elevation">0dp</item>
+    </style>
+
     <drawable name="drawableTransparent">#00000000</drawable>
 </resources>

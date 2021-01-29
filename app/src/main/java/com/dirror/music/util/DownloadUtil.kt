@@ -1,7 +1,5 @@
 package com.dirror.music.util
 
-import com.liulishuo.okdownload.DownloadTask
-
 object DownloadUtil {
 
     fun start() {

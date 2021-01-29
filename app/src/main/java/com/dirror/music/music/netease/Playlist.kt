@@ -1,6 +1,6 @@
 package com.dirror.music.music.netease
 
-import com.dirror.music.api.API_AUTU
+import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.standard.data.StandardSongData
@@ -15,14 +15,14 @@ import org.jetbrains.annotations.TestOnly
  */
 object Playlist {
 
-    private const val SPLIT_PLAYLIST_NUMBER = 1000 // 切割歌单，每 200 首
+    private const val SPLIT_PLAYLIST_NUMBER = 1000 // 切割歌单
     private const val CHEATING_CODE = -460 // Cheating 错误
 
-    private const val PLAYLIST_URL = "${API_AUTU}/playlist/detail?id=" // 获取歌单链接
+    private const val PLAYLIST_URL = "${API_MUSIC_ELEUU}/playlist/detail?id=" // 获取歌单链接
 
     // private const val SONG_DETAIL_URL = "https://music.163.com/api/song/detail" // 歌曲详情
-    // private const val SONG_DETAIL_URL = "${API_MUSIC_ELEUU}/song/detail" // 歌曲详情
-    private const val SONG_DETAIL_URL = "https://autumnfish.cn/song/detail" // 歌曲详情
+    private const val SONG_DETAIL_URL = "${API_MUSIC_ELEUU}/song/detail" // 歌曲详情
+    // private const val SONG_DETAIL_URL = "https://autumnfish.cn/song/detail" // 歌曲详情
 
 
     /**
@@ -80,19 +80,21 @@ object Playlist {
 
     data class PlaylistData(
         val playlist: TrackIds?
-    )
+    ) {
+        data class TrackIds(
+            val trackIds: ArrayList<TrackId>?
+        ) {
+            data class TrackId(
+                val id: Long
+            )
+        }
+    }
 
-    data class TrackIds(
-        val trackIds: ArrayList<TrackId>?
-    )
-
-    data class TrackId(
-        val id: Long
-    )
-
+    /**
+     * 切割歌单
+     */
     private fun <T> averageAssignFixLength(source: List<T>?, splitItemNum: Int): List<List<T>> {
         val result = ArrayList<List<T>>()
-
         if (source != null && source.run { isNotEmpty() } && splitItemNum > 0) {
             if (source.size <= splitItemNum) {
                 // 源List元素数量小于等于目标分组数量
@@ -113,9 +115,7 @@ object Playlist {
                 }
             }
         }
-
         return result
     }
-
 
 }

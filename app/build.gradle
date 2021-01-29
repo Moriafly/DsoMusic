@@ -27,9 +27,9 @@ android {
 
     defaultConfig {
         applicationId "com.dirror.music"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 30
-        versionCode 297
+        versionCode 299
         versionName "2.5.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -106,8 +106,11 @@ dependencies {
     // room
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
-    // ok download
-    implementation 'com.liulishuo.okdownload:okdownload:1.0.7'
+    // aria
+    implementation 'com.arialyy.aria:core:3.8.12'
+    annotationProcessor 'com.arialyy.aria:compiler:3.8.12'
     // LyricViewX
-    implementation 'com.github.Moriafly:LyricViewX:1.1.0'
+    implementation 'com.github.Moriafly:LyricViewX:1.1.1'
+
+    implementation 'com.bitvale:switcher:1.1.1'
 }

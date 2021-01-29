@@ -38,7 +38,10 @@ object SearchUtil {
                     it[index].name,
                     it[index].album.artist.img1v1Url,
                     it[index].artists,
-                    NeteaseInfo(it[index].fee),
+                    NeteaseInfo(it[index].fee,
+                    128000,
+                    0,
+                    0),
                     null,
                     null
                 )

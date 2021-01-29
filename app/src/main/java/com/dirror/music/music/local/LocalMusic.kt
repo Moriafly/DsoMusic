@@ -5,7 +5,6 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.annotation.Keep
 import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
@@ -15,7 +14,6 @@ import com.dirror.music.util.Config
 import com.dirror.music.util.toast
 import java.io.*
 import java.net.URL
-
 
 object LocalMusic {
 
@@ -57,6 +55,11 @@ object LocalMusic {
                     // 大小为 0 过滤
                     if (size == 0L) {
                         continue
+                    }
+                    if (MyApplication.mmkv.decodeBool(Config.SMART_FILTER, true)) {
+                        if (size <= 500_000) {
+                            continue
+                        }
                     }
                     // 是否过滤录音
                     if (MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, true)) {

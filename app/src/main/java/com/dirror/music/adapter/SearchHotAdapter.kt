@@ -9,8 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.R
 import com.dirror.music.music.netease.data.SearchHotData
-import com.dirror.music.util.dp
-
 
 class SearchHotAdapter(private val searchHotData: SearchHotData): RecyclerView.Adapter<SearchHotAdapter.ViewHolder>(),
     View.OnClickListener {

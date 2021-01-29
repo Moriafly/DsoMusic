@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -17,6 +18,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.parseArtist
+import com.dirror.music.util.toast
 
 /**
  * 歌单适配器
@@ -48,18 +50,25 @@ class DetailPlaylistAdapter
             clSong.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycle_item)
             // 获取当前 song
             val song = songDataList[position]
-            // 1 是要 vip，0 不一定（无语）
-//        if (song.neteaseInfo?.fee == 1) {
-//            holder.tvNumber.setTextColor(MyApplication.context.getColor(R.color.songUnable))
-//            holder.tvName.setTextColor(MyApplication.context.getColor(R.color.songUnable))
-//            holder.tvArtist.setTextColor(MyApplication.context.getColor(R.color.songUnable))
-//        }
+            if (song.neteaseInfo?.pl == 0) {
+                holder.tvNumber.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
+                holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
+                holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
+            } else {
+                holder.tvNumber.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorSubTextForeground))
+                holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
+                holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorSubTextForeground))
+            }
             tvNumber.text = (position + 1).toString()
             tvName.text = song.name
             tvArtist.text = song.artists?.let { parseArtist(it) }
             // 点击项目
             clSong.setOnClickListener {
-                playMusic(position, it)
+                if (song.neteaseInfo?.pl != 0) {
+                    playMusic(position, it)
+                } else {
+                    toast("网易云暂无版权，可以试试 QQ 和酷我音源")
+                }
             }
             // 更多点击，每首歌右边的三点菜单
             ivMore.setOnClickListener {

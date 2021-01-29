@@ -38,4 +38,7 @@ object Config {
     // 歌词翻译
     const val LYRIC_TRANSLATION = "boolean_lyric_translation"
 
+    // 智能过滤
+    const val SMART_FILTER = "smart_filter"
+
 }

@@ -18,7 +18,7 @@ object VolumeManager {
     val maxVolume = audioManger.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
 
     // 获取当前系统音量模式
-    val mode = audioManger.ringerMode
+    // val mode = audioManger.ringerMode
 
     /**
      * 传入 [volume] 设置音量

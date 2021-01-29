@@ -32,104 +32,50 @@
                 android:textSize="12sp" />
 
             <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemPauseSongAfterUnplugHeadset"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@color/colorItemBackground"
                 app:itemType="item_no"
                 app:text="@string/pause_song_after_unplug_headset">
 
-                <Switch
-                    android:id="@+id/switchPauseSongAfterUnplugHeadset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherPauseSongAfterUnplugHeadset"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/switcher" />
+
             </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemPlayOnMobile"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@color/colorItemBackground"
                 app:itemType="item_no"
                 app:text="@string/play_songs_on_mobile">
 
-                <Switch
-                    android:id="@+id/switchPlayOnMobile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherPlayOnMobile"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/switcher" />
+
             </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemSkipErrorMusic"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@color/colorItemBackground"
                 app:itemType="item_no"
                 app:text="跳过播放错误音乐">
 
-                <Switch
-                    android:id="@+id/switchSkipErrorMusic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherSkipErrorMusic"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-            </com.dirror.music.widget.ItemLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:alpha="0.5"
-                android:background="?android:attr/listDivider"
-                android:visibility="gone" />
-
-
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemSourceCode"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:visibility="gone"
-                app:text="@string/source_code">
-
-            </com.dirror.music.widget.ItemLayout>
-
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemFeedback"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                app:text="@string/feedback">
-
-            </com.dirror.music.widget.ItemLayout>
-
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemAbout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                app:text="@string/about">
-
+                    style="@style/switcher" />
             </com.dirror.music.widget.ItemLayout>
 
             <TextView
@@ -143,23 +89,17 @@
                 android:textSize="12sp" />
 
             <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemFilterRecord"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@color/colorItemBackground"
                 app:itemType="item_no">
 
-                <Switch
-                    android:id="@+id/switchFilterRecord"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherFilterRecord"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/switcher" />
 
                 <TextView
                     android:id="@+id/tvFilterRecord"
@@ -191,26 +131,60 @@
 
 
             <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemLocalMusicParseLyric"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@color/colorItemBackground"
                 app:itemType="item_no"
                 app:text="自动匹配网络歌词">
 
-                <Switch
-                    android:id="@+id/switchLocalMusicParseLyric"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherLocalMusicParseLyric"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/switcher" />
             </com.dirror.music.widget.ItemLayout>
 
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherSmartFilter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/switcher" />
+
+                <TextView
+                    android:id="@+id/tvFilterSmartFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="智能过滤"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvSmartFilterContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="智能过滤掉一些音频文件"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.dirror.music.widget.ItemLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -221,15 +195,6 @@
                 android:text="@string/experimental"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
-
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemJim"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@color/colorItemBackground"
-                app:text="Kart Jim">
-
-            </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemTestCookie"

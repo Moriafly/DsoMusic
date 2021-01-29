@@ -1,41 +1,32 @@
 package com.dirror.music.ui.activity
 
-import android.content.Intent
-import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySettingsBinding
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.*
 
 /**
  * 设置 Activity
  */
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initData()
-        initView()
-        initListener()
-    }
-    
-    private fun initData() {
-
     }
 
-    private fun initView() {
+    override fun initView() {
         // 按钮
         binding.apply {
-            switchPlayOnMobile.isChecked = MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false)
-            switchPauseSongAfterUnplugHeadset.isChecked = MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true)
-            switchSkipErrorMusic.isChecked = MyApplication.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)
-            switchFilterRecord.isChecked = MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, true)
-            switchLocalMusicParseLyric.isChecked = MyApplication.mmkv.decodeBool(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, true)
+            switcherPlayOnMobile.setChecked(MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false))
+            switcherPauseSongAfterUnplugHeadset.setChecked(MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true))
+            switcherSkipErrorMusic.setChecked(MyApplication.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true))
+            switcherFilterRecord.setChecked(MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, true))
+            switcherLocalMusicParseLyric.setChecked(MyApplication.mmkv.decodeBool(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, true))
+            switcherSmartFilter.setChecked(MyApplication.mmkv.decodeBool(Config.SMART_FILTER, true))
         }
 
         if (!Secure.isDebug()) {
@@ -44,20 +35,9 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.apply {
-            itemFeedback.setOnClickListener {
-                startActivity(Intent(this@SettingsActivity, FeedbackActivity::class.java))
-            }
-            itemSourceCode.setOnClickListener {
-                openUrlByBrowser(this@SettingsActivity, "https://github.com/Moriafly/dirror-music")
-            }
 
-            // Kart Jim
-            itemJim.setOnClickListener {
-                MyApplication.activityManager.startWebActivity(this@SettingsActivity, "https://moriafly.xyz/MoreAndroid/#/")
-                // openJim(this@SettingsActivity)
-            }
             // Cookie 导出
             itemTestCookie.setOnClickListener {
                 if (Secure.isDebug()) {
@@ -73,41 +53,18 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
 
-            itemFilterRecord.setOnClickListener { switchFilterRecord.isChecked = !switchFilterRecord.isChecked }
-            switchFilterRecord.setOnCheckedChangeListener { _, isChecked ->
-                MyApplication.mmkv.encode(Config.FILTER_RECORD, isChecked)
-            }
+            switcherFilterRecord.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.FILTER_RECORD, it) }
 
-            itemLocalMusicParseLyric.setOnClickListener { switchLocalMusicParseLyric.isChecked = !switchLocalMusicParseLyric.isChecked }
-            switchLocalMusicParseLyric.setOnCheckedChangeListener { _, isChecked ->
-                MyApplication.mmkv.encode(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, isChecked)
-            }
+            switcherLocalMusicParseLyric.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, it) }
 
-            itemSkipErrorMusic.setOnClickListener { switchSkipErrorMusic.isChecked = !switchSkipErrorMusic.isChecked }
-            switchSkipErrorMusic.setOnCheckedChangeListener { _, isChecked ->
-                MyApplication.mmkv.encode(Config.SKIP_ERROR_MUSIC, isChecked)
-            }
+            switcherSkipErrorMusic.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.SKIP_ERROR_MUSIC, it) }
 
-            itemPlayOnMobile.setOnClickListener {
-                binding.switchPlayOnMobile.isChecked = !binding.switchPlayOnMobile.isChecked
-            }
+            switcherPlayOnMobile.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.PLAY_ON_MOBILE, it) }
 
-            switchPlayOnMobile.setOnCheckedChangeListener { _, isChecked ->
-                MyApplication.mmkv.encode(Config.PLAY_ON_MOBILE, isChecked)
-            }
+            switcherPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, it) }
 
-            itemPauseSongAfterUnplugHeadset.setOnClickListener {
-                binding.switchPauseSongAfterUnplugHeadset.isChecked = !binding.switchPauseSongAfterUnplugHeadset.isChecked
-            }
-
-            switchPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { _, isChecked ->
-                MyApplication.mmkv.encode(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, isChecked)
-            }
-
+            switcherSmartFilter.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.SMART_FILTER, it) }
         }
-
-
-
     }
 
 }
