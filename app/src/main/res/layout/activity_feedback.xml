@@ -38,7 +38,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/valueViewQQ"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar">
 
         <TextView
@@ -83,15 +83,5 @@
             android:textSize="12sp" />
 
     </LinearLayout>
-
-    <com.dirror.music.widget.ValueView
-        android:id="@+id/valueViewQQ"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:text="QQ 联系"
-        app:value="2456860197" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

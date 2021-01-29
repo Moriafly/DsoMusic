@@ -21,6 +21,8 @@ class AboutActivity2 : BaseActivity() {
         // 更新日志网站
         private const val UPDATE_LOG = "https://github.com/Moriafly/DsoMusic/releases"
         private const val HISTORY_VERSION = "https://moriafly.xyz/foyou/dsomusic/history-version.html"
+        // 酷安
+        private const val COOLAPK_HOME_PAGE = "coolmarket://u/482045"
     }
 
     private lateinit var binding: ActivityAbout2Binding

@@ -20,9 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="172dp"
             android:orientation="horizontal"
-            android:paddingStart="14dp"
+            android:paddingStart="10dp"
             android:paddingTop="8dp"
-            android:paddingEnd="14dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="8dp">
 
             <androidx.cardview.widget.CardView
@@ -146,28 +146,10 @@
 
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="28dp">
-
-            <TextView
-                android:id="@+id/tvLocalPlaylist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:height="28dp"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="@string/local_playlist"
-                android:textColor="@color/colorTextForeground"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <TextView
+            android:id="@+id/tvLocalPlaylist"
+            android:text="@string/local_playlist"
+            style="@style/sub_title" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -178,17 +160,16 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clNewPlaylist"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                tools:layout_editor_absoluteX="411dp">
+                android:background="?attr/selectableItemBackground">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cdNewPlaylist"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="6dp"
                     app:cardBackgroundColor="#F5F5F5"
                     app:cardCornerRadius="@dimen/defaultRadius"
                     app:cardElevation="0dp"
@@ -241,8 +222,8 @@
             android:overScrollMode="never"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp" />
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -129,14 +129,8 @@
                 android:layout_height="40dp" />
 
             <com.dirror.music.widget.ValueView
-                app:text="QQ"
-                app:value="2456860197"
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
-
-            <com.dirror.music.widget.ValueView
-                app:text="网站"
-                app:value="https://moriafly.xyz"
+                app:text="酷安"
+                app:value="不要糖醋放椒盐"
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />
 
