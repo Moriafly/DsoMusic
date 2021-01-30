@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/clDialog"
     android:background="@drawable/bg_slide_layout"
     android:layout_width="match_parent"
@@ -33,6 +32,12 @@
         <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemAddLocalMyFavorite"
             app:text="添加到本地我喜欢"
+            android:layout_width="match_parent"
+            android:layout_height="56dp" />
+
+        <com.dirror.music.widget.ItemLayout
+            android:id="@+id/itemAddNeteaseFavorite"
+            app:text="添加到网易云我喜欢"
             android:layout_width="match_parent"
             android:layout_height="56dp" />
 

@@ -41,4 +41,7 @@ object Config {
     // 智能过滤
     const val SMART_FILTER = "smart_filter"
 
+    // 首页导航栏适配
+    const val PARSE_HOME_NAVIGATION = "parse_home_navigation"
+
 }

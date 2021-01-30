@@ -31,9 +31,9 @@ class OpenSourceActivity : AppCompatActivity() {
             OpenSourceData("EdgeTranslucent", "https://github.com/qinci/EdgeTranslucent","Unknown"),
             OpenSourceData("NeteaseCloudMusic-MVVM", "https://github.com/zion223/NeteaseCloudMusic-MVVM","Unknown"),
             OpenSourceData("LyricViewX", "https://github.com/Moriafly/LyricViewX","GPL-3.0 License"),
-            OpenSourceData("switcher", "", ""),
-            OpenSourceData("aria", "", ""),
-            OpenSourceData("BlurView", "", "")
+            OpenSourceData("Switcher", "https://github.com/bitvale/Switcher", "Apache License (Version 2.0)"),
+            OpenSourceData("Aria", "https://github.com/AriaLyy/Aria", "Apache License (Version 2.0)"),
+            OpenSourceData("BlurView", "https://github.com/Dimezis/BlurView", "Apache License (Version 2.0)")
             )
         binding.rvOpenSource.layoutManager = LinearLayoutManager(this)
         binding.rvOpenSource.adapter = OpenSourceAdapter(openSourceList)

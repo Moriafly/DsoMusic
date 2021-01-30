@@ -17,6 +17,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -27,6 +28,7 @@ import com.dirror.music.R
 import com.dirror.music.audio.VolumeManager
 import com.dirror.music.databinding.ActivityPlayerBinding
 import com.dirror.music.music.standard.SongPicture
+import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.service.MusicService
 import com.dirror.music.ui.base.SlideBackActivity
@@ -179,6 +181,7 @@ class PlayerActivity : SlideBackActivity() {
             seekBarVolume.progress = VolumeManager.getCurrentVolume()
 
             lyricView.setLabel("暂无歌词")
+            lyricView.setTimelineTextColor(ContextCompat.getColor(this@PlayerActivity, R.color.colorTextForeground))
         }
     }
 
@@ -200,11 +203,13 @@ class PlayerActivity : SlideBackActivity() {
             // 评论
             ivComment.setOnClickListener {
                 playViewModel.standardSongData.value?.let {
-                    MyApplication.activityManager.startCommentActivity(this@PlayerActivity, it.source, it.id)
+                    if (it.source != SOURCE_LOCAL) {
+                        MyApplication.activityManager.startCommentActivity(this@PlayerActivity, it.source, it.id)
+                    }
                 }
             }
             // 下载歌曲
-            ivDownload.setOnClickListener { toast("还在研究，还要再等一段时间呀~") }
+            ivDownload.setOnClickListener { toast("还在研究，要再等一段时间呀~") }
             // 更多菜单
             ivMore.setOnClickListener { PlayerMenuMoreDialog(this@PlayerActivity).show() }
             // 播放列表

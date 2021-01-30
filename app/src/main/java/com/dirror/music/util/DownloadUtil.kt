@@ -1,5 +1,9 @@
 package com.dirror.music.util
 
+/**
+ * 下载工具类
+ * 下载音乐类跳转 [com.dirror.music.music.compat.DownloadMusic]
+ */
 object DownloadUtil {
 
     fun start() {

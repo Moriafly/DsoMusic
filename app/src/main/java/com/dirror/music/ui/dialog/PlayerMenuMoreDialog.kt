@@ -5,9 +5,12 @@ import android.content.Intent
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.DialogPlayMoreBinding
 import com.dirror.music.music.local.MyFavorite
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.base.BaseBottomSheetDialog
+import com.dirror.music.util.toast
 
 class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
 
@@ -37,12 +40,32 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
                     dismiss()
                 }
             }
+            // 添加到网易云我喜欢
+            itemAddNeteaseFavorite.setOnClickListener {
+                if (MyApplication.userManager.getCloudMusicCookie().isEmpty()) {
+                    toast("离线模式无法收藏到在线我喜欢~")
+                } else {
+                    song?.let {
+                        when (it.source) {
+                            SOURCE_NETEASE -> {
+                                MyApplication.cloudMusicManager.likeSong(it.id, {
+                                    toast("添加到我喜欢成功")
+                                }, {
+                                    toast("添加到我喜欢失败")
+                                })
+                            }
+                            SOURCE_QQ -> {
+                                toast("暂不支持此音源")
+                            }
+                        }
+                    }
+                }
+            }
             // 歌曲信息
             itemSongInfo.setOnClickListener {
                 MyApplication.musicBinderInterface?.getNowSongData()?.let { it1 ->
                     SongInfoDialog(context, it1).show()
                 }
-                // 自己消失
                 dismiss()
             }
 
@@ -51,15 +74,6 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
                 it.context.startActivity(Intent(it.context, PlayHistoryActivity::class.java))
                 dismiss()
             }
-            // 反馈
-//            itemFeedback.setOnClickListener {
-//                val intent = Intent(MyApplication.context, FeedbackActivity::class.java)
-//                // 从 Content 跳转 Activity 要加 FLAG
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                MyApplication.context.startActivity(intent)
-//                // 隐藏 Dialog
-//                dismiss()
-//            }
         }
     }
 

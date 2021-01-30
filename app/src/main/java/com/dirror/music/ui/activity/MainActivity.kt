@@ -98,7 +98,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 适配导航栏
-        val navigationBarHeight = getNavigationBarHeight(this)
+        val navigationBarHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_HOME_NAVIGATION, true)) {
+            getNavigationBarHeight(this)
+        } else {
+            0
+        }
+
         (binding.clPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
             bottomMargin = navigationBarHeight
         }

@@ -655,10 +655,12 @@ class MusicService : Service() {
 //                        toast("华为手机不支持此功能")
 //                    } else {
                     try {
-                        val playbackParams = it.playbackParams
-                        // playbackParams.speed = speed // 0 表示暂停
-                        playbackParams.pitch = pitch
-                        it.playbackParams = playbackParams
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            val playbackParams = it.playbackParams
+                            // playbackParams.speed = speed // 0 表示暂停
+                            playbackParams.pitch = pitch
+                            it.playbackParams = playbackParams
+                        }
                     } catch (e: Exception) {
 
                     }

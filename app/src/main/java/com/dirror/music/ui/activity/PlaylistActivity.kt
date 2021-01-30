@@ -10,8 +10,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -81,7 +81,7 @@ class PlaylistActivity : AppCompatActivity() {
             bottomMargin = getNavigationBarHeight(this@PlaylistActivity)
         }
         // 色彩
-        binding.ivPlayAll.setColorFilter(getColor(R.color.colorAppThemeColor))
+        binding.ivPlayAll.setColorFilter(ContextCompat.getColor(this, R.color.colorAppThemeColor))
         // 获取歌单来源
         playlistSource = intent.getIntExtra(EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
         // 获取歌单 id
@@ -93,14 +93,16 @@ class PlaylistActivity : AppCompatActivity() {
         initPlaylist(playlistSource, playlistId)
 
         var rvPlaylistScrollY = 0
-        binding.rvPlaylist.setOnScrollChangeListener { _, _, _, _, oldScrollY ->
-            rvPlaylistScrollY += oldScrollY
-            if (rvPlaylistScrollY < 0) {
-                if (binding.titleBar.text == getString(R.string.playlist)) {
-                    binding.titleBar.setTitleBarText(binding.tvName.text.toString())
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            binding.rvPlaylist.setOnScrollChangeListener { _, _, _, _, oldScrollY ->
+                rvPlaylistScrollY += oldScrollY
+                if (rvPlaylistScrollY < 0) {
+                    if (binding.titleBar.text == getString(R.string.playlist)) {
+                        binding.titleBar.setTitleBarText(binding.tvName.text.toString())
+                    }
+                } else {
+                    binding.titleBar.setTitleBarText(getString(R.string.playlist))
                 }
-            } else {
-                binding.titleBar.setTitleBarText(getString(R.string.playlist))
             }
         }
 

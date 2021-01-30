@@ -21,6 +21,7 @@ class SettingsActivity : BaseActivity() {
     override fun initView() {
         // 按钮
         binding.apply {
+            switcherParseHomeNavigation.setChecked(MyApplication.mmkv.decodeBool(Config.PARSE_HOME_NAVIGATION, true))
             switcherPlayOnMobile.setChecked(MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false))
             switcherPauseSongAfterUnplugHeadset.setChecked(MyApplication.mmkv.decodeBool(Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET, true))
             switcherSkipErrorMusic.setChecked(MyApplication.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true))
@@ -52,6 +53,8 @@ class SettingsActivity : BaseActivity() {
                     toast("非开发版")
                 }
             }
+
+            switcherParseHomeNavigation.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.PARSE_HOME_NAVIGATION, it) }
 
             switcherFilterRecord.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.FILTER_RECORD, it) }
 
