@@ -35,6 +35,7 @@
     <color name="colorHintForeground">#C8C8C8</color>
 
     <color name="colorBlurViewBackground">#CCFFFFFF</color>
+    <color name="miniPlayerBlurViewBackground">#80FFFFFF</color>
     <color name="colorCommonTextForeground">#969696</color>
 
     <color name="colorDividerBackground">#E6E6E6</color>

@@ -65,4 +65,13 @@ object CloudMusicApi {
      */
     const val USER_PLAYLIST = "${API_MUSIC_ELEUU}/user/playlist"
 
+    /**
+     * 推荐新音乐
+     * 说明 : 调用此接口 , 可获取推荐新音乐
+     * 可选参数 : limit: 取出数量 , 默认为 10 (不支持 offset)
+     * 接口地址 : /personalized/newsong
+     * 调用例子 : /personalized/newsong
+     */
+    const val PERSONALIZED_NEW_SONG = "${API_MUSIC_ELEUU}/personalized/newsong"
+
 }

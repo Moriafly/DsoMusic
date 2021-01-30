@@ -161,7 +161,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvArtist"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_next" />
+                app:srcCompat="@drawable/ic_next"
+                tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -227,6 +228,7 @@
                 android:layout_marginStart="16dp"
                 android:alpha="0.65"
                 android:background="@drawable/background_button_icon"
+                android:contentDescription="@string/equalizer"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -239,6 +241,7 @@
                 android:layout_height="wrap_content"
                 android:alpha="0.81"
                 android:background="@drawable/background_button_icon"
+                android:contentDescription="@string/download"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivLike"
@@ -268,7 +271,7 @@
             android:layout_width="250dp"
             android:layout_height="250dp"
             app:cardBackgroundColor="#4DF5F5F5"
-            app:cardCornerRadius="200dp"
+            app:cardCornerRadius="175dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toTopOf="@+id/clMenu"
             app:layout_constraintEnd_toEndOf="parent"
@@ -283,7 +286,7 @@
                 android:layout_margin="5dp"
                 android:clipChildren="false"
                 android:transitionName="cvCover"
-                app:cardCornerRadius="180dp"
+                app:cardCornerRadius="120dp"
                 app:cardElevation="0dp">
 
                 <ImageView
@@ -291,7 +294,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/bq_no_data_song" />
+                    android:src="@drawable/bq_no_data_song"
+                    tools:ignore="ContentDescription" />
 
             </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
@@ -430,6 +434,7 @@
             android:layout_height="56dp"
             android:layout_marginStart="14dp"
             android:background="@drawable/background_button_icon"
+            android:contentDescription="@string/back"
             android:paddingStart="19dp"
             android:paddingEnd="13dp"
             android:rotation="270"

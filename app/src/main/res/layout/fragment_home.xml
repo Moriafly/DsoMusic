@@ -121,6 +121,20 @@
                     android:overScrollMode="never" />
 
                 <TextView
+                    android:id="@+id/tvNewSong"
+                    android:text="新歌速递"
+                    android:paddingBottom="6dp"
+                    style="@style/sub_title"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNewSong"
+                    android:overScrollMode="never"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
                     android:id="@+id/tvFoyou"
                     android:text="@string/sentence_recommend"
                     style="@style/sub_title"/>

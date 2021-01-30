@@ -107,7 +107,7 @@
             android:id="@+id/blurViewPlayBottom"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/colorBlurViewBackground"
+            android:background="@color/miniPlayerBlurViewBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

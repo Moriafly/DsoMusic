@@ -10,12 +10,15 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.BannerAdapter
+import com.dirror.music.adapter.NewSongAdapter
 import com.dirror.music.adapter.PlaylistRecommendAdapter
 import com.dirror.music.databinding.FragmentHomeBinding
 import com.dirror.music.foyou.sentence.Sentence
+import com.dirror.music.music.netease.NewSong
 import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.music.standard.data.SOURCE_DIRROR
 import com.dirror.music.ui.activity.PlaylistActivity
@@ -61,6 +64,8 @@ class HomeFragment : Fragment() {
         // initBanner()
         // 推荐歌单
         refreshPlaylistRecommend()
+        // 新歌速递
+        updateNewSong()
         // 更改句子
         changeSentence()
     }
@@ -140,6 +145,15 @@ class HomeFragment : Fragment() {
 
         })
 
+    }
+
+    private fun updateNewSong() {
+        NewSong.getNewSong {
+            runOnMainThread {
+                binding.rvNewSong.layoutManager = GridLayoutManager(this.context, 2)
+                binding.rvNewSong.adapter = NewSongAdapter(it)
+            }
+        }
     }
 
 

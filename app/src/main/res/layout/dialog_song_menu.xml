@@ -23,6 +23,12 @@
             app:text="添加到本地我喜欢"/>
 
         <com.dirror.music.widget.ItemLayout
+            android:id="@+id/itemAddNeteaseFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:text="添加到网易云我喜欢"/>
+
+        <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemSongComment"
             android:layout_width="match_parent"
             android:layout_height="56dp"

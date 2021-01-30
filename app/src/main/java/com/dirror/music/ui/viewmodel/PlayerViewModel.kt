@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApplication
 import com.dirror.music.audio.VolumeManager
 import com.dirror.music.data.LyricViewData
+import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
@@ -42,7 +43,7 @@ class PlayerViewModel: ViewModel() {
     }
 
     var playState = MutableLiveData<Boolean>().also {
-        it.value = MyApplication.musicBinderInterface?.getPlayState()
+        it.value = MyApplication.musicBinderInterface?.getPlayState()?: false
     }
 
     var duration = MutableLiveData<Int>().also {
@@ -142,26 +143,8 @@ class PlayerViewModel: ViewModel() {
      * 喜欢音乐
      */
     fun likeMusic() {
-        if (MyApplication.userManager.getCloudMusicCookie().isEmpty()) {
-            toast("离线模式无法收藏到在线我喜欢~")
-            return
-        }
-        standardSongData.let {
-            it.value?.let { song ->
-                when (song.source) {
-                    SOURCE_NETEASE -> {
-                        MyApplication.cloudMusicManager.likeSong(song.id, {
-                            toast("添加到我喜欢成功")
-                        }, {
-                            toast("添加到我喜欢失败")
-                        })
-                    }
-                    SOURCE_QQ -> {
-                        toast("暂不支持此音源")
-                    }
-                }
-            }
-
+        standardSongData.value?.let {
+            MyFavorite.addSong(it)
         }
     }
 

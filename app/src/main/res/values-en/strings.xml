@@ -53,8 +53,10 @@
     <string name="send">Send</string>
     <string name="songs">%d songs</string>
     <string name="hot_search">Hot search</string>
-    <string name="playlist_number">播放列表（%d）</string>
+    <string name="playlist_number">Playlist（%d）</string>
     <string name="my_favorite_songs">My favorite songs</string>
     <string name="equalizer">Equalizer</string>
     <string name="translation">Translation</string>
+    <string name="download">Download</string>
+    <string name="back">Back</string>
 </resources>

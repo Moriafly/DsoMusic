@@ -204,7 +204,7 @@ class PlayerActivity : SlideBackActivity() {
                 }
             }
             // 下载歌曲
-            ivDownload.setOnClickListener { toast("还在研究，敬请期待") }
+            ivDownload.setOnClickListener { toast("还在研究，还要再等一段时间呀~") }
             // 更多菜单
             ivMore.setOnClickListener { PlayerMenuMoreDialog(this@PlayerActivity).show() }
             // 播放列表

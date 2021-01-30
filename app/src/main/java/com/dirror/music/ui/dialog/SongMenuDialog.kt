@@ -7,17 +7,24 @@ import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
 import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.databinding.DialogSongMenuBinding
 import com.dirror.music.music.local.MyFavorite
+import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseBottomSheetDialog
 import com.dirror.music.util.BroadcastUtil
 import com.dirror.music.util.toast
 
+/**
+ * 每个歌曲右边三个点点击后显示
+ */
 class SongMenuDialog
-    @JvmOverloads
-    constructor(context: Context,
-                private val activity: Activity,
-                private val songData: StandardSongData,
-                private val tag: Int = PLAYLIST_TAG_NORMAL) : BaseBottomSheetDialog(context) {
+@JvmOverloads
+constructor(
+    context: Context,
+    private val activity: Activity,
+    private val songData: StandardSongData,
+    private val tag: Int = PLAYLIST_TAG_NORMAL
+) : BaseBottomSheetDialog(context) {
 
     companion object {
         const val BROADCAST_UPDATE_PLAYLIST = "com.dirror.music.UPDATE_PLAYLIST"
@@ -36,6 +43,25 @@ class SongMenuDialog
             itemAddLocalMyFavorite.setOnClickListener {
                 MyFavorite.addSong(songData)
                 dismiss()
+            }
+            // 添加到网易云我喜欢
+            itemAddNeteaseFavorite.setOnClickListener {
+                if (MyApplication.userManager.getCloudMusicCookie().isEmpty()) {
+                    toast("离线模式无法收藏到在线我喜欢~")
+                } else {
+                    when (songData.source) {
+                        SOURCE_NETEASE -> {
+                            MyApplication.cloudMusicManager.likeSong(songData.id, {
+                                toast("添加到我喜欢成功")
+                            }, {
+                                toast("添加到我喜欢失败")
+                            })
+                        }
+                        SOURCE_QQ -> {
+                            toast("暂不支持此音源")
+                        }
+                    }
+                }
             }
             // 歌曲信息
             itemSongInfo.setOnClickListener {
@@ -56,6 +82,8 @@ class SongMenuDialog
                     toast("删除成功")
                     BroadcastUtil.send(this@SongMenuDialog.context, BROADCAST_UPDATE_PLAYLIST)
                     dismiss()
+                } else {
+                    toast("暂不支持删除")
                 }
             }
         }
