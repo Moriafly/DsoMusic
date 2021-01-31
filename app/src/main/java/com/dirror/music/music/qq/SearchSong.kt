@@ -17,19 +17,21 @@ object SearchSong {
             }
             val qqSearch = Gson().fromJson(response, QQSearch::class.java)
             val standardSongList = ArrayList<StandardSongData>()
-            for (song in qqSearch.data.song.list) {
-                standardSongList.add(
-                    StandardSongData(
-                        SOURCE_QQ,
-                        song.songmid,
-                        song.songname,
-                        song.albummid, // 歌单 id
-                        song.singer,
-                        null,
-                        null,
-                        null
+            if (qqSearch.data.song.list.isNotEmpty()) {
+                for (song in qqSearch.data.song.list) {
+                    standardSongList.add(
+                        StandardSongData(
+                            SOURCE_QQ,
+                            song.songmid,
+                            song.songname,
+                            song.albummid, // 歌单 id
+                            song.singer,
+                            null,
+                            null,
+                            null
+                        )
                     )
-                )
+                }
             }
             success.invoke(standardSongList)
         }, {

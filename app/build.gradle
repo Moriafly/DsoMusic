@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 307
-        versionName "2.6.0-beta"
+        versionCode 310
+        versionName "2.6.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -110,7 +110,7 @@ dependencies {
     implementation 'com.arialyy.aria:core:3.8.12'
     annotationProcessor 'com.arialyy.aria:compiler:3.8.12'
     // LyricViewX
-    implementation 'com.github.Moriafly:LyricViewX:1.1.1'
+    implementation 'com.github.Moriafly:LyricViewX:1.1.2'
 
     implementation 'com.bitvale:switcher:1.1.1'
 }
