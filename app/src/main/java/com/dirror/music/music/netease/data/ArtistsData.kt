@@ -13,7 +13,7 @@ data class ArtistsData(
     val code: Int
 ) {
     data class ArtistData(
-        val briefDesc: String,
+        val briefDesc: String?,
         val name: String,
         val id: Int
     )

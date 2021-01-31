@@ -60,8 +60,13 @@ class PlaylistActivity2: BaseActivity() {
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@PlaylistActivity2)
         }
+        val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_HOME_NAVIGATION, true)) {
+            getNavigationBarHeight(this)
+        } else {
+            0
+        }
         (binding.includePlay.root.layoutParams as ConstraintLayout.LayoutParams).apply {
-            bottomMargin = getNavigationBarHeight(this@PlaylistActivity2)
+            bottomMargin = navigationHeight
         }
         // 色彩
         binding.ivPlayAll.setColorFilter(ContextCompat.getColor(this, R.color.colorAppThemeColor))

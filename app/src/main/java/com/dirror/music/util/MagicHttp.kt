@@ -16,6 +16,9 @@ import java.util.concurrent.TimeUnit
  */
 object MagicHttp {
 
+    const val DEFAULT_CACHE_TIME_GET = 4 * ACache.TIME_HOUR
+    const val DEFAULT_CACHE_TIME_POST = ACache.TIME_DAY
+
     interface MagicHttpInterface {
 
         fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit)
@@ -26,6 +29,8 @@ object MagicHttp {
          * 支持缓存
          */
         fun getByCache(context: Context, url: String, success: (String) -> Unit, failure: (String) -> Unit)
+
+        fun postByCache(context: Context, url: String, json: String, success: (String) -> Unit)
     }
 
     // 运行在主线程，更新 UI
@@ -120,12 +125,24 @@ object MagicHttp {
             val cache: String? = aCache.getAsString(url)
             if (cache.isNullOrEmpty()) {
                 newGet(url, {
-                    // 保存一小时
-                    aCache.put(url, it, 1 * ACache.TIME_HOUR)
+                    aCache.put(url, it, DEFAULT_CACHE_TIME_GET)
                     success.invoke(it)
                 }, {
                     failure.invoke(it)
                 })
+            } else {
+                success.invoke(cache)
+            }
+        }
+
+        override fun postByCache(context: Context, url: String, json: String, success: (String) -> Unit) {
+            val aCache = ACache.get(context)
+            val cache: String? = aCache.getAsString(url + json)
+            if (cache.isNullOrEmpty()) {
+                post(url, json) {
+                    aCache.put(url, it, DEFAULT_CACHE_TIME_POST)
+                    success.invoke(it)
+                }
             } else {
                 success.invoke(cache)
             }

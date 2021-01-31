@@ -84,18 +84,13 @@ class CommentActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-
-//        (binding.clBase.layoutParams as FrameLayout.LayoutParams).apply {
-//            topMargin = getStatusBarHeight(window, this@CommentActivity)
-//        }
-
         var rvPlaylistScrollY = 0
-        binding.rvComment.setOnScrollChangeListener { _, _, _, _, oldScrollY ->
-            rvPlaylistScrollY += oldScrollY
-            slideBackLayout.viewEnabled = rvPlaylistScrollY == 0
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            binding.rvComment.setOnScrollChangeListener { _, _, _, _, oldScrollY ->
+                rvPlaylistScrollY += oldScrollY
+                slideBackLayout.viewEnabled = rvPlaylistScrollY == 0
+            }
         }
-
-        // binding.titleBar.setTitleBarText("精彩评论")
     }
 
     override fun finish() {

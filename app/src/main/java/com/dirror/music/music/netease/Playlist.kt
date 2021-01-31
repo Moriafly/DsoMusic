@@ -11,6 +11,7 @@ import com.dirror.music.util.toast
 import com.google.gson.Gson
 import org.jetbrains.annotations.Contract
 import org.jetbrains.annotations.TestOnly
+import kotlin.system.measureTimeMillis
 
 /**
  * 获取网易云歌单全部，对于大型歌单也要成功
@@ -39,12 +40,16 @@ object Playlist {
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             // 解析得到全部 trackIds
             val trackIds = ArrayList<Long>()
-            Gson().fromJson(response, PlaylistData::class.java).playlist?.trackIds?.forEach {
-                trackIds.add(it.id)
+            try {
+                Gson().fromJson(response, PlaylistData::class.java).playlist?.trackIds?.forEach {
+                    trackIds.add(it.id)
+                }
+            } catch (e: Exception) {
+                failure.invoke()
             }
             // POST 请求全部 trackIds
-            // 每 200 首请求一次
             val allSongData = ArrayList<StandardSongData>()
+
             averageAssignFixLength(trackIds, SPLIT_PLAYLIST_NUMBER).forEach { list ->
                 var json = Gson().toJson(list)
 
@@ -53,7 +58,7 @@ object Playlist {
 
                 loge("json:${json}")
 
-                MagicHttp.OkHttpManager().post(SONG_DETAIL_URL, json) { response ->
+                MagicHttp.OkHttpManager().postByCache(context, SONG_DETAIL_URL, json) { response ->
                     loge(response)
                     // toast("服务器返回字符数：${response.length.toString()}")
                     val data = Gson().fromJson(response, CompatSearchData::class.java)
@@ -62,9 +67,13 @@ object Playlist {
                         // 发生了欺骗立刻返回
                         success.invoke(allSongData)
                     } else {
-                        compatSearchDataToStandardPlaylistData(data).forEach {
-                            allSongData.add(it)
+                        val compatMS = measureTimeMillis {
+                            compatSearchDataToStandardPlaylistData(data).forEach {
+                                allSongData.add(it)
+                            }
                         }
+                        loge("Compat 转换耗时：${compatMS} 毫秒")
+
                         // 全部读取完成再返回
                         if (allSongData.size == trackIds.size) {
                             success.invoke(allSongData)

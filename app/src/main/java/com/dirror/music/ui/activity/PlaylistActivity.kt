@@ -32,6 +32,7 @@ import com.dirror.music.util.GlideUtil
 import com.google.gson.Gson
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.lang.Exception
+import kotlin.system.measureTimeMillis
 
 /**
  * 歌单 Activity
@@ -77,8 +78,13 @@ class PlaylistActivity : AppCompatActivity() {
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@PlaylistActivity)
         }
+        val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_HOME_NAVIGATION, true)) {
+            getNavigationBarHeight(this)
+        } else {
+            0
+        }
         (binding.includePlay.root.layoutParams as ConstraintLayout.LayoutParams).apply {
-            bottomMargin = getNavigationBarHeight(this@PlaylistActivity)
+            bottomMargin = navigationHeight
         }
         // 色彩
         binding.ivPlayAll.setColorFilter(ContextCompat.getColor(this, R.color.colorAppThemeColor))
