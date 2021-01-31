@@ -84,12 +84,6 @@
                 android:layout_height="56dp" />
 
             <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemHistoryVersion"
-                app:text="历史版本"
-                android:layout_width="match_parent"
-                android:layout_height="56dp" />
-
-            <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemOpenSourceCode"
                 app:text="使用开源项目"
                 android:layout_width="match_parent"

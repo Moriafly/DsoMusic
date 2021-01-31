@@ -148,10 +148,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateNewSong() {
-        NewSong.getNewSong {
-            runOnMainThread {
-                binding.rvNewSong.layoutManager = GridLayoutManager(this.context, 2)
-                binding.rvNewSong.adapter = NewSongAdapter(it)
+        this.context?.let {
+            NewSong.getNewSong(it) {
+                runOnMainThread {
+                    binding.rvNewSong.layoutManager = GridLayoutManager(this.context, 2)
+                    binding.rvNewSong.adapter = NewSongAdapter(it)
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.dirror.music.music.netease
 
+import android.content.Context
 import com.dirror.music.api.CloudMusicApi
 import com.dirror.music.music.netease.data.NewSongData
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
@@ -10,10 +11,10 @@ import java.lang.Exception
 
 object NewSong {
 
-    fun getNewSong(success: (ArrayList<StandardSongData>) -> Unit) {
+    fun getNewSong(context: Context, success: (ArrayList<StandardSongData>) -> Unit) {
 
         val url = CloudMusicApi.PERSONALIZED_NEW_SONG
-        MagicHttp.OkHttpManager().newGet(url, { string ->
+        MagicHttp.OkHttpManager().getByCache(context, url, { string ->
             try {
                 val newSongData = Gson().fromJson(string, NewSongData::class.java)
 

@@ -1,5 +1,6 @@
 package com.dirror.music.music.netease
 
+import android.content.Context
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
@@ -8,6 +9,7 @@ import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.dirror.music.util.toast
 import com.google.gson.Gson
+import org.jetbrains.annotations.Contract
 import org.jetbrains.annotations.TestOnly
 
 /**
@@ -29,12 +31,12 @@ object Playlist {
      * 传入歌单 [playlistId] id
      */
     @TestOnly
-    fun getPlaylist(playlistId: Long, success: (ArrayList<StandardSongData>) -> Unit, failure: () -> Unit) {
+    fun getPlaylist(context: Context, playlistId: Long, success: (ArrayList<StandardSongData>) -> Unit, failure: () -> Unit) {
         // 请求链接
         val url = PLAYLIST_URL + playlistId
         loge("playlist 请求全部 ids url:$url")
         // 发送 Get 请求获取全部 trackId
-        MagicHttp.OkHttpManager().newGet(url, { response ->
+        MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             // 解析得到全部 trackIds
             val trackIds = ArrayList<Long>()
             Gson().fromJson(response, PlaylistData::class.java).playlist?.trackIds?.forEach {

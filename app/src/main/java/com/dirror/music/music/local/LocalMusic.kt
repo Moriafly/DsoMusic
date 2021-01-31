@@ -45,12 +45,15 @@ object LocalMusic {
                 do {
                     val id = cursor.getLong(idColumn) // 音乐 id
                     val title = cursor.getString(titleColumn) // 音乐名称
-                    val artist = cursor.getString(artistColumn) // 艺术家
+                    var artist = cursor.getString(artistColumn) // 艺术家
                     // val bitrate = cursor.getString(bitrateColumn)
                     val size = cursor.getLong(sizeColumn)
                     // 过滤无法播放的歌曲
                     if (title == "" && artist == "<unknown>") {
                         continue
+                    }
+                    if (artist == "<unknown>") {
+                        artist = "未知歌手"
                     }
                     // 大小为 0 过滤
                     if (size == 0L) {
@@ -100,13 +103,9 @@ object LocalMusic {
 
     /**
      * 得到本地或者网络上的bitmap url - 网络或者本地图片的绝对路径,比如:
-     *
      * A.网络路径: url="http://blog.foreverlove.us/girl2.png" ;
-     *
      * B.本地路径: url="file://mnt/sdcard/photo/image.png";
-     *
-     * C.支持的图片格式 ,png, jpg,bmp,gif等等
-     *
+     * C.支持的图片格式 png jpg bmp gif 等等
      * @param url
      * @return
      */

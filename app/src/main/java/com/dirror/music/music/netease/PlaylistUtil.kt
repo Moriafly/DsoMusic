@@ -1,6 +1,7 @@
 package com.dirror.music.music.netease
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.util.Log
 import com.dirror.music.api.*
 import com.dirror.music.data.DetailPlaylistData
@@ -82,10 +83,10 @@ object PlaylistUtil {
     /**
      * 获取歌单信息
      */
-    fun getPlaylistInfo(id: Long, success: (DetailPlaylistInnerData) -> Unit) {
+    fun getPlaylistInfo(context: Context, id: Long, success: (DetailPlaylistInnerData) -> Unit) {
         val url = "$API_AUTU/playlist/detail?id=$id"
         loge("playlistActivity 歌单信息 url:$url")
-        MagicHttp.OkHttpManager().newGet(url, { response ->
+        MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             val playlistInfo = Gson().fromJson(response, DetailPlaylistData::class.java).playlist
             if (playlistInfo != null) {
                 success.invoke(playlistInfo)

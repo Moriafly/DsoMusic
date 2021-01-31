@@ -100,11 +100,15 @@ fun parseArtist(artistList: ArrayList<StandardArtistData>): String {
  */
 fun openUrlByBrowser(context: Context, url: String) {
     if (url != "") {
-        val intent = Intent()
-        intent.action = "android.intent.action.VIEW"
-        val contentUrl = Uri.parse(url)
-        intent.data = contentUrl
-        startActivity(context, intent, Bundle())
+        try {
+            val intent = Intent()
+            intent.action = "android.intent.action.VIEW"
+            val contentUrl = Uri.parse(url)
+            intent.data = contentUrl
+            startActivity(context, intent, Bundle())
+        } catch (e: Exception) {
+            toast("启动外部浏览器失败，请点击更新详情链接手动更新~")
+        }
     }
 }
 

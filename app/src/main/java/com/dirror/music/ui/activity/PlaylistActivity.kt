@@ -189,7 +189,7 @@ class PlaylistActivity : AppCompatActivity() {
             }
             return
         }
-        PlaylistUtil.getPlaylistInfo(id) {
+        PlaylistUtil.getPlaylistInfo(this, id) {
             it.coverImgUrl?.let { url ->
                 GlideUtil.load(url) { bitmap ->
                     setBackground(bitmap)
@@ -250,7 +250,7 @@ class PlaylistActivity : AppCompatActivity() {
     }
 
     private fun initPlaylistSongs(id: Long, success: (ArrayList<StandardSongData>) -> Unit) {
-        Playlist.getPlaylist(id, {
+        Playlist.getPlaylist(this, id, {
             success.invoke(it)
         }, {
 
