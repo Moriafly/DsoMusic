@@ -1,18 +1,20 @@
 # Dso Music
 
-Kotlin 开发的美观的安卓音乐软件。
-
-本软件开发者提供的安装包上传至 Github 和蓝奏云，请注意识别。
+Kotlin 开发的美观的安卓音乐软件。本软件仅由开发者提供的安装包上传至 Github 和蓝奏云，请注意识别。
 
 注意：源码仅供学习，请勿传播软件安装包。
 
+# 声明
+
+软件安装包不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）。
+
 # 应用下载
 
-## Github
+### Github
 
 https://github.com/Moriafly/DsoMusic/releases
 
-## 蓝奏云
+### 蓝奏云
 
 https://foyou.lanzous.com/b00tzgaof 密码:h221
 

@@ -6,6 +6,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.API_FCZBL_VIP
+import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
@@ -99,10 +100,21 @@ object SongPicture {
                 }
             }
             SOURCE_KUWO -> {
-                songData.imageUrl?.let {
-                    GlideUtil.load(it) {
+                songData.imageUrl?.let { url ->
+                    GlideUtil.load(url) {
                         success.invoke(it)
                     }
+                }
+            }
+            SOURCE_LOCAL -> {
+                songData.imageUrl?.let {
+                    try {
+                        val bitmap = LocalMusic.loadCover(it)
+                        success.invoke(bitmap)
+                    } catch (e: Exception) {
+
+                    }
+
                 }
             }
             else -> {

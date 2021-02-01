@@ -5,15 +5,17 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
 import com.dirror.music.MyApplication
-import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
-import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
+import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.util.Config
 import com.dirror.music.util.toast
 import java.io.*
 import java.net.URL
+
 
 object LocalMusic {
 
@@ -39,11 +41,14 @@ object LocalMusic {
                 val titleColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE)
                 val idColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID)
                 val artistColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST)
+
+                val dataColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.DATA)
                 // val bitrateColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.BITRATE) // 码率
                 val sizeColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.SIZE) // 码率
                 // val titleColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.VOLUME_NAME)
                 do {
                     val id = cursor.getLong(idColumn) // 音乐 id
+                    val path = cursor.getString(dataColumn)
                     val title = cursor.getString(titleColumn) // 音乐名称
                     var artist = cursor.getString(artistColumn) // 艺术家
                     // val bitrate = cursor.getString(bitrateColumn)
@@ -84,7 +89,7 @@ object LocalMusic {
                             SOURCE_LOCAL,
                             id.toString(),
                             title,
-                            "",
+                            path,
                             artistList,
                             null,
                             LocalInfo(size),
@@ -139,6 +144,15 @@ object LocalMusic {
         while (inputStream.read(bytes).also { read = it } != -1) {
             out.write(bytes, 0, read)
         }
+    }
+
+    fun loadCover(path: String): Bitmap {
+        val mediaMetadataRetriever = MediaMetadataRetriever()
+        mediaMetadataRetriever.setDataSource(path)
+        val cover = mediaMetadataRetriever.embeddedPicture
+        val bitmap = BitmapFactory.decodeByteArray(cover, 0, cover!!.size)
+        // image.setImageBitmap(bitmap)
+        return bitmap
     }
 
 }
