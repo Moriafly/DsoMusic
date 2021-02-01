@@ -78,6 +78,12 @@
                 app:text="@string/check_for_updates" />
 
             <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemSourceCode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/defaultHeight"
+                app:text="@string/source_code"/>
+
+            <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemUpdateLog"
                 app:text="@string/update_log"
                 android:layout_width="match_parent"

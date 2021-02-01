@@ -1,6 +1,5 @@
 package com.dirror.music.ui.activity
 
-import android.view.View
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.ui.base.BaseActivity
@@ -31,29 +30,10 @@ class SettingsActivity : BaseActivity() {
             switcherSmartFilter.setChecked(MyApplication.mmkv.decodeBool(Config.SMART_FILTER, true))
         }
 
-        if (!Secure.isDebug()) {
-            binding.itemTestCookie.visibility = View.GONE
-        }
-
     }
 
     override fun initListener() {
         binding.apply {
-
-            // Cookie 导出
-            itemTestCookie.setOnClickListener {
-                if (Secure.isDebug()) {
-                    val cookie = MyApplication.userManager.getCloudMusicCookie()
-                    if (cookie != "") {
-                        toast("Cookie 存在，是否过时未知，已经导入剪贴板")
-                        copyToClipboard(this@SettingsActivity, cookie)
-                    } else {
-                        toast("Cookie 不存在")
-                    }
-                } else {
-                    toast("非开发版")
-                }
-            }
 
             switcherParseHomeNavigation.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.PARSE_NAVIGATION, it) }
 

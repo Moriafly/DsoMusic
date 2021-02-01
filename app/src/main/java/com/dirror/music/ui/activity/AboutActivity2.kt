@@ -55,6 +55,10 @@ class AboutActivity2 : BaseActivity() {
             itemCheckForUpdates.setOnClickListener { UpdateUtil.checkNewVersion(this@AboutActivity2, true) }
             // 更新日志
             itemUpdateLog.setOnClickListener { MyApplication.activityManager.startWebActivity(this@AboutActivity2, UPDATE_LOG) }
+            // 源代码
+            itemSourceCode.setOnClickListener {
+                MyApplication.activityManager.startWebActivity(this@AboutActivity2, "https://github.com/Moriafly/DsoMusic", getString(R.string.source_code))
+            }
             // 使用开源项目
             itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity2, OpenSourceActivity::class.java)) }
             // ivLogo

@@ -254,6 +254,7 @@
             </com.dirror.music.widget.ItemLayout>
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center_vertical"
@@ -263,14 +264,6 @@
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemTestCookie"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@color/colorItemBackground"
-                app:text="导出 Cookie（仅开发版使用）">
-
-            </com.dirror.music.widget.ItemLayout>
 
         </LinearLayout>
     </ScrollView>

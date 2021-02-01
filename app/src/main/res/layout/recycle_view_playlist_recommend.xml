@@ -32,6 +32,7 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tvPlayCount"
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
