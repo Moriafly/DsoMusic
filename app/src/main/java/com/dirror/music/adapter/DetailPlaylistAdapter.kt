@@ -17,6 +17,7 @@ import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
+import com.dirror.music.util.Config
 import com.dirror.music.util.parseArtist
 import com.dirror.music.util.toast
 
@@ -36,6 +37,8 @@ class DetailPlaylistAdapter
         val tvName: TextView = view.findViewById(R.id.tvName)
         val tvArtist: TextView = view.findViewById(R.id.tvArtist)
         val ivMore: ImageView = view.findViewById(R.id.ivMore)
+
+        val isAnimation = MyApplication.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,7 +50,9 @@ class DetailPlaylistAdapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.apply {
             // 动画
-            clSong.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycle_item)
+            if (isAnimation) {
+                clSong.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycle_item)
+            }
             // 获取当前 song
             val song = songDataList[position]
             if (song.neteaseInfo?.pl == 0) {

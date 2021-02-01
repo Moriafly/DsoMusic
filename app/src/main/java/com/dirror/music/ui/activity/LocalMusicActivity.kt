@@ -146,7 +146,7 @@ class LocalMusicActivity : AppCompatActivity() {
         MyApplication.musicBinderInterface?.getNowSongData()?.let { standardSongData ->
             binding.includePlayer.tvName.text = standardSongData.name
             binding.includePlayer.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
-            SongPicture.getSongPicture(standardSongData, SongPicture.TYPE_LARGE) {
+            SongPicture.getSongPicture(this, standardSongData, SongPicture.TYPE_LARGE) {
                 binding.includePlayer.ivCover.setImageBitmap(it)
             }
         }

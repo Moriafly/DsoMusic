@@ -1,8 +1,16 @@
 package com.dirror.music.music.standard
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.Context
+import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.net.toUri
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.API_FCZBL_VIP
@@ -11,25 +19,30 @@ import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
 import com.dirror.music.util.loge
+import com.dirror.music.util.toast
 import org.jetbrains.annotations.TestOnly
+import java.io.FileDescriptor
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
 
 object SongPicture {
 
     const val TYPE_LARGE = 1
     const val TYPE_SMALL = 2
 
-
     /**
      * 标准
      */
     @SuppressLint("UseCompatLoadingForDrawables")
     // @Deprecated("过时，等待新方法")
-    fun getSongPicture(songData: StandardSongData, type: Int, success: (Bitmap) -> Unit) {
+    fun getSongPicture(context: Context, songData: StandardSongData, type: Int, success: (Bitmap) -> Unit) {
         // 普通背景
         if (songData.source == SOURCE_LOCAL) {
-            val commonBitmap: Bitmap? = MyApplication.context.getDrawable(R.drawable.bq_no_data_song)?.toBitmap()
-            if (commonBitmap != null) {
-                success.invoke(commonBitmap)
+            songData.imageUrl?.let {
+                LocalMusic.getBitmapFromUir(context, it.toUri())?.let { it1 ->
+                    success(it1)
+                }
             }
         } else {
             val url = getSongPictureUrl(songData, type)
@@ -61,7 +74,7 @@ object SongPicture {
                 "https://y.gtimg.cn/music/photo_new/T002R300x300M000${songData.imageUrl as String}.jpg?max_age=2592000"
             }
             SOURCE_KUWO -> {
-                songData.imageUrl?:""
+                songData.imageUrl ?: ""
             }
             else -> {
                 "https://s4.music.126.net/style/web2/img/default/default_album.jpg"
@@ -75,12 +88,13 @@ object SongPicture {
      */
     @SuppressLint("UseCompatLoadingForDrawables")
     @TestOnly
-    fun getPlayerActivityCoverBitmap(songData: StandardSongData, size: Int, success: (Bitmap) -> Unit) {
-        when(songData.source) {
+    fun getPlayerActivityCoverBitmap(context: Context, songData: StandardSongData, size: Int, success: (Bitmap) -> Unit) {
+        when (songData.source) {
             SOURCE_NETEASE -> {
                 loge("getPlayerActivityCoverBitmap网易云图片原url【${songData.imageUrl}】")
                 val url = if (songData.imageUrl == "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"
-                    || songData.imageUrl == "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg") {
+                    || songData.imageUrl == "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"
+                ) {
                     "$API_FCZBL_VIP/?type=cover&id=${songData.id}"
                 } else {
                     "${songData.imageUrl}?param=${size}y${size}"
@@ -108,13 +122,10 @@ object SongPicture {
             }
             SOURCE_LOCAL -> {
                 songData.imageUrl?.let {
-                    try {
-                        val bitmap = LocalMusic.loadCover(it)
+                    val bitmap = LocalMusic.getBitmapFromUir(context, it.toUri())
+                    if (bitmap != null) {
                         success.invoke(bitmap)
-                    } catch (e: Exception) {
-
                     }
-
                 }
             }
             else -> {

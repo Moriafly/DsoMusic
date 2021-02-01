@@ -72,7 +72,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
             </com.dirror.music.widget.ItemLayout>
 
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
+                app:itemType="item_no"
+                app:text="歌单歌曲滑动动画">
 
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherPlaylistScrollAnimation"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/switcher" />
+
+            </com.dirror.music.widget.ItemLayout>
 
             <TextView
                 android:layout_width="match_parent"

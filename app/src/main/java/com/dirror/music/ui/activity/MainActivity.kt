@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 适配导航栏
-        val navigationBarHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_HOME_NAVIGATION, true)) {
+        val navigationBarHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
             getNavigationBarHeight(this)
         } else {
             0
@@ -248,7 +248,7 @@ class MainActivity : AppCompatActivity() {
                 binding.includePlayer.tvName.text = song.name
                 binding.includePlayer.tvArtist.text = song.artists?.let { parseArtist(it) }
                 // 这里应该用小的，等待修改
-                SongPicture.getSongPicture(song, SongPicture.TYPE_LARGE) {
+                SongPicture.getSongPicture(this@MainActivity, song, SongPicture.TYPE_LARGE) {
                     binding.includePlayer.ivCover.setImageBitmap(it)
                 }
             }

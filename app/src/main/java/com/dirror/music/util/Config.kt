@@ -42,6 +42,9 @@ object Config {
     const val SMART_FILTER = "smart_filter"
 
     // 首页导航栏适配
-    const val PARSE_HOME_NAVIGATION = "parse_home_navigation"
+    const val PARSE_NAVIGATION = "parse_home_navigation"
+
+    // 歌单滑动动画
+    const val PLAYLIST_SCROLL_ANIMATION = "boolean_playlist_scroll_animation"
 
 }

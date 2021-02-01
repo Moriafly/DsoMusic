@@ -66,7 +66,7 @@ class PlayHistoryActivity : AppCompatActivity() {
                 binding.miniPlayer.tvName.text = song.name
                 binding.miniPlayer.tvArtist.text = song.artists?.let { parseArtist(it) }
                 // 这里应该用小的，等待修改
-                SongPicture.getSongPicture(song, SongPicture.TYPE_LARGE) {
+                SongPicture.getSongPicture(this@PlayHistoryActivity, song, SongPicture.TYPE_LARGE) {
                     binding.miniPlayer.ivCover.setImageBitmap(it)
                 }
             }

@@ -780,7 +780,7 @@ class MusicService : Service() {
             .setMediaSession(mediaSession?.sessionToken)
             .setShowActionsInCompactView(0, 1, 2)
         if (song != null) {
-            SongPicture.getPlayerActivityCoverBitmap(song, 100.dp()) { bitmap ->
+            SongPicture.getPlayerActivityCoverBitmap(this, song, 100.dp()) { bitmap ->
                 showNotification(mediaStyle, song, bitmap)
             }
         }

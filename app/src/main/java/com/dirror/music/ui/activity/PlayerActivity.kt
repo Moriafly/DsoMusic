@@ -336,7 +336,7 @@ class PlayerActivity : SlideBackActivity() {
                         parseArtist(artists)
                     }
                     // val url = MyApplication.cloudMusicManager.getPicture(imageUrl, CD_SIZE.dp())
-                    SongPicture.getPlayerActivityCoverBitmap(it, CD_SIZE.dp()) { bitmap ->
+                    SongPicture.getPlayerActivityCoverBitmap(this@PlayerActivity, it, CD_SIZE.dp()) { bitmap ->
                         // 设置 CD 图片
                         binding.ivCover.setImageBitmap(bitmap)
                         // 设置 背景 图片

@@ -273,7 +273,7 @@ class SearchActivity : AppCompatActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             val song = MyApplication.musicBinderInterface?.getNowSongData()
             if (song != null) {
-                SongPicture.getSongPicture(song, SongPicture.TYPE_LARGE) {
+                SongPicture.getSongPicture(this@SearchActivity, song, SongPicture.TYPE_LARGE) {
                     binding.includePlayer.ivCover.setImageBitmap(it)
                 }
                 binding.includePlayer.tvName.text = song.name

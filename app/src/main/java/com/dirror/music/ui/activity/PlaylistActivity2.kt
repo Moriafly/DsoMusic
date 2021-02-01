@@ -60,7 +60,7 @@ class PlaylistActivity2: BaseActivity() {
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@PlaylistActivity2)
         }
-        val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_HOME_NAVIGATION, true)) {
+        val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
             getNavigationBarHeight(this)
         } else {
             0
@@ -192,7 +192,7 @@ class PlaylistActivity2: BaseActivity() {
         MyApplication.musicBinderInterface?.getNowSongData()?.let { standardSongData ->
             binding.includePlay.tvName.text = standardSongData.name
             binding.includePlay.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
-            SongPicture.getSongPicture(standardSongData, SongPicture.TYPE_LARGE) {
+            SongPicture.getSongPicture(this, standardSongData, SongPicture.TYPE_LARGE) {
                 binding.includePlay.ivCover.setImageBitmap(it)
             }
         }

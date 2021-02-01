@@ -314,7 +314,7 @@
         <com.dirror.music.widget.TimeTextView
             android:id="@+id/ttvDuration"
             android:layout_width="40dp"
-            android:layout_height="13dp"
+            android:layout_height="16dp"
             android:layout_marginEnd="33dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
@@ -323,7 +323,7 @@
         <com.dirror.music.widget.TimeTextView
             android:id="@+id/ttvProgress"
             android:layout_width="40dp"
-            android:layout_height="13dp"
+            android:layout_height="16dp"
             android:layout_marginStart="33dp"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
