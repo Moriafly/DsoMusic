@@ -1,6 +1,5 @@
 package com.dirror.music.music.local
 
-import android.app.Activity
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
@@ -18,7 +17,6 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.util.Config
-import com.dirror.music.util.toast
 import java.io.*
 import java.lang.Exception
 
@@ -27,43 +25,45 @@ import java.lang.Exception
  */
 object LocalMusic {
 
-    fun scanLocalMusic(activity: Activity, success: (ArrayList<StandardSongData>) -> Unit, failure: () -> Unit) {
+    // 未知错误 query failed, handle error.
+    private const val ERROR_UNKNOWN = 0
 
+    // 无音乐 no media on the device
+    private const val ERROR_NO_MUSIC = 1
 
+    /**
+     * 扫描本地音乐
+     * @param success 成功返回歌单集合
+     */
+    fun scanLocalMusic(context: Context, success: (ArrayList<StandardSongData>) -> Unit, failure: (Int) -> Unit) {
         val songList = ArrayList<StandardSongData>()
 
-        val resolver: ContentResolver = activity.contentResolver
+        val resolver: ContentResolver = context.contentResolver
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        // val songSortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER
-        val cursor: Cursor? = resolver.query(uri, null, null, null, null)
+        // 过滤规则
+        val sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER
+        val cursor: Cursor? = resolver.query(uri, null, null, null, sortOrder)
         when {
             cursor == null -> {
-                // query failed, handle error.
-                toast("错误")
-                failure.invoke()
+                failure.invoke(ERROR_UNKNOWN)
             }
             !cursor.moveToFirst() -> {
-                // no media on the device
-                toast("无音乐")
-                failure.invoke()
+                failure.invoke(ERROR_NO_MUSIC)
             }
             else -> {
-                val titleColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
-                val idColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media._ID)
-                val artistColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
-
-                val dataColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media.DATA)
-                val albumIdColumn = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
-                // val albumArtColumn = cursor.getColumnIndex("album_art")
-                // val bitrateColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.BITRATE) // 码率
-                val sizeColumn: Int = cursor.getColumnIndex(MediaStore.Audio.Media.SIZE) // 大小
-                // val titleColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.VOLUME_NAME)
+                // 要读取的数据表列
+                val titleColumn = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE) // 标题，音乐名称
+                val songIdColumn = cursor.getColumnIndex(MediaStore.Audio.Media._ID) // 音乐 id
+                val artistColumn = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST) // 艺术家
+                val dataColumn = cursor.getColumnIndex(MediaStore.Audio.Media.DATA) // 路径
+                val albumIdColumn = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID) // 专辑 id
+                val sizeColumn = cursor.getColumnIndex(MediaStore.Audio.Media.SIZE) // 大小
                 do {
-                    val id = cursor.getLong(idColumn) // 音乐 id
+                    val id = cursor.getLong(songIdColumn)
                     val dataPath = cursor.getString(dataColumn)
-                    val albumId = cursor.getLong(albumIdColumn) // 专辑 id
-                    val title = cursor.getString(titleColumn) // 音乐名称
-                    var artist = cursor.getString(artistColumn) // 艺术家
+                    val albumId = cursor.getLong(albumIdColumn)
+                    val title = cursor.getString(titleColumn)
+                    var artist = cursor.getString(artistColumn)
                     // val bitrate = cursor.getLong(bitrateColumn)
                     val size = cursor.getLong(sizeColumn)
 
@@ -119,7 +119,6 @@ object LocalMusic {
             }
         }
         cursor?.close()
-
     }
 
 
@@ -129,7 +128,8 @@ object LocalMusic {
 
     /**
      * 从 Uri 获取音乐
-     * @param albumUri 专辑封面
+     * @param albumUri 专辑封面 Uri
+     * @return bitmap
      */
     fun getBitmapFromUir(context: Context, albumUri: Uri): Bitmap? {
         val `in`: InputStream?

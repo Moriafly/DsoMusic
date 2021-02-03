@@ -14,6 +14,11 @@ abstract class BaseActivity: AppCompatActivity() {
         initBroadcastReceiver()
     }
 
+    override fun onStart() {
+        super.onStart()
+        initShowDialogListener()
+    }
+
     protected open fun initBinding() { }
 
     protected open fun initView() { }
@@ -23,5 +28,7 @@ abstract class BaseActivity: AppCompatActivity() {
     protected open fun initObserver() { }
 
     protected open fun initBroadcastReceiver() { }
+
+    protected open fun initShowDialogListener() { }
 
 }

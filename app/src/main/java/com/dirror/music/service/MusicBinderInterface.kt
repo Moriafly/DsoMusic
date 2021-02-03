@@ -125,4 +125,9 @@ interface MusicBinderInterface {
      */
     fun pause()
 
+    /**
+     * 下一首播放
+     */
+    fun addToNextPlay(standardSongData: StandardSongData)
+
 }

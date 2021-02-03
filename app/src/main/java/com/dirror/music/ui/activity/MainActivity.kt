@@ -1,18 +1,17 @@
 package com.dirror.music.ui.activity
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.dirror.music.MyApplication
@@ -37,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
     private lateinit var loginReceiver: LoginReceiver // 登录广播接收
 
+
     // 不要写成 mainViewModel = MainViewModel()
     private val mainViewModel: MainViewModel by viewModels()
 
@@ -48,8 +48,6 @@ class MainActivity : AppCompatActivity() {
         initView()
         initListener()
         initObserve()
-//        val radius = ScreenUtil.getCornerRadiusTop(this)
-//        toast("顶部圆角大小：$radius")
     }
 
     private fun initData() {
@@ -73,6 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
         // 请求广播
@@ -81,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         val radius = 20f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
-        binding.blurViewPlay.setupWith(decorView.findViewById(R.id.viewPager2))
+        binding.blurViewPlay.setupWith(decorView.findViewById(R.id.clSkin))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)
@@ -124,7 +123,6 @@ class MainActivity : AppCompatActivity() {
                     0 -> mainViewModel.myFragment
                     else -> mainViewModel.homeFragment
                 }
-                // return FragmentUtil.getFragment(position)
             }
         }
 
@@ -135,16 +133,9 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
 
-//        if (MyApplication.userManager.isUidLogin()) {
-//            binding.viewPager2.currentItem = 1
-//        } else {
-//            binding.viewPager2.currentItem = 0
-//        }
-
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
     }
 
-    @SuppressLint("WrongConstant")
     private fun initListener() {
         //
         binding.apply {
@@ -154,7 +145,7 @@ class MainActivity : AppCompatActivity() {
             }
             // 设置按钮
             ivSettings.setOnClickListener {
-                binding.drawerLayout.openDrawer(Gravity.START)
+                binding.drawerLayout.openDrawer(GravityCompat.START)
             }
         }
 
@@ -268,6 +259,14 @@ class MainActivity : AppCompatActivity() {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
         } else {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerVisible(GravityCompat.START)) {
+            binding.drawerLayout.close()
+        } else {
+            super.onBackPressed()
         }
     }
 

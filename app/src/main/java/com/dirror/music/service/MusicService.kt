@@ -446,14 +446,18 @@ class MusicService : Service() {
             refreshNotification()
         }
 
-        /**
-         * 暂停播放
-         */
         override fun pause() {
             mediaPlayer?.pause()
             mediaSessionCallback?.onPause()
             sendMusicBroadcast()
             refreshNotification()
+        }
+
+        override fun addToNextPlay(standardSongData: StandardSongData) {
+            position?.let {
+                // if (playlist[it + 1])
+                playlist?.add(it + 1, standardSongData)
+            }
         }
 
         /**

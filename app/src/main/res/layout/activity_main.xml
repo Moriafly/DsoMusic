@@ -8,9 +8,22 @@
     android:layout_gravity="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clSkin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activity.MainActivity">
+
+        <ImageView
+            android:visibility="invisible"
+            android:id="@+id/ivSkin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager2"
@@ -69,12 +82,12 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的" />
+                    android:text="@string/my" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="首页" />
+                    android:text="@string/home" />
 
             </com.google.android.material.tabs.TabLayout>
 
@@ -90,7 +103,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_menu" />
+                app:srcCompat="@drawable/ic_menu"
+                android:contentDescription="@string/settings" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <eightbitlab.com.blurview.BlurView

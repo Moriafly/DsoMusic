@@ -35,7 +35,7 @@
 
 <!--    <color name="colorBlurViewBackground">#1AFAFAFA</color>-->
     <color name="colorBlurViewBackground">#B3050505</color>
-    <color name="miniPlayerBlurViewBackground">#B3191919</color>
+    <color name="miniPlayerBlurViewBackground">#26191919</color>
     <color name="colorCommonTextForeground">#969696</color>
 
     <color name="colorDividerBackground">#191919</color>

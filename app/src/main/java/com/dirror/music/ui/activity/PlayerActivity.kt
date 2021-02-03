@@ -64,8 +64,8 @@ class PlayerActivity : SlideBackActivity() {
         private const val BLUR_SAMPLING = 5
 
         // 动画循环时长
-        private const val DURATION_CD = 25_000L
-        private const val DURATION_BACKGROUND = 50_000L
+        private const val DURATION_CD = 27_500L
+        private const val DURATION_BACKGROUND = 55_000L
         private const val DURATION_TAPE = 6_000L
         private const val ANIMATION_REPEAT_COUNTS = -1
         private const val ANIMATION_PROPERTY_NAME = "rotation"
@@ -164,9 +164,14 @@ class PlayerActivity : SlideBackActivity() {
             topMargin = getStatusBarHeight(window, this@PlayerActivity)
         }
         // 页面导航栏适配
+        val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
+            getNavigationBarHeight(this@PlayerActivity)
+        } else {
+            0
+        }
         (binding.clBottom.layoutParams as ConstraintLayout.LayoutParams).apply {
             bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-            bottomMargin = getNavigationBarHeight(this@PlayerActivity)
+            bottomMargin = navigationHeight
         }
         binding.apply {
             // 时长右对齐
@@ -198,8 +203,6 @@ class PlayerActivity : SlideBackActivity() {
             ivNext.setOnClickListener { playViewModel.playNext() }
             // 切换播放模式
             ivMode.setOnClickListener { playViewModel.changePlayMode() }
-            // 均衡器
-            ivEqualizer.setOnClickListener { SoundEffectDialog(this@PlayerActivity, this@PlayerActivity).show() }
             // 评论
             ivComment.setOnClickListener {
                 playViewModel.standardSongData.value?.let {
@@ -210,10 +213,6 @@ class PlayerActivity : SlideBackActivity() {
             }
             // 下载歌曲
             ivDownload.setOnClickListener { toast("还在研究，要再等一段时间呀~") }
-            // 更多菜单
-            ivMore.setOnClickListener { PlayerMenuMoreDialog(this@PlayerActivity).show() }
-            // 播放列表
-            ivList.setOnClickListener { PlaylistDialog(this@PlayerActivity).show() }
             // 喜欢音乐
             ivLike.setOnClickListener { playViewModel.likeMusic() }
             // CD
@@ -309,6 +308,18 @@ class PlayerActivity : SlideBackActivity() {
         }
     }
 
+    override fun initShowDialogListener() {
+        binding.apply {
+            // 均衡器
+            ivEqualizer.setOnClickListener { SoundEffectDialog(this@PlayerActivity, this@PlayerActivity).show() }
+            // 更多菜单
+            ivMore.setOnClickListener { PlayerMenuMoreDialog(this@PlayerActivity).show() }
+            // 播放列表
+            ivList.setOnClickListener { PlaylistDialog(this@PlayerActivity).show() }
+        }
+
+    }
+
     override fun initBroadcastReceiver() {
         // Intent 过滤器，只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         val intentFilter = IntentFilter()
@@ -350,11 +361,9 @@ class PlayerActivity : SlideBackActivity() {
                             .clearFilters()
                             .generate { palette ->
                                 if (palette?.vibrantSwatch != null) {
-                                    palette.vibrantSwatch?.rgb?.let { rgb ->
-                                        playViewModel.color.value = rgb
-                                    }
-                                } else {
-                                    playViewModel.color.value = PlayerViewModel.DEFAULT_COLOR
+                                    val rgb = palette.vibrantSwatch?.rgb?: PlayerViewModel.DEFAULT_COLOR
+                                    playViewModel.color.value = rgb
+                                    // binding.lyricView.setCurrentColor(rgb)
                                 }
                             }
                     }

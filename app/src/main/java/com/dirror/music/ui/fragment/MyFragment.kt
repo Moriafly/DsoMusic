@@ -2,6 +2,7 @@ package com.dirror.music.ui.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -58,9 +59,15 @@ class MyFragment : Fragment() {
         val windowManager = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val width = windowManager.defaultDisplay.width
 
-        (binding.llTop.layoutParams as LinearLayout.LayoutParams).apply {
-            this.height = (width / 2.4).toInt()
+        val configuration = this.resources.configuration //获取设置的配置信息
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+        } else {
+            (binding.llTop.layoutParams as LinearLayout.LayoutParams).apply {
+                this.height = (width / 2.4).toInt()
+            }
         }
+
     }
 
     private fun initListener() {

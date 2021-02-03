@@ -39,6 +39,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/local_page_local_bg">
 
+
                     <ImageView
                         android:id="@+id/ivLocal"
                         android:layout_width="32dp"
@@ -75,8 +76,18 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/local_page_follow_bg">
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/local_page_follow_bg"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
 
                     <ImageView
                         android:id="@+id/ivFavorite"

@@ -39,6 +39,10 @@ constructor(
     override fun initListener() {
         super.initListener()
         binding.apply {
+            // 下一首播放
+            itemNextPlay.setOnClickListener {
+                MyApplication.musicBinderInterface?.addToNextPlay(songData)
+            }
             // 添加到本地我喜欢
             itemAddLocalMyFavorite.setOnClickListener {
                 MyFavorite.addSong(songData)
