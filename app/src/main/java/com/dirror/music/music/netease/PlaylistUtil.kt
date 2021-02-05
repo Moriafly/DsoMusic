@@ -87,9 +87,13 @@ object PlaylistUtil {
         val url = "$API_AUTU/playlist/detail?id=$id"
         loge("playlistActivity 歌单信息 url:$url")
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
-            val playlistInfo = Gson().fromJson(response, DetailPlaylistData::class.java).playlist
-            if (playlistInfo != null) {
-                success.invoke(playlistInfo)
+            try {
+                val playlistInfo = Gson().fromJson(response, DetailPlaylistData::class.java).playlist
+                if (playlistInfo != null) {
+                    success.invoke(playlistInfo)
+                }
+            } catch (e: Exception) {
+
             }
         }, {
 

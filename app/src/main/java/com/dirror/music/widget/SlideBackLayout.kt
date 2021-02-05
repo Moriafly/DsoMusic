@@ -42,7 +42,7 @@ class SlideBackLayout(context: Context, private val scrollableView: View) : Fram
 
         val displayMetrics = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        screenHeight = displayMetrics.heightPixels
+        screenHeight = (displayMetrics.heightPixels * 1.1).toInt()
         slideHeight = displayMetrics.heightPixels * cancelHideHeightPercent
     }
 

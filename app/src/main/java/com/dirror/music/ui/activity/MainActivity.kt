@@ -187,15 +187,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Mini Player
-        binding.includePlayer.apply {
-            root.setOnClickListener {
+        binding.blurViewPlay.apply {
+            setOnClickListener {
                 MyApplication.activityManager.startPlayerActivity(this@MainActivity)
             }
-            ivPlay.setOnClickListener {
+            binding.includePlayer.ivPlay.setOnClickListener {
                 MyApplication.musicBinderInterface?.changePlayState()
                 refreshPlayState()
             }
-            ivPlaylist.setOnClickListener { PlaylistDialog(this@MainActivity).show() }
+            binding.includePlayer.ivPlaylist.setOnClickListener { PlaylistDialog(this@MainActivity).show() }
         }
 
 
@@ -246,7 +246,6 @@ class MainActivity : AppCompatActivity() {
     inner class LoginReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             // 通知 viewModel
-            // toast("收到登录广播")
             mainViewModel.setUserId()
         }
     }

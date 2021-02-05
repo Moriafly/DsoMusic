@@ -218,12 +218,10 @@ class MusicService : Service() {
                                             KeyEvent.KEYCODE_MEDIA_PAUSE -> {
                                                 MyApplication.musicBinderInterface?.pause()
                                             }
-                                            KeyEvent.KEYCODE_MEDIA_NEXT -> { // 下一首
-                                                // toast("KEY_NEXT")
+                                            KeyEvent.KEYCODE_MEDIA_NEXT -> {
                                                 MyApplication.musicBinderInterface?.playNext()
                                             }
-                                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> { // 上一首
-                                                // toast("KEY_PREVIOUS")
+                                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> {
                                                 MyApplication.musicBinderInterface?.playPrevious()
                                             }
                                         }
@@ -300,23 +298,14 @@ class MusicService : Service() {
 
         private var isPrepared = false // 音乐是否准备完成
 
-        /**
-         * 设置播放歌单
-         */
         override fun setPlaylist(songListData: ArrayList<StandardSongData>) {
             playlist = songListData
         }
 
-        /**
-         * 获取当前歌单全部
-         */
         override fun getPlaylist(): ArrayList<StandardSongData>? {
             return playlist
         }
 
-        /**
-         * 播放音乐
-         */
         override fun playMusic(songPosition: Int) {
             isPrepared = false
             position = songPosition
@@ -392,9 +381,6 @@ class MusicService : Service() {
             }
         }
 
-        /**
-         * 发送广播
-         */
         private fun sendMusicBroadcast() {
             // Service 通知
             val intent = Intent("com.dirror.music.MUSIC_BROADCAST")
@@ -402,9 +388,6 @@ class MusicService : Service() {
             sendBroadcast(intent)
         }
 
-        /**
-         * 准备完成
-         */
         override fun onPrepared(p0: MediaPlayer?) {
             isPrepared = true
             p0?.start()
@@ -417,10 +400,6 @@ class MusicService : Service() {
             }
         }
 
-        /**
-         * 更新播放状态
-         * 播放或者暂停
-         */
         override fun changePlayState() {
             val isPlaying = mediaPlayer?.isPlaying
             isPlaying?.let {
@@ -436,9 +415,6 @@ class MusicService : Service() {
             refreshNotification()
         }
 
-        /**
-         * 开始播放
-         */
         override fun play() {
             mediaPlayer?.start()
             mediaSessionCallback?.onPlay()
@@ -454,23 +430,31 @@ class MusicService : Service() {
         }
 
         override fun addToNextPlay(standardSongData: StandardSongData) {
-            position?.let {
-                // if (playlist[it + 1])
-                playlist?.add(it + 1, standardSongData)
+            toast("添加")
+            val nowPosition = position ?: -1
+            if (playlist != null) {
+                playlist?.add(nowPosition + 1, standardSongData)
+//                if (nowPosition + 1 <= playlist?.lastIndex ?: -1) {
+//                    toast("${nowPosition+1} : ${playlist?.lastIndex ?: -1}")
+//                    val data: StandardSongData = playlist!![nowPosition + 1]
+//                    if (data == standardSongData) {
+//                        return
+//                    } else {
+//                        playlist?.add(nowPosition + 1, standardSongData)
+//                    }
+//                } else {
+//                    // playlist?.add(it + 1, standardSongData)
+//                }
+            } else {
+                playlist = ArrayList<StandardSongData>()
+                playlist?.add(standardSongData)
             }
         }
 
-        /**
-         * 获取当前播放状态
-         */
         override fun getPlayState(): Boolean {
             return mediaPlayer?.isPlaying ?: false
         }
 
-        /**
-         * 获取总进度
-         * getDuration 必须在 prepared 回调完成后才可以调用。
-         */
         override fun getDuration(): Int {
             return if (isPrepared) {
                 mediaPlayer?.duration ?: 0
@@ -479,9 +463,6 @@ class MusicService : Service() {
             }
         }
 
-        /**
-         * 获取当前进度
-         */
         override fun getProgress(): Int {
             return if (isPrepared) {
                 mediaPlayer?.currentPosition ?: 0
@@ -490,25 +471,16 @@ class MusicService : Service() {
             }
         }
 
-        /**
-         * 设置进度
-         */
         override fun setProgress(newProgress: Int) {
             mediaPlayer?.seekTo(newProgress)
             mediaSessionCallback?.onPlay()
             // refreshNotification()
         }
 
-        /**
-         * 获取当前播放的音乐的信息
-         */
         override fun getNowSongData(): StandardSongData? {
             return playlist?.get(position!!)
         }
 
-        /**
-         * 改变播放模式
-         */
         override fun changePlayMode() {
             when (mode) {
                 MODE_CIRCLE -> mode = MODE_REPEAT_ONE
@@ -520,16 +492,10 @@ class MusicService : Service() {
             sendMusicBroadcast()
         }
 
-        /**
-         * 获取当前播放模式
-         */
         override fun getPlayMode(): Int {
             return mode
         }
 
-        /**
-         * 播放上一曲
-         */
         override fun playPrevious() {
             // 设置 position
             position = when (mode) {
@@ -553,9 +519,6 @@ class MusicService : Service() {
             position?.let { playMusic(it) }
         }
 
-        /**
-         * 播放下一曲
-         */
         override fun playNext() {
             playlist?.let {
                 position = when (mode) {
@@ -576,53 +539,31 @@ class MusicService : Service() {
             }
         }
 
-        /**
-         * 获取当前 position
-         */
         override fun getNowPosition(): Int {
             return position ?: -1
         }
 
-        /**
-         * 获取 AudioSessionId，用于音效
-         * 无则返回 0
-         */
         override fun getAudioSessionId(): Int {
             return mediaPlayer?.audioSessionId ?: 0
         }
 
-        /**
-         * 外部请求发送广播
-         */
         override fun sendBroadcast() {
             sendMusicBroadcast()
         }
 
-        /**
-         * 设置播放速度
-         */
         override fun setSpeed(speed: Float) {
             this@MusicService.speed = speed
             setPlaybackParams()
         }
 
-        /**
-         * 获取播放速度
-         */
         override fun getSpeed(): Float {
             return speed
         }
 
-        /**
-         * 获取音高等级
-         */
         override fun getPitchLevel(): Int {
             return pitchLevel
         }
 
-        /**
-         * 升调
-         */
         override fun increasePitchLevel() {
             pitchLevel++
             val value = pitchUnit * (pitchLevel + 1f / pitchUnit)
@@ -634,9 +575,6 @@ class MusicService : Service() {
             }
         }
 
-        /**
-         * 降调
-         */
         override fun decreasePitchLevel() {
             pitchLevel--
             val value = pitchUnit * (pitchLevel + 1f / pitchUnit)
@@ -648,16 +586,9 @@ class MusicService : Service() {
             }
         }
 
-        /**
-         * 设置 setPlaybackParams
-         */
         private fun setPlaybackParams() {
             if (isPrepared) {
                 mediaPlayer?.let {
-                    // 华为机器特殊处理
-//                    if(Build.BRAND == "HUAWEI" || Build.MANUFACTURER == "HUAWEI") {
-//                        toast("华为手机不支持此功能")
-//                    } else {
                     try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             val playbackParams = it.playbackParams
@@ -668,22 +599,14 @@ class MusicService : Service() {
                     } catch (e: Exception) {
 
                     }
-
-                    // }
                 }
             }
         }
 
-        /**
-         * 歌曲完成后的回调，自动播放下一曲
-         */
         override fun onCompletion(p0: MediaPlayer?) {
             autoPlayNext()
         }
 
-        /**
-         * 根据播放模式自动播放下一曲
-         */
         private fun autoPlayNext() {
             when (mode) {
                 MODE_CIRCLE -> {
@@ -706,9 +629,6 @@ class MusicService : Service() {
             playMusic(position ?: 0)
         }
 
-        /**
-         * 播放错误回调
-         */
         override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
             if (MyApplication.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)) {
                 // 播放下一首

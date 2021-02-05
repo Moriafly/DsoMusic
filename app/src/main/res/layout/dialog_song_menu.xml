@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.dirror.music.widget.ItemLayout
+            android:visibility="gone"
             android:id="@+id/itemNextPlay"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -26,13 +27,13 @@
             android:id="@+id/itemAddLocalMyFavorite"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:text="添加到本地我喜欢"/>
+            app:text="@string/add_to_local_my_favorite"/>
 
         <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemAddNeteaseFavorite"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:text="添加到网易云我喜欢"/>
+            app:text="@string/add_to_netease_favorite"/>
 
         <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemSongComment"
@@ -50,6 +51,6 @@
             android:id="@+id/itemDeleteSong"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:text="删除歌曲" />
+            app:text="@string/remove_the_song" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

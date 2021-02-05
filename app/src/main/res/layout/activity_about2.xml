@@ -66,6 +66,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/version"
                     android:textSize="12sp"
+                    android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvAppName" />

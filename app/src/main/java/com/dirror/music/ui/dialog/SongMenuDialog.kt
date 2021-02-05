@@ -42,6 +42,8 @@ constructor(
             // 下一首播放
             itemNextPlay.setOnClickListener {
                 MyApplication.musicBinderInterface?.addToNextPlay(songData)
+                toast("成功添加到下一首播放")
+                dismiss()
             }
             // 添加到本地我喜欢
             itemAddLocalMyFavorite.setOnClickListener {

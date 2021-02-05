@@ -59,4 +59,8 @@
     <string name="translation">翻译</string>
     <string name="download">下载</string>
     <string name="back">返回</string>
+    <string name="remove_the_song">移除这首歌曲</string>
+    <string name="add_to_netease_favorite">添加到网易云我喜欢</string>
+    <string name="add_to_local_my_favorite">添加到本地我喜欢</string>
+    <string name="recommend_new_songs">新歌速递</string>
 </resources>

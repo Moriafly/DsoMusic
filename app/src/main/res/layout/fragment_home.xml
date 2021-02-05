@@ -122,7 +122,7 @@
 
                 <TextView
                     android:id="@+id/tvNewSong"
-                    android:text="新歌速递"
+                    android:text="@string/recommend_new_songs"
                     android:paddingBottom="6dp"
                     style="@style/sub_title"/>
 
