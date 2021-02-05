@@ -13,17 +13,17 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.MainActivity">
 
-        <ImageView
-            android:visibility="invisible"
-            android:id="@+id/ivSkin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/test_bg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <ImageView-->
+<!--            android:visibility="invisible"-->
+<!--            android:id="@+id/ivSkin"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/test_bg"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager2"
@@ -111,7 +111,6 @@
             android:id="@+id/blurViewPlay"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

@@ -317,7 +317,6 @@ class PlayerActivity : SlideBackActivity() {
             // 播放列表
             ivList.setOnClickListener { PlaylistDialog(this@PlayerActivity).show() }
         }
-
     }
 
     override fun initBroadcastReceiver() {
@@ -429,7 +428,6 @@ class PlayerActivity : SlideBackActivity() {
                 binding.ivNext.setColorFilter(it)
             })
         }
-
     }
 
     /**

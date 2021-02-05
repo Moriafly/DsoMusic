@@ -7,17 +7,18 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
 
+/**
+ * 搜索歌词
+ * @author Moriafly
+ */
 object SearchLyric {
 
     fun getLyricString(songData: StandardSongData, success: (String) -> Unit) {
         var url = ""
         when (songData.source) {
-            // 网易云
             SOURCE_NETEASE -> {
                 url = "http://music.eleuu.com/lyric?id=${songData.id}"
-                //url = "$API_FCZBL_VIP/?type=lrc&id=${songData.id}"
             }
-            // QQ
             SOURCE_QQ -> {
                 url = "https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid=${songData.id}&format=json&nobase64=1"
             }
@@ -55,16 +56,22 @@ object SearchLyric {
         })
     }
 
+    /**
+     * QQ 音乐歌词数据类
+     */
     data class QQSongLyric(
         val lyric: String?
     )
 
+    /**
+     * 网易云歌词数据类
+     */
     data class NeteaseSongLyric(
         val lrc: NeteaseSongLrc?
-    )
-
-    data class NeteaseSongLrc(
-        val lyric: String?
-    )
+    ) {
+        data class NeteaseSongLrc(
+            val lyric: String?
+        )
+    }
 
 }

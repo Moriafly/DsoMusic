@@ -59,7 +59,6 @@ object PlaylistUtil {
         for (id in 0..ids.lastIndex) {
             idsString = "$idsString${ids[id]},"
         }
-        // loge(idsString)
         if (idsString != "") {
             idsString = idsString.substring(0, idsString.lastIndex)
         }

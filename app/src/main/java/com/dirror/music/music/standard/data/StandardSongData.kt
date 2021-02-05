@@ -3,9 +3,7 @@ package com.dirror.music.music.standard.data
 import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.room.*
-import com.dirror.music.room.StandardArtistDataConverter
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 /**

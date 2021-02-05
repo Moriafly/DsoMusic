@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 321
+        versionCode 323
         versionName "2.6.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -86,12 +86,12 @@ dependencies {
     implementation 'cn.bmob.android:bmob-sdk:3.7.8'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.11'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.squareup.okio:okio:2.9.0'
+    implementation 'com.squareup.okio:okio:2.10.0'
     implementation 'org.jsoup:jsoup:1.13.1'
     // MMKV
     implementation 'com.tencent:mmkv-static:1.2.2'
     // 友盟统计SDK
-    implementation 'com.umeng.umsdk:common:9.1.0'
+    implementation 'com.umeng.umsdk:common:9.3.6'
     implementation 'com.umeng.umsdk:asms:1.2.0'
     implementation 'com.umeng.umsdk:crash:0.0.4'
     // lottie
@@ -111,6 +111,6 @@ dependencies {
     annotationProcessor 'com.arialyy.aria:compiler:3.8.12'
     // LyricViewX
     implementation 'com.github.Moriafly:LyricViewX:1.1.2'
-
+    // 漂亮的开关
     implementation 'com.bitvale:switcher:1.1.1'
 }

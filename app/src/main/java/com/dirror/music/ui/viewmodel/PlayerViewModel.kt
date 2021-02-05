@@ -10,11 +10,9 @@ import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.Config
 import com.dirror.music.util.runOnMainThread
-import com.dirror.music.util.toast
 
 /**
  * PlayerActivity ViewModel
@@ -25,7 +23,6 @@ class PlayerViewModel: ViewModel() {
 
     companion object {
         val DEFAULT_COLOR = Color.rgb(90, 90, 90)
-        // val DEFAULT_COLOR = Color.rgb(219, 44, 31) // 90, 90, 90
     }
 
     var rotation = 0f

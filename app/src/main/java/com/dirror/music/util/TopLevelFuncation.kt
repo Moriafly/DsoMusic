@@ -156,20 +156,6 @@ fun copyToClipboard(activity: Activity, text: String) {
 //  Toast.makeText(,"已复制邮箱地址到剪贴板",Toast.LENGTH_SHORT).show()
 }
 
-fun shareApp(context: Context) {
-
-}
-
-fun openJim(context: Context) {
-    try {
-        val intent = Intent()
-        intent.setClassName("com.ckh.jim", "com.ckh.jim.activity.MainActivity")
-        context.startActivity(intent)
-    } catch (e: Exception) {
-        toast("失败")
-    }
-}
-
 fun defaultTypeface(context: Context): Typeface {
     return Typeface.createFromAsset(context.assets, "fonts/Moriafly-Regular.ttf")
 }

@@ -9,6 +9,9 @@ import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
 import java.lang.Exception
 
+/**
+ * 新歌速递
+ */
 object NewSong {
 
     fun getNewSong(context: Context, success: (ArrayList<StandardSongData>) -> Unit) {
