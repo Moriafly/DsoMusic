@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.AboutActivity2" />
+        <activity android:name=".ui.activity.AboutActivity2"
+            android:theme="@style/AppTheme.FullScreen"/>
         <activity android:name=".ui.activity.PlaylistInfoActivity" />
         <activity android:name=".ui.activity.ArtistActivity" />
         <activity android:name=".ui.activity.PlayHistoryActivity" />
@@ -41,6 +42,7 @@
         <activity android:name=".ui.activity.FeedbackActivity" />
         <activity
             android:name=".ui.activity.SearchActivity"
+            android:theme="@style/AppTheme.FullScreen"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.CommentActivity"

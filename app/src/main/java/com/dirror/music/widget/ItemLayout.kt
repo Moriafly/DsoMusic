@@ -6,7 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginLeft
+import androidx.core.view.marginStart
 import com.dirror.music.R
+import com.dirror.music.util.dp
 
 class ItemLayout(context: Context, attrs: AttributeSet): androidx.constraintlayout.widget.ConstraintLayout(context, attrs) {
     private val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemLayout)
@@ -17,7 +21,6 @@ class ItemLayout(context: Context, attrs: AttributeSet): androidx.constraintlayo
         val tvItem = findViewById<TextView>(R.id.tvItem)
         val ivGoto = findViewById<ImageView>(R.id.ivGoto)
 
-
         tvItem.text = text
 
         when (itemType) {
@@ -25,6 +28,13 @@ class ItemLayout(context: Context, attrs: AttributeSet): androidx.constraintlayo
             0 -> ivGoto.visibility = View.INVISIBLE
             // goto
             1 -> ivGoto.visibility = View.VISIBLE
+            //
+            2 -> {
+                (tvItem.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    marginStart = 54.dp()
+                }
+                ivGoto.alpha = 0.5f
+            }
         }
     }
 

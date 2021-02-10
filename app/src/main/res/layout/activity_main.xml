@@ -13,17 +13,17 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.MainActivity">
 
-<!--        <ImageView-->
-<!--            android:visibility="invisible"-->
-<!--            android:id="@+id/ivSkin"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            android:src="@drawable/test_bg"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <ImageView
+            android:id="@+id/ivTheme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager2"
@@ -157,8 +157,20 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/menuMainBackground"
         app:insetForeground="@color/colorTransparency">
+
+        <eightbitlab.com.blurview.BlurView
+            android:id="@+id/blurViewMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/miniPlayerBlurViewBackground"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
 
         <include
             android:id="@+id/menuMain"

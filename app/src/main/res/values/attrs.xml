@@ -15,6 +15,7 @@
         <attr name="itemType" format="integer" >
             <enum name="item_no" value="0"/>
             <enum name="item_goto" value="1" />
+            <enum name="item_menu" value="2" />
         </attr>
     </declare-styleable>
 

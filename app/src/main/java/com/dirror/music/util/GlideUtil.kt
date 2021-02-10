@@ -2,6 +2,7 @@ package com.dirror.music.util
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -57,6 +58,7 @@ object GlideUtil {
             Glide.with(MyApplication.context)
                 .asBitmap()
                 .load(url)
+                .apply(RequestOptions().centerCrop())
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         loge("获取成功")

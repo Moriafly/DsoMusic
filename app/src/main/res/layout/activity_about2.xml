@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activity.AboutActivity2">
 
     <com.dirror.music.widget.TitleBarLayout
@@ -134,6 +135,16 @@
                 app:value="不要糖醋放椒盐"
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />
+
+            <TextView
+                android:paddingStart="@dimen/defaultPadding"
+                android:paddingEnd="@dimen/defaultPadding"
+                android:text="感谢"
+                style="@style/sub_title"/>
+
+            <TextView
+                android:text="相聚是缘，感谢每一位用户~"
+                style="@style/defaultValueText" />
 
             <TextView
                 android:paddingStart="@dimen/defaultPadding"

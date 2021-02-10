@@ -78,9 +78,6 @@ class MyApplication : Application() {
         appDatabase = AppDatabase.getDatabase(this)
         // 安全检查
         checkSecure()
-
-        // 是否强制深色主题
-        DarkThemeUtil.setDarkTheme(MyApplication.mmkv.encode(Config.DARK_THEME, false))
     }
 
 

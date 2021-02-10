@@ -5,13 +5,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
@@ -24,10 +22,11 @@ import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity() {
 
     companion object {
         const val ENGINE_NETEASE = 1
@@ -41,16 +40,12 @@ class SearchActivity : AppCompatActivity() {
     private var engine = ENGINE_NETEASE
     private var realKeyWord = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initData()
-        initView()
-        initListener()
     }
 
-    private fun initData() {
+    override fun initData() {
         val intentFilter = IntentFilter() // Intent 过滤器
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
         musicBroadcastReceiver = MusicBroadcastReceiver() //
@@ -60,7 +55,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private fun initView() {
+    override fun initView() {
         // 获取焦点
         binding.etSearch.apply {
             isFocusable = true
@@ -103,7 +98,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private fun initListener() {
+    override fun initListener() {
         binding.apply {
             // ivBack
             ivBack.setOnClickListener {

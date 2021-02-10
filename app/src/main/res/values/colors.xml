@@ -12,6 +12,8 @@
     <!-- 页面背景色-->
     <color name="colorPageBackground">#FFFFFF</color>
 
+    <color name="colorMenuBackground">#BFFFFFFF</color>
+
     <!-- 图标前景色 -->
     <color name="colorIconForeground">#000000</color>
     <color name="colorSubIconForeground">#5A5A5A</color>

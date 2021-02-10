@@ -3,6 +3,7 @@ package com.dirror.music.util
 import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
+import com.dirror.music.MyApplication
 
 /**
  * 深色主题工具类
@@ -22,11 +23,13 @@ object DarkThemeUtil {
     }
 
     fun setDarkTheme(open: Boolean) {
+        MyApplication.mmkv.encode(Config.DARK_THEME, open)
         if (open) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
+
     }
 
 //    /**

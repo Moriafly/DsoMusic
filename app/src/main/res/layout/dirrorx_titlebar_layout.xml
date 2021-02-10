@@ -15,7 +15,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_back" />
+        app:srcCompat="@drawable/ic_back"
+        android:contentDescription="@string/back" />
 
     <TextView
         android:id="@+id/tvTitleBar"

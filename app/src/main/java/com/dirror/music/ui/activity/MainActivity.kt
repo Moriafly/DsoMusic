@@ -5,11 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Drawable
-import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -19,6 +17,7 @@ import com.dirror.music.R
 import com.dirror.music.broadcast.HeadsetChangeReceiver
 import com.dirror.music.databinding.ActivityMainBinding
 import com.dirror.music.music.standard.SongPicture
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
@@ -29,28 +28,22 @@ import eightbitlab.com.blurview.RenderScriptBlur
 /**
  * MainActivity
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity(true) {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
     private lateinit var loginReceiver: LoginReceiver // 登录广播接收
 
-
     // 不要写成 mainViewModel = MainViewModel()
     private val mainViewModel: MainViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initData()
-        initView()
-        initListener()
-        initObserve()
     }
 
-    private fun initData() {
+    override fun initData() {
         // Intent 过滤器
         var intentFilter = IntentFilter()
         intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
@@ -70,7 +63,11 @@ class MainActivity : AppCompatActivity() {
         UpdateUtil.checkNewVersion(this, false)
     }
 
-    private fun initView() {
+    override fun initView() {
+        // 是否强制深色主题
+        val open = MyApplication.mmkv.encode(Config.DARK_THEME, false)
+        // toast(open.toString())
+        // DarkThemeUtil.setDarkTheme(open)
 
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
@@ -81,6 +78,11 @@ class MainActivity : AppCompatActivity() {
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
         binding.blurViewPlay.setupWith(decorView.findViewById(R.id.clSkin))
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setHasFixedTransformationMatrix(true)
+        binding.blurViewMenu.setupWith(decorView.findViewById(R.id.navigationView))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)
@@ -135,9 +137,14 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
+
+        val url = MyApplication.mmkv.decodeString(Config.THEME_BACKGROUND, "")
+        GlideUtil.load(url) {
+            binding.ivTheme.setImageBitmap(it)
+        }
     }
 
-    private fun initListener() {
+    override fun initListener() {
         //
         binding.apply {
             // 搜索按钮
@@ -202,7 +209,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun initObserve() {
+    override fun initObserver() {
         mainViewModel.userId.observe(this, { userId ->
             // toast("侧栏收到变化：${userId}")
             if (userId == 0L) {

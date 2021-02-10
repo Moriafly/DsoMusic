@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activity.SearchActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -89,7 +90,6 @@
         android:id="@+id/clTip"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/colorPageBackground"
         android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -208,7 +208,11 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -219,12 +223,12 @@
                     android:id="@+id/tvSearchHot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:height="28dp"
                     android:gravity="center_vertical"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:text="@string/hot_search"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="16sp"

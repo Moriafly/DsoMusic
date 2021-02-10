@@ -50,4 +50,7 @@ object Config {
     // 深色主题
     const val DARK_THEME = "boolean_dark_theme"
 
+    // 全局背景
+    const val THEME_BACKGROUND = "string_theme_background"
+
 }
