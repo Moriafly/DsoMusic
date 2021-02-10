@@ -2,6 +2,9 @@ package com.dirror.music.ui.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.dirror.music.util.DarkThemeUtil
+import com.dirror.music.util.setStatusBarIconColor
+import com.dirror.music.util.toast
 
 abstract class BaseActivity: AppCompatActivity() {
 
@@ -16,6 +19,9 @@ abstract class BaseActivity: AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        if (DarkThemeUtil.isDarkTheme(this)) {
+            setStatusBarIconColor(this, false)
+        }
         initShowDialogListener()
     }
 

@@ -21,7 +21,7 @@ data class UserDetailData(
         val userId: Long, // 用户 id
         val avatarUrl: String, // 头像链接
         val nickname: String, // 昵称
-        val backgroundUrl: String, // 背景图片
+        val backgroundUrl: String?, // 背景图片
         val signature: String, // 个性签名
         val followeds: String, // 粉丝
         val follows: String, // 关注

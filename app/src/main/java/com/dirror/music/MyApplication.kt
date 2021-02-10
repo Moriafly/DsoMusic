@@ -12,6 +12,8 @@ import com.dirror.music.room.AppDatabase
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
+import com.dirror.music.util.Config
+import com.dirror.music.util.DarkThemeUtil
 import com.dirror.music.util.Secure
 import com.dirror.music.util.toast
 import com.tencent.mmkv.MMKV
@@ -62,6 +64,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         // 全局 context
         context = applicationContext
         // MMKV 初始化
@@ -75,6 +78,9 @@ class MyApplication : Application() {
         appDatabase = AppDatabase.getDatabase(this)
         // 安全检查
         checkSecure()
+
+        // 是否强制深色主题
+        DarkThemeUtil.setDarkTheme(MyApplication.mmkv.encode(Config.DARK_THEME, false))
     }
 
 

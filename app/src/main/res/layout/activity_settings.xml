@@ -88,6 +88,30 @@
 
             </com.dirror.music.widget.ItemLayout>
 
+
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorItemBackground"
+                app:itemType="item_no"
+                app:text="强制深色主题（实验性）">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherDarkTheme"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/switcher" />
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemCustomBackground"
+                app:text="自定义背景"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/defaultHeight" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="32dp"

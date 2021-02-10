@@ -71,6 +71,7 @@ class MusicService : Service() {
     override fun onCreate() {
         super.onCreate()
 
+
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
         // 初始化 MediaSession
         initMediaSession()

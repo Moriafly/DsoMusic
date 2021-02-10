@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityUserBinding
 import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.dp2px
 import com.dirror.music.util.getStatusBarHeight
 import com.dirror.music.util.runOnMainThread
 
@@ -33,7 +34,7 @@ class UserActivity : AppCompatActivity() {
         // toast("userId = $userId")
         MyApplication.cloudMusicManager.getUserDetail(userId, {
             runOnMainThread {
-                GlideUtil.load(it.profile.backgroundUrl, binding.ivBackground)
+                it.profile.backgroundUrl?.let { it1 -> GlideUtil.load(it1, binding.ivBackground, dp2px(200F).toInt()) }
                 GlideUtil.load(it.profile.avatarUrl, binding.ivCover)
                 binding.apply {
                     tvName.text = it.profile.nickname

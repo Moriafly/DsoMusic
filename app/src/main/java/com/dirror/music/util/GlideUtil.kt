@@ -22,6 +22,15 @@ object GlideUtil {
         }
     }
 
+    fun load(url: String, imageView: ImageView, size: Int) {
+        runOnMainThread {
+            Glide.with(MyApplication.context)
+                .load(url)
+                .override(size)
+                .into(imageView)
+        }
+    }
+
     fun load(url: String, imageView: ImageView, placeHolder: Drawable) {
         runOnMainThread {
             Glide.with(MyApplication.context)
@@ -88,12 +97,6 @@ object GlideUtil {
      *
      */
     fun loadCircle(url: String, imageView: ImageView, dpSize: Int, needSize: Int) {
-//        Glide.with(MyApplication.context)
-//            .load(url)
-//            .override(needSize)
-//            // .apply(RequestOptions.centerCropTransform())
-//            .apply(RequestOptions.bitmapTransform(RoundedCorners(10)))
-//            .into(imageView)
         Glide.with(MyApplication.context)
             .load(url)
             .apply(RequestOptions()

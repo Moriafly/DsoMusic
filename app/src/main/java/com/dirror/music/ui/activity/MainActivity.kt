@@ -113,6 +113,7 @@ class MainActivity : AppCompatActivity() {
             height = 56.dp() + navigationBarHeight
         }
 
+        binding.viewPager2.offscreenPageLimit = 2
         binding.viewPager2.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
                 return 2 // 2 个页面

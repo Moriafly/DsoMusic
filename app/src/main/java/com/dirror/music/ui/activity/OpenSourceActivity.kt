@@ -33,7 +33,6 @@ class OpenSourceActivity : AppCompatActivity() {
             OpenSourceData("MMKV", "https://github.com/Tencent/MMKV","BSD 3-Clause license"),
             OpenSourceData("Lottie", "https://github.com/airbnb/lottie-android", AL2),
             OpenSourceData("EdgeTranslucent", "https://github.com/qinci/EdgeTranslucent","Unknown"),
-            OpenSourceData("NeteaseCloudMusic-MVVM", "https://github.com/zion223/NeteaseCloudMusic-MVVM","Unknown"),
             OpenSourceData("LyricViewX", "https://github.com/Moriafly/LyricViewX","GPL-3.0 License"),
             OpenSourceData("Switcher", "https://github.com/bitvale/Switcher", AL2),
             OpenSourceData("Aria", "https://github.com/AriaLyy/Aria", AL2),

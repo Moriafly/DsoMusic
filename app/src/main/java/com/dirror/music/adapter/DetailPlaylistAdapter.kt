@@ -2,6 +2,8 @@ package com.dirror.music.adapter
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.ColorSpace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.Config
+import com.dirror.music.util.DarkThemeUtil
 import com.dirror.music.util.parseArtist
 import com.dirror.music.util.toast
 
@@ -61,7 +64,11 @@ class DetailPlaylistAdapter
                 holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
             } else {
                 holder.tvNumber.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorSubTextForeground))
-                holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
+                if (DarkThemeUtil.isDarkTheme(activity)) {
+                    holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorPageBackground))
+                } else {
+                    holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
+                }
                 holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorSubTextForeground))
             }
             tvNumber.text = (position + 1).toString()

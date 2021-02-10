@@ -47,4 +47,7 @@ object Config {
     // 歌单滑动动画
     const val PLAYLIST_SCROLL_ANIMATION = "boolean_playlist_scroll_animation"
 
+    // 深色主题
+    const val DARK_THEME = "boolean_dark_theme"
+
 }
