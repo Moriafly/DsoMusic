@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 328
+        versionCode 330
         versionName "2.7.0-alpha"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -56,6 +56,12 @@ android {
             path "src/main/cpp/CMakeLists.txt"
             version "3.10.2"
         }
+    }
+
+    packagingOptions {
+        exclude 'lib/*/libRSSupport.so'
+//        exclude 'lib/*/librsjni.so'
+//        exclude 'lib/*/librsjni_androidx.so'
     }
 }
 

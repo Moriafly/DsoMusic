@@ -76,7 +76,7 @@ class PlayHistoryActivity : AppCompatActivity() {
 
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-            binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+            binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
         } else {
             binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
         }

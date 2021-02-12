@@ -2,21 +2,9 @@ package com.dirror.music.ui.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toDrawable
-import com.dirror.music.MyApplication
 import com.dirror.music.util.*
 
-abstract class BaseActivity : AppCompatActivity {
-
-    constructor() {
-
-    }
-
-    constructor(noBackground: Boolean) {
-        this.noBackground = noBackground
-    }
-
-    private var noBackground = false
+abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +14,6 @@ abstract class BaseActivity : AppCompatActivity {
         initListener()
         initObserver()
         initBroadcastReceiver()
-        if (!noBackground) {
-            val path = MyApplication.mmkv.decodeString(Config.THEME_BACKGROUND, "")
-            if (path.isNotEmpty()) {
-                GlideUtil.load(path) {
-                    window.setBackgroundDrawable(it.toDrawable(resources))
-                }
-            }
-        }
     }
 
     override fun onStart() {

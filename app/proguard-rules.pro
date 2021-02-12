@@ -34,6 +34,7 @@
 
 # keep 友盟
 -keep class com.umeng.** {*;}
+
 # 您如果使用了稳定性模块可以加入该混淆
 -keep class com.uc.** {*;}
 -keepclassmembers class * {
@@ -56,5 +57,3 @@
     long producerIndex;
     long consumerIndex;
 }
-
-

@@ -7,7 +7,7 @@ import com.dirror.music.widget.SlideBackLayout
 /**
  * 可拖拽 Activity
  */
-abstract class SlideBackActivity: BaseActivity(true) {
+abstract class SlideBackActivity: BaseActivity() {
 
     // SlideBackLayout 拖拽关闭 Activity
     private lateinit var slideBackLayout: SlideBackLayout

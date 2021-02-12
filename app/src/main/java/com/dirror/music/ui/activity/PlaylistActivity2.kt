@@ -178,7 +178,7 @@ class PlaylistActivity2: BaseActivity() {
 
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState() == true) {
-            binding.includePlay.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+            binding.includePlay.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
         } else {
             binding.includePlay.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
         }

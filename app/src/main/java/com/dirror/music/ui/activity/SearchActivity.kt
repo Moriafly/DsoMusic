@@ -283,7 +283,7 @@ class SearchActivity : BaseActivity() {
      */
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
         } else {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
         }

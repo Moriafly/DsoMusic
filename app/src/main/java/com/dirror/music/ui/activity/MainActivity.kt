@@ -28,7 +28,7 @@ import eightbitlab.com.blurview.RenderScriptBlur
 /**
  * MainActivity
  */
-class MainActivity : BaseActivity(true) {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
@@ -64,15 +64,10 @@ class MainActivity : BaseActivity(true) {
     }
 
     override fun initView() {
-        // 是否强制深色主题
-        val open = MyApplication.mmkv.encode(Config.DARK_THEME, false)
-        // toast(open.toString())
-        // DarkThemeUtil.setDarkTheme(open)
 
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
-        // 请求广播
-        MyApplication.musicBinderInterface?.sendBroadcast()
+
 
         val radius = 20f
         val decorView: View = window.decorView
@@ -138,10 +133,10 @@ class MainActivity : BaseActivity(true) {
 
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
 
-        val url = MyApplication.mmkv.decodeString(Config.THEME_BACKGROUND, "")
-        GlideUtil.load(url) {
-            binding.ivTheme.setImageBitmap(it)
-        }
+//        val url = MyApplication.mmkv.decodeString(Config.THEME_BACKGROUND, "") ?: ""
+//        GlideUtil.load(url) {
+//            binding.ivTheme.setImageBitmap(it)
+//        }
     }
 
     override fun initListener() {
@@ -228,6 +223,12 @@ class MainActivity : BaseActivity(true) {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        // 请求广播
+        MyApplication.musicBinderInterface?.sendBroadcast()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         // 解绑广播接收
@@ -263,7 +264,7 @@ class MainActivity : BaseActivity(true) {
      */
     private fun refreshPlayState() {
         if (MyApplication.musicBinderInterface?.getPlayState()!!) {
-            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_bq_control_pause)
+            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
         } else {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
         }

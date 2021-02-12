@@ -8,18 +8,16 @@
 
     <ImageView
         android:id="@+id/ivPlay"
-        android:layout_width="48dp"
+        android:layout_width="42dp"
         android:layout_height="56dp"
-        android:alpha="0.65"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:paddingStart="8dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="10dp"
+        android:paddingStart="11dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="11dp"
+        android:paddingBottom="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ivPlaylist"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_mini_player_play" />
 
     <androidx.cardview.widget.CardView
@@ -89,17 +87,16 @@
 
     <ImageView
         android:id="@+id/ivPlaylist"
-        android:layout_width="48dp"
+        android:layout_width="42dp"
         android:layout_height="56dp"
-        android:layout_marginEnd="4dp"
-        android:alpha="0.65"
+        android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:paddingStart="8dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_bq_playlist" />
+        app:srcCompat="@drawable/ic_play_queue" />
 </androidx.constraintlayout.widget.ConstraintLayout>
