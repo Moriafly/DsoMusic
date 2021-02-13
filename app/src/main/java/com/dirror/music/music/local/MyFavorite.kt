@@ -37,7 +37,6 @@ object MyFavorite {
             val myFavoriteData = MyFavoriteData(songData)
             if (myFavoriteData !in myFavoriteDao.loadAll()) {
                 myFavoriteDao.insert(myFavoriteData)
-                toast("添加成功")
             } else {
                 toast("已经添加过了哦~")
             }
@@ -46,8 +45,9 @@ object MyFavorite {
 
     /**
      * 删除一首歌
+     * 请使用 [deleteById]
      */
-    @TestOnly
+    @Deprecated("过时方法")
     fun delete(songData: StandardSongData) {
         thread {
             myFavoriteDao.delete(MyFavoriteData(songData))
@@ -60,6 +60,20 @@ object MyFavorite {
     fun deleteById(id: String) {
         thread {
             myFavoriteDao.deleteById(id)
+        }
+    }
+
+    /**
+     * 判断歌曲是否存在数据库
+     */
+    fun isExist(songData: StandardSongData, exist: (Boolean) -> Unit) {
+        thread {
+            val myFavoriteData = MyFavoriteData(songData)
+            if (myFavoriteData in myFavoriteDao.loadAll()) {
+                exist.invoke(true)
+            } else {
+                exist.invoke(false)
+            }
         }
     }
 

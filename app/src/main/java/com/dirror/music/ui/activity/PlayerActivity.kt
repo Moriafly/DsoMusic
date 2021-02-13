@@ -27,6 +27,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.audio.VolumeManager
 import com.dirror.music.databinding.ActivityPlayerBinding
+import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
@@ -188,6 +189,8 @@ class PlayerActivity : SlideBackActivity() {
             lyricView.setLabel("暂无歌词")
             lyricView.setTimelineTextColor(ContextCompat.getColor(this@PlayerActivity, R.color.colorTextForeground))
         }
+
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -214,7 +217,15 @@ class PlayerActivity : SlideBackActivity() {
             // 下载歌曲
             ivDownload.setOnClickListener { toast("还在研究，要再等一段时间呀~") }
             // 喜欢音乐
-            ivLike.setOnClickListener { playViewModel.likeMusic() }
+            ivLike.setOnClickListener { playViewModel.likeMusic() {
+                runOnMainThread {
+                    if (it) {
+                        binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.ic_bq_play_notify_collect))
+                    } else {
+                        binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mz_titlebar_ic_collect_dark))
+                    }
+                }
+            } }
             // CD
             clCd.setOnClickListener {
                 if (binding.clLyric.visibility == View.INVISIBLE) {
@@ -368,6 +379,16 @@ class PlayerActivity : SlideBackActivity() {
                     }
                     // 刷新歌词
                     playViewModel.updateLyric()
+                    // 是否有红心
+                    MyFavorite.isExist(it) { exist ->
+                        runOnMainThread {
+                            if (exist) {
+                                binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.ic_bq_play_notify_collect))
+                            } else {
+                                binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mz_titlebar_ic_collect_dark))
+                            }
+                        }
+                    }
                 }
             })
             // 播放状态的观察

@@ -138,10 +138,19 @@ class PlayerViewModel: ViewModel() {
 
     /**
      * 喜欢音乐
+     * true
      */
-    fun likeMusic() {
+    fun likeMusic(success: (Boolean) -> Unit) {
         standardSongData.value?.let {
-            MyFavorite.addSong(it)
+            MyFavorite.isExist(it) { exist ->
+                if (exist) {
+                    MyFavorite.deleteById(it.id)
+                    success.invoke(false)
+                } else {
+                    MyFavorite.addSong(it)
+                    success.invoke(true)
+                }
+            }
         }
     }
 

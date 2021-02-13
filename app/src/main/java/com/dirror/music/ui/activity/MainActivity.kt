@@ -72,7 +72,7 @@ class MainActivity : BaseActivity() {
         val radius = 20f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
-        binding.blurViewPlay.setupWith(decorView.findViewById(R.id.clSkin))
+        binding.blurViewPlay.setupWith(decorView.findViewById(R.id.viewPager2))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)
