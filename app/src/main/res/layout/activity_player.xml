@@ -219,7 +219,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/ivLike"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mz_titlebar_ic_information_dark" />
+                app:srcCompat="@drawable/mz_titlebar_ic_information" />
 
             <ImageView
                 android:id="@+id/ivEqualizer"
@@ -248,7 +248,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/ivEqualizer"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mz_titlebar_ic_download_dark" />
+                app:srcCompat="@drawable/mz_titlebar_ic_download" />
 
             <ImageView
                 android:id="@+id/ivLike"
@@ -261,7 +261,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/ivDownload"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mz_titlebar_ic_collect_dark"
+                app:srcCompat="@drawable/mz_titlebar_ic_collect"
                 android:contentDescription="@string/add_to_local_my_favorite" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

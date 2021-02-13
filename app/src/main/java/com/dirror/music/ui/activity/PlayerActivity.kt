@@ -211,18 +211,20 @@ class PlayerActivity : SlideBackActivity() {
                 playViewModel.standardSongData.value?.let {
                     if (it.source != SOURCE_LOCAL) {
                         MyApplication.activityManager.startCommentActivity(this@PlayerActivity, it.source, it.id)
+                    } else {
+                        toast("暂无评论")
                     }
                 }
             }
             // 下载歌曲
             ivDownload.setOnClickListener { toast("还在研究，要再等一段时间呀~") }
             // 喜欢音乐
-            ivLike.setOnClickListener { playViewModel.likeMusic() {
+            ivLike.setOnClickListener { playViewModel.likeMusic {
                 runOnMainThread {
                     if (it) {
-                        binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.ic_bq_play_notify_collect))
+                        binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mc_collectingview_red_heart))
                     } else {
-                        binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mz_titlebar_ic_collect_dark))
+                        binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mz_titlebar_ic_collect))
                     }
                 }
             } }
@@ -383,9 +385,9 @@ class PlayerActivity : SlideBackActivity() {
                     MyFavorite.isExist(it) { exist ->
                         runOnMainThread {
                             if (exist) {
-                                binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.ic_bq_play_notify_collect))
+                                binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mc_collectingview_red_heart))
                             } else {
-                                binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mz_titlebar_ic_collect_dark))
+                                binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mz_titlebar_ic_collect))
                             }
                         }
                     }

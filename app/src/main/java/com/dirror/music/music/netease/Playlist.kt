@@ -1,6 +1,7 @@
 package com.dirror.music.music.netease
 
 import android.content.Context
+import com.dirror.music.api.API_AUTU
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
@@ -24,8 +25,8 @@ object Playlist {
     private const val PLAYLIST_URL = "${API_MUSIC_ELEUU}/playlist/detail?id=" // 获取歌单链接
 
     // private const val SONG_DETAIL_URL = "https://music.163.com/api/song/detail" // 歌曲详情
-    private const val SONG_DETAIL_URL = "${API_MUSIC_ELEUU}/song/detail" // 歌曲详情
-    // private const val SONG_DETAIL_URL = "https://autumnfish.cn/song/detail" // 歌曲详情
+    // private const val SONG_DETAIL_URL = "${API_AUTU}/song/detail" // 歌曲详情
+    private const val SONG_DETAIL_URL = "https://autumnfish.cn/song/detail" // 歌曲详情
 
 
     /**
@@ -34,16 +35,21 @@ object Playlist {
     @TestOnly
     fun getPlaylist(context: Context, playlistId: Long, success: (ArrayList<StandardSongData>) -> Unit, failure: () -> Unit) {
         // 请求链接
+        loge("开始请求", "耗时")
         val url = PLAYLIST_URL + playlistId
         loge("playlist 请求全部 ids url:$url")
         // 发送 Get 请求获取全部 trackId
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
+            loge("收到返回歌单数据", "耗时")
             // 解析得到全部 trackIds
             val trackIds = ArrayList<Long>()
             try {
-                Gson().fromJson(response, PlaylistData::class.java).playlist?.trackIds?.forEach {
-                    trackIds.add(it.id)
+                val forEachMS = measureTimeMillis {
+                    Gson().fromJson(response, PlaylistData::class.java).playlist?.trackIds?.forEach {
+                        trackIds.add(it.id)
+                    }
                 }
+                loge("forEach 耗时：${forEachMS}", "耗时")
             } catch (e: Exception) {
                 failure.invoke()
             }
@@ -56,10 +62,9 @@ object Playlist {
                 json = json.replace("[", "")
                 json = json.replace("]", "")
 
-                loge("json:${json}")
-
+                loge("开始 post", "耗时")
                 MagicHttp.OkHttpManager().postByCache(context, SONG_DETAIL_URL, json) { response ->
-                    loge(response)
+                    loge("post 请求成功", "耗时")
                     // toast("服务器返回字符数：${response.length.toString()}")
                     val data = Gson().fromJson(response, CompatSearchData::class.java)
                     if (data.code == CHEATING_CODE) {

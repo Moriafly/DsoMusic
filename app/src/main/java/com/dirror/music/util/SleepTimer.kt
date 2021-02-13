@@ -9,7 +9,7 @@ import android.os.CountDownTimer
 class SleepTimer(millisInFuture: Long): CountDownTimer(1000L, 1000L) {
 
     override fun onTick(millisUntilFinished: Long) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onFinish() {

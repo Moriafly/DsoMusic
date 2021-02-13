@@ -64,11 +64,7 @@ class DetailPlaylistAdapter
                 holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
             } else {
                 holder.tvNumber.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorSubTextForeground))
-                if (DarkThemeUtil.isDarkTheme(activity)) {
-                    holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorPageBackground))
-                } else {
-                    holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
-                }
+                holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
                 holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorSubTextForeground))
             }
             tvNumber.text = (position + 1).toString()

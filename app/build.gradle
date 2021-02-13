@@ -29,13 +29,15 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 331
-        versionName "2.7.0-alpha"
+        versionCode 335
+        versionName "2.6.3" // 定制版后缀 custom "2.6.3-custom"
+
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'arm64-v8a' // , 'x86'
+            abiFilters 'arm64-v8a' // 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
     }
 
@@ -116,7 +118,7 @@ dependencies {
     implementation 'com.arialyy.aria:core:3.8.12'
     annotationProcessor 'com.arialyy.aria:compiler:3.8.12'
     // LyricViewX
-    implementation 'com.github.Moriafly:LyricViewX:1.1.2'
+    implementation 'com.github.Moriafly:LyricViewX:1.1.3'
     // 漂亮的开关
     implementation 'com.bitvale:switcher:1.1.1'
 }

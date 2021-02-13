@@ -16,12 +16,18 @@ object UpdateUtil {
     fun checkNewVersion(activity: Activity, showLastedToast: Boolean) {
         getServerVersion({ updateData ->
             runOnMainThread {
-                if (updateData.code > getVisionCode()) {
-                    // 有新版
-                    UpdateDialog(activity, updateData).show()
+                if ("custom" !in getVisionName()) {
+                    if (updateData.code > getVisionCode()) {
+                        // 有新版
+                        UpdateDialog(activity, updateData).show()
+                    } else {
+                        if (showLastedToast) {
+                            toast("已是最新版本\n服务器版本：${updateData.name}(${updateData.code})")
+                        }
+                    }
                 } else {
                     if (showLastedToast) {
-                        toast("已是最新版本\n服务器版本：${updateData.name}(${updateData.code})")
+                        toast("定制版不支持检查更新，请访问本应用 Github 页面查看更新")
                     }
                 }
             }
