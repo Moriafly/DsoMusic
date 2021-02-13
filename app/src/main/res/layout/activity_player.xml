@@ -255,14 +255,14 @@
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
                 android:alpha="0.81"
-                android:background="@drawable/background_button_icon"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivComment"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/ivDownload"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mz_titlebar_ic_collect_dark" />
+                app:srcCompat="@drawable/mz_titlebar_ic_collect_dark"
+                android:contentDescription="@string/add_to_local_my_favorite" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

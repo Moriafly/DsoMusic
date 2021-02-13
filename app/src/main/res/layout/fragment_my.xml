@@ -159,11 +159,13 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tvLocalPlaylist"
             android:text="@string/local_playlist"
             style="@style/sub_title" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:orientation="horizontal"
@@ -225,6 +227,7 @@
             android:paddingEnd="10dp" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tvInternetPlaylist"
             style="@style/sub_title"
             android:text="@string/internet_playlist" />
