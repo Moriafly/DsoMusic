@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.Keep
+import androidx.lifecycle.MutableLiveData
 import cn.bmob.v3.Bmob
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
@@ -12,8 +13,6 @@ import com.dirror.music.room.AppDatabase
 import com.dirror.music.service.MusicBinderInterface
 import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
-import com.dirror.music.util.Config
-import com.dirror.music.util.DarkThemeUtil
 import com.dirror.music.util.Secure
 import com.dirror.music.util.toast
 import com.tencent.mmkv.MMKV
@@ -37,7 +36,9 @@ class MyApplication : Application() {
 
         lateinit var context: Context // 注入懒加载 全局 context
         lateinit var mmkv: MMKV // mmkv
-        var musicBinderInterface: MusicBinderInterface? = null // MusicBinderInterface
+        var musicController = MutableLiveData<MusicBinderInterface?>().also {
+            it.value = null
+        } // MusicBinderInterface
         val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
 
         val cookieStore: HashMap<String, List<Cookie>> = HashMap() // cookie

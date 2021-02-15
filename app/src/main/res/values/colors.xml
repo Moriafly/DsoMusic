@@ -36,6 +36,8 @@
     <color name="colorDialogBackground">#FFFFFF</color>
     <color name="colorHintForeground">#C8C8C8</color>
 
+    <color name="salt_color_song_cover">#EEEEEE</color>
+
     <color name="colorBlurViewBackground">#CCFFFFFF</color>
     <color name="miniPlayerBlurViewBackground">#80FFFFFF</color>
     <color name="colorCommonTextForeground">#969696</color>

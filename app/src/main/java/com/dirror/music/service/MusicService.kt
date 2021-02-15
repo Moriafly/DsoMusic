@@ -14,6 +14,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.MutableLiveData
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.broadcast.BecomingNoisyReceiver
@@ -150,7 +151,7 @@ class MusicService : Service() {
                     PlaybackStateCompat.Builder()
                         .setState(
                             PlaybackStateCompat.STATE_PLAYING,
-                            (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
+                            (MyApplication.musicController.value?.getProgress() ?: 0).toLong(),
                             1f
                         )
                         .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
@@ -164,7 +165,7 @@ class MusicService : Service() {
                     PlaybackStateCompat.Builder()
                         .setState(
                             PlaybackStateCompat.STATE_PAUSED,
-                            (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
+                            (MyApplication.musicController.value?.getProgress() ?: 0).toLong(),
                             1f
                         )
                         .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
@@ -211,19 +212,19 @@ class MusicService : Service() {
                                     KeyEvent.ACTION_DOWN -> {
                                         when (keyEvent.keyCode) {
                                             KeyEvent.KEYCODE_MEDIA_PLAY -> { // 播放按钮
-                                                MyApplication.musicBinderInterface?.play()
+                                                MyApplication.musicController.value?.play()
                                             }
                                             KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
-                                                MyApplication.musicBinderInterface?.changePlayState()
+                                                MyApplication.musicController.value?.changePlayState()
                                             }
                                             KeyEvent.KEYCODE_MEDIA_PAUSE -> {
-                                                MyApplication.musicBinderInterface?.pause()
+                                                MyApplication.musicController.value?.pause()
                                             }
                                             KeyEvent.KEYCODE_MEDIA_NEXT -> {
-                                                MyApplication.musicBinderInterface?.playNext()
+                                                MyApplication.musicController.value?.playNext()
                                             }
                                             KeyEvent.KEYCODE_MEDIA_PREVIOUS -> {
-                                                MyApplication.musicBinderInterface?.playPrevious()
+                                                MyApplication.musicController.value?.playPrevious()
                                             }
                                         }
                                     }
@@ -303,15 +304,13 @@ class MusicService : Service() {
             playlist = songListData
         }
 
-        override fun getPlaylist(): ArrayList<StandardSongData>? {
-            return playlist
-        }
+        override fun getPlaylist(): ArrayList<StandardSongData>? = playlist
 
         override fun playMusic(songPosition: Int) {
             isPrepared = false
             position = songPosition
-            loge("MusicService songPosition:${position}")
-            loge("MusicService 歌单歌曲数量:${playlist?.size}")
+            // loge("MusicService songPosition:${position}")
+            // loge("MusicService 歌单歌曲数量:${playlist?.size}")
             // 当前的歌曲
             val song = playlist?.get(position ?: 0)
 
@@ -493,9 +492,7 @@ class MusicService : Service() {
             sendMusicBroadcast()
         }
 
-        override fun getPlayMode(): Int {
-            return mode
-        }
+        override fun getPlayMode(): Int = mode
 
         override fun playPrevious() {
             // 设置 position
@@ -557,13 +554,9 @@ class MusicService : Service() {
             setPlaybackParams()
         }
 
-        override fun getSpeed(): Float {
-            return speed
-        }
+        override fun getSpeed(): Float = speed
 
-        override fun getPitchLevel(): Int {
-            return pitchLevel
-        }
+        override fun getPitchLevel(): Int = pitchLevel
 
         override fun increasePitchLevel() {
             pitchLevel++
@@ -679,7 +672,7 @@ class MusicService : Service() {
                 MediaMetadataCompat.Builder()
                     .putLong(
                         MediaMetadata.METADATA_KEY_DURATION,
-                        (MyApplication.musicBinderInterface?.getDuration() ?: 0).toLong()
+                        (MyApplication.musicController.value?.getDuration() ?: 0).toLong()
                     )
                     .build()
             )
@@ -687,7 +680,7 @@ class MusicService : Service() {
                 PlaybackStateCompat.Builder()
                     .setState(
                         PlaybackStateCompat.STATE_PLAYING,
-                        (MyApplication.musicBinderInterface?.getProgress() ?: 0).toLong(),
+                        (MyApplication.musicController.value?.getProgress() ?: 0).toLong(),
                         1f
                     )
                     .setActions(PlaybackStateCompat.ACTION_SEEK_TO)

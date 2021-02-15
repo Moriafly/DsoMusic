@@ -51,7 +51,7 @@ class SearchActivity : BaseActivity() {
         musicBroadcastReceiver = MusicBroadcastReceiver() //
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
 
-        MyApplication.musicBinderInterface?.sendBroadcast()
+        MyApplication.musicController.value?.sendBroadcast()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -136,7 +136,7 @@ class SearchActivity : BaseActivity() {
 
         binding.includePlayer.ivPlay.setOnClickListener {
             // 更新
-            MyApplication.musicBinderInterface?.changePlayState()
+            MyApplication.musicController.value?.changePlayState()
             refreshPlayState()
         }
         binding.includePlayer.ivPlaylist.setOnClickListener {
@@ -266,7 +266,7 @@ class SearchActivity : BaseActivity() {
 
     inner class MusicBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val song = MyApplication.musicBinderInterface?.getNowSongData()
+            val song = MyApplication.musicController.value?.getNowSongData()
             if (song != null) {
                 SongPicture.getSongPicture(this@SearchActivity, song, SongPicture.TYPE_LARGE) {
                     binding.includePlayer.ivCover.setImageBitmap(it)
@@ -282,7 +282,7 @@ class SearchActivity : BaseActivity() {
      * 刷新播放状态
      */
     private fun refreshPlayState() {
-        if (MyApplication.musicBinderInterface?.getPlayState()!!) {
+        if (MyApplication.musicController.value?.getPlayState()!!) {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
         } else {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)

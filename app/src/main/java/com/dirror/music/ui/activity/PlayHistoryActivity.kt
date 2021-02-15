@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.data.PLAYLIST_TAG_HISTORY
 import com.dirror.music.databinding.ActivityPlayHistoryBinding
 import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.standard.SongPicture
@@ -33,7 +34,7 @@ class PlayHistoryActivity : AppCompatActivity() {
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
 
         // 请求广播
-        MyApplication.musicBinderInterface?.sendBroadcast()
+        MyApplication.musicController.value?.sendBroadcast()
 
         initView()
 
@@ -42,7 +43,7 @@ class PlayHistoryActivity : AppCompatActivity() {
     private fun initView() {
         binding.apply {
             rvPlayHistory.layoutManager = LinearLayoutManager(this@PlayHistoryActivity)
-            rvPlayHistory.adapter = DetailPlaylistAdapter(PlayHistory.readPlayHistory(), this@PlayHistoryActivity)
+            rvPlayHistory.adapter = DetailPlaylistAdapter(PlayHistory.readPlayHistory(), this@PlayHistoryActivity, PLAYLIST_TAG_HISTORY)
         }
 
 
@@ -52,7 +53,7 @@ class PlayHistoryActivity : AppCompatActivity() {
                 MyApplication.activityManager.startPlayerActivity(this@PlayHistoryActivity)
             }
             ivPlay.setOnClickListener {
-                MyApplication.musicBinderInterface?.changePlayState()
+                MyApplication.musicController.value?.changePlayState()
                 refreshPlayState()
             }
             ivPlaylist.setOnClickListener { PlaylistDialog(this@PlayHistoryActivity).show() }
@@ -61,7 +62,7 @@ class PlayHistoryActivity : AppCompatActivity() {
 
     inner class MusicBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val song = MyApplication.musicBinderInterface?.getNowSongData()
+            val song = MyApplication.musicController.value?.getNowSongData()
             if (song != null) {
                 binding.miniPlayer.tvName.text = song.name
                 binding.miniPlayer.tvArtist.text = song.artists?.let { parseArtist(it) }
@@ -75,7 +76,7 @@ class PlayHistoryActivity : AppCompatActivity() {
     }
 
     private fun refreshPlayState() {
-        if (MyApplication.musicBinderInterface?.getPlayState()!!) {
+        if (MyApplication.musicController.value?.getPlayState()!!) {
             binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
         } else {
             binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)

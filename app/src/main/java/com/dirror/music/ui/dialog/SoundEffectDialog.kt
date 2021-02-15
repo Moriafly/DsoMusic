@@ -20,7 +20,7 @@ class SoundEffectDialog(context: Context, private val activity: Activity): BaseB
     }
 
     override fun initView() {
-        speed = MyApplication.musicBinderInterface?.getSpeed() ?: 1f
+        speed = MyApplication.musicController.value?.getSpeed() ?: 1f
         refreshPitch()
     }
 
@@ -32,7 +32,7 @@ class SoundEffectDialog(context: Context, private val activity: Activity): BaseB
                     // 参考 https://www.cnblogs.com/dongweiq/p/7998445.html
                     val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
                     // 传入 AudioSessionId
-                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MyApplication.musicBinderInterface?.getAudioSessionId())
+                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MyApplication.musicController.value?.getAudioSessionId())
                     // 调用应用程序必须使用 startActivityForResult 方法启动控制面板，以便控制面板应用程序指示其包名称并用于跟踪此特定应用程序的更改
                     activity.startActivityForResult(intent, 666)
                 } catch (e: Exception) {
@@ -41,11 +41,11 @@ class SoundEffectDialog(context: Context, private val activity: Activity): BaseB
                 dismiss()
             }
             ivIncreasePitch.setOnClickListener {
-                MyApplication.musicBinderInterface?.increasePitchLevel()
+                MyApplication.musicController.value?.increasePitchLevel()
                 refreshPitch()
             }
             ivDecreasePitch.setOnClickListener {
-                MyApplication.musicBinderInterface?.decreasePitchLevel()
+                MyApplication.musicController.value?.decreasePitchLevel()
                 refreshPitch()
             }
         }
@@ -55,7 +55,7 @@ class SoundEffectDialog(context: Context, private val activity: Activity): BaseB
      * 刷新 Pitch
      */
     private fun refreshPitch() {
-        binding.tvPitch.text = MyApplication.musicBinderInterface?.getPitchLevel().toString()
+        binding.tvPitch.text = MyApplication.musicController.value?.getPitchLevel().toString()
     }
 
 }

@@ -195,7 +195,7 @@ class MainActivity : BaseActivity() {
                 MyApplication.activityManager.startPlayerActivity(this@MainActivity)
             }
             binding.includePlayer.ivPlay.setOnClickListener {
-                MyApplication.musicBinderInterface?.changePlayState()
+                MyApplication.musicController.value?.changePlayState()
                 refreshPlayState()
             }
             binding.includePlayer.ivPlaylist.setOnClickListener { PlaylistDialog(this@MainActivity).show() }
@@ -226,7 +226,7 @@ class MainActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         // 请求广播
-        MyApplication.musicBinderInterface?.sendBroadcast()
+        MyApplication.musicController.value?.sendBroadcast()
     }
 
     override fun onDestroy() {
@@ -239,7 +239,7 @@ class MainActivity : BaseActivity() {
 
     inner class MusicBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val song = MyApplication.musicBinderInterface?.getNowSongData()
+            val song = MyApplication.musicController.value?.getNowSongData()
             if (song != null) {
                 binding.includePlayer.tvName.text = song.name
                 binding.includePlayer.tvArtist.text = song.artists?.let { parseArtist(it) }
@@ -263,7 +263,7 @@ class MainActivity : BaseActivity() {
      * 刷新播放状态
      */
     private fun refreshPlayState() {
-        if (MyApplication.musicBinderInterface?.getPlayState()!!) {
+        if (MyApplication.musicController.value?.getPlayState()!!) {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
         } else {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)

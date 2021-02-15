@@ -2,8 +2,6 @@ package com.dirror.music.adapter
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.ColorSpace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,19 +11,24 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.size.ViewSizeResolver
+import coil.transform.CircleCropTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.data.PLAYLIST_TAG_HISTORY
 import com.dirror.music.data.PLAYLIST_TAG_NORMAL
+import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.Config
-import com.dirror.music.util.DarkThemeUtil
+import com.dirror.music.util.dp2px
 import com.dirror.music.util.parseArtist
 import com.dirror.music.util.toast
 
 /**
- * 歌单适配器
+ * 歌适配器
  */
 class DetailPlaylistAdapter
     @JvmOverloads
@@ -34,6 +37,8 @@ class DetailPlaylistAdapter
                 private val tag: Int? = PLAYLIST_TAG_NORMAL): RecyclerView.Adapter<DetailPlaylistAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+
+        val ivCover: ImageView = view.findViewById(R.id.ivCover)
         val tvNumber: TextView = view.findViewById(R.id.tvNumber)
         val clSong: ConstraintLayout = view.findViewById(R.id.clSong)
 
@@ -58,6 +63,7 @@ class DetailPlaylistAdapter
             }
             // 获取当前 song
             val song = songDataList[position]
+
             if (song.neteaseInfo?.pl == 0) {
                 holder.tvNumber.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
                 holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
@@ -67,6 +73,38 @@ class DetailPlaylistAdapter
                 holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
                 holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorSubTextForeground))
             }
+
+            if (song.source == SOURCE_LOCAL &&
+                tag == PLAYLIST_TAG_NORMAL && tag != PLAYLIST_TAG_HISTORY) {
+                ivCover.visibility = View.VISIBLE
+                ivCover.load(song.imageUrl) {
+                    transformations(CircleCropTransformation())
+                    // transformations(RoundedCornersTransformation(dp2px(6f)))
+                    size(ViewSizeResolver(ivCover))
+                    error(R.drawable.ic_song_cover)
+                }
+                (clSong.layoutParams as RecyclerView.LayoutParams).apply {
+                    marginStart = dp2px(8f).toInt()
+                }
+                (tvName.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    marginStart = dp2px(4f).toInt()
+                }
+                (tvArtist.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    marginStart = dp2px(4f).toInt()
+                }
+            } else {
+                ivCover.visibility = View.INVISIBLE
+                (clSong.layoutParams as RecyclerView.LayoutParams).apply {
+                    marginStart = dp2px(0f).toInt()
+                }
+                (tvName.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    marginStart = dp2px(0f).toInt()
+                }
+                (tvArtist.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    marginStart = dp2px(0f).toInt()
+                }
+            }
+
             tvNumber.text = (position + 1).toString()
             tvName.text = song.name
             tvArtist.text = song.artists?.let { parseArtist(it) }
@@ -112,9 +150,9 @@ class DetailPlaylistAdapter
      */
     private fun playMusic(position: Int, view: View?) {
         // 歌单相同
-        if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) {
+        if (MyApplication.musicController.value?.getPlaylist() == songDataList) {
             // position 相同
-            if (position == MyApplication.musicBinderInterface?.getNowPosition()) {
+            if (position == MyApplication.musicController.value?.getNowPosition()) {
                 if (view != null) {
                     view.context.startActivity(Intent(view.context, PlayerActivity::class.java))
                     (view.context as Activity).overridePendingTransition(
@@ -123,13 +161,13 @@ class DetailPlaylistAdapter
                     )
                 }
             } else {
-                MyApplication.musicBinderInterface?.playMusic(position)
+                MyApplication.musicController.value?.playMusic(position)
             }
         } else {
             // 设置歌单
-            MyApplication.musicBinderInterface?.setPlaylist(songDataList)
+            MyApplication.musicController.value?.setPlaylist(songDataList)
             // 播放歌单
-            MyApplication.musicBinderInterface?.playMusic(position)
+            MyApplication.musicController.value?.playMusic(position)
         }
     }
 

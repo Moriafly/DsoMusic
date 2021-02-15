@@ -19,9 +19,10 @@ class PlaylistDialog(context: Context): BaseBottomSheetDialog(context) {
     override fun initView() {
         super.initView()
         binding.rvPlaylist.layoutManager = LinearLayoutManager(context)
-        MyApplication.musicBinderInterface?.getPlaylist()?.let {
+        MyApplication.musicController.value?.getPlaylist()?.let {
             binding.rvPlaylist.adapter = PlaylistDialogAdapter(it)
             binding.tvPlaylist.text = this.context.getString(R.string.playlist_number, it.size)
+            binding.rvPlaylist.scrollToPosition(MyApplication.musicController.value?.getNowPosition() ?: 0)
         }
     }
 }

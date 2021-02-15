@@ -41,7 +41,7 @@ constructor(
         binding.apply {
             // 下一首播放
             itemNextPlay.setOnClickListener {
-                MyApplication.musicBinderInterface?.addToNextPlay(songData)
+                MyApplication.musicController.value?.addToNextPlay(songData)
                 toast("成功添加到下一首播放")
                 dismiss()
             }

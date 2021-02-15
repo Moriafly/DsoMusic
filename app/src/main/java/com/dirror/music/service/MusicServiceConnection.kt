@@ -14,7 +14,7 @@ class MusicServiceConnection : ServiceConnection {
      * 服务连接后
      */
     override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
-        MyApplication.musicBinderInterface = p1 as MusicBinderInterface
+        MyApplication.musicController.value = p1 as MusicBinderInterface
     }
 
     /**

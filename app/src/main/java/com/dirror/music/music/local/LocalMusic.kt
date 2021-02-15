@@ -148,4 +148,15 @@ object LocalMusic {
         return bmp
     }
 
+    /* URI */
+    private const val ALBUM_ART_URI = "content://media/external/audio/albumart"
+
+    /**
+     * 获取 uri
+     * 传入专辑 id [albumId]，返回 Uri
+     */
+    fun getUri(albumId: Long): Uri {
+        return ContentUris.withAppendedId(Uri.parse(ALBUM_ART_URI), albumId)
+    }
+
 }

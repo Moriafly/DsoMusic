@@ -55,9 +55,9 @@ class NewSongAdapter(private val songDataList: ArrayList<StandardSongData>): Rec
      */
     private fun playMusic(position: Int, view: View?) {
         // 歌单相同
-        if (MyApplication.musicBinderInterface?.getPlaylist() == songDataList) {
+        if (MyApplication.musicController.value?.getPlaylist() == songDataList) {
             // position 相同
-            if (position == MyApplication.musicBinderInterface?.getNowPosition()) {
+            if (position == MyApplication.musicController.value?.getNowPosition()) {
                 if (view != null) {
                     view.context.startActivity(Intent(view.context, PlayerActivity::class.java))
                     (view.context as Activity).overridePendingTransition(
@@ -66,13 +66,13 @@ class NewSongAdapter(private val songDataList: ArrayList<StandardSongData>): Rec
                     )
                 }
             } else {
-                MyApplication.musicBinderInterface?.playMusic(position)
+                MyApplication.musicController.value?.playMusic(position)
             }
         } else {
             // 设置歌单
-            MyApplication.musicBinderInterface?.setPlaylist(songDataList)
+            MyApplication.musicController.value?.setPlaylist(songDataList)
             // 播放歌单
-            MyApplication.musicBinderInterface?.playMusic(position)
+            MyApplication.musicController.value?.playMusic(position)
         }
     }
 

@@ -7,13 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.adapter.BannerAdapter
 import com.dirror.music.adapter.NewSongAdapter
 import com.dirror.music.adapter.PlaylistRecommendAdapter
 import com.dirror.music.databinding.FragmentHomeBinding
@@ -23,9 +19,7 @@ import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.music.standard.data.SOURCE_DIRROR
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.util.AnimationUtil
-import com.dirror.music.util.dp
 import com.dirror.music.util.runOnMainThread
-import com.youth.banner.indicator.CircleIndicator
 
 class HomeFragment : Fragment() {
 
@@ -43,9 +37,6 @@ class HomeFragment : Fragment() {
         val windowManager = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val width = windowManager.defaultDisplay.width
 
-        (binding.banner.layoutParams as LinearLayout.LayoutParams).apply {
-            height = ((width - 40.dp()).toFloat() / 108 * 42).toInt() + 8.dp()
-        }
         initView()
         initListener()
         update()
@@ -68,37 +59,6 @@ class HomeFragment : Fragment() {
         updateNewSong()
         // 更改句子
         changeSentence()
-    }
-
-    private fun initBanner() {
-        MyApplication.cloudMusicManager.getBanner({
-            val bannerAdapter = BannerAdapter(it)
-            runOnMainThread {
-                binding.banner.apply {
-                    addBannerLifecycleObserver(this@HomeFragment) // 感知生命周期
-                    adapter = bannerAdapter
-                    setIndicator(CircleIndicator(context), false)
-                    setLoopTime(5000) // 轮播时间
-                    // setBannerGalleryMZ(20, 0.85F)
-                    start()
-
-                    binding.swipeRefreshLayout.isRefreshing = false
-                }
-            }
-            // banner 点击事件
-            binding.banner.setOnBannerListener { _, position ->
-//                val bannerData = bannerAdapter.getData(position) // 选中的 Banner
-//                val intent = Intent(context, SearchAlbumActivity::class.java)
-//                intent.putExtra("data_recommend", bannerData.intent)
-//                startActivity(intent)
-//                activity?.overridePendingTransition(
-//                    R.xml.activity_enter_alpha,
-//                    R.xml.activity_exit_alpha
-//                )
-            }
-        }, {
-
-        })
     }
 
     private fun initListener() {

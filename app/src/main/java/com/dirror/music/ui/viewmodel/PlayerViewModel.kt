@@ -31,24 +31,24 @@ class PlayerViewModel: ViewModel() {
 
     // 播放模式
     var playMode = MutableLiveData<Int>().also {
-        it.value = MyApplication.musicBinderInterface?.getPlayMode()
+        it.value = MyApplication.musicController.value?.getPlayMode()
     }
 
     // 当前歌曲信息
     var standardSongData = MutableLiveData<StandardSongData?>().also {
-        it.value = MyApplication.musicBinderInterface?.getNowSongData()
+        it.value = MyApplication.musicController.value?.getNowSongData()
     }
 
     var playState = MutableLiveData<Boolean>().also {
-        it.value = MyApplication.musicBinderInterface?.getPlayState()?: false
+        it.value = MyApplication.musicController.value?.getPlayState()?: false
     }
 
     var duration = MutableLiveData<Int>().also {
-        it.value = MyApplication.musicBinderInterface?.getDuration()
+        it.value = MyApplication.musicController.value?.getDuration()
     }
 
     var progress = MutableLiveData<Int>().also {
-        it.value = MyApplication.musicBinderInterface?.getProgress()
+        it.value = MyApplication.musicController.value?.getProgress()
     }
 
     var lyricTranslation = MutableLiveData<Boolean>().also {
@@ -77,15 +77,15 @@ class PlayerViewModel: ViewModel() {
      * 刷新
      */
     fun refresh() {
-        playMode.value = MyApplication.musicBinderInterface?.getPlayMode()
-        if (standardSongData.value != MyApplication.musicBinderInterface?.getNowSongData()) {
-            standardSongData.value = MyApplication.musicBinderInterface?.getNowSongData()
+        playMode.value = MyApplication.musicController.value?.getPlayMode()
+        if (standardSongData.value != MyApplication.musicController.value?.getNowSongData()) {
+            standardSongData.value = MyApplication.musicController.value?.getNowSongData()
         }
-        if (playState.value != MyApplication.musicBinderInterface?.getPlayState()) {
-            playState.value = MyApplication.musicBinderInterface?.getPlayState()
+        if (playState.value != MyApplication.musicController.value?.getPlayState()) {
+            playState.value = MyApplication.musicController.value?.getPlayState()
         }
-        if (duration.value != MyApplication.musicBinderInterface?.getDuration()) {
-            duration.value = MyApplication.musicBinderInterface?.getDuration()
+        if (duration.value != MyApplication.musicController.value?.getDuration()) {
+            duration.value = MyApplication.musicController.value?.getDuration()
         }
     }
 
@@ -93,18 +93,18 @@ class PlayerViewModel: ViewModel() {
      * 刷新 progress
      */
     fun refreshProgress() {
-        progress.value = MyApplication.musicBinderInterface?.getProgress()
+        progress.value = MyApplication.musicController.value?.getProgress()
     }
 
     /**
      * 改变播放状态
      */
     fun changePlayState() {
-        val nowPlayState = MyApplication.musicBinderInterface?.getPlayState()?: false
+        val nowPlayState = MyApplication.musicController.value?.getPlayState()?: false
         if (nowPlayState) {
-            MyApplication.musicBinderInterface?.pause()
+            MyApplication.musicController.value?.pause()
         } else {
-            MyApplication.musicBinderInterface?.play()
+            MyApplication.musicController.value?.play()
         }
     }
 
@@ -112,28 +112,28 @@ class PlayerViewModel: ViewModel() {
      * 播放上一曲
      */
     fun playLast() {
-        MyApplication.musicBinderInterface?.playPrevious()
+        MyApplication.musicController.value?.playPrevious()
     }
 
     /**
      * 播放下一曲
      */
     fun playNext() {
-        MyApplication.musicBinderInterface?.playNext()
+        MyApplication.musicController.value?.playNext()
     }
 
     /**
      * 改变播放模式
      */
     fun changePlayMode() {
-        MyApplication.musicBinderInterface?.changePlayMode()
+        MyApplication.musicController.value?.changePlayMode()
     }
 
     /**
      * 设置 progress
      */
     fun setProgress(newProgress: Int) {
-        MyApplication.musicBinderInterface?.setProgress(newProgress)
+        MyApplication.musicController.value?.setProgress(newProgress)
     }
 
     /**

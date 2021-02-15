@@ -32,7 +32,7 @@ class PlaylistDialogAdapter(private val list: ArrayList<StandardSongData>): Recy
         holder.tvName.text = list[position].name
         holder.tvArtist.text = list[position].artists?.let { parseArtist(it) }
         holder.clSong.setOnClickListener {
-            MyApplication.musicBinderInterface?.playMusic(position)
+            MyApplication.musicController.value?.playMusic(position)
         }
     }
 

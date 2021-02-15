@@ -25,7 +25,7 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
 
     override fun initView() {
 
-        MyApplication.musicBinderInterface?.getNowSongData()?.let { it ->
+        MyApplication.musicController.value?.getNowSongData()?.let { it ->
             binding.tvSongName.text = it.name
             song = it
         }
@@ -63,7 +63,7 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
             }
             // 歌曲信息
             itemSongInfo.setOnClickListener {
-                MyApplication.musicBinderInterface?.getNowSongData()?.let { it1 ->
+                MyApplication.musicController.value?.getNowSongData()?.let { it1 ->
                     SongInfoDialog(context, it1).show()
                 }
                 dismiss()

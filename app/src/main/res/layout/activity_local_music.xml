@@ -8,19 +8,19 @@
 
     <com.dirror.music.widget.TitleBarLayout
         android:id="@+id/titleBar"
-        app:text="@string/local_music"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:text="@string/local_music">
 
         <ImageView
             android:id="@+id/ivScanMusic"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:alpha="0.85"
             android:padding="18dp"
-            android:alpha="0.72"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

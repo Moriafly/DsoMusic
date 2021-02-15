@@ -34,6 +34,7 @@
     <color name="colorAppThemeColor">#DB2C1F</color>
     <color name="colorDialogBackground">#000000</color>
     <color name="colorHintForeground">#C8C8C8</color>
+    <color name="salt_color_song_cover">#111111</color>
 
 <!--    <color name="colorBlurViewBackground">#1AFAFAFA</color>-->
     <color name="colorBlurViewBackground">#B3050505</color>

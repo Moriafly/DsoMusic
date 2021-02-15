@@ -45,7 +45,7 @@ class LocalMusicActivity : AppCompatActivity() {
         registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
 
         // 请求广播
-        MyApplication.musicBinderInterface?.sendBroadcast()
+        MyApplication.musicController.value?.sendBroadcast()
     }
 
     private fun initListener() {
@@ -57,7 +57,7 @@ class LocalMusicActivity : AppCompatActivity() {
         // 播放栏
         binding.includePlayer.ivPlay.setOnClickListener {
             // 更新
-            MyApplication.musicBinderInterface?.changePlayState()
+            MyApplication.musicController.value?.changePlayState()
             refreshPlayState()
         }
 
@@ -135,7 +135,7 @@ class LocalMusicActivity : AppCompatActivity() {
     }
 
     private fun refreshPlayState() {
-        if (MyApplication.musicBinderInterface?.getPlayState() == true) {
+        if (MyApplication.musicController.value?.getPlayState() == true) {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
         } else {
             binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
@@ -143,7 +143,7 @@ class LocalMusicActivity : AppCompatActivity() {
     }
 
     private fun refreshLayoutPlay() {
-        MyApplication.musicBinderInterface?.getNowSongData()?.let { standardSongData ->
+        MyApplication.musicController.value?.getNowSongData()?.let { standardSongData ->
             binding.includePlayer.tvName.text = standardSongData.name
             binding.includePlayer.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
             SongPicture.getSongPicture(this, standardSongData, SongPicture.TYPE_LARGE) {

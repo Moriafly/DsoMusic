@@ -29,7 +29,6 @@ class OpenSourceActivity : AppCompatActivity() {
             OpenSourceData("Gson", "https://github.com/google/gson","BSD, part MIT and Apache 2.0"),
             OpenSourceData("Glide", "https://github.com/bumptech/glide","BSD, part MIT and Apache 2.0"),
             OpenSourceData("Glide Transformations", "https://github.com/wasabeef/glide-transformations", AL2),
-            OpenSourceData("Banner", "https://github.com/youth5201314/banner", AL2),
             OpenSourceData("MMKV", "https://github.com/Tencent/MMKV","BSD 3-Clause license"),
             OpenSourceData("Lottie", "https://github.com/airbnb/lottie-android", AL2),
             OpenSourceData("EdgeTranslucent", "https://github.com/qinci/EdgeTranslucent","Unknown"),

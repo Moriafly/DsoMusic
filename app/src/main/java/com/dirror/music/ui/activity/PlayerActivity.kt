@@ -186,7 +186,7 @@ class PlayerActivity : SlideBackActivity() {
             seekBarVolume.max = VolumeManager.maxVolume
             seekBarVolume.progress = VolumeManager.getCurrentVolume()
 
-            lyricView.setLabel("暂无歌词")
+            lyricView.setLabel("聆听好音乐")
             lyricView.setTimelineTextColor(ContextCompat.getColor(this@PlayerActivity, R.color.colorTextForeground))
         }
 
@@ -342,6 +342,8 @@ class PlayerActivity : SlideBackActivity() {
     }
 
     override fun initObserver() {
+
+
         playViewModel.apply {
             // 播放模式的观察
             playMode.observe(this@PlayerActivity, {

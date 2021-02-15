@@ -122,7 +122,7 @@ class PlaylistActivity : AppCompatActivity() {
             )
         }
         binding.includePlay.ivPlay.setOnClickListener {
-            MyApplication.musicBinderInterface?.changePlayState()
+            MyApplication.musicController.value?.changePlayState()
         }
         binding.includePlay.ivPlaylist.setOnClickListener {
             PlaylistDialog(this).show()
@@ -227,7 +227,7 @@ class PlaylistActivity : AppCompatActivity() {
     }
 
     private fun refreshPlayState() {
-        if (MyApplication.musicBinderInterface?.getPlayState() == true) {
+        if (MyApplication.musicController.value?.getPlayState() == true) {
             binding.includePlay.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
         } else {
             binding.includePlay.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
@@ -245,7 +245,7 @@ class PlaylistActivity : AppCompatActivity() {
      * 可能导致 stick 丢失
      */
     private fun refreshLayoutPlay() {
-        MyApplication.musicBinderInterface?.getNowSongData()?.let { standardSongData ->
+        MyApplication.musicController.value?.getNowSongData()?.let { standardSongData ->
             binding.includePlay.tvName.text = standardSongData.name
             binding.includePlay.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
             SongPicture.getSongPicture(this, standardSongData, SongPicture.TYPE_LARGE) {

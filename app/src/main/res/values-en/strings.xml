@@ -63,4 +63,5 @@
     <string name="add_to_netease_favorite">Add to Netease my favorite</string>
     <string name="add_to_local_my_favorite">Add to local my favorite</string>
     <string name="recommend_new_songs">Recommend new songs</string>
+    <string name="email">Email</string>
 </resources>
