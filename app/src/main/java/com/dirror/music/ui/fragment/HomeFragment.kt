@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.NewSongAdapter
 import com.dirror.music.adapter.PlaylistRecommendAdapter
@@ -18,7 +19,9 @@ import com.dirror.music.music.netease.NewSong
 import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.music.standard.data.SOURCE_DIRROR
 import com.dirror.music.ui.activity.PlaylistActivity
+import com.dirror.music.ui.activity.RecommendActivity
 import com.dirror.music.util.AnimationUtil
+import com.dirror.music.util.Config
 import com.dirror.music.util.runOnMainThread
 
 class HomeFragment : Fragment() {
@@ -43,6 +46,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView() {
+        if (!MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)) {
+            binding.tvFoyou.visibility =View.GONE
+            binding.includeFoyou.root.visibility = View.GONE
+        }
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAppThemeColor)
     }
 
@@ -64,6 +71,11 @@ class HomeFragment : Fragment() {
     private fun initListener() {
         binding.includeFoyou.root.setOnClickListener {
             changeSentence()
+        }
+
+        binding.clDaily.setOnClickListener {
+            val intent = Intent(this.context, RecommendActivity::class.java)
+            startActivity(intent)
         }
 
         binding.clDso.setOnClickListener {

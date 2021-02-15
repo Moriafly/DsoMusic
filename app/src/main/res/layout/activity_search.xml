@@ -152,25 +152,11 @@
                     android:id="@+id/ivKuwo"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:layout_marginStart="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivVip"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_kuwo_music_engine" />
-
-                <ImageView
-                    android:id="@+id/ivVip"
-                    android:layout_width="24dp"
-                    android:layout_height="18dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/ivKuwo"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/bq_song_tag_vip" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

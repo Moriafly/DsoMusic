@@ -31,6 +31,7 @@ class SettingsActivity : BaseActivity() {
             switcherParseHomeNavigation.setChecked(MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true))
             switcherPlaylistScrollAnimation.setChecked(MyApplication.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true))
             switcherDarkTheme.setChecked(MyApplication.mmkv.decodeBool(Config.DARK_THEME, false))
+            switcherSentenceRecommend.setChecked(MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true))
             switcherPlayOnMobile.setChecked(MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false))
             switcherPauseSongAfterUnplugHeadset.setChecked(
                 MyApplication.mmkv.decodeBool(
@@ -63,6 +64,10 @@ class SettingsActivity : BaseActivity() {
 
             switcherDarkTheme.setOnCheckedChangeListener {
                 DarkThemeUtil.setDarkTheme(it)
+            }
+
+            switcherSentenceRecommend.setOnCheckedChangeListener {
+                MyApplication.mmkv.encode(Config.SENTENCE_RECOMMEND, it)
             }
 
             switcherFilterRecord.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.FILTER_RECORD, it) }

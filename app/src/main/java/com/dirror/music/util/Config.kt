@@ -48,11 +48,13 @@ object Config {
     const val PLAYLIST_SCROLL_ANIMATION = "boolean_playlist_scroll_animation"
 
     // 深色主题
-    @Deprecated("2.7.0-alpha 废除字段")
     const val DARK_THEME = "boolean_dark_theme"
 
     // 全局背景
     @Deprecated("2.7.0-alpha 废除字段")
     const val THEME_BACKGROUND = "string_theme_background"
+
+    // 是否开启句子推荐
+    const val SENTENCE_RECOMMEND = "boolean_sentence_recommend"
 
 }

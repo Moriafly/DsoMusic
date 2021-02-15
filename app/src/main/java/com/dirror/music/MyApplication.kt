@@ -10,7 +10,7 @@ import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.manager.UserManager
 import com.dirror.music.room.AppDatabase
-import com.dirror.music.service.MusicBinderInterface
+import com.dirror.music.service.MusicControllerInterface
 import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
 import com.dirror.music.util.Secure
@@ -28,7 +28,6 @@ import okhttp3.Cookie
 class MyApplication : Application() {
 
     companion object {
-
         // 加载本地库
         init {
             System.loadLibrary("dso")
@@ -36,7 +35,7 @@ class MyApplication : Application() {
 
         lateinit var context: Context // 注入懒加载 全局 context
         lateinit var mmkv: MMKV // mmkv
-        var musicController = MutableLiveData<MusicBinderInterface?>().also {
+        var musicController = MutableLiveData<MusicControllerInterface?>().also {
             it.value = null
         } // MusicBinderInterface
         val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
@@ -50,17 +49,12 @@ class MyApplication : Application() {
 
         // 数据库
         lateinit var appDatabase: AppDatabase
-
     }
 
-    /**
-     * 获取 Bmob
-     */
+    /* 获取 Bmob */
     private external fun getBmobAppKey(): String
 
-    /**
-     * 获取友盟
-     */
+    /* 获取友盟 */
     private external fun getUmAppKey(): String
 
     override fun onCreate() {

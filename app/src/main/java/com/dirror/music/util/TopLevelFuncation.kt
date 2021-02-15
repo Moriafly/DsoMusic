@@ -64,13 +64,6 @@ fun loge(msg: String, tag: String = "默认") {
 fun dp2px(dp: Float): Float = dp * MyApplication.context.resources.displayMetrics.density
 
 /**
- * http 转 https
- */
-fun http2https(http: String): String {
-    return http.replace("http", "https")
-}
-
-/**
  * 获取系统当前时间
  */
 fun getCurrentTime() : Long {

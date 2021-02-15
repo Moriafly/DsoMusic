@@ -31,7 +31,6 @@ import eightbitlab.com.blurview.RenderScriptBlur
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
     private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
     private lateinit var loginReceiver: LoginReceiver // 登录广播接收
 
@@ -46,11 +45,6 @@ class MainActivity : BaseActivity() {
     override fun initData() {
         // Intent 过滤器
         var intentFilter = IntentFilter()
-        intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
-        musicBroadcastReceiver = MusicBroadcastReceiver() //
-        registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
-
-        intentFilter = IntentFilter()
         intentFilter.addAction("android.intent.action.HEADSET_PLUG")
         headSetChangeReceiver = HeadsetChangeReceiver()
         registerReceiver(headSetChangeReceiver, intentFilter) // 注册接收器
@@ -64,10 +58,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
-
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
-
 
         val radius = 20f
         val decorView: View = window.decorView
@@ -106,9 +98,6 @@ class MainActivity : BaseActivity() {
         (binding.blurViewPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
             height = 56.dp() + navigationBarHeight
         }
-        (binding.blurViewPlayBottom.layoutParams as ConstraintLayout.LayoutParams).apply {
-            height = 56.dp() + navigationBarHeight
-        }
 
         binding.viewPager2.offscreenPageLimit = 2
         binding.viewPager2.adapter = object : FragmentStateAdapter(this) {
@@ -133,10 +122,6 @@ class MainActivity : BaseActivity() {
 
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
 
-//        val url = MyApplication.mmkv.decodeString(Config.THEME_BACKGROUND, "") ?: ""
-//        GlideUtil.load(url) {
-//            binding.ivTheme.setImageBitmap(it)
-//        }
     }
 
     override fun initListener() {
@@ -189,18 +174,6 @@ class MainActivity : BaseActivity() {
             startActivity(Intent(this, AboutActivity2::class.java))
         }
 
-        // Mini Player
-        binding.blurViewPlay.apply {
-            setOnClickListener {
-                MyApplication.activityManager.startPlayerActivity(this@MainActivity)
-            }
-            binding.includePlayer.ivPlay.setOnClickListener {
-                MyApplication.musicController.value?.changePlayState()
-                refreshPlayState()
-            }
-            binding.includePlayer.ivPlaylist.setOnClickListener { PlaylistDialog(this@MainActivity).show() }
-        }
-
 
     }
 
@@ -232,41 +205,41 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // 解绑广播接收
-        unregisterReceiver(musicBroadcastReceiver)
         unregisterReceiver(headSetChangeReceiver)
         unregisterReceiver(loginReceiver)
     }
 
-    inner class MusicBroadcastReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val song = MyApplication.musicController.value?.getNowSongData()
-            if (song != null) {
-                binding.includePlayer.tvName.text = song.name
-                binding.includePlayer.tvArtist.text = song.artists?.let { parseArtist(it) }
-                // 这里应该用小的，等待修改
-                SongPicture.getSongPicture(this@MainActivity, song, SongPicture.TYPE_LARGE) {
-                    binding.includePlayer.ivCover.setImageBitmap(it)
-                }
+    override fun initMiniPlayer() {
+        binding.miniPlayer.root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this) }
+        binding.miniPlayer.ivPlaylist.setOnClickListener { PlaylistDialog(this).show() }
+        binding.miniPlayer.ivPlay.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
+        MyApplication.musicController.observe(this, { nullableController ->
+            nullableController?.let { controller ->
+                controller.getPlayingSongData().observe(this, { songData ->
+                    songData?.let {
+                        binding.miniPlayer.tvName.text = songData.name
+                        binding.miniPlayer.tvArtist.text = songData.artists?.let { parseArtist(it) }
+                        // 这里应该用小的，等待修改
+                        SongPicture.getSongPicture(this, songData, SongPicture.TYPE_LARGE) { bitmap ->
+                            binding.miniPlayer.ivCover.setImageBitmap(bitmap)
+                        }
+                    }
+                })
+                controller.isPlaying().observe(this, {
+                    if (it) {
+                        binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
+                    } else {
+                        binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
+                    }
+                })
             }
-            refreshPlayState()
-        }
+        })
     }
 
     inner class LoginReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             // 通知 viewModel
             mainViewModel.setUserId()
-        }
-    }
-
-    /**
-     * 刷新播放状态
-     */
-    private fun refreshPlayState() {
-        if (MyApplication.musicController.value?.getPlayState()!!) {
-            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
-        } else {
-            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
         }
     }
 

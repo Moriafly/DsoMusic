@@ -117,16 +117,6 @@
 
         </eightbitlab.com.blurview.BlurView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/blurViewPlayBottom"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/miniPlayerBlurViewBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clPlay"
@@ -137,7 +127,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <include
-                android:id="@+id/includePlayer"
+                android:id="@+id/miniPlayer"
                 layout="@layout/layout_play"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -163,14 +153,6 @@
             android:id="@+id/blurViewMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@color/miniPlayerBlurViewBackground"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"/>-->
 
         <include
             android:id="@+id/menuMain"

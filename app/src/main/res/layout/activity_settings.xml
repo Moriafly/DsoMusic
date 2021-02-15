@@ -26,7 +26,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="界面"
+                android:text="界面（部分设置更改需要重启应用）"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -78,6 +78,21 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherPlaylistScrollAnimation"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/switcher" />
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="首页句子推荐">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherSentenceRecommend"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -172,45 +187,7 @@
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
-            <com.dirror.music.widget.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:itemType="item_no">
 
-                <com.bitvale.switcher.SwitcherX
-                    android:id="@+id/switcherFilterRecord"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
-
-                <TextView
-                    android:id="@+id/tvFilterRecord"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="过滤录音文件"
-                    android:textColor="@color/colorTextForeground"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvFilterRecordContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="6dp"
-                    android:gravity="center_vertical"
-                    android:text="暂仅支持 Flyme"
-                    android:textColor="@color/colorSubTextForeground"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
-            </com.dirror.music.widget.ItemLayout>
 
 
             <com.dirror.music.widget.ItemLayout
@@ -260,6 +237,46 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center_vertical"
                     android:text="智能过滤掉一些音频文件"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherFilterRecord"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/switcher" />
+
+                <TextView
+                    android:id="@+id/tvFilterRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="过滤录音文件"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFilterRecordContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="暂仅支持 Flyme"
                     android:textColor="@color/colorSubTextForeground"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"

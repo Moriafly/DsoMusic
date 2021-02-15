@@ -30,6 +30,8 @@ object MagicHttp {
          */
         fun getByCache(context: Context, url: String, success: (String) -> Unit, failure: (String) -> Unit)
 
+        fun getByCache(context: Context, url: String, time: Int, success: (String) -> Unit, failure: (String) -> Unit)
+
         fun postByCache(context: Context, url: String, json: String, success: (String) -> Unit)
     }
 
@@ -126,6 +128,27 @@ object MagicHttp {
             if (cache.isNullOrEmpty()) {
                 newGet(url, {
                     aCache.put(url, it, DEFAULT_CACHE_TIME_GET)
+                    success.invoke(it)
+                }, {
+                    failure.invoke(it)
+                })
+            } else {
+                success.invoke(cache)
+            }
+        }
+
+        override fun getByCache(
+            context: Context,
+            url: String,
+            time: Int,
+            success: (String) -> Unit,
+            failure: (String) -> Unit
+        ) {
+            val aCache = ACache.get(context)
+            val cache: String? = aCache.getAsString(url)
+            if (cache.isNullOrEmpty()) {
+                newGet(url, {
+                    aCache.put(url, it, time)
                     success.invoke(it)
                 }, {
                     failure.invoke(it)

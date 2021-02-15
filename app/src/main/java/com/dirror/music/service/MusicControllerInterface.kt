@@ -1,7 +1,5 @@
 package com.dirror.music.service
 
-import android.media.MediaPlayer
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dirror.music.music.standard.data.StandardSongData
 
@@ -9,7 +7,7 @@ import com.dirror.music.music.standard.data.StandardSongData
  * 音乐 Binder 接口
  * MyApplication.musicBinderInterface 是音乐服务外部唯一管理者
  */
-interface MusicBinderInterface {
+interface MusicControllerInterface {
 
     /**
      * 设置播放列表（歌单）
@@ -35,8 +33,16 @@ interface MusicBinderInterface {
     /**
      * 获取播放状态
      * @return true 正在播放，false 暂停
+     * @新 [isPlaying]
      */
+    @Deprecated("过时方法")
     fun getPlayState(): Boolean
+
+    /**
+     * 是否正在播放
+     * @return true 正在播放，false 暂停
+     */
+    fun isPlaying(): MutableLiveData<Boolean>
 
     /**
      * 获取当前歌曲时长
@@ -55,8 +61,15 @@ interface MusicBinderInterface {
 
     /**
      * 获取当前播放歌曲
+     * @新 [getPlayingSongData]
      */
+    @Deprecated("过时方法，请使用 getPlayingSongData()")
     fun getNowSongData(): StandardSongData?
+
+    /**
+     * 新版获取 LiveData 正在播放歌曲
+     */
+    fun getPlayingSongData(): MutableLiveData<StandardSongData?>
 
     /**
      * 改变当前播放模式

@@ -51,7 +51,7 @@ class MusicService : Service() {
     }
 
     private var mediaPlayer: MediaPlayer? = null // 定义 MediaPlayer
-    private val musicBinder by lazy { MusicBinder() } // 懒加载 musicBinder
+    private val musicBinder by lazy { MusicController() } // 懒加载 musicBinder
     private var playlist: ArrayList<StandardSongData>? = null // 当前歌单
     private var position: Int? = 0 // 当前歌曲在 List 中的下标
     private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
@@ -295,8 +295,14 @@ class MusicService : Service() {
      * 内部类
      * MusicBinder
      */
-    inner class MusicBinder : Binder(), MusicBinderInterface, MediaPlayer.OnPreparedListener,
+    inner class MusicController : Binder(), MusicControllerInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+
+        private var songData = MutableLiveData<StandardSongData?>()
+
+        private val isSongPlaying = MutableLiveData<Boolean>().also {
+            it.value = mediaPlayer?.isPlaying ?: false
+        }
 
         private var isPrepared = false // 音乐是否准备完成
 
@@ -313,6 +319,7 @@ class MusicService : Service() {
             // loge("MusicService 歌单歌曲数量:${playlist?.size}")
             // 当前的歌曲
             val song = playlist?.get(position ?: 0)
+            songData.value = song
 
             // 如果 MediaPlayer 已经存在，释放
             if (mediaPlayer != null) {
@@ -337,9 +344,9 @@ class MusicService : Service() {
                         ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
 
                     mediaPlayer = MediaPlayer().apply {
-                        setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
-                        setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
-                        setOnErrorListener(this@MusicBinder)
+                        setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
+                        setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
+                        setOnErrorListener(this@MusicController)
                         // setAudioStreamType(AudioManager.STREAM_MUSIC)
                         setDataSource(applicationContext, contentUri)
                         prepareAsync()
@@ -372,9 +379,9 @@ class MusicService : Service() {
                 // 初始化
                 mediaPlayer = MediaPlayer()
                 mediaPlayer?.let {
-                    it.setOnPreparedListener(this@MusicBinder) // 歌曲准备完成的监听
-                    it.setOnCompletionListener(this@MusicBinder) // 歌曲完成后的回调
-                    it.setOnErrorListener(this@MusicBinder)
+                    it.setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
+                    it.setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
+                    it.setOnErrorListener(this@MusicController)
                     it.setDataSource(url)
                     it.prepareAsync()
                 }
@@ -390,7 +397,7 @@ class MusicService : Service() {
 
         override fun onPrepared(p0: MediaPlayer?) {
             isPrepared = true
-            p0?.start()
+            this.play()
             sendMusicBroadcast()
             refreshNotification()
             setPlaybackParams()
@@ -413,6 +420,7 @@ class MusicService : Service() {
             }
             sendMusicBroadcast()
             refreshNotification()
+            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
         }
 
         override fun play() {
@@ -420,6 +428,7 @@ class MusicService : Service() {
             mediaSessionCallback?.onPlay()
             sendMusicBroadcast()
             refreshNotification()
+            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
         }
 
         override fun pause() {
@@ -427,6 +436,7 @@ class MusicService : Service() {
             mediaSessionCallback?.onPause()
             sendMusicBroadcast()
             refreshNotification()
+            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
         }
 
         override fun addToNextPlay(standardSongData: StandardSongData) {
@@ -455,6 +465,8 @@ class MusicService : Service() {
             return mediaPlayer?.isPlaying ?: false
         }
 
+        override fun isPlaying(): MutableLiveData<Boolean> = isSongPlaying
+
         override fun getDuration(): Int {
             return if (isPrepared) {
                 mediaPlayer?.duration ?: 0
@@ -480,6 +492,8 @@ class MusicService : Service() {
         override fun getNowSongData(): StandardSongData? {
             return playlist?.get(position!!)
         }
+
+        override fun getPlayingSongData(): MutableLiveData<StandardSongData?> = songData
 
         override fun changePlayMode() {
             when (mode) {

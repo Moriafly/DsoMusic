@@ -14,6 +14,7 @@ abstract class BaseActivity : AppCompatActivity() {
         initListener()
         initObserver()
         initBroadcastReceiver()
+        initMiniPlayer()
     }
 
     override fun onStart() {
@@ -37,5 +38,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun initBroadcastReceiver() { }
 
     protected open fun initShowDialogListener() { }
+
+    protected open fun initMiniPlayer() { }
 
 }
