@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
 
-        val radius = 20f
+        val radius = 15f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
         binding.blurViewPlay.setupWith(decorView.findViewById(R.id.viewPager2))

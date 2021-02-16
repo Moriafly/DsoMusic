@@ -2,8 +2,12 @@ package com.dirror.music.ui.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.dirror.music.R
 import com.dirror.music.util.*
 
+/**
+ * 基类 Activity
+ */
 abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,5 +44,16 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun initShowDialogListener() { }
 
     protected open fun initMiniPlayer() { }
+
+    /**
+     * 获取播放状态 MiniPlayer 图标
+     */
+    fun getPlayStateSourceId(playing: Boolean): Int {
+        return if (playing) {
+            R.drawable.ic_mini_player_pause
+        } else {
+            R.drawable.ic_mini_player_play
+        }
+    }
 
 }

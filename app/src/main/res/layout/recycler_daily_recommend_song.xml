@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clSong"
     android:layout_width="match_parent"
     android:layout_height="64dp">
 
@@ -25,7 +26,7 @@
         android:text="TextView"
         android:textColor="#F0AC08"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivCover"
+        app:layout_constraintBottom_toBottomOf="@+id/tvArtist"
         app:layout_constraintStart_toEndOf="@+id/tvArtist" />
 
     <TextView
@@ -37,7 +38,9 @@
         android:singleLine="true"
         android:text="TextView"
         android:textColor="@color/colorTextForeground"
+        app:layout_constraintBottom_toTopOf="@+id/tvArtist"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/ivCover"
         app:layout_constraintTop_toTopOf="@+id/ivCover" />
 
@@ -48,6 +51,7 @@
         android:text="TextView"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivCover"
-        app:layout_constraintStart_toStartOf="@+id/tvName" />
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

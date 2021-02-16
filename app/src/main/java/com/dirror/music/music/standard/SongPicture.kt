@@ -52,6 +52,10 @@ object SongPicture {
         }
     }
 
+    fun getMiniPlayerSongPicture() {
+
+    }
+
     /**
      * 获取图片
      */
