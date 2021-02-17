@@ -57,4 +57,6 @@ object Config {
     // 是否开启句子推荐
     const val SENTENCE_RECOMMEND = "boolean_sentence_recommend"
 
+    const val DOUBLE_ROW_MY_PLAYLIST = "boolean_double_row_my_playlist"
+
 }

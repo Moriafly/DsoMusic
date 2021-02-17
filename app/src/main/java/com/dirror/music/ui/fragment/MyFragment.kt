@@ -119,25 +119,12 @@ class MyFragment : Fragment() {
      * 设置歌单
      */
     private fun setPlaylist(playlist: ArrayList<PlaylistData>) {
-//        val gridLayoutManager: GridLayoutManager =
-//            object : GridLayoutManager(activity, 2, VERTICAL, false) {
-//                override fun canScrollVertically(): Boolean {
-//                    return false
-//                }
-//
-//                override fun onMeasure(
-//                    recycler: RecyclerView.Recycler,
-//                    state: RecyclerView.State,
-//                    widthSpec: Int,
-//                    heightSpec: Int
-//                ) {
-//                    super.onMeasure(recycler, state, widthSpec, heightSpec)
-//                    setMeasuredDimension(widthSpec, (playlist.size / 2 * dp2px(80f)).toInt())
-//                }
-//            }.apply { orientation = LinearLayoutManager.VERTICAL }
-
         runOnMainThread {
-            binding.rvPlaylist.layoutManager =  LinearLayoutManager(this.context)
+            binding.rvPlaylist.layoutManager = if (MyApplication.mmkv.decodeBool(Config.DOUBLE_ROW_MY_PLAYLIST, false)) {
+                GridLayoutManager(this.context, 2)
+            } else {
+                LinearLayoutManager(this.context)
+            }
             binding.rvPlaylist.adapter = activity?.let { it1 -> PlaylistAdapter(playlist, it1) }
         }
     }

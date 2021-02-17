@@ -31,7 +31,7 @@
         android:background="@drawable/background_transparency"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@id/includePlay"
+        app:layout_constraintBottom_toTopOf="@id/miniPlayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleBar"
@@ -225,7 +225,7 @@
     </com.dirror.music.widget.TitleBarLayout>
 
     <include
-        android:id="@+id/includePlay"
+        android:id="@+id/miniPlayer"
         layout="@layout/layout_play"
         android:layout_width="0dp"
         android:layout_height="56dp"

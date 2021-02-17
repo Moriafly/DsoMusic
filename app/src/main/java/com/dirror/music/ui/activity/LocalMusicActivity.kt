@@ -18,61 +18,31 @@ import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.databinding.ActivityLocalMusicBinding
 import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.music.standard.SongPicture
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.parseArtist
 
-class LocalMusicActivity : AppCompatActivity() {
+class LocalMusicActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLocalMusicBinding
 
-    private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityLocalMusicBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-        initData()
-        initListener()
+        setContentView(binding.root)
+    }
 
+    override fun initView() {
+
+    }
+
+    override fun initData() {
         scanLocalMusicByCheckPermission()
     }
 
-    private fun initData() {
-        val intentFilter = IntentFilter() // Intent 过滤器
-        intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
-        musicBroadcastReceiver = MusicBroadcastReceiver() //
-        registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
-
-        // 请求广播
-        MyApplication.musicController.value?.sendBroadcast()
-    }
-
-    private fun initListener() {
-
+    override fun initListener() {
         binding.ivScanMusic.setOnClickListener {
             scanLocalMusicByCheckPermission()
         }
-
-        // 播放栏
-        binding.includePlayer.ivPlay.setOnClickListener {
-            // 更新
-            MyApplication.musicController.value?.changePlayState()
-            refreshPlayState()
-        }
-
-        binding.includePlayer.ivPlaylist.setOnClickListener {
-            PlaylistDialog(this).show()
-        }
-
-        binding.includePlayer.root.setOnClickListener {
-            startActivity(Intent(this, PlayerActivity::class.java))
-            overridePendingTransition(
-                R.anim.anim_slide_enter_bottom,
-                R.anim.anim_no_anim
-            )
-        }
-
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -120,36 +90,29 @@ class LocalMusicActivity : AppCompatActivity() {
         })
     }
 
-    inner class MusicBroadcastReceiver : BroadcastReceiver() {
-        // 接收
-        override fun onReceive(context: Context, intent: Intent) {
-            refreshLayoutPlay()
-            refreshPlayState()
+    override fun initMiniPlayer() {
+        binding.miniPlayer.apply {
+            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@LocalMusicActivity) }
+            ivPlaylist.setOnClickListener { PlaylistDialog(this@LocalMusicActivity).show() }
+            ivPlay.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // 解绑广播接收
-        unregisterReceiver(musicBroadcastReceiver)
-    }
-
-    private fun refreshPlayState() {
-        if (MyApplication.musicController.value?.getPlayState() == true) {
-            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
-        } else {
-            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
-        }
-    }
-
-    private fun refreshLayoutPlay() {
-        MyApplication.musicController.value?.getNowSongData()?.let { standardSongData ->
-            binding.includePlayer.tvName.text = standardSongData.name
-            binding.includePlayer.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
-            SongPicture.getSongPicture(this, standardSongData, SongPicture.TYPE_LARGE) {
-                binding.includePlayer.ivCover.setImageBitmap(it)
+        MyApplication.musicController.observe(this, { nullableController ->
+            nullableController?.let { controller ->
+                controller.getPlayingSongData().observe(this, { songData ->
+                    songData?.let {
+                        binding.miniPlayer.tvName.text = songData.name
+                        binding.miniPlayer.tvArtist.text = songData.artists?.let { parseArtist(it) }
+                        // 这里应该用小的，等待修改
+                        SongPicture.getSongPicture(this, songData, SongPicture.TYPE_LARGE) { bitmap ->
+                            binding.miniPlayer.ivCover.setImageBitmap(bitmap)
+                        }
+                    }
+                })
+                controller.isPlaying().observe(this, {
+                    binding.miniPlayer.ivPlay.setImageResource(getPlayStateSourceId(it))
+                })
             }
-        }
+        })
     }
 
 }

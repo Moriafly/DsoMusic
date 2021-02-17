@@ -227,7 +227,8 @@
             android:paddingEnd="10dp" />
 
         <TextView
-            android:visibility="gone"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="4dp"
             android:id="@+id/tvInternetPlaylist"
             style="@style/sub_title"
             android:text="@string/internet_playlist" />

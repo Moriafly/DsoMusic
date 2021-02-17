@@ -30,6 +30,7 @@ class SettingsActivity : BaseActivity() {
         binding.apply {
             switcherParseHomeNavigation.setChecked(MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true))
             switcherPlaylistScrollAnimation.setChecked(MyApplication.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true))
+            switcherDoubleRowMyPlaylist.setChecked(MyApplication.mmkv.decodeBool(Config.DOUBLE_ROW_MY_PLAYLIST, false))
             switcherDarkTheme.setChecked(MyApplication.mmkv.decodeBool(Config.DARK_THEME, false))
             switcherSentenceRecommend.setChecked(MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true))
             switcherPlayOnMobile.setChecked(MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false))
@@ -61,6 +62,10 @@ class SettingsActivity : BaseActivity() {
                 Config.PLAYLIST_SCROLL_ANIMATION,
                 it
             ) }
+
+            switcherDoubleRowMyPlaylist.setOnCheckedChangeListener {
+                MyApplication.mmkv.encode(Config.DOUBLE_ROW_MY_PLAYLIST, it)
+            }
 
             switcherDarkTheme.setOnCheckedChangeListener {
                 DarkThemeUtil.setDarkTheme(it)

@@ -1,10 +1,7 @@
 package com.dirror.music.ui.activity
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -35,7 +32,6 @@ class SearchActivity : BaseActivity() {
     }
 
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
 
     private var engine = ENGINE_NETEASE
     private var realKeyWord = ""
@@ -43,15 +39,6 @@ class SearchActivity : BaseActivity() {
     override fun initBinding() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
-
-    override fun initData() {
-        val intentFilter = IntentFilter() // Intent 过滤器
-        intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
-        musicBroadcastReceiver = MusicBroadcastReceiver() //
-        registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
-
-        MyApplication.musicController.value?.sendBroadcast()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -124,23 +111,6 @@ class SearchActivity : BaseActivity() {
                 toast("酷我音源暂只支持精确搜索，需要填入完整歌曲名")
             }
 
-        }
-
-        binding.includePlayer.root.setOnClickListener {
-            startActivity(Intent(this, PlayerActivity::class.java))
-            overridePendingTransition(
-                R.anim.anim_slide_enter_bottom,
-                R.anim.anim_no_anim
-            )
-        }
-
-        binding.includePlayer.ivPlay.setOnClickListener {
-            // 更新
-            MyApplication.musicController.value?.changePlayState()
-            refreshPlayState()
-        }
-        binding.includePlayer.ivPlaylist.setOnClickListener {
-            PlaylistDialog(this).show()
         }
 
         // 搜索框
@@ -223,8 +193,6 @@ class SearchActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // 解绑广播接收
-        unregisterReceiver(musicBroadcastReceiver)
         // 保存搜索引擎
         MyApplication.mmkv.encode(Config.SEARCH_ENGINE, engine)
     }
@@ -264,29 +232,29 @@ class SearchActivity : BaseActivity() {
     }
 
 
-    inner class MusicBroadcastReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val song = MyApplication.musicController.value?.getNowSongData()
-            if (song != null) {
-                SongPicture.getSongPicture(this@SearchActivity, song, SongPicture.TYPE_LARGE) {
-                    binding.includePlayer.ivCover.setImageBitmap(it)
-                }
-                binding.includePlayer.tvName.text = song.name
-                binding.includePlayer.tvArtist.text = song.artists?.let { parseArtist(it) }
+    override fun initMiniPlayer() {
+        binding.miniPlayer.apply {
+            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@SearchActivity) }
+            ivPlaylist.setOnClickListener { PlaylistDialog(this@SearchActivity).show() }
+            ivPlay.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
+        }
+        MyApplication.musicController.observe(this, { nullableController ->
+            nullableController?.let { controller ->
+                controller.getPlayingSongData().observe(this, { songData ->
+                    songData?.let {
+                        binding.miniPlayer.tvName.text = songData.name
+                        binding.miniPlayer.tvArtist.text = songData.artists?.let { parseArtist(it) }
+                        // 这里应该用小的，等待修改
+                        SongPicture.getSongPicture(this, songData, SongPicture.TYPE_LARGE) { bitmap ->
+                            binding.miniPlayer.ivCover.setImageBitmap(bitmap)
+                        }
+                    }
+                })
+                controller.isPlaying().observe(this, {
+                    binding.miniPlayer.ivPlay.setImageResource(getPlayStateSourceId(it))
+                })
             }
-            refreshPlayState()
-        }
-    }
-
-    /**
-     * 刷新播放状态
-     */
-    private fun refreshPlayState() {
-        if (MyApplication.musicController.value?.getPlayState()!!) {
-            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
-        } else {
-            binding.includePlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
-        }
+        })
     }
 
 }

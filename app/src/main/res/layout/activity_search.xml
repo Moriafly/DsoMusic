@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@id/includePlayer"
+        app:layout_constraintBottom_toTopOf="@id/miniPlayer"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clTip" />
@@ -174,7 +174,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        android:id="@+id/includePlayer"
+        android:id="@+id/miniPlayer"
         layout="@layout/layout_play"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -187,7 +187,7 @@
         android:layout_width="match_parent"
         android:background="@color/colorPageBackground"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/includePlayer"
+        app:layout_constraintBottom_toTopOf="@id/miniPlayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clTip">

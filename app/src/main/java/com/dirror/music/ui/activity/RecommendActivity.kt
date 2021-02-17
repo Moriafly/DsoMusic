@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DailyRecommendSongAdapter
+import com.dirror.music.adapter.playMusic
 import com.dirror.music.databinding.ActivityRecommendBinding
 import com.dirror.music.music.netease.data.toStandardSongDataArrayList
 import com.dirror.music.music.standard.SongPicture
@@ -15,6 +16,7 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.RecommendActivityViewModel
 import com.dirror.music.util.*
 import eightbitlab.com.blurview.RenderScriptBlur
+import java.util.*
 
 class RecommendActivity : BaseActivity() {
 
@@ -29,10 +31,12 @@ class RecommendActivity : BaseActivity() {
 
     override fun initData() {
         recommendActivityViewModel.getRecommendSong({
-            it.data.dailySongs.toStandardSongDataArrayList()
+            val songDataArrayList = it.data.dailySongs.toStandardSongDataArrayList()
             runOnMainThread {
                 binding.rvRecommendSong.layoutManager = LinearLayoutManager(this)
-                binding.rvRecommendSong.adapter = DailyRecommendSongAdapter(it)
+                binding.rvRecommendSong.adapter = DailyRecommendSongAdapter(it) { position ->
+                    playMusic(this, songDataArrayList[position], songDataArrayList)
+                }
             }
         }, {
             toast(it)
@@ -43,11 +47,14 @@ class RecommendActivity : BaseActivity() {
         val radius = 15f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
-        binding.blurView.setupWith(decorView.findViewById(R.id.rvRecommendSong))
+        binding.blurView.setupWith(decorView.findViewById(R.id.clRecommend))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)
             .setHasFixedTransformationMatrix(true)
+
+        binding.tvDate.text = String.format("%02d", Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+        binding.tvMonth.text = String.format("%02d", Calendar.getInstance().get(Calendar.MONTH) + 1)
     }
 
     override fun initMiniPlayer() {

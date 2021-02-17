@@ -97,6 +97,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
 
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemSponsor"
+                app:text="赞赏"
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
+
             <TextView
                 android:paddingStart="@dimen/defaultPadding"
                 android:paddingEnd="@dimen/defaultPadding"

@@ -23,6 +23,7 @@ class AboutActivity2 : BaseActivity() {
         private const val HISTORY_VERSION = "https://moriafly.xyz/foyou/dsomusic/history-version.html"
         // 酷安
         private const val COOLAPK_HOME_PAGE = "coolmarket://u/482045"
+        private const val SPONSOR = "https://moriafly.xyz/foyou/sponsor.html"
     }
 
     private lateinit var binding: ActivityAbout2Binding
@@ -61,6 +62,11 @@ class AboutActivity2 : BaseActivity() {
             }
             // 使用开源项目
             itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity2, OpenSourceActivity::class.java)) }
+            // 赞赏
+            itemSponsor.setOnClickListener {
+                MyApplication.activityManager.startWebActivity(this@AboutActivity2, SPONSOR)
+            }
+
             // ivLogo
             ivLogo.setOnLongClickListener {
                 AppInfoDialog(this@AboutActivity2).show()

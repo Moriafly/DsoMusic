@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -27,6 +28,7 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.ui.viewmodel.PlaylistViewModel
 import com.dirror.music.util.*
+import eightbitlab.com.blurview.RenderScriptBlur
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -42,8 +44,6 @@ class PlaylistActivity2: BaseActivity() {
 
     private lateinit var binding: ActivityPlaylistBinding
 
-    // 音乐广播接收
-    private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver
     private lateinit var updatePlaylistReceiver: UpdatePlaylistReceiver
 
     private var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList(), this)
@@ -65,7 +65,7 @@ class PlaylistActivity2: BaseActivity() {
         } else {
             0
         }
-        (binding.includePlay.root.layoutParams as ConstraintLayout.LayoutParams).apply {
+        (binding.miniPlayer.root.layoutParams as ConstraintLayout.LayoutParams).apply {
             bottomMargin = navigationHeight
         }
         // 色彩
@@ -102,12 +102,7 @@ class PlaylistActivity2: BaseActivity() {
     }
 
     override fun initBroadcastReceiver() {
-        var intentFilter = IntentFilter() // Intent 过滤器
-        intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
-        musicBroadcastReceiver = MusicBroadcastReceiver() //
-        registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
-
-        intentFilter = IntentFilter()
+        val intentFilter = IntentFilter() // Intent 过滤器
         intentFilter.addAction(SongMenuDialog.BROADCAST_UPDATE_PLAYLIST)
         updatePlaylistReceiver = UpdatePlaylistReceiver()
         registerReceiver(updatePlaylistReceiver, intentFilter) // 注册接收器
@@ -115,19 +110,6 @@ class PlaylistActivity2: BaseActivity() {
 
     override fun initListener() {
         binding.apply {
-            includePlay.root.setOnClickListener {
-                startActivity(Intent(this@PlaylistActivity2, PlayerActivity::class.java))
-                overridePendingTransition(
-                    R.anim.anim_slide_enter_bottom,
-                    R.anim.anim_no_anim
-                )
-            }
-            includePlay.ivPlay.setOnClickListener {
-                MyApplication.musicController.value?.changePlayState()
-            }
-            includePlay.ivPlaylist.setOnClickListener {
-                PlaylistDialog(this@PlaylistActivity2).show()
-            }
             // 全部播放 播放第一首歌
             clNav.setOnClickListener {
                 if (detailPlaylistAdapter.itemCount != 0) {
@@ -162,52 +144,15 @@ class PlaylistActivity2: BaseActivity() {
         }
     }
 
-    inner class MusicBroadcastReceiver: BroadcastReceiver() {
-        // 接收
-        override fun onReceive(context: Context, intent: Intent) {
-            refreshLayoutPlay()
-            refreshPlayState()
-        }
-    }
-
     inner class UpdatePlaylistReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             playlistViewModel.updatePlaylist()
         }
     }
 
-    private fun refreshPlayState() {
-        if (MyApplication.musicController.value?.getPlayState() == true) {
-            binding.includePlay.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
-        } else {
-            binding.includePlay.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
-        }
-    }
-
-    /**
-     * 刷新下方播放框
-     * 可能导致 stick 丢失
-     */
-    private fun refreshLayoutPlay() {
-        MyApplication.musicController.value?.getNowSongData()?.let { standardSongData ->
-            binding.includePlay.tvName.text = standardSongData.name
-            binding.includePlay.tvArtist.text = standardSongData.artists?.let { parseArtist(it) }
-            SongPicture.getSongPicture(this, standardSongData, SongPicture.TYPE_LARGE) {
-                binding.includePlay.ivCover.setImageBitmap(it)
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        refreshLayoutPlay()
-        refreshPlayState()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         // 解绑
-        unregisterReceiver(musicBroadcastReceiver)
         unregisterReceiver(updatePlaylistReceiver)
     }
 
@@ -223,6 +168,31 @@ class PlaylistActivity2: BaseActivity() {
                 .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
                 .into(binding.ivBackground)
         }
+    }
+
+    override fun initMiniPlayer() {
+        binding.miniPlayer.apply {
+            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@PlaylistActivity2) }
+            ivPlaylist.setOnClickListener { PlaylistDialog(this@PlaylistActivity2).show() }
+            ivPlay.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
+        }
+        MyApplication.musicController.observe(this, { nullableController ->
+            nullableController?.let { controller ->
+                controller.getPlayingSongData().observe(this, { songData ->
+                    songData?.let {
+                        binding.miniPlayer.tvName.text = songData.name
+                        binding.miniPlayer.tvArtist.text = songData.artists?.let { parseArtist(it) }
+                        // 这里应该用小的，等待修改
+                        SongPicture.getSongPicture(this, songData, SongPicture.TYPE_LARGE) { bitmap ->
+                            binding.miniPlayer.ivCover.setImageBitmap(bitmap)
+                        }
+                    }
+                })
+                controller.isPlaying().observe(this, {
+                    binding.miniPlayer.ivPlay.setImageResource(getPlayStateSourceId(it))
+                })
+            }
+        })
     }
 
 

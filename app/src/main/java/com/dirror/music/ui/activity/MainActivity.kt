@@ -92,7 +92,7 @@ class MainActivity : BaseActivity() {
             0
         }
 
-        (binding.clPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
+        (binding.miniPlayer.root.layoutParams as ConstraintLayout.LayoutParams).apply{
             bottomMargin = navigationBarHeight
         }
         (binding.blurViewPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
@@ -210,9 +210,11 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initMiniPlayer() {
-        binding.miniPlayer.root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this) }
-        binding.miniPlayer.ivPlaylist.setOnClickListener { PlaylistDialog(this).show() }
-        binding.miniPlayer.ivPlay.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
+        binding.miniPlayer.apply {
+            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@MainActivity) }
+            ivPlaylist.setOnClickListener { PlaylistDialog(this@MainActivity).show() }
+            ivPlay.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
+        }
         MyApplication.musicController.observe(this, { nullableController ->
             nullableController?.let { controller ->
                 controller.getPlayingSongData().observe(this, { songData ->
@@ -226,11 +228,7 @@ class MainActivity : BaseActivity() {
                     }
                 })
                 controller.isPlaying().observe(this, {
-                    if (it) {
-                        binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
-                    } else {
-                        binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
-                    }
+                    binding.miniPlayer.ivPlay.setImageResource(getPlayStateSourceId(it))
                 })
             }
         })

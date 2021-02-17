@@ -1,86 +1,55 @@
 package com.dirror.music.ui.activity
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
-import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
 import com.dirror.music.data.PLAYLIST_TAG_HISTORY
 import com.dirror.music.databinding.ActivityPlayHistoryBinding
 import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.standard.SongPicture
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.parseArtist
 
-class PlayHistoryActivity : AppCompatActivity() {
+class PlayHistoryActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPlayHistoryBinding
 
-    private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver // 音乐广播接收
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityPlayHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val intentFilter = IntentFilter()
-        intentFilter.addAction("com.dirror.music.MUSIC_BROADCAST") // 只接收 "com.dirror.foyou.MUSIC_BROADCAST" 标识广播
-        musicBroadcastReceiver = MusicBroadcastReceiver() //
-        registerReceiver(musicBroadcastReceiver, intentFilter) // 注册接收器
-
-        // 请求广播
-        MyApplication.musicController.value?.sendBroadcast()
-
-        initView()
-
     }
 
-    private fun initView() {
+    override fun initView() {
         binding.apply {
             rvPlayHistory.layoutManager = LinearLayoutManager(this@PlayHistoryActivity)
             rvPlayHistory.adapter = DetailPlaylistAdapter(PlayHistory.readPlayHistory(), this@PlayHistoryActivity, PLAYLIST_TAG_HISTORY)
         }
+    }
 
-
-        // Mini Player
+    override fun initMiniPlayer() {
         binding.miniPlayer.apply {
-            root.setOnClickListener {
-                MyApplication.activityManager.startPlayerActivity(this@PlayHistoryActivity)
-            }
-            ivPlay.setOnClickListener {
-                MyApplication.musicController.value?.changePlayState()
-                refreshPlayState()
-            }
+            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@PlayHistoryActivity) }
             ivPlaylist.setOnClickListener { PlaylistDialog(this@PlayHistoryActivity).show() }
+            ivPlay.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
-    }
-
-    inner class MusicBroadcastReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val song = MyApplication.musicController.value?.getNowSongData()
-            if (song != null) {
-                binding.miniPlayer.tvName.text = song.name
-                binding.miniPlayer.tvArtist.text = song.artists?.let { parseArtist(it) }
-                // 这里应该用小的，等待修改
-                SongPicture.getSongPicture(this@PlayHistoryActivity, song, SongPicture.TYPE_LARGE) {
-                    binding.miniPlayer.ivCover.setImageBitmap(it)
-                }
+        MyApplication.musicController.observe(this, { nullableController ->
+            nullableController?.let { controller ->
+                controller.getPlayingSongData().observe(this, { songData ->
+                    songData?.let {
+                        binding.miniPlayer.tvName.text = songData.name
+                        binding.miniPlayer.tvArtist.text = songData.artists?.let { parseArtist(it) }
+                        // 这里应该用小的，等待修改
+                        SongPicture.getSongPicture(this, songData, SongPicture.TYPE_LARGE) { bitmap ->
+                            binding.miniPlayer.ivCover.setImageBitmap(bitmap)
+                        }
+                    }
+                })
+                controller.isPlaying().observe(this, {
+                    binding.miniPlayer.ivPlay.setImageResource(getPlayStateSourceId(it))
+                })
             }
-            refreshPlayState()
-        }
-    }
-
-    private fun refreshPlayState() {
-        if (MyApplication.musicController.value?.getPlayState()!!) {
-            binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
-        } else {
-            binding.miniPlayer.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
-        }
+        })
     }
 
 }
