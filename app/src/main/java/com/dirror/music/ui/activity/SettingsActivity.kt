@@ -68,6 +68,7 @@ class SettingsActivity : BaseActivity() {
             }
 
             switcherDarkTheme.setOnCheckedChangeListener {
+                MyApplication.mmkv.encode(Config.DARK_THEME, it)
                 DarkThemeUtil.setDarkTheme(it)
             }
 

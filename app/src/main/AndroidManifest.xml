@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.RecommendActivity"></activity>
+        <activity android:name=".ui.activity.RecommendActivity" />
         <activity
             android:name=".ui.activity.AboutActivity2"
             android:theme="@style/AppTheme.FullScreen" />

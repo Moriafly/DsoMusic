@@ -39,10 +39,6 @@ class PlayerViewModel: ViewModel() {
         it.value = MyApplication.musicController.value?.getNowSongData()
     }
 
-    var playState = MutableLiveData<Boolean>().also {
-        it.value = MyApplication.musicController.value?.getPlayState()?: false
-    }
-
     var duration = MutableLiveData<Int>().also {
         it.value = MyApplication.musicController.value?.getDuration()
     }
@@ -80,9 +76,6 @@ class PlayerViewModel: ViewModel() {
         playMode.value = MyApplication.musicController.value?.getPlayMode()
         if (standardSongData.value != MyApplication.musicController.value?.getNowSongData()) {
             standardSongData.value = MyApplication.musicController.value?.getNowSongData()
-        }
-        if (playState.value != MyApplication.musicController.value?.getPlayState()) {
-            playState.value = MyApplication.musicController.value?.getPlayState()
         }
         if (duration.value != MyApplication.musicController.value?.getDuration()) {
             duration.value = MyApplication.musicController.value?.getDuration()

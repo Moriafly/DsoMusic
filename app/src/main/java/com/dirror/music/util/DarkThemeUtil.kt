@@ -23,7 +23,6 @@ object DarkThemeUtil {
     }
 
     fun setDarkTheme(open: Boolean) {
-        MyApplication.mmkv.encode(Config.DARK_THEME, open)
         if (open) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {

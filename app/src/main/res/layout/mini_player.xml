@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp">
+
+    <ImageView
+        android:id="@+id/ivCover"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_song_cover"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/ivCd"
+        android:layout_width="12dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:scaleType="fitStart"
+        app:layout_constraintBottom_toBottomOf="@+id/ivCover"
+        app:layout_constraintStart_toEndOf="@+id/ivCover"
+        app:layout_constraintTop_toTopOf="@+id/ivCover"
+        app:srcCompat="@drawable/cd"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/colorTextForeground"
+        android:textSize="14dp"
+        android:text="聆听好音乐 - Dso Music"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivStartOrPause"
+        app:layout_constraintStart_toEndOf="@+id/ivCd"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpUsage" />
+
+    <ImageView
+        android:id="@+id/ivPlayQueue"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="12dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivStartOrPause"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivStartOrPause"
+        app:srcCompat="@drawable/ic_play_queue" />
+
+    <ImageView
+        android:id="@+id/ivStartOrPause"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+        app:layout_constraintEnd_toStartOf="@+id/ivPlayQueue"
+        app:layout_constraintTop_toTopOf="@+id/tvTitle"
+        app:srcCompat="@drawable/ic_mini_player_play"
+        tools:ignore="ContentDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

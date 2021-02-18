@@ -125,46 +125,21 @@
         app:layout_constraintTop_toBottomOf="@+id/titleBar"
         tools:visibility="visible">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clArtist"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvArtist"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="4dp"
-            android:paddingStart="4dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="4dp"
-            android:paddingBottom="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvName">
-
-            <TextView
-                android:id="@+id/tvArtist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxWidth="100dp"
-                android:singleLine="true"
-                android:text="@string/artist"
-                android:textAlignment="viewStart"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp"
-                android:transitionName="tvArtist"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/ivArtist"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:alpha="0.72"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvArtist"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_next"
-                tools:ignore="ContentDescription" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginTop="6dp"
+            android:maxWidth="100dp"
+            android:singleLine="true"
+            android:text="@string/artist"
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorSubTextForeground"
+            android:textSize="12sp"
+            android:transitionName="tvArtist"
+            app:layout_constraintEnd_toEndOf="@+id/tvName"
+            app:layout_constraintStart_toStartOf="@+id/tvName"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
         <TextView
             android:id="@+id/tvName"
@@ -305,7 +280,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clBottom"
         android:layout_width="match_parent"
-        android:layout_height="128dp"
+        android:layout_height="wrap_content"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -316,7 +291,9 @@
             android:layout_width="40dp"
             android:layout_height="16dp"
             android:layout_marginEnd="33dp"
+            android:layout_marginBottom="4dp"
             android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/clControl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
@@ -325,7 +302,9 @@
             android:layout_width="40dp"
             android:layout_height="16dp"
             android:layout_marginStart="33dp"
+            android:layout_marginBottom="4dp"
             android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/clControl"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
@@ -333,9 +312,8 @@
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_marginStart="17.5dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="17.5dp"
+            android:layout_marginStart="18.5dp"
+            android:layout_marginEnd="18.5dp"
             android:alpha="0.72"
             android:maxHeight="2dp"
             android:minHeight="4dp"
@@ -433,6 +411,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="14dp"
+            android:alpha="0.5"
             android:background="@drawable/background_button_icon"
             android:contentDescription="@string/back"
             android:paddingStart="19dp"

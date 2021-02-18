@@ -9,7 +9,6 @@
         android:id="@+id/ivPlay"
         android:layout_width="42dp"
         android:layout_height="56dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:paddingStart="11dp"
         android:paddingTop="10dp"
         android:paddingEnd="11dp"
@@ -82,7 +81,6 @@
         android:layout_width="42dp"
         android:layout_height="56dp"
         android:layout_marginEnd="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:paddingStart="10dp"
         android:paddingTop="8dp"
         android:paddingEnd="10dp"
@@ -91,4 +89,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_play_queue" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

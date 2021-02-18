@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.PLAYLIST_TAG_HISTORY
@@ -65,21 +66,21 @@ class DetailPlaylistAdapter
             val song = songDataList[position]
 
             if (song.neteaseInfo?.pl == 0) {
-                holder.tvNumber.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
-                holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
-                holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.songUnable))
+                holder.tvName.alpha = 0.25f
+                holder.tvArtist.alpha = 0.25f
+                holder.tvNumber.alpha = 0.25f
             } else {
-                holder.tvNumber.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorSubTextForeground))
-                holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
-                holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorSubTextForeground))
+                holder.tvName.alpha = 1f
+                holder.tvArtist.alpha = 1f
+                holder.tvNumber.alpha = 1f
             }
 
             if (song.source == SOURCE_LOCAL &&
                 tag == PLAYLIST_TAG_NORMAL && tag != PLAYLIST_TAG_HISTORY) {
                 ivCover.visibility = View.VISIBLE
                 ivCover.load(song.imageUrl) {
-                    transformations(CircleCropTransformation())
-                    // transformations(RoundedCornersTransformation(dp2px(6f)))
+                    // transformations(CircleCropTransformation())
+                    transformations(RoundedCornersTransformation(dp2px(6f)))
                     size(ViewSizeResolver(ivCover))
                     error(R.drawable.ic_song_cover)
                 }

@@ -1,5 +1,6 @@
 package com.dirror.music.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import coil.load
+import coil.size.ViewSizeResolver
+import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.broadcast.HeadsetChangeReceiver
@@ -61,7 +65,7 @@ class MainActivity : BaseActivity() {
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
 
-        val radius = 15f
+        val radius = 20f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
         binding.blurViewPlay.setupWith(decorView.findViewById(R.id.viewPager2))
@@ -96,7 +100,7 @@ class MainActivity : BaseActivity() {
             bottomMargin = navigationBarHeight
         }
         (binding.blurViewPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
-            height = 56.dp() + navigationBarHeight
+            height = 52.dp() + navigationBarHeight
         }
 
         binding.viewPager2.offscreenPageLimit = 2
@@ -209,26 +213,27 @@ class MainActivity : BaseActivity() {
         unregisterReceiver(loginReceiver)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initMiniPlayer() {
         binding.miniPlayer.apply {
             root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@MainActivity) }
-            ivPlaylist.setOnClickListener { PlaylistDialog(this@MainActivity).show() }
-            ivPlay.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
+            ivPlayQueue.setOnClickListener { PlaylistDialog(this@MainActivity).show() }
+            ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->
             nullableController?.let { controller ->
                 controller.getPlayingSongData().observe(this, { songData ->
                     songData?.let {
-                        binding.miniPlayer.tvName.text = songData.name
-                        binding.miniPlayer.tvArtist.text = songData.artists?.let { parseArtist(it) }
-                        // 这里应该用小的，等待修改
-                        SongPicture.getSongPicture(this, songData, SongPicture.TYPE_LARGE) { bitmap ->
-                            binding.miniPlayer.ivCover.setImageBitmap(bitmap)
+                        binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
+                        binding.miniPlayer.ivCover.load(SongPicture.getMiniPlayerSongPicture(songData)) {
+                            transformations(RoundedCornersTransformation(dp2px(6f)))
+                            size(ViewSizeResolver(binding.miniPlayer.ivCover))
+                            error(R.drawable.ic_song_cover)
                         }
                     }
                 })
                 controller.isPlaying().observe(this, {
-                    binding.miniPlayer.ivPlay.setImageResource(getPlayStateSourceId(it))
+                    binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
                 })
             }
         })

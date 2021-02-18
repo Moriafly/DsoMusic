@@ -261,7 +261,7 @@ class PlayerActivity : SlideBackActivity() {
                 slideBackEnabled = true
             }
             // 艺术家
-            clArtist.setOnClickListener {
+            tvArtist.setOnClickListener {
                 // 测试
                 playViewModel.standardSongData.value?.let { standardSongData ->
                     if (standardSongData.source == SOURCE_NETEASE) {
@@ -396,15 +396,19 @@ class PlayerActivity : SlideBackActivity() {
                 }
             })
             // 播放状态的观察
-            playState.observe(this@PlayerActivity, {
-                if (it) {
-                    binding.ivPlay.setImageResource(R.drawable.ic_pause_btn)
-                    startRotateAlways()
-                    handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
-                } else {
-                    binding.ivPlay.setImageResource(R.drawable.ic_play_btn)
-                    pauseRotateAlways()
-                    handler.removeMessages(MSG_PROGRESS)
+            MyApplication.musicController.observe(this@PlayerActivity, { nullableController ->
+                nullableController?.let { controller ->
+                    controller.isPlaying().observe(this@PlayerActivity, {
+                        if (it) {
+                            binding.ivPlay.setImageResource(R.drawable.ic_pause_btn)
+                            startRotateAlways()
+                            handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
+                        } else {
+                            binding.ivPlay.setImageResource(R.drawable.ic_play_btn)
+                            pauseRotateAlways()
+                            handler.removeMessages(MSG_PROGRESS)
+                        }
+                    })
                 }
             })
             // 总时长的观察

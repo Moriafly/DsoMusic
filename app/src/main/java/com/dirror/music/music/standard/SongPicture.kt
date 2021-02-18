@@ -52,8 +52,12 @@ object SongPicture {
         }
     }
 
-    fun getMiniPlayerSongPicture() {
-
+    fun getMiniPlayerSongPicture(songData: StandardSongData): String? {
+        return if (songData.source == SOURCE_LOCAL) {
+            songData.imageUrl
+        } else {
+            getSongPictureUrl(songData, TYPE_LARGE)
+        }
     }
 
     /**

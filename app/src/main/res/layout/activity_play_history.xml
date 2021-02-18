@@ -30,7 +30,7 @@
 
     <include
         android:id="@+id/miniPlayer"
-        layout="@layout/layout_play"
+        layout="@layout/layout_mini_player"
         android:layout_width="0dp"
         android:layout_height="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
