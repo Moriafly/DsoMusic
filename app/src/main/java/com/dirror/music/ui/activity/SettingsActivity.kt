@@ -1,8 +1,6 @@
 package com.dirror.music.ui.activity
 
-import android.R.attr
 import android.content.Intent
-import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.graphics.drawable.toDrawable
 import com.dirror.music.MyApplication
@@ -11,6 +9,9 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.Config
 import com.dirror.music.util.DarkThemeUtil
 import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.cache.ACache
+import com.dirror.music.util.toast
+import kotlin.concurrent.thread
 
 
 /**
@@ -96,6 +97,7 @@ class SettingsActivity : BaseActivity() {
 
             itemCustomBackground.setOnClickListener {
                 val intent = Intent(Intent.ACTION_PICK, null)
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
                 startActivityForResult(intent, 2)
             }
@@ -108,10 +110,12 @@ class SettingsActivity : BaseActivity() {
             // 从相册返回的数据
             // 得到图片的全路径
             val path = data?.data.toString()
-            MyApplication.mmkv.encode(Config.THEME_BACKGROUND, path)
             path.let {
+                toast("设置成功")
                 GlideUtil.load(it) { bitmap ->
-                    window.setBackgroundDrawable(bitmap.toDrawable(resources))
+                    thread {
+                        ACache.get(this).put(Config.APP_THEME_BACKGROUND, bitmap)
+                    }
                 }
             }
 

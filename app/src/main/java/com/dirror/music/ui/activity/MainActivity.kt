@@ -26,8 +26,10 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.cache.ACache
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
+import kotlin.concurrent.thread
 
 /**
  * MainActivity
@@ -62,13 +64,21 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
+        thread {
+            ACache.get(this).getAsBitmap(Config.APP_THEME_BACKGROUND)?.let {
+                runOnMainThread {
+                    binding.ivTheme.setImageBitmap(it)
+                }
+            }
+        }
+
         window.allowEnterTransitionOverlap = true
         window.allowReturnTransitionOverlap = true
 
         val radius = 20f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
-        binding.blurViewPlay.setupWith(decorView.findViewById(R.id.viewPager2))
+        binding.blurViewPlay.setupWith(decorView.findViewById(R.id.clTheme))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)

@@ -119,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:itemType="item_no"
-                app:text="强制深色主题（测试）">
+                app:text="强制深色主题">
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherDarkTheme"
@@ -131,9 +131,8 @@
             </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
-                android:visibility="gone"
                 android:id="@+id/itemCustomBackground"
-                app:text="自定义背景（测试）"
+                app:text="自定义主页背景（测试）"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/defaultHeight" />
 

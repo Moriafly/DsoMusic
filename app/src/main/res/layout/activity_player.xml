@@ -173,7 +173,6 @@
                 android:layout_height="56dp"
                 android:layout_marginEnd="16dp"
                 android:alpha="0.81"
-                android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/more"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -186,7 +185,6 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:alpha="0.81"
-                android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/comment"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -202,7 +200,6 @@
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
                 android:alpha="0.65"
-                android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/equalizer"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -215,7 +212,6 @@
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
                 android:alpha="0.81"
-                android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/download"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -376,7 +372,6 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/background_button_icon"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -388,12 +383,11 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/background_button_icon"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_player_playlist" />
+                app:srcCompat="@drawable/ic_bq_player_music_list" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

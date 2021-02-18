@@ -188,10 +188,8 @@ public class ACache {
     /**
      * 保存 JSONObject数据 到 缓存中
      *
-     * @param key
-     *            保存的key
-     * @param value
-     *            保存的JSON数据
+     * @param key 保存的key
+     * @param value 保存的JSON数据
      */
     public void put(String key, JSONObject value) {
         put(key, value.toString());
@@ -200,12 +198,9 @@ public class ACache {
     /**
      * 保存 JSONObject数据 到 缓存中
      *
-     * @param key
-     *            保存的key
-     * @param value
-     *            保存的JSONObject数据
-     * @param saveTime
-     *            保存的时间，单位：秒
+     * @param key 保存的key
+     * @param value 保存的JSONObject数据
+     * @param saveTime 保存的时间，单位：秒
      */
     public void put(String key, JSONObject value, int saveTime) {
         put(key, value.toString(), saveTime);
@@ -364,10 +359,8 @@ public class ACache {
     /**
      * 保存 Serializable数据 到 缓存中
      *
-     * @param key
-     *            保存的key
-     * @param value
-     *            保存的value
+     * @param key 保存的key
+     * @param value 保存的value
      */
     public void put(String key, Serializable value) {
         put(key, value, -1);
@@ -375,13 +368,9 @@ public class ACache {
 
     /**
      * 保存 Serializable数据到 缓存中
-     *
-     * @param key
-     *            保存的key
-     * @param value
-     *            保存的value
-     * @param saveTime
-     *            保存的时间，单位：秒
+     * @param key 保存的key
+     * @param value 保存的value
+     * @param saveTime 保存的时间，单位：秒
      */
     public void put(String key, Serializable value, int saveTime) {
         ByteArrayOutputStream baos = null;
@@ -450,10 +439,8 @@ public class ACache {
     /**
      * 保存 bitmap 到 缓存中
      *
-     * @param key
-     *            保存的key
-     * @param value
-     *            保存的bitmap数据
+     * @param key 保存的key
+     * @param value 保存的bitmap数据
      */
     public void put(String key, Bitmap value) {
         put(key, Utils.Bitmap2Bytes(value));

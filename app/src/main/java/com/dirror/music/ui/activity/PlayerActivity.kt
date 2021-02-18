@@ -464,7 +464,7 @@ class PlayerActivity : SlideBackActivity() {
      */
     private fun startRotateAlways() {
         objectAnimator.resume()
-        objectAnimatorBackground.resume()
+        // objectAnimatorBackground.resume()
         objectAnimatorTapeNormal.resume()
         objectAnimatorTapeNextNormal.resume()
     }
@@ -479,7 +479,7 @@ class PlayerActivity : SlideBackActivity() {
             playViewModel.rotationTypeNormal = it
         }
         objectAnimator.pause()
-        objectAnimatorBackground.pause()
+        // objectAnimatorBackground.pause()
         objectAnimatorTapeNormal.pause()
         objectAnimatorTapeNextNormal.pause()
     }
