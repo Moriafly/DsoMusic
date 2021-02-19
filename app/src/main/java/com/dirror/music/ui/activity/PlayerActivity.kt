@@ -66,7 +66,6 @@ class PlayerActivity : SlideBackActivity() {
 
         // 动画循环时长
         private const val DURATION_CD = 27_500L
-        private const val DURATION_BACKGROUND = 55_000L
         private const val DURATION_TAPE = 6_000L
         private const val ANIMATION_REPEAT_COUNTS = -1
         private const val ANIMATION_PROPERTY_NAME = "rotation"
@@ -94,16 +93,6 @@ class PlayerActivity : SlideBackActivity() {
         ObjectAnimator.ofFloat(binding.ivCover, ANIMATION_PROPERTY_NAME, 0f, 360f).apply {
             interpolator = LinearInterpolator()
             duration = DURATION_CD
-            repeatCount = ANIMATION_REPEAT_COUNTS
-            start()
-        }
-    }
-
-    // 背景 旋转动画
-    private val objectAnimatorBackground: ObjectAnimator by lazy {
-        ObjectAnimator.ofFloat(binding.ivBackground, ANIMATION_PROPERTY_NAME, 0f, 360f).apply {
-            interpolator = LinearInterpolator()
-            duration = DURATION_BACKGROUND
             repeatCount = ANIMATION_REPEAT_COUNTS
             start()
         }
@@ -374,10 +363,10 @@ class PlayerActivity : SlideBackActivity() {
                         Palette.from(bitmap)
                             .clearFilters()
                             .generate { palette ->
-                                if (palette?.vibrantSwatch != null) {
-                                    val rgb = palette.vibrantSwatch?.rgb?: PlayerViewModel.DEFAULT_COLOR
-                                    playViewModel.color.value = rgb
-                                    // binding.lyricView.setCurrentColor(rgb)
+                                playViewModel.color.value = if (palette?.vibrantSwatch != null) {
+                                    palette.vibrantSwatch?.rgb?: PlayerViewModel.DEFAULT_COLOR
+                                } else {
+                                    PlayerViewModel.DEFAULT_COLOR
                                 }
                             }
                     }
@@ -455,6 +444,9 @@ class PlayerActivity : SlideBackActivity() {
                 binding.ivPlay.setColorFilter(it)
                 binding.ivLast.setColorFilter(it)
                 binding.ivNext.setColorFilter(it)
+                binding.tvName.setTextColor(it)
+                binding.tvArtist.setTextColor(it)
+                binding.ivBack.setColorFilter(it)
             })
         }
     }

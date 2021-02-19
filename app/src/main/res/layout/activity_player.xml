@@ -127,6 +127,7 @@
 
         <TextView
             android:id="@+id/tvArtist"
+            android:alpha="0.5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -134,7 +135,7 @@
             android:singleLine="true"
             android:text="@string/artist"
             android:textAlignment="viewStart"
-            android:textColor="@color/colorSubTextForeground"
+            android:textColor="@color/colorTextForeground"
             android:textSize="12sp"
             android:transitionName="tvArtist"
             app:layout_constraintEnd_toEndOf="@+id/tvName"
