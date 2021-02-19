@@ -78,6 +78,11 @@ class MainActivity : BaseActivity() {
         val radius = 20f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
+        binding.blurViewTop.setupWith(decorView.findViewById(R.id.clTheme))
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setHasFixedTransformationMatrix(true)
         binding.blurViewPlay.setupWith(decorView.findViewById(R.id.clTheme))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
@@ -91,6 +96,9 @@ class MainActivity : BaseActivity() {
 
         // 适配状态栏
         val statusBarHeight = getStatusBarHeight(window, this) // px
+        (binding.blurViewTop.layoutParams as ConstraintLayout.LayoutParams).apply {
+            height = 56.dp() + statusBarHeight
+        }
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply{
             topMargin = statusBarHeight
         }

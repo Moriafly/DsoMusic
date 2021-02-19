@@ -1,27 +1,33 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
+import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
+import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.util.Secure
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
 
-class LoginByPhoneActivity : AppCompatActivity() {
+class LoginByPhoneActivity : BaseActivity() {
+
+    companion object {
+        const val SE = "Dso Music"
+    }
 
     lateinit var binding: ActivityLoginByPhoneBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginByPhoneBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        initListener()
-
+    override fun initBinding() {
+        if (getString(R.string.app_name) == SE) {
+            binding = ActivityLoginByPhoneBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+        } else {
+            Secure.killMyself()
+        }
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.btnLoginByPhone.setOnClickListener {
             val phone = binding.etPhone.text.toString()
             val password = binding.etPassword.text.toString()

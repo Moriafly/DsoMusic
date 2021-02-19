@@ -20,13 +20,53 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <TextView
+                style="@style/sub_title"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="界面（部分设置更改需要重启应用）"
+                android:text="主题（部分设置更改需要重启应用）"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="强制深色主题">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherDarkTheme"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemCustomBackground"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/defaultHeight"
+                app:text="自定义主页背景（测试）" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemCleanBackground"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/defaultHeight"
+                app:text="清除背景" />
+
+            <TextView
+                style="@style/sub_title"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="界面"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -37,10 +77,10 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherParseHomeNavigation"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvParseHomeNavigation"
@@ -78,10 +118,10 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherDoubleRowMyPlaylist"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </com.dirror.music.widget.ItemLayout>
 
@@ -93,10 +133,10 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherPlaylistScrollAnimation"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </com.dirror.music.widget.ItemLayout>
 
@@ -108,35 +148,16 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherSentenceRecommend"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </com.dirror.music.widget.ItemLayout>
 
-            <com.dirror.music.widget.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:itemType="item_no"
-                app:text="强制深色主题">
-
-                <com.bitvale.switcher.SwitcherX
-                    android:id="@+id/switcherDarkTheme"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
-
-            </com.dirror.music.widget.ItemLayout>
-
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemCustomBackground"
-                app:text="自定义主页背景（测试）"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/defaultHeight" />
 
             <TextView
+                style="@style/sub_title"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center_vertical"
@@ -154,10 +175,10 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherPauseSongAfterUnplugHeadset"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </com.dirror.music.widget.ItemLayout>
 
@@ -169,10 +190,10 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherPlayOnMobile"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </com.dirror.music.widget.ItemLayout>
 
@@ -184,13 +205,14 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherSkipErrorMusic"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </com.dirror.music.widget.ItemLayout>
 
             <TextView
+                style="@style/sub_title"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center_vertical"
@@ -201,8 +223,6 @@
                 android:textSize="12sp" />
 
 
-
-
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -211,10 +231,10 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherLocalMusicParseLyric"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
@@ -224,10 +244,10 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherSmartFilter"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvFilterSmartFilter"
@@ -264,10 +284,10 @@
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherFilterRecord"
+                    style="@style/switcher"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/switcher" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvFilterRecord"
@@ -298,7 +318,6 @@
             </com.dirror.music.widget.ItemLayout>
 
             <TextView
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:gravity="center_vertical"
@@ -306,7 +325,8 @@
                 android:paddingEnd="16dp"
                 android:text="@string/experimental"
                 android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
 
         </LinearLayout>

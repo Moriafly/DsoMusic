@@ -10,7 +10,6 @@ import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dirror.music.MyApplication
-import com.dirror.music.R
 import com.dirror.music.adapter.NewSongAdapter
 import com.dirror.music.adapter.PlaylistRecommendAdapter
 import com.dirror.music.databinding.FragmentHomeBinding
@@ -50,14 +49,12 @@ class HomeFragment : Fragment() {
             binding.tvFoyou.visibility =View.GONE
             binding.includeFoyou.root.visibility = View.GONE
         }
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAppThemeColor)
     }
 
     /**
      * 刷新整个页面
      */
     private fun update() {
-        binding.swipeRefreshLayout.isRefreshing = true
         // Banner
         // initBanner()
         // 推荐歌单
@@ -84,8 +81,6 @@ class HomeFragment : Fragment() {
             intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, 0)
             startActivity(intent)
         }
-
-        binding.swipeRefreshLayout.setOnRefreshListener { update() }
     }
 
     private fun changeSentence() {
@@ -111,7 +106,6 @@ class HomeFragment : Fragment() {
                 // binding.rvPlaylistRecommend.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 binding.rvPlaylistRecommend.adapter = PlaylistRecommendAdapter(it)
 
-                binding.swipeRefreshLayout.isRefreshing = false
             }
         }, {
 

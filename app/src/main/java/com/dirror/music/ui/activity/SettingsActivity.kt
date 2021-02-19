@@ -2,7 +2,6 @@ package com.dirror.music.ui.activity
 
 import android.content.Intent
 import android.provider.MediaStore
-import androidx.core.graphics.drawable.toDrawable
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.ui.base.BaseActivity
@@ -12,7 +11,6 @@ import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.cache.ACache
 import com.dirror.music.util.toast
 import kotlin.concurrent.thread
-
 
 /**
  * 设置 Activity
@@ -56,6 +54,10 @@ class SettingsActivity : BaseActivity() {
 
     override fun initListener() {
         binding.apply {
+            itemCleanBackground.setOnClickListener {
+                ACache.get(this@SettingsActivity).remove(Config.APP_THEME_BACKGROUND)
+                toast("清除成功")
+            }
 
             switcherParseHomeNavigation.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.PARSE_NAVIGATION, it) }
 

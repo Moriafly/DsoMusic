@@ -235,6 +235,7 @@ class SearchActivity : BaseActivity() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun initMiniPlayer() {
         binding.miniPlayer.apply {
             root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@SearchActivity) }

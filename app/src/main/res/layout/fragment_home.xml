@@ -6,143 +6,131 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.HomeFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="96dp"
+            android:paddingBottom="96dp">
 
+            <TextView
+                android:id="@+id/tvPlaylistRecommend"
+                style="@style/sub_title"
+                android:text="@string/playlist_recommend" />
+
+            <com.dirror.music.widget.RecyclerViewAtViewPager2
+                android:id="@+id/rvPlaylistRecommend"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:overScrollMode="never" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="100dp">
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvPlaylistRecommend"
-                    android:text="@string/playlist_recommend"
-                    style="@style/sub_title"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clDaily"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1">
 
-                <com.dirror.music.widget.RecyclerViewAtViewPager2
-                    android:id="@+id/rvPlaylistRecommend"
-                    android:layout_width="match_parent"
-                    android:layout_height="320dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginEnd="0dp"
-                    android:overScrollMode="never" />
+                    <ImageView
+                        android:id="@+id/ivDaily"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_rd"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
+                    <TextView
+                        android:id="@+id/tvDaily"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:text="每日推荐"
+                        android:textColor="@color/colorTextForeground"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ivDaily" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/clDaily"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clDso"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1">
 
-                        <ImageView
-                            android:id="@+id/ivDaily"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/ic_rd"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/ivDso"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_dso"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/tvDaily"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:text="每日推荐"
-                            android:textColor="@color/colorTextForeground"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ivDaily" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/clDso"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/ivDso"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/ic_dso"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/tvDso"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:text="Dso"
-                            android:textColor="@color/colorTextForeground"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ivDso" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvNewSong"
-                    android:text="@string/recommend_new_songs"
-                    android:paddingBottom="6dp"
-                    style="@style/sub_title"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvNewSong"
-                    android:overScrollMode="never"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/tvFoyou"
-                    android:text="@string/sentence_recommend"
-                    style="@style/sub_title"/>
-
-                <include
-                    android:id="@+id/includeFoyou"
-                    layout="@layout/include_foyou"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp" />
-
+                    <TextView
+                        android:id="@+id/tvDso"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:text="Dso"
+                        android:textColor="@color/colorTextForeground"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ivDso" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/tvNewSong"
+                style="@style/sub_title"
+                android:paddingBottom="6dp"
+                android:text="@string/recommend_new_songs" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNewSong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
 
+            <TextView
+                android:id="@+id/tvFoyou"
+                style="@style/sub_title"
+                android:text="@string/sentence_recommend" />
+
+            <include
+                android:id="@+id/includeFoyou"
+                layout="@layout/include_foyou"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

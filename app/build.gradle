@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 346
+        versionCode 348
         versionName "2.7.0-alpha" // 定制版后缀 custom "2.6.3-custom"
 
         multiDexEnabled true
@@ -40,11 +40,6 @@ android {
             abiFilters 'arm64-v8a' // 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
 
-//        javaCompileOptions {
-//            annotationProcessorOptions {
-//                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-//            }
-//        }
     }
 
     buildTypes {

@@ -56,7 +56,7 @@ object SongPicture {
         return if (songData.source == SOURCE_LOCAL) {
             songData.imageUrl
         } else {
-            getSongPictureUrl(songData, TYPE_LARGE)
+            getSongPictureUrl(songData, TYPE_SMALL)
         }
     }
 
@@ -73,7 +73,7 @@ object SongPicture {
                         "$API_FCZBL_VIP/?type=cover&id=${songData.id}&param=${240.dp()}y${240.dp()}"
                     }
                     else -> {
-                        "$API_FCZBL_VIP/?type=cover&id=${songData.id}"
+                        "$API_FCZBL_VIP/?type=cover&id=${songData.id}&param=${40.dp()}y${40.dp()}"
                     }
                 }
 
