@@ -85,19 +85,19 @@ object AnimationUtil {
     }
 
     fun click(view: View) {
-        val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.5f, 1f)
+        val objectAnimator: ObjectAnimator = ObjectAnimator.ofFloat(view, "alpha", 0.3f, 1f)
 
-        // objectAnimator.interpolator = LinearInterpolator()
+        objectAnimator.interpolator = DecelerateInterpolator()
         objectAnimator.duration = 300
         // objectAnimator.repeatCount = 1
         objectAnimator.start()
 
-        val objectAnimator2: ObjectAnimator = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.5f, 1f)
-
-        // objectAnimator.interpolator = LinearInterpolator()
-        objectAnimator2.duration = 300
-        // objectAnimator.repeatCount = 1
-        objectAnimator2.start()
+//        val objectAnimator2: ObjectAnimator = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.5f, 1f)
+//
+//        objectAnimator.interpolator = DecelerateInterpolator()
+//        objectAnimator2.duration = 300
+//        // objectAnimator.repeatCount = 1
+//        objectAnimator2.start()
     }
 
 

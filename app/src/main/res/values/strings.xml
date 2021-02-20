@@ -64,4 +64,6 @@
     <string name="add_to_local_my_favorite">添加到本地我喜欢</string>
     <string name="recommend_new_songs">新歌速递</string>
     <string name="email">邮箱</string>
+    <string name="personal_fm">私人 FM</string>
+    <string name="cloud_drive">云盘</string>
 </resources>

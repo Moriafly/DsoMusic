@@ -56,6 +56,7 @@ class MyFragment : Fragment() {
         binding.apply {
             // 我喜欢的音乐
             clFavorite.setOnClickListener {
+                AnimationUtil.click(it)
                 val intent = Intent(this@MyFragment.context, PlaylistActivity2::class.java).apply {
                     putExtra(PlaylistActivity2.EXTRA_PLAYLIST_SOURCE, SOURCE_LOCAL)
                     putExtra(PlaylistActivity2.EXTRA_LONG_PLAYLIST_ID, 0L)
@@ -66,18 +67,26 @@ class MyFragment : Fragment() {
             // 新建歌单
             clNewPlaylist.setOnClickListener {
                 toast("功能开发中，敬请期待")
-                // this.context?.let { it1 -> CreateLocalPlaylistDialog(it1).show() }
             }
             // 本地音乐
             clLocal.setOnClickListener {
+                AnimationUtil.click(it)
                 val intent = Intent(this@MyFragment.context, LocalMusicActivity::class.java)
                 startActivity(intent)
             }
             // 播放历史
             clLatest.setOnClickListener {
+                AnimationUtil.click(it)
                 // toast("功能开发中，预计不久上线")
                 val intent = Intent(this@MyFragment.context, PlayHistoryActivity::class.java)
                 startActivity(intent)
+            }
+            clPersonalFM.setOnClickListener {
+                AnimationUtil.click(it)
+                toast("还未做好，占个位置~")
+//                PersonalFM.get {
+//
+//                }
             }
         }
     }
@@ -92,7 +101,6 @@ class MyFragment : Fragment() {
         })
         // 用户歌单的观察
         myFragmentViewModel.userPlaylistList.observe(viewLifecycleOwner, {
-            // toast(it.size.toString())
             setPlaylist(it)
         })
     }

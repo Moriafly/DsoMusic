@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 349
+        versionCode 351
         versionName "2.7.0-alpha" // 定制版后缀 custom "2.6.3-custom"
 
         multiDexEnabled true
@@ -63,8 +63,6 @@ android {
 
     packagingOptions {
         exclude 'lib/*/libRSSupport.so'
-//        exclude 'lib/*/librsjni.so'
-//        exclude 'lib/*/librsjni_androidx.so'
     }
 }
 

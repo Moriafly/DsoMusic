@@ -26,6 +26,8 @@ object MagicHttp {
 
         fun post(url: String, json: String, success: (String) -> Unit)
 
+        fun newPost(api: String, requestBody: RequestBody, success: (String) -> Unit)
+
         /**
          * 支持缓存
          */
@@ -103,12 +105,40 @@ object MagicHttp {
                     })
                     .build()
 
-                val body = FormBody.Builder()
+                val body: RequestBody = FormBody.Builder()
                     .add("ids", json)
                     .build()
                 val request: Request = Request.Builder()
-                    .url("${url}?timestamp=${getCurrentTime()}")
+                    .url(url)
                     .post(body)
+                    .build()
+
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onResponse(call: Call, response: Response) {
+                        val string = response.body?.string()!!
+                        success.invoke(string)
+                    }
+
+                    override fun onFailure(call: Call, e: IOException) {
+                    }
+                })
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        override fun newPost(api: String, requestBody: RequestBody, success: (String) -> Unit) {
+            try {
+                val client = OkHttpClient.Builder()
+                    // .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
+                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .readTimeout(3, TimeUnit.SECONDS)
+                    .writeTimeout(3, TimeUnit.SECONDS)
+                    .build()
+
+                val request: Request = Request.Builder()
+                    .url(api)
+                    .post(requestBody)
                     .build()
 
                 client.newCall(request).enqueue(object : Callback {

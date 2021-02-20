@@ -19,6 +19,9 @@ import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.palette.graphics.Palette
+import coil.load
+import coil.size.ViewSizeResolver
+import coil.transform.CircleCropTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.lyricviewx.OnPlayClickListener
@@ -344,15 +347,23 @@ class PlayerActivity : SlideBackActivity() {
             })
             // 当前歌曲的观察
             standardSongData.observe(this@PlayerActivity, {
+                objectAnimator.cancel()
+                objectAnimator.start()
+
                 it?.let {
                     binding.tvName.text = it.name
                     binding.tvArtist.text = it.artists?.let { artists ->
                         parseArtist(artists)
                     }
+
                     // val url = MyApplication.cloudMusicManager.getPicture(imageUrl, CD_SIZE.dp())
                     SongPicture.getPlayerActivityCoverBitmap(this@PlayerActivity, it, CD_SIZE.dp()) { bitmap ->
                         // 设置 CD 图片
-                        binding.ivCover.setImageBitmap(bitmap)
+                        binding.ivCover.load(bitmap) {
+                            placeholder(binding.ivCover.drawable)
+                            transformations(CircleCropTransformation())
+                            size(ViewSizeResolver(binding.ivCover))
+                        }
                         // 设置 背景 图片
                         Glide.with(MyApplication.context)
                             .load(bitmap)
@@ -363,10 +374,10 @@ class PlayerActivity : SlideBackActivity() {
                         Palette.from(bitmap)
                             .clearFilters()
                             .generate { palette ->
-                                playViewModel.color.value = if (palette?.vibrantSwatch != null) {
-                                    palette.vibrantSwatch?.rgb?: PlayerViewModel.DEFAULT_COLOR
+                                playViewModel.color.value = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                    palette?.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
                                 } else {
-                                    PlayerViewModel.DEFAULT_COLOR
+                                    palette?.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
                                 }
                             }
                     }
@@ -392,10 +403,12 @@ class PlayerActivity : SlideBackActivity() {
                             binding.ivPlay.setImageResource(R.drawable.ic_pause_btn)
                             startRotateAlways()
                             handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
+                            binding.diffuseView?.start()
                         } else {
                             binding.ivPlay.setImageResource(R.drawable.ic_play_btn)
                             pauseRotateAlways()
                             handler.removeMessages(MSG_PROGRESS)
+                            binding.diffuseView?.stop()
                         }
                     })
                 }
@@ -447,6 +460,7 @@ class PlayerActivity : SlideBackActivity() {
                 binding.tvName.setTextColor(it)
                 binding.tvArtist.setTextColor(it)
                 binding.ivBack.setColorFilter(it)
+                binding.diffuseView?.setColor(it)
             })
         }
     }

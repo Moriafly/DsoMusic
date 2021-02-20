@@ -127,11 +127,12 @@
 
         <TextView
             android:id="@+id/tvArtist"
-            android:alpha="0.5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
+            android:alpha="0.5"
             android:maxWidth="100dp"
+            android:paddingStart="1dp"
             android:singleLine="true"
             android:text="@string/artist"
             android:textAlignment="viewStart"
@@ -243,38 +244,36 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.dirror.music.widget.DiffuseView
+            android:id="@+id/diffuseView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="56dp"
+            app:layout_constraintBottom_toTopOf="@+id/clMenu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cvCd"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            app:cardBackgroundColor="#4DF5F5F5"
-            app:cardCornerRadius="175dp"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            app:cardBackgroundColor="#D9F5F5F5"
+            app:cardCornerRadius="120dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toTopOf="@+id/clMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.55">
+            app:layout_constraintTop_toTopOf="@+id/diffuseView">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvCover"
-                android:layout_width="240dp"
-                android:layout_height="240dp"
-                android:layout_margin="5dp"
-                android:clipChildren="false"
-                android:transitionName="cvCover"
-                app:cardCornerRadius="120dp"
-                app:cardElevation="0dp">
+            <ImageView
+                android:id="@+id/ivCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/bq_no_data_song"
+                tools:ignore="ContentDescription" />
 
-                <ImageView
-                    android:id="@+id/ivCover"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/bq_no_data_song"
-                    tools:ignore="ContentDescription" />
-
-            </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
