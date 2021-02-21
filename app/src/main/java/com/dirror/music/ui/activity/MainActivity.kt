@@ -108,11 +108,6 @@ class MainActivity : BaseActivity() {
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)
             .setHasFixedTransformationMatrix(true)
-        binding.blurViewMenu.setupWith(decorView.findViewById(R.id.navigationView))
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(radius)
-            .setHasFixedTransformationMatrix(true)
 
         // 适配状态栏
         val statusBarHeight = getStatusBarHeight(window, this) // px

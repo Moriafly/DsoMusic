@@ -155,11 +155,6 @@
         android:layout_gravity="start"
         app:insetForeground="@color/colorTransparency">
 
-        <eightbitlab.com.blurview.BlurView
-            android:id="@+id/blurViewMenu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <include
             android:id="@+id/menuMain"
             layout="@layout/menu_main"

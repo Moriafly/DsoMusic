@@ -171,6 +171,7 @@
                 android:textSize="12sp" />
 
             <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemAudioFocus"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:itemType="item_no">

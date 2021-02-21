@@ -29,7 +29,7 @@ class SettingsActivity : BaseActivity() {
 
     override fun initView() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            binding.switcherAudioFocus.visibility = View.GONE
+            binding.itemAudioFocus.visibility = View.GONE
         }
         // 按钮
         binding.apply {
