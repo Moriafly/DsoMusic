@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 351
-        versionName "2.7.0-alpha" // 定制版后缀 custom "2.6.3-custom"
+        versionCode 357
+        versionName "2.7.0-beta" // 定制版后缀 custom "2.6.3-custom"
 
         multiDexEnabled true
 
@@ -63,6 +63,7 @@ android {
 
     packagingOptions {
         exclude 'lib/*/libRSSupport.so'
+        exclude 'META-INF/library_release.kotlin_module'
     }
 }
 
@@ -77,7 +78,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-beta01'
 
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
@@ -86,7 +87,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'com.eightbitlab:blurview:1.6.3'
-    // implementation 'com.youth.banner:banner:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
     implementation 'androidx.palette:palette-ktx:1.0.0'
@@ -117,9 +117,10 @@ dependencies {
     implementation 'com.arialyy.aria:core:3.8.12'
     annotationProcessor 'com.arialyy.aria:compiler:3.8.12'
     // LyricViewX
-    implementation 'com.github.Moriafly:LyricViewX:1.1.3'
+    implementation 'com.github.Moriafly:LyricViewX:1.1.4'
     // 漂亮的开关
     implementation 'com.bitvale:switcher:1.1.1'
     // coil 图片加载库
     implementation 'io.coil-kt:coil:1.1.1'
+
 }

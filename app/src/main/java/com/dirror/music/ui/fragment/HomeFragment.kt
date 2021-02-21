@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.adapter.NewSongAdapter
@@ -19,14 +22,18 @@ import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.music.standard.data.SOURCE_DIRROR
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.ui.activity.RecommendActivity
+import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.AnimationUtil
 import com.dirror.music.util.Config
+import com.dirror.music.util.dp
 import com.dirror.music.util.runOnMainThread
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -41,6 +48,13 @@ class HomeFragment : Fragment() {
 
         initView()
         initListener()
+
+        mainViewModel.statusBarHeight.observe(viewLifecycleOwner, {
+            (binding.llMain.layoutParams as FrameLayout.LayoutParams).apply {
+                topMargin = it + 56.dp()
+            }
+        })
+
         update()
     }
 

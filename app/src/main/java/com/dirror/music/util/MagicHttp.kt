@@ -8,6 +8,7 @@ import com.dirror.music.util.cache.ACache
 import okhttp3.*
 import okhttp3.OkHttpClient
 import java.io.IOException
+import java.net.InetSocketAddress
 import java.net.Proxy
 import java.util.concurrent.TimeUnit
 
@@ -24,6 +25,7 @@ object MagicHttp {
 
         fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit)
 
+        @Deprecated("过时方法，请使用 newPost")
         fun post(url: String, json: String, success: (String) -> Unit)
 
         fun newPost(api: String, requestBody: RequestBody, success: (String) -> Unit)
@@ -130,6 +132,7 @@ object MagicHttp {
         override fun newPost(api: String, requestBody: RequestBody, success: (String) -> Unit) {
             try {
                 val client = OkHttpClient.Builder()
+                    // .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("110.243.17.83", 9999)))
                     // .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(3, TimeUnit.SECONDS)
@@ -138,6 +141,10 @@ object MagicHttp {
 
                 val request: Request = Request.Builder()
                     .url(api)
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+                    .addHeader("Connection", "close")
+                    .addHeader("Content-Length", "80")
+                    .addHeader("X-Real-IP", "211.161.244.70")
                     .post(requestBody)
                     .build()
 

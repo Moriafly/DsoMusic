@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -33,8 +34,7 @@ class MyFragment : Fragment() {
 
     // activity 和 fragment 共享数据
     private val mainViewModel: MainViewModel by activityViewModels()
-
-    private val myFragmentViewModel: MyFragmentViewModel by viewModels()
+    private val myFragmentViewModel: MyFragmentViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMyBinding.inflate(inflater, container, false)
@@ -46,6 +46,11 @@ class MyFragment : Fragment() {
         initView()
         initListener()
         initObserver()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
     }
 
     private fun initView() {
@@ -102,6 +107,12 @@ class MyFragment : Fragment() {
         // 用户歌单的观察
         myFragmentViewModel.userPlaylistList.observe(viewLifecycleOwner, {
             setPlaylist(it)
+        })
+        mainViewModel.statusBarHeight.observe(viewLifecycleOwner, {
+            (binding.llTop.layoutParams as LinearLayout.LayoutParams).apply {
+                topMargin = it + 56.dp()
+                // setMargins(0, it + 56.dp(), 0, 0)
+            }
         })
     }
 

@@ -104,9 +104,12 @@
                 android:id="@+id/lyricView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:lrcPadding="33dp">
+
+                app:lrcPadding="35dp">
 
             </com.dirror.lyricviewx.LyricViewX>
+
+<!--            app:lrcTextGravity="left"-->
 
         </me.qinc.lib.edgetranslucent.EdgeTransparentView>
 

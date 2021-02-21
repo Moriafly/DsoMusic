@@ -374,10 +374,14 @@ class PlayerActivity : SlideBackActivity() {
                         Palette.from(bitmap)
                             .clearFilters()
                             .generate { palette ->
-                                playViewModel.color.value = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                    palette?.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
-                                } else {
-                                    palette?.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                palette?.let {
+                                    val muteColor = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                        palette.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                    } else {
+                                        palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                    }
+                                    val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
+                                    playViewModel.color.value = muteColor.colorMix(vibrantColor)
                                 }
                             }
                     }
@@ -454,13 +458,23 @@ class PlayerActivity : SlideBackActivity() {
             })
             // 颜色观察
             color.observe(this@PlayerActivity, {
-                binding.ivPlay.setColorFilter(it)
-                binding.ivLast.setColorFilter(it)
-                binding.ivNext.setColorFilter(it)
-                binding.tvName.setTextColor(it)
-                binding.tvArtist.setTextColor(it)
-                binding.ivBack.setColorFilter(it)
-                binding.diffuseView?.setColor(it)
+                binding.apply {
+                    ivPlay.setColorFilter(it)
+                    ivLast.setColorFilter(it)
+                    ivNext.setColorFilter(it)
+                    tvName.setTextColor(it)
+                    tvArtist.setTextColor(it)
+                    ivBack.setColorFilter(it)
+                    diffuseView?.setColor(it)
+                    lyricView.apply {
+                        setCurrentColor(it)
+                        setTimeTextColor(it)
+                        setTimelineColor(it.colorAlpha(0.25f))
+                        setTimelineTextColor(it)
+                        setNormalColor(it.colorAlpha(0.5f))
+                    }
+                }
+
             })
         }
     }

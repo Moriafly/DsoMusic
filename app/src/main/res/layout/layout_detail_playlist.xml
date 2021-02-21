@@ -21,17 +21,17 @@
             app:layout_constraintStart_toEndOf="@+id/tvNumber"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvArtist"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:singleLine="true"
-            android:text="null"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ivMore"
-            app:layout_constraintStart_toEndOf="@+id/tvNumber" />
+    <TextView
+        android:id="@+id/tvArtist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:singleLine="true"
+        android:text="null"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivMore"
+        app:layout_constraintStart_toEndOf="@+id/ivHq" />
 
         <TextView
             android:id="@+id/tvNumber"
@@ -66,6 +66,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/ivHq"
+        android:layout_width="20.7dp"
+        android:layout_height="12dp"
+        android:paddingEnd="2dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/tvArtist"
+        app:layout_constraintStart_toEndOf="@+id/tvNumber"
+        app:layout_constraintTop_toTopOf="@+id/tvArtist"
+        app:srcCompat="@drawable/ic_hq"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

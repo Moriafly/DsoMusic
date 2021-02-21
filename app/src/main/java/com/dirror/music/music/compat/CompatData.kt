@@ -1,5 +1,6 @@
 package com.dirror.music.music.compat
 
+import com.dirror.music.music.netease.Playlist2
 import com.dirror.music.music.standard.data.StandardSongData.NeteaseInfo
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
@@ -34,6 +35,7 @@ data class CompatSearchData(
     }
 
     data class PrivilegesData(
+        val id: Long,
         val pl: Int,
         val maxbr: Int,
         val flag: Int

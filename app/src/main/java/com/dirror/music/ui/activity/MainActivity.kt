@@ -24,12 +24,13 @@ import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.MainViewModel
+import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
-import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.cache.ACache
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlin.concurrent.thread
+
 
 /**
  * MainActivity
@@ -64,6 +65,25 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
+        // Android 5.0 以上 全透明
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+//            window.decorView.windowInsetsController?.systemBarsAppearance
+//        } else {
+//            val window = window
+//            window.clearFlags(
+//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+//                        or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
+//            )
+//            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//            // 状态栏（以上几行代码必须，参考setStatusBarColor|setNavigationBarColor方法源码）
+//            // 状态栏（以上几行代码必须，参考setStatusBarColor|setNavigationBarColor方法源码）
+//            window.statusBarColor = Color.TRANSPARENT
+//        }
+
+
         thread {
             ACache.get(this).getAsBitmap(Config.APP_THEME_BACKGROUND)?.let {
                 runOnMainThread {
@@ -96,6 +116,7 @@ class MainActivity : BaseActivity() {
 
         // 适配状态栏
         val statusBarHeight = getStatusBarHeight(window, this) // px
+        mainViewModel.statusBarHeight.value = statusBarHeight
         (binding.blurViewTop.layoutParams as ConstraintLayout.LayoutParams).apply {
             height = 56.dp() + statusBarHeight
         }
@@ -166,7 +187,10 @@ class MainActivity : BaseActivity() {
                 if (MyApplication.userManager.getCurrentUid() == 0L) {
                     MyApplication.activityManager.startLoginActivity(this@MainActivity)
                 } else {
-                    MyApplication.activityManager.startUserActivity(this@MainActivity, MyApplication.userManager.getCurrentUid())
+                    MyApplication.activityManager.startUserActivity(
+                        this@MainActivity,
+                        MyApplication.userManager.getCurrentUid()
+                    )
                 }
             }
 

@@ -48,12 +48,14 @@
             </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
+                android:visibility="gone"
                 android:id="@+id/itemCustomBackground"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/defaultHeight"
                 app:text="自定义主页背景（测试）" />
 
             <com.dirror.music.widget.ItemLayout
+                android:visibility="gone"
                 android:id="@+id/itemCleanBackground"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/defaultHeight"

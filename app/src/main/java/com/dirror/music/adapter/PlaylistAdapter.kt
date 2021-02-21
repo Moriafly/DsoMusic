@@ -12,9 +12,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.ui.activity.PlaylistActivity
+import com.dirror.music.ui.activity.PlaylistActivity2
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
 
@@ -47,8 +49,9 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>, val activit
         holder.tvTrackCount.text = holder.itemView.context.getString(R.string.songs, play.trackCount)
         holder.clTrack.setOnClickListener {
             val intent = Intent(it.context, PlaylistActivity::class.java)
-            intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
-            intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, play.id)
+            intent.putExtra(PlaylistActivity2.EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
+            intent.putExtra(PlaylistActivity2.EXTRA_LONG_PLAYLIST_ID, play.id)
+            // intent.putExtra(PlaylistActivity2.EXTRA_INT_TAG, PLAYLIST_TAG_NORMAL)
             it.context.startActivity(intent)
         }
     }

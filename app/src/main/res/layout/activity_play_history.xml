@@ -22,17 +22,18 @@
         android:id="@+id/rvPlayHistory"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="52dp"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@+id/miniPlayer"
+        app:layout_constraintBottom_toBottomOf="@+id/miniPlayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar" />
 
     <include
         android:id="@+id/miniPlayer"
-        layout="@layout/layout_mini_player"
+        layout="@layout/mini_player"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -10,6 +10,11 @@ import com.dirror.music.util.toast
 
 class MainViewModel: ViewModel() {
 
+    // 状态栏高度
+    val statusBarHeight = MutableLiveData<Int>().also {
+        it.value = 0
+    }
+
     val myFragment = MyFragment()
     val homeFragment = HomeFragment()
 
@@ -17,13 +22,11 @@ class MainViewModel: ViewModel() {
         it.value = MyApplication.userManager.getCurrentUid()
     }
 
-    private val userDetail = MutableLiveData<UserDetailData>()
-
+    /**
+     * 设置用户 id
+     */
     fun setUserId() {
         userId.value = MyApplication.userManager.getCurrentUid()
-        // toast(userId.value.toString())
     }
-
-
 
 }

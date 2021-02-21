@@ -103,6 +103,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
 
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemJoinQQGroup"
+                app:text="加入 QQ 交流群"
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
+
             <TextView
                 android:paddingStart="@dimen/defaultPadding"
                 android:paddingEnd="@dimen/defaultPadding"

@@ -12,9 +12,8 @@
         android:id="@+id/llMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="96dp"
-        android:paddingBottom="96dp">
+        android:paddingBottom="96dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/llTop"
@@ -96,6 +95,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
                 android:id="@+id/clPersonalFM"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

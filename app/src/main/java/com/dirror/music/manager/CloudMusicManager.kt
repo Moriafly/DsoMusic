@@ -10,6 +10,7 @@ import com.dirror.music.manager.interfaces.CloudMusicManagerInterface
 import com.dirror.music.music.netease.data.*
 import com.dirror.music.util.*
 import com.google.gson.Gson
+import okhttp3.FormBody
 
 @Deprecated("MVVM 分发到各个模块，避免单例跑")
 @Keep
@@ -94,8 +95,12 @@ class CloudMusicManager: CloudMusicManagerInterface {
     }
 
     override fun loginByTell(tell: String, password: String, success: (UserDetailData) -> Unit, failure: () -> Unit) {
-        val url = "${API_DEFAULT}/login/cellphone?phone=${tell}&password=${password}"
-        MagicHttp.OkHttpManager().newGet(url, {
+        val url = "${API_DEFAULT}/login/cellphone"
+        val requestBody = FormBody.Builder()
+            .add("phone", tell)
+            .add("password", password)
+            .build()
+        MagicHttp.OkHttpManager().newPost(url, requestBody) {
             try {
                 val userDetail = Gson().fromJson(it, UserDetailData::class.java)
                 if (userDetail.code != 200) {
@@ -108,9 +113,7 @@ class CloudMusicManager: CloudMusicManagerInterface {
             } catch (e: Exception) {
                 failure.invoke()
             }
-        }, {
-            failure.invoke()
-        })
+        }
     }
 
     override fun likeSong(songId: String, success: () -> Unit, failure: () -> Unit) {

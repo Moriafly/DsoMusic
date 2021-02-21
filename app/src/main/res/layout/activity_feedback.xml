@@ -52,7 +52,12 @@
 
         <EditText
             android:id="@+id/etFeedback"
-            style="@style/default_edit_text" />
+            style="@style/default_edit_text"
+            android:layout_height="wrap_content"
+            android:maxLines="10"
+            android:minHeight="40dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -77,7 +82,8 @@
             android:layout_marginBottom="8dp"
             android:autoLink="web"
             android:lineSpacingExtra="6sp"
-            android:text="Github 问题反馈\nhttps://github.com/Moriafly/dirror-music/issues"
+            android:text="可能无法做到及时回复，还可以通过其他方式与作者联系
+           \nGithub 问题反馈\nhttps://github.com/Moriafly/dirror-music/issues"
             android:textColor="@color/colorSubTextForeground"
             android:textColorLink="@color/highLight"
             android:textSize="12sp" />

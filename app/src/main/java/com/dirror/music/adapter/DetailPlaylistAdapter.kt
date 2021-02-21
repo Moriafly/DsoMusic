@@ -1,5 +1,6 @@
 package com.dirror.music.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
@@ -46,6 +47,7 @@ class DetailPlaylistAdapter
         val tvName: TextView = view.findViewById(R.id.tvName)
         val tvArtist: TextView = view.findViewById(R.id.tvArtist)
         val ivMore: ImageView = view.findViewById(R.id.ivMore)
+        val ivHq: ImageView = view.findViewById(R.id.ivHq)
 
         val isAnimation = MyApplication.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true)
     }
@@ -56,6 +58,7 @@ class DetailPlaylistAdapter
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.apply {
             // 动画
@@ -75,11 +78,16 @@ class DetailPlaylistAdapter
                 holder.tvNumber.alpha = 1f
             }
 
+            if (song.neteaseInfo?.pl?: 0 >= 320000) {
+                holder.ivHq.visibility = View.VISIBLE
+            } else {
+                holder.ivHq.visibility = View.GONE
+            }
+
             if (song.source == SOURCE_LOCAL &&
                 tag == PLAYLIST_TAG_NORMAL && tag != PLAYLIST_TAG_HISTORY) {
                 ivCover.visibility = View.VISIBLE
                 ivCover.load(song.imageUrl) {
-                    // transformations(CircleCropTransformation())
                     transformations(RoundedCornersTransformation(dp2px(6f)))
                     size(ViewSizeResolver(ivCover))
                     error(R.drawable.ic_song_cover)
@@ -107,7 +115,7 @@ class DetailPlaylistAdapter
             }
 
             tvNumber.text = (position + 1).toString()
-            tvName.text = song.name
+            tvName.text = song.name //  + song.neteaseInfo?.pl?.toString()
             tvArtist.text = song.artists?.let { parseArtist(it) }
             // 点击项目
             clSong.setOnClickListener {

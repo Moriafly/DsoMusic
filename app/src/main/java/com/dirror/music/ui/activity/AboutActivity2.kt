@@ -7,10 +7,7 @@ import com.dirror.music.databinding.ActivityAbout2Binding
 import com.dirror.music.service.test.TestMediaCodeInfo
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.AppInfoDialog
-import com.dirror.music.util.Secure
-import com.dirror.music.util.UpdateUtil
-import com.dirror.music.util.getVisionCode
-import com.dirror.music.util.getVisionName
+import com.dirror.music.util.*
 
 /**
  * 2.0 新版 AboutActivity
@@ -24,6 +21,8 @@ class AboutActivity2 : BaseActivity() {
         // 酷安
         private const val COOLAPK_HOME_PAGE = "coolmarket://u/482045"
         private const val SPONSOR = "https://moriafly.xyz/foyou/sponsor.html"
+
+        private const val QQ_GROUP_KEY = "3UvEVCjzhLc3uTDO91DadcjMscFD2OHj"
     }
 
     private lateinit var binding: ActivityAbout2Binding
@@ -71,6 +70,10 @@ class AboutActivity2 : BaseActivity() {
             ivLogo.setOnLongClickListener {
                 AppInfoDialog(this@AboutActivity2).show()
                 return@setOnLongClickListener true
+            }
+
+            itemJoinQQGroup.setOnClickListener {
+                joinQQGroup(this@AboutActivity2, QQ_GROUP_KEY)
             }
         }
     }
