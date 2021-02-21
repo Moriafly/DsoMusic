@@ -1,15 +1,11 @@
 package com.dirror.music.music.netease
 
 import android.content.Context
-import com.dirror.music.MyApplication
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.util.MagicHttp
-import com.dirror.music.util.getCurrentTime
-import com.dirror.music.util.loge
-import com.dirror.music.util.toast
+import com.dirror.music.util.*
 import com.google.gson.Gson
 import okhttp3.FormBody
 import org.jetbrains.annotations.TestOnly
@@ -65,7 +61,7 @@ object Playlist {
             // POST 请求全部 trackIds
             val allSongData = ArrayList<StandardSongData>()
 
-            averageAssignFixLength(trackIds, SPLIT_PLAYLIST_NUMBER).forEach { list ->
+            trackIds.averageAssignFixLength(SPLIT_PLAYLIST_NUMBER).forEach { list ->
                 var json = Gson().toJson(list)
                 json = json.replace("[", "")
                 json = json.replace("]", "")
@@ -132,34 +128,4 @@ object Playlist {
             )
         }
     }
-
-    /**
-     * 切割歌单
-     */
-    private fun <T> averageAssignFixLength(source: List<T>?, splitItemNum: Int): List<List<T>> {
-        val result = ArrayList<List<T>>()
-        if (source != null && source.run { isNotEmpty() } && splitItemNum > 0) {
-            if (source.size <= splitItemNum) {
-                // 源List元素数量小于等于目标分组数量
-                result.add(source)
-            } else {
-                // 计算拆分后list数量
-                val splitNum =
-                    if (source.size % splitItemNum == 0) source.size / splitItemNum else source.size / splitItemNum + 1
-
-                var value: List<T>? = null
-                for (i in 0 until splitNum) {
-                    value = if (i < splitNum - 1) {
-                        source.subList(i * splitItemNum, (i + 1) * splitItemNum)
-                    } else {
-                        // 最后一组
-                        source.subList(i * splitItemNum, source.size)
-                    }
-                    result.add(value)
-                }
-            }
-        }
-        return result
-    }
-
 }

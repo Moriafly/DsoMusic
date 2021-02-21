@@ -109,7 +109,7 @@
 
             </com.dirror.lyricviewx.LyricViewX>
 
-<!--            app:lrcTextGravity="left"-->
+            <!--            app:lrcTextGravity="left"-->
 
         </me.qinc.lib.edgetranslucent.EdgeTransparentView>
 
@@ -235,15 +235,15 @@
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
                 android:alpha="0.81"
-                android:padding="16dp"
                 android:background="@drawable/background_button_icon"
+                android:contentDescription="@string/add_to_local_my_favorite"
+                android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivComment"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/ivDownload"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mz_titlebar_ic_collect"
-                android:contentDescription="@string/add_to_local_my_favorite" />
+                app:srcCompat="@drawable/mz_titlebar_ic_collect" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

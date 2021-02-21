@@ -66,4 +66,12 @@
     <string name="email">邮箱</string>
     <string name="personal_fm">私人 FM</string>
     <string name="cloud_drive">云盘</string>
+    <string name="theme">主题</string>
+    <string name="forced_dark_theme">强制深色模式</string>
+    <string name="user_interface">用户界面</string>
+    <string name="double_row_playlists">双列歌单</string>
+    <string name="daily_recommendation">每日推荐</string>
+    <string name="play_all">播放全部(%d)</string>
+    <string name="join_qq_group">加入 QQ 交流群</string>
+    <string name="sponsor">赞赏</string>
 </resources>

@@ -1,7 +1,10 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
+import android.opengl.Visibility
+import android.os.Build
 import android.provider.MediaStore
+import android.view.View
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.ui.base.BaseActivity
@@ -25,6 +28,9 @@ class SettingsActivity : BaseActivity() {
     }
 
     override fun initView() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            binding.switcherAudioFocus.visibility = View.GONE
+        }
         // 按钮
         binding.apply {
             switcherParseHomeNavigation.setChecked(MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true))
@@ -48,6 +54,7 @@ class SettingsActivity : BaseActivity() {
                 )
             )
             switcherSmartFilter.setChecked(MyApplication.mmkv.decodeBool(Config.SMART_FILTER, true))
+            switcherAudioFocus.setChecked(MyApplication.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true))
         }
 
     }
@@ -103,6 +110,7 @@ class SettingsActivity : BaseActivity() {
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
                 startActivityForResult(intent, 2)
             }
+
         }
     }
 

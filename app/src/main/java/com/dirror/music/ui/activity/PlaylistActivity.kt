@@ -205,7 +205,7 @@ class PlaylistActivity : BaseActivity() {
             // 改变全局变量
             detailPlaylistAdapter = DetailPlaylistAdapter(songList, this@PlaylistActivity, tag)
             binding.rvPlaylist.adapter = detailPlaylistAdapter
-            binding.tvPlayAll.text = "播放全部(${songList.size})"
+            binding.tvPlayAll.text = getString(R.string.play_all, songList.size)
             binding.lottieLoading.pauseAnimation()
         }
     }

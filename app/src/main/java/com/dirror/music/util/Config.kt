@@ -67,4 +67,7 @@ object Config {
 
     // 自定义背景
     const val APP_THEME_BACKGROUND = "bitmap_app_theme_background"
+
+    // 允许与其他应用同时播放
+    const val ALLOW_AUDIO_FOCUS = "boolean_allow_audio_focus"
 }

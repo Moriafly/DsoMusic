@@ -10,6 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,8 +19,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="96dp"
             android:orientation="vertical">
-
 
             <TextView
                 style="@style/sub_title"
@@ -28,7 +29,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="主题（部分设置更改需要重启应用）"
+                android:text="@string/theme"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -36,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:itemType="item_no"
-                app:text="强制深色主题">
+                app:text="@string/forced_dark_theme">
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherDarkTheme"
@@ -68,7 +69,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="界面"
+                android:text="@string/user_interface"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -116,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:itemType="item_no"
-                app:text="双行歌单">
+                app:text="@string/double_row_playlists">
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherDoubleRowMyPlaylist"
@@ -168,6 +169,46 @@
                 android:text="@string/music"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherAudioFocus"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAudioFocus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="音频焦点"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAudioFocusContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="开启后将不会与其他应用一起播放"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"

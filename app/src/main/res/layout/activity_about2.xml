@@ -99,13 +99,13 @@
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemSponsor"
-                app:text="赞赏"
+                app:text="@string/sponsor"
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemJoinQQGroup"
-                app:text="加入 QQ 交流群"
+                app:text="@string/join_qq_group"
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
 

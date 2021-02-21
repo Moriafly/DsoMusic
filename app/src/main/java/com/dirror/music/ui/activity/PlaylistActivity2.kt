@@ -132,7 +132,7 @@ class PlaylistActivity2: BaseActivity() {
             playlist.observe(this@PlaylistActivity2, {
                 detailPlaylistAdapter = DetailPlaylistAdapter(it, this@PlaylistActivity2, tag.value)
                 binding.rvPlaylist.adapter = detailPlaylistAdapter
-                binding.tvPlayAll.text = "播放全部(${it.size})"
+                binding.tvPlayAll.text = getString(R.string.play_all, it.size)
                 binding.clLoading.visibility = View.GONE
                 binding.lottieLoading.pauseAnimation()
             })

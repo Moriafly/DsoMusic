@@ -86,3 +86,33 @@ fun Int.colorAlpha(alpha: Float): Int {
     }.toInt()
     return Color.argb(a, Color.red(this), Color.green(this), Color.blue(this))
 }
+
+/**
+ * List 切割
+ * 平均分配
+ */
+fun <T> List<T>.averageAssignFixLength(splitItemNum: Int): List<List<T>> {
+    val result = ArrayList<List<T>>()
+    if (this.run { isNotEmpty() } && splitItemNum > 0) {
+        if (this.size <= splitItemNum) {
+            // 源List元素数量小于等于目标分组数量
+            result.add(this)
+        } else {
+            // 计算拆分后list数量
+            val splitNum =
+                if (this.size % splitItemNum == 0) this.size / splitItemNum else this.size / splitItemNum + 1
+
+            var value: List<T>? = null
+            for (i in 0 until splitNum) {
+                value = if (i < splitNum - 1) {
+                    this.subList(i * splitItemNum, (i + 1) * splitItemNum)
+                } else {
+                    // 最后一组
+                    this.subList(i * splitItemNum, this.size)
+                }
+                result.add(value)
+            }
+        }
+    }
+    return result
+}

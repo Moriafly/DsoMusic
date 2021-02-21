@@ -33,7 +33,6 @@ import org.jetbrains.annotations.TestOnly
  * 音乐服务
  * @author Moriafly
  * @since 2020/9
- * TODO 蓝牙耳机切歌、暂停
  */
 class MusicService : Service() {
 
@@ -56,6 +55,7 @@ class MusicService : Service() {
     private var position: Int? = 0 // 当前歌曲在 List 中的下标
     private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
     private var notificationManager: NotificationManager? = null // 通知管理
+    private var isAudioFocus = MyApplication.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true) // 是否开启音频焦点
 
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
     private var mediaSession: MediaSessionCompat? = null
@@ -72,14 +72,13 @@ class MusicService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
         // 初始化 MediaSession
         initMediaSession()
         // 初始化通道
         initChannel()
         // 初始化音频焦点（暂时禁用，等待测试）
-        // initAudioFocus()
+        initAudioFocus()
         val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
             .setMediaSession(mediaSession?.sessionToken)
 //            .setShowActionsInCompactView(0, 1, 2)
@@ -122,9 +121,9 @@ class MusicService : Service() {
                         AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> musicBinder.pause()
                     }
                 }.build()
-            audioManager.requestAudioFocus(audioFocusRequest)
-            // audioManager.abandonAudioFocusRequest(audioFocusRequest)
-
+            if (isAudioFocus) {
+                audioManager.requestAudioFocus(audioFocusRequest)
+            }
         }
 
     }
@@ -313,6 +312,9 @@ class MusicService : Service() {
         override fun getPlaylist(): ArrayList<StandardSongData>? = playlist
 
         override fun playMusic(songPosition: Int) {
+
+
+            // audioManager.abandonAudioFocusRequest(audioFocusRequest)
             isPrepared = false
             position = songPosition
             // loge("MusicService songPosition:${position}")
@@ -458,6 +460,20 @@ class MusicService : Service() {
             } else {
                 playlist = ArrayList<StandardSongData>()
                 playlist?.add(standardSongData)
+            }
+        }
+
+        override fun setAudioFocus(status: Boolean) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (status != isAudioFocus) {
+                    if (status) {
+                        audioManager.requestAudioFocus(audioFocusRequest)
+                    } else {
+                        audioManager.abandonAudioFocusRequest(audioFocusRequest)
+                    }
+                    isAudioFocus = status
+                    MyApplication.mmkv.encode(Config.ALLOW_AUDIO_FOCUS, isAudioFocus)
+                }
             }
         }
 

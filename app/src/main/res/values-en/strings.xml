@@ -27,11 +27,11 @@
     <string name="follow">Follow</string>
     <string name="fans">Fans</string>
     <string name="pause_song_after_unplug_headset">Pause song after unplugging the headset</string>
-    <string name="internet_playlist">Internet Playlist</string>
-    <string name="local_playlist">Local Playlist</string>
-    <string name="new_playlist">New Playlist</string>
-    <string name="import_playlist">Import Playlist</string>
-    <string name="local_music">Local Music</string>
+    <string name="internet_playlist">Internet playlist</string>
+    <string name="local_playlist">Local playlist</string>
+    <string name="new_playlist">New playlist</string>
+    <string name="import_playlist">Import playlist</string>
+    <string name="local_music">Local music</string>
     <string name="history">History</string>
     <string name="contact_author">Contact author</string>
     <string name="author_email">moriafly@163.com</string>
@@ -65,5 +65,13 @@
     <string name="recommend_new_songs">Recommend new songs</string>
     <string name="email">Email</string>
     <string name="personal_fm">Personal FM</string>
-    <string name="cloud_drive">云盘</string>
+    <string name="cloud_drive">Cloud drive</string>
+    <string name="theme">Theme</string>
+    <string name="forced_dark_theme">Forced dark theme</string>
+    <string name="user_interface">User interface</string>
+    <string name="double_row_playlists">Double row playlists</string>
+    <string name="daily_recommendation">Daily recommendation</string>
+    <string name="play_all">Play all(%d)</string>
+    <string name="join_qq_group">加入 QQ 交流群</string>
+    <string name="sponsor">赞赏</string>
 </resources>

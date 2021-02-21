@@ -56,7 +56,7 @@
 
         <Button
             android:id="@+id/btnSearch"
-            android:layout_width="56dp"
+            android:layout_width="68dp"
             android:layout_height="56dp"
             android:background="@drawable/background_button_icon"
             android:minWidth="0dp"
@@ -68,8 +68,7 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/ivClear"

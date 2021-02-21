@@ -146,4 +146,10 @@ interface MusicControllerInterface {
      */
     fun addToNextPlay(standardSongData: StandardSongData)
 
+    /**
+     * 设置是否开启音频焦点
+     * @param status true 开启 false 关闭
+     */
+    fun setAudioFocus(status: Boolean)
+
 }

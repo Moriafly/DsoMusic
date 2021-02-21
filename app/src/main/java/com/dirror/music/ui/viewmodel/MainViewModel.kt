@@ -3,10 +3,8 @@ package com.dirror.music.ui.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApplication
-import com.dirror.music.music.netease.data.UserDetailData
 import com.dirror.music.ui.fragment.HomeFragment
 import com.dirror.music.ui.fragment.MyFragment
-import com.dirror.music.util.toast
 
 class MainViewModel: ViewModel() {
 

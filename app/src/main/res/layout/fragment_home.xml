@@ -65,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
-                        android:text="每日推荐"
+                        android:text="@string/daily_recommendation"
                         android:textColor="@color/colorSubTextForeground"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
