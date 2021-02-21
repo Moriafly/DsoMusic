@@ -95,12 +95,8 @@ class CloudMusicManager: CloudMusicManagerInterface {
     }
 
     override fun loginByTell(tell: String, password: String, success: (UserDetailData) -> Unit, failure: () -> Unit) {
-        val url = "${API_DEFAULT}/login/cellphone"
-        val requestBody = FormBody.Builder()
-            .add("phone", tell)
-            .add("password", password)
-            .build()
-        MagicHttp.OkHttpManager().newPost(url, requestBody) {
+        val url = "${API_DEFAULT}/login/cellphone?phone=${tell}&password=${password}"
+        MagicHttp.OkHttpManager().newGet(url, {
             try {
                 val userDetail = Gson().fromJson(it, UserDetailData::class.java)
                 if (userDetail.code != 200) {
@@ -113,7 +109,9 @@ class CloudMusicManager: CloudMusicManagerInterface {
             } catch (e: Exception) {
                 failure.invoke()
             }
-        }
+        }, {
+            failure.invoke()
+        })
     }
 
     override fun likeSong(songId: String, success: () -> Unit, failure: () -> Unit) {
