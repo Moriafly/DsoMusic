@@ -695,40 +695,40 @@ class MusicService : Service() {
      * 刷新通知
      */
     private fun refreshNotification() {
-
-        val song = musicBinder.getNowSongData()
-        mediaSession?.apply {
-            setMetadata(
-                MediaMetadataCompat.Builder()
-                    .putLong(
-                        MediaMetadata.METADATA_KEY_DURATION,
-                        (MyApplication.musicController.value?.getDuration() ?: 0).toLong()
-                    )
-                    .build()
-            )
-            setPlaybackState(
-                PlaybackStateCompat.Builder()
-                    .setState(
-                        PlaybackStateCompat.STATE_PLAYING,
-                        (MyApplication.musicController.value?.getProgress() ?: 0).toLong(),
-                        1f
-                    )
-                    .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
-                    .build()
-            )
-            setCallback(mediaSessionCallback)
-            isActive = true // 必须设置为true，这样才能开始接收各种信息
-        }
-
-        if (!musicBinder.getPlayState()) {
-            mediaSessionCallback?.onPause()
-        }
-
-        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
-            .setMediaSession(mediaSession?.sessionToken)
-            .setShowActionsInCompactView(0, 1, 2)
+        val song = musicBinder.getPlayingSongData().value
         if (song != null) {
             SongPicture.getPlayerActivityCoverBitmap(this, song, 100.dp()) { bitmap ->
+                mediaSession?.apply {
+                    setMetadata(
+                        MediaMetadataCompat.Builder()
+                            .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song.name)
+                            .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song.artists?.parse())
+                            .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
+                            .putLong(
+                                MediaMetadata.METADATA_KEY_DURATION,
+                                (MyApplication.musicController.value?.getDuration() ?: 0).toLong()
+                            )
+                            .build()
+                    )
+                    setPlaybackState(
+                        PlaybackStateCompat.Builder()
+                            .setState(
+                                PlaybackStateCompat.STATE_PLAYING,
+                                (MyApplication.musicController.value?.getProgress() ?: 0).toLong(),
+                                1f
+                            )
+                            .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                            .build()
+                    )
+                    setCallback(mediaSessionCallback)
+                    isActive = true // 必须设置为true，这样才能开始接收各种信息
+                }
+                if (!musicBinder.getPlayState()) {
+                    mediaSessionCallback?.onPause()
+                }
+                val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
+                    .setMediaSession(mediaSession?.sessionToken)
+                    .setShowActionsInCompactView(0, 1, 2)
                 showNotification(mediaStyle, song, bitmap)
             }
         }

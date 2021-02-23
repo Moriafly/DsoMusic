@@ -2,6 +2,7 @@ package com.dirror.music.util
 
 import android.graphics.Color
 import androidx.viewpager2.widget.ViewPager2
+import com.dirror.music.music.standard.data.StandardSongData
 
 /**
  * 拓展函数
@@ -115,4 +116,19 @@ fun <T> List<T>.averageAssignFixLength(splitItemNum: Int): List<List<T>> {
         }
     }
     return result
+}
+
+/**
+ * 标准歌手数组转文本
+ * @return 文本
+ */
+fun ArrayList<StandardSongData.StandardArtistData>.parse(): String {
+    var artist = ""
+    for (artistName in 0..this.lastIndex) {
+        if (artistName != 0) {
+            artist += " / "
+        }
+        artist += this[artistName].name
+    }
+    return artist
 }

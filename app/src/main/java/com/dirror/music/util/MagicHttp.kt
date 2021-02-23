@@ -140,11 +140,11 @@ object MagicHttp {
                     .build()
 
                 val request: Request = Request.Builder()
-                    .url(api)
-                    .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
-                    .addHeader("Connection", "close")
-                    .addHeader("Content-Length", "80")
-                    .addHeader("X-Real-IP", "211.161.244.70")
+                    .url("${api}?timestamp=${getCurrentTime()}")
+//                    .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+//                    .addHeader("Connection", "close")
+//                    .addHeader("Content-Length", "80")
+//                    .addHeader("X-Real-IP", "211.161.244.70")
                     .post(requestBody)
                     .build()
 

@@ -10,7 +10,6 @@ import com.dirror.music.manager.interfaces.CloudMusicManagerInterface
 import com.dirror.music.music.netease.data.*
 import com.dirror.music.util.*
 import com.google.gson.Gson
-import okhttp3.FormBody
 
 @Deprecated("MVVM 分发到各个模块，避免单例跑")
 @Keep
@@ -26,23 +25,6 @@ class CloudMusicManager: CloudMusicManagerInterface {
     private fun timestamp(): String {
         return "&timestamp=${getCurrentTime()}"
     }
-
-    /**
-     * 返回泛型数据类
-     */
-//    @Throws(JsonSyntaxException::class)
-//    private fun <T> getDataClass(url: String, dataClassOfT: Class<T>?, success: (T) -> Unit, failure: () -> Unit) {
-//        MagicHttp.OkHttpManager().newGet(url, {
-//            // try {
-//            val dataClass = Gson().fromJson(url, dataClassOfT)
-//            success.invoke(dataClass)
-//            // } catch (e: Exception) {
-//            // failure.invoke()
-//            // }
-//        }, {
-//            failure.invoke()
-//        })
-//    }
 
     override fun getComment(id: String, success: (CommentData) -> Unit, failure: () -> Unit) {
         val url = "$API_MUSIC_ELEUU/comment/music?id=${id}&limit=20&offset=0${timestamp()}"
@@ -94,6 +76,7 @@ class CloudMusicManager: CloudMusicManagerInterface {
         })
     }
 
+    @Deprecated("过时")
     override fun loginByTell(tell: String, password: String, success: (UserDetailData) -> Unit, failure: () -> Unit) {
         val url = "${API_DEFAULT}/login/cellphone?phone=${tell}&password=${password}"
         MagicHttp.OkHttpManager().newGet(url, {

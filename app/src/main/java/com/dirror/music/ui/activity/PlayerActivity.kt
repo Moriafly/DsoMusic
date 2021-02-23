@@ -69,12 +69,14 @@ class PlayerActivity : SlideBackActivity() {
 
         // 动画循环时长
         private const val DURATION_CD = 27_500L
-        private const val DURATION_TAPE = 6_000L
         private const val ANIMATION_REPEAT_COUNTS = -1
         private const val ANIMATION_PROPERTY_NAME = "rotation"
     }
 
     private lateinit var binding: ActivityPlayerBinding
+
+    // 是否是横屏状态
+    private var isLandScape = false
 
     // 音乐广播接收者
     private lateinit var musicBroadcastReceiver: MusicBroadcastReceiver
@@ -101,45 +103,19 @@ class PlayerActivity : SlideBackActivity() {
         }
     }
 
-    // 前动画
-    private val objectAnimatorTapeNormal: ObjectAnimator by lazy {
-        ObjectAnimator.ofFloat(
-            binding.ivTypePrevious,
-            ANIMATION_PROPERTY_NAME,
-            0f, -360f
-        ).apply {
-            interpolator = LinearInterpolator()
-            duration = DURATION_TAPE
-            repeatCount = ANIMATION_REPEAT_COUNTS
-            start()
-        }
-    }
-
-    // 后动画
-    private val objectAnimatorTapeNextNormal: ObjectAnimator by lazy {
-        ObjectAnimator.ofFloat(
-            binding.ivTypeNext,
-            ANIMATION_PROPERTY_NAME,
-            0f, -360f
-        ).apply {
-            interpolator = LinearInterpolator()
-            duration = DURATION_TAPE
-            repeatCount = ANIMATION_REPEAT_COUNTS
-            start()
-        }
-    }
-
     override fun initBinding() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         // 设置 SlideBackLayout
         bindSlide(this, binding.clBase)
         // 屏幕旋转
         val configuration = this.resources.configuration //获取设置的配置信息
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            isLandScape = true
             // 横屏隐藏状态栏
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                 window.insetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE)
@@ -152,10 +128,17 @@ class PlayerActivity : SlideBackActivity() {
             }
         }
         // 页面状态栏适配
-        (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
-            topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-            topMargin = getStatusBarHeight(window, this@PlayerActivity)
+        binding.titleBar?.let {
+            (it.layoutParams as ConstraintLayout.LayoutParams).apply {
+                topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+                topMargin = getStatusBarHeight(window, this@PlayerActivity)
+            }
         }
+//        binding.llBase?.let {
+//            (it.layoutParams as ConstraintLayout.LayoutParams).apply {
+//                topMargin = getStatusBarHeight(window, this@PlayerActivity)
+//            }
+//        }
         // 页面导航栏适配
         val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
             getNavigationBarHeight(this@PlayerActivity)
@@ -181,7 +164,9 @@ class PlayerActivity : SlideBackActivity() {
             lyricView.setLabel("聆听好音乐")
             lyricView.setTimelineTextColor(ContextCompat.getColor(this@PlayerActivity, R.color.colorTextForeground))
         }
-
+        if (isLandScape) {
+            slideBackEnabled = false
+        }
 
     }
 
@@ -222,7 +207,7 @@ class PlayerActivity : SlideBackActivity() {
             } }
             // CD
             clCd.setOnClickListener {
-                if (binding.clLyric.visibility == View.INVISIBLE) {
+                if (binding.clLyric.visibility == View.INVISIBLE && !isLandScape) {
                     AnimationUtil.fadeOut(binding.clCd, true)
                     AnimationUtil.fadeOut(binding.clMenu, true)
                     binding.clLyric.visibility = View.VISIBLE
@@ -235,22 +220,24 @@ class PlayerActivity : SlideBackActivity() {
                     playViewModel.setProgress(time.toInt())
                     return true
                 }
-
             })
             lyricView.setOnSingerClickListener(object : OnSingleClickListener {
                 override fun onClick() {
+                    if (!isLandScape) {
+                        AnimationUtil.fadeIn(binding.clCd)
+                        AnimationUtil.fadeIn(binding.clMenu)
+                        binding.clLyric.visibility = View.INVISIBLE
+                        slideBackEnabled = true
+                    }
+                }
+            })
+            edgeTransparentView.setOnClickListener {
+                if (!isLandScape) {
                     AnimationUtil.fadeIn(binding.clCd)
                     AnimationUtil.fadeIn(binding.clMenu)
                     binding.clLyric.visibility = View.INVISIBLE
                     slideBackEnabled = true
                 }
-
-            })
-            edgeTransparentView.setOnClickListener {
-                AnimationUtil.fadeIn(binding.clCd)
-                AnimationUtil.fadeIn(binding.clMenu)
-                binding.clLyric.visibility = View.INVISIBLE
-                slideBackEnabled = true
             }
             // 艺术家
             tvArtist.setOnClickListener {
@@ -302,14 +289,6 @@ class PlayerActivity : SlideBackActivity() {
                 override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 
             })
-
-            // 横屏
-            clTapeCenter?.setOnClickListener { playViewModel.changePlayState() }
-            // 横屏上一曲
-            ivTypePrevious?.setOnClickListener { playViewModel.playLast() }
-            // 横屏下一曲
-            ivTypeNext?.setOnClickListener { playViewModel.playNext() }
-
         }
     }
 
@@ -334,8 +313,6 @@ class PlayerActivity : SlideBackActivity() {
     }
 
     override fun initObserver() {
-
-
         playViewModel.apply {
             // 播放模式的观察
             playMode.observe(this@PlayerActivity, {
@@ -405,14 +382,14 @@ class PlayerActivity : SlideBackActivity() {
                     controller.isPlaying().observe(this@PlayerActivity, {
                         if (it) {
                             binding.ivPlay.setImageResource(R.drawable.ic_pause_btn)
-                            startRotateAlways()
                             handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
-                            binding.diffuseView?.start()
+                            startRotateAlways()
+                            binding.diffuseView.start()
                         } else {
                             binding.ivPlay.setImageResource(R.drawable.ic_play_btn)
-                            pauseRotateAlways()
                             handler.removeMessages(MSG_PROGRESS)
-                            binding.diffuseView?.stop()
+                            pauseRotateAlways()
+                            binding.diffuseView.stop()
                         }
                     })
                 }
@@ -465,7 +442,7 @@ class PlayerActivity : SlideBackActivity() {
                     tvName.setTextColor(it)
                     tvArtist.setTextColor(it)
                     ivBack.setColorFilter(it)
-                    diffuseView?.setColor(it)
+                    diffuseView.setColor(it)
                     lyricView.apply {
                         setCurrentColor(it)
                         setTimeTextColor(it)
@@ -484,9 +461,6 @@ class PlayerActivity : SlideBackActivity() {
      */
     private fun startRotateAlways() {
         objectAnimator.resume()
-        // objectAnimatorBackground.resume()
-        objectAnimatorTapeNormal.resume()
-        objectAnimatorTapeNextNormal.resume()
     }
 
     /**
@@ -495,13 +469,7 @@ class PlayerActivity : SlideBackActivity() {
     private fun pauseRotateAlways() {
         playViewModel.rotation = binding.ivCover.rotation
         playViewModel.rotationBackground = binding.ivBackground.rotation
-        binding.ivTypePrevious?.rotation?.let {
-            playViewModel.rotationTypeNormal = it
-        }
         objectAnimator.pause()
-        // objectAnimatorBackground.pause()
-        objectAnimatorTapeNormal.pause()
-        objectAnimatorTapeNextNormal.pause()
     }
 
     override fun onDestroy() {
@@ -521,8 +489,7 @@ class PlayerActivity : SlideBackActivity() {
     }
 
     /**
-     * 内部类
-     * 音乐广播接收器
+     * 内部类 - 音乐广播接收器
      */
     inner class MusicBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {

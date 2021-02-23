@@ -2,10 +2,12 @@ package com.dirror.music.ui.activity
 
 import android.content.Intent
 import android.view.View
+import androidx.activity.viewModels
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.viewmodel.LoginCellphoneViewModel
 import com.dirror.music.util.Secure
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
@@ -15,6 +17,8 @@ class LoginByPhoneActivity : BaseActivity() {
     companion object {
         const val SE = "Dso Music"
     }
+
+    private val loginCellphoneViewModel: LoginCellphoneViewModel by viewModels()
 
     lateinit var binding: ActivityLoginByPhoneBinding
 
@@ -38,7 +42,7 @@ class LoginByPhoneActivity : BaseActivity() {
                 binding.llLoading.visibility = View.VISIBLE
                 binding.lottieLoading.repeatCount = -1
                 binding.lottieLoading.playAnimation()
-                MyApplication.cloudMusicManager.loginByTell(phone, password, {
+                loginCellphoneViewModel.loginByCellphone(phone, password, {
                     // 发送广播
                     val intent = Intent("com.dirror.music.LOGIN")
                     intent.setPackage(packageName)

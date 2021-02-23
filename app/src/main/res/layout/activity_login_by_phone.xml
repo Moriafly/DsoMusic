@@ -19,7 +19,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tvLoginByPhone"
@@ -103,6 +107,18 @@
                     android:text="正在请求，请稍等"
                     android:textColor="@color/colorTextForeground" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvTip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="16dp"
+                android:lineSpacingExtra="@dimen/lineSpacingExtra"
+                android:text="使用网易云手机号登录需知：\n密码将在本地进行 MD5 加密，DsoMusic 服务器不会存储你的密码信息。\n若对安全性不信任可以使用 100% 安全的 UID 登录。"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
