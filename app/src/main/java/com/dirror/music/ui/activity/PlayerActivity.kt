@@ -16,6 +16,7 @@ import android.view.WindowInsetsController
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
+import androidx.annotation.Keep
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.palette.graphics.Palette
@@ -49,7 +50,9 @@ import jp.wasabeef.glide.transformations.BlurTransformation
  * 更加清晰方便管理，加入 PlayerViewModel
  * @author Moriafly
  * @since 2020年12月15日18:35:46
+ * 加个 @Keep 是因为一直有个空指针没查出来
  */
+@Keep
 class PlayerActivity : SlideBackActivity() {
 
     companion object {

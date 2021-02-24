@@ -39,7 +39,7 @@ class MyApplication : Application() {
         lateinit var mmkv: MMKV // mmkv
         var musicController = MutableLiveData<MusicControllerInterface?>().also {
             it.value = null
-        } // MusicBinderInterface
+        }
         val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
 
         val cookieStore: HashMap<String, List<Cookie>> = HashMap() // cookie
@@ -75,7 +75,7 @@ class MyApplication : Application() {
         // 安全检查
         checkSecure()
 
-        if (MyApplication.mmkv.decodeBool(Config.DARK_THEME, false)) {
+        if (mmkv.decodeBool(Config.DARK_THEME, false)) {
             DarkThemeUtil.setDarkTheme(true)
         }
     }

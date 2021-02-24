@@ -2,10 +2,8 @@ package com.dirror.music.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dirror.music.MyApplication
 import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.music.local.MyFavorite
-import com.dirror.music.music.netease.Playlist2
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.StandardSongData
@@ -41,14 +39,6 @@ class PlaylistViewModel: ViewModel() {
                             playlist.value = it
                         }
                     }
-                }
-            }
-            SOURCE_NETEASE -> {
-                if (MyApplication.userManager.getCloudMusicCookie().isNotEmpty()) {
-                    // 用户登录了用 Playlist2
-                    Playlist2.get(id)
-                } else {
-                    // 未登录用 Playlist
                 }
             }
         }

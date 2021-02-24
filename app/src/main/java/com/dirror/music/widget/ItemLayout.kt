@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginLeft
-import androidx.core.view.marginStart
 import com.dirror.music.R
 import com.dirror.music.util.dp
 
@@ -30,7 +27,7 @@ class ItemLayout(context: Context, attrs: AttributeSet): androidx.constraintlayo
             1 -> ivGoto.visibility = View.VISIBLE
             //
             2 -> {
-                (tvItem.layoutParams as ConstraintLayout.LayoutParams).apply {
+                (tvItem.layoutParams as LayoutParams).apply {
                     marginStart = 54.dp()
                 }
                 ivGoto.alpha = 0.5f
