@@ -406,6 +406,7 @@ class PlayerActivity : SlideBackActivity() {
                 handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                 // 更新歌词播放进度
                 binding.lyricView.updateTime(it.toLong())
+                // MyApplication.musicController.value?.updateTag(binding.lyricView.getCurrentLineLyricEntry()?.text)
             })
             // 翻译观察
             lyricTranslation.observe(this@PlayerActivity, {
@@ -453,6 +454,11 @@ class PlayerActivity : SlideBackActivity() {
                 }
 
             })
+//            currentLyric.observe(this@PlayerActivity, {
+//                it?.let {
+//
+//                }
+//            })
         }
     }
 

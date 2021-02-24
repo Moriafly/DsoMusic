@@ -83,7 +83,7 @@
             android:autoLink="web"
             android:lineSpacingExtra="6sp"
             android:text="可能无法做到及时回复，还可以通过其他方式与作者联系
-           \nGithub 问题反馈\nhttps://github.com/Moriafly/dirror-music/issues"
+           \nGithub 问题反馈\nhttps://github.com/Moriafly/DsoMusic/issues"
             android:textColor="@color/colorSubTextForeground"
             android:textColorLink="@color/highLight"
             android:textSize="12sp" />

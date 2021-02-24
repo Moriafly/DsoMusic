@@ -22,15 +22,16 @@
 
     <TextView
         android:id="@+id/tvTag"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:background="#40FFFCF7"
-        android:text="TextView"
         android:singleLine="true"
+        android:text="TextView"
         android:textColor="#F0AC08"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvArtist"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
         app:layout_constraintStart_toEndOf="@+id/tvArtist"
         app:layout_constraintTop_toTopOf="@+id/tvArtist" />
 

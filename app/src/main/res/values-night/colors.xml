@@ -12,7 +12,7 @@
     <!-- 页面背景色-->
     <color name="colorPageBackground">#000000</color>
 
-    <color name="colorMenuBackground">#BF000000</color>
+    <color name="colorMenuBackground">#40000000</color>
 
     <!-- 图标前景色 -->
     <color name="colorIconForeground">#FFFFFF</color>

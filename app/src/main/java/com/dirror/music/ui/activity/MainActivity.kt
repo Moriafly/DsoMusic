@@ -5,17 +5,25 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import coil.Coil
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
+import coil.util.CoilUtils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.broadcast.HeadsetChangeReceiver
@@ -88,6 +96,20 @@ class MainActivity : BaseActivity() {
             ACache.get(this).getAsBitmap(Config.APP_THEME_BACKGROUND)?.let {
                 runOnMainThread {
                     binding.ivTheme.setImageBitmap(it)
+                    val pixelsPair = ScreenUtil.getDisplayPixels()
+                    Glide.with(this)
+                        .asBitmap()
+                        .load(it)
+                        .override(pixelsPair.first, pixelsPair.second)
+                        .apply(RequestOptions().centerCrop())
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                                binding.navigationView.background = resource.toDrawable(resources)
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) { }
+                        })
+
                 }
             }
         }

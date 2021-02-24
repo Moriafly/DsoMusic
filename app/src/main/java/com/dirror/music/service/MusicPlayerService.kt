@@ -1,6 +1,6 @@
 package com.dirror.music.service
 
-import androidx.media2.player.MediaPlayer
+// import androidx.media2.player.MediaPlayer
 import com.dirror.music.MyApplication
 
 /**
@@ -11,7 +11,7 @@ import com.dirror.music.MyApplication
 class MusicPlayerService {
 
     fun test() {
-        val mediaPlayer = MediaPlayer(MyApplication.context)
+        // val mediaPlayer = MediaPlayer(MyApplication.context)
 
     }
 

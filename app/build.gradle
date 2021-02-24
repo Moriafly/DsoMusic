@@ -29,15 +29,15 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 366
-        versionName "2.7.1-alpha" // 定制版后缀 custom "2.6.3-custom"
+        versionCode 368
+        versionName "2.7.1-custom" // 定制版后缀 custom "2.6.3-custom"
 
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'arm64-v8a' // 'arm64-v8a', 'armeabi-v7a', 'x86'
+            abiFilters 'armeabi-v7a' // 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
 
     }
@@ -109,7 +109,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
     // media2
-    implementation 'androidx.media2:media2-player:1.1.0'
+    // implementation 'androidx.media2:media2-player:1.1.0'
     // room
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
@@ -117,7 +117,7 @@ dependencies {
     implementation 'com.arialyy.aria:core:3.8.12'
     annotationProcessor 'com.arialyy.aria:compiler:3.8.12'
     // LyricViewX
-    implementation 'com.github.Moriafly:LyricViewX:1.1.4'
+    implementation 'com.github.Moriafly:LyricViewX:1.1.5'
     // 漂亮的开关
     implementation 'com.bitvale:switcher:1.1.1'
     // coil 图片加载库

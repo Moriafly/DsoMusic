@@ -69,6 +69,8 @@ class PlayerViewModel: ViewModel() {
         it.value = Color.rgb(100, 100, 100)
     }
 
+    var currentLyric = MutableLiveData<String?>()
+
     /**
      * 刷新
      */

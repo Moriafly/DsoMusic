@@ -152,4 +152,6 @@ interface MusicControllerInterface {
      */
     fun setAudioFocus(status: Boolean)
 
+    fun updateTag(tag: String?)
+
 }
