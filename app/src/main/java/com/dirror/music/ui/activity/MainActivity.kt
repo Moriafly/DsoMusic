@@ -15,11 +15,9 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import coil.Coil
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
-import coil.util.CoilUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
@@ -32,13 +30,11 @@ import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.MainViewModel
-import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlin.concurrent.thread
-
 
 /**
  * MainActivity
@@ -276,7 +272,7 @@ class MainActivity : BaseActivity() {
     override fun initMiniPlayer() {
         binding.miniPlayer.apply {
             root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@MainActivity) }
-            ivPlayQueue.setOnClickListener { PlaylistDialog(this@MainActivity).show() }
+            ivPlayQueue.setOnClickListener { PlaylistDialog().show(supportFragmentManager, null)  }
             ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->

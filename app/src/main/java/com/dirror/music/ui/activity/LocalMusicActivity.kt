@@ -99,7 +99,7 @@ class LocalMusicActivity : BaseActivity() {
     override fun initMiniPlayer() {
         binding.miniPlayer.apply {
             root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@LocalMusicActivity) }
-            ivPlayQueue.setOnClickListener { PlaylistDialog(this@LocalMusicActivity).show() }
+            ivPlayQueue.setOnClickListener { PlaylistDialog().show(supportFragmentManager, null) }
             ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->

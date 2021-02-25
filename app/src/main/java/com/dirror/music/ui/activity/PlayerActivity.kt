@@ -302,7 +302,7 @@ class PlayerActivity : SlideBackActivity() {
             // 更多菜单
             ivMore.setOnClickListener { PlayerMenuMoreDialog(this@PlayerActivity).show() }
             // 播放列表
-            ivList.setOnClickListener { PlaylistDialog(this@PlayerActivity).show() }
+            ivList.setOnClickListener {  PlaylistDialog().show(supportFragmentManager, null)  }
         }
     }
 

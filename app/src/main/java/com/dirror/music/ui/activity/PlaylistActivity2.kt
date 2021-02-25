@@ -177,7 +177,7 @@ class PlaylistActivity2: BaseActivity() {
     override fun initMiniPlayer() {
         binding.miniPlayer.apply {
             root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@PlaylistActivity2) }
-            ivPlayQueue.setOnClickListener { PlaylistDialog(this@PlaylistActivity2).show() }
+            ivPlayQueue.setOnClickListener {  PlaylistDialog().show(supportFragmentManager, null)  }
             ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->

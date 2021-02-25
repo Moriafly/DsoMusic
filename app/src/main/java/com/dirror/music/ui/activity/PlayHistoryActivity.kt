@@ -37,7 +37,7 @@ class PlayHistoryActivity : BaseActivity() {
     override fun initMiniPlayer() {
         binding.miniPlayer.apply {
             root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@PlayHistoryActivity) }
-            ivPlayQueue.setOnClickListener { PlaylistDialog(this@PlayHistoryActivity).show() }
+            ivPlayQueue.setOnClickListener {  PlaylistDialog().show(supportFragmentManager, null)  }
             ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->

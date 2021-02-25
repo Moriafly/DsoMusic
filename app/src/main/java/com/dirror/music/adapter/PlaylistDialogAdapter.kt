@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -29,7 +30,17 @@ class PlaylistDialogAdapter(private val list: ArrayList<StandardSongData>): Recy
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvName.text = list[position].name
+        val lightSongData = MyApplication.musicController.value?.getPlayingSongData()?.value
+        val songData = list[position]
+        if (songData == lightSongData) {
+            holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorAppThemeColor))
+            holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorAppThemeColor))
+        } else {
+            holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
+            holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
+        }
+
+        holder.tvName.text = songData.name
         holder.tvArtist.text = list[position].artists?.let { parseArtist(it) }
         holder.clSong.setOnClickListener {
             MyApplication.musicController.value?.playMusic(position)

@@ -10,8 +10,8 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 368,
-      "versionName": "2.7.1-custom",
+      "versionCode": 370,
+      "versionName": "2.7.2-alpha",
       "outputFile": "app-release.apk"
     }
   ]

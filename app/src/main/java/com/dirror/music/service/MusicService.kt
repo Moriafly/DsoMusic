@@ -416,7 +416,6 @@ class MusicService : Service() {
         }
 
         override fun changePlayState() {
-            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
             isSongPlaying.value?.let {
                 if (it) {
                     mediaPlayer?.pause()
@@ -425,7 +424,9 @@ class MusicService : Service() {
                     mediaPlayer?.start()
                     mediaSessionCallback?.onPlay()
                 }
+                isSongPlaying.value = mediaPlayer?.isPlaying ?: false
             }
+
             sendMusicBroadcast()
             refreshNotification()
 
@@ -450,25 +451,14 @@ class MusicService : Service() {
         }
 
         override fun addToNextPlay(standardSongData: StandardSongData) {
-            toast("添加")
-            val nowPosition = position ?: -1
-            if (playlist != null) {
-                playlist?.add(nowPosition + 1, standardSongData)
-//                if (nowPosition + 1 <= playlist?.lastIndex ?: -1) {
-//                    toast("${nowPosition+1} : ${playlist?.lastIndex ?: -1}")
-//                    val data: StandardSongData = playlist!![nowPosition + 1]
-//                    if (data == standardSongData) {
-//                        return
-//                    } else {
-//                        playlist?.add(nowPosition + 1, standardSongData)
-//                    }
-//                } else {
-//                    // playlist?.add(it + 1, standardSongData)
-//                }
-            } else {
-                playlist = ArrayList()
-                playlist?.add(standardSongData)
+            if (standardSongData == songData.value) {
+                return
             }
+            if (playlist?.contains(standardSongData) == true) {
+                playlist?.remove(standardSongData)
+            }
+            val currentPosition = playlist?.indexOf(songData.value)?: -1
+            playlist?.add(currentPosition + 1, standardSongData)
         }
 
         override fun setAudioFocus(status: Boolean) {
@@ -568,7 +558,7 @@ class MusicService : Service() {
         }
 
         override fun getNowPosition(): Int {
-            return position ?: -1
+            return playlist?.indexOf(songData.value)?: -1
         }
 
         override fun getAudioSessionId(): Int {
@@ -656,7 +646,7 @@ class MusicService : Service() {
         override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
             if (MyApplication.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)) {
                 // 播放下一首
-                toast("播放错误，开始播放下一首")
+                toast("播放错误 (${p1},${p2}) ，开始播放下一首")
                 playNext()
             } else {
                 toast("播放错误")

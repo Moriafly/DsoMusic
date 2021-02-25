@@ -65,7 +65,7 @@ class RecommendActivity : BaseActivity() {
     override fun initMiniPlayer() {
         binding.miniPlayer.apply {
             root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@RecommendActivity) }
-            ivPlayQueue.setOnClickListener { PlaylistDialog(this@RecommendActivity).show() }
+            ivPlayQueue.setOnClickListener {  PlaylistDialog().show(supportFragmentManager, null)  }
             ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->
