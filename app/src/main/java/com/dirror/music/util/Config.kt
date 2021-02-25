@@ -1,7 +1,5 @@
 package com.dirror.music.util
 
-import org.jetbrains.annotations.TestOnly
-
 /**
  * 配置
  */
@@ -10,8 +8,6 @@ object Config {
     const val UID = "long_uid"
 
     const val PAUSE_SONG_AFTER_UNPLUG_HEADSET = "pause_song_after_unplug_headset"
-
-    const val LOCAL_PLAYLIST = "local_playlist"
 
     // 是否在移动数据下播放
     const val PLAY_ON_MOBILE = "boolean_play_on_mobile"
@@ -52,22 +48,18 @@ object Config {
     // 深色主题
     const val DARK_THEME = "boolean_dark_theme"
 
-    // 全局背景
-    @Deprecated("2.7.0-alpha 废除字段")
-    const val THEME_BACKGROUND = "string_theme_background"
-
     // 是否开启句子推荐
     const val SENTENCE_RECOMMEND = "boolean_sentence_recommend"
 
     // 双列歌单
     const val DOUBLE_ROW_MY_PLAYLIST = "boolean_double_row_my_playlist"
 
-    // MainActivity 背景
-    const val MAIN_ACTIVITY_BACKGROUND = "string_main_activity_background"
-
     // 自定义背景
     const val APP_THEME_BACKGROUND = "bitmap_app_theme_background"
 
     // 允许与其他应用同时播放
     const val ALLOW_AUDIO_FOCUS = "boolean_allow_audio_focus"
+
+    // 锁屏显示
+    const val SHOW_IN_LOCK_SCREEN = "boolean_show_in_lock_screen"
 }

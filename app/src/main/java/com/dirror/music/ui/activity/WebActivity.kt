@@ -18,7 +18,6 @@ class WebActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWebBinding
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWebBinding.inflate(layoutInflater)
@@ -27,7 +26,7 @@ class WebActivity : AppCompatActivity() {
         val extraWebUrlStr = intent.getStringExtra("extra_webUrlStr")
         val extraTitle = intent.getStringExtra(EXTRA_TITLE)
 
-        binding.webView.settings.javaScriptEnabled = true // 禁用 JavaScript
+        binding.webView.settings.javaScriptEnabled = false // 禁用 JavaScript
         binding.webView.settings.allowFileAccess = false // 禁止访问私有文件数据
         binding.webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE
         binding.webView.webViewClient = object : WebViewClient() {
@@ -39,7 +38,7 @@ class WebActivity : AppCompatActivity() {
                     request?.url.toString().startsWith("https://baike.baidu.com/item/") -> {
                         return false // 加载
                     }
-                    request?.url.toString().startsWith("https://wapbaike.baidu.com/error.html") -> {
+                    request?.url.toString().startsWith("https://www.baidu.com/") -> {
                         finish()
                         return false
                     }

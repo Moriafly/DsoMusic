@@ -29,15 +29,15 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 368
-        versionName "2.7.1-custom" // 定制版后缀 custom "2.6.3-custom"
+        versionCode 369
+        versionName "2.7.2" // 定制版后缀 custom "2.6.3-custom"
 
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'armeabi-v7a' // 'arm64-v8a', 'armeabi-v7a', 'x86'
+            abiFilters 'arm64-v8a' // 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
 
     }

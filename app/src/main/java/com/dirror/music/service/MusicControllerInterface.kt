@@ -31,14 +31,6 @@ interface MusicControllerInterface {
     fun changePlayState()
 
     /**
-     * 获取播放状态
-     * @return true 正在播放，false 暂停
-     * @新 [isPlaying]
-     */
-    @Deprecated("过时方法")
-    fun getPlayState(): Boolean
-
-    /**
      * 是否正在播放
      * @return true 正在播放，false 暂停
      */
@@ -58,13 +50,6 @@ interface MusicControllerInterface {
      * 设置播放进度
      */
     fun setProgress(newProgress: Int)
-
-    /**
-     * 获取当前播放歌曲
-     * @新 [getPlayingSongData]
-     */
-    @Deprecated("过时方法，请使用 getPlayingSongData()")
-    fun getNowSongData(): StandardSongData?
 
     /**
      * 新版获取 LiveData 正在播放歌曲
@@ -151,7 +136,5 @@ interface MusicControllerInterface {
      * @param status true 开启 false 关闭
      */
     fun setAudioFocus(status: Boolean)
-
-    fun updateTag(tag: String?)
 
 }

@@ -33,11 +33,6 @@ class PlayerViewModel: ViewModel() {
         it.value = MyApplication.musicController.value?.getPlayMode()
     }
 
-    // 当前歌曲信息
-    var standardSongData = MutableLiveData<StandardSongData?>().also {
-        it.value = MyApplication.musicController.value?.getNowSongData()
-    }
-
     var duration = MutableLiveData<Int>().also {
         it.value = MyApplication.musicController.value?.getDuration()
     }
@@ -75,9 +70,6 @@ class PlayerViewModel: ViewModel() {
      */
     fun refresh() {
         playMode.value = MyApplication.musicController.value?.getPlayMode()
-        if (standardSongData.value != MyApplication.musicController.value?.getNowSongData()) {
-            standardSongData.value = MyApplication.musicController.value?.getNowSongData()
-        }
         if (duration.value != MyApplication.musicController.value?.getDuration()) {
             duration.value = MyApplication.musicController.value?.getDuration()
         }
@@ -94,7 +86,7 @@ class PlayerViewModel: ViewModel() {
      * 改变播放状态
      */
     fun changePlayState() {
-        val nowPlayState = MyApplication.musicController.value?.getPlayState()?: false
+        val nowPlayState = MyApplication.musicController.value?.isPlaying()?.value?: false
         if (nowPlayState) {
             MyApplication.musicController.value?.pause()
         } else {
@@ -135,7 +127,7 @@ class PlayerViewModel: ViewModel() {
      * true
      */
     fun likeMusic(success: (Boolean) -> Unit) {
-        standardSongData.value?.let {
+        MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
             MyFavorite.isExist(it) { exist ->
                 if (exist) {
                     MyFavorite.deleteById(it.id)
@@ -153,7 +145,7 @@ class PlayerViewModel: ViewModel() {
      */
     fun updateLyric() {
         // 更改歌词
-        standardSongData.value?.let {
+        MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
             if (it.source == SOURCE_NETEASE) {
                 MyApplication.cloudMusicManager.getLyric(it.id.toLong()) { lyric ->
                     runOnMainThread {

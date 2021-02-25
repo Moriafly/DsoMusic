@@ -188,7 +188,7 @@ class PlayerActivity : SlideBackActivity() {
             ivMode.setOnClickListener { playViewModel.changePlayMode() }
             // 评论
             ivComment.setOnClickListener {
-                playViewModel.standardSongData.value?.let {
+                MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
                     if (it.source != SOURCE_LOCAL) {
                         MyApplication.activityManager.startCommentActivity(this@PlayerActivity, it.source, it.id)
                     } else {
@@ -245,7 +245,7 @@ class PlayerActivity : SlideBackActivity() {
             // 艺术家
             tvArtist.setOnClickListener {
                 // 测试
-                playViewModel.standardSongData.value?.let { standardSongData ->
+                MyApplication.musicController.value?.getPlayingSongData()?.value?.let { standardSongData ->
                     if (standardSongData.source == SOURCE_NETEASE) {
                         standardSongData.artists?.let {
                             it[0].artistId?.let { artistId ->
@@ -326,7 +326,7 @@ class PlayerActivity : SlideBackActivity() {
                 }
             })
             // 当前歌曲的观察
-            standardSongData.observe(this@PlayerActivity, {
+            MyApplication.musicController.value?.getPlayingSongData()?.observe(this@PlayerActivity, {
                 objectAnimator.cancel()
                 objectAnimator.start()
 
@@ -335,7 +335,6 @@ class PlayerActivity : SlideBackActivity() {
                     binding.tvArtist.text = it.artists?.let { artists ->
                         parseArtist(artists)
                     }
-
                     // val url = MyApplication.cloudMusicManager.getPicture(imageUrl, CD_SIZE.dp())
                     SongPicture.getPlayerActivityCoverBitmap(this@PlayerActivity, it, CD_SIZE.dp()) { bitmap ->
                         // 设置 CD 图片

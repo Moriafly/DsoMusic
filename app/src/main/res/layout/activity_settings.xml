@@ -62,102 +62,6 @@
                 android:layout_height="@dimen/defaultHeight"
                 app:text="清除背景" />
 
-            <TextView
-                style="@style/sub_title"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/user_interface"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp" />
-
-            <com.dirror.music.widget.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:itemType="item_no">
-
-                <com.bitvale.switcher.SwitcherX
-                    android:id="@+id/switcherParseHomeNavigation"
-                    style="@style/switcher"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvParseHomeNavigation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="导航栏适配"
-                    android:textColor="@color/colorTextForeground"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvParseHomeNavigationContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="6dp"
-                    android:gravity="center_vertical"
-                    android:text="若播放条过高，请关闭此选项"
-                    android:textColor="@color/colorSubTextForeground"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
-            </com.dirror.music.widget.ItemLayout>
-
-            <com.dirror.music.widget.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:itemType="item_no"
-                app:text="@string/double_row_playlists">
-
-                <com.bitvale.switcher.SwitcherX
-                    android:id="@+id/switcherDoubleRowMyPlaylist"
-                    style="@style/switcher"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </com.dirror.music.widget.ItemLayout>
-
-            <com.dirror.music.widget.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:itemType="item_no"
-                app:text="歌单歌曲滑动动画">
-
-                <com.bitvale.switcher.SwitcherX
-                    android:id="@+id/switcherPlaylistScrollAnimation"
-                    style="@style/switcher"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </com.dirror.music.widget.ItemLayout>
-
-            <com.dirror.music.widget.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:itemType="item_no"
-                app:text="首页句子推荐">
-
-                <com.bitvale.switcher.SwitcherX
-                    android:id="@+id/switcherSentenceRecommend"
-                    style="@style/switcher"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </com.dirror.music.widget.ItemLayout>
-
 
             <TextView
                 style="@style/sub_title"
@@ -359,6 +263,102 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.dirror.music.widget.ItemLayout>
+
+            <TextView
+                style="@style/sub_title"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/user_interface"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherParseHomeNavigation"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvParseHomeNavigation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="导航栏适配"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvParseHomeNavigationContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="若播放条过高，请关闭此选项"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="@string/double_row_playlists">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherDoubleRowMyPlaylist"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="歌单歌曲滑动动画">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherPlaylistScrollAnimation"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="首页句子推荐">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherSentenceRecommend"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </com.dirror.music.widget.ItemLayout>
 
             <TextView

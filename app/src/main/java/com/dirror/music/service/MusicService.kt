@@ -37,6 +37,8 @@ import org.jetbrains.annotations.TestOnly
 class MusicService : Service() {
 
     companion object {
+        const val TAG = "MusicService"
+
         const val MODE_CIRCLE = 1 // 列表循环
         const val MODE_REPEAT_ONE = 2 // 单曲循环
         const val MODE_RANDOM = 3 // 随机播放
@@ -116,7 +118,10 @@ class MusicService : Service() {
                         AudioManager.AUDIOFOCUS_GAIN -> musicBinder.play()
                         AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> musicBinder.play()
                         AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> musicBinder.play()
-                        AudioManager.AUDIOFOCUS_LOSS -> musicBinder.pause()
+                        AudioManager.AUDIOFOCUS_LOSS -> {
+                            // audioManager.abandonAudioFocusRequest(audioFocusRequest)
+                            musicBinder.pause()
+                        }
                         AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> musicBinder.pause()
                         AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> musicBinder.pause()
                     }
@@ -195,7 +200,7 @@ class MusicService : Service() {
             // 跳转
             override fun onSeekTo(pos: Long) {
                 mediaPlayer?.seekTo(pos.toInt())
-                if (musicBinder.getPlayState()) {
+                if (musicBinder.isPlaying().value == true) {
                     onPlay()
                 }
             }
@@ -251,9 +256,12 @@ class MusicService : Service() {
         when (intent?.getIntExtra("int_code", 0)) {
             CODE_PREVIOUS -> musicBinder.playPrevious()
             CODE_PLAY -> {
-                if (musicBinder.getPlayState()) {
+                loge(musicBinder.isPlaying().value.toString(), TAG)
+                if (musicBinder.isPlaying().value == true) {
+                    loge("按钮请求暂停音乐", TAG)
                     musicBinder.pause()
                 } else {
+                    loge("按钮请求继续播放音乐", TAG)
                     musicBinder.play()
                 }
             }
@@ -312,8 +320,6 @@ class MusicService : Service() {
         override fun getPlaylist(): ArrayList<StandardSongData>? = playlist
 
         override fun playMusic(songPosition: Int) {
-
-
             // audioManager.abandonAudioFocusRequest(audioFocusRequest)
             isPrepared = false
             position = songPosition
@@ -404,14 +410,14 @@ class MusicService : Service() {
             refreshNotification()
             setPlaybackParams()
             // 添加到播放历史
-            getNowSongData()?.let {
+            getPlayingSongData().value?.let {
                 PlayHistory.addPlayHistory(it)
             }
         }
 
         override fun changePlayState() {
-            val isPlaying = mediaPlayer?.isPlaying
-            isPlaying?.let {
+            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
+            isSongPlaying.value?.let {
                 if (it) {
                     mediaPlayer?.pause()
                     mediaSessionCallback?.onPause()
@@ -422,23 +428,25 @@ class MusicService : Service() {
             }
             sendMusicBroadcast()
             refreshNotification()
-            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
+
         }
 
         override fun play() {
             mediaPlayer?.start()
+            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
             mediaSessionCallback?.onPlay()
             sendMusicBroadcast()
             refreshNotification()
-            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
+
         }
 
         override fun pause() {
             mediaPlayer?.pause()
+            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
             mediaSessionCallback?.onPause()
             sendMusicBroadcast()
             refreshNotification()
-            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
+
         }
 
         override fun addToNextPlay(standardSongData: StandardSongData) {
@@ -458,7 +466,7 @@ class MusicService : Service() {
 //                    // playlist?.add(it + 1, standardSongData)
 //                }
             } else {
-                playlist = ArrayList<StandardSongData>()
+                playlist = ArrayList()
                 playlist?.add(standardSongData)
             }
         }
@@ -475,10 +483,6 @@ class MusicService : Service() {
                     MyApplication.mmkv.encode(Config.ALLOW_AUDIO_FOCUS, isAudioFocus)
                 }
             }
-        }
-
-        override fun getPlayState(): Boolean {
-            return mediaPlayer?.isPlaying ?: false
         }
 
         override fun isPlaying(): MutableLiveData<Boolean> = isSongPlaying
@@ -503,10 +507,6 @@ class MusicService : Service() {
             mediaPlayer?.seekTo(newProgress)
             mediaSessionCallback?.onPlay()
             // refreshNotification()
-        }
-
-        override fun getNowSongData(): StandardSongData? {
-            return playlist?.get(position!!)
         }
 
         override fun getPlayingSongData(): MutableLiveData<StandardSongData?> = songData
@@ -664,12 +664,6 @@ class MusicService : Service() {
             return true
         }
 
-        override fun updateTag(tag: String?) {
-            songData.value?.let {
-                showNotification(it, tag)
-            }
-        }
-
     }
 
     private fun getPendingIntentActivity(): PendingIntent {
@@ -700,8 +694,8 @@ class MusicService : Service() {
     /**
      * 刷新通知
      */
-    var largeBitmap: Bitmap? = null
-    private fun refreshNotification(tag: String? = null) {
+    private var largeBitmap: Bitmap? = null
+    private fun refreshNotification() {
         val song = musicBinder.getPlayingSongData().value
         if (song != null) {
             SongPicture.getPlayerActivityCoverBitmap(this, song, 100.dp()) { bitmap ->
@@ -714,10 +708,7 @@ class MusicService : Service() {
     /**
      * 显示通知
      */
-    private fun showNotification(
-        song: StandardSongData,
-        tag: String? = null
-    ) {
+    private fun showNotification(song: StandardSongData) {
         mediaSession?.apply {
             setMetadata(
                 MediaMetadataCompat.Builder()
@@ -741,9 +732,9 @@ class MusicService : Service() {
                     .build()
             )
             setCallback(mediaSessionCallback)
-            isActive = true // 必须设置为true，这样才能开始接收各种信息
+            isActive = true
         }
-        if (!musicBinder.getPlayState()) {
+        if (musicBinder.isPlaying().value != true) {
             mediaSessionCallback?.onPause()
         }
 
@@ -762,7 +753,7 @@ class MusicService : Service() {
             .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
             .setStyle(mediaStyle)
             .setOngoing(true)
-            .setTicker(tag) // 魅族状态栏歌词的实现方法
+            // .setTicker(tag) // 魅族状态栏歌词的实现方法
             // .setAutoCancel(true)
             .build()
         // 更新通知
@@ -773,7 +764,7 @@ class MusicService : Service() {
      * 获取通知栏播放的图标
      */
     private fun getPlayIcon(): Int {
-        return if (musicBinder.getPlayState()) {
+        return if (musicBinder.isPlaying().value == true) {
             R.drawable.ic_baseline_pause_24
         } else {
             R.drawable.ic_baseline_play_arrow_24

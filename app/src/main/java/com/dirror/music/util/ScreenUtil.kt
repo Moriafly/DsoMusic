@@ -10,7 +10,6 @@ import android.view.KeyCharacterMap
 import android.view.KeyEvent
 import android.view.ViewConfiguration
 
-
 /**
  * 屏幕工具类
  */

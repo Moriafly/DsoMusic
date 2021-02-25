@@ -11,8 +11,8 @@
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:scaleType="centerCrop"
         android:background="@drawable/ic_song_cover"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_song_cover"
@@ -37,9 +37,9 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:singleLine="true"
+        android:text="@string/app_name"
         android:textColor="@color/colorTextForeground"
         android:textSize="14dp"
-        android:text="聆听好音乐 - Dso Music"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ivStartOrPause"
         app:layout_constraintStart_toEndOf="@+id/ivCd"
@@ -56,7 +56,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/ivStartOrPause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivStartOrPause"
-        app:srcCompat="@drawable/ic_play_queue" />
+        app:srcCompat="@drawable/ic_play_queue"
+        android:contentDescription="@string/play_queue" />
 
     <ImageView
         android:id="@+id/ivStartOrPause"

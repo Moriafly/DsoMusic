@@ -74,4 +74,5 @@
     <string name="play_all">Play all(%d)</string>
     <string name="join_qq_group">加入 QQ 交流群</string>
     <string name="sponsor">赞赏</string>
+    <string name="play_queue">播放队列</string>
 </resources>
