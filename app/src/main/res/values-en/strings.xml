@@ -72,7 +72,8 @@
     <string name="double_row_playlists">Double row playlists</string>
     <string name="daily_recommendation">Daily recommendation</string>
     <string name="play_all">Play all(%d)</string>
-    <string name="join_qq_group">加入 QQ 交流群</string>
-    <string name="sponsor">赞赏</string>
-    <string name="play_queue">播放队列</string>
+    <string name="join_qq_group">Join QQ group</string>
+    <string name="sponsor">Sponsor</string>
+    <string name="play_queue">Play queue</string>
+    <string name="top_list">Top list</string>
 </resources>

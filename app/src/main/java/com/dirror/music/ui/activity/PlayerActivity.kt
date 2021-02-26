@@ -122,12 +122,17 @@ class PlayerActivity : SlideBackActivity() {
             // 横屏隐藏状态栏
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                 window.insetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE)
+            }
+        } else {
+            // 页面导航栏适配
+            val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
+                getNavigationBarHeight(this@PlayerActivity)
             } else {
-                val uiOptions = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        or View.SYSTEM_UI_FLAG_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
-                window.decorView.systemUiVisibility = uiOptions
+                0
+            }
+            (binding.clBottom.layoutParams as ConstraintLayout.LayoutParams).apply {
+                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                bottomMargin = navigationHeight
             }
         }
         // 页面状态栏适配
@@ -137,21 +142,7 @@ class PlayerActivity : SlideBackActivity() {
                 topMargin = getStatusBarHeight(window, this@PlayerActivity)
             }
         }
-//        binding.llBase?.let {
-//            (it.layoutParams as ConstraintLayout.LayoutParams).apply {
-//                topMargin = getStatusBarHeight(window, this@PlayerActivity)
-//            }
-//        }
-        // 页面导航栏适配
-        val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
-            getNavigationBarHeight(this@PlayerActivity)
-        } else {
-            0
-        }
-        (binding.clBottom.layoutParams as ConstraintLayout.LayoutParams).apply {
-            bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-            bottomMargin = navigationHeight
-        }
+
         binding.apply {
             // 时长右对齐
             ttvDuration.setAlignRight()
@@ -197,17 +188,29 @@ class PlayerActivity : SlideBackActivity() {
                 }
             }
             // 下载歌曲
-            ivDownload.setOnClickListener { toast("还在研究，要再等一段时间呀~") }
+            ivDownload.setOnClickListener { toast("暂不支持下载歌曲~") }
             // 喜欢音乐
-            ivLike.setOnClickListener { playViewModel.likeMusic {
-                runOnMainThread {
-                    if (it) {
-                        binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mc_collectingview_red_heart))
-                    } else {
-                        binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mz_titlebar_ic_collect))
+            ivLike.setOnClickListener {
+                playViewModel.likeMusic {
+                    runOnMainThread {
+                        if (it) {
+                            binding.ivLike.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    this@PlayerActivity,
+                                    R.drawable.mc_collectingview_red_heart
+                                )
+                            )
+                        } else {
+                            binding.ivLike.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    this@PlayerActivity,
+                                    R.drawable.mz_titlebar_ic_collect
+                                )
+                            )
+                        }
                     }
                 }
-            } }
+            }
             // CD
             clCd.setOnClickListener {
                 if (binding.clLyric.visibility == View.INVISIBLE && !isLandScape) {
@@ -302,7 +305,7 @@ class PlayerActivity : SlideBackActivity() {
             // 更多菜单
             ivMore.setOnClickListener { PlayerMenuMoreDialog(this@PlayerActivity).show() }
             // 播放列表
-            ivList.setOnClickListener {  PlaylistDialog().show(supportFragmentManager, null)  }
+            ivList.setOnClickListener { PlaylistDialog().show(supportFragmentManager, null) }
         }
     }
 
@@ -335,7 +338,6 @@ class PlayerActivity : SlideBackActivity() {
                     binding.tvArtist.text = it.artists?.let { artists ->
                         parseArtist(artists)
                     }
-                    // val url = MyApplication.cloudMusicManager.getPicture(imageUrl, CD_SIZE.dp())
                     SongPicture.getPlayerActivityCoverBitmap(this@PlayerActivity, it, CD_SIZE.dp()) { bitmap ->
                         // 设置 CD 图片
                         binding.ivCover.load(bitmap) {
@@ -370,9 +372,19 @@ class PlayerActivity : SlideBackActivity() {
                     MyFavorite.isExist(it) { exist ->
                         runOnMainThread {
                             if (exist) {
-                                binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mc_collectingview_red_heart))
+                                binding.ivLike.setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        this@PlayerActivity,
+                                        R.drawable.mc_collectingview_red_heart
+                                    )
+                                )
                             } else {
-                                binding.ivLike.setImageDrawable(ContextCompat.getDrawable(this@PlayerActivity, R.drawable.mz_titlebar_ic_collect))
+                                binding.ivLike.setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        this@PlayerActivity,
+                                        R.drawable.mz_titlebar_ic_collect
+                                    )
+                                )
                             }
                         }
                     }
@@ -408,7 +420,6 @@ class PlayerActivity : SlideBackActivity() {
                 handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                 // 更新歌词播放进度
                 binding.lyricView.updateTime(it.toLong())
-                // MyApplication.musicController.value?.updateTag(binding.lyricView.getCurrentLineLyricEntry()?.text)
             })
             // 翻译观察
             lyricTranslation.observe(this@PlayerActivity, {
@@ -456,11 +467,6 @@ class PlayerActivity : SlideBackActivity() {
                 }
 
             })
-//            currentLyric.observe(this@PlayerActivity, {
-//                it?.let {
-//
-//                }
-//            })
         }
     }
 

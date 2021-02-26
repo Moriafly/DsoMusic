@@ -22,6 +22,7 @@ import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.music.standard.data.SOURCE_DIRROR
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.ui.activity.RecommendActivity
+import com.dirror.music.ui.activity.TopListActivity
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.AnimationUtil
 import com.dirror.music.util.Config
@@ -93,6 +94,10 @@ class HomeFragment : Fragment() {
             val intent = Intent(this.context, PlaylistActivity::class.java)
             intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_DIRROR)
             intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, 0)
+            startActivity(intent)
+        }
+        binding.clTopList.setOnClickListener {
+            val intent = Intent(this.context, TopListActivity::class.java)
             startActivity(intent)
         }
     }

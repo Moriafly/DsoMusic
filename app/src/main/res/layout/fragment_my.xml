@@ -32,9 +32,10 @@
 
                 <ImageView
                     android:id="@+id/ivLocal"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_marginTop="16dp"
+                    android:padding="6dp"
                     android:src="@drawable/ic_local_music"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -46,7 +47,6 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:text="@string/local_music"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="12sp"
@@ -67,9 +67,10 @@
 
                 <ImageView
                     android:id="@+id/ivFavorite"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_marginTop="16dp"
+                    android:padding="6dp"
                     android:src="@drawable/local_page_follow_mark"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -80,7 +81,6 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:layout_marginBottom="16dp"
                     android:text="@string/my_favorite_songs"
                     android:textAlignment="center"
@@ -103,9 +103,10 @@
 
                 <ImageView
                     android:id="@+id/ivPersonalFM"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_marginTop="16dp"
+                    android:padding="6dp"
                     android:src="@drawable/ic_personal_fm"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -115,9 +116,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:text="@string/personal_fm"
-                    android:textColor="@color/colorSubTextForeground"
+                    android:textColor="@color/colorTextForeground"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -133,9 +133,10 @@
 
                 <ImageView
                     android:id="@+id/ivLatest"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_marginTop="16dp"
+                    android:padding="6dp"
                     android:src="@drawable/local_page_latest_mark"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -144,7 +145,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:text="@string/history"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="12sp"

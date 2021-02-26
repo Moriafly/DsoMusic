@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.size.ViewSizeResolver
+import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -248,7 +249,7 @@ class SearchActivity : BaseActivity() {
                     songData?.let {
                         binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
                         binding.miniPlayer.ivCover.load(SongPicture.getMiniPlayerSongPicture(songData)) {
-                            transformations(RoundedCornersTransformation(dp2px(6f)))
+                            transformations(CircleCropTransformation())
                             size(ViewSizeResolver(binding.miniPlayer.ivCover))
                             error(R.drawable.ic_song_cover)
                         }
