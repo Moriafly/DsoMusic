@@ -11,10 +11,11 @@ import com.google.gson.Gson
  */
 object TopList {
 
+    private const val API2 = "https://interface3.music.163.com/api/playlist/v4/detail"
     private const val API = "${API_AUTU}/toplist/detail"
 
     fun getTopList(context: Context, success: (TopListData) -> Unit, failure: () -> Unit) {
-        MagicHttp.OkHttpManager().getByCache(context, API, {
+        MagicHttp.OkHttpManager().getByCache(context, API2, {
             try {
                 val topListData = Gson().fromJson(it, TopListData::class.java)
                 if (topListData.code == 200) {

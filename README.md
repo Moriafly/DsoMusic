@@ -10,17 +10,7 @@ Kotlin 开发的美观的安卓音乐软件。本软件仅由开发者提供的�
 
 # 应用下载
 
-### Github
-
-https://github.com/Moriafly/DsoMusic/releases
-
-部分安装包最低支持安卓 4.4，兼容 32 位系统，版本号标识后缀 -custom。定制版不支持应用内更新。
-
-### 蓝奏云
-
-https://foyou.lanzous.com/b00tzgaof 密码:h221
-
-注：系统要求安卓 5 (minSDK 21) 及以上，64 位。
+https://moriafly.gitee.io/dso-page/page/notice.html
 
 # 音源
 

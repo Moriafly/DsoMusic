@@ -16,6 +16,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:text="@string/about">
 
+        <Button
+            android:id="@+id/btnSponsor"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:background="@drawable/background_transparency"
+            android:minWidth="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/sponsor"
+            android:textColor="@color/colorAppThemeColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </com.dirror.music.widget.TitleBarLayout>
 
     <ScrollView
@@ -94,12 +109,6 @@
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemOpenSourceCode"
                 app:text="使用开源项目"
-                android:layout_width="match_parent"
-                android:layout_height="56dp" />
-
-            <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemSponsor"
-                app:text="@string/sponsor"
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
 

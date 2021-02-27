@@ -17,9 +17,7 @@ class AboutActivity2 : BaseActivity() {
     companion object {
         // 更新日志网站
         private const val UPDATE_LOG = "https://github.com/Moriafly/DsoMusic/releases"
-        private const val HISTORY_VERSION = "https://moriafly.xyz/foyou/dsomusic/history-version.html"
-        // 酷安
-        private const val COOLAPK_HOME_PAGE = "coolmarket://u/482045"
+
         private const val SPONSOR = "https://moriafly.xyz/foyou/sponsor.html"
 
         private const val QQ_GROUP_KEY = "3UvEVCjzhLc3uTDO91DadcjMscFD2OHj"
@@ -62,10 +60,9 @@ class AboutActivity2 : BaseActivity() {
             // 使用开源项目
             itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity2, OpenSourceActivity::class.java)) }
             // 赞赏
-            itemSponsor.setOnClickListener {
+            btnSponsor.setOnClickListener {
                 MyApplication.activityManager.startWebActivity(this@AboutActivity2, SPONSOR)
             }
-
             // ivLogo
             ivLogo.setOnLongClickListener {
                 AppInfoDialog(this@AboutActivity2).show()

@@ -187,8 +187,6 @@ class PlayerActivity : SlideBackActivity() {
                     }
                 }
             }
-            // 下载歌曲
-            ivDownload.setOnClickListener { toast("暂不支持下载歌曲~") }
             // 喜欢音乐
             ivLike.setOnClickListener {
                 playViewModel.likeMusic {

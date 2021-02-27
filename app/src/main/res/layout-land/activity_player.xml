@@ -263,21 +263,6 @@
                     app:srcCompat="@drawable/ic_bq_equalizer" />
 
                 <ImageView
-                    android:id="@+id/ivDownload"
-                    android:layout_width="56dp"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.81"
-                    android:background="@drawable/background_button_icon"
-                    android:contentDescription="@string/download"
-                    android:padding="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivLike"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/ivEqualizer"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/mz_titlebar_ic_download" />
-
-                <ImageView
                     android:id="@+id/ivLike"
                     android:layout_width="56dp"
                     android:layout_height="wrap_content"
@@ -287,8 +272,7 @@
                     android:padding="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivComment"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/ivDownload"
+                    app:layout_constraintStart_toEndOf="@+id/ivEqualizer"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/mz_titlebar_ic_collect" />
 
