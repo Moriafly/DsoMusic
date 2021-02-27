@@ -42,7 +42,7 @@ class TopListAdapter(private val topListData: TopListData,
             val listData = topListData.list[position]
             item = listData
             ivCover.load(listData.coverImgUrl) {
-                transformations(RoundedCornersTransformation(6.dp().toFloat()))
+                transformations(RoundedCornersTransformation(8.dp().toFloat()))
                 size(ViewSizeResolver(ivCover))
                 error(R.drawable.ic_song_cover)
             }

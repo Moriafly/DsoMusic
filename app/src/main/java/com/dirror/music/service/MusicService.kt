@@ -433,21 +433,23 @@ class MusicService : Service() {
         }
 
         override fun play() {
-            mediaPlayer?.start()
-            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
-            mediaSessionCallback?.onPlay()
-            sendMusicBroadcast()
-            refreshNotification()
-
+            if (isPrepared) {
+                mediaPlayer?.start()
+                isSongPlaying.value = mediaPlayer?.isPlaying ?: false
+                mediaSessionCallback?.onPlay()
+                sendMusicBroadcast()
+                refreshNotification()
+            }
         }
 
         override fun pause() {
-            mediaPlayer?.pause()
-            isSongPlaying.value = mediaPlayer?.isPlaying ?: false
-            mediaSessionCallback?.onPause()
-            sendMusicBroadcast()
-            refreshNotification()
-
+            if (isPrepared) {
+                mediaPlayer?.pause()
+                isSongPlaying.value = mediaPlayer?.isPlaying ?: false
+                mediaSessionCallback?.onPause()
+                sendMusicBroadcast()
+                refreshNotification()
+            }
         }
 
         override fun addToNextPlay(standardSongData: StandardSongData) {

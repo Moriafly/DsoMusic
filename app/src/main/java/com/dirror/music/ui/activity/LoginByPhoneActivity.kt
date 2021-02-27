@@ -3,8 +3,8 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
-import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.api.API_AUTU
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.viewmodel.LoginCellphoneViewModel
@@ -42,7 +42,7 @@ class LoginByPhoneActivity : BaseActivity() {
                 binding.llLoading.visibility = View.VISIBLE
                 binding.lottieLoading.repeatCount = -1
                 binding.lottieLoading.playAnimation()
-                loginCellphoneViewModel.loginByCellphone(phone, password, {
+                loginCellphoneViewModel.loginByCellphone(API_AUTU, phone, password, {
                     // 发送广播
                     val intent = Intent("com.dirror.music.LOGIN")
                     intent.setPackage(packageName)
@@ -50,12 +50,16 @@ class LoginByPhoneActivity : BaseActivity() {
                     // 通知 Login 关闭
                     setResult(RESULT_OK, Intent())
                     finish()
-                }, {
+                }, { code ->
                     runOnMainThread {
                         binding.btnLoginByPhone.visibility = View.VISIBLE
                         binding.llLoading.visibility = View.GONE
                         binding.lottieLoading.cancelAnimation()
-                        toast("登录失败，请检查用户名或者密码")
+                        if (code == 250) {
+                            toast("错误代码：250\n当前登录失败，请稍后再试")
+                        } else {
+                            toast("登录失败，请检查用户名或者密码")
+                        }
                     }
                 })
             }

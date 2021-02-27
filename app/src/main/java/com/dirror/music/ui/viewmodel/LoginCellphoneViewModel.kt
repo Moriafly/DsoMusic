@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApplication
 import com.dirror.music.api.API_DEFAULT
 import com.dirror.music.music.netease.data.UserDetailData
+import com.dirror.music.util.ErrorCode
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
 import okhttp3.FormBody
@@ -16,31 +17,28 @@ import java.security.NoSuchAlgorithmException
 @Keep
 class LoginCellphoneViewModel: ViewModel() {
 
-    // private val api = "https://music.163.com/api/login/cellphone"
-    private val defaultApi = "${API_DEFAULT}/login/cellphone"
-
     /**
      * 手机号登录
      */
-    fun loginByCellphone(phone: String, password: String, success: (UserDetailData) -> Unit, failure: () -> Unit) {
+    fun loginByCellphone(api: String,phone: String, password: String, success: (UserDetailData) -> Unit, failure: (Int) -> Unit) {
         val passwordMD5 = getMD5(password)
         val requestBody = FormBody.Builder()
             .add("phone", phone)
             .add("countrycode", "86")
             .add("md5_password", passwordMD5)
             .build()
-        MagicHttp.OkHttpManager().newPost(defaultApi, requestBody) {
+        MagicHttp.OkHttpManager().newPost("${api}/login/cellphone", requestBody) {
             try {
                 val userDetail = Gson().fromJson(it, UserDetailData::class.java)
                 if (userDetail.code != 200) {
-                    failure.invoke()
+                    failure.invoke(userDetail.code)
                 } else {
                     userDetail.cookie?.let { it1 -> MyApplication.userManager.setCloudMusicCookie(it1) }
                     MyApplication.userManager.setUid(userDetail.profile.userId)
                     success.invoke(userDetail)
                 }
             } catch (e: Exception) {
-                failure.invoke()
+                failure.invoke(ErrorCode.MAGIC_HTTP_ERROR)
             }
         }
     }

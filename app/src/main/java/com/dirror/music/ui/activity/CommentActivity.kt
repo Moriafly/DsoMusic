@@ -15,7 +15,7 @@ import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
 import com.dirror.music.widget.SlideBackLayout
 
-class CommentActivity : AppCompatActivity() {
+class  CommentActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_INT_SOURCE = "extra_int_source"
