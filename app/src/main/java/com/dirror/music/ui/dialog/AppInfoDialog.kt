@@ -12,6 +12,7 @@ import com.dirror.music.util.Secure
 import com.dirror.music.util.defaultTypeface
 import com.dirror.music.util.getVisionCode
 import com.dirror.music.util.getVisionName
+import com.dirror.music.util.sky.SkySecure
 
 class AppInfoDialog(context: Context) : BaseBottomSheetDialog(context) {
 
@@ -25,7 +26,6 @@ class AppInfoDialog(context: Context) : BaseBottomSheetDialog(context) {
     override fun initView() {
         super.initView()
 
-
         binding.apply {
             tvText.typeface = defaultTypeface(MyApplication.context)
             tvText.text = """
@@ -37,6 +37,8 @@ class AppInfoDialog(context: Context) : BaseBottomSheetDialog(context) {
                 [model       ] ${Build.MODEL}
                 [android.ver ] ${Build.VERSION.RELEASE}
                 [android.sdk ] ${Build.VERSION.SDK_INT}
+                [dex.crc     ] ${SkySecure.getDexCrc(MyApplication.context)}
+                [name.md5    ] ${SkySecure.getMD5("com.dirror.music")}
             """.trimIndent()
         }
     }

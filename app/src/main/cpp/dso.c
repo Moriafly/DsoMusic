@@ -24,8 +24,8 @@ Java_com_dirror_music_util_sky_SkySecure_getAppNameMd5(JNIEnv *env, jobject thiz
 }
 
 /**
- * 检测xposed
- * checkXposed 存在返回 true
+ * Xposed 监测
+ * 存在返回 true
  */
 JNIEXPORT jboolean JNICALL
 Java_com_dirror_music_util_sky_SkySecure_checkXposed(JNIEnv *env, jobject thiz) {

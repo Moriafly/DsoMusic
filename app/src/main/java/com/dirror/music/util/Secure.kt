@@ -91,6 +91,7 @@ object Secure {
 
     /**
      * 杀死自己
+     * 适用于 MyApplication
      */
     fun killMyself() {
         android.os.Process.killProcess(android.os.Process.myPid())

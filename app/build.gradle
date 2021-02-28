@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 667
+        versionCode 670
         versionName "2.8.0" // 定制版后缀 custom "2.6.3-custom"
 
         multiDexEnabled true
@@ -113,9 +113,6 @@ dependencies {
     // room
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
-    // aria
-    implementation 'com.arialyy.aria:core:3.8.12'
-    annotationProcessor 'com.arialyy.aria:compiler:3.8.12'
     // LyricViewX
     implementation 'com.github.Moriafly:LyricViewX:1.1.5'
     // 漂亮的开关

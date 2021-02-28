@@ -4,6 +4,7 @@ import android.content.Intent
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityAbout2Binding
+import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.service.test.TestMediaCodeInfo
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.AppInfoDialog
@@ -49,6 +50,7 @@ class AboutActivity2 : BaseActivity() {
 
     override fun initListener() {
         binding.apply {
+            tvAppName.setOnClickListener { ActivityCollector.finishAll() }
             // 检查更新
             itemCheckForUpdates.setOnClickListener { UpdateUtil.checkNewVersion(this@AboutActivity2, true) }
             // 更新日志

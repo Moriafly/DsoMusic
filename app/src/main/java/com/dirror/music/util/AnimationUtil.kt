@@ -6,7 +6,6 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.core.animation.addListener
 
-
 object AnimationUtil {
 
     fun startRotateAlways(view: View) {
