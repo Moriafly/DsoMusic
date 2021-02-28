@@ -4,16 +4,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dirror.music.databinding.ActivitySplashBinding
+import com.dirror.music.ui.base.BaseActivity
 
 /**
  * 启动页 Activity
  */
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySplashBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }

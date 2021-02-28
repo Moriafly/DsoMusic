@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 372
-        versionName "2.7.2-alpha" // 定制版后缀 custom "2.6.3-custom"
+        versionCode 667
+        versionName "2.8.0" // 定制版后缀 custom "2.6.3-custom"
 
         multiDexEnabled true
 

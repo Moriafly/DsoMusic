@@ -1,16 +1,15 @@
 package com.dirror.music.ui.activity
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Message
 import android.webkit.*
 import androidx.core.content.ContextCompat
 import com.dirror.music.databinding.ActivityWebBinding
+import com.dirror.music.ui.base.BaseActivity
 
-class WebActivity : AppCompatActivity() {
+class WebActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_TITLE = "extra_title"

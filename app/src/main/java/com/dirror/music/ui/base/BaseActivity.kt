@@ -1,11 +1,11 @@
 package com.dirror.music.ui.base
 
 import android.os.Bundle
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.R
+import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.util.*
+import com.dirror.music.util.sky.SkySecure
 
 /**
  * 基类 Activity
@@ -14,6 +14,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ActivityCollector.addActivity(this)
         initBinding()
         initView()
         initData()
@@ -25,6 +26,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        if (SkySecure.checkXposed()) {
+            ActivityCollector.finishAll()
+        }
         if (DarkThemeUtil.isDarkTheme(this)) {
             setStatusBarIconColor(this, false)
         }
@@ -56,6 +60,11 @@ abstract class BaseActivity : AppCompatActivity() {
         } else {
             R.drawable.ic_mini_player_play
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityCollector.removeActivity(this)
     }
 
 }

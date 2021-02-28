@@ -6,28 +6,25 @@ import androidx.activity.viewModels
 import com.dirror.music.R
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
+import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.viewmodel.LoginCellphoneViewModel
-import com.dirror.music.util.Secure
 import com.dirror.music.util.runOnMainThread
+import com.dirror.music.util.sky.SkySecure
 import com.dirror.music.util.toast
 
 class LoginByPhoneActivity : BaseActivity() {
-
-    companion object {
-        const val SE = "Dso Music"
-    }
 
     private val loginCellphoneViewModel: LoginCellphoneViewModel by viewModels()
 
     lateinit var binding: ActivityLoginByPhoneBinding
 
     override fun initBinding() {
-        if (getString(R.string.app_name) == SE) {
+        if (SkySecure.getMD5(getString(R.string.app_name)) == SkySecure.getAppNameMd5()) {
             binding = ActivityLoginByPhoneBinding.inflate(layoutInflater)
             setContentView(binding.root)
         } else {
-            Secure.killMyself()
+            ActivityCollector.finishAll()
         }
     }
 

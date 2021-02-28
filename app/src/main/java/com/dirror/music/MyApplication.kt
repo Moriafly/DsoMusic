@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
 import cn.bmob.v3.Bmob
+import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.manager.UserManager
@@ -80,10 +81,8 @@ class MyApplication : Application() {
         }
     }
 
-
     /**
      * 安全检查
-     * 自己签名请去除
      */
     private fun checkSecure() {
         if (Secure.isSecure()) {
@@ -96,9 +95,8 @@ class MyApplication : Application() {
             // 开启音乐服务
             startMusicService()
         } else {
-            toast("检测到盗版 Dso Music")
             // 杀死自己
-            Secure.killMyself()
+            ActivityCollector.finishAll()
         }
     }
 

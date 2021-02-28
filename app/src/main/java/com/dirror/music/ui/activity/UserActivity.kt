@@ -1,17 +1,16 @@
 package com.dirror.music.ui.activity
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityUserBinding
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp2px
 import com.dirror.music.util.getStatusBarHeight
 import com.dirror.music.util.runOnMainThread
 
-class UserActivity : AppCompatActivity() {
+class UserActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_LONG_USER_ID = "extra_long_user_id"
@@ -19,12 +18,13 @@ class UserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserBinding
 
-    @SuppressLint("SetTextI18n")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
 
+    @SuppressLint("SetTextI18n")
+    override fun initView() {
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply{
             topToTop = ConstraintLayout.LayoutParams.PARENT_ID
             topMargin = getStatusBarHeight(window, this@UserActivity)
@@ -47,6 +47,5 @@ class UserActivity : AppCompatActivity() {
         }, {
             // 失败
         })
-
     }
 }
