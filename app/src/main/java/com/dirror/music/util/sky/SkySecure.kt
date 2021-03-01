@@ -10,7 +10,7 @@ import java.util.zip.ZipFile
 /**
  * SkySecure 安全防护
  * 字符串 MD5 加密、Xposed 监测、应用名称监测
- * Dex 文件完整性校验（配合联网校验）、包名监测
+ * Dex 文件完整性校验（配合联网校验）
  * @version 20210228
  * @author Moriafly
  * @since 2021 年 2 月 28 日
