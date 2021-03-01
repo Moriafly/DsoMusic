@@ -12,7 +12,7 @@ Kotlin 开发的美观的安卓音乐软件。本软件仅由开发者提供的�
 
 # 应用下载
 
-https://moriafly.gitee.io/dso-page/page/notice.html
+https://github.com/Moriafly/DsoMusic/releases
 
 # 音源
 
