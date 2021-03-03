@@ -101,7 +101,7 @@ class MainActivity : BaseActivity() {
                         .apply(RequestOptions().centerCrop())
                         .into(object : CustomTarget<Bitmap>() {
                             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                binding.navigationView.background = resource.toDrawable(resources)
+                                // binding.navigationView.background = resource.toDrawable(resources)
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) { }
@@ -111,8 +111,11 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        window.allowEnterTransitionOverlap = true
-        window.allowReturnTransitionOverlap = true
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            window.allowEnterTransitionOverlap = true
+            window.allowReturnTransitionOverlap = true
+        }
+
 
         val radius = 20f
         val decorView: View = window.decorView

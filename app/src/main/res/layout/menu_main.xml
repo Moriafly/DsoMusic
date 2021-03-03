@@ -77,7 +77,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.51"
                         app:srcCompat="@drawable/ic_next"
-                        tools:ignore="ContentDescription" />
+                        tools:ignore="ContentDescription,VectorDrawableCompat" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -20,9 +20,9 @@ interface MusicControllerInterface {
     fun getPlaylist(): ArrayList<StandardSongData>?
 
     /**
-     * 播放歌单指定位置 [songPosition] 歌曲
+     * 播放歌曲
      */
-    fun playMusic(songPosition: Int)
+    fun playMusic(song: StandardSongData)
 
     /**
      * 改变播放状态

@@ -41,7 +41,7 @@ class NewSongAdapter(private val songDataList: ArrayList<StandardSongData>): Rec
             tvName.text = songData.name
             tvTrackCount.text = songData.artists?.let { parseArtist(it) }
             clTrack.setOnClickListener {
-                playMusic(position, it)
+                playMusic(songData, it)
             }
         }
     }
@@ -53,11 +53,11 @@ class NewSongAdapter(private val songDataList: ArrayList<StandardSongData>): Rec
     /**
      * 播放音乐
      */
-    private fun playMusic(position: Int, view: View?) {
+    private fun playMusic(songData: StandardSongData, view: View?) {
         // 歌单相同
         if (MyApplication.musicController.value?.getPlaylist() == songDataList) {
             // position 相同
-            if (position == MyApplication.musicController.value?.getNowPosition()) {
+            if (songData == MyApplication.musicController.value?.getPlayingSongData()?.value) {
                 if (view != null) {
                     view.context.startActivity(Intent(view.context, PlayerActivity::class.java))
                     (view.context as Activity).overridePendingTransition(
@@ -66,13 +66,13 @@ class NewSongAdapter(private val songDataList: ArrayList<StandardSongData>): Rec
                     )
                 }
             } else {
-                MyApplication.musicController.value?.playMusic(position)
+                MyApplication.musicController.value?.playMusic(songData)
             }
         } else {
             // 设置歌单
             MyApplication.musicController.value?.setPlaylist(songDataList)
             // 播放歌单
-            MyApplication.musicController.value?.playMusic(position)
+            MyApplication.musicController.value?.playMusic(songData)
         }
     }
 
