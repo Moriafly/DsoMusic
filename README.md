@@ -1,21 +1,19 @@
 # Dso Music
 ![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=Moriafly&repo=DsoMusic&theme=vue)  
-还是改成 Public 的，原仓库在 2021 年 3 月 1 日前共计 217 star。
+原仓库在 2021 年 3 月 1 日前共计 217 star。
 
 Kotlin 开发的美观的安卓音乐软件。本软件仅由开发者提供的安装包上传至 Github 和蓝奏云，请注意识别。
 
 注意：源码仅供学习，请勿传播软件安装包。
 
-- 👋 I’m currently working on shou university.
-- 🌱 I’m currently learning adroid.
-- 🤔 I’m looking for help with adroid develop.
-- 📫 My eamil: moriafly@163.com.
+- 👋 I am in college
+- 🌱 I am currently learning adroid.
+- 🤔 I am looking for help with adroid develop.
+- 📫 My email: moriafly@163.com.
 
 # 后续本项目维护
 
-感谢 [lbccccc](https://github.com/lbccccc)、
-
-Moriafly / kart-jim
+感谢 [lbccccc](https://github.com/lbccccc) 等大佬支持
 
 # 声明
 
