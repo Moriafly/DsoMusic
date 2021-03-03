@@ -53,7 +53,6 @@ class MusicService : Service() {
 
     private var mediaPlayer: MediaPlayer? = null // 定义 MediaPlayer
     private val musicBinder by lazy { MusicController() } // 懒加载 musicBinder
-    private var playlist: ArrayList<StandardSongData>? = null // 当前歌单
     private var position: Int? = 0 // 当前歌曲在 List 中的下标
     private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
     private var notificationManager: NotificationManager? = null // 通知管理
@@ -314,19 +313,20 @@ class MusicService : Service() {
         private var isPrepared = false // 音乐是否准备完成
 
         override fun setPlaylist(songListData: ArrayList<StandardSongData>) {
-            playlist = songListData
+            PlayQueue.setNormal(songListData)
+            if (mode == MODE_RANDOM) {
+                PlayQueue.random()
+            }
         }
 
-        override fun getPlaylist(): ArrayList<StandardSongData>? = playlist
+        override fun getPlaylist(): ArrayList<StandardSongData>? = PlayQueue.currentQueue.value
 
-        override fun playMusic(songPosition: Int) {
+        override fun playMusic(song: StandardSongData) {
             // audioManager.abandonAudioFocusRequest(audioFocusRequest)
             isPrepared = false
-            position = songPosition
             // loge("MusicService songPosition:${position}")
             // loge("MusicService 歌单歌曲数量:${playlist?.size}")
             // 当前的歌曲
-            val song = playlist?.get(position ?: 0)
             songData.value = song
 
             // 如果 MediaPlayer 已经存在，释放
@@ -456,11 +456,11 @@ class MusicService : Service() {
             if (standardSongData == songData.value) {
                 return
             }
-            if (playlist?.contains(standardSongData) == true) {
-                playlist?.remove(standardSongData)
+            if (PlayQueue.currentQueue.value?.contains(standardSongData) == true) {
+                PlayQueue.currentQueue.value?.remove(standardSongData)
             }
-            val currentPosition = playlist?.indexOf(songData.value)?: -1
-            playlist?.add(currentPosition + 1, standardSongData)
+            val currentPosition = PlayQueue.currentQueue.value?.indexOf(songData.value) ?: -1
+            PlayQueue.currentQueue.value?.add(currentPosition + 1, standardSongData)
         }
 
         override fun setAudioFocus(status: Boolean) {
@@ -506,8 +506,14 @@ class MusicService : Service() {
         override fun changePlayMode() {
             when (mode) {
                 MODE_CIRCLE -> mode = MODE_REPEAT_ONE
-                MODE_REPEAT_ONE -> mode = MODE_RANDOM
-                MODE_RANDOM -> mode = MODE_CIRCLE
+                MODE_REPEAT_ONE -> {
+                    mode = MODE_RANDOM
+                    PlayQueue.random()
+                }
+                MODE_RANDOM -> {
+                    mode = MODE_CIRCLE
+                    PlayQueue.normal()
+                }
             }
             // 将播放模式存储
             MyApplication.mmkv.encode(Config.PLAY_MODE, mode)
@@ -517,50 +523,42 @@ class MusicService : Service() {
         override fun getPlayMode(): Int = mode
 
         override fun playPrevious() {
-            // 设置 position
-            position = when (mode) {
-                MODE_RANDOM -> {
-                    playlist?.let {
-                        (0..it.lastIndex).random()
+            when (val position = PlayQueue.currentQueue.value?.indexOf(songData.value) ?: -1) {
+                -1 -> return
+                0 -> {
+                    PlayQueue.currentQueue.value?.get(
+                        PlayQueue.currentQueue.value?.lastIndex ?: 0
+                    )?.let {
+                        playMusic(it)
                     }
                 }
-                // 单曲循环或者歌单顺序播放
                 else -> {
-                    // 如果当前是第一首，就跳到最后一首播放
-                    if (position == 0) {
-                        playlist?.lastIndex
-                    } else {
-                        // 否则播放上一首
-                        position?.minus(1)
+                    PlayQueue.currentQueue.value?.get(position - 1)?.let {
+                        playMusic(it)
                     }
                 }
             }
-            // position 非空，调用播放方法
-            position?.let { playMusic(it) }
         }
 
         override fun playNext() {
-            playlist?.let {
-                position = when (mode) {
-                    MODE_RANDOM -> {
-                        (0..it.lastIndex).random()
-                    }
-                    else -> {
-                        if (position == it.lastIndex) {
-                            0
-                        } else {
-                            position?.plus(1)
-                        }
+
+            when (val position = PlayQueue.currentQueue.value?.indexOf(songData.value) ?: -1) {
+                -1 -> return
+                PlayQueue.currentQueue.value?.lastIndex -> {
+                    PlayQueue.currentQueue.value?.get(0)?.let {
+                        playMusic(it)
                     }
                 }
-            }
-            position?.let {
-                playMusic(it)
+                else -> {
+                    PlayQueue.currentQueue.value?.get(position + 1)?.let {
+                        playMusic(it)
+                    }
+                }
             }
         }
 
         override fun getNowPosition(): Int {
-            return playlist?.indexOf(songData.value)?: -1
+            return PlayQueue.currentQueue.value?.indexOf(songData.value) ?: -1
         }
 
         override fun getAudioSessionId(): Int {
@@ -624,25 +622,24 @@ class MusicService : Service() {
         }
 
         private fun autoPlayNext() {
-            when (mode) {
-                MODE_CIRCLE -> {
-                    position = if (position == playlist?.lastIndex) {
-                        0
-                    } else {
-                        position?.plus(1)
+            if (mode == MODE_REPEAT_ONE) {
+                setProgress(0)
+                play()
+                return
+            }
+            when (val position = PlayQueue.currentQueue.value?.indexOf(songData.value) ?: -1) {
+                -1 -> return
+                PlayQueue.currentQueue.value?.lastIndex -> {
+                    PlayQueue.currentQueue.value?.get(0)?.let {
+                        playMusic(it)
                     }
                 }
-                // 单曲循环
-                MODE_REPEAT_ONE -> {
-                    setProgress(0)
-                    play()
-                    return
-                }
-                MODE_RANDOM -> {
-                    position = (0..playlist?.lastIndex!!).random()
+                else -> {
+                    PlayQueue.currentQueue.value?.get(position + 1)?.let {
+                        playMusic(it)
+                    }
                 }
             }
-            playMusic(position ?: 0)
         }
 
         override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {

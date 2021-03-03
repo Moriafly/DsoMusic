@@ -80,19 +80,19 @@ class MyApplication : Application() {
             DarkThemeUtil.setDarkTheme(true)
         }
 
-        MagicHttp.OkHttpManager().newGet("https://moriafly.gitee.io/dso-page/dso/version_check.json", {
-            try {
-                val list = Gson().fromJson(it, SkyVersionData::class.java).data
-                val data = SkyVersionData.DataData(getVisionName(), getVisionCode())
-                if (data !in list) {
-                    Secure.killMyself()
-                }
-            } catch (e: Exception) {
-
-            }
-        }, {
-
-        })
+//        MagicHttp.OkHttpManager().newGet("https://moriafly.gitee.io/dso-page/dso/version_check.json", {
+//            try {
+//                val list = Gson().fromJson(it, SkyVersionData::class.java).data
+//                val data = SkyVersionData.DataData(getVisionName(), getVisionCode())
+//                if (data !in list) {
+//                    Secure.killMyself()
+//                }
+//            } catch (e: Exception) {
+//
+//            }
+//        }, {
+//
+//        })
     }
 
     /**

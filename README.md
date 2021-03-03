@@ -10,13 +10,26 @@ Kotlin 开发的美观的安卓音乐软件。本软件仅由开发者提供的�
 - 🌱 I’m currently learning adroid.
 - 🤔 I’m looking for help with adroid develop.
 - 📫 My eamil: moriafly@163.com.
+
+# 后续本项目维护
+
+感谢 [lbccccc](https://github.com/lbccccc)、
+
+Moriafly / kart-jim
+
 # 声明
 
 ### `开源链接、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）。`
 
+Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支持正版音乐。
+
+基于本开源项目的其他开发者项目、软件，与本开发者无关（依据 GPL 3 免责协议）。
+
+详细阅读本页其他说明以及查看 GPL 3 协议：http://www.gnu.org/licenses/gpl-3.0.html
+
 # 应用下载
 
-https://moriafly.gitee.io/dso-page/page/notice.html
+https://github.com/Moriafly/DsoMusic/releases
 
 # 音源
 

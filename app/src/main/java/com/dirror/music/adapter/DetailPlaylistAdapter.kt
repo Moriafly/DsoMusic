@@ -120,7 +120,7 @@ class DetailPlaylistAdapter
             // 点击项目
             clSong.setOnClickListener {
                 if (song.neteaseInfo?.pl != 0) {
-                    playMusic(position, it)
+                    playMusic(song, it)
                 } else {
                     toast("网易云暂无版权，可以试试 QQ 和酷我音源")
                 }
@@ -151,17 +151,17 @@ class DetailPlaylistAdapter
      * 播放第一首歌
      */
     fun playFirst() {
-        playMusic(0, null)
+        playMusic(songDataList[0], null)
     }
 
     /**
      * 播放音乐
      */
-    private fun playMusic(position: Int, view: View?) {
+    private fun playMusic(songData: StandardSongData, view: View?) {
         // 歌单相同
         if (MyApplication.musicController.value?.getPlaylist() == songDataList) {
             // position 相同
-            if (position == MyApplication.musicController.value?.getNowPosition()) {
+            if (songData == MyApplication.musicController.value?.getPlayingSongData()?.value) {
                 if (view != null) {
                     view.context.startActivity(Intent(view.context, PlayerActivity::class.java))
                     (view.context as Activity).overridePendingTransition(
@@ -170,13 +170,13 @@ class DetailPlaylistAdapter
                     )
                 }
             } else {
-                MyApplication.musicController.value?.playMusic(position)
+                MyApplication.musicController.value?.playMusic(songData)
             }
         } else {
             // 设置歌单
             MyApplication.musicController.value?.setPlaylist(songDataList)
             // 播放歌单
-            MyApplication.musicController.value?.playMusic(position)
+            MyApplication.musicController.value?.playMusic(songData)
         }
     }
 

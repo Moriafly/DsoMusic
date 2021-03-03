@@ -48,15 +48,25 @@
 
             </com.dirror.music.widget.ItemLayout>
 
+            <TextView
+                style="@style/sub_title"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:lineSpacingExtra="@dimen/lineSpacingExtra"
+                android:text="自定义背景（测试功能，暂仅支持主页，推荐使用较深色图片同时开启强制深色主题）"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp" />
+
             <com.dirror.music.widget.ItemLayout
-                android:visibility="gone"
                 android:id="@+id/itemCustomBackground"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/defaultHeight"
                 app:text="自定义主页背景（测试）" />
 
             <com.dirror.music.widget.ItemLayout
-                android:visibility="gone"
                 android:id="@+id/itemCleanBackground"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/defaultHeight"

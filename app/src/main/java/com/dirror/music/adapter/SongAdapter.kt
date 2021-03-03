@@ -36,12 +36,12 @@ fun playMusic(context: Context, songData: StandardSongData, songDataList: ArrayL
                 R.anim.anim_no_anim
             )
         } else {
-            MyApplication.musicController.value?.playMusic(position)
+            MyApplication.musicController.value?.playMusic(songData)
         }
     } else {
         // 设置歌单
         MyApplication.musicController.value?.setPlaylist(songDataList)
         // 播放歌单
-        MyApplication.musicController.value?.playMusic(position)
+        MyApplication.musicController.value?.playMusic(songData)
     }
 }

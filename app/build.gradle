@@ -27,10 +27,10 @@ android {
 
     defaultConfig {
         applicationId "com.dirror.music"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 30
-        versionCode 670
-        versionName "2.8.0" // 定制版后缀 custom "2.6.3-custom"
+        versionCode 671
+        versionName "春江潮水连海平" // 定制版后缀 custom "2.6.3-custom"
 
         multiDexEnabled true
 
