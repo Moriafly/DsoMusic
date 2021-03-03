@@ -14,6 +14,8 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
 
 基于本开源项目的其他开发者项目、软件，与本开发者无关（依据 GPL 3 免责协议）。
 
+详细阅读本页其他说明以及查看 GPL 3 协议：http://www.gnu.org/licenses/gpl-3.0.html
+
 # 应用下载
 
 https://github.com/Moriafly/DsoMusic/releases
