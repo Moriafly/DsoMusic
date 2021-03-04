@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 671
-        versionName "春江潮水连海平" // 定制版后缀 custom "2.6.3-custom"
+        versionCode 672
+        versionName "海上明月共潮生" // 定制版后缀 custom "2.6.3-custom"
 
         multiDexEnabled true
 

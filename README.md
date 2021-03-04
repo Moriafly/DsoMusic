@@ -1,29 +1,33 @@
-# Dso Music
-![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=Moriafly&repo=DsoMusic&theme=vue)  
-原仓库在 2021 年 3 月 1 日前共计 217 star。
+<h2 align="center" style="font-weight: 600">DsoMusic</h2>
 
-Kotlin 开发的美观的安卓音乐软件。本软件仅由开发者提供的安装包上传至 Github 和蓝奏云，请注意识别。
+Kotlin 开发的美观的安卓音乐软件。
+
+![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=Moriafly&repo=DsoMusic&theme=vue)  
+
+原开源仓库在 2021 年 3 月 1 日前共计 217 star。
 
 注意：源码仅供学习，请勿传播软件安装包。
 
-- 👋 I am in college
+- 👋 I am in college.
 - 🌱 I am currently learning adroid.
 - 🤔 I am looking for help with adroid develop.
 - 📫 My email: moriafly@163.com.
 
 # 后续本项目维护
 
-感谢 [lbccccc](https://github.com/lbccccc) 等大佬支持
+感谢 [lbccccc](https://github.com/lbccccc) 等支持
 
-# 声明
+# 声明及协议
 
-### `开源链接、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）。`
+开源链接、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）
 
 Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支持正版音乐。
 
 基于本开源项目的其他开发者项目、软件，与本开发者无关（依据 GPL 3 免责协议）。
 
-详细阅读本页其他说明以及查看 GPL 3 协议：http://www.gnu.org/licenses/gpl-3.0.html
+GNU 通用公共许可协议 [GNU GENERAL PUBLIC LICENSE Version 3](http://www.gnu.org/licenses/gpl-3.0.html)
+
+详见 [LICENSE](https://github.com/Moriafly/dirror-music/blob/master/LICENSE)
 
 # 应用下载
 
@@ -67,6 +71,8 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 
 ### 基于网易云 API
 
+- [x] 所有榜单
+- [x] 所有榜单内容摘要
 - [x] 获取每日推荐歌曲
 - [x] 新歌速递
 - [x] 热搜列表(详细)
@@ -120,7 +126,6 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [ ] 关注/取消关注用户
 - [ ] 获取用户播放记录
 - [ ] 获取热门话题
-- [ ] 云村热评
 - [ ] 心动模式/智能播放
 - [ ] 获取动态消息
 - [ ] 歌手分类列表
@@ -212,8 +217,6 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [ ] 视频详情
 - [ ] 获取视频点赞转发评论数数据
 - [ ] 获取视频播放地址
-- [ ] 所有榜单
-- [ ] 所有榜单内容摘要
 - [ ] 歌手榜
 - [ ] 云盘
 - [ ] 云盘数据详情
@@ -289,8 +292,4 @@ compileSdkVersion 30
 
 Android Gradle Plugin Version 4.1.2
 
-Gradle Version 6.8
-
-# 开源协议 License
-
-GNU 通用公共许可协议（GNU GENERAL PUBLIC LICENSE Version 3），详细见：[LICENSE](https://github.com/Moriafly/dirror-music/blob/master/LICENSE)
+Gradle Version 6.8.3
