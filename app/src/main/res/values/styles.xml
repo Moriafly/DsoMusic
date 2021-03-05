@@ -1,17 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:windowActivityTransitions">true</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#FFFFFF</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/statusBarForeground</item>
-        <item name="android:statusBarColor">@color/colorStatusBar</item>
-        <item name="android:windowContentTransitions">true</item>
         <item name="android:windowBackground">@color/colorPageBackground</item>
-
-
     </style>
 
     <!-- 透明 -->
@@ -24,8 +19,6 @@
     <style name="AppTheme.FullScreen">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <!-- 透明全屏 -->

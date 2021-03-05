@@ -57,7 +57,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivStartOrPause"
         app:srcCompat="@drawable/ic_play_queue"
-        android:contentDescription="@string/play_queue" />
+        android:contentDescription="@string/play_queue"
+        tools:ignore="VectorDrawableCompat" />
 
     <ImageView
         android:id="@+id/ivStartOrPause"
@@ -69,6 +70,6 @@
         app:layout_constraintEnd_toStartOf="@+id/ivPlayQueue"
         app:layout_constraintTop_toTopOf="@+id/tvTitle"
         app:srcCompat="@drawable/ic_mini_player_play"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription,VectorDrawableCompat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

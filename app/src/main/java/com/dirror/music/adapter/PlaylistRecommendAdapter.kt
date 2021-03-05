@@ -8,6 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.size.ViewSizeResolver
+import coil.transform.RoundedCornersTransformation
 import com.dirror.music.R
 import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
@@ -22,15 +25,14 @@ import com.dirror.music.util.dp2px
 class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayList<PlaylistRecommend.PlaylistRecommendDataResult>) : RecyclerView.Adapter<PlaylistRecommendAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val clTrack: ConstraintLayout = view.findViewById(R.id.clTrack)
+        val clPlaylist: ConstraintLayout = view.findViewById(R.id.clPlaylist)
         val ivCover: ImageView = view.findViewById(R.id.ivCover)
-        val tvName: TextView = view.findViewById(R.id.tvName)
-        val tvPlayCount: TextView = view.findViewById(R.id.tvPlayCount)
-        // val tvTrackCount: TextView = view.findViewById(R.id.tvTrackCount)
+        val tvTitle: TextView = view.findViewById(R.id.tvTitle)
+        val tvSub: TextView = view.findViewById(R.id.tvSub)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycle_view_playlist_recommend, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_my_playlist, parent, false)
         return ViewHolder(view)
     }
 
@@ -38,33 +40,38 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
         if (position == 0 || position == 1) {
             val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
             layoutParams.setMargins(dp2px(10f).toInt(), 0, 0, 0)
-            holder.clTrack.layoutParams = layoutParams
-
-        }
-        if (position == playlistRecommendDataResult.lastIndex
+            holder.clPlaylist.layoutParams = layoutParams
+        } else if (position == playlistRecommendDataResult.lastIndex
             || position == playlistRecommendDataResult.lastIndex - 1) {
             val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
             layoutParams.setMargins(0, 0, 10.dp(), 0)
-            holder.clTrack.layoutParams = layoutParams
+            holder.clPlaylist.layoutParams = layoutParams
+        } else {
+            val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
+            layoutParams.setMargins(0, 0, 0, 0)
+            holder.clPlaylist.layoutParams = layoutParams
         }
 
         // 获取当前歌单
         val playlist = playlistRecommendDataResult[position]
 
-        GlideUtil.load(playlist.picUrl, holder.ivCover)
-        holder.clTrack.setOnClickListener {
+        holder.ivCover.load(playlist.picUrl) {
+            size(ViewSizeResolver(holder.ivCover))
+            transformations(RoundedCornersTransformation(dp2px(8f)))
+        }
+        holder.clPlaylist.setOnClickListener {
             val intent = Intent(it.context, PlaylistActivity::class.java)
             intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
             intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, playlist.id)
             it.context.startActivity(intent)
         }
-        holder.tvName.text = playlist.name
+        holder.tvTitle.text = playlist.name
 
 
-        holder.tvPlayCount.text = when (playlist.playCount) {
+        holder.tvSub.text = when (playlist.playCount) {
             in 1 until 10_000 -> playlist.playCount.toString()
-            in 10_000 until 100_000_000 -> "${playlist.playCount / 10000} 万"
-            else -> "${playlist.playCount / 100_000_000} 亿"
+            in 10_000 until 100_000_000 -> "${playlist.playCount / 10000} 万播放"
+            else -> "${playlist.playCount / 100_000_000} 亿播放"
         }
     }
 

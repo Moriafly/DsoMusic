@@ -67,7 +67,7 @@
     <string name="personal_fm">私人 FM</string>
     <string name="cloud_drive">云盘</string>
     <string name="theme">主题</string>
-    <string name="forced_dark_theme">强制深色模式</string>
+    <string name="forced_dark_theme">强制深色主题</string>
     <string name="user_interface">用户界面</string>
     <string name="double_row_playlists">双列歌单</string>
     <string name="daily_recommendation">每日推荐</string>
@@ -76,4 +76,7 @@
     <string name="sponsor">赞赏</string>
     <string name="play_queue">播放队列</string>
     <string name="top_list">排行榜</string>
+    <string name="password">密码</string>
+    <string name="cellphone_number">手机号</string>
+    <string name="login_by_netease_cellphone_number">网易云手机号登录</string>
 </resources>

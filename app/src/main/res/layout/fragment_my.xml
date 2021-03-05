@@ -268,8 +268,8 @@
             android:overScrollMode="never"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

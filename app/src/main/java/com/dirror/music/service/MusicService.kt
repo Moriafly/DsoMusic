@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.media.*
 import android.net.Uri
 import android.os.*
+import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -34,7 +35,7 @@ import org.jetbrains.annotations.TestOnly
  * @author Moriafly
  * @since 2020/9
  */
-class MusicService : Service() {
+class MusicService : BaseMediaService() {
 
     companion object {
         const val TAG = "MusicService"
@@ -51,9 +52,9 @@ class MusicService : Service() {
         const val START_FOREGROUND_ID = 10 // 开启前台服务的 ID
     }
 
-    private var mediaPlayer: MediaPlayer? = null // 定义 MediaPlayer
-    private val musicBinder by lazy { MusicController() } // 懒加载 musicBinder
-    private var position: Int? = 0 // 当前歌曲在 List 中的下标
+
+    // 懒加载 musicBinder
+    private val musicBinder by lazy { MusicController() }
     private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
     private var notificationManager: NotificationManager? = null // 通知管理
     private var isAudioFocus = MyApplication.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true) // 是否开启音频焦点
@@ -105,18 +106,19 @@ class MusicService : Service() {
     @TestOnly
     private fun initAudioFocus() {
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-        audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_GAME)
-            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-            .build()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build()
+
             audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
                 .setAudioAttributes(audioAttributes)
                 .setOnAudioFocusChangeListener { focusChange ->
                     when (focusChange) {
-                        AudioManager.AUDIOFOCUS_GAIN -> musicBinder.play()
-                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> musicBinder.play()
-                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> musicBinder.play()
+                        // AudioManager.AUDIOFOCUS_GAIN -> musicBinder.play()
+                        // AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> musicBinder.play()
+                        // AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> musicBinder.play()
                         AudioManager.AUDIOFOCUS_LOSS -> {
                             // audioManager.abandonAudioFocusRequest(audioFocusRequest)
                             musicBinder.pause()
@@ -276,6 +278,14 @@ class MusicService : Service() {
         return musicBinder
     }
 
+    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
+        TODO("Not yet implemented")
+    }
+
     private fun initChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
@@ -336,7 +346,7 @@ class MusicService : Service() {
                 mediaPlayer = null
             }
 
-            when (song?.source) {
+            when (song.source) {
                 SOURCE_NETEASE -> {
                     startPlayUrl(SongUrl.getSongUrl(song.id))
                 }
@@ -700,16 +710,19 @@ class MusicService : Service() {
     private fun showNotification(song: StandardSongData) {
         mediaSession?.apply {
             setMetadata(
-                MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song.name)
-                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song.artists?.parse())
-                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, largeBitmap)
-                    .putLong(
-                        MediaMetadata.METADATA_KEY_DURATION,
-                        (MyApplication.musicController.value?.getDuration() ?: 0).toLong()
-                    )
-                    .build()
+                MediaMetadataCompat.Builder().apply {
+                    putString(MediaMetadataCompat.METADATA_KEY_TITLE, song.name)
+                    putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song.artists?.parse())
+                    putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, largeBitmap)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        putLong(
+                            MediaMetadata.METADATA_KEY_DURATION,
+                            (MyApplication.musicController.value?.getDuration() ?: 0).toLong()
+                        )
+                    }
+                }.build()
             )
+
             setPlaybackState(
                 PlaybackStateCompat.Builder()
                     .setState(

@@ -55,7 +55,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_volume"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription,VectorDrawableCompat" />
 
         <SeekBar
             android:id="@+id/seekBarVolume"
@@ -85,7 +85,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edgeTransparentView"
-            app:srcCompat="@drawable/ic_translation" />
+            app:srcCompat="@drawable/ic_translation"
+            tools:ignore="VectorDrawableCompat" />
 
         <me.qinc.lib.edgetranslucent.EdgeTransparentView
             android:id="@+id/edgeTransparentView"
@@ -334,7 +335,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_pause_btn" />
+                app:srcCompat="@drawable/ic_pause_btn"
+                tools:ignore="VectorDrawableCompat" />
 
             <ImageView
                 android:id="@+id/ivNext"
@@ -346,7 +348,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivPlay"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_play_next" />
+                app:srcCompat="@drawable/ic_play_next"
+                tools:ignore="VectorDrawableCompat" />
 
             <ImageView
                 android:id="@+id/ivLast"
@@ -359,7 +362,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivPlay"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_play_next" />
+                app:srcCompat="@drawable/ic_play_next"
+                tools:ignore="VectorDrawableCompat" />
 
             <ImageView
                 android:id="@+id/ivMode"
@@ -410,7 +414,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_back"
+            tools:ignore="VectorDrawableCompat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
-                android:text="手机号"
+                android:text="@string/cellphone_number"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
-                android:text="密码"
+                android:text="@string/password"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -125,7 +125,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.dirror.music.widget.TitleBarLayout
-        app:text="网易云手机号登录"
+        app:text="@string/login_by_netease_cellphone_number"
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="56dp"

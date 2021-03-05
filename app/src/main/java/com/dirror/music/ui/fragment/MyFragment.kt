@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.dirror.music.MyApplication
 import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
 import com.dirror.music.data.PlaylistData
@@ -43,14 +40,14 @@ class MyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
-        initListener()
-        initObserver()
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        initView()
+        initListener()
+        initObserver()
     }
 
     private fun initView() {
@@ -121,19 +118,14 @@ class MyFragment : Fragment() {
      */
     private fun setPlaylist(playlist: ArrayList<PlaylistData>) {
         runOnMainThread {
-            binding.rvPlaylist.layoutManager = if (MyApplication.mmkv.decodeBool(Config.DOUBLE_ROW_MY_PLAYLIST, false)) {
-                GridLayoutManager(this.context, 2)
-            } else {
-                LinearLayoutManager(this.context)
-            }
+            binding.rvPlaylist.layoutManager = GridLayoutManager(this.context, 2)
             binding.rvPlaylist.adapter = activity?.let { it1 -> PlaylistAdapter(playlist, it1) }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        // 屏幕旋转，这里有时候会报一个空指针
-        // _binding = null
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

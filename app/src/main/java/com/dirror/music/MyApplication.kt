@@ -6,8 +6,6 @@ import android.content.Intent
 import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
 import cn.bmob.v3.Bmob
-import com.dirror.music.data.SkyVersionData
-import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.manager.UserManager
@@ -16,12 +14,10 @@ import com.dirror.music.service.MusicControllerInterface
 import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
 import com.dirror.music.util.*
-import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import okhttp3.Cookie
-import kotlin.Exception
 
 /**
  * 自定义 Application

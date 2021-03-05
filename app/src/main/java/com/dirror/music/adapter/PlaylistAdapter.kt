@@ -43,7 +43,7 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>, val activit
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val play = playlist[position]
         val url = MyApplication.cloudMusicManager.getPicture(play.coverImgUrl, 56.dp())
-        GlideUtil.loadCircle(url, holder.ivCover, holder.radius.toInt().dp(), 80.dp())
+        // GlideUtil.loadCircle(url, holder.ivCover, holder.radius.toInt().dp(), 80.dp())
         GlideUtil.load(url, holder.ivCover)
         holder.tvName.text = play.name
         holder.tvTrackCount.text = holder.itemView.context.getString(R.string.songs, play.trackCount)

@@ -51,9 +51,6 @@ object Config {
     // 是否开启句子推荐
     const val SENTENCE_RECOMMEND = "boolean_sentence_recommend"
 
-    // 双列歌单
-    const val DOUBLE_ROW_MY_PLAYLIST = "boolean_double_row_my_playlist"
-
     // 自定义背景
     const val APP_THEME_BACKGROUND = "bitmap_app_theme_background"
 

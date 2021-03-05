@@ -33,11 +33,11 @@ class PlaylistDialogAdapter(private val list: ArrayList<StandardSongData>): Recy
         val lightSongData = MyApplication.musicController.value?.getPlayingSongData()?.value
         val songData = list[position]
         if (songData == lightSongData) {
-            holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorAppThemeColor))
-            holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorAppThemeColor))
+            holder.tvName.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.colorAppThemeColor))
+            holder.tvArtist.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.colorAppThemeColor))
         } else {
-            holder.tvName.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
-            holder.tvArtist.setTextColor(ContextCompat.getColor(MyApplication.context, R.color.colorTextForeground))
+            holder.tvName.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.colorTextForeground))
+            holder.tvArtist.setTextColor(ContextCompat.getColor(holder.tvName.context, R.color.colorTextForeground))
         }
 
         holder.tvName.text = songData.name

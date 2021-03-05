@@ -76,4 +76,7 @@
     <string name="sponsor">Sponsor</string>
     <string name="play_queue">Play queue</string>
     <string name="top_list">Top list</string>
+    <string name="password">Password</string>
+    <string name="cellphone_number">Cellphone number</string>
+    <string name="login_by_netease_cellphone_number">Login by Netease cellphone number</string>
 </resources>
