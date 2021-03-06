@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
@@ -15,7 +14,6 @@ import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
-import com.dirror.music.util.dp2px
 import com.dirror.music.util.parseArtist
 
 class PlayHistoryActivity : BaseActivity() {

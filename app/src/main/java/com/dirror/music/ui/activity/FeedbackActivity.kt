@@ -1,24 +1,20 @@
 package com.dirror.music.ui.activity
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.dirror.music.R
 import com.dirror.music.bmob.BmobManager
 import com.dirror.music.databinding.ActivityFeedbackBinding
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.toast
 
-class FeedbackActivity : AppCompatActivity(R.layout.activity_feedback) {
+class FeedbackActivity : BaseActivity() {
 
     private lateinit var binding: ActivityFeedbackBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityFeedbackBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initListener()
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.btnUpload.setOnClickListener {
             val feedback = binding.etFeedback.text.toString()
             val contact = binding.etContact.text.toString()

@@ -1,29 +1,25 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.dirror.music.MyApplication
-import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLoginByUidBinding
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.toast
 import java.util.regex.Pattern
 
 /**
  * 通过网易云 UID 登录
  */
-class LoginByUidActivity : AppCompatActivity(R.layout.activity_login_by_uid) {
+class LoginByUidActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLoginByUidBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityLoginByUidBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initListener()
     }
 
-    private fun initListener() {
+    override fun initListener() {
         // 点击登录按钮
         binding.btnLogin.setOnClickListener {
             // 获取输入

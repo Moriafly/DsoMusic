@@ -41,9 +41,6 @@ object PlayQueue {
     fun normal() {
         currentQueue.value?.clear()
         currentQueue.value?.addAll(queue)
-//        queue.forEach {
-//            currentQueue.value?.add(it)
-//        }
     }
 
 }

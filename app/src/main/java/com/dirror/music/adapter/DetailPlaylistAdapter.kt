@@ -10,11 +10,9 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
-import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
@@ -122,7 +120,7 @@ class DetailPlaylistAdapter
                 if (song.neteaseInfo?.pl != 0) {
                     playMusic(song, it)
                 } else {
-                    toast("网易云暂无版权，可以试试 QQ 和酷我音源")
+                    toast("网易云暂无版权或者是 VIP 歌曲，可以试试 QQ 和酷我音源")
                 }
             }
             // 更多点击，每首歌右边的三点菜单

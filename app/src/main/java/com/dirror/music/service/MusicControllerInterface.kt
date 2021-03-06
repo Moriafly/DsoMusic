@@ -137,4 +137,9 @@ interface MusicControllerInterface {
      */
     fun setAudioFocus(status: Boolean)
 
+    /**
+     * 结束音乐服务
+     */
+    fun stopMusicService()
+
 }

@@ -1,7 +1,6 @@
 package com.dirror.music.service
 
 import android.app.*
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -19,12 +18,10 @@ import androidx.lifecycle.MutableLiveData
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.broadcast.BecomingNoisyReceiver
-import com.dirror.music.music.kuwo.SearchSong
 import com.dirror.music.music.local.PlayHistory
-import com.dirror.music.music.netease.SongUrl
-import com.dirror.music.music.qq.PlayUrl
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.*
+import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.util.*
@@ -36,23 +33,6 @@ import org.jetbrains.annotations.TestOnly
  * @since 2020/9
  */
 class MusicService : BaseMediaService() {
-
-    companion object {
-        const val TAG = "MusicService"
-
-        const val MODE_CIRCLE = 1 // 列表循环
-        const val MODE_REPEAT_ONE = 2 // 单曲循环
-        const val MODE_RANDOM = 3 // 随机播放
-
-        const val CODE_PREVIOUS = 1 // 按钮事件，上一曲
-        const val CODE_PLAY = 2 // 按钮事件，播放或者暂停
-        const val CODE_NEXT = 3 // 按钮事件，下一曲
-
-        const val CHANNEL_ID = "Dso Music Channel Id" // 通知通道 ID
-        const val START_FOREGROUND_ID = 10 // 开启前台服务的 ID
-    }
-
-
     // 懒加载 musicBinder
     private val musicBinder by lazy { MusicController() }
     private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
@@ -81,23 +61,6 @@ class MusicService : BaseMediaService() {
         initChannel()
         // 初始化音频焦点（暂时禁用，等待测试）
         initAudioFocus()
-        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
-            .setMediaSession(mediaSession?.sessionToken)
-//            .setShowActionsInCompactView(0, 1, 2)
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_music_launcher_foreground)
-//            .setLargeIcon(bitmap)
-            .setContentTitle("聆听好音乐")
-            .setContentText("Dso Music")
-            .setContentIntent(getPendingIntentActivity())
-//            .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
-//            .addAction(getPlayIcon(), "play", getPendingIntentPlay())
-//            .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
-            .setStyle(mediaStyle)
-            .setOngoing(false)
-            // .setAutoCancel(true)
-            .build()
-        startForeground(START_FOREGROUND_ID, notification)
     }
 
     /**
@@ -279,11 +242,11 @@ class MusicService : BaseMediaService() {
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
-        TODO("Not yet implemented")
+
     }
 
     private fun initChannel() {
@@ -332,11 +295,8 @@ class MusicService : BaseMediaService() {
         override fun getPlaylist(): ArrayList<StandardSongData>? = PlayQueue.currentQueue.value
 
         override fun playMusic(song: StandardSongData) {
-            // audioManager.abandonAudioFocusRequest(audioFocusRequest)
             isPrepared = false
-            // loge("MusicService songPosition:${position}")
-            // loge("MusicService 歌单歌曲数量:${playlist?.size}")
-            // 当前的歌曲
+
             songData.value = song
 
             // 如果 MediaPlayer 已经存在，释放
@@ -346,63 +306,28 @@ class MusicService : BaseMediaService() {
                 mediaPlayer = null
             }
 
-            when (song.source) {
-                SOURCE_NETEASE -> {
-                    startPlayUrl(SongUrl.getSongUrl(song.id))
-                }
-                SOURCE_QQ -> {
-                    PlayUrl.getPlayUrl(song.id) {
-                        loge("QQ 音乐链接：${it}")
-                        startPlayUrl(it)
+            // 初始化
+            mediaPlayer = MediaPlayer().apply {
+                ServiceSongUrl.getUrl(song) {
+                    when (it) {
+                        is String -> {
+                            if (!InternetState.isWifi(MyApplication.context) && !MyApplication.mmkv.decodeBool(
+                                    Config.PLAY_ON_MOBILE,
+                                    false
+                                )
+                            ) {
+                                toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
+                            } else {
+                                setDataSource(it)
+                            }
+                        }
+                        is Uri -> setDataSource(applicationContext, it)
                     }
                 }
-                SOURCE_LOCAL -> {
-                    val id = song.id.toLong()
-                    val contentUri: Uri =
-                        ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
-
-                    mediaPlayer = MediaPlayer().apply {
-                        setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
-                        setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
-                        setOnErrorListener(this@MusicController)
-                        // setAudioStreamType(AudioManager.STREAM_MUSIC)
-                        setDataSource(applicationContext, contentUri)
-                        prepareAsync()
-                    }
-                }
-                SOURCE_DIRROR -> {
-                    song.dirrorInfo?.let {
-                        // toast(it.url)
-                        startPlayUrl(it.url)
-                    }
-                }
-                SOURCE_KUWO -> {
-                    SearchSong.getUrl(song.id) {
-                        startPlayUrl(it)
-                    }
-                }
-            }
-
-        }
-
-        private fun startPlayUrl(url: String) {
-
-            if (!InternetState.isWifi(MyApplication.context) && !MyApplication.mmkv.decodeBool(
-                    Config.PLAY_ON_MOBILE,
-                    false
-                )
-            ) {
-                toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
-            } else {
-                // 初始化
-                mediaPlayer = MediaPlayer()
-                mediaPlayer?.let {
-                    it.setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
-                    it.setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
-                    it.setOnErrorListener(this@MusicController)
-                    it.setDataSource(url)
-                    it.prepareAsync()
-                }
+                setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
+                setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
+                setOnErrorListener(this@MusicController)
+                prepareAsync()
             }
         }
 
@@ -485,6 +410,10 @@ class MusicService : BaseMediaService() {
                     MyApplication.mmkv.encode(Config.ALLOW_AUDIO_FOCUS, isAudioFocus)
                 }
             }
+        }
+
+        override fun stopMusicService() {
+            stopSelf(-1)
         }
 
         override fun isPlaying(): MutableLiveData<Boolean> = isSongPlaying

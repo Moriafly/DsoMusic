@@ -11,14 +11,12 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
@@ -27,6 +25,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.broadcast.HeadsetChangeReceiver
 import com.dirror.music.databinding.ActivityMainBinding
+import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -70,25 +69,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
-        // Android 5.0 以上 全透明
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-//            window.decorView.windowInsetsController?.systemBarsAppearance
-//        } else {
-//            val window = window
-//            window.clearFlags(
-//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//                        or WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
-//            )
-//            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//            // 状态栏（以上几行代码必须，参考setStatusBarColor|setNavigationBarColor方法源码）
-//            // 状态栏（以上几行代码必须，参考setStatusBarColor|setNavigationBarColor方法源码）
-//            window.statusBarColor = Color.TRANSPARENT
-//        }
-
-
         thread {
             ACache.get(this).getAsBitmap(Config.APP_THEME_BACKGROUND)?.let {
                 runOnMainThread {
@@ -104,7 +84,7 @@ class MainActivity : BaseActivity() {
                                 // binding.navigationView.background = resource.toDrawable(resources)
                             }
 
-                            override fun onLoadCleared(placeholder: Drawable?) { }
+                            override fun onLoadCleared(placeholder: Drawable?) {}
                         })
 
                 }
@@ -210,15 +190,12 @@ class MainActivity : BaseActivity() {
                     )
                 }
             }
-
             itemSwitchAccount.setOnClickListener {
                 MyApplication.activityManager.startLoginActivity(this@MainActivity)
             }
-
             itemSettings.setOnClickListener {
                 MyApplication.activityManager.startSettingsActivity(this@MainActivity)
             }
-
             itemPrivateLetter.setOnClickListener {
                 val cookie = MyApplication.userManager.getCloudMusicCookie()
                 if (cookie != "") {
@@ -230,6 +207,19 @@ class MainActivity : BaseActivity() {
             // 反馈
             itemFeedback.setOnClickListener {
                 startActivity(Intent(this@MainActivity, FeedbackActivity::class.java))
+            }
+            itemExitApp.setOnClickListener {
+                MyApplication.musicController.value?.stopMusicService()
+                ActivityCollector.finishAll()
+
+                object : Thread() {
+                    override fun run() {
+                        super.run()
+                        sleep(500)
+                        Secure.killMyself()
+                    }
+                }.start()
+
             }
         }
 

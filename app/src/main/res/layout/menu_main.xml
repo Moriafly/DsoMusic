@@ -221,6 +221,27 @@
 
             </com.dirror.music.widget.ItemLayout>
 
+            <com.dirror.music.widget.ItemLayout
+                app:itemType="item_menu"
+                android:id="@+id/itemExitApp"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="56dp"
+                app:text="@string/exit_app">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:padding="2dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    android:src="@mipmap/ic_launcher" />
+
+            </com.dirror.music.widget.ItemLayout>
+
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>

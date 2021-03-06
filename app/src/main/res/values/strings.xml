@@ -79,4 +79,5 @@
     <string name="password">密码</string>
     <string name="cellphone_number">手机号</string>
     <string name="login_by_netease_cellphone_number">网易云手机号登录</string>
+    <string name="exit_app">退出应用</string>
 </resources>

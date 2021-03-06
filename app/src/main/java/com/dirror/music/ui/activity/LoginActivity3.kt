@@ -2,30 +2,26 @@ package com.dirror.music.ui.activity
 
 import android.content.Intent
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityLogin3Binding
+import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.getStatusBarHeight
 
 /**
  * 预计 2.0 版
  * LoginActivity3 界面，取代原来的 LoginActivity2
  */
-class LoginActivity3 : AppCompatActivity() {
+class LoginActivity3 : BaseActivity() {
 
     private lateinit var binding: ActivityLogin3Binding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityLogin3Binding.inflate(layoutInflater)
         setContentView(binding.root)
-        initView()
-        initListener()
     }
 
-    private fun initView() {
+    override fun initView() {
         (binding.btnCancel.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@LoginActivity3)
         }
@@ -43,7 +39,7 @@ class LoginActivity3 : AppCompatActivity() {
         }
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.apply{
             // 取消
             btnCancel.setOnClickListener { finish() }

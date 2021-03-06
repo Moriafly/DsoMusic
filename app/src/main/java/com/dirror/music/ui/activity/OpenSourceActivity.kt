@@ -1,13 +1,12 @@
 package com.dirror.music.ui.activity
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.adapter.OpenSourceAdapter
 import com.dirror.music.data.OpenSourceData
 import com.dirror.music.databinding.ActivityOpenSourceBinding
+import com.dirror.music.ui.base.BaseActivity
 
-class OpenSourceActivity : AppCompatActivity() {
+class OpenSourceActivity : BaseActivity() {
 
     companion object {
         private const val AL2 = "Apache License (Version 2.0)"
@@ -15,14 +14,12 @@ class OpenSourceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOpenSourceBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initBinding() {
         binding = ActivityOpenSourceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initView()
     }
 
-    private fun initView() {
+    override fun initView() {
         val openSourceList = listOf(
             OpenSourceData("Aria", "https://github.com/AriaLyy/Aria", AL2),
             OpenSourceData("ASimpleCache", "https://github.com/yangfuhai/ASimpleCache", AL2),

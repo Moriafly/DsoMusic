@@ -76,19 +76,6 @@ class MyApplication : Application() {
             DarkThemeUtil.setDarkTheme(true)
         }
 
-//        MagicHttp.OkHttpManager().newGet("https://moriafly.gitee.io/dso-page/dso/version_check.json", {
-//            try {
-//                val list = Gson().fromJson(it, SkyVersionData::class.java).data
-//                val data = SkyVersionData.DataData(getVisionName(), getVisionCode())
-//                if (data !in list) {
-//                    Secure.killMyself()
-//                }
-//            } catch (e: Exception) {
-//
-//            }
-//        }, {
-//
-//        })
     }
 
     /**
@@ -116,11 +103,11 @@ class MyApplication : Application() {
         // 通过 Service 播放音乐，混合启动
         val intent = Intent(this, MusicService::class.java)
         // 安卓 8.0 后开启前台服务，要在短时间内响应
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            startForegroundService(intent)
-        } else {
-            startService(intent)
-        }
+        // if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        //  startForegroundService(intent)
+        // } else {
+        startService(intent)
+        // }
         // 绑定服务
         bindService(intent, musicServiceConnection, BIND_AUTO_CREATE)
     }

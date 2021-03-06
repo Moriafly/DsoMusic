@@ -35,7 +35,7 @@ import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.service.MusicService
+import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.ui.base.SlideBackActivity
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -321,9 +321,9 @@ class PlayerActivity : SlideBackActivity() {
             // 播放模式的观察
             playMode.observe(this@PlayerActivity, {
                 when (it) {
-                    MusicService.MODE_CIRCLE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
-                    MusicService.MODE_REPEAT_ONE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
-                    MusicService.MODE_RANDOM -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
+                    BaseMediaService.MODE_CIRCLE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
+                    BaseMediaService.MODE_REPEAT_ONE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
+                    BaseMediaService.MODE_RANDOM -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
                 }
             })
             // 当前歌曲的观察

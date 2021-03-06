@@ -2,21 +2,14 @@ package com.dirror.music.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
@@ -25,7 +18,6 @@ import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
-import com.dirror.music.util.dp2px
 import com.dirror.music.util.parseArtist
 
 class LocalMusicActivity : BaseActivity() {

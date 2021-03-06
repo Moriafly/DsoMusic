@@ -2,9 +2,11 @@ package com.dirror.music.ui.activity
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Message
 import android.webkit.*
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.dirror.music.databinding.ActivityWebBinding
 import com.dirror.music.ui.base.BaseActivity
@@ -30,6 +32,7 @@ class WebActivity : BaseActivity() {
         binding.webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE
         binding.webView.webViewClient = object : WebViewClient() {
 
+            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 // view?.loadUrl("javascript:function setTop(){document.querySelector('#J-superLayer-main > a > img').style.display=\"none\";}setTop();")
 
