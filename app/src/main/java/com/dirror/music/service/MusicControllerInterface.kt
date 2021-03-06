@@ -1,5 +1,6 @@
 package com.dirror.music.service
 
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import com.dirror.music.music.standard.data.StandardSongData
 
@@ -141,5 +142,10 @@ interface MusicControllerInterface {
      * 结束音乐服务
      */
     fun stopMusicService()
+
+    /**
+     * 获取封面
+     */
+    fun getPlayerCover(): MutableLiveData<Bitmap?>
 
 }

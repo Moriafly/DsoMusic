@@ -109,7 +109,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
     // media2
-    // implementation 'androidx.media2:media2-player:1.1.0'
+    implementation 'androidx.media2:media2-player:1.1.0'
     // room
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'

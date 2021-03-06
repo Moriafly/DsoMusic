@@ -96,19 +96,20 @@ class LocalMusicActivity : BaseActivity() {
             ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->
-            nullableController?.let { controller ->
-                controller.getPlayingSongData().observe(this, { songData ->
+            nullableController?.apply {
+                getPlayingSongData().observe(this@LocalMusicActivity, { songData ->
                     songData?.let {
                         binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
-                        binding.miniPlayer.ivCover.load(SongPicture.getMiniPlayerSongPicture(songData)) {
-                            transformations(CircleCropTransformation())
-                            size(ViewSizeResolver(binding.miniPlayer.ivCover))
-                            error(R.drawable.ic_song_cover)
-                        }
                     }
                 })
-                controller.isPlaying().observe(this, {
+                isPlaying().observe(this@LocalMusicActivity, {
                     binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
+                })
+                getPlayerCover().observe(this@LocalMusicActivity, { bitmap ->
+                    binding.miniPlayer.ivCover.load(bitmap) {
+                        size(ViewSizeResolver(binding.miniPlayer.ivCover))
+                        error(R.drawable.ic_song_cover)
+                    }
                 })
             }
         })

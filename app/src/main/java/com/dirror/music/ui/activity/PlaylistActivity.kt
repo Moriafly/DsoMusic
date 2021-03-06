@@ -9,8 +9,6 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.size.ViewSizeResolver
-import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
@@ -22,7 +20,6 @@ import com.dirror.music.databinding.ActivityPlaylistBinding
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
-import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -57,8 +54,10 @@ class PlaylistActivity : BaseActivity() {
     }
 
     override fun initView() {
-        window.allowEnterTransitionOverlap = true
-        window.allowReturnTransitionOverlap = true
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            window.allowEnterTransitionOverlap = true
+            window.allowReturnTransitionOverlap = true
+        }
         // 屏幕适配
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@PlaylistActivity)
@@ -159,7 +158,7 @@ class PlaylistActivity : BaseActivity() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun initPlaylistInfo(id: Long) {
         if (playlistSource == SOURCE_LOCAL && playlistId == 0L) {
-            getDrawable(R.drawable.ic_bq_love_music_filter)?.let {
+            ContextCompat.getDrawable(this, R.drawable.ic_bq_love_music_filter)?.let {
                 binding.ivCover.setImageBitmap(it.toBitmap())
                 binding.tvName.text = getString(R.string.my_favorite_songs)
                 setBackground(it.toBitmap())
@@ -219,19 +218,20 @@ class PlaylistActivity : BaseActivity() {
             ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->
-            nullableController?.let { controller ->
-                controller.getPlayingSongData().observe(this, { songData ->
+            nullableController?.apply {
+                getPlayingSongData().observe(this@PlaylistActivity, { songData ->
                     songData?.let {
                         binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
-                        binding.miniPlayer.ivCover.load(SongPicture.getMiniPlayerSongPicture(songData)) {
-                            transformations(CircleCropTransformation())
-                            size(ViewSizeResolver(binding.miniPlayer.ivCover))
-                            error(R.drawable.ic_song_cover)
-                        }
                     }
                 })
-                controller.isPlaying().observe(this, {
+                isPlaying().observe(this@PlaylistActivity, {
                     binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
+                })
+                getPlayerCover().observe(this@PlaylistActivity, { bitmap ->
+                    binding.miniPlayer.ivCover.load(bitmap) {
+                        size(ViewSizeResolver(binding.miniPlayer.ivCover))
+                        error(R.drawable.ic_song_cover)
+                    }
                 })
             }
         })

@@ -32,7 +32,6 @@ import com.dirror.music.R
 import com.dirror.music.audio.VolumeManager
 import com.dirror.music.databinding.ActivityPlayerBinding
 import com.dirror.music.music.local.MyFavorite
-import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.service.base.BaseMediaService
@@ -64,7 +63,6 @@ class PlayerActivity : SlideBackActivity() {
 
         private const val BACKGROUND_SCALE_Y = 1.5F
         private const val BACKGROUND_SCALE_X = 2.5F
-        private const val CD_SIZE = 240
 
         // 背景模糊系数
         private const val BLUR_RADIUS = 15
@@ -336,34 +334,6 @@ class PlayerActivity : SlideBackActivity() {
                     binding.tvArtist.text = it.artists?.let { artists ->
                         parseArtist(artists)
                     }
-                    SongPicture.getPlayerActivityCoverBitmap(this@PlayerActivity, it, CD_SIZE.dp()) { bitmap ->
-                        // 设置 CD 图片
-                        binding.ivCover.load(bitmap) {
-                            placeholder(binding.ivCover.drawable)
-                            transformations(CircleCropTransformation())
-                            size(ViewSizeResolver(binding.ivCover))
-                        }
-                        // 设置 背景 图片
-                        Glide.with(MyApplication.context)
-                            .load(bitmap)
-                            .placeholder(binding.ivBackground.drawable)
-                            .apply(RequestOptions.bitmapTransform(BlurTransformation(BLUR_RADIUS, BLUR_SAMPLING)))
-                            .into(binding.ivBackground)
-                        // 设置色调
-                        Palette.from(bitmap)
-                            .clearFilters()
-                            .generate { palette ->
-                                palette?.let {
-                                    val muteColor = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                        palette.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
-                                    } else {
-                                        palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
-                                    }
-                                    val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
-                                    playViewModel.color.value = muteColor.colorMix(vibrantColor)
-                                }
-                            }
-                    }
                     // 刷新歌词
                     playViewModel.updateLyric()
                     // 是否有红心
@@ -386,6 +356,37 @@ class PlayerActivity : SlideBackActivity() {
                             }
                         }
                     }
+                }
+            })
+            // 封面观察
+            MyApplication.musicController.value?.getPlayerCover()?.observe(this@PlayerActivity, { bitmap ->
+                // 设置 CD 图片
+                binding.ivCover.load(bitmap) {
+                    placeholder(binding.ivCover.drawable)
+                    transformations(CircleCropTransformation())
+                    size(ViewSizeResolver(binding.ivCover))
+                }
+                // 设置 背景 图片
+                Glide.with(MyApplication.context)
+                    .load(bitmap)
+                    .placeholder(binding.ivBackground.drawable)
+                    .apply(RequestOptions.bitmapTransform(BlurTransformation(BLUR_RADIUS, BLUR_SAMPLING)))
+                    .into(binding.ivBackground)
+                // 设置色调
+                bitmap?.let {
+                    Palette.from(bitmap)
+                        .clearFilters()
+                        .generate { palette ->
+                            palette?.let {
+                                val muteColor = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                    palette.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                } else {
+                                    palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                }
+                                val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
+                                playViewModel.color.value = muteColor.colorMix(vibrantColor)
+                            }
+                        }
                 }
             })
             // 播放状态的观察

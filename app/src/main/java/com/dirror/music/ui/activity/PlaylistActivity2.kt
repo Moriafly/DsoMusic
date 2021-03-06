@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
@@ -31,7 +30,6 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.ui.viewmodel.PlaylistViewModel
 import com.dirror.music.util.*
-import eightbitlab.com.blurview.RenderScriptBlur
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -181,19 +179,20 @@ class PlaylistActivity2: BaseActivity() {
             ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->
-            nullableController?.let { controller ->
-                controller.getPlayingSongData().observe(this, { songData ->
+            nullableController?.apply {
+                getPlayingSongData().observe(this@PlaylistActivity2, { songData ->
                     songData?.let {
                         binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
-                        binding.miniPlayer.ivCover.load(SongPicture.getMiniPlayerSongPicture(songData)) {
-                            transformations(CircleCropTransformation())
-                            size(ViewSizeResolver(binding.miniPlayer.ivCover))
-                            error(R.drawable.ic_song_cover)
-                        }
                     }
                 })
-                controller.isPlaying().observe(this, {
+                isPlaying().observe(this@PlaylistActivity2, {
                     binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
+                })
+                getPlayerCover().observe(this@PlaylistActivity2, { bitmap ->
+                    binding.miniPlayer.ivCover.load(bitmap) {
+                        size(ViewSizeResolver(binding.miniPlayer.ivCover))
+                        error(R.drawable.ic_song_cover)
+                    }
                 })
             }
         })

@@ -1,3 +1,27 @@
+/**
+ * DsoMusic Copyright (C) 2020-2021 Moriafly
+ *
+ * This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+ * This is free software, and you are welcome to redistribute it
+ * under certain conditions; type `show c' for details.
+ *
+ * The hypothetical commands `show w' and `show c' should show the appropriate
+ * parts of the General Public License.  Of course, your program's commands
+ * might be different; for a GUI interface, you would use an "about box".
+ *
+ * You should also get your employer (if you work as a programmer) or school,
+ * if any, to sign a "copyright disclaimer" for the program, if necessary.
+ * For more information on this, and how to apply and follow the GNU GPL, see
+ * <https://www.gnu.org/licenses/>.
+ *
+ * The GNU General Public License does not permit incorporating your program
+ * into proprietary programs.  If your program is a subroutine library, you
+ * may consider it more useful to permit linking proprietary applications with
+ * the library.  If this is what you want to do, use the GNU Lesser General
+ * Public License instead of this License.  But first, please read
+ * <https://www.gnu.org/licenses/why-not-lgpl.html>.
+ */
+
 package com.dirror.music.service
 
 import android.app.*
@@ -25,10 +49,10 @@ import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.util.*
-import org.jetbrains.annotations.TestOnly
+import kotlin.concurrent.thread
 
 /**
- * 音乐服务
+ * Music Service
  * @author Moriafly
  * @since 2020/9
  */
@@ -36,7 +60,7 @@ class MusicService : BaseMediaService() {
     // 懒加载音乐控制器
     private val musicController by lazy { MusicController() }
     private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
-    private var notificationManager: NotificationManager? = null // 通知管理
+    private var notificationManager: NotificationManager? = null
     private var isAudioFocus = MyApplication.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true) // 是否开启音频焦点
 
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
@@ -53,20 +77,22 @@ class MusicService : BaseMediaService() {
 
     override fun onCreate() {
         super.onCreate()
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
-        // 初始化 MediaSession
-        initMediaSession()
-        // 初始化通道
-        initChannel()
-        // 初始化音频焦点
-        initAudioFocus()
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 通知管理
     }
 
-    /**
-     * 初始化音频焦点
-     */
-    @TestOnly
-    private fun initAudioFocus() {
+    override fun initChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel
+            val name = "Dso Music Notification"
+            val descriptionText = "Dso Music 音乐通知"
+            val importance = NotificationManager.IMPORTANCE_LOW
+            val channel = NotificationChannel(CHANNEL_ID, name, importance)
+            channel.description = descriptionText
+            notificationManager?.createNotificationChannel(channel)
+        }
+    }
+
+    override fun initAudioFocus() {
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             audioAttributes = AudioAttributes.Builder()
@@ -93,13 +119,9 @@ class MusicService : BaseMediaService() {
                 audioManager.requestAudioFocus(audioFocusRequest)
             }
         }
-
     }
 
-    /**
-     * 初始化媒体会话 MediaSession
-     */
-    private fun initMediaSession() {
+    override fun initMediaSession() {
         val intentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
 
         var myNoisyAudioStreamReceiverTag = false
@@ -238,18 +260,6 @@ class MusicService : BaseMediaService() {
 
     }
 
-    private fun initChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the NotificationChannel
-            val name = "Dso Music Notification"
-            val descriptionText = "Dso Music 音乐通知"
-            val importance = NotificationManager.IMPORTANCE_LOW
-            val channel = NotificationChannel(CHANNEL_ID, name, importance)
-            channel.description = descriptionText
-            notificationManager?.createNotificationChannel(channel)
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         // 释放 mediaSession
@@ -257,11 +267,11 @@ class MusicService : BaseMediaService() {
             it.setCallback(null)
             it.release()
         }
+        mediaPlayer?.release()
     }
 
     /**
-     * 内部类
-     * MusicBinder
+     * inner class Music Controller
      */
     inner class MusicController : Binder(), MusicControllerInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
@@ -273,6 +283,9 @@ class MusicService : BaseMediaService() {
         }
 
         private var isPrepared = false // 音乐是否准备完成
+
+        /* Song cover bitmap*/
+        private val coverBitmap = MutableLiveData<Bitmap?>()
 
         override fun setPlaylist(songListData: ArrayList<StandardSongData>) {
             PlayQueue.setNormal(songListData)
@@ -315,6 +328,7 @@ class MusicService : BaseMediaService() {
                     prepareAsync()
                 }
             }
+
         }
 
         private fun sendMusicBroadcast() {
@@ -330,6 +344,12 @@ class MusicService : BaseMediaService() {
             sendMusicBroadcast()
             refreshNotification()
             setPlaybackParams()
+            // 获取封面
+            songData.value?.let {
+                SongPicture.getPlayerActivityCoverBitmap(this@MusicService.applicationContext, it, 240.dp()) { bitmap ->
+                    coverBitmap.value = bitmap
+                }
+            }
             // 添加到播放历史
             getPlayingSongData().value?.let {
                 PlayHistory.addPlayHistory(it)
@@ -399,6 +419,8 @@ class MusicService : BaseMediaService() {
         override fun stopMusicService() {
             stopSelf(-1)
         }
+
+        override fun getPlayerCover(): MutableLiveData<Bitmap?> = coverBitmap
 
         override fun isPlaying(): MutableLiveData<Boolean> = isSongPlaying
 

@@ -13,6 +13,31 @@ abstract class BaseMediaService: MediaBrowserServiceCompat() {
      */
     var mediaPlayer: MediaPlayer? = null
 
+    override fun onCreate() {
+        super.onCreate()
+        initChannel()
+        initMediaSession()
+        initAudioFocus()
+    }
+
+    /**
+     * 初始化媒体会话 MediaSession
+     */
+    open fun initMediaSession() {
+
+    }
+
+    open fun initChannel() {
+
+    }
+
+    /**
+     * 初始化音频焦点
+     */
+    open fun initAudioFocus() {
+
+    }
+
     companion object {
         const val TAG = "MusicService"
 
