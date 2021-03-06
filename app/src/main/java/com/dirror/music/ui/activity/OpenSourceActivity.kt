@@ -21,7 +21,8 @@ class OpenSourceActivity : BaseActivity() {
 
     override fun initView() {
         val openSourceList = listOf(
-            OpenSourceData("Aria", "https://github.com/AriaLyy/Aria", AL2),
+            OpenSourceData("Android Jetpack", "https://source.google.com", AL2),
+            OpenSourceData("AndroidX", "https://source.google.com", AL2),
             OpenSourceData("ASimpleCache", "https://github.com/yangfuhai/ASimpleCache", AL2),
             OpenSourceData("BlurView", "https://github.com/Dimezis/BlurView", AL2),
             OpenSourceData("Coil", "https://github.com/coil-kt/coil", AL2),

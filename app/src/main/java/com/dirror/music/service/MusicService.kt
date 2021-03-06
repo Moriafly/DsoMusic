@@ -33,8 +33,8 @@ import org.jetbrains.annotations.TestOnly
  * @since 2020/9
  */
 class MusicService : BaseMediaService() {
-    // 懒加载 musicBinder
-    private val musicBinder by lazy { MusicController() }
+    // 懒加载音乐控制器
+    private val musicController by lazy { MusicController() }
     private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
     private var notificationManager: NotificationManager? = null // 通知管理
     private var isAudioFocus = MyApplication.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true) // 是否开启音频焦点
@@ -53,13 +53,12 @@ class MusicService : BaseMediaService() {
 
     override fun onCreate() {
         super.onCreate()
-
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 要在初始化通道前
         // 初始化 MediaSession
         initMediaSession()
         // 初始化通道
         initChannel()
-        // 初始化音频焦点（暂时禁用，等待测试）
+        // 初始化音频焦点
         initAudioFocus()
     }
 
@@ -84,10 +83,10 @@ class MusicService : BaseMediaService() {
                         // AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> musicBinder.play()
                         AudioManager.AUDIOFOCUS_LOSS -> {
                             // audioManager.abandonAudioFocusRequest(audioFocusRequest)
-                            musicBinder.pause()
+                            musicController.pause()
                         }
-                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> musicBinder.pause()
-                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> musicBinder.pause()
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> musicController.pause()
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> musicController.pause()
                     }
                 }.build()
             if (isAudioFocus) {
@@ -143,12 +142,12 @@ class MusicService : BaseMediaService() {
 
             // 播放下一首
             override fun onSkipToNext() {
-                musicBinder.playNext()
+                musicController.playNext()
             }
 
             // 播放上一首
             override fun onSkipToPrevious() {
-                // AudioPlayer.get().prev()
+                musicController.playPrevious()
             }
 
             // 关闭
@@ -164,7 +163,7 @@ class MusicService : BaseMediaService() {
             // 跳转
             override fun onSeekTo(pos: Long) {
                 mediaPlayer?.seekTo(pos.toInt())
-                if (musicBinder.isPlaying().value == true) {
+                if (musicController.isPlaying().value == true) {
                     onPlay()
                 }
             }
@@ -179,21 +178,11 @@ class MusicService : BaseMediaService() {
                                     // 按键按下
                                     KeyEvent.ACTION_DOWN -> {
                                         when (keyEvent.keyCode) {
-                                            KeyEvent.KEYCODE_MEDIA_PLAY -> { // 播放按钮
-                                                MyApplication.musicController.value?.play()
-                                            }
-                                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
-                                                MyApplication.musicController.value?.changePlayState()
-                                            }
-                                            KeyEvent.KEYCODE_MEDIA_PAUSE -> {
-                                                MyApplication.musicController.value?.pause()
-                                            }
-                                            KeyEvent.KEYCODE_MEDIA_NEXT -> {
-                                                MyApplication.musicController.value?.playNext()
-                                            }
-                                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> {
-                                                MyApplication.musicController.value?.playPrevious()
-                                            }
+                                            KeyEvent.KEYCODE_MEDIA_PLAY -> musicController.play()
+                                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> musicController.changePlayState()
+                                            KeyEvent.KEYCODE_MEDIA_PAUSE -> musicController.pause()
+                                            KeyEvent.KEYCODE_MEDIA_NEXT -> musicController.playNext()
+                                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> musicController.playPrevious()
                                         }
                                     }
                                 }
@@ -218,18 +207,18 @@ class MusicService : BaseMediaService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.getIntExtra("int_code", 0)) {
-            CODE_PREVIOUS -> musicBinder.playPrevious()
+            CODE_PREVIOUS -> musicController.playPrevious()
             CODE_PLAY -> {
-                loge(musicBinder.isPlaying().value.toString(), TAG)
-                if (musicBinder.isPlaying().value == true) {
+                loge(musicController.isPlaying().value.toString(), TAG)
+                if (musicController.isPlaying().value == true) {
                     loge("按钮请求暂停音乐", TAG)
-                    musicBinder.pause()
+                    musicController.pause()
                 } else {
                     loge("按钮请求继续播放音乐", TAG)
-                    musicBinder.play()
+                    musicController.play()
                 }
             }
-            CODE_NEXT -> musicBinder.playNext()
+            CODE_NEXT -> musicController.playNext()
         }
         return START_NOT_STICKY // 非粘性服务
     }
@@ -238,7 +227,7 @@ class MusicService : BaseMediaService() {
      * 绑定
      */
     override fun onBind(p0: Intent?): IBinder {
-        return musicBinder
+        return musicController
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
@@ -296,16 +285,13 @@ class MusicService : BaseMediaService() {
 
         override fun playMusic(song: StandardSongData) {
             isPrepared = false
-
             songData.value = song
-
             // 如果 MediaPlayer 已经存在，释放
             if (mediaPlayer != null) {
                 mediaPlayer?.reset()
                 mediaPlayer?.release()
                 mediaPlayer = null
             }
-
             // 初始化
             mediaPlayer = MediaPlayer().apply {
                 ServiceSongUrl.getUrl(song) {
@@ -323,11 +309,11 @@ class MusicService : BaseMediaService() {
                         }
                         is Uri -> setDataSource(applicationContext, it)
                     }
+                    setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
+                    setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
+                    setOnErrorListener(this@MusicController)
+                    prepareAsync()
                 }
-                setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
-                setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
-                setOnErrorListener(this@MusicController)
-                prepareAsync()
             }
         }
 
@@ -361,10 +347,8 @@ class MusicService : BaseMediaService() {
                 }
                 isSongPlaying.value = mediaPlayer?.isPlaying ?: false
             }
-
             sendMusicBroadcast()
             refreshNotification()
-
         }
 
         override fun play() {
@@ -624,7 +608,7 @@ class MusicService : BaseMediaService() {
      */
     private var largeBitmap: Bitmap? = null
     private fun refreshNotification() {
-        val song = musicBinder.getPlayingSongData().value
+        val song = musicController.getPlayingSongData().value
         if (song != null) {
             SongPicture.getPlayerActivityCoverBitmap(this, song, 100.dp()) { bitmap ->
                 largeBitmap = bitmap
@@ -651,7 +635,6 @@ class MusicService : BaseMediaService() {
                     }
                 }.build()
             )
-
             setPlaybackState(
                 PlaybackStateCompat.Builder()
                     .setState(
@@ -665,7 +648,7 @@ class MusicService : BaseMediaService() {
             setCallback(mediaSessionCallback)
             isActive = true
         }
-        if (musicBinder.isPlaying().value != true) {
+        if (musicController.isPlaying().value != true) {
             mediaSessionCallback?.onPause()
         }
 
@@ -695,7 +678,7 @@ class MusicService : BaseMediaService() {
      * 获取通知栏播放的图标
      */
     private fun getPlayIcon(): Int {
-        return if (musicBinder.isPlaying().value == true) {
+        return if (musicController.isPlaying().value == true) {
             R.drawable.ic_baseline_pause_24
         } else {
             R.drawable.ic_baseline_play_arrow_24
