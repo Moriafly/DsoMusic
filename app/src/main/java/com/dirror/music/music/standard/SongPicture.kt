@@ -137,7 +137,7 @@ object SongPicture {
                 }
             }
             else -> {
-                val commonBitmap: Bitmap? = MyApplication.context.getDrawable(R.drawable.bq_no_data_song)?.toBitmap()
+                val commonBitmap: Bitmap? = ContextCompat.getDrawable(context, R.drawable.ic_song_cover)?.toBitmap(128.dp(), 128.dp())
                 if (commonBitmap != null) {
                     success.invoke(commonBitmap)
                 }

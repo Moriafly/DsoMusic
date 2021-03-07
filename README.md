@@ -13,10 +13,6 @@ Kotlin 开发的美观的安卓音乐软件。
 - 🤔 I am looking for help with adroid develop.
 - 📫 My email: moriafly@163.com.
 
-# 后续本项目维护
-
-感谢 [lbccccc](https://github.com/lbccccc) 等支持
-
 # 声明及协议
 
 开源链接、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）
@@ -58,6 +54,10 @@ QQ 音乐来源：自己搞的 : )
 # 博客地址
 
 https://blog.csdn.net/Moriafly/article/details/109708728
+
+# 后续本项目维护
+
+感谢 [lbccccc](https://github.com/lbccccc) 等支持
 
 # 开发进度
 

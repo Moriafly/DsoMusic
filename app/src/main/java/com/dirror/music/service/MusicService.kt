@@ -49,7 +49,6 @@ import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.util.*
-import kotlin.concurrent.thread
 
 /**
  * Music Service
@@ -316,6 +315,7 @@ class MusicService : BaseMediaService() {
                                 )
                             ) {
                                 toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
+                                return@getUrl
                             } else {
                                 setDataSource(it)
                             }
@@ -486,7 +486,6 @@ class MusicService : BaseMediaService() {
         }
 
         override fun playNext() {
-
             when (val position = PlayQueue.currentQueue.value?.indexOf(songData.value) ?: -1) {
                 -1 -> return
                 PlayQueue.currentQueue.value?.lastIndex -> {

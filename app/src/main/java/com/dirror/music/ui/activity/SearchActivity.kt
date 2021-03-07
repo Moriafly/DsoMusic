@@ -11,8 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.size.ViewSizeResolver
-import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DetailPlaylistAdapter
@@ -21,7 +19,6 @@ import com.dirror.music.databinding.ActivitySearchBinding
 import com.dirror.music.music.netease.SearchUtil
 import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
@@ -244,19 +241,20 @@ class SearchActivity : BaseActivity() {
             ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
         }
         MyApplication.musicController.observe(this, { nullableController ->
-            nullableController?.let { controller ->
-                controller.getPlayingSongData().observe(this, { songData ->
+            nullableController?.apply {
+                getPlayingSongData().observe(this@SearchActivity, { songData ->
                     songData?.let {
                         binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
-                        binding.miniPlayer.ivCover.load(SongPicture.getMiniPlayerSongPicture(songData)) {
-                            transformations(CircleCropTransformation())
-                            size(ViewSizeResolver(binding.miniPlayer.ivCover))
-                            error(R.drawable.ic_song_cover)
-                        }
                     }
                 })
-                controller.isPlaying().observe(this, {
+                isPlaying().observe(this@SearchActivity, {
                     binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
+                })
+                getPlayerCover().observe(this@SearchActivity, { bitmap ->
+                    binding.miniPlayer.ivCover.load(bitmap) {
+                        size(ViewSizeResolver(binding.miniPlayer.ivCover))
+                        error(R.drawable.ic_song_cover)
+                    }
                 })
             }
         })

@@ -17,6 +17,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.util.Config
+import com.dirror.music.util.dp
 import java.io.*
 import java.lang.Exception
 
@@ -143,7 +144,7 @@ object LocalMusic {
 
         }
         if (bmp == null) {
-            bmp = ContextCompat.getDrawable(context, R.drawable.bq_no_data_song)?.toBitmap()
+            bmp = ContextCompat.getDrawable(context, R.drawable.ic_song_cover)?.toBitmap(128.dp(), 128.dp())
         }
         return bmp
     }
