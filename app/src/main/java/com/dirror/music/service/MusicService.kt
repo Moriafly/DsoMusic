@@ -32,7 +32,6 @@ import android.graphics.Bitmap
 import android.media.*
 import android.net.Uri
 import android.os.*
-import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -75,8 +74,9 @@ class MusicService : BaseMediaService() {
     private lateinit var audioFocusRequest: AudioFocusRequest
 
     override fun onCreate() {
-        super.onCreate()
+        // 在 super.onCreate() 前
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 通知管理
+        super.onCreate()
     }
 
     override fun initChannel() {
@@ -249,14 +249,6 @@ class MusicService : BaseMediaService() {
      */
     override fun onBind(p0: Intent?): IBinder {
         return musicController
-    }
-
-    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
-        return null
-    }
-
-    override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
-
     }
 
     override fun onDestroy() {

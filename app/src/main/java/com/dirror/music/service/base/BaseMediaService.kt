@@ -1,12 +1,12 @@
 package com.dirror.music.service.base
 
+import android.app.Service
 import android.media.MediaPlayer
-import androidx.media.MediaBrowserServiceCompat
 
 /**
  * 抽象类
  */
-abstract class BaseMediaService: MediaBrowserServiceCompat() {
+abstract class BaseMediaService: Service() {
 
     /**
      * MediaPlayer
