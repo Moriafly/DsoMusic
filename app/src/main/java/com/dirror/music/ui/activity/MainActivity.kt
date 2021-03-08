@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import coil.load
 import coil.size.ViewSizeResolver
-import coil.transform.CircleCropTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
@@ -26,7 +25,6 @@ import com.dirror.music.R
 import com.dirror.music.broadcast.HeadsetChangeReceiver
 import com.dirror.music.databinding.ActivityMainBinding
 import com.dirror.music.manager.ActivityCollector
-import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.MainViewModel
@@ -180,6 +178,9 @@ class MainActivity : BaseActivity() {
 
         // 侧滑
         binding.menuMain.apply {
+            itemSponsor.setOnClickListener {
+                startActivity(Intent(this@MainActivity, SponsorActivity::class.java))
+            }
             itemSwitchAccount.setOnClickListener {
                 MyApplication.activityManager.startLoginActivity(this@MainActivity)
             }

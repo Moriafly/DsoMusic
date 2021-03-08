@@ -58,6 +58,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/colorTextForeground"
                         android:textSize="12sp"
+                        android:singleLine="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"

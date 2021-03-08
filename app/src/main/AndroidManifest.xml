@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.TopListActivity"></activity>
+        <activity android:name=".ui.activity.SponsorActivity"></activity>
+        <activity android:name=".ui.activity.TopListActivity" />
         <activity android:name=".ui.activity.RecommendActivity" />
         <activity
             android:name=".ui.activity.AboutActivity2"

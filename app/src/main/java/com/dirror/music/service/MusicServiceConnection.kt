@@ -21,7 +21,7 @@ class MusicServiceConnection : ServiceConnection {
      * 服务意外断开连接
      */
     override fun onServiceDisconnected(p0: ComponentName?) {
-        // MyApplication.musicBinderInterface = null
+        MyApplication.musicController.value = null
     }
 
 }

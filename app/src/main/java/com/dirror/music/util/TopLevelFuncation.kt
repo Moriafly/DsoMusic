@@ -51,9 +51,11 @@ fun runOnMainThread(runnable: Runnable) {
  * 全局 log
  */
 @JvmOverloads
-fun loge(msg: String, tag: String = "默认") {
-    runOnMainThread {
-        Log.e(tag, "【$msg】")
+fun loge(msg: String, tag: String = "Default") {
+    if (Secure.isDebug()) {
+        runOnMainThread {
+            Log.e(tag, "【$msg】")
+        }
     }
 }
 

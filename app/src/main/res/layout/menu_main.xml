@@ -106,11 +106,32 @@
             </com.dirror.music.widget.ItemLayout>
 
             <com.dirror.music.widget.ItemLayout
-                android:id="@+id/itemAbout"
+                android:id="@+id/itemSponsor"
                 app:itemType="item_menu"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="112dp"
+                app:text="@string/sponsor">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:padding="2dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    android:src="@drawable/ic_sponsor" />
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemAbout"
+                app:itemType="item_menu"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="168dp"
                 app:text="@string/about">
 
                 <ImageView
