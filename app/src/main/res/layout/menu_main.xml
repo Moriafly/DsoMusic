@@ -20,69 +20,6 @@
         android:paddingBottom="16dp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvUser"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardBackgroundColor="@color/colorMenuBackground"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clUser"
-                    android:layout_width="match_parent"
-                    android:background="@color/colorMenuBackground"
-                    android:layout_height="56dp">
-
-
-                    <ImageView
-                        android:id="@+id/ivCover"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_marginStart="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription"
-                        tools:srcCompat="@tools:sample/avatars" />
-
-
-                    <TextView
-                        android:id="@+id/tvUserName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:minWidth="28dp"
-                        android:textColor="@color/colorTextForeground"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/ivGoto"
-                        app:layout_constraintStart_toEndOf="@+id/ivCover"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/ivGoto"
-                        android:alpha="0.5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.51"
-                        app:srcCompat="@drawable/ic_next"
-                        tools:ignore="ContentDescription,VectorDrawableCompat" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -116,6 +53,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvOthers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -238,7 +176,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/ic_exit_app" />
 
             </com.dirror.music.widget.ItemLayout>
 

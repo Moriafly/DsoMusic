@@ -1,6 +1,7 @@
 package com.dirror.music.music.netease
 
 import android.content.Context
+import com.dirror.music.api.API_DSO
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
@@ -25,6 +26,7 @@ object Playlist {
     // private const val SONG_DETAIL_URL = "https://autumnfish.cn/song/detail" // 歌曲详情
     // private const val SONG_DETAIL_URL = "http://www.hjmin.com/song/detail"
     private const val SONG_DETAIL_URL = "http://music.eleuu.com/song/detail"
+    // private const val SONG_DETAIL_URL = "${API_DSO}/song/detail"
     private const val API = "https://music.163.com/api/v6/playlist/detail"
 
     private const val SONG_DETAIL_API = "https://music.163.com/api/v3/song/detail"

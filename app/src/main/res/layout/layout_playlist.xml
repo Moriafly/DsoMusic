@@ -10,8 +10,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cvCover"
         android:transitionName="transCvCover"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
         android:layout_marginStart="10dp"
         app:cardCornerRadius="@dimen/defaultRadius"
         app:cardElevation="0dp"

@@ -34,7 +34,7 @@ class LoginCellphoneViewModel: ViewModel() {
                     success.invoke(userDetail)
                 }
             } catch (e: Exception) {
-                failure.invoke(ErrorCode.MAGIC_HTTP_ERROR)
+                failure.invoke(ErrorCode.ERROR_MAGIC_HTTP)
             }
         }
     }

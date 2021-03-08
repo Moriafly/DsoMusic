@@ -32,7 +32,7 @@ class RecommendActivityViewModel: ViewModel() {
                 toast("网络失败")
             })
         } else {
-            toast("离线状态无法获取每日推荐")
+            toast("UID 离线状态无法获取每日推荐，请使用手机号登录")
         }
     }
 

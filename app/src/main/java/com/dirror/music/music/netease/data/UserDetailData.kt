@@ -2,7 +2,6 @@ package com.dirror.music.music.netease.data
 
 import androidx.annotation.Keep
 
-
 /**
  * 用户详细信息
  */
@@ -19,6 +18,7 @@ data class UserDetailData(
     @Keep
     data class ProfileData(
         val userId: Long, // 用户 id
+        val vipType: Int, // 0 为不是 VIP
         val avatarUrl: String, // 头像链接
         val nickname: String, // 昵称
         val backgroundUrl: String?, // 背景图片

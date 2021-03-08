@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.viewModels
 import com.dirror.music.R
 import com.dirror.music.api.API_AUTU
+import com.dirror.music.api.API_DSO
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.base.BaseActivity

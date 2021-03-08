@@ -121,7 +121,7 @@ class MainActivity : BaseActivity() {
             topMargin = statusBarHeight
         }
         // 侧滑状态栏适配
-        (binding.menuMain.cvUser.layoutParams as LinearLayout.LayoutParams).apply{
+        (binding.menuMain.cvOthers.layoutParams as LinearLayout.LayoutParams).apply{
             topMargin = statusBarHeight + 8.dp()
         }
 
@@ -180,16 +180,6 @@ class MainActivity : BaseActivity() {
 
         // 侧滑
         binding.menuMain.apply {
-            clUser.setOnClickListener {
-                if (MyApplication.userManager.getCurrentUid() == 0L) {
-                    MyApplication.activityManager.startLoginActivity(this@MainActivity)
-                } else {
-                    MyApplication.activityManager.startUserActivity(
-                        this@MainActivity,
-                        MyApplication.userManager.getCurrentUid()
-                    )
-                }
-            }
             itemSwitchAccount.setOnClickListener {
                 MyApplication.activityManager.startLoginActivity(this@MainActivity)
             }
@@ -231,22 +221,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initObserver() {
-        mainViewModel.userId.observe(this, { userId ->
-            // toast("侧栏收到变化：${userId}")
-            if (userId == 0L) {
-                binding.menuMain.tvUserName.text = "立即登录"
-            } else {
-                MyApplication.cloudMusicManager.getUserDetail(userId, {
-                    runOnUiThread {
-                        // toast("通知头像更新")
-                        GlideUtil.loadCircle(it.profile.avatarUrl, binding.menuMain.ivCover)
-                        binding.menuMain.tvUserName.text = it.profile.nickname
-                    }
-                }, {
 
-                })
-            }
-        })
     }
 
     override fun onStart() {

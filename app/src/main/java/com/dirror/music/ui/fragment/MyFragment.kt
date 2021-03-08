@@ -1,5 +1,6 @@
 package com.dirror.music.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +9,12 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.load
+import coil.size.ViewSizeResolver
+import coil.transform.CircleCropTransformation
+import com.dirror.music.MyApplication
 import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
 import com.dirror.music.data.PlaylistData
@@ -31,16 +37,11 @@ class MyFragment : Fragment() {
 
     // activity 和 fragment 共享数据
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val myFragmentViewModel: MyFragmentViewModel by activityViewModels()
+    private val myFragmentViewModel: MyFragmentViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMyBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -56,6 +57,16 @@ class MyFragment : Fragment() {
 
     private fun initListener() {
         binding.apply {
+            clUser.setOnClickListener {
+                if (MyApplication.userManager.getCurrentUid() == 0L) {
+                    MyApplication.activityManager.startLoginActivity(requireActivity())
+                } else {
+                    MyApplication.activityManager.startUserActivity(
+                        requireActivity(),
+                        MyApplication.userManager.getCurrentUid()
+                    )
+                }
+            }
             // 我喜欢的音乐
             clFavorite.setOnClickListener {
                 AnimationUtil.click(it)
@@ -93,6 +104,7 @@ class MyFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initObserver() {
         // binding.rvPlaylist.layoutManager =  gridLayoutManager
         mainViewModel.userId.observe(viewLifecycleOwner, {
@@ -106,9 +118,28 @@ class MyFragment : Fragment() {
             setPlaylist(it)
         })
         mainViewModel.statusBarHeight.observe(viewLifecycleOwner, {
-            (binding.llTop.layoutParams as LinearLayout.LayoutParams).apply {
-                topMargin = it + 56.dp()
+            (binding.clUser.layoutParams as LinearLayout.LayoutParams).apply {
+                topMargin = it + 56.dp() + 8.dp()
                 // setMargins(0, it + 56.dp(), 0, 0)
+            }
+        })
+        mainViewModel.userId.observe(viewLifecycleOwner, { userId ->
+            if (userId == 0L) {
+                binding.tvUserName.text = "立即登录"
+            } else {
+                MyApplication.cloudMusicManager.getUserDetail(userId, {
+                    runOnMainThread {
+                        binding.ivUser.load(it.profile.avatarUrl) {
+                             transformations(CircleCropTransformation())
+                             size(ViewSizeResolver(binding.ivUser))
+                            // error(R.drawable.ic_song_cover)
+                        }
+                        binding.tvUserName.text = it.profile.nickname
+                        binding.tvLevel.text = "Lv.${it.level}"
+                    }
+                }, {
+
+                })
             }
         })
     }
