@@ -24,7 +24,7 @@ class AboutActivity2 : BaseActivity() {
         private const val QQ_GROUP_KEY = "3UvEVCjzhLc3uTDO91DadcjMscFD2OHj"
     }
 
-    private lateinit var binding: ActivityAbout2Binding
+    private lateinit var binding: com.dirror.music.databinding.ActivityAbout2Binding
 
     override fun initBinding() {
         binding = ActivityAbout2Binding.inflate(layoutInflater)
@@ -40,7 +40,7 @@ class AboutActivity2 : BaseActivity() {
             }
 
             try {
-                tvVersion.text = resources.getString(R.string.version, getVisionName(), getVisionCode(), versionType)
+                tvVersion.text = resources.getString(R.string.version, getVisionName(), versionType)
             } catch (e: Exception) {
 
             }

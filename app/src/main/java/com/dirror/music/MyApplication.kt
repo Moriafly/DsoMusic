@@ -17,7 +17,6 @@ import com.dirror.music.util.*
 import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
-import okhttp3.Cookie
 
 /**
  * 自定义 Application
@@ -38,9 +37,6 @@ class MyApplication : Application() {
             it.value = null
         }
         val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
-
-        val cookieStore: HashMap<String, List<Cookie>> = HashMap() // cookie
-
         // 管理
         lateinit var userManager: UserManager
         lateinit var activityManager: ActivityManager

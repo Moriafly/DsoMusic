@@ -117,17 +117,6 @@ object MagicHttp {
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(3, TimeUnit.SECONDS)
                     .writeTimeout(3, TimeUnit.SECONDS)
-                    .cookieJar(object : CookieJar {
-                        override fun loadForRequest(url: HttpUrl): List<Cookie> {
-                            val cookies = MyApplication.cookieStore[url.host]
-                            return cookies ?: ArrayList()
-                        }
-
-                        override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
-                            MyApplication.cookieStore[url.host] = cookies
-                        }
-
-                    })
                     .build()
 
                 val body: RequestBody = FormBody.Builder()

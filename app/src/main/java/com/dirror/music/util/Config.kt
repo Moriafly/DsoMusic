@@ -59,4 +59,7 @@ object Config {
 
     // 锁屏显示
     const val SHOW_IN_LOCK_SCREEN = "boolean_show_in_lock_screen"
+
+    /* 单列歌单 */
+    const val SINGLE_COLUMN_USER_PLAYLIST = "boolean_single_column_user_playlist"
 }

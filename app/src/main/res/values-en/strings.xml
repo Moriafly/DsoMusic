@@ -48,7 +48,7 @@
     <string name="search">Search</string>
     <string name="experimental">Experimental</string>
     <string name="confirm">Confirm</string>
-    <string name="version">%s(%d) - %s</string>
+    <string name="version">%s - %s</string>
     <string name="open_source_introduction">Introduction of open source</string>
     <string name="send">Send</string>
     <string name="songs">%d songs</string>

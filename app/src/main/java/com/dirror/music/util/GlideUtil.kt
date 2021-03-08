@@ -2,12 +2,9 @@ package com.dirror.music.util
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -80,32 +77,12 @@ object GlideUtil {
     /**
      * 加载圆形图片
      */
-    fun loadCircle(url: String, imageView: ImageView) {
-        Glide.with(MyApplication.context)
-            .load(url)
-            .apply(RequestOptions.bitmapTransform(CircleCrop()))
-            .into(imageView)
-    }
-
     fun loadCircle(url: String, imageView: ImageView, needSize: Int) {
         Glide.with(MyApplication.context)
             .load(url)
             .override(needSize)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(imageView)
-    }
-
-    /**
-     *
-     */
-    fun loadCircle(url: String, imageView: ImageView, dpSize: Int, needSize: Int) {
-        Glide.with(MyApplication.context)
-            .load(url)
-            .apply(RequestOptions()
-                .transforms(CenterCrop(), RoundedCorners(dpSize)
-                ))
-            .into(imageView)
-
     }
 
 }

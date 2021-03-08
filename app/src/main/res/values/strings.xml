@@ -48,7 +48,7 @@
     <string name="search">搜索</string>
     <string name="experimental">实验性</string>
     <string name="confirm">确定</string>
-    <string name="version">%s(%d) - %s</string>
+    <string name="version">%s - %s</string>
     <string name="open_source_introduction">开源介绍</string>
     <string name="send">发送</string>
     <string name="songs">%d 首</string>
