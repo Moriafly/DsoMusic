@@ -20,7 +20,7 @@
             android:id="@+id/itemNextPlay"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            app:text="下一首播放" />
+            app:text="@string/next_play" />
 
         <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemAddLocalMyFavorite"

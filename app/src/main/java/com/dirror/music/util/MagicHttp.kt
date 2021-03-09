@@ -27,13 +27,16 @@ package com.dirror.music.util
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import com.dirror.music.MyApplication
 import com.dirror.music.util.cache.ACache
 import okhttp3.*
 import okhttp3.OkHttpClient
+import org.jetbrains.annotations.TestOnly
 import java.io.IOException
 import java.net.Proxy
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * MagicHttp
@@ -46,6 +49,7 @@ object MagicHttp {
 
     interface MagicHttpInterface {
 
+        // @Deprecated("过时方法，请使用协程请求")
         fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit)
 
         @Deprecated("过时方法，请使用 newPost")
@@ -61,6 +65,11 @@ object MagicHttp {
         fun getByCache(context: Context, url: String, time: Int, success: (String) -> Unit, failure: (String) -> Unit)
 
         fun postByCache(context: Context, url: String, json: String, success: (String) -> Unit)
+
+        /* 协程 GET 请求 */
+        @TestOnly
+        suspend fun get(url: String): String
+
     }
 
     // 运行在主线程，更新 UI
@@ -220,6 +229,35 @@ object MagicHttp {
                 }
             } else {
                 success.invoke(cache)
+            }
+        }
+
+        override suspend fun get(url: String): String {
+            return suspendCoroutine {
+                try {
+                    val client = OkHttpClient.Builder()
+                        .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
+                        .connectTimeout(5, TimeUnit.SECONDS)
+                        .readTimeout(3, TimeUnit.SECONDS)
+                        .writeTimeout(3, TimeUnit.SECONDS)
+                        .build()
+                    val request = Request.Builder()
+                        .url(url)
+                        .get()
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onResponse(call: Call, response: Response) {
+                            val string = response.body?.string()!!
+                            it.resume(string)
+                        }
+
+                        override fun onFailure(call: Call, e: IOException) {
+                            it.resumeWithException(e)
+                        }
+                    })
+                } catch (e: Exception) {
+                    it.resumeWithException(e)
+                }
             }
         }
 

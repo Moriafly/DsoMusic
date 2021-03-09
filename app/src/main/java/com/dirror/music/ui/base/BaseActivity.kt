@@ -90,7 +90,7 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * 获取播放状态 MiniPlayer 图标
      */
-    fun getPlayStateSourceId(playing: Boolean): Int {
+    private fun getPlayStateSourceId(playing: Boolean): Int {
         return if (playing) {
             R.drawable.ic_mini_player_pause
         } else {

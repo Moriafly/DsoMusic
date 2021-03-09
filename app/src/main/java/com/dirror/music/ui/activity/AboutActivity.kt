@@ -50,7 +50,6 @@ class AboutActivity : BaseActivity() {
 
     override fun initListener() {
         binding.apply {
-            tvAppName.setOnClickListener { ActivityCollector.finishAll() }
             // 检查更新
             itemCheckForUpdates.setOnClickListener { UpdateUtil.checkNewVersion(this@AboutActivity, true) }
             // 更新日志

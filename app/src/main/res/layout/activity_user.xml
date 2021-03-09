@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="52dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +21,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="96dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -93,18 +96,11 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvBasicInformation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:height="28dp"
-                    android:gravity="center_vertical"
+                    style="@style/sub_title"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="基本信息"
-                    android:textColor="@color/colorTextForeground"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:text="@string/basic_information"
+                     />
 
                 <TextView
                     android:id="@+id/tvFollow"
@@ -129,18 +125,11 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tvSelfIntroduction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:height="28dp"
-                    android:gravity="center_vertical"
+                    style="@style/sub_title"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="个人介绍"
-                    android:textColor="@color/colorTextForeground"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:text="@string/personal_profile"
+                    />
 
                 <TextView
                     android:id="@+id/tvSignature"

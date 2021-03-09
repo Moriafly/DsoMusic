@@ -32,7 +32,7 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="精彩评论"
+                android:text="@string/good_comments"
                 style="@style/sub_title"
                 android:textColor="@color/colorTextForeground"
                 app:layout_constraintBottom_toBottomOf="parent"

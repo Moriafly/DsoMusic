@@ -80,5 +80,25 @@
     <string name="cellphone_number">Cellphone number</string>
     <string name="login_by_netease_cellphone_number">Login by Netease cellphone number</string>
     <string name="exit_app">Exit app</string>
-    <string name="alipay">支付宝</string>
+    <string name="alipay">Alipay</string>
+    <string name="about_dso_music">About Dso Music</string>
+    <string name="basic_information">Basic information</string>
+    <string name="personal_profile">Personal profile</string>
+    <string name="good_comments">Good comments</string>
+    <string name="home_sentence_recommendation">Home sentence recommendation</string>
+    <string name="custom_background">Custom background</string>
+    <string name="custom_home_page_background">Custom home page background</string>
+    <string name="clear_background">Clear background</string>
+    <string name="audio_focus">Audio focus</string>
+    <string name="audio_focus_intro">Once enabled, it will not play with other apps</string>
+    <string name="auto_matching_of_network_lyrics">Auto matching of network lyrics</string>
+    <string name="intelligent_filter">Intelligent filter</string>
+    <string name="intelligent_filter_sub">Intelligent filter out some audio files</string>
+    <string name="skip_wrong_song">Skip wrong song</string>
+    <string name="filtering_audio_files">Filtering audio files</string>
+    <string name="filtering_audio_files_sub">For now, only Flyme is supported</string>
+    <string name="sliding_animation_of_songs_in_the_playlist">Sliding animation of songs in the playlist</string>
+    <string name="navigation_bar_adaptations">Navigation bar adaptations</string>
+    <string name="navigation_bar_adaptations_sub">Turn this option off if the play bar is too high</string>
+    <string name="next_play">Next play</string>
 </resources>

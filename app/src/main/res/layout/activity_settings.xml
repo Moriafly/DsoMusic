@@ -56,7 +56,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:lineSpacingExtra="@dimen/lineSpacingExtra"
-                android:text="自定义背景（测试功能，暂仅支持主页，推荐使用较深色图片同时开启强制深色主题）"
+                android:text="@string/custom_background"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -64,13 +64,13 @@
                 android:id="@+id/itemCustomBackground"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/defaultHeight"
-                app:text="自定义主页背景（测试）" />
+                app:text="@string/custom_home_page_background" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemCleanBackground"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/defaultHeight"
-                app:text="清除背景" />
+                app:text="@string/clear_background" />
 
 
             <TextView
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="音频焦点"
+                    android:text="@string/audio_focus"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
@@ -117,7 +117,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="6dp"
                     android:gravity="center_vertical"
-                    android:text="开启后将不会与其他应用一起播放"
+                    android:text="@string/audio_focus_intro"
                     android:textColor="@color/colorSubTextForeground"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -159,7 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:itemType="item_no"
-                app:text="跳过播放错误音乐">
+                app:text="@string/skip_wrong_song">
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherSkipErrorMusic"
@@ -185,7 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:itemType="item_no"
-                app:text="自动匹配网络歌词">
+                app:text="@string/auto_matching_of_network_lyrics">
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherLocalMusicParseLyric"
@@ -213,7 +213,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="智能过滤"
+                    android:text="@string/intelligent_filter"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
@@ -227,7 +227,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="6dp"
                     android:gravity="center_vertical"
-                    android:text="智能过滤掉一些音频文件"
+                    android:text="@string/intelligent_filter_sub"
                     android:textColor="@color/colorSubTextForeground"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -253,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="过滤录音文件"
+                    android:text="@string/filtering_audio_files"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
@@ -267,7 +267,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="6dp"
                     android:gravity="center_vertical"
-                    android:text="暂仅支持 Flyme"
+                    android:text="@string/filtering_audio_files_sub"
                     android:textColor="@color/colorSubTextForeground"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -304,7 +304,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="导航栏适配"
+                    android:text="@string/navigation_bar_adaptations"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
@@ -318,7 +318,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="6dp"
                     android:gravity="center_vertical"
-                    android:text="若播放条过高，请关闭此选项"
+                    android:text="@string/navigation_bar_adaptations_sub"
                     android:textColor="@color/colorSubTextForeground"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -330,7 +330,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:itemType="item_no"
-                app:text="歌单歌曲滑动动画">
+                app:text="@string/sliding_animation_of_songs_in_the_playlist">
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherPlaylistScrollAnimation"
@@ -345,7 +345,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:itemType="item_no"
-                app:text="首页句子推荐">
+                app:text="@string/home_sentence_recommendation">
 
                 <com.bitvale.switcher.SwitcherX
                     android:id="@+id/switcherSentenceRecommend"
