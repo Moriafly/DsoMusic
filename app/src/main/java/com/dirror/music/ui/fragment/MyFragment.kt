@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,6 +22,7 @@ import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.activity.PlaylistActivity2
+import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
@@ -30,7 +30,7 @@ import com.dirror.music.util.*
 /**
  * 我的
  */
-class MyFragment : Fragment() {
+class MyFragment : BaseFragment() {
 
     private var _binding: FragmentMyBinding? = null
     private val binding get() = _binding!!
@@ -44,20 +44,14 @@ class MyFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initView()
-        initListener()
-        initObserver()
-    }
-
-    private fun initView() {
+    override fun initView() {
 
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.apply {
             clUser.setOnClickListener {
+                AnimationUtil.click(it)
                 if (MyApplication.userManager.getCurrentUid() == 0L) {
                     MyApplication.activityManager.startLoginActivity(requireActivity())
                 } else {
@@ -105,7 +99,7 @@ class MyFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initObserver() {
+    override fun initObserver() {
         // binding.rvPlaylist.layoutManager =  gridLayoutManager
         mainViewModel.userId.observe(viewLifecycleOwner, {
             // 清空歌单

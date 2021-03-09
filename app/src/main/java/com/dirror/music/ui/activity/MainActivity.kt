@@ -215,7 +215,7 @@ class MainActivity : BaseActivity() {
         }
 
         binding.menuMain.itemAbout.setOnClickListener {
-            startActivity(Intent(this, AboutActivity2::class.java))
+            startActivity(Intent(this, AboutActivity::class.java))
         }
 
 

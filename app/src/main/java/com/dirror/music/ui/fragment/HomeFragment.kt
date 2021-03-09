@@ -1,14 +1,11 @@
 package com.dirror.music.ui.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.FrameLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dirror.music.MyApplication
@@ -22,13 +19,14 @@ import com.dirror.music.music.standard.data.SOURCE_DIRROR
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.ui.activity.RecommendActivity
 import com.dirror.music.ui.activity.TopListActivity
+import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.AnimationUtil
 import com.dirror.music.util.Config
 import com.dirror.music.util.dp
 import com.dirror.music.util.runOnMainThread
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment(){
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -40,24 +38,9 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val windowManager = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val width = windowManager.defaultDisplay.width
-
-        initView()
-        initListener()
-
-        mainViewModel.statusBarHeight.observe(viewLifecycleOwner, {
-            (binding.llMain.layoutParams as FrameLayout.LayoutParams).apply {
-                topMargin = it + 56.dp()
-            }
-        })
-
+    override fun initView() {
         update()
-    }
 
-    private fun initView() {
         if (!MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)) {
             binding.tvFoyou.visibility =View.GONE
             binding.includeFoyou.root.visibility = View.GONE
@@ -78,7 +61,7 @@ class HomeFragment : Fragment() {
         changeSentence()
     }
 
-    private fun initListener() {
+    override fun initListener() {
         binding.includeFoyou.root.setOnClickListener {
             changeSentence()
         }
@@ -98,6 +81,14 @@ class HomeFragment : Fragment() {
             val intent = Intent(this.context, TopListActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun initObserver() {
+        mainViewModel.statusBarHeight.observe(viewLifecycleOwner, {
+            (binding.llMain.layoutParams as FrameLayout.LayoutParams).apply {
+                topMargin = it + 56.dp()
+            }
+        })
     }
 
     private fun changeSentence() {

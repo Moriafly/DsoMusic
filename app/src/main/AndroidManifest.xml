@@ -26,11 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.SponsorActivity"></activity>
+        <activity android:name=".ui.activity.SponsorActivity" />
         <activity android:name=".ui.activity.TopListActivity" />
         <activity android:name=".ui.activity.RecommendActivity" />
         <activity
-            android:name=".ui.activity.AboutActivity2"
+            android:name=".ui.activity.AboutActivity"
             android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".ui.activity.PlaylistInfoActivity" />
         <activity android:name=".ui.activity.ArtistActivity" />

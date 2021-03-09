@@ -3,7 +3,7 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.databinding.ActivityAbout2Binding
+import com.dirror.music.databinding.ActivityAboutBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.service.test.TestMediaCodeInfo
 import com.dirror.music.ui.base.BaseActivity
@@ -13,7 +13,7 @@ import com.dirror.music.util.*
 /**
  * 2.0 新版 AboutActivity
  */
-class AboutActivity2 : BaseActivity() {
+class AboutActivity : BaseActivity() {
 
     companion object {
         // 更新日志网站
@@ -24,10 +24,10 @@ class AboutActivity2 : BaseActivity() {
         private const val QQ_GROUP_KEY = "3UvEVCjzhLc3uTDO91DadcjMscFD2OHj"
     }
 
-    private lateinit var binding: com.dirror.music.databinding.ActivityAbout2Binding
+    private lateinit var binding: ActivityAboutBinding
 
     override fun initBinding() {
-        binding = ActivityAbout2Binding.inflate(layoutInflater)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
@@ -52,27 +52,27 @@ class AboutActivity2 : BaseActivity() {
         binding.apply {
             tvAppName.setOnClickListener { ActivityCollector.finishAll() }
             // 检查更新
-            itemCheckForUpdates.setOnClickListener { UpdateUtil.checkNewVersion(this@AboutActivity2, true) }
+            itemCheckForUpdates.setOnClickListener { UpdateUtil.checkNewVersion(this@AboutActivity, true) }
             // 更新日志
-            itemUpdateLog.setOnClickListener { MyApplication.activityManager.startWebActivity(this@AboutActivity2, UPDATE_LOG) }
+            itemUpdateLog.setOnClickListener { MyApplication.activityManager.startWebActivity(this@AboutActivity, UPDATE_LOG) }
             // 源代码
             itemSourceCode.setOnClickListener {
-                MyApplication.activityManager.startWebActivity(this@AboutActivity2, "https://github.com/Moriafly/DsoMusic", getString(R.string.source_code))
+                MyApplication.activityManager.startWebActivity(this@AboutActivity, "https://github.com/Moriafly/DsoMusic", getString(R.string.source_code))
             }
             // 使用开源项目
-            itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity2, OpenSourceActivity::class.java)) }
+            itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity, OpenSourceActivity::class.java)) }
             // 赞赏
             btnSponsor.setOnClickListener {
-                MyApplication.activityManager.startWebActivity(this@AboutActivity2, SPONSOR)
+                MyApplication.activityManager.startWebActivity(this@AboutActivity, SPONSOR)
             }
             // ivLogo
             ivLogo.setOnLongClickListener {
-                AppInfoDialog(this@AboutActivity2).show()
+                AppInfoDialog(this@AboutActivity).show()
                 return@setOnLongClickListener true
             }
 
             itemJoinQQGroup.setOnClickListener {
-                joinQQGroup(this@AboutActivity2, QQ_GROUP_KEY)
+                joinQQGroup(this@AboutActivity, QQ_GROUP_KEY)
             }
         }
     }

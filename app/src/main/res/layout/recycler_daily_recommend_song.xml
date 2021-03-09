@@ -56,6 +56,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="12sp"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="@+id/ivCover"
         app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/tvName" />
