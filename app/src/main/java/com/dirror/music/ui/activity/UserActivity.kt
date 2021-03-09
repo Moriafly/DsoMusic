@@ -20,6 +20,7 @@ class UserActivity : BaseActivity() {
 
     override fun initBinding() {
         binding = ActivityUserBinding.inflate(layoutInflater)
+        miniPlayer = binding.miniPlayer
         setContentView(binding.root)
     }
 

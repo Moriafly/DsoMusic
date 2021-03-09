@@ -48,6 +48,7 @@ class MainActivity : BaseActivity() {
 
     override fun initBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
+        miniPlayer = binding.miniPlayer
         setContentView(binding.root)
     }
 
@@ -236,33 +237,6 @@ class MainActivity : BaseActivity() {
         // 解绑广播接收
         unregisterReceiver(headSetChangeReceiver)
         unregisterReceiver(loginReceiver)
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun initMiniPlayer() {
-        binding.miniPlayer.apply {
-            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@MainActivity) }
-            ivPlayQueue.setOnClickListener { PlaylistDialog().show(supportFragmentManager, null)  }
-            ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
-        }
-        MyApplication.musicController.observe(this, { nullableController ->
-            nullableController?.apply {
-                getPlayingSongData().observe(this@MainActivity, { songData ->
-                    songData?.let {
-                        binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
-                    }
-                })
-                isPlaying().observe(this@MainActivity, {
-                    binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
-                })
-                getPlayerCover().observe(this@MainActivity, { bitmap ->
-                    binding.miniPlayer.ivCover.load(bitmap) {
-                        size(ViewSizeResolver(binding.miniPlayer.ivCover))
-                        error(R.drawable.ic_song_cover)
-                    }
-                })
-            }
-        })
     }
 
     inner class LoginReceiver : BroadcastReceiver() {

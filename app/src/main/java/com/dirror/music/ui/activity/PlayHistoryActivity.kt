@@ -22,6 +22,7 @@ class PlayHistoryActivity : BaseActivity() {
 
     override fun initBinding() {
         binding = ActivityPlayHistoryBinding.inflate(layoutInflater)
+        miniPlayer = binding.miniPlayer
         setContentView(binding.root)
     }
 
@@ -30,33 +31,6 @@ class PlayHistoryActivity : BaseActivity() {
             rvPlayHistory.layoutManager = LinearLayoutManager(this@PlayHistoryActivity)
             rvPlayHistory.adapter = DetailPlaylistAdapter(PlayHistory.readPlayHistory(), this@PlayHistoryActivity, PLAYLIST_TAG_HISTORY)
         }
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun initMiniPlayer() {
-        binding.miniPlayer.apply {
-            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@PlayHistoryActivity) }
-            ivPlayQueue.setOnClickListener {  PlaylistDialog().show(supportFragmentManager, null)  }
-            ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
-        }
-        MyApplication.musicController.observe(this, { nullableController ->
-            nullableController?.apply {
-                getPlayingSongData().observe(this@PlayHistoryActivity, { songData ->
-                    songData?.let {
-                        binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
-                    }
-                })
-                isPlaying().observe(this@PlayHistoryActivity, {
-                    binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
-                })
-                getPlayerCover().observe(this@PlayHistoryActivity, { bitmap ->
-                    binding.miniPlayer.ivCover.load(bitmap) {
-                        size(ViewSizeResolver(binding.miniPlayer.ivCover))
-                        error(R.drawable.ic_song_cover)
-                    }
-                })
-            }
-        })
     }
 
 }

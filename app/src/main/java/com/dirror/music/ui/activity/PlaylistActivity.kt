@@ -50,6 +50,7 @@ class PlaylistActivity : BaseActivity() {
 
     override fun initBinding() {
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
+        miniPlayer = binding.miniPlayer
         setContentView(binding.root)
     }
 
@@ -208,33 +209,6 @@ class PlaylistActivity : BaseActivity() {
             binding.tvPlayAll.text = getString(R.string.play_all, songList.size)
             binding.lottieLoading.pauseAnimation()
         }
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun initMiniPlayer() {
-        binding.miniPlayer.apply {
-            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@PlaylistActivity) }
-            ivPlayQueue.setOnClickListener {  PlaylistDialog().show(supportFragmentManager, null)  }
-            ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
-        }
-        MyApplication.musicController.observe(this, { nullableController ->
-            nullableController?.apply {
-                getPlayingSongData().observe(this@PlaylistActivity, { songData ->
-                    songData?.let {
-                        binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
-                    }
-                })
-                isPlaying().observe(this@PlaylistActivity, {
-                    binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
-                })
-                getPlayerCover().observe(this@PlaylistActivity, { bitmap ->
-                    binding.miniPlayer.ivCover.load(bitmap) {
-                        size(ViewSizeResolver(binding.miniPlayer.ivCover))
-                        error(R.drawable.ic_song_cover)
-                    }
-                })
-            }
-        })
     }
 
 }

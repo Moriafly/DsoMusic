@@ -1,9 +1,15 @@
 package com.dirror.music.ui.base
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import coil.load
+import coil.size.ViewSizeResolver
+import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.databinding.MiniPlayerBinding
 import com.dirror.music.manager.ActivityCollector
+import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import com.dirror.music.util.sky.SkySecure
 
@@ -11,6 +17,8 @@ import com.dirror.music.util.sky.SkySecure
  * 基类 Activity
  */
 abstract class BaseActivity : AppCompatActivity() {
+
+    var miniPlayer: MiniPlayerBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +57,35 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun initShowDialogListener() { }
 
-    protected open fun initMiniPlayer() { }
+    @SuppressLint("SetTextI18n")
+    private fun initMiniPlayer() {
+        miniPlayer?.let { mini ->
+            mini.apply {
+                root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@BaseActivity) }
+                ivPlayQueue.setOnClickListener { PlaylistDialog().show(supportFragmentManager, null) }
+                ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
+            }
+            MyApplication.musicController.observe(this, { nullableController ->
+                nullableController?.apply {
+                    getPlayingSongData().observe(this@BaseActivity, { songData ->
+                        songData?.let {
+                            mini.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
+                        }
+                    })
+                    isPlaying().observe(this@BaseActivity, {
+                        mini.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
+                    })
+                    getPlayerCover().observe(this@BaseActivity, { bitmap ->
+                        mini.ivCover.load(bitmap) {
+                            size(ViewSizeResolver(mini.ivCover))
+                            error(R.drawable.ic_song_cover)
+                        }
+                    })
+                }
+            })
+        }
+
+    }
 
     /**
      * 获取播放状态 MiniPlayer 图标

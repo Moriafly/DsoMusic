@@ -28,6 +28,7 @@ class RecommendActivity : BaseActivity() {
 
     override fun initBinding() {
         binding = ActivityRecommendBinding.inflate(layoutInflater)
+        miniPlayer = binding.miniPlayer
         setContentView(binding.root)
     }
 
@@ -59,30 +60,4 @@ class RecommendActivity : BaseActivity() {
         binding.tvMonth.text = String.format("%02d", Calendar.getInstance().get(Calendar.MONTH) + 1)
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun initMiniPlayer() {
-        binding.miniPlayer.apply {
-            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@RecommendActivity) }
-            ivPlayQueue.setOnClickListener {  PlaylistDialog().show(supportFragmentManager, null)  }
-            ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
-        }
-        MyApplication.musicController.observe(this, { nullableController ->
-            nullableController?.apply {
-                getPlayingSongData().observe(this@RecommendActivity, { songData ->
-                    songData?.let {
-                        binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
-                    }
-                })
-                isPlaying().observe(this@RecommendActivity, {
-                    binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
-                })
-                getPlayerCover().observe(this@RecommendActivity, { bitmap ->
-                    binding.miniPlayer.ivCover.load(bitmap) {
-                        size(ViewSizeResolver(binding.miniPlayer.ivCover))
-                        error(R.drawable.ic_song_cover)
-                    }
-                })
-            }
-        })
-    }
 }

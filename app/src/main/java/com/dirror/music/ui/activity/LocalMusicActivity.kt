@@ -26,6 +26,7 @@ class LocalMusicActivity : BaseActivity() {
 
     override fun initBinding() {
         binding = ActivityLocalMusicBinding.inflate(layoutInflater)
+        miniPlayer = binding.miniPlayer
         setContentView(binding.root)
     }
 
@@ -85,33 +86,6 @@ class LocalMusicActivity : BaseActivity() {
             binding.titleBar.setTitleBarText("本地音乐(${it.size})")
         }, {
 
-        })
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun initMiniPlayer() {
-        binding.miniPlayer.apply {
-            root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@LocalMusicActivity) }
-            ivPlayQueue.setOnClickListener { PlaylistDialog().show(supportFragmentManager, null) }
-            ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
-        }
-        MyApplication.musicController.observe(this, { nullableController ->
-            nullableController?.apply {
-                getPlayingSongData().observe(this@LocalMusicActivity, { songData ->
-                    songData?.let {
-                        binding.miniPlayer.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
-                    }
-                })
-                isPlaying().observe(this@LocalMusicActivity, {
-                    binding.miniPlayer.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
-                })
-                getPlayerCover().observe(this@LocalMusicActivity, { bitmap ->
-                    binding.miniPlayer.ivCover.load(bitmap) {
-                        size(ViewSizeResolver(binding.miniPlayer.ivCover))
-                        error(R.drawable.ic_song_cover)
-                    }
-                })
-            }
         })
     }
 
