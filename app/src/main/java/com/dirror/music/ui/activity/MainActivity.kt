@@ -1,6 +1,5 @@
 package com.dirror.music.ui.activity
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -14,8 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import coil.load
-import coil.size.ViewSizeResolver
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
@@ -26,7 +23,6 @@ import com.dirror.music.broadcast.HeadsetChangeReceiver
 import com.dirror.music.databinding.ActivityMainBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
@@ -180,7 +176,8 @@ class MainActivity : BaseActivity() {
         // 侧滑
         binding.menuMain.apply {
             itemSponsor.setOnClickListener {
-                startActivity(Intent(this@MainActivity, SponsorActivity::class.java))
+                // startActivity(Intent(this@MainActivity, SponsorActivity::class.java))
+                MyApplication.activityManager.startWebActivity(this@MainActivity, AboutActivity.SPONSOR)
             }
             itemSwitchAccount.setOnClickListener {
                 MyApplication.activityManager.startLoginActivity(this@MainActivity)

@@ -31,63 +31,78 @@
             app:layout_constraintTop_toTopOf="parent" />
     </com.dirror.music.widget.TitleBarLayout>
 
-    <LinearLayout
-        android:id="@+id/llMain"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/llMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/content"
-            android:textSize="12sp" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etFeedback"
-            style="@style/default_edit_text"
-            android:layout_height="wrap_content"
-            android:maxLines="10"
-            android:minHeight="40dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/contact"
-            android:textSize="12sp" />
 
-        <EditText
-            android:id="@+id/etContact"
-           style="@style/default_edit_text" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/content"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tvGithub"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:autoLink="web"
-            android:lineSpacingExtra="6sp"
-            android:text="可能无法做到及时回复，还可以通过其他方式与作者联系
-           \nGithub 问题反馈\nhttps://github.com/Moriafly/DsoMusic/issues"
-            android:textColor="@color/colorSubTextForeground"
-            android:textColorLink="@color/highLight"
-            android:textSize="12sp" />
+            <EditText
+                android:id="@+id/etFeedback"
+                style="@style/default_edit_text"
+                android:layout_height="wrap_content"
+                android:maxLines="10"
+                android:minHeight="40dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/contact"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etContact"
+                style="@style/default_edit_text" />
+
+            <TextView
+                android:id="@+id/tvGithub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:autoLink="web"
+                android:lineSpacingExtra="6sp"
+                android:text="可能无法做到及时回复，还可以通过其他方式与作者联系
+               \nGithub 问题反馈\nhttps://github.com/Moriafly/DsoMusic/issues"
+                android:textColor="@color/colorSubTextForeground"
+                android:textColorLink="@color/highLight"
+                android:textSize="12sp" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemHelpDocument"
+                app:text="@string/help_document"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+
+            </com.dirror.music.widget.ItemLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

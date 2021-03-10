@@ -19,7 +19,7 @@ class AboutActivity : BaseActivity() {
         // 更新日志网站
         private const val UPDATE_LOG = "https://github.com/Moriafly/DsoMusic/releases"
 
-        private const val SPONSOR = "https://moriafly.xyz/foyou/sponsor.html"
+        const val SPONSOR = "https://moriafly.gitee.io/dso-page/page/sponsor.html"
 
         private const val QQ_GROUP_KEY = "3UvEVCjzhLc3uTDO91DadcjMscFD2OHj"
     }

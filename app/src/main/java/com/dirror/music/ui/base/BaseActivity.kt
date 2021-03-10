@@ -1,7 +1,9 @@
 package com.dirror.music.ui.base
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import coil.size.ViewSizeResolver
@@ -43,23 +45,34 @@ abstract class BaseActivity : AppCompatActivity() {
         initShowDialogListener()
     }
 
-    protected open fun initBinding() { }
+    protected open fun initBinding() {}
 
-    protected open fun initView() { }
+    protected open fun initView() {}
 
-    protected open fun initData() { }
+    protected open fun initData() {}
 
-    protected open fun initListener() { }
+    protected open fun initListener() {}
 
-    protected open fun initObserver() { }
+    protected open fun initObserver() {}
 
-    protected open fun initBroadcastReceiver() { }
+    protected open fun initBroadcastReceiver() {}
 
-    protected open fun initShowDialogListener() { }
+    protected open fun initShowDialogListener() {}
 
     @SuppressLint("SetTextI18n")
     private fun initMiniPlayer() {
         miniPlayer?.let { mini ->
+
+            // CD 旋转动画
+            val objectAnimator: ObjectAnimator by lazy {
+                ObjectAnimator.ofFloat(mini.ivCover, "rotation", 0f, 360f).apply {
+                    interpolator = LinearInterpolator()
+                    duration = 27_500L
+                    repeatCount = -1
+                    start()
+                }
+            }
+
             mini.apply {
                 root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@BaseActivity) }
                 ivPlayQueue.setOnClickListener { PlaylistDialog().show(supportFragmentManager, null) }
@@ -73,6 +86,11 @@ abstract class BaseActivity : AppCompatActivity() {
                         }
                     })
                     isPlaying().observe(this@BaseActivity, {
+//                        if (it) {
+//                            objectAnimator.resume()
+//                        } else {
+//                            objectAnimator.pause()
+//                        }
                         mini.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
                     })
                     getPlayerCover().observe(this@BaseActivity, { bitmap ->
@@ -87,6 +105,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     }
 
+
     /**
      * 获取播放状态 MiniPlayer 图标
      */
@@ -100,6 +119,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        miniPlayer = null
         ActivityCollector.removeActivity(this)
     }
 
