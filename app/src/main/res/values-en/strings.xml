@@ -101,5 +101,6 @@
     <string name="navigation_bar_adaptations">Navigation bar adaptations</string>
     <string name="navigation_bar_adaptations_sub">Turn this option off if the play bar is too high</string>
     <string name="next_play">Next play</string>
-    <string name="help_document">帮助文档</string>
+    <string name="help_document">Help document</string>
+    <string name="single_column_playlist">Single column playlist</string>
 </resources>

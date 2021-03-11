@@ -356,6 +356,21 @@
 
             </com.dirror.music.widget.ItemLayout>
 
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="@string/single_column_playlist">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherSingleColumnPlaylist"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.dirror.music.widget.ItemLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="32dp"

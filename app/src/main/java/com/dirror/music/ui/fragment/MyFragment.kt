@@ -136,6 +136,14 @@ class MyFragment : BaseFragment() {
                 })
             }
         })
+        mainViewModel.singleColumnPlaylist.observe(viewLifecycleOwner, {
+            val count = if (it) {
+                1
+            } else {
+                2
+            }
+            binding.rvPlaylist.layoutManager = GridLayoutManager(this.context, count)
+        })
     }
 
     /**
@@ -143,7 +151,7 @@ class MyFragment : BaseFragment() {
      */
     private fun setPlaylist(playlist: ArrayList<PlaylistData>) {
         runOnMainThread {
-            binding.rvPlaylist.layoutManager = GridLayoutManager(this.context, 2)
+
             binding.rvPlaylist.adapter = activity?.let { it1 -> PlaylistAdapter(playlist, it1) }
         }
     }

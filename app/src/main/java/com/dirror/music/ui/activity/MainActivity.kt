@@ -23,6 +23,8 @@ import com.dirror.music.broadcast.HeadsetChangeReceiver
 import com.dirror.music.databinding.ActivityMainBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.fragment.HomeFragment
+import com.dirror.music.ui.fragment.MyFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
@@ -38,6 +40,8 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var headSetChangeReceiver: HeadsetChangeReceiver // 耳机广播接收
     private lateinit var loginReceiver: LoginReceiver // 登录广播接收
+    /* 设置改变广播接收 */
+    private lateinit var settingsChangeReceiver: SettingsChangeReceiver
 
     // 不要写成 mainViewModel = MainViewModel()
     private val mainViewModel: MainViewModel by viewModels()
@@ -54,16 +58,23 @@ class MainActivity : BaseActivity() {
         intentFilter.addAction("android.intent.action.HEADSET_PLUG")
         headSetChangeReceiver = HeadsetChangeReceiver()
         registerReceiver(headSetChangeReceiver, intentFilter) // 注册接收器
-        intentFilter = IntentFilter()
 
+        intentFilter = IntentFilter()
         intentFilter.addAction("com.dirror.music.LOGIN")
         loginReceiver = LoginReceiver()
         registerReceiver(loginReceiver, intentFilter) // 注册接收器
+
+        intentFilter = IntentFilter()
+        intentFilter.addAction(SettingsActivity.ACTION)
+        settingsChangeReceiver = SettingsChangeReceiver()
+        registerReceiver(settingsChangeReceiver, intentFilter)
+
         // 检查新版本
         UpdateUtil.checkNewVersion(this, false)
     }
 
     override fun initView() {
+        mainViewModel.updateUI()
         thread {
             ACache.get(this).getAsBitmap(Config.APP_THEME_BACKGROUND)?.let {
                 runOnMainThread {
@@ -142,8 +153,8 @@ class MainActivity : BaseActivity() {
 
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    0 -> mainViewModel.myFragment
-                    else -> mainViewModel.homeFragment
+                    0 -> MyFragment()
+                    else -> HomeFragment()
                 }
             }
         }
@@ -232,14 +243,25 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // 解绑广播接收
-        unregisterReceiver(headSetChangeReceiver)
-        unregisterReceiver(loginReceiver)
+        try {
+            unregisterReceiver(headSetChangeReceiver)
+            unregisterReceiver(loginReceiver)
+            unregisterReceiver(settingsChangeReceiver)
+        } catch (e: Exception) {
+
+        }
     }
 
     inner class LoginReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             // 通知 viewModel
             mainViewModel.setUserId()
+        }
+    }
+
+    inner class SettingsChangeReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            mainViewModel.updateUI()
         }
     }
 

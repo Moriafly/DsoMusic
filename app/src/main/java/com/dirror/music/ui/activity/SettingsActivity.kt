@@ -8,17 +8,18 @@ import android.view.View
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.Config
-import com.dirror.music.util.DarkThemeUtil
-import com.dirror.music.util.GlideUtil
+import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
-import com.dirror.music.util.toast
 import kotlin.concurrent.thread
 
 /**
  * 设置 Activity
  */
 class SettingsActivity : BaseActivity() {
+
+    companion object {
+        const val ACTION = "com.dirror.music.SETTINGS_CHANGE"
+    }
 
     private lateinit var binding: ActivitySettingsBinding
 
@@ -54,6 +55,7 @@ class SettingsActivity : BaseActivity() {
             )
             switcherSmartFilter.setChecked(MyApplication.mmkv.decodeBool(Config.SMART_FILTER, true))
             switcherAudioFocus.setChecked(MyApplication.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true))
+            switcherSingleColumnPlaylist.setChecked(MyApplication.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false))
         }
 
     }
@@ -106,6 +108,8 @@ class SettingsActivity : BaseActivity() {
                 startActivityForResult(intent, 2)
             }
 
+            switcherSingleColumnPlaylist.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.SINGLE_COLUMN_USER_PLAYLIST, it) }
+
         }
     }
 
@@ -125,6 +129,11 @@ class SettingsActivity : BaseActivity() {
             }
 
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        BroadcastUtil.send(this, ACTION)
     }
 
 }

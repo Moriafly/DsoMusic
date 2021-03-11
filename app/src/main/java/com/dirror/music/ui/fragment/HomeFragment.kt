@@ -108,7 +108,7 @@ class HomeFragment : BaseFragment(){
     }
 
     private fun refreshPlaylistRecommend() {
-        PlaylistRecommend.getPlaylistRecommend({
+        PlaylistRecommend.getPlaylistRecommend(requireContext(), {
             runOnMainThread {
                 binding.rvPlaylistRecommend.layoutManager = GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)
                 // binding.rvPlaylistRecommend.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

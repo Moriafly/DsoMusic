@@ -1,5 +1,6 @@
 package com.dirror.music.music.netease
 
+import android.content.Context
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.google.gson.Gson
@@ -9,14 +10,17 @@ import com.google.gson.Gson
  */
 object PlaylistRecommend {
 
-    fun getPlaylistRecommend(success: (ArrayList<PlaylistRecommendDataResult>) -> Unit, failure: () -> Unit) {
+    fun getPlaylistRecommend(context: Context, success: (ArrayList<PlaylistRecommendDataResult>) -> Unit, failure: () -> Unit) {
 
         val url = "http://musicapi.leanapp.cn/personalized?limit=16"
 
-        MagicHttp.OkHttpManager().newGet(url, {
-            loge("推荐歌单：$it")
-            val playlistRecommendDataResultArrayList = Gson().fromJson(it, PlaylistRecommendData::class.java).result
-            success.invoke(playlistRecommendDataResultArrayList)
+        MagicHttp.OkHttpManager().getByCache(context, url, {
+            try {
+                val playlistRecommendDataResultArrayList = Gson().fromJson(it, PlaylistRecommendData::class.java).result
+                success.invoke(playlistRecommendDataResultArrayList)
+            } catch (e: Exception) {
+                failure.invoke()
+            }
         }, {
             failure.invoke()
         })
