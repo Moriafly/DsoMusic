@@ -7,13 +7,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
-import coil.size.ViewSizeResolver
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.adapter.SongDataAdapter
 import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
 import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.databinding.ActivityPlaylistBinding
@@ -22,7 +20,6 @@ import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 import com.dirror.music.util.GlideUtil
 import com.google.gson.Gson
@@ -42,7 +39,7 @@ class PlaylistActivity : BaseActivity() {
 
     private lateinit var binding: ActivityPlaylistBinding
 
-    private var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList(), this)
+    private var detailPlaylistAdapter = SongDataAdapter(this)
 
     private var playlistId: Long = -1L
 
@@ -204,7 +201,9 @@ class PlaylistActivity : BaseActivity() {
             binding.clLoading.visibility = View.GONE
             binding.rvPlaylist.layoutManager =  LinearLayoutManager(this@PlaylistActivity)
             // 改变全局变量
-            detailPlaylistAdapter = DetailPlaylistAdapter(songList, this@PlaylistActivity, tag)
+            detailPlaylistAdapter = SongDataAdapter(this@PlaylistActivity, tag).apply {
+                submitList(songList)
+            }
             binding.rvPlaylist.adapter = detailPlaylistAdapter
             binding.tvPlayAll.text = getString(R.string.play_all, songList.size)
             binding.lottieLoading.pauseAnimation()

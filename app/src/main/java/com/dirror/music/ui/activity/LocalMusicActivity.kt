@@ -1,24 +1,15 @@
 package com.dirror.music.ui.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
-import coil.size.ViewSizeResolver
-import coil.transform.CircleCropTransformation
-import com.dirror.music.MyApplication
-import com.dirror.music.R
-import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.adapter.SongDataAdapter
 import com.dirror.music.databinding.ActivityLocalMusicBinding
 import com.dirror.music.music.local.LocalMusic
-import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.dialog.PlaylistDialog
-import com.dirror.music.util.parseArtist
 
 class LocalMusicActivity : BaseActivity() {
 
@@ -81,9 +72,11 @@ class LocalMusicActivity : BaseActivity() {
 
     private fun scanLocalMusic() {
         LocalMusic.scanLocalMusic(this, {
-            binding.rvLocalMusic.adapter = DetailPlaylistAdapter(it, this)
+            val songAdapter = SongDataAdapter(this)
+            binding.rvLocalMusic.adapter = songAdapter
             binding.rvLocalMusic.layoutManager = LinearLayoutManager(this)
             binding.titleBar.setTitleBarText("本地音乐(${it.size})")
+            songAdapter.submitList(it)
         }, {
 
         })

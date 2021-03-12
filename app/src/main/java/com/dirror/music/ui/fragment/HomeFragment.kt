@@ -19,12 +19,10 @@ import com.dirror.music.music.standard.data.SOURCE_DIRROR
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.ui.activity.RecommendActivity
 import com.dirror.music.ui.activity.TopListActivity
+import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
-import com.dirror.music.util.AnimationUtil
-import com.dirror.music.util.Config
-import com.dirror.music.util.dp
-import com.dirror.music.util.runOnMainThread
+import com.dirror.music.util.*
 
 class HomeFragment : BaseFragment(){
 
@@ -67,8 +65,12 @@ class HomeFragment : BaseFragment(){
         }
 
         binding.clDaily.setOnClickListener {
-            val intent = Intent(this.context, RecommendActivity::class.java)
-            startActivity(intent)
+            if (MyApplication.userManager.hasCookie()) {
+                val intent = Intent(this.context, RecommendActivity::class.java)
+                startActivity(intent)
+            } else {
+                ErrorCode.toast(ErrorCode.ERROR_NOT_COOKIE)
+            }
         }
 
         binding.clDso.setOnClickListener {
@@ -135,7 +137,7 @@ class HomeFragment : BaseFragment(){
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        // _binding = null
     }
 
 }

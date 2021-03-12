@@ -38,6 +38,11 @@ object ServiceSongUrl {
                     success.invoke(it)
                 }
             }
+            SOURCE_NETEASE_CLOUD -> {
+                SongUrl.getSongUrlCookie(song.id) {
+                    success.invoke(it)
+                }
+            }
             else -> success.invoke(null)
         }
     }

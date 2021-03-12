@@ -12,21 +12,16 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
-import coil.size.ViewSizeResolver
-import coil.transform.CircleCropTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.adapter.SongDataAdapter
 import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
 import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.databinding.ActivityPlaylistBinding
-import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.ui.viewmodel.PlaylistViewModel
 import com.dirror.music.util.*
@@ -47,7 +42,7 @@ class PlaylistActivity2: BaseActivity() {
 
     private lateinit var updatePlaylistReceiver: UpdatePlaylistReceiver
 
-    private var detailPlaylistAdapter = DetailPlaylistAdapter(ArrayList(), this)
+    private var detailPlaylistAdapter = SongDataAdapter(this)
 
     private val playlistViewModel: PlaylistViewModel by viewModels()
 
@@ -129,7 +124,9 @@ class PlaylistActivity2: BaseActivity() {
     override fun initObserver() {
         playlistViewModel.apply {
             playlist.observe(this@PlaylistActivity2, {
-                detailPlaylistAdapter = DetailPlaylistAdapter(it, this@PlaylistActivity2, tag.value)
+                detailPlaylistAdapter = SongDataAdapter(this@PlaylistActivity2, tag.value).apply {
+                    submitList(it)
+                }
                 binding.rvPlaylist.adapter = detailPlaylistAdapter
                 binding.tvPlayAll.text = getString(R.string.play_all, it.size)
                 binding.clLoading.visibility = View.GONE

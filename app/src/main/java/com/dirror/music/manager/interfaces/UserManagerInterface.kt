@@ -19,4 +19,6 @@ interface UserManagerInterface {
      * 唯一可以更改 Cookie 的地方
      */
     fun setCloudMusicCookie(cookie: String)
+
+    fun hasCookie(): Boolean
 }

@@ -39,4 +39,8 @@ class UserManager: UserManagerInterface {
         MyApplication.mmkv.encode(Config.CLOUD_MUSIC_COOKIE, cookie)
     }
 
+    override fun hasCookie(): Boolean {
+        return MyApplication.userManager.getCloudMusicCookie().isNotEmpty()
+    }
+
 }

@@ -1,20 +1,12 @@
 package com.dirror.music.ui.activity
 
-import android.annotation.SuppressLint
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
-import coil.size.ViewSizeResolver
-import coil.transform.CircleCropTransformation
-import com.dirror.music.MyApplication
-import com.dirror.music.R
-import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.adapter.SongDataAdapter
 import com.dirror.music.data.PLAYLIST_TAG_HISTORY
 import com.dirror.music.databinding.ActivityPlayHistoryBinding
 import com.dirror.music.music.local.PlayHistory
-import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.dialog.PlaylistDialog
-import com.dirror.music.util.parseArtist
 
 class PlayHistoryActivity : BaseActivity() {
 
@@ -29,7 +21,10 @@ class PlayHistoryActivity : BaseActivity() {
     override fun initView() {
         binding.apply {
             rvPlayHistory.layoutManager = LinearLayoutManager(this@PlayHistoryActivity)
-            rvPlayHistory.adapter = DetailPlaylistAdapter(PlayHistory.readPlayHistory(), this@PlayHistoryActivity, PLAYLIST_TAG_HISTORY)
+            rvPlayHistory.adapter = SongDataAdapter(this@PlayHistoryActivity, PLAYLIST_TAG_HISTORY).apply {
+                Log.e("pos", PlayHistory.readPlayHistory().size.toString())
+                submitList(PlayHistory.readPlayHistory().toList())
+            }
         }
     }
 

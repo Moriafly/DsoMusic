@@ -22,6 +22,7 @@ import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.activity.PlaylistActivity2
+import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.ui.viewmodel.MyFragmentViewModel
@@ -84,7 +85,6 @@ class MyFragment : BaseFragment() {
             // 播放历史
             clLatest.setOnClickListener {
                 AnimationUtil.click(it)
-                // toast("功能开发中，预计不久上线")
                 val intent = Intent(this@MyFragment.context, PlayHistoryActivity::class.java)
                 startActivity(intent)
             }
@@ -94,6 +94,15 @@ class MyFragment : BaseFragment() {
 //                PersonalFM.get {
 //
 //                }
+            }
+            // 用户云盘
+            clUserCloud.setOnClickListener {
+                AnimationUtil.click(it)
+                if (MyApplication.userManager.hasCookie()) {
+                    startActivity(Intent(requireContext(), UserCloudActivity::class.java))
+                } else {
+                    ErrorCode.toast(ErrorCode.ERROR_NOT_COOKIE)
+                }
             }
         }
     }
@@ -158,7 +167,7 @@ class MyFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        // _binding = null
     }
 
 }

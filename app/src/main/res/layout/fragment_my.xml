@@ -12,8 +12,8 @@
         android:id="@+id/llMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="96dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="96dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clUser"
@@ -54,7 +54,8 @@
                 android:src="@drawable/ic_next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/tvLevel"
@@ -75,10 +76,10 @@
             android:id="@+id/llTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal"
             android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:baselineAligned="false">
+            android:paddingEnd="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clLocal"
@@ -113,6 +114,35 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clUserCloud"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/ivUserCloud"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="@string/history"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_user_cloud"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cloud_drive"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ivUserCloud" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clFavorite"
@@ -120,19 +150,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-
                 <ImageView
                     android:id="@+id/ivFavorite"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginTop="16dp"
+                    android:contentDescription="@string/my_favorite_songs"
                     android:padding="6dp"
                     android:src="@drawable/local_page_follow_mark"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="@string/my_favorite_songs" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView6"
@@ -151,12 +180,14 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:visibility="gone"
                 android:id="@+id/clPersonalFM"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/ivPersonalFM"
@@ -182,6 +213,8 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clLatest"
                 android:layout_width="0dp"
@@ -193,12 +226,12 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginTop="16dp"
+                    android:contentDescription="@string/history"
                     android:padding="6dp"
                     android:src="@drawable/local_page_latest_mark"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="@string/history"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -212,54 +245,23 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:visibility="gone"
-                android:id="@+id/clCloud"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/ivCloud"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/local_page_latest_mark"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/cloud_drive"
-                    android:textColor="@color/colorSubTextForeground"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivCloud" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </LinearLayout>
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tvLocalPlaylist"
+            style="@style/sub_title"
             android:text="@string/local_playlist"
-            style="@style/sub_title" />
+            android:visibility="gone" />
 
         <LinearLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="68dp"
+            android:baselineAligned="false"
             android:orientation="horizontal"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:baselineAligned="false">
+            android:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clNewPlaylist"
@@ -285,9 +287,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alpha="0.72"
+                        android:contentDescription="@string/import_playlist"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/mz_titlebar_ic_add_dark"
-                        android:contentDescription="@string/import_playlist" />
+                        app:srcCompat="@drawable/mz_titlebar_ic_add_dark" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
@@ -317,17 +319,17 @@
             android:paddingEnd="10dp" />
 
         <TextView
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="4dp"
             android:id="@+id/tvInternetPlaylist"
             style="@style/sub_title"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/internet_playlist" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPlaylist"
-            android:overScrollMode="never"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:overScrollMode="never"
             android:paddingStart="8dp"
             android:paddingEnd="8dp" />
 

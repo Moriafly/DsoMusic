@@ -9,11 +9,9 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
-import coil.size.ViewSizeResolver
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.adapter.DetailPlaylistAdapter
+import com.dirror.music.adapter.SongDataAdapter
 import com.dirror.music.adapter.SearchHotAdapter
 import com.dirror.music.databinding.ActivitySearchBinding
 import com.dirror.music.music.netease.SearchUtil
@@ -21,7 +19,6 @@ import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
 
 class SearchActivity : BaseActivity() {
@@ -188,7 +185,9 @@ class SearchActivity : BaseActivity() {
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
         runOnMainThread {
             binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
-            binding.rvPlaylist.adapter = DetailPlaylistAdapter(songList, this)
+            binding.rvPlaylist.adapter = SongDataAdapter(this).apply {
+                submitList(songList)
+            }
 
         }
     }

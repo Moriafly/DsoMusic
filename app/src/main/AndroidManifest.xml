@@ -26,6 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
+        <activity android:name=".ui.activity.UserCloudActivity"></activity>
         <activity android:name=".ui.activity.SponsorActivity" />
         <activity android:name=".ui.activity.TopListActivity" />
         <activity android:name=".ui.activity.RecommendActivity" />
