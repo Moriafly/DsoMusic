@@ -35,9 +35,14 @@ import android.os.*
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import android.view.KeyEvent
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
+import coil.imageLoader
+import coil.request.ImageRequest
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.broadcast.BecomingNoisyReceiver
@@ -48,6 +53,12 @@ import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.next
+import com.dirror.music.util.extensions.previous
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Music Service
@@ -340,6 +351,7 @@ class MusicService : BaseMediaService() {
             songData.value?.let {
                 SongPicture.getPlayerActivityCoverBitmap(this@MusicService.applicationContext, it, 240.dp()) { bitmap ->
                     coverBitmap.value = bitmap
+                    refreshNotification()
                 }
             }
             // 添加到播放历史
@@ -414,6 +426,39 @@ class MusicService : BaseMediaService() {
 
         override fun getPlayerCover(): MutableLiveData<Bitmap?> = coverBitmap
 
+        override suspend fun getSongCover(size: Int?): Bitmap {
+            return suspendCoroutine {
+                if (size == null) {
+                    coverBitmap.value?.let { bitmap ->
+                        it.resume(bitmap)
+                    }
+                } else {
+                    Log.e(TAG, "getSongCover: Coil 获取图片开始")
+                    val request = ImageRequest.Builder(this@MusicService)
+                        .size(size)
+                        .data(coverBitmap.value)
+                        .error(R.drawable.ic_song_cover)
+                        .target(
+                            onStart = {
+                                // Handle the placeholder drawable.
+                            },
+                            onSuccess = { result ->
+                                Log.e(TAG, "getSongCover: Coil 成功获取图片")
+                                it.resume(result.toBitmap())
+                            },
+                            onError = { _ ->
+                                Log.e(TAG, "getSongCover: Coil 获取图片失败")
+                                ContextCompat.getDrawable(this@MusicService, R.drawable.ic_song_cover)?.let { it1 ->
+                                    it.resume(it1.toBitmap(size, size))
+                                }
+                            }
+                        )
+                        .build()
+                    this@MusicService.imageLoader.enqueue(request)
+                }
+            }
+        }
+
         override fun isPlaying(): MutableLiveData<Boolean> = isSongPlaying
 
         override fun getDuration(): Int {
@@ -460,36 +505,14 @@ class MusicService : BaseMediaService() {
         override fun getPlayMode(): Int = mode
 
         override fun playPrevious() {
-            when (val position = PlayQueue.currentQueue.value?.indexOf(songData.value) ?: -1) {
-                -1 -> return
-                0 -> {
-                    PlayQueue.currentQueue.value?.get(
-                        PlayQueue.currentQueue.value?.lastIndex ?: 0
-                    )?.let {
-                        playMusic(it)
-                    }
-                }
-                else -> {
-                    PlayQueue.currentQueue.value?.get(position - 1)?.let {
-                        playMusic(it)
-                    }
-                }
+            PlayQueue.currentQueue.value?.previous(songData.value)?.let {
+                playMusic(it)
             }
         }
 
         override fun playNext() {
-            when (val position = PlayQueue.currentQueue.value?.indexOf(songData.value) ?: -1) {
-                -1 -> return
-                PlayQueue.currentQueue.value?.lastIndex -> {
-                    PlayQueue.currentQueue.value?.get(0)?.let {
-                        playMusic(it)
-                    }
-                }
-                else -> {
-                    PlayQueue.currentQueue.value?.get(position + 1)?.let {
-                        playMusic(it)
-                    }
-                }
+            PlayQueue.currentQueue.value?.next(songData.value)?.let {
+                playMusic(it)
             }
         }
 
@@ -563,18 +586,8 @@ class MusicService : BaseMediaService() {
                 play()
                 return
             }
-            when (val position = PlayQueue.currentQueue.value?.indexOf(songData.value) ?: -1) {
-                -1 -> return
-                PlayQueue.currentQueue.value?.lastIndex -> {
-                    PlayQueue.currentQueue.value?.get(0)?.let {
-                        playMusic(it)
-                    }
-                }
-                else -> {
-                    PlayQueue.currentQueue.value?.get(position + 1)?.let {
-                        playMusic(it)
-                    }
-                }
+            PlayQueue.currentQueue.value?.next(songData.value)?.let {
+                playMusic(it)
             }
         }
 
@@ -619,13 +632,17 @@ class MusicService : BaseMediaService() {
     /**
      * 刷新通知
      */
-    private var largeBitmap: Bitmap? = null
     private fun refreshNotification() {
+        toast("刷新通知")
         val song = musicController.getPlayingSongData().value
         if (song != null) {
-            SongPicture.getPlayerActivityCoverBitmap(this, song, 100.dp()) { bitmap ->
-                largeBitmap = bitmap
-                showNotification(song)
+            GlobalScope.launch {
+                Log.e(TAG, "refreshNotification: 协程开启")
+                val bitmap = musicController.getSongCover(128.dp())
+                Log.e(TAG, "refreshNotification: 获取到图片")
+                runOnMainThread {
+                    showNotification(song, bitmap)
+                }
             }
         }
     }
@@ -633,13 +650,13 @@ class MusicService : BaseMediaService() {
     /**
      * 显示通知
      */
-    private fun showNotification(song: StandardSongData) {
+    private fun showNotification(song: StandardSongData, bitmap: Bitmap) {
         mediaSession?.apply {
             setMetadata(
                 MediaMetadataCompat.Builder().apply {
                     putString(MediaMetadataCompat.METADATA_KEY_TITLE, song.name)
                     putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song.artists?.parse())
-                    putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, largeBitmap)
+                    putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         putLong(
                             MediaMetadata.METADATA_KEY_DURATION,
@@ -671,7 +688,7 @@ class MusicService : BaseMediaService() {
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_music_launcher_foreground)
-            .setLargeIcon(largeBitmap)
+            .setLargeIcon(bitmap)
             .setContentTitle(song.name)
             .setContentText(song.artists?.let { it1 -> parseArtist(it1) })
             .setContentIntent(getPendingIntentActivity())

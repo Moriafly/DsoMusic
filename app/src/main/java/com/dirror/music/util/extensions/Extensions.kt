@@ -3,6 +3,7 @@ package com.dirror.music.util
 import android.graphics.Color
 import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.service.PlayQueue
 
 /**
  * 拓展函数
@@ -47,7 +48,8 @@ fun Int.dp(): Int {
 fun Char.isChinese(): Boolean {
     val unicodeBlock = Character.UnicodeBlock.of(this)
     if (unicodeBlock == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
-        || unicodeBlock == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A) // 中日韩象形文字
+        || unicodeBlock == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+    ) // 中日韩象形文字
     {
         return true
     }

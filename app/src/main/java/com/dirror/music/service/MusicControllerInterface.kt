@@ -1,6 +1,7 @@
 package com.dirror.music.service
 
 import android.graphics.Bitmap
+import androidx.annotation.Px
 import androidx.lifecycle.MutableLiveData
 import com.dirror.music.music.standard.data.StandardSongData
 
@@ -147,5 +148,11 @@ interface MusicControllerInterface {
      * 获取封面
      */
     fun getPlayerCover(): MutableLiveData<Bitmap?>
+
+    /**
+     * 协程获取歌曲封面
+     * [size] 是要获取大小，为空表示获取原图
+     */
+    suspend fun getSongCover(size: Int? = null): Bitmap
 
 }
