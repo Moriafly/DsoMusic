@@ -175,7 +175,7 @@ class SongDataAdapter
             }
         } else {
             // 设置歌单
-            MyApplication.musicController.value?.setPlaylist(currentList.toList() as ArrayList<StandardSongData>)
+            MyApplication.musicController.value?.setPlaylist(currentList.toArrayList())
             // 播放歌单
             MyApplication.musicController.value?.playMusic(songData)
         }

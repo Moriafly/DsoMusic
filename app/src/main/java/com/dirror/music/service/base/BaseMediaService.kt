@@ -2,6 +2,7 @@ package com.dirror.music.service.base
 
 import android.app.Service
 import android.media.MediaPlayer
+import android.support.v4.media.session.PlaybackStateCompat
 
 /**
  * 抽象类
@@ -51,6 +52,14 @@ abstract class BaseMediaService: Service() {
 
         const val CHANNEL_ID = "Dso Music Channel Id" // 通知通道 ID
         const val START_FOREGROUND_ID = 10 // 开启前台服务的 ID
+
+        const val MEDIA_SESSION_ACTIONS = (PlaybackStateCompat.ACTION_PLAY
+                or PlaybackStateCompat.ACTION_PAUSE
+                or PlaybackStateCompat.ACTION_PLAY_PAUSE
+                or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+                or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+                or PlaybackStateCompat.ACTION_STOP
+                or PlaybackStateCompat.ACTION_SEEK_TO)
     }
 
 }

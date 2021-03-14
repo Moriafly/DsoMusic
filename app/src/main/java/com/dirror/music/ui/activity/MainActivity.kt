@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.viewModels
@@ -271,6 +272,34 @@ class MainActivity : BaseActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    private var startX = 0
+    private var startY = 0
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        when(ev?.action) {
+            MotionEvent.ACTION_DOWN -> {
+                startX = ev.x.toInt()
+                startY = ev.y.toInt()
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val endX = ev.x.toInt()
+                val endY = ev.y.toInt()
+                val disX = kotlin.math.abs(endX - startX)
+                val disY = kotlin.math.abs(endY - startY)
+                if (disX < disY) {
+                    // 禁止 ViewPager2
+                    binding.viewPager2.isUserInputEnabled = false
+                }
+            }
+            MotionEvent.ACTION_UP -> {
+                startX = 0
+                startY = 0
+                // 恢复
+                binding.viewPager2.isUserInputEnabled = true
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
 }

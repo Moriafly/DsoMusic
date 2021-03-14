@@ -98,7 +98,11 @@ class MyApplication : Application() {
     private fun startMusicService() {
         // 通过 Service 播放音乐，混合启动
         val intent = Intent(this, MusicService::class.java)
-        startService(intent)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
         // 绑定服务
         bindService(intent, musicServiceConnection, BIND_AUTO_CREATE)
     }

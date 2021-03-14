@@ -2,10 +2,14 @@ package com.dirror.music.service
 
 import android.content.ContentUris
 import android.net.Uri
+import com.dirror.music.MyApplication
+import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.kuwo.SearchSong
 import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
+import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.*
+import com.dirror.music.util.runOnMainThread
 
 /**
  * 获取歌曲 URL
@@ -44,6 +48,23 @@ object ServiceSongUrl {
                 }
             }
             else -> success.invoke(null)
+        }
+    }
+
+    fun getLyric(song: StandardSongData, success: (LyricViewData) -> Unit) {
+        if (song.source == SOURCE_NETEASE) {
+            MyApplication.cloudMusicManager.getLyric(song.id.toLong()) { lyric ->
+                runOnMainThread {
+                    val l = LyricViewData(lyric.lrc?.lyric?:"", lyric.tlyric?.lyric?:"")
+                    success.invoke(l)
+                }
+            }
+        } else {
+            SearchLyric.getLyricString(song) { string ->
+                runOnMainThread {
+                    success.invoke(LyricViewData(string, ""))
+                }
+            }
         }
     }
 

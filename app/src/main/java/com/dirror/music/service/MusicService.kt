@@ -33,6 +33,7 @@ import android.media.*
 import android.net.Uri
 import android.os.*
 import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
@@ -43,6 +44,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
 import coil.imageLoader
 import coil.request.ImageRequest
+import com.dirror.lyricviewx.LyricEntry
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.broadcast.BecomingNoisyReceiver
@@ -65,7 +67,7 @@ import kotlin.coroutines.suspendCoroutine
  * @author Moriafly
  * @since 2020/9
  */
-class MusicService : BaseMediaService() {
+open class MusicService : BaseMediaService() {
     // 懒加载音乐控制器
     private val musicController by lazy { MusicController() }
     private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
@@ -74,6 +76,7 @@ class MusicService : BaseMediaService() {
 
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
     private var mediaSession: MediaSessionCompat? = null
+    private var mediaController: MediaControllerCompat? = null
 
     private var speed = 1f // 默认播放速度，0f 表示暂停
     private var pitch = 1f // 默认音高
@@ -84,10 +87,31 @@ class MusicService : BaseMediaService() {
     private lateinit var audioAttributes: AudioAttributes
     private lateinit var audioFocusRequest: AudioFocusRequest
 
+    private var currentStatusBarTag = ""
+    private val lyricEntryList: MutableList<LyricEntry> = ArrayList() // 单句歌词集合
+
+    // Looper + Handler
+    private val handler = object : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            if (msg.what == MSG_STATUS_BAR_LYRIC) {
+                if (lyricEntryList.isNotEmpty()) {
+                    if (getCurrentLineLyricEntry()?.text ?: "" != currentStatusBarTag) {
+                        currentStatusBarTag = getCurrentLineLyricEntry()?.text ?: ""
+                        updateNotification(true)
+                    }
+                    if (musicController.isPlaying().value == true) {
+                        sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 100L)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate() {
         // 在 super.onCreate() 前
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 通知管理
         super.onCreate()
+        updateNotification(false)
     }
 
     override fun initChannel() {
@@ -343,17 +367,45 @@ class MusicService : BaseMediaService() {
 
         override fun onPrepared(p0: MediaPlayer?) {
             isPrepared = true
+            // Controller
+            mediaController = mediaSession?.sessionToken?.let { it1 -> MediaControllerCompat(this@MusicService, it1) }
+//            MediaControllerCompat.setMediaController(this@MusicService, mediaController)
+//            onMediaBrowserConnected();
+//            onMediaControllerConnected(mediaController.getSessionToken())
             this.play()
             sendMusicBroadcast()
-            refreshNotification()
+            updateNotification()
             setPlaybackParams()
-            // 获取封面
-            songData.value?.let {
-                SongPicture.getPlayerActivityCoverBitmap(this@MusicService.applicationContext, it, 240.dp()) { bitmap ->
+
+            songData.value?.let { standardSongData ->
+                // 获取封面
+                SongPicture.getPlayerActivityCoverBitmap(
+                    this@MusicService.applicationContext,
+                    standardSongData,
+                    240.dp()
+                ) { bitmap ->
                     coverBitmap.value = bitmap
-                    refreshNotification()
+                    updateNotification()
+                }
+                // 获取歌词
+                ServiceSongUrl.getLyric(standardSongData) {
+                    val mainLyricText = it.lyric
+                    val secondLyricText = it.secondLyric
+                    lyricEntryList.clear()
+                    val sb = StringBuilder("file://")
+                    sb.append(mainLyricText)
+                    sb.append("#").append(secondLyricText)
+                    GlobalScope.launch {
+                        val entryList = LyricUtil.parseLrc(arrayOf(mainLyricText, secondLyricText))
+                        if (entryList != null && entryList.isNotEmpty()) {
+                            lyricEntryList.addAll(entryList)
+                        }
+                        lyricEntryList.sort()
+                        updateNotification(true)
+                    }
                 }
             }
+
             // 添加到播放历史
             getPlayingSongData().value?.let {
                 PlayHistory.addPlayHistory(it)
@@ -372,7 +424,7 @@ class MusicService : BaseMediaService() {
                 isSongPlaying.value = mediaPlayer?.isPlaying ?: false
             }
             sendMusicBroadcast()
-            refreshNotification()
+            updateNotification()
         }
 
         override fun play() {
@@ -381,7 +433,8 @@ class MusicService : BaseMediaService() {
                 isSongPlaying.value = mediaPlayer?.isPlaying ?: false
                 mediaSessionCallback?.onPlay()
                 sendMusicBroadcast()
-                refreshNotification()
+                updateNotification()
+                handler.sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 100L)
             }
         }
 
@@ -391,7 +444,7 @@ class MusicService : BaseMediaService() {
                 isSongPlaying.value = mediaPlayer?.isPlaying ?: false
                 mediaSessionCallback?.onPause()
                 sendMusicBroadcast()
-                refreshNotification()
+                updateNotification()
             }
         }
 
@@ -480,7 +533,6 @@ class MusicService : BaseMediaService() {
         override fun setProgress(newProgress: Int) {
             mediaPlayer?.seekTo(newProgress)
             mediaSessionCallback?.onPlay()
-            // refreshNotification()
         }
 
         override fun getPlayingSongData(): MutableLiveData<StandardSongData?> = songData
@@ -630,19 +682,16 @@ class MusicService : BaseMediaService() {
     }
 
     /**
-     * 刷新通知
+     * 更新通知
      */
-    private fun refreshNotification() {
-        toast("刷新通知")
+    private fun updateNotification(fromLyric: Boolean = false) {
         val song = musicController.getPlayingSongData().value
-        if (song != null) {
-            GlobalScope.launch {
-                Log.e(TAG, "refreshNotification: 协程开启")
-                val bitmap = musicController.getSongCover(128.dp())
-                Log.e(TAG, "refreshNotification: 获取到图片")
-                runOnMainThread {
-                    showNotification(song, bitmap)
-                }
+        GlobalScope.launch {
+            Log.e(TAG, "refreshNotification: 协程开启")
+            val bitmap = musicController.getSongCover(128.dp())
+            Log.e(TAG, "refreshNotification: 获取到图片")
+            runOnMainThread {
+                showNotification(fromLyric, song, bitmap)
             }
         }
     }
@@ -650,12 +699,42 @@ class MusicService : BaseMediaService() {
     /**
      * 显示通知
      */
-    private fun showNotification(song: StandardSongData, bitmap: Bitmap) {
+    private fun showNotification(fromLyric: Boolean = false, song: StandardSongData?, bitmap: Bitmap?) {
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID).apply {
+            setSmallIcon(R.drawable.ic_music_launcher_foreground)
+            setLargeIcon(bitmap)
+            setContentTitle(song?.name)
+            setContentText(song?.artists?.let { it1 -> parseArtist(it1) })
+            setContentIntent(getPendingIntentActivity())
+            addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
+            addAction(getPlayIcon(), "play", getPendingIntentPlay())
+            addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
+            setStyle(
+                androidx.media.app.NotificationCompat.MediaStyle()
+                    .setMediaSession(mediaSession?.sessionToken)
+                    .setShowActionsInCompactView(0, 1, 2)
+            )
+            setOngoing(true)
+            if (getCurrentLineLyricEntry()?.text != null && fromLyric) {
+                setTicker(getCurrentLineLyricEntry()?.text) // 魅族状态栏歌词的实现方法
+            }
+            // .setAutoCancel(true)
+        }.build()
+
+        notification.extras.putInt("ticker_icon", R.drawable.ic_music_launcher_foreground)
+        notification.extras.putBoolean("ticker_icon_switch", false)
+        notification.flags = notification.flags.or(FLAG_ALWAYS_SHOW_TICKER)
+        // 是否只更新 Ticker
+        if (fromLyric) {
+            notification.flags = notification.flags.or(FLAG_ONLY_UPDATE_TICKER)
+        }
+//
+
         mediaSession?.apply {
             setMetadata(
                 MediaMetadataCompat.Builder().apply {
-                    putString(MediaMetadataCompat.METADATA_KEY_TITLE, song.name)
-                    putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song.artists?.parse())
+                    putString(MediaMetadataCompat.METADATA_KEY_TITLE, song?.name)
+                    putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song?.artists?.parse())
                     putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         putLong(
@@ -672,7 +751,7 @@ class MusicService : BaseMediaService() {
                         (MyApplication.musicController.value?.getProgress() ?: 0).toLong(),
                         1f
                     )
-                    .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
+                    .setActions(MEDIA_SESSION_ACTIONS)
                     .build()
             )
             setCallback(mediaSessionCallback)
@@ -681,25 +760,6 @@ class MusicService : BaseMediaService() {
         if (musicController.isPlaying().value != true) {
             mediaSessionCallback?.onPause()
         }
-
-        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
-            .setMediaSession(mediaSession?.sessionToken)
-            .setShowActionsInCompactView(0, 1, 2)
-
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_music_launcher_foreground)
-            .setLargeIcon(bitmap)
-            .setContentTitle(song.name)
-            .setContentText(song.artists?.let { it1 -> parseArtist(it1) })
-            .setContentIntent(getPendingIntentActivity())
-            .addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
-            .addAction(getPlayIcon(), "play", getPendingIntentPlay())
-            .addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
-            .setStyle(mediaStyle)
-            .setOngoing(true)
-            // .setTicker(tag) // 魅族状态栏歌词的实现方法
-            // .setAutoCancel(true)
-            .build()
         // 更新通知
         startForeground(START_FOREGROUND_ID, notification)
     }
@@ -713,5 +773,43 @@ class MusicService : BaseMediaService() {
         } else {
             R.drawable.ic_baseline_play_arrow_24
         }
+    }
+
+    private fun getCurrentLineLyricEntry(): LyricEntry? {
+        val progress = musicController.getProgress()
+        val line = findShowLine(progress.toLong())
+        if (line <= lyricEntryList.lastIndex) {
+            return lyricEntryList[line]
+        }
+        return null
+    }
+
+    /**
+     * 二分法查找当前时间应该显示的行数（最后一个 <= time 的行数）
+     */
+    private fun findShowLine(time: Long): Int {
+        if (lyricEntryList.isNotEmpty()) {
+            var left = 0
+            var right = lyricEntryList.size
+            while (left <= right) {
+                val middle = (left + right) / 2
+                val middleTime = lyricEntryList[middle].time
+                if (time < middleTime) {
+                    right = middle - 1
+                } else {
+                    if (middle + 1 >= lyricEntryList.size || time < lyricEntryList[middle + 1].time) {
+                        return middle
+                    }
+                    left = middle + 1
+                }
+            }
+        }
+        return 0
+    }
+
+    companion object {
+        const val FLAG_ALWAYS_SHOW_TICKER = 0x1000000
+        const val FLAG_ONLY_UPDATE_TICKER = 0x2000000
+        const val MSG_STATUS_BAR_LYRIC = 12
     }
 }

@@ -1,6 +1,9 @@
 package com.dirror.music.util
 
+import android.content.Context
 import android.graphics.Color
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.service.PlayQueue
@@ -133,4 +136,25 @@ fun ArrayList<StandardSongData.StandardArtistData>.parse(): String {
         artist += this[artistName].name
     }
     return artist
+}
+
+fun Int.asColor(context: Context) = ContextCompat.getColor(context, this)
+
+fun Int.asDrawable(context: Context) = ContextCompat.getDrawable(context, this)
+
+var lastClickTime = 0L
+fun singleClick(during: Long = 500L, callBack: () -> Unit) {
+    if (getCurrentTime() - lastClickTime > during) {
+        callBack()
+    }
+    lastClickTime = getCurrentTime()
+}
+
+/**
+ * List 转 ArrayList
+ */
+fun <T> List<T>.toArrayList(): ArrayList<T> {
+    val arrayList = ArrayList<T>()
+    arrayList.addAll(this)
+    return arrayList
 }
