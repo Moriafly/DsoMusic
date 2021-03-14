@@ -9,38 +9,8 @@ import android.support.v4.media.session.PlaybackStateCompat
  */
 abstract class BaseMediaService: Service() {
 
-    /**
-     * MediaPlayer
-     */
-    var mediaPlayer: MediaPlayer? = null
-
-    override fun onCreate() {
-        super.onCreate()
-        initChannel()
-        initMediaSession()
-        initAudioFocus()
-    }
-
-    /**
-     * 初始化媒体会话 MediaSession
-     */
-    open fun initMediaSession() {
-
-    }
-
-    open fun initChannel() {
-
-    }
-
-    /**
-     * 初始化音频焦点
-     */
-    open fun initAudioFocus() {
-
-    }
-
     companion object {
-        const val TAG = "MusicService"
+        const val TAG = "BaseMediaService"
 
         const val MODE_CIRCLE = 1 // 列表循环
         const val MODE_REPEAT_ONE = 2 // 单曲循环
@@ -60,6 +30,39 @@ abstract class BaseMediaService: Service() {
                 or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
                 or PlaybackStateCompat.ACTION_STOP
                 or PlaybackStateCompat.ACTION_SEEK_TO)
+    }
+
+    /**
+     * MediaPlayer
+     */
+    var mediaPlayer: MediaPlayer? = null
+
+    override fun onCreate() {
+        super.onCreate()
+        initChannel()
+        initMediaSession()
+        initAudioFocus()
+    }
+
+    /**
+     * 初始化媒体会话 MediaSession
+     */
+    open fun initMediaSession() {
+
+    }
+
+    /**
+     * 初始化通道
+     */
+    open fun initChannel() {
+
+    }
+
+    /**
+     * 初始化音频焦点
+     */
+    open fun initAudioFocus() {
+
     }
 
 }

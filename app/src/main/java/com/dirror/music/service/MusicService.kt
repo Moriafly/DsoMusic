@@ -63,34 +63,56 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 /**
- * Music Service
+ * Dso Music 音乐播放服务
  * @author Moriafly
  * @since 2020/9
  */
 open class MusicService : BaseMediaService() {
-    // 懒加载音乐控制器
+
+    companion object {
+        /* Flyme 状态栏歌词 TICKER 一直显示 */
+        private const val FLAG_ALWAYS_SHOW_TICKER = 0x1000000
+        /* 只更新 Flyme 状态栏歌词 */
+        private const val FLAG_ONLY_UPDATE_TICKER = 0x2000000
+        /* MSG 状态栏歌词 */
+        private const val MSG_STATUS_BAR_LYRIC = 0
+    }
+
+    /* Dso Music 音乐控制器 */
     private val musicController by lazy { MusicController() }
+    /* 播放模式 */
     private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
+    /* 通知管理 */
     private var notificationManager: NotificationManager? = null
+    /* 是否开启音频焦点 */
     private var isAudioFocus = MyApplication.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true) // 是否开启音频焦点
-
-    private var mediaSessionCallback: MediaSessionCompat.Callback? = null
+    /* 音频会话 */
     private var mediaSession: MediaSessionCompat? = null
+    /* 音频会话回调 */
+    private var mediaSessionCallback: MediaSessionCompat.Callback? = null
+    /* 音频控制器 */
     private var mediaController: MediaControllerCompat? = null
-
-    private var speed = 1f // 默认播放速度，0f 表示暂停
-    private var pitch = 1f // 默认音高
-    private var pitchLevel = 0 // 音高等级
-    private val pitchUnit = 0.05f // 音高单元，每次改变的音高单位
-
+    /* 默认播放速度，0f 表示暂停 */
+    private var speed = 1f
+    /* 默认音高 */
+    private var pitch = 1f
+    /* 音高等级 */
+    private var pitchLevel = 0
+    /* 音高单元，每次改变的音高单位 */
+    private val pitchUnit = 0.05f
+    /* 音频管理 */
     private lateinit var audioManager: AudioManager
+    /* AudioAttributes */
     private lateinit var audioAttributes: AudioAttributes
+    /* AudioFocusRequest */
     private lateinit var audioFocusRequest: AudioFocusRequest
-
+    /* 当前状态栏歌曲 */
     private var currentStatusBarTag = ""
-    private val lyricEntryList: MutableList<LyricEntry> = ArrayList() // 单句歌词集合
-
-    // Looper + Handler
+    /* 单句歌词集合 */
+    private val lyricEntryList: ArrayList<LyricEntry> = ArrayList()
+    /* Live */
+    private var liveLyricEntryList = MutableLiveData<ArrayList<LyricEntry>>(ArrayList())
+    /* Handler */
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             if (msg.what == MSG_STATUS_BAR_LYRIC) {
@@ -401,6 +423,9 @@ open class MusicService : BaseMediaService() {
                             lyricEntryList.addAll(entryList)
                         }
                         lyricEntryList.sort()
+                        runOnMainThread {
+                            liveLyricEntryList.value = lyricEntryList
+                        }
                         updateNotification(true)
                     }
                 }
@@ -478,6 +503,8 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun getPlayerCover(): MutableLiveData<Bitmap?> = coverBitmap
+
+        override fun getLyricEntryList(): MutableLiveData<ArrayList<LyricEntry>> = liveLyricEntryList
 
         override suspend fun getSongCover(size: Int?): Bitmap {
             return suspendCoroutine {
@@ -807,9 +834,5 @@ open class MusicService : BaseMediaService() {
         return 0
     }
 
-    companion object {
-        const val FLAG_ALWAYS_SHOW_TICKER = 0x1000000
-        const val FLAG_ONLY_UPDATE_TICKER = 0x2000000
-        const val MSG_STATUS_BAR_LYRIC = 12
-    }
+
 }

@@ -340,19 +340,9 @@ class PlayerActivity : SlideBackActivity() {
                     MyFavorite.isExist(it) { exist ->
                         runOnMainThread {
                             if (exist) {
-                                binding.ivLike.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        this@PlayerActivity,
-                                        R.drawable.mc_collectingview_red_heart
-                                    )
-                                )
+                                binding.ivLike.setImageDrawable(R.drawable.mc_collectingview_red_heart.asDrawable(this@PlayerActivity))
                             } else {
-                                binding.ivLike.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        this@PlayerActivity,
-                                        R.drawable.mz_titlebar_ic_collect
-                                    )
-                                )
+                                binding.ivLike.setImageDrawable(R.drawable.mz_titlebar_ic_collect.asDrawable(this@PlayerActivity))
                             }
                         }
                     }
@@ -367,7 +357,7 @@ class PlayerActivity : SlideBackActivity() {
                     size(ViewSizeResolver(binding.ivCover))
                 }
                 // 设置 背景 图片
-                Glide.with(MyApplication.context)
+                Glide.with(this@PlayerActivity)
                     .load(bitmap)
                     .placeholder(binding.ivBackground.drawable)
                     .apply(RequestOptions.bitmapTransform(BlurTransformation(BLUR_RADIUS, BLUR_SAMPLING)))
@@ -405,6 +395,9 @@ class PlayerActivity : SlideBackActivity() {
                             binding.diffuseView.stop()
                         }
                     })
+                    controller.getLyricEntryList().observe(this@PlayerActivity, {
+
+                    })
                 }
             })
             // 总时长的观察
@@ -428,6 +421,7 @@ class PlayerActivity : SlideBackActivity() {
                     binding.ivTranslation.alpha = 0.3F
                 }
             })
+
             // 歌词观察
             lyricViewData.observe(this@PlayerActivity, {
                 // 翻译歌词为空

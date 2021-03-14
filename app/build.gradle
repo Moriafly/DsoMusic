@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 675
+        versionCode 676
         versionName "何处春江无月明"
 
         multiDexEnabled true
@@ -114,7 +114,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
     // LyricViewX
-    implementation 'com.github.Moriafly:LyricViewX:1.1.5'
+    implementation 'com.github.Moriafly:LyricViewX:1.1.6'
     // 漂亮的开关
     implementation 'com.bitvale:switcher:1.1.1'
     // coil 图片加载库
