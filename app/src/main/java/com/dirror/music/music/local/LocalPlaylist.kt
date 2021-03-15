@@ -21,7 +21,7 @@ object LocalPlaylist {
     private fun read(): LocalPlaylistArrayData {
         val defaultData = LocalPlaylistArrayData(ArrayList())
         // MMKV 读取
-        return MyApplication.mmkv.decodeParcelable(ARRAY_LOCAL_PLAYLIST, LocalPlaylistArrayData::class.java, defaultData)
+        return MyApplication.config.mmkv.decodeParcelable(ARRAY_LOCAL_PLAYLIST, LocalPlaylistArrayData::class.java, defaultData)
     }
 
     /**
@@ -45,7 +45,7 @@ object LocalPlaylist {
      * 传入旧数据 [oldData]
      */
     fun save(oldData: LocalPlaylistArrayData) {
-        MyApplication.mmkv.encode(ARRAY_LOCAL_PLAYLIST, oldData)
+        MyApplication.config.mmkv.encode(ARRAY_LOCAL_PLAYLIST, oldData)
     }
 
 }

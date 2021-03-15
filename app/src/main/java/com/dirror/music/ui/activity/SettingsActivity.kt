@@ -4,7 +4,8 @@ import android.content.Intent
 import android.os.Build
 import android.provider.MediaStore
 import android.view.View
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApplication.Companion.config
+import com.dirror.music.MyApplication.Companion.musicController
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.*
@@ -33,28 +34,29 @@ class SettingsActivity : BaseActivity() {
         }
         // 按钮
         binding.apply {
-            switcherParseHomeNavigation.setChecked(MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true))
-            switcherPlaylistScrollAnimation.setChecked(MyApplication.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true))
-            switcherDarkTheme.setChecked(MyApplication.mmkv.decodeBool(Config.DARK_THEME, false))
-            switcherSentenceRecommend.setChecked(MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true))
-            switcherPlayOnMobile.setChecked(MyApplication.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false))
+            switcherParseHomeNavigation.setChecked(config.mmkv.decodeBool(Config.PARSE_NAVIGATION, true))
+            switcherPlaylistScrollAnimation.setChecked(config.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true))
+            switcherDarkTheme.setChecked(config.mmkv.decodeBool(Config.DARK_THEME, false))
+            switcherSentenceRecommend.setChecked(config.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true))
+            switcherPlayOnMobile.setChecked(config.mmkv.decodeBool(Config.PLAY_ON_MOBILE, false))
             switcherPauseSongAfterUnplugHeadset.setChecked(
-                MyApplication.mmkv.decodeBool(
+                config.mmkv.decodeBool(
                     Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET,
                     true
                 )
             )
-            switcherSkipErrorMusic.setChecked(MyApplication.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true))
-            switcherFilterRecord.setChecked(MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, true))
+            switcherSkipErrorMusic.setChecked(config.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true))
+            switcherFilterRecord.setChecked(config.mmkv.decodeBool(Config.FILTER_RECORD, true))
             switcherLocalMusicParseLyric.setChecked(
-                MyApplication.mmkv.decodeBool(
+                config.mmkv.decodeBool(
                     Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC,
                     true
                 )
             )
-            switcherSmartFilter.setChecked(MyApplication.mmkv.decodeBool(Config.SMART_FILTER, true))
-            switcherAudioFocus.setChecked(MyApplication.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true))
-            switcherSingleColumnPlaylist.setChecked(MyApplication.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false))
+            switcherSmartFilter.setChecked(config.mmkv.decodeBool(Config.SMART_FILTER, true))
+            switcherAudioFocus.setChecked(config.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true))
+            switcherSingleColumnPlaylist.setChecked(config.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false))
+            switcherStatusBarLyric.setChecked(config.mmkv.decodeBool(Config.MEIZU_STATUS_BAR_LYRIC, true))
         }
 
     }
@@ -66,39 +68,39 @@ class SettingsActivity : BaseActivity() {
                 toast("清除成功")
             }
 
-            switcherParseHomeNavigation.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.PARSE_NAVIGATION, it) }
+            switcherParseHomeNavigation.setOnCheckedChangeListener { config.mmkv.encode(Config.PARSE_NAVIGATION, it) }
 
-            switcherPlaylistScrollAnimation.setOnCheckedChangeListener { MyApplication.mmkv.encode(
+            switcherPlaylistScrollAnimation.setOnCheckedChangeListener { config.mmkv.encode(
                 Config.PLAYLIST_SCROLL_ANIMATION,
                 it
             ) }
 
             switcherDarkTheme.setOnCheckedChangeListener {
-                MyApplication.mmkv.encode(Config.DARK_THEME, it)
+                config.mmkv.encode(Config.DARK_THEME, it)
                 DarkThemeUtil.setDarkTheme(it)
             }
 
             switcherSentenceRecommend.setOnCheckedChangeListener {
-                MyApplication.mmkv.encode(Config.SENTENCE_RECOMMEND, it)
+                config.mmkv.encode(Config.SENTENCE_RECOMMEND, it)
             }
 
-            switcherFilterRecord.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.FILTER_RECORD, it) }
+            switcherFilterRecord.setOnCheckedChangeListener { config.mmkv.encode(Config.FILTER_RECORD, it) }
 
-            switcherLocalMusicParseLyric.setOnCheckedChangeListener { MyApplication.mmkv.encode(
+            switcherLocalMusicParseLyric.setOnCheckedChangeListener { config.mmkv.encode(
                 Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC,
                 it
             ) }
 
-            switcherSkipErrorMusic.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.SKIP_ERROR_MUSIC, it) }
+            switcherSkipErrorMusic.setOnCheckedChangeListener { config.mmkv.encode(Config.SKIP_ERROR_MUSIC, it) }
 
-            switcherPlayOnMobile.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.PLAY_ON_MOBILE, it) }
+            switcherPlayOnMobile.setOnCheckedChangeListener { config.mmkv.encode(Config.PLAY_ON_MOBILE, it) }
 
-            switcherPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { MyApplication.mmkv.encode(
+            switcherPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { config.mmkv.encode(
                 Config.PAUSE_SONG_AFTER_UNPLUG_HEADSET,
                 it
             ) }
 
-            switcherSmartFilter.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.SMART_FILTER, it) }
+            switcherSmartFilter.setOnCheckedChangeListener { config.mmkv.encode(Config.SMART_FILTER, it) }
 
             itemCustomBackground.setOnClickListener {
                 val intent = Intent(Intent.ACTION_PICK, null)
@@ -107,7 +109,12 @@ class SettingsActivity : BaseActivity() {
                 startActivityForResult(intent, 2)
             }
 
-            switcherSingleColumnPlaylist.setOnCheckedChangeListener { MyApplication.mmkv.encode(Config.SINGLE_COLUMN_USER_PLAYLIST, it) }
+            switcherSingleColumnPlaylist.setOnCheckedChangeListener { config.mmkv.encode(Config.SINGLE_COLUMN_USER_PLAYLIST, it) }
+
+            switcherStatusBarLyric.setOnCheckedChangeListener {
+                musicController.value?.statusBarLyric = it
+                config.mmkv.encode(Config.MEIZU_STATUS_BAR_LYRIC, it)
+            }
 
         }
     }

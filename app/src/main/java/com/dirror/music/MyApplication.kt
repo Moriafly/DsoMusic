@@ -31,9 +31,10 @@ class MyApplication : Application() {
             System.loadLibrary("dso")
         }
 
+        lateinit var config: Config
+
         lateinit var context: Context // 注入懒加载 全局 context
-        lateinit var mmkv: MMKV // mmkv
-        var musicController = MutableLiveData<MusicControllerInterface?>().also {
+        var musicController = MutableLiveData<MusicService.MusicController?>().also {
             it.value = null
         }
         val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
@@ -45,6 +46,8 @@ class MyApplication : Application() {
         // 数据库
         lateinit var appDatabase: AppDatabase
     }
+
+
 
     /* 获取 Bmob */
     private external fun getBmobAppKey(): String
@@ -58,7 +61,7 @@ class MyApplication : Application() {
         context = applicationContext
         // MMKV 初始化
         MMKV.initialize(this)
-        mmkv = MMKV.defaultMMKV() // MMKV
+        config = Config()
         // 管理初始化
         userManager = UserManager()
         activityManager = ActivityManager()
@@ -68,7 +71,7 @@ class MyApplication : Application() {
         // 安全检查
         checkSecure()
 
-        if (mmkv.decodeBool(Config.DARK_THEME, false)) {
+        if (config.mmkv.decodeBool(Config.DARK_THEME, false)) {
             DarkThemeUtil.setDarkTheme(true)
         }
 

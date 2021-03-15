@@ -57,7 +57,7 @@ class PlaylistActivity2: BaseActivity() {
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@PlaylistActivity2)
         }
-        val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
+        val navigationHeight = if (MyApplication.config.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
             getNavigationBarHeight(this)
         } else {
             0

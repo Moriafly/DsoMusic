@@ -123,7 +123,7 @@ class PlayerActivity : SlideBackActivity() {
             }
         } else {
             // 页面导航栏适配
-            val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
+            val navigationHeight = if (MyApplication.config.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
                 getNavigationBarHeight(this@PlayerActivity)
             } else {
                 0

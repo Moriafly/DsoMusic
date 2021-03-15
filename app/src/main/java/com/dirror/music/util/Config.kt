@@ -1,69 +1,78 @@
 package com.dirror.music.util
 
+import com.tencent.mmkv.MMKV
+
 /**
  * 配置
  */
-object Config {
+class Config {
 
-    const val UID = "long_uid"
+    val mmkv: MMKV = MMKV.defaultMMKV()
 
-    const val PAUSE_SONG_AFTER_UNPLUG_HEADSET = "pause_song_after_unplug_headset"
+    companion object {
 
-    // 是否在移动数据下播放
-    const val PLAY_ON_MOBILE = "boolean_play_on_mobile"
+        const val UID = "long_uid"
 
-    // 播放历史
-    const val PLAY_HISTORY = "list_play_history"
+        const val PAUSE_SONG_AFTER_UNPLUG_HEADSET = "pause_song_after_unplug_headset"
 
-    // 播放模式
-    const val PLAY_MODE = "int_play_mode"
+        // 是否在移动数据下播放
+        const val PLAY_ON_MOBILE = "boolean_play_on_mobile"
 
-    // 音乐搜索引擎
-    const val SEARCH_ENGINE = "int_search_engine"
+        // 播放历史
+        const val PLAY_HISTORY = "list_play_history"
 
-    // 网易云 Cookie
-    const val CLOUD_MUSIC_COOKIE = "string_cloud_music_cookie"
+        // 播放模式
+        const val PLAY_MODE = "int_play_mode"
 
-    // 过滤录音
-    const val FILTER_RECORD = "boolean_filter_record"
+        // 音乐搜索引擎
+        const val SEARCH_ENGINE = "int_search_engine"
 
-    // 为本地音乐自动匹配网络歌词
-    const val PARSE_INTERNET_LYRIC_LOCAL_MUSIC = "boolean_parse_internet_lyric_local_music"
+        // 网易云 Cookie
+        const val CLOUD_MUSIC_COOKIE = "string_cloud_music_cookie"
 
-    // 跳过错误原因，自动播放下一首
-    const val SKIP_ERROR_MUSIC = "boolean_skip_error_music"
+        // 过滤录音
+        const val FILTER_RECORD = "boolean_filter_record"
 
-    // 歌词翻译
-    const val LYRIC_TRANSLATION = "boolean_lyric_translation"
+        // 为本地音乐自动匹配网络歌词
+        const val PARSE_INTERNET_LYRIC_LOCAL_MUSIC = "boolean_parse_internet_lyric_local_music"
 
-    // 智能过滤
-    const val SMART_FILTER = "smart_filter"
+        // 跳过错误原因，自动播放下一首
+        const val SKIP_ERROR_MUSIC = "boolean_skip_error_music"
 
-    // 首页导航栏适配
-    const val PARSE_NAVIGATION = "parse_home_navigation"
+        // 歌词翻译
+        const val LYRIC_TRANSLATION = "boolean_lyric_translation"
 
-    // 歌单滑动动画
-    const val PLAYLIST_SCROLL_ANIMATION = "boolean_playlist_scroll_animation"
+        // 智能过滤
+        const val SMART_FILTER = "smart_filter"
 
-    // 深色主题
-    const val DARK_THEME = "boolean_dark_theme"
+        // 首页导航栏适配
+        const val PARSE_NAVIGATION = "parse_home_navigation"
 
-    // 是否开启句子推荐
-    const val SENTENCE_RECOMMEND = "boolean_sentence_recommend"
+        // 歌单滑动动画
+        const val PLAYLIST_SCROLL_ANIMATION = "boolean_playlist_scroll_animation"
 
-    // 自定义背景
-    const val APP_THEME_BACKGROUND = "bitmap_app_theme_background"
+        // 深色主题
+        const val DARK_THEME = "boolean_dark_theme"
 
-    // 允许与其他应用同时播放
-    const val ALLOW_AUDIO_FOCUS = "boolean_allow_audio_focus"
+        // 是否开启句子推荐
+        const val SENTENCE_RECOMMEND = "boolean_sentence_recommend"
 
-    // 锁屏显示
-    const val SHOW_IN_LOCK_SCREEN = "boolean_show_in_lock_screen"
+        // 自定义背景
+        const val APP_THEME_BACKGROUND = "bitmap_app_theme_background"
 
-    /* 单列歌单 */
-    const val SINGLE_COLUMN_USER_PLAYLIST = "boolean_single_column_user_playlist"
-    /* 服务保存的当前歌曲 */
-    const val SERVICE_CURRENT_SONG = "service_current_song"
-    /* 服务保存的当前歌曲进度 */
-    const val SERVICE_RECOVER_PROGRESS = "service_recover_progress"
+        // 允许与其他应用同时播放
+        const val ALLOW_AUDIO_FOCUS = "boolean_allow_audio_focus"
+
+        // 锁屏显示
+        const val SHOW_IN_LOCK_SCREEN = "boolean_show_in_lock_screen"
+
+        /* 单列歌单 */
+        const val SINGLE_COLUMN_USER_PLAYLIST = "boolean_single_column_user_playlist"
+        /* 服务保存的当前歌曲 */
+        const val SERVICE_CURRENT_SONG = "service_current_song"
+        /* 服务保存的当前歌曲进度 */
+        const val SERVICE_RECOVER_PROGRESS = "service_recover_progress"
+        /* 魅族状态栏歌词 */
+        const val MEIZU_STATUS_BAR_LYRIC = "boolean_meizu_status_bar_lyric"
+    }
 }

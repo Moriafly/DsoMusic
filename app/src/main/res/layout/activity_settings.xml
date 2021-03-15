@@ -235,6 +235,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
             </com.dirror.music.widget.ItemLayout>
 
+
+
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -326,6 +328,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
             </com.dirror.music.widget.ItemLayout>
 
+
+
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -369,6 +373,47 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+            </com.dirror.music.widget.ItemLayout>
+
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherStatusBarLyric"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvStatusBarLyric"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/status_bar_lyric"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvStatusBarLyricContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/filtering_audio_files_sub"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
             </com.dirror.music.widget.ItemLayout>
 
             <TextView

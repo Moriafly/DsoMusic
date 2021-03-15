@@ -6,6 +6,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.Config
 import kotlinx.parcelize.Parcelize
 import org.jetbrains.annotations.TestOnly
+import kotlin.concurrent.thread
 
 /**
  * 播放历史单例类
@@ -24,16 +25,15 @@ object PlayHistory {
             playHistory.list.add(0, songData)
             // playlist.add(songData)
         }
-        MyApplication.mmkv.encode(Config.PLAY_HISTORY, playHistory)
+        MyApplication.config.mmkv.encode(Config.PLAY_HISTORY, playHistory)
 
     }
 
     /**
      * 读取播放历史
      */
-    @TestOnly
-    fun readPlayHistory(): ArrayList<StandardSongData> {
-        playHistory = MyApplication.mmkv.decodeParcelable(Config.PLAY_HISTORY, PlayHistoryData::class.java, PlayHistoryData(
+    suspend fun readPlayHistory(): ArrayList<StandardSongData> {
+        playHistory = MyApplication.config.mmkv.decodeParcelable(Config.PLAY_HISTORY, PlayHistoryData::class.java, PlayHistoryData(
             ArrayList()
         ))
         return playHistory.list

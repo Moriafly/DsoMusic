@@ -39,7 +39,7 @@ class HomeFragment : BaseFragment(){
     override fun initView() {
         update()
 
-        if (!MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)) {
+        if (!MyApplication.config.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)) {
             binding.tvFoyou.visibility =View.GONE
             binding.includeFoyou.root.visibility = View.GONE
         }

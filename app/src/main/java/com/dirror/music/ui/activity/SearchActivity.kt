@@ -54,7 +54,7 @@ class SearchActivity : BaseActivity() {
 
         binding.clNetease.background = ContextCompat.getDrawable(this, R.drawable.bg_edit_text)
 
-        changeSearchEngine(MyApplication.mmkv.decodeInt(Config.SEARCH_ENGINE, SOURCE_NETEASE))
+        changeSearchEngine(MyApplication.config.mmkv.decodeInt(Config.SEARCH_ENGINE, SOURCE_NETEASE))
 
         // 获取推荐关键词
         MyApplication.cloudMusicManager.getSearchDefault {
@@ -195,7 +195,7 @@ class SearchActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // 保存搜索引擎
-        MyApplication.mmkv.encode(Config.SEARCH_ENGINE, engine)
+        MyApplication.config.mmkv.encode(Config.SEARCH_ENGINE, engine)
     }
 
     override fun onBackPressed() {

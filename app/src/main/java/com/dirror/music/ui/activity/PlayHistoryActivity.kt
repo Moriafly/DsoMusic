@@ -1,12 +1,13 @@
 package com.dirror.music.ui.activity
 
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.adapter.SongDataAdapter
 import com.dirror.music.data.PLAYLIST_TAG_HISTORY
 import com.dirror.music.databinding.ActivityPlayHistoryBinding
 import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.ui.base.BaseActivity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class PlayHistoryActivity : BaseActivity() {
 
@@ -22,8 +23,9 @@ class PlayHistoryActivity : BaseActivity() {
         binding.apply {
             rvPlayHistory.layoutManager = LinearLayoutManager(this@PlayHistoryActivity)
             rvPlayHistory.adapter = SongDataAdapter(this@PlayHistoryActivity, PLAYLIST_TAG_HISTORY).apply {
-                Log.e("pos", PlayHistory.readPlayHistory().size.toString())
-                submitList(PlayHistory.readPlayHistory().toList())
+                GlobalScope.launch {
+                    submitList(PlayHistory.readPlayHistory().toList())
+                }
             }
         }
     }

@@ -11,7 +11,6 @@ import com.dirror.music.ui.base.BaseBottomSheetDialog
 import com.dirror.music.util.Secure
 import com.dirror.music.util.defaultTypeface
 import com.dirror.music.util.getVisionCode
-import com.dirror.music.util.getVisionName
 import com.dirror.music.util.sky.SkySecure
 
 class AppInfoDialog(context: Context) : BaseBottomSheetDialog(context) {
@@ -29,7 +28,6 @@ class AppInfoDialog(context: Context) : BaseBottomSheetDialog(context) {
         binding.apply {
             tvText.typeface = defaultTypeface(MyApplication.context)
             tvText.text = """
-                [app.ver     ] ${getVisionName()}
                 [app.build   ] ${getVisionCode()}
                 [is debug    ] ${Secure.isDebug()}
                 [foyou.ver   ] ${FoyouLibrary.VERSION}

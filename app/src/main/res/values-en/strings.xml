@@ -103,4 +103,5 @@
     <string name="next_play">Next play</string>
     <string name="help_document">Help document</string>
     <string name="single_column_playlist">Single column playlist</string>
+    <string name="status_bar_lyric">Status bar lyric</string>
 </resources>

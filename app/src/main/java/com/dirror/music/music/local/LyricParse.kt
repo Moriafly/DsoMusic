@@ -16,7 +16,7 @@ object LyricParse {
      * 传入名称
      */
     fun getLyric(name: String, success: (String) -> Unit) {
-        if (MyApplication.mmkv.decodeBool(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, true)) {
+        if (MyApplication.config.mmkv.decodeBool(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, true)) {
             // 调用一次 QQ 搜索
             SearchSong.search(name) {
                 if (it.isNotEmpty()) {

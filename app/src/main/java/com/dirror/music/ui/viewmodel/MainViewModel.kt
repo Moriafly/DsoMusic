@@ -28,7 +28,7 @@ class MainViewModel: ViewModel() {
     }
 
     fun updateUI() {
-        singleColumnPlaylist.value = MyApplication.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false)
+        singleColumnPlaylist.value = MyApplication.config.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false)
     }
 
 }

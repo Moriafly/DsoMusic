@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 677
+        versionCode 679
         versionName "何处春江无月明"
 
         multiDexEnabled true
@@ -119,5 +119,4 @@ dependencies {
     implementation 'com.bitvale:switcher:1.1.1'
     // coil 图片加载库
     implementation 'io.coil-kt:coil:1.1.1'
-
 }

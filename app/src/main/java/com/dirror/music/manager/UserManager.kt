@@ -16,27 +16,27 @@ class UserManager: UserManagerInterface {
     }
 
     override fun isUidLogin(): Boolean {
-        val uid = MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
+        val uid = MyApplication.config.mmkv.decodeLong(Config.UID, defaultUid)
         return uid != defaultUid
     }
 
     override fun getCurrentUid(): Long {
-        return MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
+        return MyApplication.config.mmkv.decodeLong(Config.UID, defaultUid)
     }
 
     override fun setUid(uid: Long) {
-        MyApplication.mmkv.encode(Config.UID, uid)
+        MyApplication.config.mmkv.encode(Config.UID, uid)
     }
 
     override fun getCloudMusicCookie(): String {
-        return MyApplication.mmkv.decodeString(Config.CLOUD_MUSIC_COOKIE, DEFAULT_COOKIE)
+        return MyApplication.config.mmkv.decodeString(Config.CLOUD_MUSIC_COOKIE, DEFAULT_COOKIE)
     }
 
     /**
      * 设置网易云音乐用户 Cookie
      */
     override fun setCloudMusicCookie(cookie: String) {
-        MyApplication.mmkv.encode(Config.CLOUD_MUSIC_COOKIE, cookie)
+        MyApplication.config.mmkv.encode(Config.CLOUD_MUSIC_COOKIE, cookie)
     }
 
     override fun hasCookie(): Boolean {

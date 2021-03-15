@@ -8,14 +8,11 @@ Kotlin 开发的美观的安卓音乐软件。
 
 注意：源码仅供学习，请勿传播软件安装包。
 
-- 👋 I am in college.
-- 🌱 I am currently learning adroid.
-- 🤔 I am looking for help with adroid develop.
-- 📫 My email: moriafly@163.com.
+- 📫 作者邮箱: moriafly@163.com.
 
 # 声明及协议
 
-开源链接、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）
+开源链接、源码、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）
 
 Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支持正版音乐。
 

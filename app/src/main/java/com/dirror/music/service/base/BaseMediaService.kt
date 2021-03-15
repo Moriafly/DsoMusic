@@ -10,7 +10,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 abstract class BaseMediaService: Service() {
 
     companion object {
-        const val TAG = "BaseMediaService"
+        private const val TAG = "BaseMediaService"
 
         const val MODE_CIRCLE = 1 // 列表循环
         const val MODE_REPEAT_ONE = 2 // 单曲循环

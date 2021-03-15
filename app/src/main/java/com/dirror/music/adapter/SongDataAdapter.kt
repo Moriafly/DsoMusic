@@ -45,7 +45,7 @@ class SongDataAdapter
         val ivMore: ImageView = view.findViewById(R.id.ivMore)
         val ivHq: ImageView = view.findViewById(R.id.ivHq)
 
-        val isAnimation = MyApplication.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true)
+        val isAnimation = MyApplication.config.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

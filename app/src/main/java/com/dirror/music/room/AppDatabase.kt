@@ -11,7 +11,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  * Room 数据库
  * @author Moriafly
  */
-@Database(version = AppDatabase.DATABASE_VERSION, entities = [MyFavoriteData::class, PlayQueueData::class])
+@Database(
+    version = AppDatabase.DATABASE_VERSION,
+    entities = [MyFavoriteData::class, PlayQueueData::class],
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun myFavoriteDao(): MyFavoriteDao

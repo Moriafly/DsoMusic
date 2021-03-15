@@ -46,6 +46,7 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.dirror.lyricviewx.LyricEntry
 import com.dirror.music.MyApplication
+import com.dirror.music.MyApplication.Companion.config
 import com.dirror.music.R
 import com.dirror.music.broadcast.BecomingNoisyReceiver
 import com.dirror.music.music.local.PlayHistory
@@ -70,48 +71,69 @@ import kotlin.coroutines.suspendCoroutine
 open class MusicService : BaseMediaService() {
 
     companion object {
+        private const val TAG = "MusicService"
+
         /* Flyme 状态栏歌词 TICKER 一直显示 */
         private const val FLAG_ALWAYS_SHOW_TICKER = 0x1000000
+
         /* 只更新 Flyme 状态栏歌词 */
         private const val FLAG_ONLY_UPDATE_TICKER = 0x2000000
+
         /* MSG 状态栏歌词 */
         private const val MSG_STATUS_BAR_LYRIC = 0
     }
 
     /* Dso Music 音乐控制器 */
     private val musicController by lazy { MusicController() }
+
     /* 播放模式 */
-    private var mode: Int = MyApplication.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
+    private var mode: Int = config.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
+
     /* 通知管理 */
     private var notificationManager: NotificationManager? = null
+
     /* 是否开启音频焦点 */
-    private var isAudioFocus = MyApplication.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true) // 是否开启音频焦点
+    private var isAudioFocus = config.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true) // 是否开启音频焦点
+
     /* 音频会话 */
     private var mediaSession: MediaSessionCompat? = null
+
     /* 音频会话回调 */
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
+
     /* 音频控制器 */
     private var mediaController: MediaControllerCompat? = null
+
     /* 默认播放速度，0f 表示暂停 */
     private var speed = 1f
+
     /* 默认音高 */
     private var pitch = 1f
+
     /* 音高等级 */
     private var pitchLevel = 0
+
     /* 音高单元，每次改变的音高单位 */
     private val pitchUnit = 0.05f
+
     /* 音频管理 */
     private lateinit var audioManager: AudioManager
+
     /* AudioAttributes */
     private lateinit var audioAttributes: AudioAttributes
+
     /* AudioFocusRequest */
     private lateinit var audioFocusRequest: AudioFocusRequest
+
     /* 当前状态栏歌曲 */
     private var currentStatusBarTag = ""
+
     /* 单句歌词集合 */
     private val lyricEntryList: ArrayList<LyricEntry> = ArrayList()
+
     /* Live */
     private var liveLyricEntryList = MutableLiveData<ArrayList<LyricEntry>>(ArrayList())
+
     /* Handler */
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
@@ -324,15 +346,19 @@ open class MusicService : BaseMediaService() {
         mediaPlayer?.release()
 
     }
-    
+
     /**
      * inner class Music Controller
      */
     inner class MusicController : Binder(), MusicControllerInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
+        /* 是否开启了状态栏歌词 */
+        var statusBarLyric = config.mmkv.decodeBool(Config.MEIZU_STATUS_BAR_LYRIC, true)
+
         /* 是否是恢复 */
         private var recover = false
+        /* 来自恢复的歌曲进度 */
         private var recoverProgress = 0
 
         private var songData = MutableLiveData<StandardSongData?>()
@@ -359,7 +385,7 @@ open class MusicService : BaseMediaService() {
             isPrepared = false
             songData.value = song
             // 保存当前播放音乐
-            MyApplication.mmkv.encode(Config.SERVICE_CURRENT_SONG, song)
+            config.mmkv.encode(Config.SERVICE_CURRENT_SONG, song)
             Log.e(TAG, "onDestroy: 成功保存歌曲恢复到 mmkv：${song.name}")
 
             // 如果 MediaPlayer 已经存在，释放
@@ -373,7 +399,7 @@ open class MusicService : BaseMediaService() {
                 ServiceSongUrl.getUrl(song) {
                     when (it) {
                         is String -> {
-                            if (!InternetState.isWifi(MyApplication.context) && !MyApplication.mmkv.decodeBool(
+                            if (!InternetState.isWifi(MyApplication.context) && !config.mmkv.decodeBool(
                                     Config.PLAY_ON_MOBILE,
                                     false
                                 )
@@ -444,8 +470,8 @@ open class MusicService : BaseMediaService() {
                         lyricEntryList.sort()
                         runOnMainThread {
                             liveLyricEntryList.value = lyricEntryList
+                            handler.sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 100L)
                         }
-                        updateNotification(true)
                     }
                 }
             }
@@ -511,7 +537,7 @@ open class MusicService : BaseMediaService() {
                         audioManager.abandonAudioFocusRequest(audioFocusRequest)
                     }
                     isAudioFocus = status
-                    MyApplication.mmkv.encode(Config.ALLOW_AUDIO_FOCUS, isAudioFocus)
+                    config.mmkv.encode(Config.ALLOW_AUDIO_FOCUS, isAudioFocus)
                 }
             }
         }
@@ -603,7 +629,7 @@ open class MusicService : BaseMediaService() {
                 }
             }
             // 将播放模式存储
-            MyApplication.mmkv.encode(Config.PLAY_MODE, mode)
+            config.mmkv.encode(Config.PLAY_MODE, mode)
             sendMusicBroadcast()
         }
 
@@ -697,7 +723,7 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
-            if (MyApplication.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)) {
+            if (config.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)) {
                 // 播放下一首
                 toast("播放错误 (${p1},${p2}) ，开始播放下一首")
                 playNext()
@@ -757,7 +783,7 @@ open class MusicService : BaseMediaService() {
             setSmallIcon(R.drawable.ic_music_launcher_foreground)
             setLargeIcon(bitmap)
             setContentTitle(song?.name)
-            setContentText(song?.artists?.let { it1 -> parseArtist(it1) })
+            setContentText(song?.artists?.parse())
             setContentIntent(getPendingIntentActivity())
             addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
             addAction(getPlayIcon(), "play", getPendingIntentPlay())
@@ -768,7 +794,7 @@ open class MusicService : BaseMediaService() {
                     .setShowActionsInCompactView(0, 1, 2)
             )
             setOngoing(true)
-            if (getCurrentLineLyricEntry()?.text != null && fromLyric) {
+            if (getCurrentLineLyricEntry()?.text != null && fromLyric && musicController.statusBarLyric) {
                 setTicker(getCurrentLineLyricEntry()?.text) // 魅族状态栏歌词的实现方法
             }
             // .setAutoCancel(true)
@@ -781,7 +807,6 @@ open class MusicService : BaseMediaService() {
         if (fromLyric) {
             notification.flags = notification.flags.or(FLAG_ONLY_UPDATE_TICKER)
         }
-//
 
         mediaSession?.apply {
             setMetadata(
