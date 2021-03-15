@@ -308,21 +308,32 @@ open class MusicService : BaseMediaService() {
         return musicController
     }
 
+    override fun onUnbind(intent: Intent?): Boolean {
+        Log.e(TAG, "onUnbind: 解绑")
+        return super.onUnbind(intent)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        Log.e(TAG, "onDestroy: 解绑")
         // 释放 mediaSession
         mediaSession?.let {
             it.setCallback(null)
             it.release()
         }
         mediaPlayer?.release()
-    }
 
+    }
+    
     /**
      * inner class Music Controller
      */
     inner class MusicController : Binder(), MusicControllerInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+
+        /* 是否是恢复 */
+        private var recover = false
+        private var recoverProgress = 0
 
         private var songData = MutableLiveData<StandardSongData?>()
 
@@ -347,6 +358,10 @@ open class MusicService : BaseMediaService() {
         override fun playMusic(song: StandardSongData) {
             isPrepared = false
             songData.value = song
+            // 保存当前播放音乐
+            MyApplication.mmkv.encode(Config.SERVICE_CURRENT_SONG, song)
+            Log.e(TAG, "onDestroy: 成功保存歌曲恢复到 mmkv：${song.name}")
+
             // 如果 MediaPlayer 已经存在，释放
             if (mediaPlayer != null) {
                 mediaPlayer?.reset()
@@ -389,16 +404,21 @@ open class MusicService : BaseMediaService() {
 
         override fun onPrepared(p0: MediaPlayer?) {
             isPrepared = true
-            // Controller
+//            // Controller
             mediaController = mediaSession?.sessionToken?.let { it1 -> MediaControllerCompat(this@MusicService, it1) }
-//            MediaControllerCompat.setMediaController(this@MusicService, mediaController)
-//            onMediaBrowserConnected();
-//            onMediaControllerConnected(mediaController.getSessionToken())
-            this.play()
+////            MediaControllerCompat.setMediaController(this@MusicService, mediaController)
+////            onMediaBrowserConnected();
+////            onMediaControllerConnected(mediaController.getSessionToken())
+            if (recover) {
+                recover = false
+                this.setProgress(recoverProgress)
+            } else {
+                this.play()
+            }
             sendMusicBroadcast()
             updateNotification()
-            setPlaybackParams()
-
+//            setPlaybackParams()
+//
             songData.value?.let { standardSongData ->
                 // 获取封面
                 SongPicture.getPlayerActivityCoverBitmap(
@@ -430,7 +450,6 @@ open class MusicService : BaseMediaService() {
                     }
                 }
             }
-
             // 添加到播放历史
             getPlayingSongData().value?.let {
                 PlayHistory.addPlayHistory(it)
@@ -537,6 +556,14 @@ open class MusicService : BaseMediaService() {
                     this@MusicService.imageLoader.enqueue(request)
                 }
             }
+        }
+
+        override fun setRecover(value: Boolean) {
+            recover = value
+        }
+
+        override fun setRecoverProgress(value: Int) {
+            recoverProgress = value
         }
 
         override fun isPlaying(): MutableLiveData<Boolean> = isSongPlaying
@@ -833,6 +860,5 @@ open class MusicService : BaseMediaService() {
         }
         return 0
     }
-
 
 }

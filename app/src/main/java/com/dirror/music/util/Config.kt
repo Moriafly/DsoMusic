@@ -62,4 +62,8 @@ object Config {
 
     /* 单列歌单 */
     const val SINGLE_COLUMN_USER_PLAYLIST = "boolean_single_column_user_playlist"
+    /* 服务保存的当前歌曲 */
+    const val SERVICE_CURRENT_SONG = "service_current_song"
+    /* 服务保存的当前歌曲进度 */
+    const val SERVICE_RECOVER_PROGRESS = "service_recover_progress"
 }

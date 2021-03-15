@@ -107,4 +107,9 @@ class MyApplication : Application() {
         bindService(intent, musicServiceConnection, BIND_AUTO_CREATE)
     }
 
+    override fun onTerminate() {
+        super.onTerminate()
+        toast("回收")
+    }
+
 }

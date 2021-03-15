@@ -161,4 +161,14 @@ interface MusicControllerInterface {
      */
     suspend fun getSongCover(size: Int? = null): Bitmap
 
+    /**
+     * 设置是否是 recover
+     */
+    fun setRecover(value: Boolean)
+
+    /**
+     * 设置是否是 RecoverProgress
+     */
+    fun setRecoverProgress(value: Int)
+
 }
