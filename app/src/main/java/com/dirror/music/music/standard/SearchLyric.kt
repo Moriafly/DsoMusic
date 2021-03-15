@@ -23,7 +23,7 @@ object SearchLyric {
                 url = "https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid=${songData.id}&format=json&nobase64=1"
             }
             else -> {
-                LyricParse.getLyric(songData.name) {
+                LyricParse.getLyric(songData.name?:"") {
                     success.invoke(it)
                 }
             }

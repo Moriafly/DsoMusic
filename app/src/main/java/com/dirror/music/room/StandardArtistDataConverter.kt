@@ -20,3 +20,18 @@ class StandardArtistDataConverter {
     }
 
 }
+
+class StandardSongDataConverter {
+
+    @TypeConverter
+    fun objectToString(song: StandardSongData): String {
+        return Gson().toJson(song)
+    }
+
+    @TypeConverter
+    fun stringToObject(json: String): StandardSongData {
+        val songType: Type = object : TypeToken<StandardSongData>() {}.type
+        return Gson().fromJson(json, songType)
+    }
+
+}

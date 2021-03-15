@@ -130,7 +130,7 @@ class PlayerViewModel: ViewModel() {
         MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
             MyFavorite.isExist(it) { exist ->
                 if (exist) {
-                    MyFavorite.deleteById(it.id)
+                    MyFavorite.deleteById(it.id?:"")
                     success.invoke(false)
                 } else {
                     MyFavorite.addSong(it)
@@ -147,7 +147,7 @@ class PlayerViewModel: ViewModel() {
         // 更改歌词
         MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
             if (it.source == SOURCE_NETEASE) {
-                MyApplication.cloudMusicManager.getLyric(it.id.toLong()) { lyric ->
+                MyApplication.cloudMusicManager.getLyric(it.id?.toLong()?:0) { lyric ->
                     runOnMainThread {
                         _lyricViewData.value = LyricViewData(lyric.lrc?.lyric?:"", lyric.tlyric?.lyric?:"")
                         if (lyricTranslation.value == true) {

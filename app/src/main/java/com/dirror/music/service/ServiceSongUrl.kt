@@ -19,15 +19,15 @@ object ServiceSongUrl {
     inline fun getUrl(song: StandardSongData, crossinline success: (Any?) -> Unit) {
         when (song.source) {
             SOURCE_NETEASE -> {
-                success.invoke(SongUrl.getSongUrl(song.id))
+                success.invoke(SongUrl.getSongUrl(song.id?:""))
             }
             SOURCE_QQ -> {
-                PlayUrl.getPlayUrl(song.id) {
+                PlayUrl.getPlayUrl(song.id?:"") {
                     success.invoke(it)
                 }
             }
             SOURCE_LOCAL -> {
-                val id = song.id.toLong()
+                val id = song.id?.toLong() ?: 0
                 val contentUri: Uri =
                     ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
                 success.invoke(contentUri)
@@ -38,12 +38,12 @@ object ServiceSongUrl {
                 }
             }
             SOURCE_KUWO -> {
-                SearchSong.getUrl(song.id) {
+                SearchSong.getUrl(song.id?:"") {
                     success.invoke(it)
                 }
             }
             SOURCE_NETEASE_CLOUD -> {
-                SongUrl.getSongUrlCookie(song.id) {
+                SongUrl.getSongUrlCookie(song.id?:"") {
                     success.invoke(it)
                 }
             }
@@ -53,7 +53,7 @@ object ServiceSongUrl {
 
     fun getLyric(song: StandardSongData, success: (LyricViewData) -> Unit) {
         if (song.source == SOURCE_NETEASE) {
-            MyApplication.cloudMusicManager.getLyric(song.id.toLong()) { lyric ->
+            MyApplication.cloudMusicManager.getLyric(song.id?.toLong() ?: 0) { lyric ->
                 runOnMainThread {
                     val l = LyricViewData(lyric.lrc?.lyric?:"", lyric.tlyric?.lyric?:"")
                     success.invoke(l)

@@ -1,8 +1,11 @@
 package com.dirror.music.service
 
 import androidx.lifecycle.MutableLiveData
+import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.room.PlayQueueData
 import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 
 /**
  * 播放队列
@@ -36,11 +39,27 @@ object PlayQueue {
         val shuffle = currentQueue.value
         shuffle?.shuffle()
         currentQueue.value = shuffle
+        savePlayQueue()
     }
 
     fun normal() {
         currentQueue.value?.clear()
         currentQueue.value?.addAll(queue)
+        savePlayQueue()
+    }
+
+    /**
+     * 保存歌单到数据库
+     */
+    private fun savePlayQueue() {
+        thread {
+            MyApplication.appDatabase.playQueueDao().loadAll().forEach {
+                MyApplication.appDatabase.playQueueDao().deleteById(it.songData.id?:"")
+            }
+            currentQueue.value?.forEach {
+                MyApplication.appDatabase.playQueueDao().insert(PlayQueueData(it))
+            }
+        }
     }
 
 }

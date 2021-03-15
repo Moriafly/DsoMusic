@@ -48,7 +48,7 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
                     song?.let {
                         when (it.source) {
                             SOURCE_NETEASE -> {
-                                MyApplication.cloudMusicManager.likeSong(it.id, {
+                                MyApplication.cloudMusicManager.likeSong(it.id?:"", {
                                     toast("添加到我喜欢成功")
                                 }, {
                                     toast("添加到我喜欢失败")

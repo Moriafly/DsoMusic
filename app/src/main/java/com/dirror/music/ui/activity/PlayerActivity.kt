@@ -179,7 +179,7 @@ class PlayerActivity : SlideBackActivity() {
             ivComment.setOnClickListener {
                 MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
                     if (it.source != SOURCE_LOCAL) {
-                        MyApplication.activityManager.startCommentActivity(this@PlayerActivity, it.source, it.id)
+                        MyApplication.activityManager.startCommentActivity(this@PlayerActivity, it.source?: SOURCE_NETEASE, it.id?:"")
                     } else {
                         toast("暂无评论")
                     }

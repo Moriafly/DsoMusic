@@ -57,7 +57,7 @@ constructor(
                 } else {
                     when (songData.source) {
                         SOURCE_NETEASE -> {
-                            MyApplication.cloudMusicManager.likeSong(songData.id, {
+                            MyApplication.cloudMusicManager.likeSong(songData.id?:"", {
                                 toast("添加到我喜欢成功")
                             }, {
                                 toast("添加到我喜欢失败")
@@ -78,13 +78,13 @@ constructor(
             }
             // 歌曲评论
             itemSongComment.setOnClickListener {
-                MyApplication.activityManager.startCommentActivity(activity, songData.source, songData.id)
+                MyApplication.activityManager.startCommentActivity(activity, songData.source?: SOURCE_NETEASE, songData.id?:"")
                 dismiss()
             }
             // 歌曲删除
             itemDeleteSong.setOnClickListener {
                 if (tag == PLAYLIST_TAG_MY_FAVORITE) {
-                    MyFavorite.deleteById(songData.id)
+                    MyFavorite.deleteById(songData.id?:"")
                     toast("删除成功")
                     BroadcastUtil.send(this@SongMenuDialog.context, BROADCAST_UPDATE_PLAYLIST)
                     dismiss()

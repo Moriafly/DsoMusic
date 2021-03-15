@@ -28,7 +28,7 @@ class SongInfoDialog(context: Context, private val songData: StandardSongData) :
         super.onCreate(savedInstanceState)
 
         binding.apply {
-            valueViewId.setValue(songData.id) // ID
+            valueViewId.setValue(songData.id?:"") // ID
             valueViewSource.setValue("未知")
             valueViewBitrate.setValue("未知")
             binding.valueViewSize.setValue("未知")
@@ -38,9 +38,9 @@ class SongInfoDialog(context: Context, private val songData: StandardSongData) :
         songData.let {
             when (it.source) {
                 SOURCE_NETEASE -> {
-                    MyApplication.cloudMusicManager.getSongInfo(it.id) { data ->
+                    MyApplication.cloudMusicManager.getSongInfo(it.id?:"") { data ->
                         runOnMainThread {
-                            if (SearchSong.getDirrorSongUrl(it.id) != "") {
+                            if (SearchSong.getDirrorSongUrl(it.id?:"") != "") {
                                 binding.valueViewSource.setValue("Dirror 音乐")
                             } else {
                                 binding.valueViewSource.setValue("网易云音乐")
@@ -52,7 +52,7 @@ class SongInfoDialog(context: Context, private val songData: StandardSongData) :
                     }
                 }
                 SOURCE_QQ -> {
-                    if (SearchSong.getDirrorSongUrl(it.id) != "") {
+                    if (SearchSong.getDirrorSongUrl(it.id?:"") != "") {
                         binding.valueViewSource.setValue("Dirror 音乐")
                     } else {
                         binding.valueViewSource.setValue("QQ 音乐")

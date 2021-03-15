@@ -404,7 +404,6 @@ open class MusicService : BaseMediaService() {
 
         override fun onPrepared(p0: MediaPlayer?) {
             isPrepared = true
-//            // Controller
             mediaController = mediaSession?.sessionToken?.let { it1 -> MediaControllerCompat(this@MusicService, it1) }
 ////            MediaControllerCompat.setMediaController(this@MusicService, mediaController)
 ////            onMediaBrowserConnected();
@@ -416,7 +415,7 @@ open class MusicService : BaseMediaService() {
                 this.play()
             }
             sendMusicBroadcast()
-            updateNotification()
+            // updateNotification()
 //            setPlaybackParams()
 //
             songData.value?.let { standardSongData ->

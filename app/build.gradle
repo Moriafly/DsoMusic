@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 676
+        versionCode 677
         versionName "何处春江无月明"
 
         multiDexEnabled true
