@@ -73,6 +73,12 @@ class AboutActivity : BaseActivity() {
             itemJoinQQGroup.setOnClickListener {
                 joinQQGroup(this@AboutActivity, QQ_GROUP_KEY)
             }
+
+            moriafly.setOnLongClickListener {
+                toast("Moriafly settings reset")
+                MyApplication.config.mmkv.encode(Config.SHOW_AGREEMENT, true)
+                return@setOnLongClickListener true
+            }
         }
     }
 

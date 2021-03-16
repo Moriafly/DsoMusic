@@ -374,7 +374,7 @@ open class MusicService : BaseMediaService() {
 
         override fun setPlaylist(songListData: ArrayList<StandardSongData>) {
             PlayQueue.setNormal(songListData)
-            if (mode == MODE_RANDOM) {
+            if (mode == MODE_RANDOM && !recover) {
                 PlayQueue.random()
             }
         }

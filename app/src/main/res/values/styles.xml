@@ -94,4 +94,15 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="dso_style_button_default">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="minHeight">40dp</item>
+        <item name="android:background">@drawable/background_button_radius_red</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

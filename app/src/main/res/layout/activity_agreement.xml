@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.AgreementActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dso Music 软件使用协议"
+            android:textSize="@dimen/defaultTextSize"
+            android:textColor="@color/colorTextForeground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnExit"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:background="@drawable/background_transparency"
+            android:minWidth="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="退出"
+            android:textColor="@color/colorAppThemeColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnAgree"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:background="@drawable/background_transparency"
+            android:minWidth="0dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="同意"
+            android:textColor="@color/colorAppThemeColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:ems="4"
+                android:textColor="@color/colorAppThemeColor"
+                android:gravity="center"
+                android:text="禁止传播"
+                android:textSize="90dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:lineSpacingExtra="6dp"
+                android:textColor="@color/colorTextForeground"
+                android:text="开源链接、源码、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客、QQ 分享等一切传播方式）
+
+Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支持正版音乐。
+
+基于本开源项目的其他开发者项目、软件，与本开发者无关（依据 GPL 3 免责协议）。"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:lineSpacingExtra="6dp"
+                android:textColor="@color/colorTextForeground"
+                android:text="本软件及开源项目（Moriafly/DsoMusic）遵循 GPL 3 开源协议，
+若 GPL 3 存在与以上说明冲突部分，冲突部分按以上说明为准。"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:lineSpacingExtra="6dp"
+                android:textColor="@color/colorTextForeground"
+                android:text="从 Dso Music 江流宛转绕芳甸及以后版本，若你违反协议，虽然我并不能做什么有效的反制措施。不过我会将发现的传播截图、
+传播网址挂在开源项目某个文件夹下（或以其他方式），并可能对其添加一些不敬的言语，希望理解。"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:lineSpacingExtra="6dp"
+                android:textColor="@color/colorTextForeground"
+                android:text="同意本协议后使用本软件一般不会再弹出本界面。
+若你不同意本协议请不要使用本软件并卸载本软件、移除安装包等（未同意本协议传播本软件同按协议处理）。"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

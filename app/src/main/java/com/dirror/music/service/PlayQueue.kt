@@ -4,8 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.room.PlayQueueData
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
 
 /**
  * 播放队列
@@ -52,9 +53,9 @@ object PlayQueue {
      * 保存歌单到数据库
      */
     private fun savePlayQueue() {
-        thread {
+        GlobalScope.launch {
             MyApplication.appDatabase.playQueueDao().loadAll().forEach {
-                MyApplication.appDatabase.playQueueDao().deleteById(it.songData.id?:"")
+                MyApplication.appDatabase.playQueueDao().deleteById(it.songData.id ?: "")
             }
             currentQueue.value?.forEach {
                 MyApplication.appDatabase.playQueueDao().insert(PlayQueueData(it))

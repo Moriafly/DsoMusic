@@ -20,4 +20,7 @@ interface PlayQueueDao {
     @Query("delete from PlayQueueData where id = :id")
     fun deleteById(id: String): Int
 
+    @Query("delete from PlayQueueData")
+    fun clear()
+
 }

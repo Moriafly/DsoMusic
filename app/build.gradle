@@ -27,10 +27,10 @@ android {
 
     defaultConfig {
         applicationId "com.dirror.music"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 30
-        versionCode 679
-        versionName "何处春江无月明"
+        versionCode 680
+        versionName "江流宛转绕芳甸"
 
         multiDexEnabled true
 
@@ -83,14 +83,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
 
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    // 适配安卓 4.4 不要更新
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'com.eightbitlab:blurview:1.6.3'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
     implementation 'androidx.palette:palette-ktx:1.0.0'
-    implementation 'cn.bmob.android:bmob-sdk:3.7.8'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.11'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.squareup.okio:okio:2.10.0'
@@ -119,4 +119,6 @@ dependencies {
     implementation 'com.bitvale:switcher:1.1.1'
     // coil 图片加载库
     implementation 'io.coil-kt:coil:1.1.1'
+
+    implementation 'com.android.support:multidex:1.0.3'
 }

@@ -102,7 +102,8 @@ object MagicHttp {
 
                 client.newCall(request).enqueue(object : Callback {
                     override fun onResponse(call: Call, response: Response) {
-                        val string = response.body?.string()!!
+                        val string = response.body()?.string()?:""
+                        // val string = response.body?.string()!!
                         success.invoke(string)
                     }
 
@@ -138,7 +139,7 @@ object MagicHttp {
 
                 client.newCall(request).enqueue(object : Callback {
                     override fun onResponse(call: Call, response: Response) {
-                        val string = response.body?.string()!!
+                        val string = response.body()?.string()?:""
                         success.invoke(string)
                     }
 
@@ -171,7 +172,7 @@ object MagicHttp {
 
                 client.newCall(request).enqueue(object : Callback {
                     override fun onResponse(call: Call, response: Response) {
-                        val string = response.body?.string()!!
+                        val string = response.body()?.string()?:""
                         success.invoke(string)
                     }
 
@@ -247,7 +248,7 @@ object MagicHttp {
                         .build()
                     client.newCall(request).enqueue(object : Callback {
                         override fun onResponse(call: Call, response: Response) {
-                            val string = response.body?.string()!!
+                            val string = response.body()?.string()?:""
                             it.resume(string)
                         }
 

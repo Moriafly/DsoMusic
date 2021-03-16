@@ -3,20 +3,24 @@ package com.dirror.music
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
-import cn.bmob.v3.Bmob
+import androidx.multidex.MultiDex
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.manager.UserManager
 import com.dirror.music.room.AppDatabase
-import com.dirror.music.service.MusicControllerInterface
 import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
-import com.dirror.music.util.*
+import com.dirror.music.util.Config
+import com.dirror.music.util.DarkThemeUtil
+import com.dirror.music.util.Secure
+import com.dirror.music.util.toast
 import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
+
 
 /**
  * 自定义 Application
@@ -47,20 +51,38 @@ class MyApplication : Application() {
         lateinit var appDatabase: AppDatabase
     }
 
-
-
     /* 获取 Bmob */
     private external fun getBmobAppKey(): String
 
     /* 获取友盟 */
     private external fun getUmAppKey(): String
 
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
+
     override fun onCreate() {
         super.onCreate()
         // 全局 context
         context = applicationContext
         // MMKV 初始化
-        MMKV.initialize(this)
+        // val rootDir: String = MMKV.getRootDir()
+        // toast(rootDir)
+        // toast(filesDir.absolutePath)
+//        if (Build.VERSION.SDK_INT == 19) {
+//            // MMKV.initialize(cacheDir.absolutePath + "/mmkv") { libName ->
+//            ReLinker.loadLibrary(context, "libmmkv", object : LoadListener {
+//                override fun success() { /* Yay */
+//                    MMKV.initialize(context)
+//                }
+//
+//                override fun failure(t: Throwable) { /* Boo */
+//                }
+//            })
+//        } else {
+             MMKV.initialize(context)
+//         }
         config = Config()
         // 管理初始化
         userManager = UserManager()
@@ -82,8 +104,6 @@ class MyApplication : Application() {
      */
     private fun checkSecure() {
         if (Secure.isSecure()) {
-            // 初始化 Bmob
-            Bmob.initialize(this, getBmobAppKey())
             // 初始化友盟
             UMConfigure.init(context, getUmAppKey(), "", UMConfigure.DEVICE_TYPE_PHONE, "")
             // 选用 AUTO 页面采集模式
@@ -101,7 +121,7 @@ class MyApplication : Application() {
     private fun startMusicService() {
         // 通过 Service 播放音乐，混合启动
         val intent = Intent(this, MusicService::class.java)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intent)
         } else {
             startService(intent)

@@ -74,5 +74,7 @@ class Config {
         const val SERVICE_RECOVER_PROGRESS = "service_recover_progress"
         /* 魅族状态栏歌词 */
         const val MEIZU_STATUS_BAR_LYRIC = "boolean_meizu_status_bar_lyric"
+        /* 是否启动显示协议 */
+        const val SHOW_AGREEMENT = "boolean_show_agreement"
     }
 }

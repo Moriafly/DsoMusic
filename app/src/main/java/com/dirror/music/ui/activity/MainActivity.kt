@@ -54,6 +54,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initData() {
+
         // Intent 过滤器
         var intentFilter = IntentFilter()
         intentFilter.addAction("android.intent.action.HEADSET_PLUG")

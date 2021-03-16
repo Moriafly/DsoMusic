@@ -88,15 +88,10 @@
 
                 <Button
                     android:id="@+id/btnDownload"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/dso_style_button_default"
                     android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/background_button_radius_red"
-                    android:text="下载"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:layout_width="match_parent"
+                    android:text="下载" />
 
             </LinearLayout>
 
