@@ -1,11 +1,16 @@
 package com.dirror.music.ui.fragment
 
+import android.animation.Animator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.PathInterpolator
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -27,6 +32,7 @@ import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
+import com.martinrgb.animer.Animer
 
 /**
  * 我的
@@ -52,6 +58,20 @@ class MyFragment : BaseFragment() {
     override fun initListener() {
         binding.apply {
             clUser.setOnClickListener {
+//                if (Build.VERSION.SDK_INT >= 26) {
+//                    val solver = Animer.springiOSUIView(0.5f, 0.5f)
+//                    val animer: Animer<*> = Animer<Any?, Any?>(binding.clUser, solver, Animer.Y)
+//                    animer.start()
+//
+//
+//                    Animation(requireContext())
+//
+//                    val anim = Animator.setInterpolator(
+//                        PathInterpolator(0.42f,0f,0.58f,1f)
+//                    .setDuration(1)
+//                }
+
+
                 AnimationUtil.click(it)
                 if (MyApplication.userManager.getCurrentUid() == 0L) {
                     MyApplication.activityManager.startLoginActivity(requireActivity())

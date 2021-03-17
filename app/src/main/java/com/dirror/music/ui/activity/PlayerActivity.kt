@@ -11,6 +11,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsetsController
 import android.view.animation.LinearInterpolator
@@ -160,6 +161,7 @@ class PlayerActivity : SlideBackActivity() {
             slideBackEnabled = false
         }
 
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -179,7 +181,11 @@ class PlayerActivity : SlideBackActivity() {
             ivComment.setOnClickListener {
                 MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
                     if (it.source != SOURCE_LOCAL) {
-                        MyApplication.activityManager.startCommentActivity(this@PlayerActivity, it.source?: SOURCE_NETEASE, it.id?:"")
+                        MyApplication.activityManager.startCommentActivity(
+                            this@PlayerActivity,
+                            it.source ?: SOURCE_NETEASE,
+                            it.id ?: ""
+                        )
                     } else {
                         toast("暂无评论")
                     }
@@ -207,15 +213,6 @@ class PlayerActivity : SlideBackActivity() {
                     }
                 }
             }
-            // CD
-            clCd.setOnClickListener {
-                if (binding.clLyric.visibility == View.INVISIBLE && !isLandScape) {
-                    AnimationUtil.fadeOut(binding.clCd, true)
-                    AnimationUtil.fadeOut(binding.clMenu, true)
-                    binding.clLyric.visibility = View.VISIBLE
-                    slideBackEnabled = false
-                }
-            }
             // lyricView
             lyricView.setDraggable(true, object : OnPlayClickListener {
                 override fun onPlayClick(time: Long): Boolean {
@@ -233,6 +230,35 @@ class PlayerActivity : SlideBackActivity() {
                     }
                 }
             })
+
+            if (!isLandScape) {
+                clCd.setOnTouchListener { v, event ->
+                    when (event.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            return@setOnTouchListener !(!isLandScape && !slideBackEnabled)
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            if (!isLandScape) {
+                                if (binding.clLyric.visibility == View.INVISIBLE && !isLandScape) {
+                                    AnimationUtil.fadeOut(binding.clCd, true)
+                                    AnimationUtil.fadeOut(binding.clMenu, true)
+                                    binding.clLyric.visibility = View.VISIBLE
+                                    slideBackEnabled = false
+                                }
+                                return@setOnTouchListener true
+                            }
+                        }
+
+                    }
+                    return@setOnTouchListener false
+                }
+            }
+            lyricView.setOnTouchListener { v, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    slideBackEnabled = false
+                }
+                return@setOnTouchListener false
+            }
             edgeTransparentView.setOnClickListener {
                 if (!isLandScape) {
                     AnimationUtil.fadeIn(binding.clCd)
@@ -241,6 +267,7 @@ class PlayerActivity : SlideBackActivity() {
                     slideBackEnabled = true
                 }
             }
+
             // 艺术家
             tvArtist.setOnClickListener {
                 // 测试

@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 680
+        versionCode 681
         versionName "江流宛转绕芳甸"
 
         multiDexEnabled true
@@ -37,7 +37,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a' // 'arm64-v8a', 'armeabi-v7a', 'x86'
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86' // 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
 
     }
@@ -83,7 +83,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
 
-    // 适配安卓 4.4 不要更新
+    // 适配安卓 4.4
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.google.code.gson:gson:2.8.6'
 
@@ -121,4 +121,6 @@ dependencies {
     implementation 'io.coil-kt:coil:1.1.1'
 
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.martinrgb:animer:0.1.6.3'
 }
