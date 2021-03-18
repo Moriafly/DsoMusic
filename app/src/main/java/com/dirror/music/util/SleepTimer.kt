@@ -52,7 +52,6 @@ class SleepTimer(millisInFuture: Long, countDownInterval: Long) : CountDownTimer
 
         /**
          * 开始或者停止计时
-         * @param start
          * @param duration
          */
         @JvmStatic

@@ -110,7 +110,6 @@ class PlayerActivity : SlideBackActivity() {
         setContentView(binding.root)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         // 设置 SlideBackLayout
         bindSlide(this, binding.clBase)
@@ -549,7 +548,5 @@ class PlayerActivity : SlideBackActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
-
-
 
 }
