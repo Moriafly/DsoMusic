@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 681
-        versionName "江流宛转绕芳甸"
+        versionCode 682
+        versionName "3.0.0-alpha"
 
         multiDexEnabled true
 

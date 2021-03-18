@@ -27,6 +27,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:contentDescription="@string/back"
             android:id="@+id/ivBack"
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -36,7 +37,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_back"
+            tools:ignore="VectorDrawableCompat" />
 
         <EditText
             android:id="@+id/etSearch"
@@ -81,7 +83,9 @@
             app:layout_constraintBottom_toBottomOf="@+id/etSearch"
             app:layout_constraintEnd_toEndOf="@+id/etSearch"
             app:layout_constraintTop_toTopOf="@+id/etSearch"
-            app:srcCompat="@drawable/ic_cancel" />
+            app:srcCompat="@drawable/ic_cancel"
+            tools:ignore="VectorDrawableCompat"
+            android:contentDescription="@string/clear" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,7 +124,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_cloud_music_engine" />
+                    app:srcCompat="@drawable/ic_cloud_music_engine"
+                    tools:ignore="VectorDrawableCompat" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -138,11 +143,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_qq_music_engine" />
+                    app:srcCompat="@drawable/ic_qq_music_engine"
+                    tools:ignore="VectorDrawableCompat" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
                 android:id="@+id/clKuwo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -156,7 +163,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_kuwo_music_engine" />
+                    app:srcCompat="@drawable/ic_kuwo_music_engine"
+                    tools:ignore="VectorDrawableCompat" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

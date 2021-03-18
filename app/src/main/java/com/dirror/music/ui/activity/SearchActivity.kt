@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
@@ -16,22 +17,20 @@ import com.dirror.music.adapter.SearchHotAdapter
 import com.dirror.music.databinding.ActivitySearchBinding
 import com.dirror.music.music.netease.SearchUtil
 import com.dirror.music.music.qq.SearchSong
-import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.viewmodel.SearchViewModel
 import com.dirror.music.util.*
 
+/**
+ * 搜索界面
+ */
 class SearchActivity : BaseActivity() {
-
-    companion object {
-        const val ENGINE_NETEASE = 1
-        const val ENGINE_QQ = 2
-        const val ENGINE_KUWO = 3
-    }
 
     private lateinit var binding: ActivitySearchBinding
 
-    private var engine = ENGINE_NETEASE
+    private val searchViewModel: SearchViewModel by viewModels()
+
     private var realKeyWord = ""
 
     override fun initBinding() {
@@ -40,7 +39,6 @@ class SearchActivity : BaseActivity() {
         setContentView(binding.root)
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     override fun initView() {
         // 获取焦点
         binding.etSearch.apply {
@@ -48,14 +46,6 @@ class SearchActivity : BaseActivity() {
             isFocusableInTouchMode = true
             requestFocus()
         }
-        // 关闭软键盘
-//        val inputMethodManager: InputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        inputMethodManager.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT);
-
-        binding.clNetease.background = ContextCompat.getDrawable(this, R.drawable.bg_edit_text)
-
-        changeSearchEngine(MyApplication.config.mmkv.decodeInt(Config.SEARCH_ENGINE, SOURCE_NETEASE))
-
         // 获取推荐关键词
         MyApplication.cloudMusicManager.getSearchDefault {
             runOnMainThread {
@@ -75,7 +65,6 @@ class SearchActivity : BaseActivity() {
                         binding.etSearch.setText(searchWord)
                         binding.etSearch.setSelection(searchWord.length)
                         search()
-                        // toast(it.data[position].searchWord)
                     }
                 })
                 binding.rvSearchHot.adapter = searchHotAdapter
@@ -99,14 +88,15 @@ class SearchActivity : BaseActivity() {
 
             // 网易云
             clNetease.setOnClickListener {
-                changeSearchEngine(ENGINE_NETEASE)
+                changeSearchEngine(SearchViewModel.ENGINE_NETEASE)
             }
             // QQ
             clQQ.setOnClickListener {
-                changeSearchEngine(ENGINE_QQ)
+                changeSearchEngine(SearchViewModel.ENGINE_QQ)
             }
+            // 酷我
             clKuwo.setOnClickListener {
-                changeSearchEngine(ENGINE_KUWO)
+                changeSearchEngine(SearchViewModel.ENGINE_KUWO)
                 toast("酷我音源暂只支持精确搜索，需要填入完整歌曲名")
             }
 
@@ -141,6 +131,27 @@ class SearchActivity : BaseActivity() {
 
     }
 
+    override fun initObserver() {
+        searchViewModel.searchEngine.observe(this, {
+            binding.apply {
+                clNetease.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
+                clQQ.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
+                clKuwo.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
+            }
+            when (it) {
+                SearchViewModel.ENGINE_NETEASE -> {
+                    binding.clNetease.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+                }
+                SearchViewModel.ENGINE_QQ -> {
+                    binding.clQQ.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+                }
+                SearchViewModel.ENGINE_KUWO -> {
+                    binding.clKuwo.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+                }
+            }
+        })
+    }
+
     /**
      * 搜索音乐
      */
@@ -149,28 +160,32 @@ class SearchActivity : BaseActivity() {
         val inputMethodManager: InputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(this.window?.decorView?.windowToken, 0)
 
-
         var keywords = binding.etSearch.text.toString()
+        // 内部酷我
+        if (keywords.startsWith("。")) {
+            keywords.replace("。", "")
+            searchViewModel.searchEngine.value = SearchViewModel.ENGINE_KUWO
+        }
         if (keywords == "") {
             keywords = realKeyWord
             binding.etSearch.setText(keywords)
             binding.etSearch.setSelection(keywords.length)
         }
         if (keywords != "") {
-            when (engine) {
-                ENGINE_NETEASE -> {
+            when (searchViewModel.searchEngine.value) {
+                SearchViewModel.ENGINE_NETEASE -> {
                     SearchUtil.searchMusic(keywords, {
                         initRecycleView(it)
                     }, {
                         toast(it)
                     })
                 }
-                ENGINE_QQ -> {
+                SearchViewModel.ENGINE_QQ -> {
                     SearchSong.search(keywords) {
                         initRecycleView(it)
                     }
                 }
-                ENGINE_KUWO -> {
+                SearchViewModel.ENGINE_KUWO -> {
                     com.dirror.music.music.kuwo.SearchSong.search(keywords) {
                         initRecycleView(it)
                     }
@@ -178,8 +193,6 @@ class SearchActivity : BaseActivity() {
             }
             binding.clPanel.visibility = View.GONE
         }
-
-
     }
 
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
@@ -195,7 +208,7 @@ class SearchActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // 保存搜索引擎
-        MyApplication.config.mmkv.encode(Config.SEARCH_ENGINE, engine)
+        MyApplication.config.mmkv.encode(Config.SEARCH_ENGINE, searchViewModel.searchEngine.value ?: SearchViewModel.ENGINE_NETEASE)
     }
 
     override fun onBackPressed() {
@@ -210,23 +223,7 @@ class SearchActivity : BaseActivity() {
      * 改变搜索引擎
      */
     private fun changeSearchEngine(engineCode: Int) {
-        binding.apply {
-            clNetease.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.background_transparency)
-            clQQ.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.background_transparency)
-            clKuwo.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.background_transparency)
-        }
-        when (engineCode) {
-            ENGINE_NETEASE -> {
-                binding.clNetease.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
-            }
-            ENGINE_QQ -> {
-                binding.clQQ.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
-            }
-            ENGINE_KUWO -> {
-                binding.clKuwo.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
-            }
-        }
-        engine = engineCode
+        searchViewModel.searchEngine.value = engineCode
         if (binding.clPanel.visibility != View.VISIBLE) {
             search()
         }

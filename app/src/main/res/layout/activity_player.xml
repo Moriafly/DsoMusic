@@ -66,7 +66,6 @@
             android:maxHeight="2dp"
             android:minHeight="4dp"
             android:progressDrawable="@drawable/background_seek_bar_music"
-            android:splitTrack="false"
             android:thumb="@drawable/background_seek_bar_thumb"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/edgeTransparentView"
@@ -268,9 +267,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clBottom"
         android:layout_width="match_parent"
@@ -347,6 +343,7 @@
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/background_button_icon"
+                android:contentDescription="@string/next"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivPlay"
@@ -360,6 +357,7 @@
                 android:layout_height="56dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/background_button_icon"
+                android:contentDescription="@string/previous"
                 android:padding="16dp"
                 android:rotation="180"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -378,7 +376,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_bq_player_mode_circle" />
+                app:srcCompat="@drawable/ic_bq_player_mode_circle"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/ivList"
@@ -386,6 +385,7 @@
                 android:layout_height="56dp"
                 android:layout_marginEnd="14dp"
                 android:background="@drawable/background_button_icon"
+                android:contentDescription="@string/play_queue"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

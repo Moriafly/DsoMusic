@@ -104,4 +104,8 @@
     <string name="help_document">Help document</string>
     <string name="single_column_playlist">Single column playlist</string>
     <string name="status_bar_lyric">Status bar lyric</string>
+    <string name="previous">previous</string>
+    <string name="next">next</string>
+    <string name="search_for_online_music">Search for online music</string>
+    <string name="clear">Clear</string>
 </resources>

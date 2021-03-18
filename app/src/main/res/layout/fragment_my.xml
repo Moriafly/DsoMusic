@@ -85,7 +85,8 @@
                 android:id="@+id/clLocal"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:contentDescription="@string/local_music">
 
                 <ImageView
                     android:id="@+id/ivLocal"
@@ -107,6 +108,7 @@
                     android:text="@string/local_music"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="12sp"
+                    tools:ignore="ContentDescription"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +119,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clUserCloud"
                 android:layout_width="0dp"
+                android:contentDescription="@string/cloud_drive"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
@@ -125,7 +128,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginTop="16dp"
-                    android:contentDescription="@string/history"
+                    tools:ignore="ContentDescription"
                     android:padding="5dp"
                     android:src="@drawable/ic_user_cloud"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,6 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cloud_drive"
+                    tools:ignore="ContentDescription"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -147,6 +151,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clFavorite"
                 android:layout_width="0dp"
+                android:contentDescription="@string/my_favorite_songs"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
@@ -155,7 +160,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginTop="16dp"
-                    android:contentDescription="@string/my_favorite_songs"
+                    tools:ignore="ContentDescription"
                     android:padding="6dp"
                     android:src="@drawable/local_page_follow_mark"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -165,6 +170,7 @@
 
                 <TextView
                     android:id="@+id/textView6"
+                    tools:ignore="ContentDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -218,6 +224,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clLatest"
                 android:layout_width="0dp"
+                android:contentDescription="@string/history"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
@@ -226,7 +233,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginTop="16dp"
-                    android:contentDescription="@string/history"
+                    tools:ignore="ContentDescription"
                     android:padding="6dp"
                     android:src="@drawable/local_page_latest_mark"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -234,6 +241,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    tools:ignore="ContentDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/history"

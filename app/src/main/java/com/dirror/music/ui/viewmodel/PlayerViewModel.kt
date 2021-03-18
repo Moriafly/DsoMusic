@@ -10,7 +10,7 @@ import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.util.Config
 import com.dirror.music.util.runOnMainThread
 
@@ -62,8 +62,6 @@ class PlayerViewModel: ViewModel() {
     var color = MutableLiveData<Int>().also {
         it.value = Color.rgb(100, 100, 100)
     }
-
-    var currentLyric = MutableLiveData<String?>()
 
     /**
      * 刷新
@@ -207,6 +205,18 @@ class PlayerViewModel: ViewModel() {
                 currentVolume.value = 0
             }
             VolumeManager.setStreamVolume(currentVolume.value!!)
+        }
+    }
+
+    /**
+     * 获取模式的提示
+     */
+    fun getModeContentDescription(mode: Int): String {
+        return when (mode) {
+            BaseMediaService.MODE_CIRCLE -> "当前是列表循环模式，点击切换为单曲循环"
+            BaseMediaService.MODE_REPEAT_ONE -> "当前是单曲循环模式，点击切换为随机播放"
+            BaseMediaService.MODE_RANDOM -> "当前是随机播放模式，点击切换为列表循环"
+            else -> ""
         }
     }
 

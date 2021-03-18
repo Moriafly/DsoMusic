@@ -44,7 +44,7 @@
         app:layout_constraintEnd_toStartOf="@+id/ivStartOrPause"
         app:layout_constraintStart_toEndOf="@+id/cvCover"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpUsage" />
+        tools:ignore="ContentDescription,SpUsage" />
 
     <ImageView
         android:id="@+id/ivPlayQueue"

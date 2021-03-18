@@ -232,7 +232,7 @@ class PlayerActivity : SlideBackActivity() {
             })
 
             if (!isLandScape) {
-                clCd.setOnTouchListener { v, event ->
+                clCd.setOnTouchListener { _, event ->
                     when (event.action) {
                         MotionEvent.ACTION_DOWN -> {
                             return@setOnTouchListener !(!isLandScape && !slideBackEnabled)
@@ -253,7 +253,7 @@ class PlayerActivity : SlideBackActivity() {
                     return@setOnTouchListener false
                 }
             }
-            lyricView.setOnTouchListener { v, event ->
+            lyricView.setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     slideBackEnabled = false
                 }
@@ -345,6 +345,7 @@ class PlayerActivity : SlideBackActivity() {
         playViewModel.apply {
             // 播放模式的观察
             playMode.observe(this@PlayerActivity, {
+                binding.ivMode.contentDescription = this.getModeContentDescription(it)
                 when (it) {
                     BaseMediaService.MODE_CIRCLE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
                     BaseMediaService.MODE_REPEAT_ONE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
@@ -548,5 +549,7 @@ class PlayerActivity : SlideBackActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
+
+
 
 }
