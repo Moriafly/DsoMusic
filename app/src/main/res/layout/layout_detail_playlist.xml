@@ -8,18 +8,19 @@
         android:layout_height="64dp"
         android:background="?attr/selectableItemBackground">
 
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:singleLine="true"
-            android:text="TextView"
-            android:textColor="@color/colorTextForeground"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/ivMore"
-            app:layout_constraintStart_toEndOf="@+id/tvNumber"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:singleLine="true"
+        android:text="TextView"
+        android:textColor="@color/colorTextForeground"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/ivMore"
+        app:layout_constraintStart_toEndOf="@+id/ivCover"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvArtist"
@@ -33,15 +34,16 @@
         app:layout_constraintEnd_toStartOf="@+id/ivMore"
         app:layout_constraintStart_toEndOf="@+id/ivHq" />
 
-        <TextView
-            android:id="@+id/tvNumber"
-            android:layout_width="56dp"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tvNumber"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/ivMore"
@@ -53,16 +55,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_more_vert" />
+            app:srcCompat="@drawable/ic_more_vert"
+            tools:ignore="VectorDrawableCompat" />
 
     <ImageView
         android:id="@+id/ivCover"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:scaleType="centerCrop"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvNumber"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars"
@@ -72,10 +74,11 @@
         android:id="@+id/ivHq"
         android:layout_width="20.7dp"
         android:layout_height="12dp"
+        android:layout_marginStart="8dp"
         android:paddingEnd="2dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/tvArtist"
-        app:layout_constraintStart_toEndOf="@+id/tvNumber"
+        app:layout_constraintStart_toEndOf="@+id/ivCover"
         app:layout_constraintTop_toTopOf="@+id/tvArtist"
         app:srcCompat="@drawable/ic_hq"
         tools:visibility="visible" />

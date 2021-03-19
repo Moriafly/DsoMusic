@@ -175,7 +175,11 @@ class PlayerActivity : SlideBackActivity() {
             // 下一曲
             ivNext.setOnClickListener { playViewModel.playNext() }
             // 切换播放模式
-            ivMode.setOnClickListener { playViewModel.changePlayMode() }
+            ivMode.setOnClickListener {
+                singleClick {
+                    playViewModel.changePlayMode()
+                }
+            }
             // 评论
             ivComment.setOnClickListener {
                 MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
@@ -323,11 +327,23 @@ class PlayerActivity : SlideBackActivity() {
     override fun initShowDialogListener() {
         binding.apply {
             // 均衡器
-            ivEqualizer.setOnClickListener { SoundEffectDialog(this@PlayerActivity, this@PlayerActivity).show() }
+            ivEqualizer.setOnClickListener {
+                singleClick {
+                    SoundEffectDialog(this@PlayerActivity, this@PlayerActivity).show()
+                }
+            }
             // 更多菜单
-            ivMore.setOnClickListener { PlayerMenuMoreDialog(this@PlayerActivity).show() }
+            ivMore.setOnClickListener {
+                singleClick {
+                    PlayerMenuMoreDialog(this@PlayerActivity).show()
+                }
+            }
             // 播放列表
-            ivList.setOnClickListener { PlaylistDialog().show(supportFragmentManager, null) }
+            ivList.setOnClickListener {
+                singleClick {
+                    PlaylistDialog().show(supportFragmentManager, null)
+                }
+            }
         }
     }
 

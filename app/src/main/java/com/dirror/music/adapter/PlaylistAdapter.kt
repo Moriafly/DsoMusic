@@ -17,6 +17,8 @@ import com.dirror.music.data.PlaylistData
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.ui.activity.PlaylistActivity2
+import com.dirror.music.ui.playlist.SongPlaylistActivity
+import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.dp
 
@@ -48,10 +50,9 @@ class PlaylistAdapter(private val playlist: ArrayList<PlaylistData>, val activit
         holder.tvName.text = play.name
         holder.tvTrackCount.text = holder.itemView.context.getString(R.string.songs, play.trackCount)
         holder.clTrack.setOnClickListener {
-            val intent = Intent(it.context, PlaylistActivity::class.java)
-            intent.putExtra(PlaylistActivity2.EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
-            intent.putExtra(PlaylistActivity2.EXTRA_LONG_PLAYLIST_ID, play.id)
-            // intent.putExtra(PlaylistActivity2.EXTRA_INT_TAG, PLAYLIST_TAG_NORMAL)
+            val intent = Intent(it.context, SongPlaylistActivity::class.java)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, SongPlaylistViewModel.TAG_NETEASE)
+            intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, play.id.toString())
             it.context.startActivity(intent)
         }
     }

@@ -29,6 +29,8 @@ import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.activity.PlaylistActivity2
 import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.base.BaseFragment
+import com.dirror.music.ui.playlist.SongPlaylistActivity
+import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
@@ -85,10 +87,10 @@ class MyFragment : BaseFragment() {
             // 我喜欢的音乐
             clFavorite.setOnClickListener {
                 AnimationUtil.click(it)
-                val intent = Intent(this@MyFragment.context, PlaylistActivity2::class.java).apply {
-                    putExtra(PlaylistActivity2.EXTRA_PLAYLIST_SOURCE, SOURCE_LOCAL)
-                    putExtra(PlaylistActivity2.EXTRA_LONG_PLAYLIST_ID, 0L)
-                    putExtra(PlaylistActivity2.EXTRA_INT_TAG, PLAYLIST_TAG_MY_FAVORITE)
+                val intent = Intent(this@MyFragment.context, SongPlaylistActivity::class.java).apply {
+                    putExtra(SongPlaylistActivity.EXTRA_TAG, SongPlaylistViewModel.TAG_LOCAL_MY_FAVORITE)
+//                    putExtra(PlaylistActivity2.EXTRA_LONG_PLAYLIST_ID, 0L)
+//                    putExtra(PlaylistActivity2.EXTRA_INT_TAG, PLAYLIST_TAG_MY_FAVORITE)
                 }
                 startActivity(intent)
             }
