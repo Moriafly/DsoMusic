@@ -84,7 +84,6 @@ object PlaylistUtil {
      */
     fun getPlaylistInfo(context: Context, id: Long, success: (DetailPlaylistInnerData) -> Unit) {
         val url = "$API_AUTU/playlist/detail?id=$id"
-        loge("playlistActivity 歌单信息 url:$url")
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             try {
                 val playlistInfo = Gson().fromJson(response, DetailPlaylistData::class.java).playlist

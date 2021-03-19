@@ -99,7 +99,7 @@ class CloudMusicManager: CloudMusicManagerInterface {
 
     override fun likeSong(songId: String, success: () -> Unit, failure: () -> Unit) {
         val cookie = MyApplication.userManager.getCloudMusicCookie()
-        val url = "${API_DEFAULT}/like?id=${songId}&cookie=${cookie}"
+        val url = "${API_DSO}/like?id=${songId}&cookie=${cookie}"
         MagicHttp.OkHttpManager().newGet(url, {
             try {
                 loge("喜欢音乐返回值：${it}")

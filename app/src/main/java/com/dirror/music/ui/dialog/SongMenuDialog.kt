@@ -63,8 +63,9 @@ constructor(
                                 toast("添加到我喜欢失败")
                             })
                         }
-                        SOURCE_QQ -> {
+                        else -> {
                             toast("暂不支持此音源")
+                            dismiss()
                         }
                     }
                 }

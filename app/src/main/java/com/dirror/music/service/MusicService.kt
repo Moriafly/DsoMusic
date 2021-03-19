@@ -610,8 +610,10 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun setProgress(newProgress: Int) {
-            mediaPlayer?.seekTo(newProgress)
-            mediaSessionCallback?.onPlay()
+            if (isPrepared) {
+                mediaPlayer?.seekTo(newProgress)
+                mediaSessionCallback?.onPlay()
+            }
         }
 
         override fun getPlayingSongData(): MutableLiveData<StandardSongData?> = songData

@@ -49,10 +49,8 @@ class SongPlaylistViewModel: ViewModel() {
         when (tag.value) {
             TAG_NETEASE -> {
                 PlaylistUtil.getPlaylistInfo(context, playlistId.value?.toLong() ?: 0L) {
-                    it.coverImgUrl?.let { url ->
-                        playlistUrl.value = url
-                    }
                     runOnMainThread {
+                        playlistUrl.value = it.coverImgUrl
                         playlistTitle.value = it.name
                         playlistDescription.value = it.description
                     }
