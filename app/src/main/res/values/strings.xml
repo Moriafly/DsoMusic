@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Dso Music</string>
+    <string name="app_name">烟雨调</string>
     <string name="my">我的</string>
     <string name="home">首页</string>
     <string name="about">关于</string>
