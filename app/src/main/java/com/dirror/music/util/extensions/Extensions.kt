@@ -143,7 +143,7 @@ fun Int.asColor(context: Context) = ContextCompat.getColor(context, this)
 fun Int.asDrawable(context: Context) = ContextCompat.getDrawable(context, this)
 
 var lastClickTime = 0L
-fun singleClick(during: Long = 500L, callBack: () -> Unit) {
+fun singleClick(during: Long = 200L, callBack: () -> Unit) {
     if (getCurrentTime() - lastClickTime > during) {
         callBack()
     }
