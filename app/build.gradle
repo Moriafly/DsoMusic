@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 687
-        versionName "3.0.0-alpha"
+        versionCode 688
+        versionName "月照花林皆似霰"
 
         multiDexEnabled true
 

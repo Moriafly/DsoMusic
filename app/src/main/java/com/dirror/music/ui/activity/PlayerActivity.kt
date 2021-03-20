@@ -1,6 +1,5 @@
 package com.dirror.music.ui.activity
 
-import android.R.attr
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -431,12 +430,13 @@ class PlayerActivity : SlideBackActivity() {
                 nullableController?.let { controller ->
                     controller.isPlaying().observe(this@PlayerActivity, {
                         if (it) {
-                            // binding.ivPlay.setImageResource(R.drawable.ic_pause_btn)
+                            binding.ivPlay.contentDescription = getString(R.string.pause_music)
                             binding.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
                             handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                             startRotateAlways()
                             binding.diffuseView.start()
                         } else {
+                            binding.ivPlay.contentDescription = getString(R.string.play_music)
                             binding.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
                             handler.removeMessages(MSG_PROGRESS)
                             pauseRotateAlways()
