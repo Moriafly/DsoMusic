@@ -15,12 +15,11 @@ import com.dirror.music.databinding.FragmentHomeBinding
 import com.dirror.music.foyou.sentence.Sentence
 import com.dirror.music.music.netease.NewSong
 import com.dirror.music.music.netease.PlaylistRecommend
-import com.dirror.music.music.standard.data.SOURCE_DIRROR
-import com.dirror.music.ui.activity.PlaylistActivity
 import com.dirror.music.ui.activity.RecommendActivity
 import com.dirror.music.ui.activity.TopListActivity
-import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.base.BaseFragment
+import com.dirror.music.ui.playlist.SongPlaylistActivity
+import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 
@@ -74,9 +73,8 @@ class HomeFragment : BaseFragment(){
         }
 
         binding.clDso.setOnClickListener {
-            val intent = Intent(this.context, PlaylistActivity::class.java)
-            intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_DIRROR)
-            intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, 0)
+            val intent = Intent(this.context, SongPlaylistActivity::class.java)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, SongPlaylistViewModel.TAG_DIRROR)
             startActivity(intent)
         }
         binding.clTopList.setOnClickListener {

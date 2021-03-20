@@ -1,10 +1,12 @@
 package com.dirror.music.manager
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import com.dirror.music.R
 import com.dirror.music.manager.interfaces.ActivityManagerInterface
 import com.dirror.music.ui.activity.*
+import com.dirror.music.ui.playlist.SongPlaylistActivity
 
 class ActivityManager: ActivityManagerInterface {
 
@@ -97,6 +99,13 @@ class ActivityManager: ActivityManagerInterface {
         val intent = Intent(activity, ArtistActivity::class.java)
         intent.putExtra(ArtistActivity.EXTRA_LONG_ARTIST_ID, artistId)
         activity.startActivity(intent)
+    }
+
+    fun startPlaylistActivity(context: Context, tag: Int, id: String? = null) {
+        val intent = Intent(context, SongPlaylistActivity::class.java)
+        intent.putExtra(SongPlaylistActivity.EXTRA_TAG, tag)
+        intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, id)
+        context.startActivity(intent)
     }
 
 }

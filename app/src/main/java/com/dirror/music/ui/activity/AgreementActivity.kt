@@ -1,7 +1,6 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import android.graphics.Bitmap
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityAgreementBinding
 import com.dirror.music.manager.ActivityCollector

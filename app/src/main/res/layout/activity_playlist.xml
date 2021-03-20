@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_playlist_page"
-    tools:context=".ui.activity.PlaylistActivity">
+    tools:context=".ui.playlist.SongPlaylistActivity">
 
     <ImageView
         android:id="@+id/ivBackground"

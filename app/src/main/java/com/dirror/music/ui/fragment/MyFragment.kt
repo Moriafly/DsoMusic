@@ -1,16 +1,11 @@
 package com.dirror.music.ui.fragment
 
-import android.animation.Animator
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.PathInterpolator
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -20,13 +15,10 @@ import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.adapter.PlaylistAdapter
-import com.dirror.music.data.PLAYLIST_TAG_MY_FAVORITE
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.databinding.FragmentMyBinding
-import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
-import com.dirror.music.ui.activity.PlaylistActivity2
 import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.playlist.SongPlaylistActivity
@@ -34,7 +26,6 @@ import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
-import com.martinrgb.animer.Animer
 
 /**
  * 我的

@@ -13,9 +13,8 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.R
 import com.dirror.music.music.netease.PlaylistRecommend
-import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.ui.activity.PlaylistActivity
-import com.dirror.music.util.GlideUtil
+import com.dirror.music.ui.playlist.SongPlaylistActivity
+import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.util.dp
 import com.dirror.music.util.dp2px
 
@@ -60,9 +59,9 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
             transformations(RoundedCornersTransformation(dp2px(8f)))
         }
         holder.clPlaylist.setOnClickListener {
-            val intent = Intent(it.context, PlaylistActivity::class.java)
-            intent.putExtra(PlaylistActivity.EXTRA_PLAYLIST_SOURCE, SOURCE_NETEASE)
-            intent.putExtra(PlaylistActivity.EXTRA_LONG_PLAYLIST_ID, playlist.id)
+            val intent = Intent(it.context, SongPlaylistActivity::class.java)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, SongPlaylistViewModel.TAG_NETEASE)
+            intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, playlist.id.toString())
             it.context.startActivity(intent)
         }
         holder.tvTitle.text = playlist.name

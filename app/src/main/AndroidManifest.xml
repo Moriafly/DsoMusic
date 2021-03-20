@@ -66,12 +66,6 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.FullScreen.Translucent" />
         <activity
-            android:name=".ui.activity.PlaylistActivity"
-            android:theme="@style/AppTheme.FullScreen" />
-        <activity
-            android:name=".ui.activity.PlaylistActivity2"
-            android:theme="@style/AppTheme.FullScreen" />
-        <activity
             android:name=".ui.playlist.SongPlaylistActivity"
             android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".ui.activity.LoginByUidActivity" />

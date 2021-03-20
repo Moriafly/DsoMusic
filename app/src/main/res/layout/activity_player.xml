@@ -48,7 +48,7 @@
             android:id="@+id/ivVolume"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginStart="31dp"
+            android:layout_marginStart="29dp"
             android:alpha="0.94"
             android:padding="2dp"
             app:layout_constraintBottom_toTopOf="@+id/edgeTransparentView"
@@ -61,11 +61,12 @@
             android:id="@+id/seekBarVolume"
             android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="17.5dp"
-            android:alpha="0.5"
+            android:layout_marginEnd="16dp"
+            android:alpha="0.72"
             android:maxHeight="2dp"
             android:minHeight="4dp"
             android:progressDrawable="@drawable/background_seek_bar_music"
+            android:splitTrack="false"
             android:thumb="@drawable/background_seek_bar_thumb"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/edgeTransparentView"
@@ -77,7 +78,7 @@
             android:id="@+id/ivTranslation"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             android:background="@drawable/background_button_icon"
             android:contentDescription="@string/translation"
             android:padding="18dp"
@@ -105,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                app:lrcPadding="33dp">
+                app:lrcPadding="31dp">
 
             </com.dirror.lyricviewx.LyricViewX>
 
@@ -150,9 +151,9 @@
             android:id="@+id/tvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="28dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="28dp"
             android:maxLines="2"
             android:text="@string/music"
             android:textAlignment="viewStart"
@@ -173,18 +174,50 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
-                android:id="@+id/ivMore"
+                android:id="@+id/ivEqualizer"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginEnd="14dp"
-                android:alpha="0.81"
+                android:layout_marginStart="12dp"
+                android:alpha="0.65"
                 android:background="@drawable/background_button_icon"
-                android:contentDescription="@string/more"
+                android:contentDescription="@string/equalizer"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mz_ic_sb_more_normal" />
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/ic_bq_equalizer" />
+
+            <ImageView
+                android:id="@+id/ivSleepTimer"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:alpha="0.65"
+                android:background="@drawable/background_button_icon"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivLike"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ivEqualizer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/ic_bq_player_morelist_time" />
+
+            <ImageView
+                android:id="@+id/ivLike"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:alpha="0.81"
+                android:background="@drawable/background_button_icon"
+                android:contentDescription="@string/add_to_local_my_favorite"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivComment"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ivSleepTimer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/mz_titlebar_ic_collect" />
 
             <ImageView
                 android:id="@+id/ivComment"
@@ -202,34 +235,18 @@
                 app:srcCompat="@drawable/mz_titlebar_ic_information" />
 
             <ImageView
-                android:id="@+id/ivEqualizer"
+                android:id="@+id/ivMore"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginStart="14dp"
-                android:alpha="0.65"
-                android:background="@drawable/background_button_icon"
-                android:contentDescription="@string/equalizer"
-                android:padding="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_bq_equalizer" />
-
-            <ImageView
-                android:id="@+id/ivLike"
-                android:layout_width="56dp"
-                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
                 android:alpha="0.81"
                 android:background="@drawable/background_button_icon"
-                android:contentDescription="@string/add_to_local_my_favorite"
+                android:contentDescription="@string/more"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/ivComment"
-                app:layout_constraintStart_toEndOf="@+id/ivEqualizer"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/mz_titlebar_ic_collect" />
+                app:srcCompat="@drawable/mz_ic_sb_more_normal" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -260,7 +277,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
-                android:src="@drawable/bq_no_data_song"
+                android:src="@drawable/ic_song_cover"
                 tools:ignore="ContentDescription" />
 
         </androidx.cardview.widget.CardView>
@@ -280,7 +297,7 @@
             android:id="@+id/ttvDuration"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginEnd="31dp"
+            android:layout_marginEnd="29dp"
             android:layout_marginBottom="4dp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/clControl"
@@ -291,7 +308,7 @@
             android:id="@+id/ttvProgress"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginStart="31dp"
+            android:layout_marginStart="29dp"
             android:layout_marginBottom="4dp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/clControl"
@@ -302,8 +319,8 @@
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_marginStart="17dp"
-            android:layout_marginEnd="17dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:alpha="0.72"
             android:maxHeight="2dp"
             android:minHeight="4dp"
@@ -327,6 +344,7 @@
 
             <ImageView
                 android:id="@+id/ivPlay"
+                android:padding="6dp"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:background="@drawable/background_button_icon"
@@ -334,14 +352,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_pause_btn"
+                app:srcCompat="@drawable/ic_mini_player_pause"
                 tools:ignore="VectorDrawableCompat" />
 
             <ImageView
                 android:id="@+id/ivNext"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/next"
                 android:padding="16dp"
@@ -355,7 +373,7 @@
                 android:id="@+id/ivLast"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/previous"
                 android:padding="16dp"
@@ -370,7 +388,7 @@
                 android:id="@+id/ivMode"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginStart="14dp"
+                android:layout_marginStart="12dp"
                 android:background="@drawable/background_button_icon"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -383,7 +401,7 @@
                 android:id="@+id/ivList"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginEnd="14dp"
+                android:layout_marginEnd="12dp"
                 android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/play_queue"
                 android:padding="16dp"
@@ -407,7 +425,7 @@
             android:id="@+id/ivBack"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="10dp"
             android:alpha="0.5"
             android:background="@drawable/background_button_icon"
             android:contentDescription="@string/back"
