@@ -108,5 +108,8 @@
     <string name="next">next</string>
     <string name="search_for_online_music">Search for online music</string>
     <string name="clear">Clear</string>
-    <string name="app_name">Dso Music</string>
+    <string name="play_music">Play music</string>
+    <string name="pause_music">Pause music</string>
+    <string name="qq_audio_source_search">QQ 音源搜索</string>
+    <string name="netease_audio_source_search">网易音源搜索</string>
 </resources>

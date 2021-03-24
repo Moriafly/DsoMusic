@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_playlist_page"
-    tools:context=".ui.activity.PlaylistActivity">
+    tools:context=".ui.playlist.SongPlaylistActivity">
 
     <ImageView
         android:id="@+id/ivBackground"
@@ -68,7 +68,7 @@
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="24dp"
                         android:background="@color/colorTransparency"
-                        app:cardCornerRadius="8dp"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

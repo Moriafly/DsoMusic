@@ -1,9 +1,7 @@
 package com.dirror.music.adapter
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +17,7 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.data.PLAYLIST_TAG_NORMAL
-import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
@@ -40,7 +36,6 @@ constructor(
 ) : ListAdapter<StandardSongData, SongDataAdapter.ViewHolder>(DiffCallback) {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         val clSong: ConstraintLayout = view.findViewById(R.id.clSong)
         val viewPlaying: View = view.findViewById(R.id.viewPlaying)
         val ivCover: ImageView = view.findViewById(R.id.ivCover)
@@ -58,7 +53,6 @@ constructor(
         }
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.apply {
             // 动画
@@ -179,7 +173,7 @@ constructor(
 
     object DiffCallback : DiffUtil.ItemCallback<StandardSongData>() {
         override fun areItemsTheSame(oldItem: StandardSongData, newItem: StandardSongData): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.source == newItem.source && oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: StandardSongData, newItem: StandardSongData): Boolean {

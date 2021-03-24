@@ -6,14 +6,19 @@ import androidx.lifecycle.ViewModel
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
+import com.dirror.music.music.standard.data.StandardPlaylistData
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.runOnMainThread
+import com.google.gson.Gson
+import java.lang.Exception
 
 class SongPlaylistViewModel: ViewModel() {
 
     companion object {
         const val TAG_LOCAL_MY_FAVORITE = 0
         const val TAG_NETEASE = 1
+        const val TAG_DIRROR = 2
     }
 
     var tag = MutableLiveData(TAG_NETEASE)
@@ -42,6 +47,21 @@ class SongPlaylistViewModel: ViewModel() {
                     setSongList(it)
                 }
             }
+            TAG_DIRROR -> {
+                val url = "https://moriafly.xyz/dirror-music/json/music.json"
+                MagicHttp.OkHttpManager().getByCache(context, url, {
+                    try {
+                        val playlistData = Gson().fromJson(it, StandardPlaylistData::class.java)
+                        runOnMainThread {
+                            songList.value = playlistData.songs
+                            playlistTitle.value = playlistData.name
+                            playlistDescription.value = playlistData.description
+                        }
+                    } catch (e: Exception) { }
+                }, {
+
+                })
+            }
         }
     }
 
@@ -49,10 +69,8 @@ class SongPlaylistViewModel: ViewModel() {
         when (tag.value) {
             TAG_NETEASE -> {
                 PlaylistUtil.getPlaylistInfo(context, playlistId.value?.toLong() ?: 0L) {
-                    it.coverImgUrl?.let { url ->
-                        playlistUrl.value = url
-                    }
                     runOnMainThread {
+                        playlistUrl.value = it.coverImgUrl
                         playlistTitle.value = it.name
                         playlistDescription.value = it.description
                     }

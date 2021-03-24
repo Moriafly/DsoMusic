@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">烟雨调</string>
+    <string name="app_name" translatable="false">Dso Music</string>
     <string name="my">我的</string>
     <string name="home">首页</string>
     <string name="about">关于</string>
@@ -108,4 +108,8 @@
     <string name="next">下一首</string>
     <string name="search_for_online_music">搜索在线音乐</string>
     <string name="clear">清除</string>
+    <string name="play_music">播放音乐</string>
+    <string name="pause_music">暂停音乐</string>
+    <string name="qq_audio_source_search">QQ 音源搜索</string>
+    <string name="netease_audio_source_search">网易音源搜索</string>
 </resources>

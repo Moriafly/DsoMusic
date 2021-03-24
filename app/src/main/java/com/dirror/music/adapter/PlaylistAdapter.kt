@@ -12,11 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.data.PlaylistData
-import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.ui.activity.PlaylistActivity
-import com.dirror.music.ui.activity.PlaylistActivity2
 import com.dirror.music.ui.playlist.SongPlaylistActivity
 import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.util.GlideUtil
