@@ -41,9 +41,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (SkySecure.checkXposed()) {
-            ActivityCollector.finishAll()
-        }
+//        if (SkySecure.checkXposed()) {
+//            ActivityCollector.finishAll()
+//        }
         if (DarkThemeUtil.isDarkTheme(this)) {
             setStatusBarIconColor(this, false)
         }

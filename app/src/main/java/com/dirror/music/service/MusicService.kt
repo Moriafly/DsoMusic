@@ -53,6 +53,7 @@ import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.service.base.BaseMediaService
+import com.dirror.music.service.player.DsoPlayer
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.util.*
@@ -262,7 +263,7 @@ open class MusicService : BaseMediaService() {
 
             // 跳转
             override fun onSeekTo(pos: Long) {
-                mediaPlayer?.seekTo(pos.toInt())
+                dsoPlayer?.seekTo(pos.toInt())
                 if (musicController.isPlaying().value == true) {
                     onPlay()
                 }
@@ -343,7 +344,7 @@ open class MusicService : BaseMediaService() {
             it.setCallback(null)
             it.release()
         }
-        mediaPlayer?.release()
+        dsoPlayer?.release()
 
     }
 
@@ -364,7 +365,7 @@ open class MusicService : BaseMediaService() {
         private var songData = MutableLiveData<StandardSongData?>()
 
         private val isSongPlaying = MutableLiveData<Boolean>().also {
-            it.value = mediaPlayer?.isPlaying ?: false
+            it.value = dsoPlayer?.isPlaying ?: false
         }
 
         private var isPrepared = false // 音乐是否准备完成
@@ -389,13 +390,12 @@ open class MusicService : BaseMediaService() {
             Log.e(TAG, "onDestroy: 成功保存歌曲恢复到 mmkv：${song.name}")
 
             // 如果 MediaPlayer 已经存在，释放
-            if (mediaPlayer != null) {
-                mediaPlayer?.reset()
-                mediaPlayer?.release()
-                mediaPlayer = null
+            if (dsoPlayer != null) {
+                dsoPlayer?.destroy()
+                dsoPlayer = null
             }
             // 初始化
-            mediaPlayer = MediaPlayer().apply {
+            dsoPlayer = DsoPlayer().apply {
                 ServiceSongUrl.getUrl(song) {
                     when (it) {
                         is String -> {
@@ -484,13 +484,13 @@ open class MusicService : BaseMediaService() {
         override fun changePlayState() {
             isSongPlaying.value?.let {
                 if (it) {
-                    mediaPlayer?.pause()
+                    dsoPlayer?.pause()
                     mediaSessionCallback?.onPause()
                 } else {
-                    mediaPlayer?.start()
+                    dsoPlayer?.start()
                     mediaSessionCallback?.onPlay()
                 }
-                isSongPlaying.value = mediaPlayer?.isPlaying ?: false
+                isSongPlaying.value = dsoPlayer?.isPlaying ?: false
             }
             sendMusicBroadcast()
             updateNotification()
@@ -498,8 +498,8 @@ open class MusicService : BaseMediaService() {
 
         override fun play() {
             if (isPrepared) {
-                mediaPlayer?.start()
-                isSongPlaying.value = mediaPlayer?.isPlaying ?: false
+                dsoPlayer?.start()
+                isSongPlaying.value = dsoPlayer?.isPlaying ?: false
                 mediaSessionCallback?.onPlay()
                 sendMusicBroadcast()
                 updateNotification()
@@ -509,8 +509,8 @@ open class MusicService : BaseMediaService() {
 
         override fun pause() {
             if (isPrepared) {
-                mediaPlayer?.pause()
-                isSongPlaying.value = mediaPlayer?.isPlaying ?: false
+                dsoPlayer?.pause()
+                isSongPlaying.value = dsoPlayer?.isPlaying ?: false
                 mediaSessionCallback?.onPause()
                 sendMusicBroadcast()
                 updateNotification()
@@ -595,7 +595,7 @@ open class MusicService : BaseMediaService() {
 
         override fun getDuration(): Int {
             return if (isPrepared) {
-                mediaPlayer?.duration ?: 0
+                dsoPlayer?.duration ?: 0
             } else {
                 0
             }
@@ -603,15 +603,17 @@ open class MusicService : BaseMediaService() {
 
         override fun getProgress(): Int {
             return if (isPrepared) {
-                mediaPlayer?.currentPosition ?: 0
+                dsoPlayer?.currentPosition ?: 0
             } else {
                 0
             }
         }
 
         override fun setProgress(newProgress: Int) {
-            mediaPlayer?.seekTo(newProgress)
-            mediaSessionCallback?.onPlay()
+            if (isPrepared) {
+                dsoPlayer?.seekTo(newProgress)
+                mediaSessionCallback?.onPlay()
+            }
         }
 
         override fun getPlayingSongData(): MutableLiveData<StandardSongData?> = songData
@@ -652,7 +654,7 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun getAudioSessionId(): Int {
-            return mediaPlayer?.audioSessionId ?: 0
+            return dsoPlayer?.audioSessionId ?: 0
         }
 
         override fun sendBroadcast() {
@@ -692,7 +694,7 @@ open class MusicService : BaseMediaService() {
 
         private fun setPlaybackParams() {
             if (isPrepared) {
-                mediaPlayer?.let {
+                dsoPlayer?.let {
                     try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             val playbackParams = it.playbackParams
@@ -767,7 +769,12 @@ open class MusicService : BaseMediaService() {
         val song = musicController.getPlayingSongData().value
         GlobalScope.launch {
             Log.e(TAG, "refreshNotification: 协程开启")
-            val bitmap = musicController.getSongCover(128.dp())
+            val bitmap = if (config.mmkv.decodeBool(Config.INK_SCREEN_MODE, false)) {
+                R.drawable.ic_song_cover.asDrawable(MyApplication.context)?.toBitmap(128.dp(), 128.dp())
+            } else {
+                musicController.getSongCover(128.dp())
+            }
+
             Log.e(TAG, "refreshNotification: 获取到图片")
             runOnMainThread {
                 showNotification(fromLyric, song, bitmap)

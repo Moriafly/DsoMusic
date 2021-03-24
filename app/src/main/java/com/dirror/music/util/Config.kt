@@ -76,5 +76,7 @@ class Config {
         const val MEIZU_STATUS_BAR_LYRIC = "boolean_meizu_status_bar_lyric"
         /* 是否启动显示协议 */
         const val SHOW_AGREEMENT = "boolean_show_agreement"
+        /* 墨水屏模式 */
+        const val INK_SCREEN_MODE = "boolean_ink_screen_mode"
     }
 }

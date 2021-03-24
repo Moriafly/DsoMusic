@@ -83,10 +83,10 @@ class SongPlaylistActivity: BaseActivity() {
         binding.rvPlaylist.adapter = adapter
         songPlaylistViewModel.apply {
             songList.observe(this@SongPlaylistActivity, {
-                if (it.size > 0) {
+                 if (it.size > 0 || tag.value == SongPlaylistViewModel.TAG_LOCAL_MY_FAVORITE) {
                     binding.clLoading.visibility = View.GONE
                     binding.lottieLoading.pauseAnimation()
-                }
+                 }
                 binding.tvPlayAll.text = getString(R.string.play_all, it.size)
                 adapter.submitList(it)
                 if (songPlaylistViewModel.tag.value == SongPlaylistViewModel.TAG_LOCAL_MY_FAVORITE) {

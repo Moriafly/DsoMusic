@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:background="#40FFFCF7"
+        android:background="@color/colorTransparent"
         android:singleLine="true"
         android:text="TextView"
         android:textColor="#F0AC08"

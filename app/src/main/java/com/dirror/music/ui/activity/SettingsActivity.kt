@@ -28,6 +28,16 @@ class SettingsActivity : BaseActivity() {
         setContentView(binding.root)
     }
 
+    override fun initData() {
+        thread {
+            val size = ImageCacheManager.getImageCacheSize()
+            runOnMainThread {
+                binding.valueViewImageCache.setValue(size)
+            }
+        }
+
+    }
+
     override fun initView() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             binding.itemAudioFocus.visibility = View.GONE
@@ -57,6 +67,7 @@ class SettingsActivity : BaseActivity() {
             switcherAudioFocus.setChecked(config.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true))
             switcherSingleColumnPlaylist.setChecked(config.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false))
             switcherStatusBarLyric.setChecked(config.mmkv.decodeBool(Config.MEIZU_STATUS_BAR_LYRIC, true))
+            switcherInkScreenMode.setChecked(config.mmkv.decodeBool(Config.INK_SCREEN_MODE, false))
         }
 
     }
@@ -116,6 +127,21 @@ class SettingsActivity : BaseActivity() {
                 config.mmkv.encode(Config.MEIZU_STATUS_BAR_LYRIC, it)
             }
 
+            itemClearImageCache.setOnClickListener {
+                ImageCacheManager.clearImageCache {
+                    toast("清除图片缓存成功")
+                    thread {
+                        val size = ImageCacheManager.getImageCacheSize()
+                        runOnMainThread {
+                            binding.valueViewImageCache.setValue(size)
+                        }
+                    }
+                }
+            }
+
+            switcherInkScreenMode.setOnCheckedChangeListener {
+                config.mmkv.encode(Config.INK_SCREEN_MODE, it)
+            }
         }
     }
 

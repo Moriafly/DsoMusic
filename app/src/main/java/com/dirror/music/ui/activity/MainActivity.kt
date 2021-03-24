@@ -133,19 +133,7 @@ class MainActivity : BaseActivity() {
             topMargin = statusBarHeight + 8.dp()
         }
 
-        // 适配导航栏
-        val navigationBarHeight = if (MyApplication.config.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
-            getNavigationBarHeight(this)
-        } else {
-            0
-        }
 
-        (binding.miniPlayer.root.layoutParams as ConstraintLayout.LayoutParams).apply{
-            bottomMargin = navigationBarHeight
-        }
-        (binding.blurViewPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
-            height = 52.dp() + navigationBarHeight
-        }
 
         binding.viewPager2.offscreenPageLimit = 2
         binding.viewPager2.adapter = object : FragmentStateAdapter(this) {
@@ -170,6 +158,7 @@ class MainActivity : BaseActivity() {
 
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
 
+        updateView()
     }
 
     override fun initListener() {
@@ -264,6 +253,7 @@ class MainActivity : BaseActivity() {
     inner class SettingsChangeReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             mainViewModel.updateUI()
+            updateView()
         }
     }
 
@@ -301,6 +291,22 @@ class MainActivity : BaseActivity() {
             }
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    private fun updateView() {
+        // 适配导航栏
+        val navigationBarHeight = if (MyApplication.config.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
+            getNavigationBarHeight(this)
+        } else {
+            0
+        }
+
+        (binding.miniPlayer.root.layoutParams as ConstraintLayout.LayoutParams).apply{
+            bottomMargin = navigationBarHeight
+        }
+        (binding.blurViewPlay.layoutParams as ConstraintLayout.LayoutParams).apply{
+            height = 52.dp() + navigationBarHeight
+        }
     }
 
 }

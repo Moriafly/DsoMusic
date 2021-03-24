@@ -1,5 +1,6 @@
 package com.dirror.music
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -13,10 +14,7 @@ import com.dirror.music.manager.UserManager
 import com.dirror.music.room.AppDatabase
 import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
-import com.dirror.music.util.Config
-import com.dirror.music.util.DarkThemeUtil
-import com.dirror.music.util.Secure
-import com.dirror.music.util.toast
+import com.dirror.music.util.*
 import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
@@ -37,10 +35,13 @@ class MyApplication : Application() {
 
         lateinit var config: Config
 
+        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context // 注入懒加载 全局 context
+
         var musicController = MutableLiveData<MusicService.MusicController?>().also {
             it.value = null
         }
+
         val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
         // 管理
         lateinit var userManager: UserManager
@@ -67,22 +68,8 @@ class MyApplication : Application() {
         // 全局 context
         context = applicationContext
         // MMKV 初始化
-        // val rootDir: String = MMKV.getRootDir()
-        // toast(rootDir)
-        // toast(filesDir.absolutePath)
-//        if (Build.VERSION.SDK_INT == 19) {
-//            // MMKV.initialize(cacheDir.absolutePath + "/mmkv") { libName ->
-//            ReLinker.loadLibrary(context, "libmmkv", object : LoadListener {
-//                override fun success() { /* Yay */
-//                    MMKV.initialize(context)
-//                }
-//
-//                override fun failure(t: Throwable) { /* Boo */
-//                }
-//            })
-//        } else {
-             MMKV.initialize(context)
-//         }
+        MMKV.initialize(context)
+
         config = Config()
         // 管理初始化
         userManager = UserManager()

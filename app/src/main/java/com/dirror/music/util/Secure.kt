@@ -16,6 +16,7 @@ import org.jetbrains.annotations.TestOnly
  * @author Moriafly
  * @since 2020/10/4
  */
+@SuppressLint("StaticFieldLeak")
 object Secure {
 
     private const val PACKAGE_NAME = "com.dirror.music" // 包名

@@ -3,6 +3,7 @@ package com.dirror.music.service.base
 import android.app.Service
 import android.media.MediaPlayer
 import android.support.v4.media.session.PlaybackStateCompat
+import com.dirror.music.service.player.DsoPlayer
 
 /**
  * 抽象类
@@ -35,7 +36,7 @@ abstract class BaseMediaService: Service() {
     /**
      * MediaPlayer
      */
-    var mediaPlayer: MediaPlayer? = null
+    var dsoPlayer: DsoPlayer? = null
 
     override fun onCreate() {
         super.onCreate()

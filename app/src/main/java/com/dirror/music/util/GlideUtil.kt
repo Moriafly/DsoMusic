@@ -12,6 +12,7 @@ import com.dirror.music.MyApplication
 
 object GlideUtil {
 
+
     fun load(url: String, imageView: ImageView) {
         runOnMainThread {
             Glide.with(MyApplication.context)
