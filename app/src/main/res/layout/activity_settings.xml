@@ -9,6 +9,7 @@
     <com.martinrgb.animer.component.scrollview.AnScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="52dp"
         android:overScrollMode="never"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,7 +20,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
             <TextView
                 style="@style/sub_title"
@@ -52,9 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:gravity="center_vertical"
+                android:lineSpacingExtra="@dimen/lineSpacingExtra"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:lineSpacingExtra="@dimen/lineSpacingExtra"
                 android:text="@string/custom_background"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
@@ -235,7 +237,6 @@
             </com.dirror.music.widget.ItemLayout>
 
 
-
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -326,7 +327,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
             </com.dirror.music.widget.ItemLayout>
-
 
 
             <com.dirror.music.widget.ItemLayout
@@ -440,4 +440,15 @@
         app:text="@string/settings">
 
     </com.dirror.music.widget.TitleBarLayout>
+
+    <include
+        android:id="@+id/miniPlayer"
+        layout="@layout/mini_player"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -43,6 +45,7 @@ import com.dirror.music.ui.dialog.SoundEffectDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
+
 
 /**
  * 新版 PlayerActivity
@@ -427,12 +430,14 @@ class PlayerActivity : SlideBackActivity() {
                 nullableController?.let { controller ->
                     controller.isPlaying().observe(this@PlayerActivity, {
                         if (it) {
-                            binding.ivPlay.setImageResource(R.drawable.ic_pause_btn)
+                            binding.ivPlay.contentDescription = getString(R.string.pause_music)
+                            binding.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
                             handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                             startRotateAlways()
                             binding.diffuseView.start()
                         } else {
-                            binding.ivPlay.setImageResource(R.drawable.ic_play_btn)
+                            binding.ivPlay.contentDescription = getString(R.string.play_music)
+                            binding.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
                             handler.removeMessages(MSG_PROGRESS)
                             pauseRotateAlways()
                             binding.diffuseView.stop()
@@ -500,6 +505,12 @@ class PlayerActivity : SlideBackActivity() {
                         setTimelineTextColor(it)
                         setNormalColor(it.colorAlpha(0.5f))
                     }
+                    seekBar.thumb.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
+                    seekBar.progressDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
+                    seekBarVolume.thumb.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
+                    seekBarVolume.progressDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
+
+                    ivVolume.setColorFilter(it)
                 }
 
             })

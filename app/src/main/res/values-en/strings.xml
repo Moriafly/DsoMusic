@@ -96,7 +96,7 @@
     <string name="intelligent_filter_sub">Intelligent filter out some audio files</string>
     <string name="skip_wrong_song">Skip wrong song</string>
     <string name="filtering_audio_files">Filtering audio files</string>
-    <string name="filtering_audio_files_sub">For now, only Meizu Flyme is supported</string>
+    <string name="filtering_audio_files_sub">For now, only Flyme is supported</string>
     <string name="sliding_animation_of_songs_in_the_playlist">Sliding animation of songs in the playlist</string>
     <string name="navigation_bar_adaptations">Navigation bar adaptations</string>
     <string name="navigation_bar_adaptations_sub">Turn this option off if the play bar is too high</string>
@@ -110,10 +110,6 @@
     <string name="clear">Clear</string>
     <string name="play_music">Play music</string>
     <string name="pause_music">Pause music</string>
-    <string name="qq_audio_source_search">QQ audio source search</string>
-    <string name="netease_audio_source_search">Netease audio source search</string>
-    <string name="image_cache">Image cache</string>
-    <string name="cache">Cache</string>
-    <string name="clear_image_cache">清除图片缓存</string>
-    <string name="ink_screen_mode">墨水屏模式</string>
+    <string name="qq_audio_source_search">QQ 音源搜索</string>
+    <string name="netease_audio_source_search">网易音源搜索</string>
 </resources>

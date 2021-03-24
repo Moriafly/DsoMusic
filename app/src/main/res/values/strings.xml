@@ -96,7 +96,7 @@
     <string name="intelligent_filter_sub">智能过滤掉一些音频文件</string>
     <string name="skip_wrong_song">跳过播放错误歌曲</string>
     <string name="filtering_audio_files">过滤录音文件</string>
-    <string name="filtering_audio_files_sub">暂仅支持魅族 Flyme</string>
+    <string name="filtering_audio_files_sub">暂仅支持 Flyme</string>
     <string name="sliding_animation_of_songs_in_the_playlist">歌单歌曲滑动动画</string>
     <string name="navigation_bar_adaptations">导航栏适配</string>
     <string name="navigation_bar_adaptations_sub">若播放条过高，请关闭此选项</string>
@@ -112,8 +112,4 @@
     <string name="pause_music">暂停音乐</string>
     <string name="qq_audio_source_search">QQ 音源搜索</string>
     <string name="netease_audio_source_search">网易音源搜索</string>
-    <string name="cache">缓存</string>
-    <string name="image_cache">图片缓存</string>
-    <string name="clear_image_cache">清除图片缓存</string>
-    <string name="ink_screen_mode">墨水屏模式</string>
 </resources>

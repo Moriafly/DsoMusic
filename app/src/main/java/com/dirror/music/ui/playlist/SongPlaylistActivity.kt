@@ -32,6 +32,8 @@ class SongPlaylistActivity: BaseActivity() {
 
     private val songPlaylistViewModel: SongPlaylistViewModel by viewModels()
 
+    val adapter = SongDataAdapter(this)
+
     override fun initBinding() {
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
         miniPlayer = binding.miniPlayer
@@ -78,7 +80,6 @@ class SongPlaylistActivity: BaseActivity() {
     }
 
     override fun initObserver() {
-        val adapter = SongDataAdapter(this)
         binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
         binding.rvPlaylist.adapter = adapter
         songPlaylistViewModel.apply {
@@ -117,6 +118,20 @@ class SongPlaylistActivity: BaseActivity() {
             })
         }
 
+    }
+
+    override fun initListener() {
+        /**
+         * 全部播放
+         * 播放第一首歌
+         */
+        binding.clNav.setOnClickListener {
+            AnimationUtil.click(binding.ivPlayAll)
+            if (adapter.itemCount != 0) {
+                adapter.playFirst()
+            }
+            // toast(detailPlaylistAdapter.itemCount.toString())
+        }
     }
 
 

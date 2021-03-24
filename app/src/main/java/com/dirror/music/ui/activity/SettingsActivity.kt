@@ -25,6 +25,7 @@ class SettingsActivity : BaseActivity() {
 
     override fun initBinding() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
+        miniPlayer = binding.miniPlayer
         setContentView(binding.root)
     }
 

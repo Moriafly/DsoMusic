@@ -34,10 +34,10 @@ Java_com_dirror_music_util_sky_SkySecure_checkXposed(JNIEnv *env, jobject thiz) 
     // 找到 ClassLoader 类中的静态方法 getSystemClassLoader
     jmethodID getSysLoaderMethod = (*env)->GetStaticMethodID(env, classloaderClass, "getSystemClassLoader",
                                                              "()Ljava/lang/ClassLoader;");
-    // 调用ClassLoader中的getSystemClassLoader方法，返回ClassLoader对象
+    // 调用 ClassLoader中 的 getSystemClassLoader 方法，返回 ClassLoader对象
     jobject classLoader = (*env)->CallStaticObjectMethod(env, classloaderClass, getSysLoaderMethod);
-    // DexClassLoader：能够加载自定义的jar/apk/dex
-    // PathClassLoader：只能加载系统中已经安装过的apk
+    // DexClassLoader：能够加载自定义的 jar/apk/dex
+    // PathClassLoader：只能加载系统中已经安装过的 apk
     jclass dexLoaderClass = (*env)->FindClass(env, "dalvik/system/DexClassLoader");
     // 找到 ClassLoader中的方法 loadClass
     jmethodID loadClass = (*env)->GetMethodID(env, dexLoaderClass, "loadClass",

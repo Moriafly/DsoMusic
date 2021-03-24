@@ -11,7 +11,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.runOnMainThread
 import com.google.gson.Gson
-import kotlin.Exception
+import java.lang.Exception
 
 class SongPlaylistViewModel: ViewModel() {
 
@@ -34,38 +34,34 @@ class SongPlaylistViewModel: ViewModel() {
     var songList = MutableLiveData(ArrayList<StandardSongData>())
 
     fun update(context: Context) {
-        try {
-            when (tag.value) {
-                TAG_NETEASE -> {
-                    Playlist.getPlaylist(context, playlistId.value?.toLong() ?: 0L, {
-                        setSongList(it)
-                    }, {
+        when (tag.value) {
+            TAG_NETEASE -> {
+                Playlist.getPlaylist(context, playlistId.value?.toLong() ?: 0L, {
+                    setSongList(it)
+                }, {
 
-                    })
-                }
-                TAG_LOCAL_MY_FAVORITE -> {
-                    MyFavorite.read {
-                        setSongList(it)
-                    }
-                }
-                TAG_DIRROR -> {
-                    val url = "https://moriafly.xyz/dirror-music/json/music.json"
-                    MagicHttp.OkHttpManager().getByCache(context, url, {
-                        try {
-                            val playlistData = Gson().fromJson(it, StandardPlaylistData::class.java)
-                            runOnMainThread {
-                                songList.value = playlistData.songs
-                                playlistTitle.value = playlistData.name
-                                playlistDescription.value = playlistData.description
-                            }
-                        } catch (e: Exception) { }
-                    }, {
-
-                    })
+                })
+            }
+            TAG_LOCAL_MY_FAVORITE -> {
+                MyFavorite.read {
+                    setSongList(it)
                 }
             }
-        } catch (e: Exception) {
+            TAG_DIRROR -> {
+                val url = "https://moriafly.xyz/dirror-music/json/music.json"
+                MagicHttp.OkHttpManager().getByCache(context, url, {
+                    try {
+                        val playlistData = Gson().fromJson(it, StandardPlaylistData::class.java)
+                        runOnMainThread {
+                            songList.value = playlistData.songs
+                            playlistTitle.value = playlistData.name
+                            playlistDescription.value = playlistData.description
+                        }
+                    } catch (e: Exception) { }
+                }, {
 
+                })
+            }
         }
     }
 
