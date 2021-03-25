@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.SettingsActivity">
 
-    <com.martinrgb.animer.component.scrollview.AnScrollView
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="52dp"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/miniPlayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar">
@@ -428,7 +427,7 @@
 
 
         </LinearLayout>
-    </com.martinrgb.animer.component.scrollview.AnScrollView>
+    </ScrollView>
 
     <com.dirror.music.widget.TitleBarLayout
         android:id="@+id/titleBar"

@@ -29,15 +29,15 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 688
-        versionName "月照花林皆似霰"
+        versionCode 691
+        versionName "3.0.1"
 
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86' // 'arm64-v8a', 'armeabi-v7a', 'x86'
+            abiFilters 'armeabi-v7a', 'arm64-v8a' // , 'x86' // 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
 
     }
@@ -48,8 +48,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
