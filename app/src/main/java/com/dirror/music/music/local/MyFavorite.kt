@@ -37,6 +37,7 @@ object MyFavorite {
             val myFavoriteData = MyFavoriteData(songData)
             if (myFavoriteData !in myFavoriteDao.loadAll()) {
                 myFavoriteDao.insert(myFavoriteData)
+                toast("添加成功~")
             } else {
                 toast("已经添加过了哦~")
             }

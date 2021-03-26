@@ -1,4 +1,4 @@
-<h2 align="center" style="font-weight: 600">DsoMusic</h2>
+<h2 align="center" style="font-weight: 600">Dso Music</h2>
 
 Kotlin 开发的美观的安卓音乐软件。
 
@@ -8,7 +8,7 @@ Kotlin 开发的美观的安卓音乐软件。
 
 注意：源码仅供学习，请勿传播软件安装包。
 
-- 📫 作者邮箱: moriafly@163.com.
+📫 作者邮箱: moriafly@163.com.
 
 # 声明及协议
 
@@ -32,15 +32,10 @@ https://github.com/Moriafly/DsoMusic/releases
 
 QQ 音乐来源：自己搞的 : )
 
-酷我音乐来源：自己搞的 : )
-
-其中酷我音乐支持 VIP 歌曲
-
 | 名称  | VIP 音乐 | 128k | 192k | 320k | 无损 |
 | ---- |  ----   | ---- | ---- |  ---- |---- |
 | 网易云 |   ✘   |    ✔ |    ✔ | 少数✔  |  ✘  |
 | QQ    |   ✘   |    ✔ |    ✔ | 少数✔  |  ✘  |
-| 酷我   |   ✔   |    ✔ |    ✔ |  多数✔ |  ✘  |
 
 # 效果展示
 
@@ -274,14 +269,6 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [x] 搜索音乐
 - [x] 音乐 url
 - [x] 歌词
-
-### 酷我音乐 API
-
-- [x] VIP 歌曲
-- [x] 搜索音乐
-- [x] 音乐 url
-- [x] 歌词
-- [x] 高品质音乐
 
 # 项目构建
 

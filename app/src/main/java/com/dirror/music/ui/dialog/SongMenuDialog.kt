@@ -80,14 +80,7 @@ constructor(
             // 歌曲删除
             itemDeleteSong.setOnClickListener {
                 itemDeleteListener()
-//                if (tag == PLAYLIST_TAG_MY_FAVORITE) {
-//                    MyFavorite.deleteById(songData.id?:"")
-//                    toast("删除成功")
-//                    BroadcastUtil.send(this@SongMenuDialog.context, BROADCAST_UPDATE_PLAYLIST)
-//                    dismiss()
-//                } else {
-//                    toast("暂不支持删除")
-//                }
+                dismiss()
             }
         }
     }

@@ -62,26 +62,20 @@ class SongDataAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.apply {
+        with(holder) {
+            val song = getItem(position)
+            songData = song
             // 动画
             if (isAnimation) {
                 clSong.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycle_item)
             }
 
-            if (position > itemCount) {
-                return
-            }
-
-            val song = getItem(position)
-
             if (song.neteaseInfo?.pl == 0) {
                 holder.tvTitle.alpha = 0.25f
                 holder.tvSub.alpha = 0.25f
-                // holder.tvNumber.alpha = 0.25f
             } else {
                 holder.tvTitle.alpha = 1f
                 holder.tvSub.alpha = 1f
-                // holder.tvNumber.alpha = 1f
             }
 
             if (song.neteaseInfo?.pl ?: 0 >= 320000) {
@@ -90,11 +84,11 @@ class SongDataAdapter(
                 holder.ivTag.visibility = View.GONE
             }
 
-            loge(song.imageUrl.toString(), "图片")
             val imageUrl = when (song.source) {
                 SOURCE_NETEASE -> {
                     if (song.imageUrl == "https://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"
-                        || song.imageUrl == "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg") {
+                        || song.imageUrl == "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"
+                    ) {
                         ""
                         // "$API_FCZBL_VIP/?type=cover&id=${song.id}&param=${40.dp()}y${40.dp()}"
                     } else {
@@ -112,8 +106,7 @@ class SongDataAdapter(
                 error(R.drawable.ic_song_cover)
             }
 
-            // tvNumber.text = (position + 1).toString()
-            tvTitle.text = song.name //  + song.neteaseInfo?.pl?.toString()
+            tvTitle.text = song.name
             val artist = song.artists?.parse()
             tvSub.text = if (artist.isNullOrEmpty()) {
                 "未知"

@@ -202,7 +202,7 @@ class SearchActivity : BaseActivity() {
             binding.rvPlaylist.adapter = SongDataAdapter() {
                 SongMenuDialog(this, this, it) {
                     toast("不支持删除")
-                }
+                }.show()
             }.apply {
                 submitList(songList)
             }

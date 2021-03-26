@@ -245,12 +245,12 @@ class PlayerActivity : SlideBackActivity() {
                         }
                         MotionEvent.ACTION_UP -> {
                             if (!isLandScape) {
-                                if (binding.clLyric.visibility == View.INVISIBLE && !isLandScape) {
+                                //if (binding.clLyric.visibility == View.INVISIBLE && !isLandScape) {
                                     AnimationUtil.fadeOut(binding.clCd, true)
                                     AnimationUtil.fadeOut(binding.clMenu, true)
                                     binding.clLyric.visibility = View.VISIBLE
                                     slideBackEnabled = false
-                                }
+                                //}
                                 return@setOnTouchListener true
                             }
                         }

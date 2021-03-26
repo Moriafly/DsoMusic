@@ -37,11 +37,12 @@ class SongPlaylistActivity: BaseActivity() {
         SongMenuDialog(this, this, it) {
             if (songPlaylistViewModel.tag.value == TAG_LOCAL_MY_FAVORITE) {
                 MyFavorite.deleteById(it.id ?: "")
+                songPlaylistViewModel.update(this)
                 toast("删除成功")
             } else {
                 toast("不支持删除")
             }
-        }
+        }.show()
     }
 
     override fun initBinding() {
@@ -142,7 +143,6 @@ class SongPlaylistActivity: BaseActivity() {
             if (adapter.itemCount != 0) {
                 adapter.playFirst()
             }
-            // toast(detailPlaylistAdapter.itemCount.toString())
         }
     }
 

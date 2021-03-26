@@ -77,7 +77,7 @@ class LocalMusicActivity : BaseActivity() {
             val songAdapter = SongDataAdapter() { songData ->
                 SongMenuDialog(this, this, songData) {
                     toast("不支持删除")
-                }
+                }.show()
             }
             binding.rvLocalMusic.adapter = songAdapter
             binding.rvLocalMusic.layoutManager = LinearLayoutManager(this)
