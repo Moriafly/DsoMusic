@@ -327,14 +327,12 @@ open class MusicService : BaseMediaService() {
     /**
      * 绑定
      */
-    override fun onBind(p0: Intent?): IBinder {
-        return musicController
-    }
+    override fun onBind(p0: Intent?): IBinder = musicController
 
-    override fun onUnbind(intent: Intent?): Boolean {
-        Log.e(TAG, "onUnbind: 解绑")
-        return super.onUnbind(intent)
-    }
+    /**
+     * 解绑
+     */
+    override fun onUnbind(intent: Intent?): Boolean = super.onUnbind(intent)
 
     override fun onDestroy() {
         super.onDestroy()
@@ -345,7 +343,6 @@ open class MusicService : BaseMediaService() {
             it.release()
         }
         dsoPlayer?.release()
-
     }
 
     /**
@@ -359,6 +356,7 @@ open class MusicService : BaseMediaService() {
 
         /* 是否是恢复 */
         private var recover = false
+
         /* 来自恢复的歌曲进度 */
         private var recoverProgress = 0
 
@@ -445,15 +443,6 @@ open class MusicService : BaseMediaService() {
 //            setPlaybackParams()
 //
             songData.value?.let { standardSongData ->
-                // 获取封面
-                SongPicture.getPlayerActivityCoverBitmap(
-                    this@MusicService.applicationContext,
-                    standardSongData,
-                    240.dp()
-                ) { bitmap ->
-                    coverBitmap.value = bitmap
-                    updateNotification()
-                }
                 // 获取歌词
                 ServiceSongUrl.getLyric(standardSongData) {
                     val mainLyricText = it.lyric
@@ -473,6 +462,15 @@ open class MusicService : BaseMediaService() {
                             handler.sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 100L)
                         }
                     }
+                }
+                // 获取封面
+                SongPicture.getPlayerActivityCoverBitmap(
+                    this@MusicService.applicationContext,
+                    standardSongData,
+                    240.dp()
+                ) { bitmap ->
+                    coverBitmap.value = bitmap
+                    updateNotification()
                 }
             }
             // 添加到播放历史
@@ -769,7 +767,11 @@ open class MusicService : BaseMediaService() {
         val song = musicController.getPlayingSongData().value
         GlobalScope.launch {
             Log.e(TAG, "refreshNotification: 协程开启")
-            val bitmap = musicController.getSongCover(128.dp())
+            val bitmap = if (config.mmkv.decodeBool(Config.INK_SCREEN_MODE, false)) {
+                R.drawable.ic_song_cover.asDrawable(MyApplication.context)?.toBitmap(128.dp(), 128.dp())
+            } else {
+                musicController.getSongCover(128.dp())
+            }
             Log.e(TAG, "refreshNotification: 获取到图片")
             runOnMainThread {
                 showNotification(fromLyric, song, bitmap)

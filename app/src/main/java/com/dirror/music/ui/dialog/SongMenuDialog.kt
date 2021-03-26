@@ -18,17 +18,12 @@ import com.dirror.music.util.toast
  * 每个歌曲右边三个点点击后显示
  */
 class SongMenuDialog
-@JvmOverloads
 constructor(
     context: Context,
     private val activity: Activity,
     private val songData: StandardSongData,
-    private val tag: Int = PLAYLIST_TAG_NORMAL
+    private val itemDeleteListener: () -> Unit
 ) : BaseBottomSheetDialog(context) {
-
-    companion object {
-        const val BROADCAST_UPDATE_PLAYLIST = "com.dirror.music.UPDATE_PLAYLIST"
-    }
 
     private var binding = DialogSongMenuBinding.inflate(layoutInflater)
 
@@ -84,14 +79,15 @@ constructor(
             }
             // 歌曲删除
             itemDeleteSong.setOnClickListener {
-                if (tag == PLAYLIST_TAG_MY_FAVORITE) {
-                    MyFavorite.deleteById(songData.id?:"")
-                    toast("删除成功")
-                    BroadcastUtil.send(this@SongMenuDialog.context, BROADCAST_UPDATE_PLAYLIST)
-                    dismiss()
-                } else {
-                    toast("暂不支持删除")
-                }
+                itemDeleteListener()
+//                if (tag == PLAYLIST_TAG_MY_FAVORITE) {
+//                    MyFavorite.deleteById(songData.id?:"")
+//                    toast("删除成功")
+//                    BroadcastUtil.send(this@SongMenuDialog.context, BROADCAST_UPDATE_PLAYLIST)
+//                    dismiss()
+//                } else {
+//                    toast("暂不支持删除")
+//                }
             }
         }
     }

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.adapter.SongDataAdapter
 import com.dirror.music.databinding.ActivityUserCloudBinding
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.ui.viewmodel.UserCloudViewModel
 
 /**
@@ -26,7 +27,11 @@ class UserCloudActivity : BaseActivity() {
     }
 
     override fun initView() {
-        songAdapter = SongDataAdapter(this)
+        songAdapter = SongDataAdapter() {
+            SongMenuDialog(this, this, it) {
+
+            }
+        }
         binding.rvUserCloud.apply {
             adapter = songAdapter
             layoutManager = LinearLayoutManager(this@UserCloudActivity)

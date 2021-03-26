@@ -110,6 +110,10 @@
     <string name="clear">Clear</string>
     <string name="play_music">Play music</string>
     <string name="pause_music">Pause music</string>
-    <string name="qq_audio_source_search">QQ 音源搜索</string>
-    <string name="netease_audio_source_search">网易音源搜索</string>
+    <string name="qq_audio_source_search">QQ audio source search</string>
+    <string name="netease_audio_source_search">Netease audio source search</string>
+    <string name="cache">Cache</string>
+    <string name="ink_screen_mode">Ink screen mode</string>
+    <string name="image_cache">Image cache</string>
+    <string name="clear_image_cache">Clear image cache</string>
 </resources>

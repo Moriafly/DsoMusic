@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 691
-        versionName "3.0.1"
+        versionCode 694
+        versionName "3.0.2"
 
         multiDexEnabled true
 
@@ -108,8 +108,6 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
-    // media2
-    // implementation 'androidx.media2:media2-player:1.1.0'
     // room
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'

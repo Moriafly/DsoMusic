@@ -23,6 +23,7 @@ import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.playlist.SongPlaylistActivity
 import com.dirror.music.ui.playlist.SongPlaylistViewModel
+import com.dirror.music.ui.playlist.TAG_LOCAL_MY_FAVORITE
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
@@ -79,7 +80,7 @@ class MyFragment : BaseFragment() {
             clFavorite.setOnClickListener {
                 AnimationUtil.click(it)
                 val intent = Intent(this@MyFragment.context, SongPlaylistActivity::class.java).apply {
-                    putExtra(SongPlaylistActivity.EXTRA_TAG, SongPlaylistViewModel.TAG_LOCAL_MY_FAVORITE)
+                    putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_LOCAL_MY_FAVORITE)
 //                    putExtra(PlaylistActivity2.EXTRA_LONG_PLAYLIST_ID, 0L)
 //                    putExtra(PlaylistActivity2.EXTRA_INT_TAG, PLAYLIST_TAG_MY_FAVORITE)
                 }

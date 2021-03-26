@@ -11,8 +11,9 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.SongDataAdapter
 import com.dirror.music.databinding.ActivityPlaylistBinding
+import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.playlist.SongPlaylistViewModel.Companion.TAG_NETEASE
+import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 
@@ -32,7 +33,16 @@ class SongPlaylistActivity: BaseActivity() {
 
     private val songPlaylistViewModel: SongPlaylistViewModel by viewModels()
 
-    val adapter = SongDataAdapter(this)
+    val adapter = SongDataAdapter() {
+        SongMenuDialog(this, this, it) {
+            if (songPlaylistViewModel.tag.value == TAG_LOCAL_MY_FAVORITE) {
+                MyFavorite.deleteById(it.id ?: "")
+                toast("删除成功")
+            } else {
+                toast("不支持删除")
+            }
+        }
+    }
 
     override fun initBinding() {
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
@@ -84,13 +94,13 @@ class SongPlaylistActivity: BaseActivity() {
         binding.rvPlaylist.adapter = adapter
         songPlaylistViewModel.apply {
             songList.observe(this@SongPlaylistActivity, {
-                 if (it.size > 0 || tag.value == SongPlaylistViewModel.TAG_LOCAL_MY_FAVORITE) {
+                 if (it.size > 0 || tag.value == TAG_LOCAL_MY_FAVORITE) {
                     binding.clLoading.visibility = View.GONE
                     binding.lottieLoading.pauseAnimation()
                  }
                 binding.tvPlayAll.text = getString(R.string.play_all, it.size)
                 adapter.submitList(it)
-                if (songPlaylistViewModel.tag.value == SongPlaylistViewModel.TAG_LOCAL_MY_FAVORITE) {
+                if (songPlaylistViewModel.tag.value == TAG_LOCAL_MY_FAVORITE) {
                     songPlaylistViewModel.updateInfo(this@SongPlaylistActivity)
                 }
             })
@@ -105,14 +115,16 @@ class SongPlaylistActivity: BaseActivity() {
                 songPlaylistViewModel.updateInfo(this@SongPlaylistActivity)
             })
             playlistUrl.observe(this@SongPlaylistActivity, {
-                GlideUtil.load(it) { bitmap ->
-                    runOnMainThread {
-                        binding.ivCover.setImageBitmap(bitmap)
-                        Glide.with(MyApplication.context)
-                            .load(bitmap)
-                            .placeholder(binding.ivBackground.drawable)
-                            .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
-                            .into(binding.ivBackground)
+                if (it != null) {
+                    GlideUtil.load(it) { bitmap ->
+                        runOnMainThread {
+                            binding.ivCover.setImageBitmap(bitmap)
+                            Glide.with(MyApplication.context)
+                                .load(bitmap)
+                                .placeholder(binding.ivBackground.drawable)
+                                .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
+                                .into(binding.ivBackground)
+                        }
                     }
                 }
             })

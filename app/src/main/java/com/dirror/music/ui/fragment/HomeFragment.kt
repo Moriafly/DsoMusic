@@ -20,6 +20,7 @@ import com.dirror.music.ui.activity.TopListActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.playlist.SongPlaylistActivity
 import com.dirror.music.ui.playlist.SongPlaylistViewModel
+import com.dirror.music.ui.playlist.TAG_DIRROR
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 
@@ -74,7 +75,7 @@ class HomeFragment : BaseFragment(){
 
         binding.clDso.setOnClickListener {
             val intent = Intent(this.context, SongPlaylistActivity::class.java)
-            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, SongPlaylistViewModel.TAG_DIRROR)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_DIRROR)
             startActivity(intent)
         }
         binding.clTopList.setOnClickListener {

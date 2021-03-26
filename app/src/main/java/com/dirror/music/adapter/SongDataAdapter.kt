@@ -17,39 +17,47 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.data.PLAYLIST_TAG_NORMAL
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayerActivity
-import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.*
 
 /**
- * 歌适配器
+ * 歌曲适配器
+ * @author Moriafly
  */
-class SongDataAdapter
-@JvmOverloads
-constructor(
-    private val activity: Activity,
-    private val tag: Int? = PLAYLIST_TAG_NORMAL
+class SongDataAdapter(
+    private val itemMenuClickedListener: (StandardSongData) -> Unit
 ) : ListAdapter<StandardSongData, SongDataAdapter.ViewHolder>(DiffCallback) {
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View, itemMenuClickedListener: (StandardSongData) -> Unit) : RecyclerView.ViewHolder(view) {
         val clSong: ConstraintLayout = view.findViewById(R.id.clSong)
-        val viewPlaying: View = view.findViewById(R.id.viewPlaying)
         val ivCover: ImageView = view.findViewById(R.id.ivCover)
         val tvTitle: TextView = view.findViewById(R.id.tvTitle)
         val tvSub: TextView = view.findViewById(R.id.tvSub)
-        val ivMenu: ImageView = view.findViewById(R.id.ivMenu)
+        private val ivMenu: ImageView = view.findViewById(R.id.ivMenu)
         val ivTag: ImageView = view.findViewById(R.id.ivTag)
 
         val isAnimation = MyApplication.config.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true)
+
+        var songData: StandardSongData? = null
+
+        init {
+            ivMenu.setOnClickListener {
+                songData?.let { it1 -> itemMenuClickedListener(it1) }
+            }
+            clSong.setOnLongClickListener {
+                songData?.let { it1 -> itemMenuClickedListener(it1) }
+                return@setOnLongClickListener true
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         LayoutInflater.from(parent.context).inflate(R.layout.recycler_song, parent, false).apply {
-            return ViewHolder(this)
+            return ViewHolder(this, itemMenuClickedListener)
         }
     }
 
@@ -120,21 +128,6 @@ constructor(
                     toast("网易云暂无版权或者是 VIP 歌曲，可以试试 QQ 和酷我音源")
                 }
             }
-            // 更多点击，每首歌右边的三点菜单
-            ivMenu.setOnClickListener {
-                showSongMenuDialog(song, it)
-            }
-            // 长按
-            clSong.setOnLongClickListener {
-                showSongMenuDialog(song, it)
-                return@setOnLongClickListener true
-            }
-        }
-    }
-
-    private fun showSongMenuDialog(songData: StandardSongData, view: View) {
-        if (tag != null) {
-            SongMenuDialog(view.context, activity, songData, tag).show()
         }
     }
 

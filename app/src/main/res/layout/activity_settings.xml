@@ -23,15 +23,8 @@
             android:paddingBottom="16dp">
 
             <TextView
-                style="@style/sub_title"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/theme"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp" />
+                style="@style/style_settings_title"
+                android:text="@string/theme" />
 
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
@@ -49,16 +42,8 @@
             </com.dirror.music.widget.ItemLayout>
 
             <TextView
-                style="@style/sub_title"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:lineSpacingExtra="@dimen/lineSpacingExtra"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/custom_background"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp" />
+                style="@style/style_settings_title"
+                android:text="@string/custom_background" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemCustomBackground"
@@ -74,15 +59,8 @@
 
 
             <TextView
-                style="@style/sub_title"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/music"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp" />
+                style="@style/style_settings_title"
+                android:text="@string/music" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemAudioFocus"
@@ -170,15 +148,8 @@
             </com.dirror.music.widget.ItemLayout>
 
             <TextView
-                style="@style/sub_title"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/local_music"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp" />
+                style="@style/style_settings_title"
+                android:text="@string/local_music" />
 
 
             <com.dirror.music.widget.ItemLayout
@@ -277,15 +248,8 @@
             </com.dirror.music.widget.ItemLayout>
 
             <TextView
-                style="@style/sub_title"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/user_interface"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp" />
+                style="@style/style_settings_title"
+                android:text="@string/user_interface" />
 
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
@@ -414,17 +378,36 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
             </com.dirror.music.widget.ItemLayout>
 
-            <TextView
+            <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/experimental"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp"
-                android:visibility="gone" />
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="@string/ink_screen_mode">
 
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherInkScreenMode"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <TextView
+                android:text="@string/cache"
+                style="@style/style_settings_title" />
+
+            <com.dirror.music.widget.ValueView
+                android:id="@+id/valueViewImageCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="@string/image_cache"/>
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemClearImageCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="@string/clear_image_cache"/>
 
         </LinearLayout>
     </ScrollView>

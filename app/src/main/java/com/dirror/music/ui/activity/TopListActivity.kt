@@ -7,6 +7,7 @@ import com.dirror.music.databinding.ActivityTopListBinding
 import com.dirror.music.music.netease.TopList
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.playlist.SongPlaylistViewModel
+import com.dirror.music.ui.playlist.TAG_NETEASE
 import com.dirror.music.util.runOnMainThread
 
 class TopListActivity : BaseActivity() {
@@ -24,7 +25,7 @@ class TopListActivity : BaseActivity() {
             runOnMainThread {
                 binding.rvTopList.layoutManager = LinearLayoutManager(this)
                 binding.rvTopList.adapter = TopListAdapter(it) { listData ->
-                    MyApplication.activityManager.startPlaylistActivity(this, SongPlaylistViewModel.TAG_NETEASE, listData.id.toString())
+                    MyApplication.activityManager.startPlaylistActivity(this, TAG_NETEASE, listData.id.toString())
                 }
             }
         }, {

@@ -10,6 +10,8 @@ import com.dirror.music.adapter.SongDataAdapter
 import com.dirror.music.databinding.ActivityLocalMusicBinding
 import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.dialog.SongMenuDialog
+import com.dirror.music.util.toast
 
 class LocalMusicActivity : BaseActivity() {
 
@@ -72,7 +74,11 @@ class LocalMusicActivity : BaseActivity() {
 
     private fun scanLocalMusic() {
         LocalMusic.scanLocalMusic(this, {
-            val songAdapter = SongDataAdapter(this)
+            val songAdapter = SongDataAdapter() { songData ->
+                SongMenuDialog(this, this, songData) {
+                    toast("不支持删除")
+                }
+            }
             binding.rvLocalMusic.adapter = songAdapter
             binding.rvLocalMusic.layoutManager = LinearLayoutManager(this)
             binding.titleBar.setTitleBarText("本地音乐(${it.size})")

@@ -37,18 +37,22 @@ class MyFragmentViewModel : ViewModel() {
         val url = "${CloudMusicApi.USER_PLAYLIST}?limit=30&offset=${offset * 30}&uid=${uid}"
         loge(url, "myFragment")
         MagicHttp.OkHttpManager().newGet(url, {
-            val userPlaylistData = Gson().fromJson(it, UserPlaylistData::class.java)
-            for (playlist in userPlaylistData.playlist) {
-                _userPlaylistList.add(playlist)
-            }
-            if (userPlaylistData.more && offset < 3) {
-                offset++
-                updatePlaylist()
-            } else {
-                offset = 0
-                runOnMainThread {
-                    userPlaylistList.value = _userPlaylistList
+            try {
+                val userPlaylistData = Gson().fromJson(it, UserPlaylistData::class.java)
+                for (playlist in userPlaylistData.playlist) {
+                    _userPlaylistList.add(playlist)
                 }
+                if (userPlaylistData.more && offset < 3) {
+                    offset++
+                    updatePlaylist()
+                } else {
+                    offset = 0
+                    runOnMainThread {
+                        userPlaylistList.value = _userPlaylistList
+                    }
+                }
+            } catch (e: Exception) {
+
             }
         }, { })
     }

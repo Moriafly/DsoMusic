@@ -19,6 +19,7 @@ import com.dirror.music.music.netease.SearchUtil
 import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.ui.viewmodel.SearchViewModel
 import com.dirror.music.util.*
 
@@ -198,7 +199,11 @@ class SearchActivity : BaseActivity() {
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
         runOnMainThread {
             binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
-            binding.rvPlaylist.adapter = SongDataAdapter(this).apply {
+            binding.rvPlaylist.adapter = SongDataAdapter() {
+                SongMenuDialog(this, this, it) {
+                    toast("不支持删除")
+                }
+            }.apply {
                 submitList(songList)
             }
 

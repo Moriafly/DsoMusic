@@ -112,4 +112,8 @@
     <string name="pause_music">暂停音乐</string>
     <string name="qq_audio_source_search">QQ 音源搜索</string>
     <string name="netease_audio_source_search">网易音源搜索</string>
+    <string name="cache">缓存</string>
+    <string name="ink_screen_mode">墨水屏模式</string>
+    <string name="image_cache">图片缓存</string>
+    <string name="clear_image_cache">清除图片缓存</string>
 </resources>

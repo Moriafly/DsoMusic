@@ -38,9 +38,7 @@ class MyApplication : Application() {
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context // 注入懒加载 全局 context
 
-        var musicController = MutableLiveData<MusicService.MusicController?>().also {
-            it.value = null
-        }
+        var musicController = MutableLiveData<MusicService.MusicController?>()
 
         val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
         // 管理
