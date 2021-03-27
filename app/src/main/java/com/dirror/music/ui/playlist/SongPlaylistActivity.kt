@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.adapter.SongDataAdapter
+import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.databinding.ActivityPlaylistBinding
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.ui.base.BaseActivity
@@ -33,7 +33,7 @@ class SongPlaylistActivity: BaseActivity() {
 
     private val songPlaylistViewModel: SongPlaylistViewModel by viewModels()
 
-    val adapter = SongDataAdapter() {
+    val adapter = SongAdapter() {
         SongMenuDialog(this, this, it) {
             if (songPlaylistViewModel.tag.value == TAG_LOCAL_MY_FAVORITE) {
                 MyFavorite.deleteById(it.id ?: "")

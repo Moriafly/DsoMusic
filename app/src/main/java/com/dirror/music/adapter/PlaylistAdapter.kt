@@ -14,10 +14,9 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.ui.playlist.SongPlaylistActivity
-import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.ui.playlist.TAG_NETEASE
 import com.dirror.music.util.GlideUtil
-import com.dirror.music.util.dp
+import com.dirror.music.util.extensions.dp
 
 /**
  * 我的歌单适配器

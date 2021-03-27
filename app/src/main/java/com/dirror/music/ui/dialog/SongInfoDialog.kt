@@ -9,7 +9,7 @@ import com.dirror.music.R
 import com.dirror.music.databinding.DialogSongInfoBinding
 import com.dirror.music.music.dirror.SearchSong
 import com.dirror.music.music.standard.data.*
-import com.dirror.music.util.parseSize
+import com.dirror.music.util.extensions.parseSize
 import com.dirror.music.util.runOnMainThread
 import com.google.android.material.bottomsheet.BottomSheetDialog
 

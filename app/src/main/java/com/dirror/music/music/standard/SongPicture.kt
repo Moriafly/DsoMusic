@@ -1,30 +1,19 @@
 package com.dirror.music.music.standard
 
 import android.annotation.SuppressLint
-import android.content.ContentResolver
-import android.content.ContentUris
 import android.content.Context
-import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
-import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.GlideUtil
-import com.dirror.music.util.dp
+import com.dirror.music.util.extensions.dp
 import com.dirror.music.util.loge
-import com.dirror.music.util.toast
 import org.jetbrains.annotations.TestOnly
-import java.io.FileDescriptor
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.io.InputStream
 
 object SongPicture {
 

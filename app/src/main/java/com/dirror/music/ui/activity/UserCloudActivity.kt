@@ -3,7 +3,7 @@ package com.dirror.music.ui.activity
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dirror.music.adapter.SongDataAdapter
+import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.databinding.ActivityUserCloudBinding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
@@ -18,7 +18,7 @@ class UserCloudActivity : BaseActivity() {
 
     private val userCloudViewModel: UserCloudViewModel by viewModels()
 
-    private lateinit var songAdapter: SongDataAdapter
+    private lateinit var songAdapter: SongAdapter
 
     override fun initBinding() {
         binding = ActivityUserCloudBinding.inflate(layoutInflater)
@@ -27,7 +27,7 @@ class UserCloudActivity : BaseActivity() {
     }
 
     override fun initView() {
-        songAdapter = SongDataAdapter() {
+        songAdapter = SongAdapter() {
             SongMenuDialog(this, this, it) {
 
             }

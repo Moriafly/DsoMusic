@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.DialogPlayMoreBinding
-import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
@@ -33,13 +32,6 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
 
     override fun initListener() {
         binding.apply {
-            // 添加到本地我喜欢
-            itemAddLocalMyFavorite.setOnClickListener {
-                song?.let { data ->
-                    MyFavorite.addSong(data)
-                    dismiss()
-                }
-            }
             // 添加到网易云我喜欢
             itemAddNeteaseFavorite.setOnClickListener {
                 if (MyApplication.userManager.getCloudMusicCookie().isEmpty()) {

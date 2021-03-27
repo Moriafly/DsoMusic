@@ -6,7 +6,7 @@ import com.dirror.music.music.netease.UserCloud
 import com.dirror.music.music.netease.data.toStandard
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.ErrorCode
-import com.dirror.music.util.parseSize
+import com.dirror.music.util.extensions.parseSize
 import com.dirror.music.util.runOnMainThread
 
 class UserCloudViewModel : ViewModel() {

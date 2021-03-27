@@ -1,8 +1,7 @@
 package com.dirror.music.ui.activity
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dirror.music.adapter.SongDataAdapter
-import com.dirror.music.data.PLAYLIST_TAG_HISTORY
+import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.databinding.ActivityPlayHistoryBinding
 import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.ui.base.BaseActivity
@@ -24,7 +23,7 @@ class PlayHistoryActivity : BaseActivity() {
     override fun initView() {
         binding.apply {
             rvPlayHistory.layoutManager = LinearLayoutManager(this@PlayHistoryActivity)
-            rvPlayHistory.adapter = SongDataAdapter(){
+            rvPlayHistory.adapter = SongAdapter(){
                 SongMenuDialog(this@PlayHistoryActivity, this@PlayHistoryActivity, it) {
                     toast("不支持删除")
                 }

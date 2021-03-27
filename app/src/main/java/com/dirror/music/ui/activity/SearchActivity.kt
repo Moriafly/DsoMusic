@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.adapter.SongDataAdapter
+import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.adapter.SearchHotAdapter
 import com.dirror.music.databinding.ActivitySearchBinding
 import com.dirror.music.music.netease.SearchUtil
@@ -22,6 +22,7 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.ui.viewmodel.SearchViewModel
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.asDrawable
 
 /**
  * 搜索界面
@@ -199,7 +200,7 @@ class SearchActivity : BaseActivity() {
     private fun initRecycleView(songList: ArrayList<StandardSongData>) {
         runOnMainThread {
             binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
-            binding.rvPlaylist.adapter = SongDataAdapter() {
+            binding.rvPlaylist.adapter = SongAdapter() {
                 SongMenuDialog(this, this, it) {
                     toast("不支持删除")
                 }.show()

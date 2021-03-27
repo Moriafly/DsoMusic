@@ -8,7 +8,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.dirror.music.R
 import com.dirror.music.util.TimeUtil
-import com.dirror.music.util.dp
+import com.dirror.music.util.extensions.dp
 
 class TimeTextView: View {
     constructor(context: Context?) : super(context)
@@ -21,11 +21,17 @@ class TimeTextView: View {
 
     private var text = "00:00"
     private var align = Paint.Align.LEFT
+    var textColor = ContextCompat.getColor(this@TimeTextView.context, R.color.colorTextForeground)
+        set(value) {
+            textPaint.color = value
+            invalidate()
+            field = value
+        }
 
     private val textPaint = Paint().apply {
         isAntiAlias = true
         textSize = TEXT_SIZE.dp().toFloat()
-        color = ContextCompat.getColor(this@TimeTextView.context, R.color.colorTextForeground)
+        color = textColor
     }
 
     override fun onDraw(canvas: Canvas?) {

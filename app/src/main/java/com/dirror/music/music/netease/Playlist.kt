@@ -1,12 +1,12 @@
 package com.dirror.music.music.netease
 
 import android.content.Context
-import com.dirror.music.api.API_DSO
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.averageAssignFixLength
 import com.google.gson.Gson
 import okhttp3.FormBody
 import org.jetbrains.annotations.TestOnly

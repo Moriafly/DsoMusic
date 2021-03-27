@@ -12,10 +12,7 @@ import android.graphics.PorterDuffColorFilter
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.view.KeyEvent
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowInsetsController
+import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
@@ -44,6 +41,10 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.SoundEffectDialog
 import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.asDrawable
+import com.dirror.music.util.extensions.colorAlpha
+import com.dirror.music.util.extensions.colorMix
+import com.dirror.music.util.extensions.singleClick
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 
@@ -114,6 +115,7 @@ class PlayerActivity : SlideBackActivity() {
     }
 
     override fun initView() {
+        // window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         // 设置 SlideBackLayout
         bindSlide(this, binding.clBase)
         // 屏幕旋转
@@ -511,6 +513,9 @@ class PlayerActivity : SlideBackActivity() {
                     seekBarVolume.progressDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
 
                     ivVolume.setColorFilter(it)
+
+                    ttvProgress.textColor = it
+                    ttvDuration.textColor = it
                 }
 
             })

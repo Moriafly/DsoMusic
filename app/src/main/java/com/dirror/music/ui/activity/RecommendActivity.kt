@@ -1,20 +1,15 @@
 package com.dirror.music.ui.activity
 
-import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
-import coil.size.ViewSizeResolver
-import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.DailyRecommendSongAdapter
-import com.dirror.music.adapter.playMusic
 import com.dirror.music.databinding.ActivityRecommendBinding
 import com.dirror.music.music.netease.data.toStandardSongDataArrayList
+import com.dirror.music.service.playMusic
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.viewmodel.RecommendActivityViewModel
 import com.dirror.music.util.*
 import eightbitlab.com.blurview.RenderScriptBlur

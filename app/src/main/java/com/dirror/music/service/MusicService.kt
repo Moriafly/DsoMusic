@@ -57,8 +57,7 @@ import com.dirror.music.service.player.DsoPlayer
 import com.dirror.music.ui.activity.MainActivity
 import com.dirror.music.ui.activity.PlayerActivity
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.next
-import com.dirror.music.util.extensions.previous
+import com.dirror.music.util.extensions.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume

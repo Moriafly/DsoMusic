@@ -30,12 +30,6 @@
             android:layout_height="56dp" />
 
         <com.dirror.music.widget.ItemLayout
-            android:id="@+id/itemAddLocalMyFavorite"
-            app:text="@string/add_to_local_my_favorite"
-            android:layout_width="match_parent"
-            android:layout_height="56dp" />
-
-        <com.dirror.music.widget.ItemLayout
             android:id="@+id/itemAddNeteaseFavorite"
             app:text="@string/add_to_netease_favorite"
             android:layout_width="match_parent"

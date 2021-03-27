@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dirror.music.adapter.SongDataAdapter
+import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.databinding.ActivityLocalMusicBinding
 import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.ui.base.BaseActivity
@@ -74,7 +74,7 @@ class LocalMusicActivity : BaseActivity() {
 
     private fun scanLocalMusic() {
         LocalMusic.scanLocalMusic(this, {
-            val songAdapter = SongDataAdapter() { songData ->
+            val songAdapter = SongAdapter() { songData ->
                 SongMenuDialog(this, this, songData) {
                     toast("不支持删除")
                 }.show()

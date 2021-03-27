@@ -19,10 +19,10 @@ import com.dirror.music.ui.activity.RecommendActivity
 import com.dirror.music.ui.activity.TopListActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.playlist.SongPlaylistActivity
-import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.ui.playlist.TAG_DIRROR
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.dp
 
 class HomeFragment : BaseFragment(){
 

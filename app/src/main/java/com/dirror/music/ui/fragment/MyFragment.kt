@@ -22,11 +22,11 @@ import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.playlist.SongPlaylistActivity
-import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.ui.playlist.TAG_LOCAL_MY_FAVORITE
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.ui.viewmodel.MyFragmentViewModel
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.dp
 
 /**
  * 我的

@@ -29,6 +29,7 @@ import com.dirror.music.ui.fragment.MyFragment
 import com.dirror.music.ui.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
+import com.dirror.music.util.extensions.dp
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlin.concurrent.thread
