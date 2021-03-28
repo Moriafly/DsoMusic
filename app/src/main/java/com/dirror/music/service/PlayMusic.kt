@@ -6,7 +6,7 @@ import android.content.Intent
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.ui.activity.PlayerActivity
+import com.dirror.music.ui.player.PlayerActivity
 
 /**
  * 播放音乐

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPageBackground"
     android:visibility="visible"
-    tools:context=".ui.activity.PlayerActivity">
+    tools:context=".ui.player.PlayerActivity">
 
     <ImageView
         android:id="@+id/ivBackground"

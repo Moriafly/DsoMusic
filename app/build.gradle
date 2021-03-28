@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 696
+        versionCode 697
         versionName "空里流霜不觉飞"
 
         multiDexEnabled true
@@ -121,4 +121,6 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.martinrgb:animer:0.1.6.3'
+
+    implementation 'com.github.chrisbanes.photoview:library:1.2.4'
 }

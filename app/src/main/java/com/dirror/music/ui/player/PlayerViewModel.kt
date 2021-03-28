@@ -1,4 +1,4 @@
-package com.dirror.music.ui.viewmodel
+package com.dirror.music.ui.player
 
 import android.graphics.Color
 import androidx.annotation.Keep

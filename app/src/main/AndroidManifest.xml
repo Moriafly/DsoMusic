@@ -8,14 +8,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--    <uses-permission android:name="android.permission.WAKE_LOCK" />-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--    <uses-permission android:name="android.permission.RECORD_AUDIO" />-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- <uses-permission android:name="android.permission.RECORD_AUDIO" /> -->
     <uses-permission
         android:name="android.permission.MEDIA_CONTENT_CONTROL"
         tools:ignore="ProtectedPermissions" />
@@ -31,9 +29,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
+        <activity android:name=".ui.player.SongCoverActivity"
+            android:theme="@style/AppTheme.FullScreen"/>
         <activity android:name=".ui.activity.AgreementActivity" />
         <activity android:name=".ui.activity.UserCloudActivity" />
-        <activity android:name=".ui.activity.SponsorActivity" />
         <activity android:name=".ui.activity.TopListActivity" />
         <activity android:name=".ui.activity.RecommendActivity" />
         <activity
@@ -62,7 +61,7 @@
         <activity android:name=".ui.activity.OpenSourceActivity" />
         <activity android:name=".ui.activity.SettingsActivity" />
         <activity
-            android:name=".ui.activity.PlayerActivity"
+            android:name=".ui.player.PlayerActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.FullScreen.Translucent" />
         <activity

@@ -11,7 +11,8 @@
         android:layout_height="0dp"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/miniPlayer"
+        android:layout_marginBottom="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar">

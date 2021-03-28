@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPageBackground"
     android:visibility="visible"
-    tools:context=".ui.activity.PlayerActivity">
+    tools:context=".ui.player.PlayerActivity">
 
     <ImageView
         android:id="@+id/ivBackground"
@@ -298,7 +298,7 @@
             android:id="@+id/ttvDuration"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginEnd="29.5dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginBottom="4dp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/clControl"
@@ -309,7 +309,7 @@
             android:id="@+id/ttvProgress"
             android:layout_width="40dp"
             android:layout_height="16dp"
-            android:layout_marginStart="29.5dp"
+            android:layout_marginStart="30dp"
             android:layout_marginBottom="4dp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/clControl"
@@ -337,7 +337,7 @@
             android:id="@+id/clControl"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="20dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -345,7 +345,7 @@
 
             <ImageView
                 android:id="@+id/ivPlay"
-                android:padding="6dp"
+                android:padding="8dp"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:background="@drawable/background_button_icon"

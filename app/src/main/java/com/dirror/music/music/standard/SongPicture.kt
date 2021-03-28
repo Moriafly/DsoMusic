@@ -21,35 +21,6 @@ object SongPicture {
     const val TYPE_SMALL = 2
 
     /**
-     * 标准
-     */
-    @SuppressLint("UseCompatLoadingForDrawables")
-    // @Deprecated("过时，等待新方法")
-    fun getSongPicture(context: Context, songData: StandardSongData, type: Int, success: (Bitmap) -> Unit) {
-        // 普通背景
-        if (songData.source == SOURCE_LOCAL) {
-            songData.imageUrl?.let {
-                LocalMusic.getBitmapFromUir(context, it.toUri())?.let { it1 ->
-                    success(it1)
-                }
-            }
-        } else {
-            val url = getSongPictureUrl(songData, type)
-            GlideUtil.load(url) {
-                success.invoke(it)
-            }
-        }
-    }
-
-    fun getMiniPlayerSongPicture(songData: StandardSongData): String? {
-        return if (songData.source == SOURCE_LOCAL) {
-            songData.imageUrl
-        } else {
-            getSongPictureUrl(songData, TYPE_SMALL)
-        }
-    }
-
-    /**
      * 获取图片
      */
     private fun getSongPictureUrl(songData: StandardSongData, type: Int): String {

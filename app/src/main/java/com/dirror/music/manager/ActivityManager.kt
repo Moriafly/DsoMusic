@@ -6,6 +6,7 @@ import android.content.Intent
 import com.dirror.music.R
 import com.dirror.music.manager.interfaces.ActivityManagerInterface
 import com.dirror.music.ui.activity.*
+import com.dirror.music.ui.player.PlayerActivity
 import com.dirror.music.ui.playlist.SongPlaylistActivity
 
 class ActivityManager: ActivityManagerInterface {

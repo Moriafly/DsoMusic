@@ -15,11 +15,13 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
+import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.service.playMusic
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.dp
 import com.dirror.music.util.extensions.parse
 import com.dirror.music.util.extensions.toArrayList
 
@@ -90,9 +92,9 @@ class SongAdapter(
                         || song.imageUrl == "https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"
                     ) {
                         ""
-                        // "$API_FCZBL_VIP/?type=cover&id=${song.id}&param=${40.dp()}y${40.dp()}"
+                        // "$API_FCZBL_VIP/?type=cover&id=${song.id}"
                     } else {
-                        song.imageUrl
+                        "${song.imageUrl}?param=${48.dp()}y${48.dp()}"
                     }
                 }
                 SOURCE_QQ -> {
@@ -100,6 +102,7 @@ class SongAdapter(
                 }
                 else -> song.imageUrl
             }
+            // loge(imageUrl ?: "", "适配器图片")
             ivCover.load(imageUrl) {
                 transformations(RoundedCornersTransformation(dp2px(6f)))
                 size(ViewSizeResolver(ivCover))

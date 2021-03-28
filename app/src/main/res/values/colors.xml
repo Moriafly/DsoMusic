@@ -38,7 +38,7 @@
 
     <color name="salt_color_song_cover">#EEEEEE</color>
 
-    <color name="colorBlurViewBackground">#CCFFFFFF</color>
+    <color name="colorBlurViewBackground">#BFFFFFFF</color>
     <color name="miniPlayerBlurViewBackground">#73FFFFFF</color>
     <color name="colorCommonTextForeground">#969696</color>
 

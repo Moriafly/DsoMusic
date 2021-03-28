@@ -1,12 +1,7 @@
 package com.dirror.music.ui.base
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.os.Bundle
-import android.os.RemoteException
-import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.MediaSessionCompat
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import coil.size.ViewSizeResolver
@@ -14,11 +9,8 @@ import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.MiniPlayerBinding
 import com.dirror.music.manager.ActivityCollector
-import com.dirror.music.service.MusicService
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
-import com.dirror.music.util.sky.SkySecure
-
 
 /**
  * 基类 Activity
@@ -41,9 +33,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-//        if (SkySecure.checkXposed()) {
-//            ActivityCollector.finishAll()
-//        }
         if (DarkThemeUtil.isDarkTheme(this)) {
             setStatusBarIconColor(this, false)
         }
@@ -112,48 +101,4 @@ abstract class BaseActivity : AppCompatActivity() {
         ActivityCollector.removeActivity(this)
     }
 
-//    // 音乐相关
-//    private fun initBrowser() {
-//        mediaBrowser = MediaBrowserCompat(
-//            this,
-//            ComponentName(this, MusicService::class.java), mConnectionCallback, null
-//        )
-//    }
-//
-//    private val mConnectionCallback: MediaBrowserCompat.ConnectionCallback =
-//        object : MediaBrowserCompat.ConnectionCallback() {
-//            override fun onConnected() {
-//                //说明已经连接上了
-//                try {
-//                    mediaBrowser?.let { connectToSession(it.sessionToken) }
-//                } catch (e: RemoteException) {
-//                    e.printStackTrace()
-//                }
-//            }
-//        }
-//
-//    @Throws(RemoteException::class)
-//    private fun connectToSession(token: MediaSessionCompat.Token) {
-//        mediaController = MediaControllerCompat(this, token)
-//        MediaControllerCompat.setMediaController(this, mediaController)
-//        onMediaBrowserConnected()
-//        onMediaControllerConnected(mediaController.sessionToken)
-//    }
-//
-//    protected open fun onMediaControllerConnected(token: MediaSessionCompat.Token?) {
-//        // empty implementation, can be overridden by clients.
-//    }
-//
-//    protected open fun onMediaBrowserConnected() {
-//        // empty implementation, can be overridden by clients.
-//    }
-
-}
-
-/**
- * Created by ckw
- * on 2018/4/11.
- */
-interface MediaBrowserProvider {
-    var mediaBrowser: MediaBrowserCompat?
 }

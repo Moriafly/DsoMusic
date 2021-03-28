@@ -1,4 +1,4 @@
-package com.dirror.music.ui.activity
+package com.dirror.music.ui.player
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -16,7 +16,6 @@ import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
-import androidx.annotation.Keep
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.palette.graphics.Palette
@@ -39,14 +38,12 @@ import com.dirror.music.ui.base.SlideBackActivity
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.SoundEffectDialog
-import com.dirror.music.ui.viewmodel.PlayerViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.extensions.asDrawable
 import com.dirror.music.util.extensions.colorAlpha
 import com.dirror.music.util.extensions.colorMix
 import com.dirror.music.util.extensions.singleClick
 import jp.wasabeef.glide.transformations.BlurTransformation
-
 
 /**
  * 新版 PlayerActivity
@@ -56,7 +53,6 @@ import jp.wasabeef.glide.transformations.BlurTransformation
  * @since 2020年12月15日18:35:46
  * 加个 @Keep 是因为一直有个空指针没查出来
  */
-@Keep
 class PlayerActivity : SlideBackActivity() {
 
     companion object {
@@ -199,6 +195,14 @@ class PlayerActivity : SlideBackActivity() {
                     }
                 }
             }
+            cvCd.setOnLongClickListener {
+                startActivity(Intent(this@PlayerActivity, SongCoverActivity::class.java))
+                overridePendingTransition(
+                    R.anim.anim_alpha_enter,
+                    R.anim.anim_no_anim,
+                )
+                return@setOnLongClickListener true
+            }
             // 喜欢音乐
             ivLike.setOnClickListener {
                 playViewModel.likeMusic {
@@ -240,25 +244,21 @@ class PlayerActivity : SlideBackActivity() {
             })
 
             if (!isLandScape) {
-                clCd.setOnTouchListener { _, event ->
-                    when (event.action) {
-                        MotionEvent.ACTION_DOWN -> {
-                            return@setOnTouchListener !(!isLandScape && !slideBackEnabled)
-                        }
-                        MotionEvent.ACTION_UP -> {
-                            if (!isLandScape) {
-                                //if (binding.clLyric.visibility == View.INVISIBLE && !isLandScape) {
-                                    AnimationUtil.fadeOut(binding.clCd, true)
-                                    AnimationUtil.fadeOut(binding.clMenu, true)
-                                    binding.clLyric.visibility = View.VISIBLE
-                                    slideBackEnabled = false
-                                //}
-                                return@setOnTouchListener true
-                            }
-                        }
-
+                cvCd.setOnClickListener {
+                    if (slideBackEnabled) {
+                        AnimationUtil.fadeOut(binding.clCd, true)
+                        AnimationUtil.fadeOut(binding.clMenu, true)
+                        binding.clLyric.visibility = View.VISIBLE
+                        slideBackEnabled = false
                     }
-                    return@setOnTouchListener false
+                }
+                clCd.setOnClickListener {
+                    if (slideBackEnabled) {
+                        AnimationUtil.fadeOut(binding.clCd, true)
+                        AnimationUtil.fadeOut(binding.clMenu, true)
+                        binding.clLyric.visibility = View.VISIBLE
+                        slideBackEnabled = false
+                    }
                 }
             }
             lyricView.setOnTouchListener { _, event ->
