@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 697
+        versionCode 698
         versionName "空里流霜不觉飞"
 
         multiDexEnabled true
@@ -113,6 +113,7 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.5'
     // LyricViewX
     implementation 'com.github.Moriafly:LyricViewX:1.1.6'
+    implementation 'com.github.Moriafly:DsoKotlinExtensions:1.0.0-dev03'
     // 漂亮的开关
     implementation 'com.bitvale:switcher:1.1.1'
     // coil 图片加载库

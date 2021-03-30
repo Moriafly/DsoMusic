@@ -54,10 +54,12 @@ import com.dirror.music.music.standard.SongPicture
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.service.player.DsoPlayer
-import com.dirror.music.ui.activity.MainActivity
+import com.dirror.music.ui.home.MainActivity
 import com.dirror.music.ui.player.PlayerActivity
 import com.dirror.music.util.*
 import com.dirror.music.util.extensions.*
+import com.dso.ext.next
+import com.dso.ext.previous
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
@@ -93,7 +95,7 @@ open class MusicService : BaseMediaService() {
     private var notificationManager: NotificationManager? = null
 
     /* 是否开启音频焦点 */
-    private var isAudioFocus = config.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true) // 是否开启音频焦点
+    private var isAudioFocus = config.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true)
 
     /* 音频会话 */
     private var mediaSession: MediaSessionCompat? = null
@@ -125,7 +127,7 @@ open class MusicService : BaseMediaService() {
     /* AudioFocusRequest */
     private lateinit var audioFocusRequest: AudioFocusRequest
 
-    /* 当前状态栏歌曲 */
+    /* 当前状态栏歌词 */
     private var currentStatusBarTag = ""
 
     /* 单句歌词集合 */

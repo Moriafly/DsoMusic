@@ -18,7 +18,6 @@ import com.dirror.music.BuildConfig
 import com.dirror.music.MyApplication
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 
-
 /**
  * Kotlin 顶层函数
  */
@@ -174,4 +173,12 @@ fun joinQQGroup(context: Context, key: String): Boolean {
         // 未安装手Q或安装的版本不支持
         false
     }
+}
+
+var lastClickTime = 0L
+fun singleClick(during: Long = 200L, callBack: () -> Unit) {
+    if (getCurrentTime() - lastClickTime > during) {
+        callBack()
+    }
+    lastClickTime = getCurrentTime()
 }

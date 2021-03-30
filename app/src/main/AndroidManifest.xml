@@ -29,8 +29,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".ui.player.SongCoverActivity"
-            android:theme="@style/AppTheme.FullScreen"/>
+        <activity android:name=".ui.playlist.SongSearchActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ui.player.SongCoverActivity"
+            android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".ui.activity.AgreementActivity" />
         <activity android:name=".ui.activity.UserCloudActivity" />
         <activity android:name=".ui.activity.TopListActivity" />
@@ -70,7 +73,7 @@
         <activity android:name=".ui.activity.LoginByUidActivity" />
         <activity android:name=".ui.activity.LoginByPhoneActivity" />
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.home.MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.FullScreen" />

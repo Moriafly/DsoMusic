@@ -23,9 +23,11 @@ class OpenSourceActivity : BaseActivity() {
         val openSourceList = listOf(
             OpenSourceData("Android Jetpack", "https://source.google.com", AL2),
             OpenSourceData("AndroidX", "https://source.google.com", AL2),
+            OpenSourceData("Animer", "https://github.com/MartinRGB/Animer", AL2),
             OpenSourceData("ASimpleCache", "https://github.com/yangfuhai/ASimpleCache", AL2),
             OpenSourceData("BlurView", "https://github.com/Dimezis/BlurView", AL2),
             OpenSourceData("Coil", "https://github.com/coil-kt/coil", AL2),
+            OpenSourceData("DsoKotlinExtensions", "https://github.com/Moriafly/DsoKotlinExtensions", AL2),
             OpenSourceData("EdgeTranslucent", "https://github.com/qinci/EdgeTranslucent","Unknown"),
             OpenSourceData("Glide", "https://github.com/bumptech/glide","BSD, part MIT and Apache 2.0"),
             OpenSourceData("Glide Transformations", "https://github.com/wasabeef/glide-transformations", AL2),
@@ -35,6 +37,7 @@ class OpenSourceActivity : BaseActivity() {
             OpenSourceData("LyricViewX", "https://github.com/Moriafly/LyricViewX","GPL-3.0 License"),
             OpenSourceData("MMKV", "https://github.com/Tencent/MMKV","BSD 3-Clause license"),
             OpenSourceData("OkHttp", "https://github.com/square/okhttp", AL2),
+            OpenSourceData("PhotoView", "https://github.com/Baseflow/PhotoView", AL2),
             OpenSourceData("RgView", "https://github.com/roger1245/RgView", "Unknown"),
             OpenSourceData("Switcher", "https://github.com/bitvale/Switcher", AL2),
             )

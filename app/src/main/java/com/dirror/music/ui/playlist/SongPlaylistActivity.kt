@@ -1,5 +1,6 @@
 package com.dirror.music.ui.playlist
 
+import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +17,7 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.*
 import jp.wasabeef.glide.transformations.BlurTransformation
+import kotlin.concurrent.thread
 
 /**
  * 3.0
@@ -134,14 +136,27 @@ class SongPlaylistActivity: BaseActivity() {
     }
 
     override fun initListener() {
-        /**
-         * 全部播放
-         * 播放第一首歌
-         */
-        binding.clNav.setOnClickListener {
-            AnimationUtil.click(binding.ivPlayAll)
-            if (adapter.itemCount != 0) {
-                adapter.playFirst()
+        with(binding) {
+            /**
+             * 全部播放
+             * 播放第一首歌
+             */
+            clNav.setOnClickListener {
+                AnimationUtil.click(binding.ivPlayAll)
+                if (adapter.itemCount != 0) {
+                    adapter.playFirst()
+                }
+            }
+            ivSearch.setOnClickListener {
+                thread {
+                    songPlaylistViewModel.songList.value?.let {
+                        SongSearchTransmit.songList = it
+                            runOnMainThread {
+                                startActivity(Intent(this@SongPlaylistActivity, SongSearchActivity::class.java))
+                            }
+                    }
+
+                }
             }
         }
     }

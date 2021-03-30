@@ -1,3 +1,27 @@
+/**
+ * DsoMusic Copyright (C) 2020-2021 Moriafly
+ *
+ * This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+ * This is free software, and you are welcome to redistribute it
+ * under certain conditions; type `show c' for details.
+ *
+ * The hypothetical commands `show w' and `show c' should show the appropriate
+ * parts of the General Public License.  Of course, your program's commands
+ * might be different; for a GUI interface, you would use an "about box".
+ *
+ * You should also get your employer (if you work as a programmer) or school,
+ * if any, to sign a "copyright disclaimer" for the program, if necessary.
+ * For more information on this, and how to apply and follow the GNU GPL, see
+ * <https://www.gnu.org/licenses/>.
+ *
+ * The GNU General Public License does not permit incorporating your program
+ * into proprietary programs.  If your program is a subroutine library, you
+ * may consider it more useful to permit linking proprietary applications with
+ * the library.  If this is what you want to do, use the GNU Lesser General
+ * Public License instead of this License.  But first, please read
+ * <https://www.gnu.org/licenses/why-not-lgpl.html>.
+ */
+
 package com.dirror.music.ui.player
 
 import android.animation.ObjectAnimator
@@ -42,16 +66,12 @@ import com.dirror.music.util.*
 import com.dirror.music.util.extensions.asDrawable
 import com.dirror.music.util.extensions.colorAlpha
 import com.dirror.music.util.extensions.colorMix
-import com.dirror.music.util.extensions.singleClick
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
- * 新版 PlayerActivity
- * 用来取代原先的 PlayActivity，1.6.1 版本已上线
- * 更加清晰方便管理，加入 PlayerViewModel
+ * PlayerActivity
  * @author Moriafly
  * @since 2020年12月15日18:35:46
- * 加个 @Keep 是因为一直有个空指针没查出来
  */
 class PlayerActivity : SlideBackActivity() {
 
@@ -195,13 +215,15 @@ class PlayerActivity : SlideBackActivity() {
                     }
                 }
             }
-            cvCd.setOnLongClickListener {
-                startActivity(Intent(this@PlayerActivity, SongCoverActivity::class.java))
-                overridePendingTransition(
-                    R.anim.anim_alpha_enter,
-                    R.anim.anim_no_anim,
-                )
-                return@setOnLongClickListener true
+            if (!isLandScape) {
+                cvCd.setOnLongClickListener {
+                    startActivity(Intent(this@PlayerActivity, SongCoverActivity::class.java))
+                    overridePendingTransition(
+                        R.anim.anim_alpha_enter,
+                        R.anim.anim_no_anim,
+                    )
+                    return@setOnLongClickListener true
+                }
             }
             // 喜欢音乐
             ivLike.setOnClickListener {

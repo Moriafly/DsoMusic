@@ -6,8 +6,8 @@ import com.dirror.music.music.netease.UserCloud
 import com.dirror.music.music.netease.data.toStandard
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.ErrorCode
-import com.dirror.music.util.extensions.parseSize
 import com.dirror.music.util.runOnMainThread
+import com.dso.ext.toSizeFormat
 
 class UserCloudViewModel : ViewModel() {
 
@@ -40,7 +40,7 @@ class UserCloudViewModel : ViewModel() {
             }
             runOnMainThread {
                 if (size.value.isNullOrEmpty()) {
-                    size.value = "${(it.size.toLongOrNull() ?: 0L).parseSize()} / ${(it.maxSize.toLongOrNull() ?: 0L).parseSize()}"
+                    size.value = "${(it.size.toLongOrNull() ?: 0L).toSizeFormat()} / ${(it.maxSize.toLongOrNull() ?: 0L).toSizeFormat()}"
                 }
                 songlist.value = arrayListOf(
                     songlist.value!!.toList(),

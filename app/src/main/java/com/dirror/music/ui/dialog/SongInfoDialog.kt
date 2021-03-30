@@ -9,8 +9,8 @@ import com.dirror.music.R
 import com.dirror.music.databinding.DialogSongInfoBinding
 import com.dirror.music.music.dirror.SearchSong
 import com.dirror.music.music.standard.data.*
-import com.dirror.music.util.extensions.parseSize
 import com.dirror.music.util.runOnMainThread
+import com.dso.ext.toSizeFormat
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SongInfoDialog(context: Context, private val songData: StandardSongData) : BottomSheetDialog(context, R.style.style_default_dialog) {
@@ -46,7 +46,7 @@ class SongInfoDialog(context: Context, private val songData: StandardSongData) :
                                 binding.valueViewSource.setValue("网易云音乐")
                             }
                             binding.valueViewBitrate.setValue("${data.br / 1000} kbps")
-                            binding.valueViewSize.setValue(data.size.parseSize())
+                            binding.valueViewSize.setValue(data.size.toSizeFormat())
                             binding.valueViewType.setValue(data.type ?: "未知")
                         }
                     }
@@ -65,7 +65,7 @@ class SongInfoDialog(context: Context, private val songData: StandardSongData) :
                     binding.valueViewSource.setValue(context.getString(R.string.local_music))
                     binding.valueViewBitrate.setValue("未知")
                     val size = songData.localInfo?.size ?: 0L
-                    binding.valueViewSize.setValue(size.parseSize())
+                    binding.valueViewSize.setValue(size.toSizeFormat())
                     binding.valueViewType.setValue("未知")
                 }
                 SOURCE_KUWO -> {

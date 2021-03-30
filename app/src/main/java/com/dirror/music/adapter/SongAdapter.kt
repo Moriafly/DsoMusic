@@ -15,7 +15,6 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
-import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
@@ -23,7 +22,7 @@ import com.dirror.music.service.playMusic
 import com.dirror.music.util.*
 import com.dirror.music.util.extensions.dp
 import com.dirror.music.util.extensions.parse
-import com.dirror.music.util.extensions.toArrayList
+import com.dso.ext.toArrayList
 
 /**
  * 歌曲适配器

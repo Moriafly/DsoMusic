@@ -1,6 +1,7 @@
 package com.dirror.music.ui.activity
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -9,13 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.databinding.ActivityLocalMusicBinding
 import com.dirror.music.music.local.LocalMusic
+import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
+import com.dirror.music.ui.playlist.SongSearchActivity
+import com.dirror.music.ui.playlist.SongSearchTransmit
+import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
+import kotlin.concurrent.thread
 
 class LocalMusicActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLocalMusicBinding
+
+    private var songList = ArrayList<StandardSongData>()
 
     override fun initBinding() {
         binding = ActivityLocalMusicBinding.inflate(layoutInflater)
@@ -32,8 +40,15 @@ class LocalMusicActivity : BaseActivity() {
     }
 
     override fun initListener() {
-        binding.ivScanMusic.setOnClickListener {
-            scanLocalMusicByCheckPermission()
+        with(binding) {
+            ivSearch.setOnClickListener {
+                thread {
+                    SongSearchTransmit.songList = songList
+                    runOnMainThread {
+                        startActivity(Intent(this@LocalMusicActivity, SongSearchActivity::class.java))
+                    }
+                }
+            }
         }
     }
 
@@ -82,6 +97,7 @@ class LocalMusicActivity : BaseActivity() {
             binding.rvLocalMusic.adapter = songAdapter
             binding.rvLocalMusic.layoutManager = LinearLayoutManager(this)
             binding.titleBar.setTitleBarText("本地音乐(${it.size})")
+            songList = it
             songAdapter.submitList(it)
         }, {
 

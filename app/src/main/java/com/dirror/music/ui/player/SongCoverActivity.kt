@@ -33,7 +33,7 @@ class SongCoverActivity : BaseActivity() {
 
     override fun initListener() {
         with(binding) {
-            photoView.setOnPhotoTapListener { view, x, y ->
+            photoView.setOnPhotoTapListener { _, _, _ ->
                 finish()
             }
         }

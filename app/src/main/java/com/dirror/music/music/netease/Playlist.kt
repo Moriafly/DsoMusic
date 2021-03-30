@@ -6,7 +6,7 @@ import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.averageAssignFixLength
+import com.dso.ext.averageAssignFixLength
 import com.google.gson.Gson
 import okhttp3.FormBody
 import org.jetbrains.annotations.TestOnly

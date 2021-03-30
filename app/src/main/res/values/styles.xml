@@ -51,6 +51,7 @@
     </style>
 
     <style name="default_edit_text">
+        <item name="android:textCursorDrawable">@drawable/text_cursor_drawable</item>
         <item name="android:textSize">@dimen/defaultTextSize</item>
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">8dp</item>

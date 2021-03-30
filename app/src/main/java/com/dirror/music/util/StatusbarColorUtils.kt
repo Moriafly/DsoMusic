@@ -182,10 +182,8 @@ object StatusbarColorUtils {
             changeMeizuFlag(window.attributes, "MEIZU_FLAG_DARK_STATUS_BAR_ICON", dark)
         } else {
             val decorView = window.decorView
-            if (decorView != null) {
-                setStatusBarDarkIcon(decorView, dark)
-                setStatusBarColor(window, 0)
-            }
+            setStatusBarDarkIcon(decorView, dark)
+            setStatusBarColor(window, 0)
         }
     }
 

@@ -1,11 +1,10 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySplashBinding
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.home.MainActivity
 import com.dirror.music.util.Config
 
 /**

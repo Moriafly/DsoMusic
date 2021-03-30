@@ -110,15 +110,16 @@
 
                     <ImageView
                         android:id="@+id/ivPlay"
+                        android:padding="8dp"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:background="@drawable/background_button_icon"
-                        android:padding="2dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_pause_btn" />
+                        app:srcCompat="@drawable/ic_mini_player_pause"
+                        tools:ignore="VectorDrawableCompat" />
 
                     <ImageView
                         android:id="@+id/ivNext"
@@ -130,7 +131,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/ivPlay"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_play_next" />
+                        app:srcCompat="@drawable/ic_play_next"
+                        tools:ignore="VectorDrawableCompat" />
 
                     <ImageView
                         android:id="@+id/ivLast"
@@ -143,7 +145,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/ivPlay"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_play_next" />
+                        app:srcCompat="@drawable/ic_play_next"
+                        tools:ignore="VectorDrawableCompat" />
 
                     <ImageView
                         android:id="@+id/ivMode"
@@ -351,7 +354,8 @@
                 android:rotation="270"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_back" />
+                app:srcCompat="@drawable/ic_back"
+                tools:ignore="VectorDrawableCompat" />
 
             <ImageView
                 android:id="@+id/ivVolume"
@@ -365,7 +369,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_volume"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription,VectorDrawableCompat" />
 
             <SeekBar
                 android:id="@+id/seekBarVolume"
@@ -394,7 +398,8 @@
                 android:padding="18dp"
                 app:layout_constraintBottom_toTopOf="@+id/clMenu"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/ic_translation" />
+                app:srcCompat="@drawable/ic_translation"
+                tools:ignore="VectorDrawableCompat" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,7 +21,7 @@ class AboutActivity : BaseActivity() {
 
         const val SPONSOR = "https://moriafly.gitee.io/dso-page/page/sponsor.html"
 
-        private const val QQ_GROUP_KEY = "3UvEVCjzhLc3uTDO91DadcjMscFD2OHj"
+        private const val QQ_GROUP_KEY = "p-8u-ET_WM5c_QWByacQHG6DD3fgE0SP"
     }
 
     private lateinit var binding: ActivityAboutBinding

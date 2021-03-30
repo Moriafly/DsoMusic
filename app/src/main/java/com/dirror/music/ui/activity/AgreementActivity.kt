@@ -5,6 +5,7 @@ import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityAgreementBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.home.MainActivity
 import com.dirror.music.util.Config
 import com.dirror.music.util.Secure
 

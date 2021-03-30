@@ -16,15 +16,16 @@
         app:text="@string/local_music">
 
         <ImageView
-            android:id="@+id/ivScanMusic"
+            android:id="@+id/ivSearch"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:alpha="0.85"
-            android:padding="18dp"
+            android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/mz_titlebar_ic_refresh_dark" />
+            app:srcCompat="@drawable/ic_search"
+            tools:ignore="VectorDrawableCompat"
+            android:contentDescription="@string/search" />
     </com.dirror.music.widget.TitleBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
