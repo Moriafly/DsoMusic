@@ -106,6 +106,7 @@ class SongAdapter(
                 transformations(RoundedCornersTransformation(dp2px(6f)))
                 size(ViewSizeResolver(ivCover))
                 error(R.drawable.ic_song_cover)
+                crossfade(300)
             }
 
             tvTitle.text = song.name

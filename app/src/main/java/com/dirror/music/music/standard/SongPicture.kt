@@ -10,6 +10,7 @@ import com.dirror.music.R
 import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.music.standard.data.*
+import com.dirror.music.util.CoilUtil
 import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.extensions.dp
 import com.dirror.music.util.loge
@@ -68,10 +69,12 @@ object SongPicture {
                     "${songData.imageUrl}?param=${size}y${size}"
                 }
                 loge("getPlayerActivityCoverBitmap网易云图片url【${songData.imageUrl}?param=${size}y${size}】")
-
                 GlideUtil.load(url) {
                     success.invoke(it)
                 }
+//                CoilUtil.load(context, url) {
+//                    success.invoke(it)
+//                }
             }
             SOURCE_QQ -> {
                 // val url = "https://y.gtimg.cn/music/photo_new/T002R${size}x${size}M000${songData.imageUrl}.jpg?max_age=2592000"

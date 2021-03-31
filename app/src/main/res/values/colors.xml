@@ -60,4 +60,7 @@
     <color name="lrc_timeline_text_color">#343434</color>
     <color name="lrc_timeline_color">#809E9E9E</color>
     <color name="lrc_time_text_color">#809E9E9E</color>
+
+    <color name="dso_color_lyrics_back">#73FFFFFF</color>
+    <color name="white_alpha_10">#2EFFFFFF</color>
 </resources>

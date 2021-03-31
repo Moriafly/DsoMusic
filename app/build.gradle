@@ -27,10 +27,10 @@ android {
 
     defaultConfig {
         applicationId "com.dirror.music"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
-        versionCode 698
-        versionName "空里流霜不觉飞"
+        versionCode 700
+        versionName "流光测试"
 
         multiDexEnabled true
 

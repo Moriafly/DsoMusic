@@ -153,7 +153,7 @@ class SettingsActivity : BaseActivity() {
             val path = data?.data.toString()
             path.let {
                 toast("设置成功")
-                GlideUtil.load(it) { bitmap ->
+                CoilUtil.load(this, it) { bitmap ->
                     thread {
                         ACache.get(this).put(Config.APP_THEME_BACKGROUND, bitmap)
                     }

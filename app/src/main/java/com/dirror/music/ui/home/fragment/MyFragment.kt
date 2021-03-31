@@ -14,7 +14,7 @@ import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
 import com.dirror.music.MyApplication
-import com.dirror.music.adapter.PlaylistAdapter
+import com.dirror.music.adapter.MyPlaylistAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.databinding.FragmentMyBinding
 import com.dirror.music.ui.activity.LocalMusicActivity
@@ -174,7 +174,7 @@ class MyFragment : BaseFragment() {
     private fun setPlaylist(playlist: ArrayList<PlaylistData>) {
         runOnMainThread {
 
-            binding.rvPlaylist.adapter = activity?.let { it1 -> PlaylistAdapter(playlist, it1) }
+            binding.rvPlaylist.adapter = activity?.let { it1 -> MyPlaylistAdapter(playlist, it1) }
         }
     }
 

@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.size.ViewSizeResolver
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.netease.data.LastMsgData
 import com.dirror.music.music.netease.data.PrivateLetterData
-import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.extensions.dp
 import com.google.gson.Gson
 
@@ -34,7 +35,10 @@ class PrivateLetterAdapter(private val privateLetterMsgsData: ArrayList<PrivateL
         val msg = privateLetterMsgsData[position]
         holder.tvName.text = msg.fromUser.nickname
         val picUrl = MyApplication.cloudMusicManager.getPicture(msg.fromUser.avatarUrl, 48.dp())
-        GlideUtil.load(picUrl, holder.ivCover)
+        holder.ivCover.load(picUrl) {
+            size(ViewSizeResolver(holder.ivCover))
+            crossfade(300)
+        }
         holder.tvContent.text = Gson().fromJson(msg.lastMsg, LastMsgData::class.java).msg
     }
 

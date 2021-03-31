@@ -31,8 +31,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -42,12 +44,10 @@ import android.widget.SeekBar
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.palette.graphics.Palette
 import coil.load
 import coil.size.ViewSizeResolver
-import coil.transform.CircleCropTransformation
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.dirror.lyricviewx.OnPlayClickListener
 import com.dirror.lyricviewx.OnSingleClickListener
 import com.dirror.music.MyApplication
@@ -66,7 +66,7 @@ import com.dirror.music.util.*
 import com.dirror.music.util.extensions.asDrawable
 import com.dirror.music.util.extensions.colorAlpha
 import com.dirror.music.util.extensions.colorMix
-import jp.wasabeef.glide.transformations.BlurTransformation
+import eightbitlab.com.blurview.RenderScriptBlur
 
 /**
  * PlayerActivity
@@ -86,8 +86,8 @@ class PlayerActivity : SlideBackActivity() {
         private const val BACKGROUND_SCALE_X = 2.5F
 
         // 背景模糊系数
-        private const val BLUR_RADIUS = 15
-        private const val BLUR_SAMPLING = 5
+        private const val BLUR_RADIUS = 15f
+        private const val BLUR_SAMPLING = 5f
 
         // 动画循环时长
         private const val DURATION_CD = 27_500L
@@ -125,6 +125,8 @@ class PlayerActivity : SlideBackActivity() {
         }
     }
 
+    private var previousBitmap: Bitmap? = null
+
     override fun initBinding() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -161,6 +163,16 @@ class PlayerActivity : SlideBackActivity() {
                 topMargin = getStatusBarHeight(window, this@PlayerActivity)
             }
         }
+
+        val radius = 25f
+        val decorView: View = window.decorView
+        val windowBackground: Drawable = decorView.background
+        binding.blurViewLyric?.setupWith(decorView.findViewById(R.id.clLyricBackground))
+            ?.setFrameClearDrawable(windowBackground)
+            ?.setBlurAlgorithm(RenderScriptBlur(this))
+            ?.setBlurRadius(radius)
+            ?.setOverlayColor(ContextCompat.getColor(this, R.color.dso_color_lyrics_back))
+            ?.setHasFixedTransformationMatrix(true)
 
         binding.apply {
             // 时长右对齐
@@ -383,7 +395,69 @@ class PlayerActivity : SlideBackActivity() {
         registerReceiver(musicBroadcastReceiver, intentFilter)
     }
 
+
     override fun initObserver() {
+        MyApplication.musicController.observe(this@PlayerActivity, { nullableController ->
+            nullableController?.let { controller ->
+                // 当前歌曲的观察
+                controller.getPlayingSongData().observe(this@PlayerActivity, {
+                    objectAnimator.cancel()
+                    objectAnimator.start()
+
+                    it?.let {
+                        binding.tvName.text = it.name
+                        binding.tvArtist.text = it.artists?.let { artists ->
+                            parseArtist(artists)
+                        }
+                        // 刷新歌词
+                        playViewModel.updateLyric()
+                        // 是否有红心
+                        MyFavorite.isExist(it) { exist ->
+                            runOnMainThread {
+                                if (exist) {
+                                    binding.ivLike.setImageDrawable(R.drawable.mc_collectingview_red_heart.asDrawable(this@PlayerActivity))
+                                } else {
+                                    binding.ivLike.setImageDrawable(R.drawable.mz_titlebar_ic_collect.asDrawable(this@PlayerActivity))
+                                }
+                            }
+                        }
+                    }
+                })
+                // 封面观察
+                controller.getPlayerCover().observe(this@PlayerActivity, { bitmap ->
+                    // 设置 CD 图片
+                    binding.ivCover.load(bitmap) {
+                        placeholder(previousBitmap?.toDrawable(resources))
+                        size(ViewSizeResolver(binding.ivCover))
+                        crossfade(500)
+                    }
+                    previousBitmap = bitmap
+                    // 设置 背景 图片
+                    binding.ivBackground.load(bitmap) {
+                        allowHardware(false)
+                        transformations(coil.transform.BlurTransformation(this@PlayerActivity, BLUR_RADIUS, BLUR_SAMPLING))
+                        size(ViewSizeResolver(binding.ivBackground))
+                    }
+                    binding.lyricsBackground?.setArtwork(bitmap)
+                    // 设置色调
+                    bitmap?.let {
+                        Palette.from(bitmap)
+                            .clearFilters()
+                            .generate { palette ->
+                                palette?.let {
+                                    val muteColor = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                        palette.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                    } else {
+                                        palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                    }
+                                    val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
+                                    playViewModel.color.value = muteColor.colorMix(vibrantColor)
+                                }
+                            }
+                    }
+                })
+            }
+        })
         playViewModel.apply {
             // 播放模式的观察
             playMode.observe(this@PlayerActivity, {
@@ -394,61 +468,7 @@ class PlayerActivity : SlideBackActivity() {
                     BaseMediaService.MODE_RANDOM -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
                 }
             })
-            // 当前歌曲的观察
-            MyApplication.musicController.value?.getPlayingSongData()?.observe(this@PlayerActivity, {
-                objectAnimator.cancel()
-                objectAnimator.start()
 
-                it?.let {
-                    binding.tvName.text = it.name
-                    binding.tvArtist.text = it.artists?.let { artists ->
-                        parseArtist(artists)
-                    }
-                    // 刷新歌词
-                    playViewModel.updateLyric()
-                    // 是否有红心
-                    MyFavorite.isExist(it) { exist ->
-                        runOnMainThread {
-                            if (exist) {
-                                binding.ivLike.setImageDrawable(R.drawable.mc_collectingview_red_heart.asDrawable(this@PlayerActivity))
-                            } else {
-                                binding.ivLike.setImageDrawable(R.drawable.mz_titlebar_ic_collect.asDrawable(this@PlayerActivity))
-                            }
-                        }
-                    }
-                }
-            })
-            // 封面观察
-            MyApplication.musicController.value?.getPlayerCover()?.observe(this@PlayerActivity, { bitmap ->
-                // 设置 CD 图片
-                binding.ivCover.load(bitmap) {
-                    placeholder(binding.ivCover.drawable)
-                    transformations(CircleCropTransformation())
-                    size(ViewSizeResolver(binding.ivCover))
-                }
-                // 设置 背景 图片
-                Glide.with(this@PlayerActivity)
-                    .load(bitmap)
-                    .placeholder(binding.ivBackground.drawable)
-                    .apply(RequestOptions.bitmapTransform(BlurTransformation(BLUR_RADIUS, BLUR_SAMPLING)))
-                    .into(binding.ivBackground)
-                // 设置色调
-                bitmap?.let {
-                    Palette.from(bitmap)
-                        .clearFilters()
-                        .generate { palette ->
-                            palette?.let {
-                                val muteColor = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                    palette.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
-                                } else {
-                                    palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
-                                }
-                                val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
-                                playViewModel.color.value = muteColor.colorMix(vibrantColor)
-                            }
-                        }
-                }
-            })
             // 播放状态的观察
             MyApplication.musicController.observe(this@PlayerActivity, { nullableController ->
                 nullableController?.let { controller ->

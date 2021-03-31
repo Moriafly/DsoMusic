@@ -6,8 +6,8 @@ import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import coil.load
+import coil.size.ViewSizeResolver
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.SongAdapter
@@ -16,7 +16,6 @@ import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.*
-import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlin.concurrent.thread
 
 /**
@@ -35,7 +34,7 @@ class SongPlaylistActivity: BaseActivity() {
 
     private val songPlaylistViewModel: SongPlaylistViewModel by viewModels()
 
-    val adapter = SongAdapter() {
+    val adapter = SongAdapter {
         SongMenuDialog(this, this, it) {
             if (songPlaylistViewModel.tag.value == TAG_LOCAL_MY_FAVORITE) {
                 MyFavorite.deleteById(it.id ?: "")
@@ -119,15 +118,14 @@ class SongPlaylistActivity: BaseActivity() {
             })
             playlistUrl.observe(this@SongPlaylistActivity, {
                 if (it != null) {
-                    GlideUtil.load(it) { bitmap ->
-                        runOnMainThread {
-                            binding.ivCover.setImageBitmap(bitmap)
-                            Glide.with(MyApplication.context)
-                                .load(bitmap)
-                                .placeholder(binding.ivBackground.drawable)
-                                .apply(RequestOptions.bitmapTransform(BlurTransformation(50, 10)))
-                                .into(binding.ivBackground)
-                        }
+                    binding.ivCover.load(it) {
+                        size(ViewSizeResolver(binding.ivCover))
+                        crossfade(300)
+                    }
+                    binding.ivBackground.load(it) {
+                        size(ViewSizeResolver(binding.ivBackground))
+                        transformations(coil.transform.BlurTransformation(this@SongPlaylistActivity, 25f, 10f))
+                        crossfade(300)
                     }
                 }
             })

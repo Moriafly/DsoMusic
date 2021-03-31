@@ -9,11 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.size.ViewSizeResolver
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.player.PlayerActivity
-import com.dirror.music.util.GlideUtil
 import com.dirror.music.util.parseArtist
 
 /**
@@ -37,7 +38,13 @@ class NewSongAdapter(private val songDataList: ArrayList<StandardSongData>): Rec
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val songData = songDataList[position]
         holder.apply {
-            songData.imageUrl?.let { GlideUtil.load(it, ivCover) }
+            songData.imageUrl?.let {
+                ivCover.load(it) {
+                    allowHardware(false)
+                    size(ViewSizeResolver(ivCover))
+                    crossfade(300)
+                }
+            }
             tvName.text = songData.name
             tvTrackCount.text = songData.artists?.let { parseArtist(it) }
             clTrack.setOnClickListener {

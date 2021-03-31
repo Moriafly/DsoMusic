@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.size.ViewSizeResolver
+import coil.transform.CircleCropTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.CommentData
-import com.dirror.music.util.GlideUtil
-import com.dirror.music.util.extensions.dp
 import com.dirror.music.util.msTimeToFormatDate
 
 /**
@@ -39,7 +40,11 @@ class CommentAdapter(private val commentData: CommentData, private val activity:
             tvContent.text = commentData.hotComments[position].content
             tvLikedCount.text = commentData.hotComments[position].likedCount.toString()
             tvTime.text = msTimeToFormatDate(commentData.hotComments[position].time)
-            GlideUtil.loadCircle(commentData.hotComments[position].user.avatarUrl, holder.ivCover, 36.dp())
+            ivCover.load(commentData.hotComments[position].user.avatarUrl) {
+                transformations(CircleCropTransformation())
+                size(ViewSizeResolver(ivCover))
+                crossfade(300)
+            }
 
             ivCover.setOnClickListener {
                 MyApplication.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)

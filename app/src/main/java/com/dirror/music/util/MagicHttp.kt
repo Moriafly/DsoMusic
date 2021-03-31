@@ -27,6 +27,7 @@ package com.dirror.music.util
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.dirror.music.util.cache.ACache
 import okhttp3.*
 import okhttp3.OkHttpClient
@@ -43,6 +44,8 @@ import kotlin.coroutines.suspendCoroutine
  * @author Moriafly
  */
 object MagicHttp {
+
+    const val TAG = "MagicHttp"
 
     const val DEFAULT_CACHE_TIME_GET = 4 * ACache.TIME_HOUR
     const val DEFAULT_CACHE_TIME_POST = ACache.TIME_DAY
@@ -102,6 +105,7 @@ object MagicHttp {
 
                 client.newCall(request).enqueue(object : Callback {
                     override fun onResponse(call: Call, response: Response) {
+                        Log.e(TAG, "onResponse: newGet()", )
                         val string = response.body()?.string()?:""
                         // val string = response.body?.string()!!
                         success.invoke(string)
@@ -139,7 +143,7 @@ object MagicHttp {
 
                 client.newCall(request).enqueue(object : Callback {
                     override fun onResponse(call: Call, response: Response) {
-                        val string = response.body()?.string()?:""
+                        val string = response.body()?.string() ?: ""
                         success.invoke(string)
                     }
 

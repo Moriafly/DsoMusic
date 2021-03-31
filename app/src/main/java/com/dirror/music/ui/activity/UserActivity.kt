@@ -2,11 +2,11 @@ package com.dirror.music.ui.activity
 
 import android.annotation.SuppressLint
 import androidx.constraintlayout.widget.ConstraintLayout
+import coil.load
+import coil.size.ViewSizeResolver
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityUserBinding
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.GlideUtil
-import com.dirror.music.util.dp2px
 import com.dirror.music.util.getStatusBarHeight
 import com.dirror.music.util.runOnMainThread
 
@@ -35,8 +35,16 @@ class UserActivity : BaseActivity() {
         // toast("userId = $userId")
         MyApplication.cloudMusicManager.getUserDetail(userId, {
             runOnMainThread {
-                it.profile.backgroundUrl?.let { it1 -> GlideUtil.load(it1, binding.ivBackground, dp2px(200F).toInt()) }
-                GlideUtil.load(it.profile.avatarUrl, binding.ivCover)
+                it.profile.backgroundUrl?.let { it1 ->
+                    binding.ivBackground.load(it1) {
+                        size(ViewSizeResolver(binding.ivBackground))
+                        crossfade(300)
+                    }
+                }
+                binding.ivCover.load(it.profile.avatarUrl) {
+                    size(ViewSizeResolver(binding.ivBackground))
+                    crossfade(300)
+                }
                 binding.apply {
                     tvName.text = it.profile.nickname
                     tvUserId.text = "UID ${it.profile.userId}"
