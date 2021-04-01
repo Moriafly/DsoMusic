@@ -1,15 +1,17 @@
 package com.dirror.music.widget;
 
+import com.dirror.music.widget.lyricBackground.LyricsBackgroundView;
+
 /* compiled from: MusicApp */
 public class LyricsBackgroundRunnable implements Runnable {
-    public final /* synthetic */ LyricsBackgroundLayerView f;
+    public final /* synthetic */ LyricsBackgroundView f;
 
-    public LyricsBackgroundRunnable(LyricsBackgroundLayerView lyricsBackgroundLayerView) {
+    public LyricsBackgroundRunnable(LyricsBackgroundView lyricsBackgroundLayerView) {
         this.f = lyricsBackgroundLayerView;
     }
 
     public void run() {
-        LyricsBackgroundLayerView lyricsBackgroundLayerView = this.f;
+        LyricsBackgroundView lyricsBackgroundLayerView = this.f;
         lyricsBackgroundLayerView.setArtwork(lyricsBackgroundLayerView.currentBitmap);
         this.f.w = true;
     }

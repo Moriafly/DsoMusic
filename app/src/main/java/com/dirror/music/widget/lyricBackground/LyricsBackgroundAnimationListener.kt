@@ -1,9 +1,8 @@
 package com.dirror.music.widget.lyricBackground
 
 import android.view.animation.Animation
-import com.dirror.music.widget.LyricsBackgroundLayerView
 
-class LyricsBackgroundAnimationListener(private val lyricsBackgroundLayerView: LyricsBackgroundLayerView) :
+class LyricsBackgroundAnimationListener(private val lyricsBackgroundLayerView: LyricsBackgroundView) :
     Animation.AnimationListener {
     override fun onAnimationEnd(animation: Animation) {
         lyricsBackgroundLayerView.m = null

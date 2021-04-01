@@ -13,5 +13,7 @@
 .externalNativeBuild
 .cxx
 
-app/src/main/java/com/dirror/music/ui/activity/AgreementActivity.kt
-app/src/main/java/com/dirror/music/widget/LyricsBackgroundLayerView.java
+app/src/main/java/com/dirror/music/ui/activity/Ignore.kt
+app/src/main/java/com/dirror/music/widget/lyricBackground/LyricsBackgroundView.java
+app/libs/
+app/src/main/res/drawable-v24/
