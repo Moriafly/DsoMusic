@@ -12,3 +12,6 @@
 /captures
 .externalNativeBuild
 .cxx
+
+/app/src/main/java/com/dirror/music/ui/activity/AgreementActivity.kt
+/app/src/main/java/com/dirror/music/widget/LyricsBackgroundLayerView.java
