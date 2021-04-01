@@ -1,7 +1,6 @@
 package com.dirror.music.widget;
 
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -16,6 +15,7 @@ import android.graphics.Shader;
 import android.os.Build;
 import android.os.Debug;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -25,6 +25,7 @@ import android.view.animation.Transformation;
 import com.dirror.music.MyApplication;
 import com.dirror.music.R;
 import com.dirror.music.util.TopLevelFuncationKt;
+import com.dirror.music.widget.lyricBackground.LyricsBackgroundAnimationListener;
 //import g.a.a.a.c.b2;
 //import g.a.a.a.c.n0;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class LyricsBackgroundLayerView extends View {
     public static final Bitmap F = Bitmap.createBitmap(new int[]{-16777216}, 1, 1, Bitmap.Config.ARGB_8888);
     public float A;
     public final float f;
-    public Bitmap bitmapG;
+    public Bitmap currentBitmap;
     public Bitmap h;
     public final Map<Pair<Integer, Integer>, Pair<Bitmap, Bitmap>> i;
     public Bitmap j;
@@ -106,13 +107,13 @@ public class LyricsBackgroundLayerView extends View {
         this.i.clear();
     }
 
-    @SuppressLint("DrawAllocation")
     public void onDraw(Canvas canvas) {
-        Bitmap bitmap;
-        Bitmap bitmap2;
-        Bitmap bitmap3;
+
+        Bitmap drawBitmap1;
+        Bitmap drawBitmap2;
+        Bitmap drawBitmap3;
         Canvas canvas2 = canvas;
-        Bitmap bitmap4 = this.bitmapG;
+        Bitmap bitmap4 = this.currentBitmap;
         if (bitmap4 == null || bitmap4.isRecycled() || getWidth() == 0 || getHeight() == 0) {
             this.r.cancel();
             this.r.reset();
@@ -123,7 +124,7 @@ public class LyricsBackgroundLayerView extends View {
         }
         if (this.k == null || (this.t.isStarted() && !this.t.isPaused())) {
             long currentTimeMillis = System.currentTimeMillis();
-            Bitmap bitmap5 = this.bitmapG;
+            Bitmap bitmap5 = this.currentBitmap;
             float f2 = this.A;
             float f3 = this.z;
             int round = Math.round((((float) getWidth()) * 1.3f) / f3);
@@ -131,18 +132,18 @@ public class LyricsBackgroundLayerView extends View {
             Pair pair = new Pair(Integer.valueOf(round), Integer.valueOf(round2));
             if (this.i.containsKey(pair)) {
                 Pair pair2 = this.i.get(pair);
-                bitmap = (Bitmap) pair2.first;
-                bitmap2 = (Bitmap) pair2.second;
+                drawBitmap1 = (Bitmap) pair2.first;
+                drawBitmap2 = (Bitmap) pair2.second;
             } else {
-                bitmap = Bitmap.createBitmap(round, round2, Bitmap.Config.ARGB_8888);
+                drawBitmap1 = Bitmap.createBitmap(round, round2, Bitmap.Config.ARGB_8888);
                 Bitmap createBitmap = Bitmap.createBitmap(round, round2, Bitmap.Config.ARGB_8888);
-                this.i.put(pair, new Pair(bitmap, createBitmap));
-                bitmap2 = createBitmap;
+                this.i.put(pair, new Pair(drawBitmap1, createBitmap));
+                drawBitmap2 = createBitmap;
             }
-            if (this.j != bitmap) {
-                bitmap2 = bitmap;
+            if (this.j != drawBitmap1) {
+                drawBitmap2 = drawBitmap1;
             }
-            this.j = bitmap2;
+            this.j = drawBitmap2;
             Canvas canvas3 = new Canvas(this.j);
             float round3 = (float) Math.round(((float) Math.max(round, round2)) * 1.3f);
             float height = round3 / ((float) bitmap5.getHeight());
@@ -209,20 +210,20 @@ public class LyricsBackgroundLayerView extends View {
                 canvas4.drawBitmapMesh(bitmap6, 5, 5, fArr2, 0, (int[]) null, 0, (Paint) null);
                 pair3 = new Pair(bitmap6, canvas4);
             }
-            if (this.bitmapG != F) {
+            if (this.currentBitmap != F) {
                 Pair<Bitmap, Canvas> a = a((Bitmap) pair3.first, (Canvas) pair3.second, aa.a(getContext(), R.color.dso_color_lyrics_back), aa.a(getContext(), R.color.white_alpha_10));
                 getContext();
-                bitmap3 = (Bitmap) a.first;
+                drawBitmap3 = (Bitmap) a.first;
                 // n0.a(bitmap3, 25);
             } else {
-                bitmap3 = (Bitmap) pair3.first;
+                drawBitmap3 = (Bitmap) pair3.first;
             }
-            float width2 = (float) bitmap3.getWidth();
-            float height3 = (float) bitmap3.getHeight();
+            float width2 = (float) drawBitmap3.getWidth();
+            float height3 = (float) drawBitmap3.getHeight();
             Matrix matrix4 = new Matrix(this.o);
             matrix4.preTranslate((-(width2 - (width2 / 1.3f))) / 2.0f, (-(height3 - (height3 / 1.3f))) / 2.0f);
             Shader.TileMode tileMode = Shader.TileMode.MIRROR;
-            BitmapShader bitmapShader = new BitmapShader(bitmap3, tileMode, tileMode);
+            BitmapShader bitmapShader = new BitmapShader(drawBitmap3, tileMode, tileMode);
             bitmapShader.setLocalMatrix(matrix4);
             this.k = bitmapShader;
             if (!this.w && this.t.isStarted() && !this.t.isPaused()) {
@@ -257,7 +258,7 @@ public class LyricsBackgroundLayerView extends View {
             if (bitmap7 != null) {
                 this.h = null;
                 setArtwork(bitmap7);
-            } else if (!this.w && !this.y && this.bitmapG != F) {
+            } else if (!this.w && !this.y && this.currentBitmap != F) {
                 this.t.end();
                 this.u.end();
                 this.v.end();
@@ -282,7 +283,7 @@ public class LyricsBackgroundLayerView extends View {
             setArtwork(bitmap);
             return;
         }
-        Bitmap bitmap2 = this.bitmapG;
+        Bitmap bitmap2 = this.currentBitmap;
         if (bitmap2 != null) {
             setArtwork(bitmap2);
         }
@@ -298,38 +299,45 @@ public class LyricsBackgroundLayerView extends View {
         pause();
     }
 
+    /**
+     * 设置 Bitmap
+     * 传入非空
+     * @param bitmap
+     */
     public void setArtwork(Bitmap bitmap) {
         float[] a = new float[0];
-        Bitmap bitmap2 = this.bitmapG;
+        // 获取当前 bitmap
+        Bitmap bitmap2 = this.currentBitmap;
         if (bitmap != bitmap2 && bitmap != null && bitmap.sameAs(bitmap2)) {
             return;
         }
+        // 开启动画
         if (!this.r.hasStarted() || this.r.hasEnded()) {
             this.r.cancel();
             this.r.reset();
             this.t.cancel();
             this.u.cancel();
             this.v.cancel();
-            this.bitmapG = bitmap;
+            this.currentBitmap = bitmap;
             this.m = this.k;
             this.n.setShader(this.m);
             this.k = null;
-            Enum[] values = c0.values();
+            // 枚举
+            c0[] values = c0.values();
             int ordinal = values[0].ordinal();
             int nextInt = new Random().nextInt((values[values.length - 1].ordinal() - ordinal) + 1) + ordinal;
-            // g.c.b.a.a.b("random Mesh enum ordinal: ", nextInt);
+            Log.e(TAG, "setArtwork: random Mesh enum ordinal:" + nextInt);
             int length = values.length;
             int i2 = 0;
             while (true) {
                 if (i2 >= length) {
-                    // g.c.b.a.a.b("No Mesh enum found for ordinal: ", nextInt);
+                    Log.e(TAG, "setArtwork: No Mesh enum found for ordinal: " + nextInt);
                     a = c0.M1.a();
                     break;
                 }
-                Enum enumR = (c0) values[i2];
+                c0 enumR = values[i2];
                 if (nextInt == enumR.ordinal()) {
-                    a = c0.M1.a();
-                    // a = enumR.notify();
+                    a = enumR.a();
                     break;
                 }
                 i2++;
@@ -346,10 +354,14 @@ public class LyricsBackgroundLayerView extends View {
         this.h = bitmap;
     }
 
-    public void setReducedEffects(boolean z2) {
+    /**
+     * 设置减少特效
+     * @param value 是否打开
+     */
+    public void setReducedEffects(boolean value) {
         float f2;
         float f3;
-        if (z2) {
+        if (value) {
             f2 = E;
             f3 = 3.5f;
         } else {
@@ -364,7 +376,7 @@ public class LyricsBackgroundLayerView extends View {
             Matrix matrix = this.o;
             float f4 = this.z;
             matrix.setScale(f4, f4);
-            setArtwork(this.bitmapG);
+            setArtwork(this.currentBitmap);
         }
     }
 
@@ -426,7 +438,7 @@ public class LyricsBackgroundLayerView extends View {
     }
 
     public boolean a() {
-        return this.bitmapG == F;
+        return this.currentBitmap == F;
     }
 
     public static List<Bitmap> a(Bitmap bitmap, int i2, int i3, long j2, int i4, Context context) {

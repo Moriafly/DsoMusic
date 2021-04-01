@@ -82,13 +82,6 @@ class PlayerActivity : SlideBackActivity() {
         // Handle 消息，播放进度
         private const val MSG_PROGRESS = 0
 
-        private const val BACKGROUND_SCALE_Y = 1.5F
-        private const val BACKGROUND_SCALE_X = 2.5F
-
-        // 背景模糊系数
-        private const val BLUR_RADIUS = 15f
-        private const val BLUR_SAMPLING = 5f
-
         // 动画循环时长
         private const val DURATION_CD = 27_500L
         private const val ANIMATION_REPEAT_COUNTS = -1
@@ -167,19 +160,15 @@ class PlayerActivity : SlideBackActivity() {
         val radius = 25f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
-        binding.blurViewLyric?.setupWith(decorView.findViewById(R.id.clLyricBackground))
-            ?.setFrameClearDrawable(windowBackground)
-            ?.setBlurAlgorithm(RenderScriptBlur(this))
-            ?.setBlurRadius(radius)
-            ?.setOverlayColor(ContextCompat.getColor(this, R.color.dso_color_lyrics_back))
-            ?.setHasFixedTransformationMatrix(true)
+        binding.blurViewLyric.setupWith(decorView.findViewById(R.id.clLyricBackground))
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setOverlayColor(ContextCompat.getColor(this, R.color.dso_color_lyrics_back))
 
         binding.apply {
             // 时长右对齐
             ttvDuration.setAlignRight()
-            // 背景图片放大
-            ivBackground.scaleY = BACKGROUND_SCALE_Y
-            ivBackground.scaleX = BACKGROUND_SCALE_X
             // 默认隐藏翻译按钮
             ivTranslation.visibility = View.GONE
             // 初始化音量调节
@@ -432,13 +421,9 @@ class PlayerActivity : SlideBackActivity() {
                         crossfade(500)
                     }
                     previousBitmap = bitmap
-                    // 设置 背景 图片
-                    binding.ivBackground.load(bitmap) {
-                        allowHardware(false)
-                        transformations(coil.transform.BlurTransformation(this@PlayerActivity, BLUR_RADIUS, BLUR_SAMPLING))
-                        size(ViewSizeResolver(binding.ivBackground))
-                    }
-                    binding.lyricsBackground?.setArtwork(bitmap)
+                    // 设置流光背景
+                    binding.lyricsBackground.setArtwork(bitmap)
+                    binding.lyricsBackground.setReducedEffects(true)
                     // 设置色调
                     bitmap?.let {
                         Palette.from(bitmap)
@@ -576,7 +561,6 @@ class PlayerActivity : SlideBackActivity() {
      */
     private fun pauseRotateAlways() {
         playViewModel.rotation = binding.ivCover.rotation
-        playViewModel.rotationBackground = binding.ivBackground.rotation
         objectAnimator.pause()
     }
 

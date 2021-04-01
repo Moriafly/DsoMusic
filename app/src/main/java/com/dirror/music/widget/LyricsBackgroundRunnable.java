@@ -10,7 +10,7 @@ public class LyricsBackgroundRunnable implements Runnable {
 
     public void run() {
         LyricsBackgroundLayerView lyricsBackgroundLayerView = this.f;
-        lyricsBackgroundLayerView.setArtwork(lyricsBackgroundLayerView.bitmapG);
+        lyricsBackgroundLayerView.setArtwork(lyricsBackgroundLayerView.currentBitmap);
         this.f.w = true;
     }
 }

@@ -41,21 +41,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnAgree"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:background="@drawable/background_transparency"
-            android:minWidth="0dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="同意"
-            android:textColor="@color/colorAppThemeColor"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
@@ -122,6 +107,35 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
                 android:textColor="@color/colorTextForeground"
                 android:text="同意本协议后使用本软件一般不会再弹出本界面。
 若你不同意本协议请不要使用本软件并卸载本软件、移除安装包等（未同意本协议传播本软件同按协议处理）。"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:lineSpacingExtra="6dp"
+                android:textColor="@color/colorTextForeground"
+                android:text="为了防止一些恶意传播，不得已加入以下验证，希望理解。"/>
+
+            <EditText
+                android:id="@+id/etKey"
+                android:hint="激活码"
+                style="@style/default_edit_text"
+                />
+
+            <Button
+                android:id="@+id/btnAgree"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:background="@drawable/background_transparency"
+                android:minWidth="0dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="激活"
+                android:textColor="@color/colorAppThemeColor"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
     </ScrollView>

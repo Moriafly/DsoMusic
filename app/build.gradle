@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 700
-        versionName "流光测试"
+        versionCode 701
+        versionName "流光曲"
 
         multiDexEnabled true
 
