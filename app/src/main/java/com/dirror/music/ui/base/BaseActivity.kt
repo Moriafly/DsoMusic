@@ -11,6 +11,8 @@ import com.dirror.music.databinding.MiniPlayerBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.parse
+import com.dirror.music.util.sky.SkySecure
 
 /**
  * 基类 Activity
@@ -22,6 +24,9 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityCollector.addActivity(this)
+        if (SkySecure.checkXposed()) {
+            ActivityCollector.finishAll()
+        }
         initBinding()
         initData()
         initView()
@@ -65,7 +70,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 nullableController?.apply {
                     getPlayingSongData().observe(this@BaseActivity, { songData ->
                         songData?.let {
-                            mini.tvTitle.text = songData.name + " - " + songData.artists?.let { parseArtist(it) }
+                            mini.tvTitle.text = songData.name + " - " + songData.artists?.parse()
                         }
                     })
                     isPlaying().observe(this@BaseActivity, {

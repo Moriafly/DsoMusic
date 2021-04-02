@@ -111,14 +111,23 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="6dp"
+                android:padding="16dp"
+                android:text="再次声明不支持下载什么的，和那些垃圾的恶意传播的公众号等天花乱坠的描述差别很大。若你感到很大的落差，本开发者表示抱歉，这只是一个我用来练手的开源项目，我不欠你什么。"
+                android:textColor="@color/colorTextForeground"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:lineSpacingExtra="6dp"
                 android:textColor="@color/colorTextForeground"
-                android:text="为了防止一些恶意传播，不得已加入以下验证，希望理解。"/>
+                android:text="若你同意以上协议并要继续使用，请输入“我同意”三个字。"/>
 
             <EditText
                 android:id="@+id/etKey"
-                android:hint="激活码"
+                android:hint="口令"
                 style="@style/default_edit_text"
                 />
 

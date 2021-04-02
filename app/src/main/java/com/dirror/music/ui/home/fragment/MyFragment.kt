@@ -51,20 +51,6 @@ class MyFragment : BaseFragment() {
     override fun initListener() {
         binding.apply {
             clUser.setOnClickListener {
-//                if (Build.VERSION.SDK_INT >= 26) {
-//                    val solver = Animer.springiOSUIView(0.5f, 0.5f)
-//                    val animer: Animer<*> = Animer<Any?, Any?>(binding.clUser, solver, Animer.Y)
-//                    animer.start()
-//
-//
-//                    Animation(requireContext())
-//
-//                    val anim = Animator.setInterpolator(
-//                        PathInterpolator(0.42f,0f,0.58f,1f)
-//                    .setDuration(1)
-//                }
-
-
                 AnimationUtil.click(it)
                 if (MyApplication.userManager.getCurrentUid() == 0L) {
                     MyApplication.activityManager.startLoginActivity(requireActivity())
@@ -122,7 +108,6 @@ class MyFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     override fun initObserver() {
-        // binding.rvPlaylist.layoutManager =  gridLayoutManager
         mainViewModel.userId.observe(viewLifecycleOwner, {
             // 清空歌单
             myFragmentViewModel.clearPlaylist()
@@ -173,7 +158,6 @@ class MyFragment : BaseFragment() {
      */
     private fun setPlaylist(playlist: ArrayList<PlaylistData>) {
         runOnMainThread {
-
             binding.rvPlaylist.adapter = activity?.let { it1 -> MyPlaylistAdapter(playlist, it1) }
         }
     }

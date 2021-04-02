@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
-        <com.dirror.music.widget.lyricBackground.LyricsBackgroundLayerView
+        <com.dirror.music.widget.lyricBackground.LyricsBackgroundView
             android:id="@+id/lyricsBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -421,7 +421,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/titleBar"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="16dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -438,6 +438,7 @@
             android:paddingStart="19dp"
             android:paddingEnd="13dp"
             android:rotation="270"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

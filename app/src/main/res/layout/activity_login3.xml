@@ -49,6 +49,7 @@
         app:lottie_rawRes="@raw/lottie_fly" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,6 +68,7 @@
             android:text="@string/login_by_phone"
             android:textColor="@color/colorItemBackground"
             android:textSize="18sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/btnLoginByUid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -93,10 +95,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.72"
-        android:text="2.0"
+        android:text="3.0"
         android:textColor="@color/colorSubTextForeground"
         app:layout_constraintBottom_toTopOf="@+id/tvLogo"
         app:layout_constraintEnd_toEndOf="@+id/tvLogo" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="某些功能“死于”恶意传播"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,6 +33,7 @@
                 android:baselineAligned="false">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:visibility="gone"
                     android:id="@+id/clDaily"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -101,13 +102,11 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clDso"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
-
 
                     <ImageView
                         android:id="@+id/ivFavorite"

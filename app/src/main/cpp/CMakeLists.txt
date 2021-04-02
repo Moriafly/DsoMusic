@@ -46,3 +46,16 @@ target_link_libraries( # Specifies the target library.
         # Links the target library to the log library
         # included in the NDK.
         ${log-dso} )
+
+add_library(
+        cry
+        SHARED
+        cry.c)
+
+find_library(
+        log-cry
+        log )
+
+target_link_libraries(
+        cry
+        ${log-cry} )

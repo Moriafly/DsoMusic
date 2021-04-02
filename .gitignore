@@ -13,7 +13,9 @@
 .externalNativeBuild
 .cxx
 
-app/src/main/java/com/dirror/music/ui/activity/Ignore.kt
 app/src/main/java/com/dirror/music/widget/lyricBackground/LyricsBackgroundView.java
 app/libs/
 app/src/main/res/drawable-v24/
+
+app/src/main/cpp/cry.c
+"app/release/\346\265\201\345\205\211\346\233\262.apk"

@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
-        <com.dirror.music.widget.lyricBackground.LyricsBackgroundLayerView
+        <com.dirror.music.widget.lyricBackground.LyricsBackgroundView
             android:id="@+id/lyricsBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

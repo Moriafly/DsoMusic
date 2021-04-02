@@ -19,7 +19,6 @@ import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 
-
 /**
  * 自定义 Application
  * @author Moriafly
@@ -31,6 +30,7 @@ class MyApplication : Application() {
         // 加载本地库
         init {
             System.loadLibrary("dso")
+            System.loadLibrary("cry")
         }
 
         lateinit var config: Config

@@ -210,10 +210,10 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clKuwo"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="gone">
+                android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/ivKuwo"

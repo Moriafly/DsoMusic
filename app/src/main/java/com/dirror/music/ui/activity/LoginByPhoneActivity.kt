@@ -3,12 +3,16 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
+import com.dirror.music.R
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
+import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.viewmodel.LoginCellphoneViewModel
 import com.dirror.music.util.runOnMainThread
+import com.dirror.music.util.sky.SkySecure
 import com.dirror.music.util.toast
+import com.dso.ext.md5
 
 class LoginByPhoneActivity : BaseActivity() {
 
@@ -17,12 +21,12 @@ class LoginByPhoneActivity : BaseActivity() {
     lateinit var binding: ActivityLoginByPhoneBinding
 
     override fun initBinding() {
-//        if (SkySecure.getMD5(getString(R.string.app_name)) == SkySecure.getAppNameMd5()) {
+        if (getString(R.string.app_name).md5() == SkySecure.getAppNameMd5()) {
             binding = ActivityLoginByPhoneBinding.inflate(layoutInflater)
             setContentView(binding.root)
-//        } else {
-//            ActivityCollector.finishAll()
-//        }
+        } else {
+            ActivityCollector.finishAll()
+        }
     }
 
     override fun initListener() {

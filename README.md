@@ -22,10 +22,6 @@ GNU 通用公共许可协议 [GNU GENERAL PUBLIC LICENSE Version 3](http://www.g
 
 详见 [LICENSE](https://github.com/Moriafly/dirror-music/blob/master/LICENSE)
 
-# 应用下载
-
-https://github.com/Moriafly/DsoMusic/releases
-
 # 音源
 
 网易云音乐来源（但不限于）：https://github.com/Binaryify/NeteaseCloudMusicApi
@@ -69,10 +65,10 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [x] 新歌速递
 - [x] 热搜列表(详细)
 - [x] 通知 - 私信
-- [x] 喜欢音乐
+- [ ] 喜欢音乐(3.0 移除)
 - [x] 默认搜索关键词
 - [x] banner
-- [x] 手机登录
+- [ ] 手机登录(3.0 移除)
 - [x] 发送/删除评论
 - [x] 获取用户信息
 - [x] 搜索
