@@ -151,6 +151,14 @@ class MyFragment : BaseFragment() {
             }
             binding.rvPlaylist.layoutManager = GridLayoutManager(this.context, count)
         })
+        mainViewModel.neteaseLiveVisibility.observe(viewLifecycleOwner, {
+            binding.clUserCloud.visibility = if (it) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+
+        })
     }
 
     /**
@@ -160,11 +168,6 @@ class MyFragment : BaseFragment() {
         runOnMainThread {
             binding.rvPlaylist.adapter = activity?.let { it1 -> MyPlaylistAdapter(playlist, it1) }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // _binding = null
     }
 
 }

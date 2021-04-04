@@ -21,7 +21,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (MyApplication.config.mmkv.decodeBool(Config.SHOW_AGREEMENT, true)) {
+        if (MyApplication.mmkv.decodeBool(Config.SHOW_AGREEMENT, true)) {
             startActivity(Intent(this, AgreementActivity::class.java))
         } else {
             val intent = Intent(this, MainActivity::class.java)

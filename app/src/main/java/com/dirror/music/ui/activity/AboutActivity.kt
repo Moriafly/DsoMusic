@@ -76,7 +76,7 @@ class AboutActivity : BaseActivity() {
 
             moriafly.setOnLongClickListener {
                 toast("Moriafly settings reset")
-                MyApplication.config.mmkv.encode(Config.SHOW_AGREEMENT, true)
+                MyApplication.mmkv.encode(Config.SHOW_AGREEMENT, true)
                 return@setOnLongClickListener true
             }
         }

@@ -27,7 +27,7 @@ object UserCloud {
             .add("limit", "50")
             .add("offset", "$offset")
             .build()
-        MagicHttp.OkHttpManager().newPost(TEST_API, requestBody) {
+        MagicHttp.OkHttpManager().newPost(TEST_API, requestBody, {
             // Log.e(TAG, "getUserCloud: $it", )
             try {
                 val userCloudData = Gson().fromJson(it, UserCloudData::class.java)
@@ -35,7 +35,9 @@ object UserCloud {
             } catch (e: Exception) {
                 failure.invoke(ErrorCode.ERROR_JSON)
             }
-        }
+        }, {
+
+        })
     }
 
 }

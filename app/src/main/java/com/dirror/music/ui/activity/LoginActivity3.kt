@@ -2,10 +2,12 @@ package com.dirror.music.ui.activity
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivityLogin3Binding
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.util.Config
 import com.dirror.music.util.getStatusBarHeight
 
 /**
@@ -22,6 +24,12 @@ class LoginActivity3 : BaseActivity() {
     }
 
     override fun initView() {
+        if (MyApplication.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)) {
+            binding.btnLoginByPhone.visibility = View.VISIBLE
+        } else {
+            binding.btnLoginByPhone.visibility = View.GONE
+        }
+
         (binding.btnCancel.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@LoginActivity3)
         }

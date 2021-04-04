@@ -20,6 +20,8 @@ class MainViewModel: ViewModel() {
         it.value = MyApplication.userManager.getCurrentUid()
     }
 
+    var neteaseLiveVisibility = MutableLiveData(false)
+
     /**
      * 设置用户 id
      */
@@ -28,7 +30,8 @@ class MainViewModel: ViewModel() {
     }
 
     fun updateUI() {
-        singleColumnPlaylist.value = MyApplication.config.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false)
+        neteaseLiveVisibility.value = MyApplication.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
+        singleColumnPlaylist.value = MyApplication.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false)
     }
 
 }

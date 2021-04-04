@@ -11,19 +11,25 @@ import com.google.gson.Gson
 import okhttp3.FormBody
 
 @Keep
-class LoginCellphoneViewModel: ViewModel() {
+class LoginCellphoneViewModel : ViewModel() {
 
     /**
      * 手机号登录
      */
-    fun loginByCellphone(api: String,phone: String, password: String, success: (UserDetailData) -> Unit, failure: (Int) -> Unit) {
+    fun loginByCellphone(
+        api: String,
+        phone: String,
+        password: String,
+        success: (UserDetailData) -> Unit,
+        failure: (Int) -> Unit
+    ) {
         val passwordMD5 = SkySecure.getMD5(password)
         val requestBody = FormBody.Builder()
             .add("phone", phone)
             .add("countrycode", "86")
             .add("md5_password", passwordMD5)
             .build()
-        MagicHttp.OkHttpManager().newPost("${api}/login/cellphone", requestBody) {
+        MagicHttp.OkHttpManager().newPost("${api}/login/cellphone", requestBody, {
             try {
                 val userDetail = Gson().fromJson(it, UserDetailData::class.java)
                 if (userDetail.code != 200) {
@@ -36,9 +42,10 @@ class LoginCellphoneViewModel: ViewModel() {
             } catch (e: Exception) {
                 failure.invoke(ErrorCode.ERROR_MAGIC_HTTP)
             }
-        }
+        }, {
+            failure(ErrorCode.ERROR_MAGIC_HTTP)
+        })
     }
-
 
 
 }

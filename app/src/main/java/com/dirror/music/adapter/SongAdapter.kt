@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApplication.Companion.mmkv
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
@@ -40,7 +40,7 @@ class SongAdapter(
         private val ivMenu: ImageView = view.findViewById(R.id.ivMenu)
         val ivTag: ImageView = view.findViewById(R.id.ivTag)
 
-        val isAnimation = MyApplication.config.mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true)
+        val isAnimation = mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true)
 
         var songData: StandardSongData? = null
 

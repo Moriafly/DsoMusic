@@ -46,7 +46,7 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.dirror.lyricviewx.LyricEntry
 import com.dirror.music.MyApplication
-import com.dirror.music.MyApplication.Companion.config
+import com.dirror.music.MyApplication.Companion.mmkv
 import com.dirror.music.R
 import com.dirror.music.broadcast.BecomingNoisyReceiver
 import com.dirror.music.music.local.PlayHistory
@@ -89,13 +89,13 @@ open class MusicService : BaseMediaService() {
     private val musicController by lazy { MusicController() }
 
     /* 播放模式 */
-    private var mode: Int = config.mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
+    private var mode: Int = mmkv.decodeInt(Config.PLAY_MODE, MODE_CIRCLE)
 
     /* 通知管理 */
     private var notificationManager: NotificationManager? = null
 
     /* 是否开启音频焦点 */
-    private var isAudioFocus = config.mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true)
+    private var isAudioFocus = mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true)
 
     /* 音频会话 */
     private var mediaSession: MediaSessionCompat? = null
@@ -353,7 +353,7 @@ open class MusicService : BaseMediaService() {
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
         /* 是否开启了状态栏歌词 */
-        var statusBarLyric = config.mmkv.decodeBool(Config.MEIZU_STATUS_BAR_LYRIC, true)
+        var statusBarLyric = mmkv.decodeBool(Config.MEIZU_STATUS_BAR_LYRIC, true)
 
         /* 是否是恢复 */
         private var recover = false
@@ -385,7 +385,7 @@ open class MusicService : BaseMediaService() {
             isPrepared = false
             songData.value = song
             // 保存当前播放音乐
-            config.mmkv.encode(Config.SERVICE_CURRENT_SONG, song)
+            mmkv.encode(Config.SERVICE_CURRENT_SONG, song)
             Log.e(TAG, "onDestroy: 成功保存歌曲恢复到 mmkv：${song.name}")
 
             // 如果 MediaPlayer 已经存在，释放
@@ -398,7 +398,7 @@ open class MusicService : BaseMediaService() {
                 ServiceSongUrl.getUrl(song) {
                     when (it) {
                         is String -> {
-                            if (!InternetState.isWifi(MyApplication.context) && !config.mmkv.decodeBool(
+                            if (!InternetState.isWifi(MyApplication.context) && !mmkv.decodeBool(
                                     Config.PLAY_ON_MOBILE,
                                     false
                                 )
@@ -536,7 +536,7 @@ open class MusicService : BaseMediaService() {
                         audioManager.abandonAudioFocusRequest(audioFocusRequest)
                     }
                     isAudioFocus = status
-                    config.mmkv.encode(Config.ALLOW_AUDIO_FOCUS, isAudioFocus)
+                    mmkv.encode(Config.ALLOW_AUDIO_FOCUS, isAudioFocus)
                 }
             }
         }
@@ -630,7 +630,7 @@ open class MusicService : BaseMediaService() {
                 }
             }
             // 将播放模式存储
-            config.mmkv.encode(Config.PLAY_MODE, mode)
+            mmkv.encode(Config.PLAY_MODE, mode)
             sendMusicBroadcast()
         }
 
@@ -724,7 +724,7 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
-            if (config.mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)) {
+            if (mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)) {
                 // 播放下一首
                 toast("播放错误 (${p1},${p2}) ，开始播放下一首")
                 playNext()
@@ -768,7 +768,7 @@ open class MusicService : BaseMediaService() {
         val song = musicController.getPlayingSongData().value
         GlobalScope.launch {
             Log.e(TAG, "refreshNotification: 协程开启")
-            val bitmap = if (config.mmkv.decodeBool(Config.INK_SCREEN_MODE, false)) {
+            val bitmap = if (mmkv.decodeBool(Config.INK_SCREEN_MODE, false)) {
                 R.drawable.ic_song_cover.asDrawable(MyApplication.context)?.toBitmap(128.dp(), 128.dp())
             } else {
                 musicController.getSongCover(128.dp())

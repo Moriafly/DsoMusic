@@ -29,8 +29,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".ui.playlist.SongSearchActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.live.NeteaseCloudMusicApiActivity"></activity>
+        <activity
+            android:name=".ui.playlist.SongSearchActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.player.SongCoverActivity"
             android:theme="@style/AppTheme.FullScreen" />

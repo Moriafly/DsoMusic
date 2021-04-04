@@ -90,7 +90,7 @@ object Playlist {
                     .add("withCredentials", "true")
                     .add("realIP", "211.161.244.70")
                     .build()
-                MagicHttp.OkHttpManager().newPost(SONG_DETAIL_URL, requestBody) {
+                MagicHttp.OkHttpManager().newPost(SONG_DETAIL_URL, requestBody, {
                     loge(it, "json")
                     try {
                         val data = Gson().fromJson(it, CompatSearchData::class.java)
@@ -110,7 +110,9 @@ object Playlist {
                     } catch (e: Exception) {
                         failure.invoke()
                     }
-                }
+                }, {
+
+                })
             }
 
         }, {

@@ -273,7 +273,7 @@ class CloudMusicManager: CloudMusicManagerInterface {
 
     override fun loginByUid(uid: String, success: () -> Unit) {
         getUserDetail(uid, {
-            MyApplication.config.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
+            MyApplication.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
             // UID 登录清空 Cookie
             MyApplication.userManager.setCloudMusicCookie("")
             success.invoke()

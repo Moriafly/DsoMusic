@@ -16,31 +16,38 @@ class UserManager: UserManagerInterface {
     }
 
     override fun isUidLogin(): Boolean {
-        val uid = MyApplication.config.mmkv.decodeLong(Config.UID, defaultUid)
+        val uid = MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
         return uid != defaultUid
     }
 
     override fun getCurrentUid(): Long {
-        return MyApplication.config.mmkv.decodeLong(Config.UID, defaultUid)
+        return MyApplication.mmkv.decodeLong(Config.UID, defaultUid)
     }
 
     override fun setUid(uid: Long) {
-        MyApplication.config.mmkv.encode(Config.UID, uid)
+        MyApplication.mmkv.encode(Config.UID, uid)
     }
 
     override fun getCloudMusicCookie(): String {
-        return MyApplication.config.mmkv.decodeString(Config.CLOUD_MUSIC_COOKIE, DEFAULT_COOKIE)
+        return MyApplication.mmkv.decodeString(Config.CLOUD_MUSIC_COOKIE, DEFAULT_COOKIE)
     }
 
     /**
      * 设置网易云音乐用户 Cookie
      */
     override fun setCloudMusicCookie(cookie: String) {
-        MyApplication.config.mmkv.encode(Config.CLOUD_MUSIC_COOKIE, cookie)
+        MyApplication.mmkv.encode(Config.CLOUD_MUSIC_COOKIE, cookie)
     }
 
     override fun hasCookie(): Boolean {
         return MyApplication.userManager.getCloudMusicCookie().isNotEmpty()
+    }
+
+    /**
+     * 获取用户配置的 NeteaseCloudMusicApi
+     */
+    fun getUserNeteaseCloudMusicApi(): String {
+        return MyApplication.mmkv.decodeString(Config.USER_NETEASE_CLOUD_MUSIC_API_URL, "")
     }
 
 }

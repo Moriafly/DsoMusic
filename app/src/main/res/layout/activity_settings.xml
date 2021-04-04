@@ -409,6 +409,17 @@
                 android:layout_height="56dp"
                 app:text="@string/clear_image_cache"/>
 
+            <TextView
+                android:text="@string/service"
+                style="@style/style_settings_title" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemNeteaseCloudMusicApi"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="NeteaseCloudMusicApi"
+                android:layout_marginBottom="12dp"/>
+
         </LinearLayout>
     </ScrollView>
 

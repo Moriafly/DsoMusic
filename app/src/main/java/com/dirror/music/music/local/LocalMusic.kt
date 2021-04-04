@@ -81,13 +81,13 @@ object LocalMusic {
                     if (size == 0L) {
                         continue
                     }
-                    if (MyApplication.config.mmkv.decodeBool(Config.SMART_FILTER, true)) {
+                    if (MyApplication.mmkv.decodeBool(Config.SMART_FILTER, true)) {
                         if (size <= 500_000) {
                             continue
                         }
                     }
                     // 是否过滤录音
-                    if (MyApplication.config.mmkv.decodeBool(Config.FILTER_RECORD, true)) {
+                    if (MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, true)) {
                         if (artist == "Meizu Recorder") {
                             continue
                         }

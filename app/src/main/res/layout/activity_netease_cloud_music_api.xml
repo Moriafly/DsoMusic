@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.live.NeteaseCloudMusicApiActivity">
+
+    <com.dirror.music.widget.TitleBarLayout
+        android:id="@+id/titleBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/defaultHeight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:text="@string/netease_cloud_music_api">
+
+    </com.dirror.music.widget.TitleBarLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleBarLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="@string/enable_service">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherEnableService"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <TextView
+                android:text="@string/explain"
+                style="@style/style_settings_title" />
+
+            <TextView
+                android:text="因为被一些网站和公众号等恶意传播，软件已经移除内置一些服务，
+现提供自定义配置"
+                style="@style/defaultValueText" />
+
+            <TextView
+                android:text="@string/netease_cloud_music_api"
+                style="@style/style_settings_title" />
+
+            <EditText
+                android:id="@+id/etService"
+                android:hint="请配置服务地址"
+                style="@style/default_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:text="可以自行配置 NeteaseCloudMusicApi 本地服务等，需要 NeteaseCloudMusicApi 3.30.0 及以上版本"
+                style="@style/defaultValueText" />
+
+            <TextView
+                android:text="Dso Music 使用此自定义接口项"
+                style="@style/style_settings_title" />
+
+            <TextView
+                android:text="手机号登录"
+                style="@style/defaultValueText" />
+
+            <TextView
+                android:text="链接"
+                style="@style/style_settings_title" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemNeteaseCloudMusicApiGithub"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="访问 NeteaseCloudMusicApi Github"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

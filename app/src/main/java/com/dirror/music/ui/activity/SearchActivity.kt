@@ -214,7 +214,7 @@ class SearchActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // 保存搜索引擎
-        MyApplication.config.mmkv.encode(Config.SEARCH_ENGINE, searchViewModel.searchEngine.value ?: SearchViewModel.ENGINE_NETEASE)
+        MyApplication.mmkv.encode(Config.SEARCH_ENGINE, searchViewModel.searchEngine.value ?: SearchViewModel.ENGINE_NETEASE)
     }
 
     override fun onBackPressed() {

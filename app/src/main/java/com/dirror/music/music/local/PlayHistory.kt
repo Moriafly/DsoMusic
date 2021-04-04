@@ -25,7 +25,7 @@ object PlayHistory {
             playHistory.list.add(0, songData)
             // playlist.add(songData)
         }
-        MyApplication.config.mmkv.encode(Config.PLAY_HISTORY, playHistory)
+        MyApplication.mmkv.encode(Config.PLAY_HISTORY, playHistory)
 
     }
 
@@ -33,7 +33,7 @@ object PlayHistory {
      * 读取播放历史
      */
     suspend fun readPlayHistory(): ArrayList<StandardSongData> {
-        playHistory = MyApplication.config.mmkv.decodeParcelable(Config.PLAY_HISTORY, PlayHistoryData::class.java, PlayHistoryData(
+        playHistory = MyApplication.mmkv.decodeParcelable(Config.PLAY_HISTORY, PlayHistoryData::class.java, PlayHistoryData(
             ArrayList()
         ))
         return playHistory.list

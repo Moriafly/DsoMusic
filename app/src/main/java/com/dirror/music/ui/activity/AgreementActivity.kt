@@ -36,7 +36,7 @@ class AgreementActivity : BaseActivity() {
         binding.btnAgree.setOnClickListener {
             val key = binding.etKey.text.toString()
             if (key == "我同意") {
-                MyApplication.config.mmkv.encode(Config.SHOW_AGREEMENT, false)
+                MyApplication.mmkv.encode(Config.SHOW_AGREEMENT, false)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()

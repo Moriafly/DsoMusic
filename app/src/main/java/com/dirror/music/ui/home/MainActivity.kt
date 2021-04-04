@@ -277,7 +277,7 @@ class MainActivity : BaseActivity() {
      */
     private fun updateView() {
         // 适配导航栏
-        val navigationBarHeight = if (MyApplication.config.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
+        val navigationBarHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
             getNavigationBarHeight(this)
         } else {
             0

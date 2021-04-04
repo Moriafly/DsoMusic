@@ -28,14 +28,16 @@ object SongUrl {
             .add("realIP", "211.161.244.70")
             .add("id", id)
             .build()
-        MagicHttp.OkHttpManager().newPost(API, requestBody) {
+        MagicHttp.OkHttpManager().newPost(API, requestBody, {
             try {
                 val songUrlData = Gson().fromJson(it, SongUrlData::class.java)
                 success.invoke(songUrlData.data[0].url ?: "")
             } catch (e: Exception) {
                 // failure.invoke(ErrorCode.ERROR_JSON)
             }
-        }
+        }, {
+
+        })
     }
 
 }

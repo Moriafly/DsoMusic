@@ -39,7 +39,7 @@ class HomeFragment : BaseFragment(){
     override fun initView() {
         update()
 
-        if (!MyApplication.config.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)) {
+        if (!MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)) {
             binding.tvFoyou.visibility =View.GONE
             binding.includeFoyou.root.visibility = View.GONE
         }
@@ -90,6 +90,13 @@ class HomeFragment : BaseFragment(){
                 topMargin = it + 56.dp()
             }
         })
+        mainViewModel.neteaseLiveVisibility.observe(viewLifecycleOwner, {
+            binding.clDaily.visibility = if (it) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        })
     }
 
     private fun changeSentence() {
@@ -131,12 +138,6 @@ class HomeFragment : BaseFragment(){
                 }
             }
         }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // _binding = null
     }
 
 }

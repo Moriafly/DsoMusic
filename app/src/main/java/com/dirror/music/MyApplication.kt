@@ -33,7 +33,7 @@ class MyApplication : Application() {
             System.loadLibrary("cry")
         }
 
-        lateinit var config: Config
+        lateinit var mmkv: MMKV
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context // 注入懒加载 全局 context
@@ -67,8 +67,7 @@ class MyApplication : Application() {
         context = applicationContext
         // MMKV 初始化
         MMKV.initialize(context)
-
-        config = Config()
+        mmkv = MMKV.defaultMMKV()
         // 管理初始化
         userManager = UserManager()
         activityManager = ActivityManager()
@@ -78,7 +77,7 @@ class MyApplication : Application() {
         // 安全检查
         checkSecure()
 
-        if (config.mmkv.decodeBool(Config.DARK_THEME, false)) {
+        if (mmkv.decodeBool(Config.DARK_THEME, false)) {
             DarkThemeUtil.setDarkTheme(true)
         }
 

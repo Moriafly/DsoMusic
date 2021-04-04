@@ -15,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
+            android:singleLine="true"
             android:id="@+id/etSearch"
             style="@style/default_edit_text"
             android:layout_width="match_parent"

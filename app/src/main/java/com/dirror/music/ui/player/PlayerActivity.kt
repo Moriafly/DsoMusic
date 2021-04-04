@@ -139,7 +139,7 @@ class PlayerActivity : SlideBackActivity() {
             }
         } else {
             // 页面导航栏适配
-            val navigationHeight = if (MyApplication.config.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
+            val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
                 getNavigationBarHeight(this@PlayerActivity)
             } else {
                 0
@@ -441,6 +441,24 @@ class PlayerActivity : SlideBackActivity() {
                             }
                     }
                 })
+                controller.isPlaying().observe(this@PlayerActivity, {
+                    if (it) {
+                        binding.ivPlay.contentDescription = getString(R.string.pause_music)
+                        binding.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
+                        handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
+                        startRotateAlways()
+                        binding.diffuseView.start()
+                    } else {
+                        binding.ivPlay.contentDescription = getString(R.string.play_music)
+                        binding.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
+                        handler.removeMessages(MSG_PROGRESS)
+                        pauseRotateAlways()
+                        binding.diffuseView.stop()
+                    }
+                })
+                controller.getLyricEntryList().observe(this@PlayerActivity, {
+
+                })
             }
         })
         playViewModel.apply {
@@ -451,30 +469,6 @@ class PlayerActivity : SlideBackActivity() {
                     BaseMediaService.MODE_CIRCLE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
                     BaseMediaService.MODE_REPEAT_ONE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
                     BaseMediaService.MODE_RANDOM -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
-                }
-            })
-
-            // 播放状态的观察
-            MyApplication.musicController.observe(this@PlayerActivity, { nullableController ->
-                nullableController?.let { controller ->
-                    controller.isPlaying().observe(this@PlayerActivity, {
-                        if (it) {
-                            binding.ivPlay.contentDescription = getString(R.string.pause_music)
-                            binding.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
-                            handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
-                            startRotateAlways()
-                            binding.diffuseView.start()
-                        } else {
-                            binding.ivPlay.contentDescription = getString(R.string.play_music)
-                            binding.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
-                            handler.removeMessages(MSG_PROGRESS)
-                            pauseRotateAlways()
-                            binding.diffuseView.stop()
-                        }
-                    })
-                    controller.getLyricEntryList().observe(this@PlayerActivity, {
-
-                    })
                 }
             })
             // 总时长的观察

@@ -42,7 +42,7 @@ class PlayerViewModel: ViewModel() {
     }
 
     var lyricTranslation = MutableLiveData<Boolean>().also {
-        it.value = MyApplication.config.mmkv.decodeBool(Config.LYRIC_TRANSLATION, true)
+        it.value = MyApplication.mmkv.decodeBool(Config.LYRIC_TRANSLATION, true)
     }
 
     // 对内
@@ -177,7 +177,7 @@ class PlayerViewModel: ViewModel() {
             lyricViewData.value = LyricViewData(_lyricViewData.value!!.lyric, "true")
         }
         // updateLyric()
-        MyApplication.config.mmkv.encode(Config.LYRIC_TRANSLATION, open)
+        MyApplication.mmkv.encode(Config.LYRIC_TRANSLATION, open)
     }
 
     /**

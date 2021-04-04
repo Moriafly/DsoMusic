@@ -17,6 +17,6 @@ class SearchViewModel: ViewModel() {
     }
 
     /* 搜索引擎 */
-    var searchEngine = MutableLiveData(MyApplication.config.mmkv.decodeInt(Config.SEARCH_ENGINE, ENGINE_NETEASE))
+    var searchEngine = MutableLiveData(MyApplication.mmkv.decodeInt(Config.SEARCH_ENGINE, ENGINE_NETEASE))
 
 }

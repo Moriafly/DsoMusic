@@ -3,6 +3,7 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
@@ -40,7 +41,7 @@ class LoginByPhoneActivity : BaseActivity() {
                 binding.llLoading.visibility = View.VISIBLE
                 binding.lottieLoading.repeatCount = -1
                 binding.lottieLoading.playAnimation()
-                loginCellphoneViewModel.loginByCellphone(API_AUTU, phone, password, {
+                loginCellphoneViewModel.loginByCellphone(MyApplication.userManager.getUserNeteaseCloudMusicApi(), phone, password, {
                     // 发送广播
                     val intent = Intent("com.dirror.music.LOGIN")
                     intent.setPackage(packageName)
@@ -56,7 +57,7 @@ class LoginByPhoneActivity : BaseActivity() {
                         if (code == 250) {
                             toast("错误代码：250\n当前登录失败，请稍后再试")
                         } else {
-                            toast("登录失败，请检查用户名或者密码")
+                            toast("登录失败，请检查服务、用户名或密码")
                         }
                     }
                 })

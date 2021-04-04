@@ -58,7 +58,7 @@ object MagicHttp {
         @Deprecated("过时方法，请使用 newPost")
         fun post(url: String, json: String, success: (String) -> Unit)
 
-        fun newPost(api: String, requestBody: RequestBody, success: (String) -> Unit)
+        fun newPost(api: String, requestBody: RequestBody, success: (String) -> Unit, failure: (Int) -> Unit)
 
         /**
          * 支持缓存
@@ -155,7 +155,7 @@ object MagicHttp {
             }
         }
 
-        override fun newPost(api: String, requestBody: RequestBody, success: (String) -> Unit) {
+        override fun newPost(api: String, requestBody: RequestBody, success: (String) -> Unit, failure: (Int) -> Unit) {
             try {
                 val client = OkHttpClient.Builder()
                     // .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("110.243.17.83", 9999)))
@@ -181,10 +181,11 @@ object MagicHttp {
                     }
 
                     override fun onFailure(call: Call, e: IOException) {
+                        failure(ErrorCode.ERROR_MAGIC_HTTP)
                     }
                 })
             } catch (e: Exception) {
-                e.printStackTrace()
+                failure(ErrorCode.ERROR_MAGIC_HTTP)
             }
         }
 

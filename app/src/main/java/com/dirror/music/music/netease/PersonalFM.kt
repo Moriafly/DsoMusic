@@ -1,6 +1,7 @@
 package com.dirror.music.music.netease
 
 import com.dirror.music.MyApplication
+import com.dirror.music.util.ErrorCode
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import okhttp3.FormBody
@@ -19,16 +20,18 @@ object PersonalFM {
      * 获取 私人 FM
      * 失败的回调 [failure]
      */
-    fun get(failure: () -> Unit) {
+    fun get(failure: (Int) -> Unit) {
         val requestBody = FormBody.Builder()
             .add("crypto", "weapi")
             .add("cookie", MyApplication.userManager.getCloudMusicCookie())
             .add("withCredentials", "true")
             .add("realIP", "211.161.244.70")
             .build()
-        MagicHttp.OkHttpManager().newPost(API, requestBody) {
+        MagicHttp.OkHttpManager().newPost(API, requestBody, {
             loge(it, "FM")
-        }
+        }, {
+            failure(ErrorCode.ERROR_MAGIC_HTTP)
+        })
     }
 
 }
