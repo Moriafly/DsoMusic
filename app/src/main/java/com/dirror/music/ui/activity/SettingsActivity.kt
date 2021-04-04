@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.provider.MediaStore
 import android.view.View
+import com.dirror.music.MyApplication
 import com.dirror.music.MyApplication.Companion.mmkv
 import com.dirror.music.MyApplication.Companion.musicController
 import com.dirror.music.databinding.ActivitySettingsBinding
@@ -114,6 +115,10 @@ class SettingsActivity : BaseActivity() {
             ) }
 
             switcherSmartFilter.setOnCheckedChangeListener { mmkv.encode(Config.SMART_FILTER, it) }
+
+            switcherAudioFocus.setOnCheckedChangeListener {
+                musicController.value?.setAudioFocus(it)
+            }
 
             itemCustomBackground.setOnClickListener {
                 val intent = Intent(Intent.ACTION_PICK, null)

@@ -51,7 +51,7 @@
 
             <TextView
                 android:text="因为被一些网站和公众号等恶意传播，软件已经移除内置一些服务，
-现提供自定义配置"
+现提供自定义配置，配置成功后可以使用手机号登录等功能"
                 style="@style/defaultValueText" />
 
             <TextView

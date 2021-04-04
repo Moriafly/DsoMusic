@@ -16,21 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:text="@string/about_dso_music">
 
-        <Button
-            android:id="@+id/btnSponsor"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:background="@drawable/background_transparency"
-            android:minWidth="0dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="@string/sponsor"
-            android:textColor="@color/colorAppThemeColor"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </com.dirror.music.widget.TitleBarLayout>
 
     <ScrollView
@@ -77,10 +62,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:paddingStart="@dimen/defaultPadding"
-                android:paddingEnd="@dimen/defaultPadding"
                 android:text="声明及协议"
-                style="@style/sub_title"/>
+                style="@style/style_settings_title"/>
 
             <TextView
                 style="@style/defaultValueText"
@@ -88,12 +71,9 @@
 Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支持正版音乐。
 基于本开源项目的其他开发者项目、软件，与本开发者无关（依据 GPL 3 免责协议）。"/>
 
-
             <TextView
-                android:paddingStart="@dimen/defaultPadding"
-                android:paddingEnd="@dimen/defaultPadding"
                 android:text="@string/open_source_introduction"
-                style="@style/sub_title"/>
+                style="@style/style_settings_title"/>
 
             <TextView
                 style="@style/defaultValueText"
@@ -133,10 +113,8 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
 
 
             <TextView
-                android:paddingStart="@dimen/defaultPadding"
-                android:paddingEnd="@dimen/defaultPadding"
                 android:text="维护"
-                style="@style/sub_title"/>
+                style="@style/style_settings_title"/>
 
             <com.dirror.music.widget.ValueView
                 app:text="思路提供"
@@ -163,15 +141,9 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />
 
-
-
-
-
             <TextView
-                android:paddingStart="@dimen/defaultPadding"
-                android:paddingEnd="@dimen/defaultPadding"
                 android:text="@string/contact_author"
-                style="@style/sub_title"/>
+                style="@style/style_settings_title"/>
 
             <TextView
                 android:text="@string/slogan"
@@ -190,20 +162,16 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
                 android:layout_height="40dp" />
 
             <TextView
-                android:paddingStart="@dimen/defaultPadding"
-                android:paddingEnd="@dimen/defaultPadding"
                 android:text="感谢"
-                style="@style/sub_title"/>
+                style="@style/style_settings_title"/>
 
             <TextView
                 android:text="相聚是缘，感谢每一位用户~"
                 style="@style/defaultValueText" />
 
             <TextView
-                android:paddingStart="@dimen/defaultPadding"
-                android:paddingEnd="@dimen/defaultPadding"
                 android:text="媒体编解码器"
-                style="@style/sub_title"/>
+                style="@style/style_settings_title"/>
 
             <TextView
                 android:id="@+id/tvMediaCodec"

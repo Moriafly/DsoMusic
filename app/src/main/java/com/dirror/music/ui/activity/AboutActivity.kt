@@ -60,10 +60,6 @@ class AboutActivity : BaseActivity() {
             }
             // 使用开源项目
             itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity, OpenSourceActivity::class.java)) }
-            // 赞赏
-            btnSponsor.setOnClickListener {
-                MyApplication.activityManager.startWebActivity(this@AboutActivity, SPONSOR)
-            }
             // ivLogo
             ivLogo.setOnLongClickListener {
                 AppInfoDialog(this@AboutActivity).show()
