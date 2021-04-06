@@ -106,13 +106,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/local_music"
+                    android:layout_marginBottom="16dp"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="12sp"
-                    tools:ignore="ContentDescription"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivLocal" />
+                    app:layout_constraintTop_toBottomOf="@+id/ivLocal"
+                    tools:ignore="ContentDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -171,19 +173,17 @@
 
                 <TextView
                     android:id="@+id/textView6"
-                    tools:ignore="ContentDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:text="@string/my_favorite_songs"
                     android:textAlignment="center"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivFavorite" />
+                    app:layout_constraintTop_toBottomOf="@+id/ivFavorite"
+                    tools:ignore="ContentDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -193,15 +193,15 @@
                 android:id="@+id/clPersonalFM"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="gone">
+                android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/ivPersonalFM"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginTop="16dp"
-                    android:padding="6dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="7dp"
                     android:src="@drawable/ic_personal_fm"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

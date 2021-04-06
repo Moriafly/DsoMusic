@@ -135,6 +135,24 @@
         tools:visibility="visible">
 
         <TextView
+            android:id="@+id/tvTag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:alpha="0.5"
+            android:maxWidth="100dp"
+            android:paddingStart="1dp"
+            android:singleLine="true"
+            android:text="私人 FM"
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorTextForeground"
+            android:textSize="12sp"
+            android:transitionName="tvArtist"
+            app:layout_constraintEnd_toEndOf="@+id/tvName"
+            app:layout_constraintStart_toStartOf="@+id/tvName"
+            app:layout_constraintTop_toBottomOf="@+id/tvArtist" />
+
+        <TextView
             android:id="@+id/tvArtist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

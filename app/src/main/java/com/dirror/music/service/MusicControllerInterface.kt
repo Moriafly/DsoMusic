@@ -171,4 +171,9 @@ interface MusicControllerInterface {
      */
     fun setRecoverProgress(value: Int)
 
+    /**
+     * 设置是否打开私人 FM
+     */
+    fun setPersonFM(open: Boolean)
+
 }

@@ -89,8 +89,9 @@
                 <Button
                     android:id="@+id/btnDownload"
                     style="@style/dso_style_button_default"
-                    android:layout_marginStart="8dp"
                     android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
                     android:text="下载" />
 
             </LinearLayout>

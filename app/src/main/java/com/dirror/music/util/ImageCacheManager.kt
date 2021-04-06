@@ -3,8 +3,6 @@ package com.dirror.music.util
 import android.content.Context
 import android.os.Looper
 import android.text.TextUtils
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory
 import com.dirror.music.MyApplication
 import java.io.File
 import java.math.BigDecimal
@@ -47,11 +45,11 @@ object ImageCacheManager {
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) {
                 Thread {
-                    Glide.get(context!!).clearDiskCache()
+                    // Glide.get(context!!).clearDiskCache()
                     // BusUtil.getBus().post(new GlideCacheClearSuccessEvent());
                 }.start()
             } else {
-                Glide.get(context!!).clearDiskCache()
+                // Glide.get(context!!).clearDiskCache()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -64,7 +62,7 @@ object ImageCacheManager {
     private fun clearImageMemoryCache(context: Context?) {
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) { //只能在主线程执行
-                Glide.get(context!!).clearMemory()
+                //  Glide.get(context!!).clearMemory()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -74,13 +72,13 @@ object ImageCacheManager {
     /**
      * 清除图片所有缓存
      */
-    fun clearImageAllCache(context: Context) {
-        clearImageDiskCache(context)
-        clearImageMemoryCache(context)
-        val imageExternalCatchDir =
-            context.externalCacheDir.toString() + ExternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR
-        deleteFolderFile(imageExternalCatchDir, true)
-    }
+//    fun clearImageAllCache(context: Context) {
+//        clearImageDiskCache(context)
+//        clearImageMemoryCache(context)
+//        val imageExternalCatchDir =
+//            context.externalCacheDir.toString() + ExternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR
+//        deleteFolderFile(imageExternalCatchDir, true)
+//    }
 
     /**
      * 获取缓存大小

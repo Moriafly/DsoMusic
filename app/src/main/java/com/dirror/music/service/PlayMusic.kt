@@ -12,6 +12,7 @@ import com.dirror.music.ui.player.PlayerActivity
  * 播放音乐
  */
 fun playMusic(context: Context?, song: StandardSongData, songList: ArrayList<StandardSongData>) {
+    MyApplication.musicController.value?.setPersonFM(false)
     // 获取 position
     val position = if (songList.indexOf(song) == -1) {
         0

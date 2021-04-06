@@ -83,4 +83,6 @@ object Config {
     /* 用户自定义 NeteaseCloudMusicApi */
     const val USER_NETEASE_CLOUD_MUSIC_API_URL = "string_user_netease_cloud_music_api_url"
 
+    // 是否打开了私人 FM 模式
+    const val PERSON_FM_MODE = "boolean_person_fm_mode"
 }

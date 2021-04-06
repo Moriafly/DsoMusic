@@ -3,17 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dirror.music">
 
-    <uses-sdk tools:overrideLibrary="com.martinrgb.animer" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- <uses-permission android:name="android.permission.RECORD_AUDIO" /> -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
         android:name="android.permission.MEDIA_CONTENT_CONTROL"
         tools:ignore="ProtectedPermissions" />
@@ -29,7 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".ui.live.NeteaseCloudMusicApiActivity"></activity>
+        <activity android:name=".ui.live.NeteaseCloudMusicApiActivity" />
         <activity
             android:name=".ui.playlist.SongSearchActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -89,6 +87,16 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:authorities="com.dirror.music.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:name="androidx.core.content.FileProvider">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
         <service
             android:name=".service.MusicService"
             android:exported="false" />
@@ -98,6 +106,7 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

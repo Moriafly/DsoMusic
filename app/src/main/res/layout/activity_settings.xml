@@ -9,9 +9,9 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="52dp"
         android:overScrollMode="never"
         android:scrollbars="none"
-        android:layout_marginBottom="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 style="@style/style_settings_title"
@@ -394,31 +394,31 @@
             </com.dirror.music.widget.ItemLayout>
 
             <TextView
-                android:text="@string/cache"
-                style="@style/style_settings_title" />
+                style="@style/style_settings_title"
+                android:text="@string/cache" />
 
             <com.dirror.music.widget.ValueView
                 android:id="@+id/valueViewImageCache"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:text="@string/image_cache"/>
+                app:text="@string/image_cache" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemClearImageCache"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:text="@string/clear_image_cache"/>
+                app:text="@string/clear_image_cache" />
 
             <TextView
-                android:text="@string/service"
-                style="@style/style_settings_title" />
+                style="@style/style_settings_title"
+                android:text="@string/service" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemNeteaseCloudMusicApi"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:text="NeteaseCloudMusicApi"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="12dp"
+                app:text="NeteaseCloudMusicApi" />
 
         </LinearLayout>
     </ScrollView>

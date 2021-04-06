@@ -89,10 +89,16 @@ class MyFragment : BaseFragment() {
             }
             clPersonalFM.setOnClickListener {
                 AnimationUtil.click(it)
-                toast("还未做好，占个位置~")
-//                PersonalFM.get {
-//
-//                }
+                if (MyApplication.userManager.hasCookie()) {
+                    if (MyApplication.musicController.value?.personFM?.value != true) {
+                        MyApplication.musicController.value?.setPersonFM(true)
+                        MyApplication.activityManager.startPlayerActivity(requireActivity())
+                    } else {
+                        MyApplication.activityManager.startPlayerActivity(requireActivity())
+                    }
+                } else {
+                    ErrorCode.toast(ErrorCode.ERROR_NOT_COOKIE)
+                }
             }
             // 用户云盘
             clUserCloud.setOnClickListener {
@@ -152,10 +158,12 @@ class MyFragment : BaseFragment() {
             binding.rvPlaylist.layoutManager = GridLayoutManager(this.context, count)
         })
         mainViewModel.neteaseLiveVisibility.observe(viewLifecycleOwner, {
-            binding.clUserCloud.visibility = if (it) {
-                View.VISIBLE
+            if (it) {
+                binding.clUserCloud.visibility = View.VISIBLE
+                binding.clPersonalFM.visibility = View.VISIBLE
             } else {
-                View.GONE
+                binding.clUserCloud.visibility = View.GONE
+                binding.clPersonalFM.visibility = View.GONE
             }
 
         })

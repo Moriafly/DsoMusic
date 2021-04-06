@@ -4,15 +4,11 @@ import android.content.Intent
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityAboutBinding
-import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.service.test.TestMediaCodeInfo
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.AppInfoDialog
 import com.dirror.music.util.*
 
-/**
- * 2.0 新版 AboutActivity
- */
 class AboutActivity : BaseActivity() {
 
     companion object {

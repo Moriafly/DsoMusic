@@ -57,8 +57,10 @@ object PlayQueue {
             MyApplication.appDatabase.playQueueDao().loadAll().forEach {
                 MyApplication.appDatabase.playQueueDao().deleteById(it.songData.id ?: "")
             }
-            currentQueue.value?.forEach {
-                MyApplication.appDatabase.playQueueDao().insert(PlayQueueData(it))
+            currentQueue.value?.let {
+                for (song in it) {
+                    MyApplication.appDatabase.playQueueDao().insert(PlayQueueData(song))
+                }
             }
         }
     }

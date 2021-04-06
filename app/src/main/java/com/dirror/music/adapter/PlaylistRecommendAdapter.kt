@@ -57,6 +57,7 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
         holder.ivCover.load(playlist.picUrl) {
             size(ViewSizeResolver(holder.ivCover))
             transformations(RoundedCornersTransformation(dp2px(8f)))
+            crossfade(300)
         }
         holder.clPlaylist.setOnClickListener {
             val intent = Intent(it.context, SongPlaylistActivity::class.java)

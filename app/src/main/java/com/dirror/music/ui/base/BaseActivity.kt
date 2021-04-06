@@ -59,7 +59,13 @@ abstract class BaseActivity : AppCompatActivity() {
         miniPlayer?.let { mini ->
             mini.apply {
                 root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@BaseActivity) }
-                ivPlayQueue.setOnClickListener { PlaylistDialog().show(supportFragmentManager, null) }
+                ivPlayQueue.setOnClickListener {
+                    if (MyApplication.musicController.value?.personFM?.value != true) {
+                        PlaylistDialog().show(supportFragmentManager, null)
+                    } else {
+                        toast("当前为私人 FM 模式")
+                    }
+                }
                 ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
             }
             MyApplication.musicController.observe(this, { nullableController ->

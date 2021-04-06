@@ -42,6 +42,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
+import androidx.media.session.MediaButtonReceiver
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.dirror.lyricviewx.LyricEntry
@@ -50,7 +51,7 @@ import com.dirror.music.MyApplication.Companion.mmkv
 import com.dirror.music.R
 import com.dirror.music.broadcast.BecomingNoisyReceiver
 import com.dirror.music.music.local.PlayHistory
-import com.dirror.music.music.standard.SongPicture
+import com.dirror.music.music.netease.PersonalFM
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.service.player.DsoPlayer
@@ -58,8 +59,7 @@ import com.dirror.music.ui.home.MainActivity
 import com.dirror.music.ui.player.PlayerActivity
 import com.dirror.music.util.*
 import com.dirror.music.util.extensions.*
-import com.dso.ext.next
-import com.dso.ext.previous
+import com.dso.ext.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
@@ -308,6 +308,7 @@ open class MusicService : BaseMediaService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        MediaButtonReceiver.handleIntent(mediaSession, intent)
         when (intent?.getIntExtra("int_code", 0)) {
             CODE_PREVIOUS -> musicController.playPrevious()
             CODE_PLAY -> {
@@ -371,6 +372,36 @@ open class MusicService : BaseMediaService() {
 
         /* Song cover bitmap*/
         private val coverBitmap = MutableLiveData<Bitmap?>()
+
+        /* 是否开启私人 FM 模式 */
+        var personFM = MutableLiveData<Boolean>().also {
+            it.value = mmkv.decodeBool(Config.PERSON_FM_MODE, false)
+        }
+
+        override fun setPersonFM(open: Boolean) {
+            if (open) {
+                personFM.value = true
+                mmkv.encode(Config.PERSON_FM_MODE, true)
+
+                mode = MODE_CIRCLE
+                PlayQueue.normal()
+                // 将播放模式存储
+                mmkv.encode(Config.PLAY_MODE, mode)
+                sendMusicBroadcast()
+                // 获取 FM
+                PersonalFM.get({
+                    runOnMainThread {
+                        PlayQueue.setNormal(it)
+                        playMusic(it[0])
+                    }
+                }, {
+                    toast("私人 FM 模式启动失败")
+                })
+            } else {
+                personFM.value = false
+                mmkv.encode(Config.PERSON_FM_MODE, false)
+            }
+        }
 
         override fun setPlaylist(songListData: ArrayList<StandardSongData>) {
             PlayQueue.setNormal(songListData)
@@ -470,8 +501,10 @@ open class MusicService : BaseMediaService() {
                     standardSongData,
                     240.dp()
                 ) { bitmap ->
-                    coverBitmap.value = bitmap
-                    updateNotification()
+                    runOnMainThread {
+                        coverBitmap.value = bitmap
+                        updateNotification()
+                    }
                 }
             }
             // 添加到播放历史
@@ -643,6 +676,20 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun playNext() {
+            getPlayingSongData().value?.let {
+                val index = PlayQueue.currentQueue.value?.indexOf(it)
+                if (index == PlayQueue.currentQueue.value?.lastIndex) {
+                    PersonalFM.get({ list ->
+                        runOnMainThread {
+                            PlayQueue.setNormal(list)
+                            playMusic(list[0])
+                        }
+                    }, {
+                        toast("获取私人 FM 失败")
+                    })
+                    return
+                }
+            }
             PlayQueue.currentQueue.value?.next(songData.value)?.let {
                 playMusic(it)
             }
@@ -718,9 +765,7 @@ open class MusicService : BaseMediaService() {
                 play()
                 return
             }
-            PlayQueue.currentQueue.value?.next(songData.value)?.let {
-                playMusic(it)
-            }
+            playNext()
         }
 
         override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {

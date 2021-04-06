@@ -22,6 +22,9 @@ class MainViewModel: ViewModel() {
 
     var neteaseLiveVisibility = MutableLiveData(false)
 
+    // 句子推荐可见性
+    var sentenceVisibility = MutableLiveData(true)
+
     /**
      * 设置用户 id
      */
@@ -32,6 +35,7 @@ class MainViewModel: ViewModel() {
     fun updateUI() {
         neteaseLiveVisibility.value = MyApplication.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
         singleColumnPlaylist.value = MyApplication.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false)
+        sentenceVisibility.value = MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)
     }
 
 }

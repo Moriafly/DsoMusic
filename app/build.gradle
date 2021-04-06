@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 710
-        versionName "3.1.0"
+        versionCode 715
+        versionName "3.2.0-alpha"
 
         multiDexEnabled true
 
@@ -104,9 +104,6 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.6.0'
     // View 边界渐变透明
     implementation 'ren.qinc.edgetranslucent:lib:0.0.3'
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    implementation 'jp.wasabeef:glide-transformations:4.0.1'
     // room
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
@@ -119,8 +116,6 @@ dependencies {
     implementation 'io.coil-kt:coil:1.1.1'
 
     implementation 'com.android.support:multidex:1.0.3'
-
-    implementation 'com.martinrgb:animer:0.1.6.3'
 
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
 }

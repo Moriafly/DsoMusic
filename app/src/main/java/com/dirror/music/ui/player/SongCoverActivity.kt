@@ -1,12 +1,12 @@
 package com.dirror.music.ui.player
 
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import coil.load
+import coil.size.ViewSizeResolver
+import coil.transform.BlurTransformation
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivitySongCoverBinding
 import com.dirror.music.ui.base.BaseActivity
-import jp.wasabeef.glide.transformations.BlurTransformation
 
 class SongCoverActivity : BaseActivity() {
 
@@ -21,11 +21,10 @@ class SongCoverActivity : BaseActivity() {
         with(binding) {
             MyApplication.musicController.value?.getPlayerCover()?.value?.let {
                 // 设置 背景 图片
-                Glide.with(this@SongCoverActivity)
-                    .load(it)
-                    .apply(RequestOptions.bitmapTransform(BlurTransformation(15, 5)))
-                    .into(binding.ivBackground)
-
+                binding.ivBackground.load(it) {
+                    size(ViewSizeResolver(binding.ivBackground))
+                    transformations(BlurTransformation(this@SongCoverActivity, 25f, 10f))
+                }
                 photoView.setImageBitmap(it)
             }
         }

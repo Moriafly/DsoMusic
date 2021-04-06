@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.view.View
@@ -14,10 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityMainBinding
@@ -84,18 +79,6 @@ class MainActivity : BaseActivity() {
                 runOnMainThread {
                     binding.ivTheme.setImageBitmap(it)
                     val pixelsPair = ScreenUtil.getDisplayPixels()
-                    Glide.with(this)
-                        .asBitmap()
-                        .load(it)
-                        .override(pixelsPair.first, pixelsPair.second)
-                        .apply(RequestOptions().centerCrop())
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                // binding.navigationView.background = resource.toDrawable(resources)
-                            }
-
-                            override fun onLoadCleared(placeholder: Drawable?) {}
-                        })
 
                 }
             }

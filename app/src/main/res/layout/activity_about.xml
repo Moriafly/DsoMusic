@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:text="@string/about_dso_music">
+        app:text="@string/about">
 
     </com.dirror.music.widget.TitleBarLayout>
 
@@ -78,7 +78,6 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
             <TextView
                 style="@style/defaultValueText"
                 android:text="Moriafly/DsoMusic 项目基于 GNU General Public License v3.0 开源许可协议"/>
-
 
 
             <com.dirror.music.widget.ItemLayout
@@ -150,24 +149,10 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
                 style="@style/defaultValueText" />
 
             <com.dirror.music.widget.ValueView
-                app:text="酷安"
-                app:value="不要糖醋放椒盐"
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
-
-            <com.dirror.music.widget.ValueView
                 app:text="@string/email"
                 app:value="@string/author_email"
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />
-
-            <TextView
-                android:text="感谢"
-                style="@style/style_settings_title"/>
-
-            <TextView
-                android:text="相聚是缘，感谢每一位用户~"
-                style="@style/defaultValueText" />
 
             <TextView
                 android:text="媒体编解码器"

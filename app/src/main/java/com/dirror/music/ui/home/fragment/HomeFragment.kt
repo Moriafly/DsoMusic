@@ -38,11 +38,6 @@ class HomeFragment : BaseFragment(){
 
     override fun initView() {
         update()
-
-        if (!MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)) {
-            binding.tvFoyou.visibility =View.GONE
-            binding.includeFoyou.root.visibility = View.GONE
-        }
     }
 
     /**
@@ -85,18 +80,30 @@ class HomeFragment : BaseFragment(){
     }
 
     override fun initObserver() {
-        mainViewModel.statusBarHeight.observe(viewLifecycleOwner, {
-            (binding.llMain.layoutParams as FrameLayout.LayoutParams).apply {
-                topMargin = it + 56.dp()
-            }
-        })
-        mainViewModel.neteaseLiveVisibility.observe(viewLifecycleOwner, {
-            binding.clDaily.visibility = if (it) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-        })
+        with(mainViewModel) {
+            statusBarHeight.observe(viewLifecycleOwner, {
+                (binding.llMain.layoutParams as FrameLayout.LayoutParams).apply {
+                    topMargin = it + 56.dp()
+                }
+            })
+            neteaseLiveVisibility.observe(viewLifecycleOwner, {
+                binding.clDaily.visibility = if (it) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            })
+            sentenceVisibility.observe(viewLifecycleOwner, {
+                if (it) {
+                    binding.includeFoyou.root.visibility = View.VISIBLE
+                    binding.tvFoyou.visibility = View.VISIBLE
+                } else {
+                    binding.includeFoyou.root.visibility = View.GONE
+                    binding.tvFoyou.visibility = View.GONE
+                }
+            })
+        }
+
     }
 
     private fun changeSentence() {
@@ -126,7 +133,6 @@ class HomeFragment : BaseFragment(){
         }, {
 
         })
-
     }
 
     private fun updateNewSong() {

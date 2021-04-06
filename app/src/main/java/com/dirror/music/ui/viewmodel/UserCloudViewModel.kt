@@ -33,12 +33,12 @@ class UserCloudViewModel : ViewModel() {
         isLoading = true
         // request data
         UserCloud.getUserCloud(offset, {
-            if (it.hasMore) {
-                offset += 50
-            } else {
-                isFinish = true
-            }
             runOnMainThread {
+                if (it.hasMore) {
+                    offset += 50
+                } else {
+                    isFinish = true
+                }
                 if (size.value.isNullOrEmpty()) {
                     size.value = "${(it.size.toLongOrNull() ?: 0L).toSizeFormat()} / ${(it.maxSize.toLongOrNull() ?: 0L).toSizeFormat()}"
                 }

@@ -42,12 +42,15 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
                             SOURCE_NETEASE -> {
                                 MyApplication.cloudMusicManager.likeSong(it.id?:"", {
                                     toast("添加到我喜欢成功")
+                                    dismiss()
                                 }, {
                                     toast("添加到我喜欢失败")
+                                    dismiss()
                                 })
                             }
                             SOURCE_QQ -> {
                                 toast("暂不支持此音源")
+                                dismiss()
                             }
                         }
                     }

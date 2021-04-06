@@ -42,6 +42,7 @@ import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
+import androidx.annotation.Keep
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -72,7 +73,9 @@ import eightbitlab.com.blurview.RenderScriptBlur
  * PlayerActivity
  * @author Moriafly
  * @since 2020年12月15日18:35:46
+ * TODO java.lang.IllegalArgumentException Cannot add the same observer with different lifecycles com.dirror.music.ui.player.PlayerActivity$l.a(:10)
  */
+@Keep
 class PlayerActivity : SlideBackActivity() {
 
     companion object {
@@ -414,32 +417,39 @@ class PlayerActivity : SlideBackActivity() {
                 })
                 // 封面观察
                 controller.getPlayerCover().observe(this@PlayerActivity, { bitmap ->
-                    // 设置 CD 图片
-                    binding.ivCover.load(bitmap) {
-                        placeholder(previousBitmap?.toDrawable(resources))
-                        size(ViewSizeResolver(binding.ivCover))
-                        crossfade(500)
-                    }
-                    previousBitmap = bitmap
-                    // 设置流光背景
-                    binding.lyricsBackground.setArtwork(bitmap)
-                    binding.lyricsBackground.setReducedEffects(true)
-                    // 设置色调
-                    bitmap?.let {
-                        Palette.from(bitmap)
-                            .clearFilters()
-                            .generate { palette ->
-                                palette?.let {
-                                    val muteColor = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                        palette.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
-                                    } else {
-                                        palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                    runOnMainThread {
+                        // 设置 CD 图片
+                        binding.ivCover.load(bitmap) {
+                            placeholder(previousBitmap?.toDrawable(resources))
+                            size(ViewSizeResolver(binding.ivCover))
+                            crossfade(500)
+//                        target(onSuccess = {
+//                            // 设置流光背景
+
+//                        })
+                        }
+                        previousBitmap = bitmap
+                        binding.lyricsBackground.setArtwork(bitmap)
+                        binding.lyricsBackground.setReducedEffects(true)
+
+                        // 设置色调
+                        bitmap?.let {
+                            Palette.from(bitmap)
+                                .clearFilters()
+                                .generate { palette ->
+                                    palette?.let {
+                                        val muteColor = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                            palette.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                        } else {
+                                            palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                        }
+                                        val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
+                                        playViewModel.color.value = muteColor.colorMix(vibrantColor)
                                     }
-                                    val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
-                                    playViewModel.color.value = muteColor.colorMix(vibrantColor)
                                 }
-                            }
+                        }
                     }
+
                 })
                 controller.isPlaying().observe(this@PlayerActivity, {
                     if (it) {
@@ -456,8 +466,20 @@ class PlayerActivity : SlideBackActivity() {
                         binding.diffuseView.stop()
                     }
                 })
-                controller.getLyricEntryList().observe(this@PlayerActivity, {
-
+                controller.personFM.observe(this, {
+                    with(binding) {
+                        if (it) {
+                            ivMode.isClickable = false
+                            ivLast.isClickable = false
+                            ivList.isClickable = false
+                            tvTag?.text = getString(R.string.personal_fm)
+                        } else {
+                            ivMode.isClickable = true
+                            ivLast.isClickable = true
+                            ivList.isClickable = true
+                            tvTag?.text = ""
+                        }
+                    }
                 })
             }
         })
@@ -537,6 +559,8 @@ class PlayerActivity : SlideBackActivity() {
 
                     ttvProgress.textColor = it
                     ttvDuration.textColor = it
+
+                    tvTag?.setTextColor(it)
                 }
 
             })
