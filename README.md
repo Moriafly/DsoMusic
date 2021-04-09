@@ -65,6 +65,7 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 
 ### 基于网易云 API
 
+- [x] 私人 FM
 - [x] 所有榜单
 - [x] 所有榜单内容摘要
 - [x] 获取每日推荐歌曲
@@ -181,7 +182,6 @@ https://blog.csdn.net/Moriafly/article/details/109708728
 - [ ] 获取每日推荐歌单
 - [ ] 获取历史日推可用日期列表
 - [ ] 获取历史日推详情数据
-- [ ] 私人 FM
 - [ ] 签到
 - [ ] 喜欢音乐列表
 - [ ] 垃圾桶

@@ -5,7 +5,9 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
+import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.DialogUpdateBinding
 import com.dirror.music.util.*
@@ -29,6 +31,14 @@ class UpdateDialog(context: Context, private val updateData: UpdateUtil.UpdateDa
         super.onCreate(savedInstanceState)
         binding.tvTitle.text = "发现新版本 ${updateData.name}"
         binding.tvContent.text = updateData.content
+
+        updateData.tagVersion?.let {
+            if (getVisionCode() < it) {
+                toast("过低版本，请更新")
+                openUrlByBrowser(this.context, updateData.url)
+                binding.btnCancel.visibility = View.GONE
+            }
+        }
 
         binding.btnCancel.setOnClickListener {
             dismiss()

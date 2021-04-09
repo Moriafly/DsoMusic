@@ -74,6 +74,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/ivBackground" />
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/tvUserId"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

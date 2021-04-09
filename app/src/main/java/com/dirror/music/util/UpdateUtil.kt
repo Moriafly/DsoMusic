@@ -61,6 +61,7 @@ object UpdateUtil {
         val code: Int,
         val content: String,
         val url: String, // 下载链接
+        var tagVersion: Int?,
     )
 
 }

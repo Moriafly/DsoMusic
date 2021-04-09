@@ -70,3 +70,31 @@ data class StandardSongData(
     ) : Parcelable
 
 }
+
+/**
+ * 普通品质
+ */
+const val SONG_QUALITY_NORMAL = 0
+
+/**
+ * HQ 品质
+ */
+const val SONG_QUALITY_HQ = 1
+
+/**
+ * 获取 song 的品质
+ */
+fun StandardSongData.quality(): Int {
+    return when (this.source) {
+        SOURCE_NETEASE -> {
+            if (this.neteaseInfo?.pl ?: 0 >= 320000) {
+                SONG_QUALITY_HQ
+            } else {
+                SONG_QUALITY_NORMAL
+            }
+        }
+        else -> {
+            SONG_QUALITY_NORMAL
+        }
+    }
+}

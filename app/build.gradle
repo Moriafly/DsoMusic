@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 715
-        versionName "3.2.0-alpha"
+        versionCode 716
+        versionName "汀上白沙看不见"
 
         multiDexEnabled true
 

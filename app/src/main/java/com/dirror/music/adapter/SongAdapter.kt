@@ -15,9 +15,7 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.MyApplication.Companion.mmkv
 import com.dirror.music.R
-import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.music.standard.data.SOURCE_QQ
-import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.music.standard.data.*
 import com.dirror.music.service.playMusic
 import com.dirror.music.util.*
 import com.dirror.music.util.extensions.dp
@@ -79,7 +77,7 @@ class SongAdapter(
                 holder.tvSub.alpha = 1f
             }
 
-            if (song.neteaseInfo?.pl ?: 0 >= 320000) {
+            if (song.quality() == SONG_QUALITY_HQ) {
                 holder.ivTag.visibility = View.VISIBLE
             } else {
                 holder.ivTag.visibility = View.GONE
@@ -101,7 +99,7 @@ class SongAdapter(
                 }
                 else -> song.imageUrl
             }
-            // loge(imageUrl ?: "", "适配器图片")
+
             ivCover.load(imageUrl) {
                 transformations(RoundedCornersTransformation(dp2px(6f)))
                 size(ViewSizeResolver(ivCover))
@@ -121,7 +119,7 @@ class SongAdapter(
                 if (song.neteaseInfo?.pl != 0) {
                     playMusic(it.context, song, currentList.toArrayList())
                 } else {
-                    toast("网易云暂无版权或者是 VIP 歌曲，可以试试 QQ 和酷我音源")
+                    toast("网易云暂无版权或者是 VIP 歌曲，可以试试 QQ 音源")
                 }
             }
         }
