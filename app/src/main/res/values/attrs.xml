@@ -24,6 +24,10 @@
         <attr name="value" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="RightView">
+        <attr name="text" />
+    </declare-styleable>
+
     <declare-styleable name="LrcView">
         <attr name="lrcTextSize" format="dimension" />
         <attr name="lrcNormalTextSize" format="dimension" />

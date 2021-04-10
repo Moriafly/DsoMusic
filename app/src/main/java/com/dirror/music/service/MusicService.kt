@@ -130,6 +130,12 @@ open class MusicService : BaseMediaService() {
     /* 当前状态栏歌词 */
     private var currentStatusBarTag = ""
 
+    /* 定时关闭当前选中的选项 */
+    private var currentRight = 0
+
+    /* 定时关闭自定义的时间 */
+    private var currentCustom = 0
+
     /* 单句歌词集合 */
     private val lyricEntryList: ArrayList<LyricEntry> = ArrayList()
 
@@ -778,6 +784,14 @@ open class MusicService : BaseMediaService() {
             }
             return true
         }
+        fun getCurrentRight() = currentRight
+        fun setCurrentRight(newOne :Int){
+            currentRight = newOne
+        }
+        fun getCurrentCustom() = currentCustom
+        fun setCurrentCustom(newOne :Int){
+            currentCustom = newOne
+        }
 
     }
 
@@ -934,5 +948,4 @@ open class MusicService : BaseMediaService() {
         }
         return 0
     }
-
 }

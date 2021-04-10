@@ -38,6 +38,7 @@ import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.util.Log
 import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
@@ -429,8 +430,7 @@ class PlayerActivity : SlideBackActivity() {
 //                        })
                         }
                         previousBitmap = bitmap
-                        binding.lyricsBackground.setArtwork(bitmap)
-                        binding.lyricsBackground.setReducedEffects(true)
+
 
                         // 设置色调
                         bitmap?.let {

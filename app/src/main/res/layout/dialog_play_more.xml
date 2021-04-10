@@ -45,7 +45,13 @@
             android:id="@+id/itemSongInfo"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:text="@string/song_info">
+            app:text="@string/song_info"/>
+
+        <com.dirror.music.widget.ItemLayout
+            android:id="@+id/timeClose"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:text="定时关闭">
 
         </com.dirror.music.widget.ItemLayout>
     </LinearLayout>
