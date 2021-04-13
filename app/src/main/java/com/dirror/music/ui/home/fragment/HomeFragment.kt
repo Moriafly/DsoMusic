@@ -68,11 +68,6 @@ class HomeFragment : BaseFragment(){
             }
         }
 
-        binding.clDso.setOnClickListener {
-            val intent = Intent(this.context, SongPlaylistActivity::class.java)
-            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_DIRROR)
-            startActivity(intent)
-        }
         binding.clTopList.setOnClickListener {
             val intent = Intent(this.context, TopListActivity::class.java)
             startActivity(intent)

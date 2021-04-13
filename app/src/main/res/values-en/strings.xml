@@ -116,11 +116,12 @@
     <string name="ink_screen_mode">Ink screen mode</string>
     <string name="image_cache">Image cache</string>
     <string name="clear_image_cache">Clear image cache</string>
-    <string name="service">服务</string>
+    <string name="service">Service</string>
     <string name="netease_cloud_music_api">NeteaseCloudMusicApi</string>
-    <string name="explain">说明</string>
-    <string name="enable_service">启用服务</string>
+    <string name="explain">Explain</string>
+    <string name="enable_service">Enable Service</string>
     <string name="memory">Memory</string>
-    <string name="song">歌曲</string>
-    <string name="address">地址</string>
+    <string name="song">Song</string>
+    <string name="address">Address</string>
+    <string name="find">Find</string>
 </resources>

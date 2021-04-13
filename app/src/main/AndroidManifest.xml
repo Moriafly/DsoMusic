@@ -53,7 +53,6 @@
             android:name=".ui.activity.UserActivity"
             android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".ui.activity.WebActivity" />
-        <activity android:name=".ui.activity.LocalMusicActivity" />
         <activity android:name=".ui.activity.FeedbackActivity" />
         <activity
             android:name=".ui.activity.SearchActivity"

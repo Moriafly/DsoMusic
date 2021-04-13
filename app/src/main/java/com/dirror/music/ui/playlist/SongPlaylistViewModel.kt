@@ -6,16 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
-import com.dirror.music.music.standard.data.StandardPlaylistData
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.runOnMainThread
-import com.google.gson.Gson
-import java.lang.Exception
 
 const val TAG_LOCAL_MY_FAVORITE = 0
 const val TAG_NETEASE = 1
-const val TAG_DIRROR = 2
 
 class SongPlaylistViewModel: ViewModel() {
 
@@ -48,21 +43,6 @@ class SongPlaylistViewModel: ViewModel() {
                 MyFavorite.read {
                     setSongList(it)
                 }
-            }
-            TAG_DIRROR -> {
-                val url = "https://moriafly.xyz/dirror-music/json/music.json"
-                MagicHttp.OkHttpManager().getByCache(context, url, {
-                    try {
-                        val playlistData = Gson().fromJson(it, StandardPlaylistData::class.java)
-                        runOnMainThread {
-                            songList.value = playlistData.songs
-                            playlistTitle.value = playlistData.name
-                            playlistDescription.value = playlistData.description
-                        }
-                    } catch (e: Exception) { }
-                }, {
-
-                })
             }
         }
     }

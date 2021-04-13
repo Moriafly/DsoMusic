@@ -129,7 +129,7 @@ class MainActivity : BaseActivity() {
             tab.text = when (position) {
                 0 -> getString(R.string.song)
                 1 -> getString(R.string.my)
-                else -> getString(R.string.home)
+                else -> getString(R.string.find)
             }
         }.attach()
 

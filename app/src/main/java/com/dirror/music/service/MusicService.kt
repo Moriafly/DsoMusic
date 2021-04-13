@@ -819,13 +819,11 @@ open class MusicService : BaseMediaService() {
     private fun updateNotification(fromLyric: Boolean = false) {
         val song = musicController.getPlayingSongData().value
         GlobalScope.launch {
-            Log.e(TAG, "refreshNotification: 协程开启")
             val bitmap = if (mmkv.decodeBool(Config.INK_SCREEN_MODE, false)) {
                 R.drawable.ic_song_cover.asDrawable(MyApplication.context)?.toBitmap(128.dp(), 128.dp())
             } else {
                 musicController.getSongCover(128.dp())
             }
-            Log.e(TAG, "refreshNotification: 获取到图片")
             runOnMainThread {
                 showNotification(fromLyric, song, bitmap)
             }
