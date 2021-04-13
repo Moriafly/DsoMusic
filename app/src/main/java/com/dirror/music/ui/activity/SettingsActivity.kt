@@ -152,6 +152,10 @@ class SettingsActivity : BaseActivity() {
             itemNeteaseCloudMusicApi.setOnClickListener {
                 startActivity(Intent(this@SettingsActivity, NeteaseCloudMusicApiActivity::class.java))
             }
+
+            itemMemory.setOnClickListener {
+                startActivity(Intent(this@SettingsActivity, MemoryActivity::class.java))
+            }
         }
     }
 

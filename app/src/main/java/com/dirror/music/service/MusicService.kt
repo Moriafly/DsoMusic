@@ -440,7 +440,14 @@ open class MusicService : BaseMediaService() {
                                 setDataSource(it)
                             }
                         }
-                        is Uri -> setDataSource(applicationContext, it)
+                        is Uri -> {
+                            try {
+                                setDataSource(applicationContext, it)
+                            } catch (e: Exception) {
+                                onError(dsoPlayer, -1, 0)
+                                return@getUrl
+                            }
+                        }
                     }
                     setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
                     setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
@@ -771,10 +778,10 @@ open class MusicService : BaseMediaService() {
         override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
             if (mmkv.decodeBool(Config.SKIP_ERROR_MUSIC, true)) {
                 // 播放下一首
-                toast("播放错误 (${p1},${p2}) ，开始播放下一首")
+                // toast("播放错误 (${p1},${p2}) ，开始播放下一首")
                 playNext()
             } else {
-                toast("播放错误")
+                toast("播放错误 (${p1},${p2})")
             }
             return true
         }
@@ -835,9 +842,9 @@ open class MusicService : BaseMediaService() {
             setContentTitle(song?.name)
             setContentText(song?.artists?.parse())
             setContentIntent(getPendingIntentActivity())
-            addAction(R.drawable.ic_baseline_skip_previous_24, "Previous", getPendingIntentPrevious())
+            addAction(R.drawable.ic_round_skip_previous_24, "Previous", getPendingIntentPrevious())
             addAction(getPlayIcon(), "play", getPendingIntentPlay())
-            addAction(R.drawable.ic_baseline_skip_next_24, "next", getPendingIntentNext())
+            addAction(R.drawable.ic_round_skip_next_24, "next", getPendingIntentNext())
             setStyle(
                 androidx.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(mediaSession?.sessionToken)
@@ -897,9 +904,9 @@ open class MusicService : BaseMediaService() {
      */
     private fun getPlayIcon(): Int {
         return if (musicController.isPlaying().value == true) {
-            R.drawable.ic_baseline_pause_24
+            R.drawable.ic_round_pause_24
         } else {
-            R.drawable.ic_baseline_play_arrow_24
+            R.drawable.ic_round_play_arrow_24
         }
     }
 

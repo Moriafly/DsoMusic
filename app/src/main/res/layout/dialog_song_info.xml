@@ -44,6 +44,12 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             app:text="@string/type" />
+
+        <com.dirror.music.widget.ValueView
+            android:id="@+id/valueViewData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:text="@string/address" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -82,9 +82,9 @@ class HomeFragment : BaseFragment(){
     override fun initObserver() {
         with(mainViewModel) {
             statusBarHeight.observe(viewLifecycleOwner, {
-                (binding.llMain.layoutParams as FrameLayout.LayoutParams).apply {
-                    topMargin = it + 56.dp()
-                }
+//                (binding.llMain.layoutParams as FrameLayout.LayoutParams).apply {
+//                    topMargin = it
+//                }
             })
             neteaseLiveVisibility.observe(viewLifecycleOwner, {
                 binding.clDaily.visibility = if (it) {

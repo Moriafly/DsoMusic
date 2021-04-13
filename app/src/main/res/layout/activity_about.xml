@@ -61,23 +61,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:text="声明及协议"
-                style="@style/style_settings_title"/>
-
-            <TextView
-                style="@style/defaultValueText"
-                android:text="开源链接、源码、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）。
-Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支持正版音乐。
-基于本开源项目的其他开发者项目、软件，与本开发者无关（依据 GPL 3 免责协议）。"/>
-
-            <TextView
-                android:text="@string/open_source_introduction"
-                style="@style/style_settings_title"/>
-
-            <TextView
-                style="@style/defaultValueText"
-                android:text="Moriafly/DsoMusic 项目基于 GNU General Public License v3.0 开源许可协议"/>
 
 
             <com.dirror.music.widget.ItemLayout
@@ -105,11 +88,29 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
                 android:layout_height="56dp" />
 
             <com.dirror.music.widget.ItemLayout
+                android:visibility="gone"
                 android:id="@+id/itemJoinQQGroup"
                 app:text="@string/join_qq_group"
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
 
+            <TextView
+                android:text="声明及协议"
+                style="@style/style_settings_title"/>
+
+            <TextView
+                style="@style/defaultValueText"
+                android:text="开源链接、源码、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）。
+Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支持正版音乐。
+基于本开源项目的其他开发者项目、软件，与本开发者无关（依据 GPL 3 免责协议）。"/>
+
+            <TextView
+                android:text="@string/open_source_introduction"
+                style="@style/style_settings_title"/>
+
+            <TextView
+                style="@style/defaultValueText"
+                android:text="Moriafly/DsoMusic 项目基于 GNU General Public License v3.0 开源许可协议"/>
 
             <TextView
                 android:text="维护"
@@ -155,10 +156,12 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
                 android:layout_height="40dp" />
 
             <TextView
+                android:visibility="gone"
                 android:text="媒体编解码器"
                 style="@style/style_settings_title"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tvMediaCodec"
                 style="@style/defaultValueText" />
 

@@ -116,4 +116,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="dso_style_text_view_default">
+        <item name="android:textColor">@color/colorTextForeground</item>
+        <item name="android:textSize">@dimen/defaultTextSize</item>
+    </style>
+
 </resources>

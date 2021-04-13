@@ -85,4 +85,10 @@ object Config {
 
     // 是否打开了私人 FM 模式
     const val PERSON_FM_MODE = "boolean_person_fm_mode"
+
+    // 网易云精彩评论
+    const val NETEASE_GOOD_COMMENTS = "boolean_netease_good_comments"
+
+    // QQ 网页版源
+    const val QQ_WEB_SOURCE = "boolean_qq_web_source"
 }

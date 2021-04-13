@@ -27,6 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
+        <activity android:name=".ui.activity.MemoryActivity"></activity>
         <activity android:name=".ui.live.NeteaseCloudMusicApiActivity" />
         <activity
             android:name=".ui.playlist.SongSearchActivity"
@@ -88,13 +89,13 @@
         </activity>
 
         <provider
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.dirror.music.FileProvider"
             android:exported="false"
-            android:grantUriPermissions="true"
-            android:name="androidx.core.content.FileProvider">
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <service
@@ -106,7 +107,6 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

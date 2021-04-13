@@ -8,6 +8,7 @@ import com.dirror.music.R
 
 class ValueView(context: Context, attrs: AttributeSet): androidx.constraintlayout.widget.ConstraintLayout(context, attrs){
     private val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ValueView)
+
     private val title = typedArray.getString(R.styleable.ValueView_text)
     private val value = typedArray.getString(R.styleable.ValueView_value)
 

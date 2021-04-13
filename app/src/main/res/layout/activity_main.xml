@@ -36,6 +36,7 @@
                 android:id="@+id/viewPager2"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="56dp"
                 android:overScrollMode="never"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -47,16 +48,6 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <eightbitlab.com.blurview.BlurView
-            android:id="@+id/blurViewTop"
-            android:background="@drawable/bg_mini_player"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/titleBar"

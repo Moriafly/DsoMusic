@@ -2,6 +2,8 @@ package com.dirror.music.ui.dialog
 
 import android.content.Context
 import android.content.Intent
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.DialogPlayMoreBinding
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
@@ -10,6 +12,10 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.base.BaseBottomSheetDialog
 import com.dirror.music.util.toast
+import java.util.concurrent.TimeUnit
+import androidx.work.Worker
+import androidx.work.WorkerParameters
+import com.dirror.music.util.runOnMainThread
 
 class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
 
@@ -69,9 +75,23 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
                 it.context.startActivity(Intent(it.context, PlayHistoryActivity::class.java))
                 dismiss()
             }
+
+//            itemPauseMusic.setOnClickListener {
+//                val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java).setInitialDelay(5 , TimeUnit.SECONDS)
+//                    .addTag("lbcc").build()
+//                WorkManager.getInstance(context).enqueue(request)
+//                dismiss()
+//            }
         }
     }
 
+}
 
-
+class SimpleWorker(context: Context, params: WorkerParameters) : Worker(context , params){
+    override fun doWork(): Result {
+        runOnMainThread {
+            MyApplication.musicController.value?.pause()
+        }
+        return Result.success()
+    }
 }

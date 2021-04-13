@@ -59,6 +59,7 @@ data class StandardSongData(
     @Parcelize
     data class LocalInfo(
         val size: Long,
+        var data: String?, // 文件路径
     ) : Parcelable
 
     /**

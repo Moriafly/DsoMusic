@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 716
-        versionName "汀上白沙看不见"
+        versionCode 720
+        versionName "江天一色无纤尘"
 
         multiDexEnabled true
 
@@ -77,7 +77,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-beta01'
-
+    implementation "androidx.recyclerview:recyclerview:1.2.0-rc01"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -118,4 +118,6 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
+
+    implementation 'androidx.work:work-runtime:2.3.4'
 }

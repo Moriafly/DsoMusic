@@ -86,7 +86,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:contentDescription="@string/local_music">
+                android:contentDescription="@string/local_music"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/ivLocal"
@@ -105,8 +106,8 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/local_music"
                     android:layout_marginBottom="16dp"
+                    android:text="@string/local_music"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -175,10 +176,12 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:text="@string/my_favorite_songs"
                     android:textAlignment="center"
                     android:textColor="@color/colorTextForeground"
                     android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
