@@ -75,9 +75,6 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
             }
 
             timeClose.setOnClickListener {
-//                val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java).setInitialDelay(5 , TimeUnit.SECONDS)
-//                    .addTag("lbcc").build()
-//                WorkManager.getInstance(context).enqueue(request)
                 dismiss()
                 TimingOffDialog(context).show()
             }

@@ -136,6 +136,8 @@ open class MusicService : BaseMediaService() {
     /* 定时关闭自定义的时间 */
     private var currentCustom = 0
 
+    private var timingOffMode = true
+
     /* 单句歌词集合 */
     private val lyricEntryList: ArrayList<LyricEntry> = ArrayList()
 
@@ -792,7 +794,10 @@ open class MusicService : BaseMediaService() {
         fun setCurrentCustom(newOne :Int){
             currentCustom = newOne
         }
-
+        fun getTimingOffMode() = timingOffMode
+        fun setTimingOffMode(newOne :Boolean){
+            timingOffMode = newOne
+        }
     }
 
     private fun getPendingIntentActivity(): PendingIntent {

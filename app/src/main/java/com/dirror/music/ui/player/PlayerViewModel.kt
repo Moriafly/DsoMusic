@@ -2,6 +2,7 @@ package com.dirror.music.ui.player
 
 import android.graphics.Color
 import androidx.annotation.Keep
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApplication
@@ -23,6 +24,7 @@ class PlayerViewModel: ViewModel() {
 
     companion object {
         val DEFAULT_COLOR = Color.rgb(90, 90, 90)
+        lateinit var fragmentManager : FragmentManager
     }
 
     var rotation = 0f

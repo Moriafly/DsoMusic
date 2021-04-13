@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:background="@drawable/bg_slide_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义停止播放时间"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="16sp"
+            android:paddingBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+                <com.dirror.music.ui.wheelView.view.ScrollPickerView
+                    android:id="@+id/hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="500dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/cardview_dark_background"
+                    android:text="时    :    "/>
+
+                <com.dirror.music.ui.wheelView.view.ScrollPickerView
+                    android:id="@+id/minute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="500dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="16sp"
+
+                    android:text="分"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp">
+
+                <TextView
+                    android:id="@+id/cancelView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#EE0000"
+                    android:textSize="14sp"
+                    android:paddingStart="120dp"
+                    android:text="取消"/>
+
+                <TextView
+                    android:id="@+id/confirmView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#EE0000"
+                    android:textSize="14sp"
+                    android:paddingStart="50dp"
+                    android:text="确定"/>
+        </LinearLayout>
+
+</LinearLayout>

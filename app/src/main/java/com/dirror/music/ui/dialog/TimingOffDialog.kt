@@ -1,14 +1,22 @@
 package com.dirror.music.ui.dialog
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.FragmentManager
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.DialogTimingOffBinding
+import com.dirror.music.service.SimpleWorker
+import com.dirror.music.ui.player.PlayerViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.concurrent.TimeUnit
 
 class TimingOffDialog (context: Context) : BottomSheetDialog(context, R.style.style_default_dialog){
     private var binding: DialogTimingOffBinding = DialogTimingOffBinding.inflate(layoutInflater)
@@ -22,36 +30,63 @@ class TimingOffDialog (context: Context) : BottomSheetDialog(context, R.style.st
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding.apply {
             when(MyApplication.musicController.value?.getCurrentRight()){
                 0 -> time0.setRight()
-                1 -> time10.setRight()
-                2 -> time20.setRight()
-                3 -> time30.setRight()
-                4 -> time45.setRight()
-                5 -> time60.setRight()
-                6 -> {
-                    if (MyApplication.musicController.value?.getCurrentCustom() != 0){
-                        timeCustom.setTitle("自定义（${MyApplication.musicController.value?.getCurrentCustom()}分钟后）")
+                10 -> time10.setRight()
+                20 -> time20.setRight()
+                30 -> time30.setRight()
+                45 -> time45.setRight()
+                60 -> time60.setRight()
+                10086 -> {
+                    val time = MyApplication.musicController.value?.getCurrentCustom()
+                    if (time != 0 && time != null){
+                        if (time /60 != 0 ){
+                            timeCustom.setTitle("自定义（${time/60}小时${time%60}分钟后）")
+                        }else{
+                            timeCustom.setTitle("自定义（${time}分钟后）")
+                        }
                         timeCustom.setRight()
                     }
                 }
             }
-            time0.setOnClickListener { chooseThisOne(0) }
-            time10.setOnClickListener { chooseThisOne(1) }
-            time20.setOnClickListener { chooseThisOne(2) }
-            time30.setOnClickListener { chooseThisOne(3) }
-            time45.setOnClickListener { chooseThisOne(4) }
-            time60.setOnClickListener { chooseThisOne(6) }
-            timeCustom.setOnClickListener { chooseThisOne(6) }
-
+            time0.setOnClickListener {
+                MyApplication.musicController.value?.setCurrentRight(0)
+                MyApplication.musicController.value?.setCurrentCustom(0)
+                Toast.makeText(context, "定时停止播放已取消", Toast.LENGTH_SHORT).show()
+                dismiss()
+            }
+            time10.setOnClickListener { chooseThisOne(10) }
+            time20.setOnClickListener { chooseThisOne(20) }
+            time30.setOnClickListener { chooseThisOne(30) }
+            time45.setOnClickListener { chooseThisOne(45) }
+            time60.setOnClickListener { chooseThisOne(60) }
+            timeCustom.setOnClickListener {
+                MyApplication.musicController.value?.setCurrentRight(10086)
+                dismiss()
+                CustomTimeFragment().show(PlayerViewModel.fragmentManager,"android")
+            }
+            switcherTimingOff.setChecked(MyApplication.musicController.value?.getTimingOffMode() == true)
+            switcherTimingOff.setOnCheckedChangeListener {
+                if (it){
+                    timingOffMode.setTextColor(Color.BLACK)
+                }else{
+                    timingOffMode.setTextColor(Color.GRAY)
+                }
+                MyApplication.musicController.value?.setTimingOffMode(it)
+            }
         }
 
     }
     private fun chooseThisOne(int: Int){
         MyApplication.musicController.value?.setCurrentRight(int)
-        if (int == 6) MyApplication.musicController.value?.setCurrentCustom(3)
+        MyApplication.musicController.value?.setCurrentCustom(int)
+        Toast.makeText(context, "设置成功，将于$int 分钟后关闭 ", Toast.LENGTH_SHORT).show()
+
+        val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java).setInitialDelay((int).toLong(), TimeUnit.MINUTES)
+            .addTag("lbccc").build()
+        WorkManager.getInstance(context).enqueue(request)
+
         dismiss()
     }
 }

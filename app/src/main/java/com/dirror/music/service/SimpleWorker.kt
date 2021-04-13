@@ -1,19 +1,52 @@
 package com.dirror.music.service
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.dirror.music.MyApplication
 import com.dirror.music.util.runOnMainThread
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 
 class SimpleWorker(context: Context, params : WorkerParameters) : Worker(context , params){
     override fun doWork(): Result {
-        val nowPlayState = MyApplication.musicController.value?.isPlaying()?.value?: false
-        if (nowPlayState) {
-            runOnMainThread{
-                MyApplication.musicController.value?.pause()
+        MyApplication.musicController.value?.apply {
+            val nowPlayState = isPlaying().value ?: false
+            if (nowPlayState) {
+                if (getTimingOffMode()){
+                    val time = (getDuration() - getProgress())/1000
+                    Log.d("lbcc",time.toString())
+                    if (time > 0){
+                        val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java).setInitialDelay((time).toLong(), TimeUnit.SECONDS)
+                            .addTag("lbccc").build()
+                        WorkManager.getInstance(applicationContext).enqueue(request)
+                    }else{
+                        pauseAndRefresh()
+                        return Result.success()
+                    }
+                }else{
+                    Log.d("lbcc","pause right now")
+                    pauseAndRefresh()
+                }
             }
         }
         return Result.success()
+    }
+
+    private fun pauseAndRefresh(){
+        MyApplication.musicController.value?.apply{
+            runOnMainThread{
+                pause()
+            }
+            setCurrentCustom(0)
+            setCurrentRight(0)
+        }
     }
 }

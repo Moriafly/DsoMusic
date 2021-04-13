@@ -186,7 +186,7 @@ class PlayerActivity : SlideBackActivity() {
             slideBackEnabled = false
         }
 
-
+        PlayerViewModel.fragmentManager = supportFragmentManager
     }
 
     @SuppressLint("ClickableViewAccessibility")
