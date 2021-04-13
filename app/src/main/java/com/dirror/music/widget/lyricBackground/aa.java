@@ -1,4 +1,4 @@
-package com.dirror.music.widget;
+package com.dirror.music.widget.lyricBackground;
 
 import android.content.Context;
 import android.content.Intent;

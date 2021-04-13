@@ -51,6 +51,7 @@
             android:id="@+id/timeClose"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:visibility="gone"
             app:text="定时关闭">
 
         </com.dirror.music.widget.ItemLayout>

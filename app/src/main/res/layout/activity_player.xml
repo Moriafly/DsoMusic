@@ -205,7 +205,6 @@
                 app:srcCompat="@drawable/ic_bq_equalizer" />
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/ivSleepTimer"
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"

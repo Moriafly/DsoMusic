@@ -29,7 +29,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 721
+        versionCode 722
         versionName "皎皎空中孤月轮"
 
         multiDexEnabled true
@@ -98,9 +98,9 @@ dependencies {
     // MMKV
     implementation 'com.tencent:mmkv-static:1.2.2'
     // 友盟统计SDK
-//    implementation 'com.umeng.umsdk:common:9.3.6'
-//    implementation 'com.umeng.umsdk:asms:1.2.0'
-//    implementation 'com.umeng.umsdk:crash:0.0.4'
+    implementation 'com.umeng.umsdk:common:9.3.6'
+    implementation 'com.umeng.umsdk:asms:1.2.0'
+    implementation 'com.umeng.umsdk:crash:0.0.4'
     // lottie
     implementation 'com.airbnb.android:lottie:3.6.0'
     // View 边界渐变透明

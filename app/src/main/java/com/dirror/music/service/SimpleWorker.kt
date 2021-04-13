@@ -2,18 +2,13 @@ package com.dirror.music.service
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.dirror.music.MyApplication
 import com.dirror.music.util.runOnMainThread
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
-import kotlin.concurrent.thread
 
 class SimpleWorker(context: Context, params : WorkerParameters) : Worker(context , params){
     override fun doWork(): Result {

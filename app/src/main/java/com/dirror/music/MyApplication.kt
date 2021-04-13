@@ -16,6 +16,9 @@ import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
 import com.dirror.music.util.*
 import com.tencent.mmkv.MMKV
+import com.umeng.analytics.MobclickAgent
+import com.umeng.commonsdk.UMConfigure
+
 //import com.umeng.analytics.MobclickAgent
 //import com.umeng.commonsdk.UMConfigure
 
@@ -27,10 +30,12 @@ import com.tencent.mmkv.MMKV
 class MyApplication : Application() {
 
     companion object {
+
+        const val LIB_NAME_DSO = "dso"
+
         // 加载本地库
         init {
             System.loadLibrary("dso")
-//            System.loadLibrary("cry")
         }
 
         lateinit var mmkv: MMKV
@@ -88,10 +93,10 @@ class MyApplication : Application() {
      */
     private fun checkSecure() {
         if (Secure.isSecure()) {
-//            // 初始化友盟
-//            UMConfigure.init(context, getUmAppKey(), "", UMConfigure.DEVICE_TYPE_PHONE, "")
-//            // 选用 AUTO 页面采集模式
-//            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
+            // 初始化友盟
+            UMConfigure.init(context, getUmAppKey(), "", UMConfigure.DEVICE_TYPE_PHONE, "")
+            // 选用 AUTO 页面采集模式
+            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
             // 开启音乐服务
             startMusicService()
         } else {

@@ -38,7 +38,6 @@ import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.util.Log
 import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
@@ -64,6 +63,7 @@ import com.dirror.music.ui.base.SlideBackActivity
 import com.dirror.music.ui.dialog.PlayerMenuMoreDialog
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.SoundEffectDialog
+import com.dirror.music.ui.dialog.TimingOffDialog
 import com.dirror.music.util.*
 import com.dirror.music.util.extensions.asDrawable
 import com.dirror.music.util.extensions.colorAlpha
@@ -210,6 +210,10 @@ class PlayerActivity : SlideBackActivity() {
                 singleClick {
                     playViewModel.changePlayMode()
                 }
+            }
+            // 定时关闭
+            ivSleepTimer?.setOnClickListener {
+                TimingOffDialog(this@PlayerActivity).show()
             }
             // 评论
             ivComment.setOnClickListener {
@@ -574,12 +578,12 @@ class PlayerActivity : SlideBackActivity() {
 
     override fun onStart() {
         super.onStart()
-        binding.lyricsBackground.resume()
+        //binding.lyricsBackground.resume()
     }
 
     override fun onPause() {
         super.onPause()
-        binding.lyricsBackground.pause()
+        //binding.lyricsBackground.pause()
     }
 
     /**
