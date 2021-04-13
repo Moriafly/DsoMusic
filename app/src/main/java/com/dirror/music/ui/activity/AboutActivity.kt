@@ -1,6 +1,7 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
+import androidx.core.content.ContextCompat
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityAboutBinding
@@ -8,6 +9,7 @@ import com.dirror.music.service.test.TestMediaCodeInfo
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.AppInfoDialog
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.asColor
 
 class AboutActivity : BaseActivity() {
 
@@ -28,6 +30,9 @@ class AboutActivity : BaseActivity() {
     }
 
     override fun initView() {
+        with(binding) {
+            // ivLogo.setColorFilter(R.color.colorSubIconForeground.asColor(this@AboutActivity))
+        }
         binding.apply {
             val versionType = if (Secure.isDebug()) {
                 "测试版"
@@ -56,8 +61,8 @@ class AboutActivity : BaseActivity() {
             }
             // 使用开源项目
             itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity, OpenSourceActivity::class.java)) }
-            // ivLogo
-            ivLogo.setOnLongClickListener {
+
+            tvDsoMusic.setOnLongClickListener {
                 AppInfoDialog(this@AboutActivity).show()
                 return@setOnLongClickListener true
             }

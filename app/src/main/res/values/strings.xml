@@ -120,4 +120,8 @@
     <string name="netease_cloud_music_api">NeteaseCloudMusicApi</string>
     <string name="explain">说明</string>
     <string name="enable_service">启用服务</string>
+    <string name="memory">Memory</string>
+    <string name="song">歌曲</string>
+    <string name="address">地址</string>
+    <string name="find">发现</string>
 </resources>

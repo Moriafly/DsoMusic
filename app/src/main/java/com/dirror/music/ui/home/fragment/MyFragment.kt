@@ -17,7 +17,6 @@ import com.dirror.music.MyApplication
 import com.dirror.music.adapter.MyPlaylistAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.databinding.FragmentMyBinding
-import com.dirror.music.ui.activity.LocalMusicActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.base.BaseFragment
@@ -75,12 +74,6 @@ class MyFragment : BaseFragment() {
             clNewPlaylist.setOnClickListener {
                 toast("功能开发中，敬请期待")
             }
-            // 本地音乐
-            clLocal.setOnClickListener {
-                AnimationUtil.click(it)
-                val intent = Intent(this@MyFragment.context, LocalMusicActivity::class.java)
-                startActivity(intent)
-            }
             // 播放历史
             clLatest.setOnClickListener {
                 AnimationUtil.click(it)
@@ -126,7 +119,7 @@ class MyFragment : BaseFragment() {
         })
         mainViewModel.statusBarHeight.observe(viewLifecycleOwner, {
             (binding.clUser.layoutParams as LinearLayout.LayoutParams).apply {
-                topMargin = it + 56.dp() + 8.dp()
+                topMargin = 8.dp()
                 // setMargins(0, it + 56.dp(), 0, 0)
             }
         })

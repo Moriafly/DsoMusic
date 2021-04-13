@@ -42,6 +42,11 @@ class SearchActivity : BaseActivity() {
     }
 
     override fun initView() {
+        if (MyApplication.mmkv.decodeBool(Config.QQ_WEB_SOURCE, false)) {
+            binding.clQQ.visibility = View.VISIBLE
+        } else {
+            binding.clQQ.visibility = View.GONE
+        }
         // 获取焦点
         binding.etSearch.apply {
             isFocusable = true

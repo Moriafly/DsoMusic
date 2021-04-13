@@ -61,7 +61,7 @@ object LocalMusic {
                 val sizeColumn = cursor.getColumnIndex(MediaStore.Audio.Media.SIZE) // 大小
                 do {
                     val id = cursor.getLong(songIdColumn)
-                    val dataPath = cursor.getString(dataColumn)
+                    val data = cursor.getString(dataColumn)
                     val albumId = cursor.getLong(albumIdColumn)
                     val title = cursor.getString(titleColumn)
                     var artist = cursor.getString(artistColumn)
@@ -109,7 +109,7 @@ object LocalMusic {
                             coverUri.toString(),
                             artistList,
                             null,
-                            LocalInfo(size),
+                            LocalInfo(size, data),
                             null
                         )
                     )

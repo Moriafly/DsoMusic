@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemVersion"
+    android:minHeight="42dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,13 +21,16 @@
 
     <TextView
         android:id="@+id/tvValue"
-        android:textIsSelectable="true"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="TextView"
+        android:textAlignment="textEnd"
         android:textColor="@color/colorSubTextForeground"
+        android:textIsSelectable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTitle"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

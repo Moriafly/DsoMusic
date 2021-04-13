@@ -130,6 +130,11 @@ class PlayerActivity : SlideBackActivity() {
     }
 
     override fun initView() {
+        if (MyApplication.mmkv.decodeBool(Config.NETEASE_GOOD_COMMENTS, false)) {
+            binding.ivComment.visibility = View.VISIBLE
+        } else {
+            binding.ivComment.visibility = View.GONE
+        }
         // window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         // 设置 SlideBackLayout
         bindSlide(this, binding.clBase)
@@ -565,6 +570,16 @@ class PlayerActivity : SlideBackActivity() {
 
             })
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.lyricsBackground.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.lyricsBackground.pause()
     }
 
     /**

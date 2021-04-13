@@ -25,7 +25,17 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
 
         // 数据库版本
-        const val DATABASE_VERSION = 3
+        const val DATABASE_VERSION = 4
+
+        /**
+         * 718
+         */
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("alter table MyFavoriteData add column data TEXT")
+                database.execSQL("alter table PlayQueueData add column data TEXT")
+            }
+        }
 
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
@@ -56,9 +66,9 @@ abstract class AppDatabase : RoomDatabase() {
                     execSQL("alter table PlayQueueData add column url TEXT")
 
                     execSQL("CREATE TABLE MyFavoriteData_temp (databaseId integer primary key autoincrement not null, flag INTEGER, size INTEGER, artists TEXT, imageUrl TEXT, fee INTEGER, name TEXT, maxbr INTEGER, source INTEGER, id TEXT, pl INTEGER, url TEXT)")
-                    execSQL(" INSERT INTO MyFavoriteData_temp (flag, size, artists, imageUrl, fee, name, maxbr, source, id, pl, url) SELECT flag, size, artists, imageUrl, fee, name, maxbr, source, id, pl, url FROM MyFavoriteData ")
-                    execSQL(" DROP TABLE MyFavoriteData")
-                    execSQL(" ALTER  TABLE MyFavoriteData_temp  RENAME to MyFavoriteData")
+                    execSQL("INSERT INTO MyFavoriteData_temp (flag, size, artists, imageUrl, fee, name, maxbr, source, id, pl, url) SELECT flag, size, artists, imageUrl, fee, name, maxbr, source, id, pl, url FROM MyFavoriteData ")
+                    execSQL("DROP TABLE MyFavoriteData")
+                    execSQL("ALTER TABLE MyFavoriteData_temp  RENAME to MyFavoriteData")
                 }
             }
         }
@@ -74,7 +84,11 @@ abstract class AppDatabase : RoomDatabase() {
                 context.applicationContext,
                 AppDatabase::class.java, "app_database"
             )
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                .addMigrations(
+                    MIGRATION_1_2,
+                    MIGRATION_2_3,
+                    MIGRATION_3_4
+                )
                 // .fallbackToDestructiveMigration() // 上线移除
                 .build().apply {
                     instance = this

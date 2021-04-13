@@ -79,7 +79,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/bq_no_data_song"
+                            app:srcCompat="@drawable/ic_song_cover"
                             tools:ignore="ContentDescription" />
                     </androidx.cardview.widget.CardView>
 
@@ -129,7 +129,7 @@
                 android:id="@+id/clNav"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@drawable/bg_sticky_nav"
+                android:background="@drawable/bg_slide_layout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent">

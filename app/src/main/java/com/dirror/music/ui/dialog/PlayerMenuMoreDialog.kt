@@ -2,18 +2,14 @@ package com.dirror.music.ui.dialog
 
 import android.content.Context
 import android.content.Intent
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.DialogPlayMoreBinding
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.service.SimpleWorker
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.base.BaseBottomSheetDialog
 import com.dirror.music.util.toast
-import java.util.concurrent.TimeUnit
 
 class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
 
@@ -80,7 +76,5 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
             }
         }
     }
-
-
 
 }

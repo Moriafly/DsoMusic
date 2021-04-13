@@ -23,6 +23,7 @@ import com.dirror.music.ui.activity.SearchActivity
 import com.dirror.music.ui.activity.SettingsActivity
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.home.fragment.HomeFragment
+import com.dirror.music.ui.home.fragment.LocalSongFragment
 import com.dirror.music.ui.home.fragment.MyFragment
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
@@ -84,19 +85,9 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            window.allowEnterTransitionOverlap = true
-            window.allowReturnTransitionOverlap = true
-        }
-
         val radius = 20f
         val decorView: View = window.decorView
         val windowBackground: Drawable = decorView.background
-        binding.blurViewTop.setupWith(decorView.findViewById(R.id.clTheme))
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(radius)
-            .setHasFixedTransformationMatrix(true)
         binding.blurViewPlay.setupWith(decorView.findViewById(R.id.clTheme))
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
@@ -106,11 +97,12 @@ class MainActivity : BaseActivity() {
         // 适配状态栏
         val statusBarHeight = getStatusBarHeight(window, this) // px
         mainViewModel.statusBarHeight.value = statusBarHeight
-        (binding.blurViewTop.layoutParams as ConstraintLayout.LayoutParams).apply {
-            height = 56.dp() + statusBarHeight
-        }
+        mainViewModel.navigationBarHeight.value = getNavigationBarHeight(this)
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = statusBarHeight
+        }
+        (binding.viewPager2.layoutParams as ConstraintLayout.LayoutParams).apply {
+            topMargin = statusBarHeight + 56.dp()
         }
         // 侧滑状态栏适配
         (binding.menuMain.cvOthers.layoutParams as LinearLayout.LayoutParams).apply {
@@ -118,15 +110,16 @@ class MainActivity : BaseActivity() {
         }
 
 
-        binding.viewPager2.offscreenPageLimit = 2
+        binding.viewPager2.offscreenPageLimit = 3
         binding.viewPager2.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
-                return 2
+                return 3
             }
 
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    0 -> MyFragment()
+                    0 -> LocalSongFragment()
+                    1 -> MyFragment()
                     else -> HomeFragment()
                 }
             }
@@ -134,8 +127,9 @@ class MainActivity : BaseActivity() {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = when (position) {
-                0 -> getString(R.string.my)
-                else -> getString(R.string.home)
+                0 -> getString(R.string.song)
+                1 -> getString(R.string.my)
+                else -> getString(R.string.find)
             }
         }.attach()
 

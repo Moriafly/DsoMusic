@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.MemoryActivity">
+
+    <com.dirror.music.widget.TitleBarLayout
+        android:id="@+id/titleBarLayout"
+        app:text="@string/memory"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/defaultHeight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.dirror.music.widget.TitleBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleBarLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/defaultValueText"
+                android:text="Dso Music 正在减少在线功能\n以下功能已经默认隐藏，且随时可能被移除"/>
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="网易云精彩评论">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherNeteaseGoodComments"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="QQ 网页版搜索源">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcherQQWebSource"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </com.dirror.music.widget.ItemLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/defaultValueText"
+                android:text="使用 QQ 网页版搜索源请注意：\n不支持试听某些特定客户端歌曲\n不支持试听 VIP 歌曲"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

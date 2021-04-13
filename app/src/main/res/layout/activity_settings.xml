@@ -417,8 +417,14 @@
                 android:id="@+id/itemNeteaseCloudMusicApi"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:layout_marginBottom="12dp"
                 app:text="NeteaseCloudMusicApi" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemMemory"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                app:text="@string/memory" />
 
         </LinearLayout>
     </ScrollView>
