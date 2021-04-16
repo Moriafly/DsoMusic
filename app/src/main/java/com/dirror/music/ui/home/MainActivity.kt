@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityMainBinding
@@ -133,6 +134,9 @@ class MainActivity : BaseActivity() {
             }
         }.attach()
 
+        val select = MyApplication.mmkv.decodeInt(Config.SELECT_FRAGMENT, 0)
+        binding.viewPager2.setCurrentItem(select, false)
+
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
 
         updateView()
@@ -148,6 +152,13 @@ class MainActivity : BaseActivity() {
             ivSettings.setOnClickListener {
                 binding.drawerLayout.openDrawer(GravityCompat.START)
             }
+
+            viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    MyApplication.mmkv.encode(Config.SELECT_FRAGMENT, position)
+                }
+            })
             // 侧滑
             with(menuMain) {
                 itemSponsor.setOnClickListener {

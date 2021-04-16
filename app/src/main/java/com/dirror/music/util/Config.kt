@@ -91,4 +91,7 @@ object Config {
 
     // QQ 网页版源
     const val QQ_WEB_SOURCE = "boolean_qq_web_source"
+
+    // 选择的页面
+    const val SELECT_FRAGMENT = "int_select_fragment"
 }

@@ -18,7 +18,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
-
+        <ImageView
+            android:id="@+id/ivLyricsBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -221,18 +230,50 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
-                    android:id="@+id/ivMore"
+                    android:id="@+id/ivEqualizer"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    android:layout_marginEnd="16dp"
-                    android:alpha="0.81"
+                    android:layout_marginStart="12dp"
+                    android:alpha="0.65"
                     android:background="@drawable/background_button_icon"
-                    android:contentDescription="@string/more"
+                    android:contentDescription="@string/equalizer"
                     android:padding="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/mz_ic_sb_more_normal" />
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_bq_equalizer" />
+
+                <ImageView
+                    android:id="@+id/ivSleepTimer"
+                    android:layout_width="56dp"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.65"
+                    android:background="@drawable/background_button_icon"
+                    android:padding="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivLike"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/ivEqualizer"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_bq_player_morelist_time" />
+
+                <ImageView
+                    android:id="@+id/ivLike"
+                    android:layout_width="56dp"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.81"
+                    android:background="@drawable/background_button_icon"
+                    android:contentDescription="@string/add_to_local_my_favorite"
+                    android:padding="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivComment"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/ivSleepTimer"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/mz_titlebar_ic_collect" />
 
                 <ImageView
                     android:id="@+id/ivComment"
@@ -250,32 +291,18 @@
                     app:srcCompat="@drawable/mz_titlebar_ic_information" />
 
                 <ImageView
-                    android:id="@+id/ivEqualizer"
+                    android:id="@+id/ivMore"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    android:layout_marginStart="16dp"
-                    android:alpha="0.65"
-                    android:background="@drawable/background_button_icon"
-                    android:contentDescription="@string/equalizer"
-                    android:padding="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_bq_equalizer" />
-
-                <ImageView
-                    android:id="@+id/ivLike"
-                    android:layout_width="56dp"
-                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
                     android:alpha="0.81"
                     android:background="@drawable/background_button_icon"
-                    android:contentDescription="@string/add_to_local_my_favorite"
+                    android:contentDescription="@string/more"
                     android:padding="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivComment"
-                    app:layout_constraintStart_toEndOf="@+id/ivEqualizer"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/mz_titlebar_ic_collect" />
+                    app:srcCompat="@drawable/mz_ic_sb_more_normal" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

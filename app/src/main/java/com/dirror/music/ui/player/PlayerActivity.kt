@@ -49,6 +49,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.palette.graphics.Palette
 import coil.load
 import coil.size.ViewSizeResolver
+import coil.transform.BlurTransformation
 import com.dirror.lyricviewx.OnPlayClickListener
 import com.dirror.lyricviewx.OnSingleClickListener
 import com.dirror.music.MyApplication
@@ -428,16 +429,24 @@ class PlayerActivity : SlideBackActivity() {
                 // 封面观察
                 controller.getPlayerCover().observe(this@PlayerActivity, { bitmap ->
                     runOnMainThread {
+
                         // 设置 CD 图片
                         binding.ivCover.load(bitmap) {
                             placeholder(previousBitmap?.toDrawable(resources))
                             size(ViewSizeResolver(binding.ivCover))
                             crossfade(500)
-//                        target(onSuccess = {
-//                            // 设置流光背景
-
-//                        })
                         }
+                        binding.ivLyricsBackground.load(bitmap) {
+                            size(ViewSizeResolver(binding.ivCover))
+                            transformations(BlurTransformation(
+                                this@PlayerActivity,
+                                25f,
+                                25f
+                            ))
+                            allowHardware(false)
+                        }
+
+
                         previousBitmap = bitmap
 
 
