@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 723
-        versionName "皎皎空中孤月轮"
+        versionCode 724
+        versionName "江畔何人初见月"
 
         multiDexEnabled true
 

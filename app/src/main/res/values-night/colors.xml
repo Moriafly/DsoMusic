@@ -53,6 +53,6 @@
     <color name="playlistPageBackground">#141414</color>
     <color name="menuMainBackground">#141414</color>
 
-    <color name="dso_color_lyrics_back">#73000000</color>
+    <color name="dso_color_lyrics_back">#8C000000</color>
     <color name="white_alpha_10">#2EC8C8C8</color>
 </resources>

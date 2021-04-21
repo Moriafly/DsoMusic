@@ -691,18 +691,20 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun playNext() {
-            getPlayingSongData().value?.let {
-                val index = PlayQueue.currentQueue.value?.indexOf(it)
-                if (index == PlayQueue.currentQueue.value?.lastIndex) {
-                    PersonalFM.get({ list ->
-                        runOnMainThread {
-                            PlayQueue.setNormal(list)
-                            playMusic(list[0])
-                        }
-                    }, {
-                        toast("获取私人 FM 失败")
-                    })
-                    return
+            if (personFM.value == true) {
+                getPlayingSongData().value?.let {
+                    val index = PlayQueue.currentQueue.value?.indexOf(it)
+                    if (index == PlayQueue.currentQueue.value?.lastIndex) {
+                        PersonalFM.get({ list ->
+                            runOnMainThread {
+                                PlayQueue.setNormal(list)
+                                playMusic(list[0])
+                            }
+                        }, {
+                            toast("获取私人 FM 失败")
+                        })
+                        return
+                    }
                 }
             }
             PlayQueue.currentQueue.value?.next(songData.value)?.let {

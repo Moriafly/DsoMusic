@@ -61,6 +61,6 @@
     <color name="lrc_timeline_color">#809E9E9E</color>
     <color name="lrc_time_text_color">#809E9E9E</color>
 
-    <color name="dso_color_lyrics_back">#66FFFFFF</color>
+    <color name="dso_color_lyrics_back">#BFFFFFFF</color>
     <color name="white_alpha_10">#26FFFFFF</color>
 </resources>
