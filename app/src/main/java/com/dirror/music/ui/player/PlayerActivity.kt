@@ -108,7 +108,9 @@ class PlayerActivity : SlideBackActivity() {
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             if (msg.what == MSG_PROGRESS) {
-                playViewModel.refreshProgress()
+                if (MyApplication.musicController.value?.isPlaying()?.value == true) {
+                    playViewModel.refreshProgress()
+                }
             }
         }
     }
