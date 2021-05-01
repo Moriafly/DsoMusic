@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApplication
+import com.dirror.music.MyApplication.Companion.mmkv
 import com.dirror.music.R
 import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.adapter.SearchHotAdapter
@@ -42,7 +43,7 @@ class SearchActivity : BaseActivity() {
     }
 
     override fun initView() {
-        if (MyApplication.mmkv.decodeBool(Config.QQ_WEB_SOURCE, false)) {
+        if (mmkv.decodeBool(Config.QQ_WEB_SOURCE, false)) {
             binding.clQQ.visibility = View.VISIBLE
         } else {
             binding.clQQ.visibility = View.GONE
@@ -219,7 +220,7 @@ class SearchActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // 保存搜索引擎
-        MyApplication.mmkv.encode(Config.SEARCH_ENGINE, searchViewModel.searchEngine.value ?: SearchViewModel.ENGINE_NETEASE)
+        mmkv.encode(Config.SEARCH_ENGINE, searchViewModel.searchEngine.value ?: SearchViewModel.ENGINE_NETEASE)
     }
 
     override fun onBackPressed() {

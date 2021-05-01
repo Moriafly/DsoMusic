@@ -57,7 +57,7 @@ class CloudMusicManager {
         success: (result: com.dirror.music.data.UserDetailData) -> Unit,
         failure: (error: String) -> Unit
     ) {
-        MagicHttp.OkHttpManager().newGet("${API_MUSIC_API}/user/detail?uid=$uid", {
+        MagicHttp.OkHttpManager().newGet("${API_AUTU}/user/detail?uid=$uid", {
             try {
                 val userDetailData = Gson().fromJson(it, com.dirror.music.data.UserDetailData::class.java)
                 when (userDetailData.code) {
