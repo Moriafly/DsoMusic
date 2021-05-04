@@ -10,6 +10,11 @@ Kotlin 开发的美观的安卓音乐软件。
 
 📫 作者邮箱: moriafly@163.com.
 
+# 椒盐音乐
+
+Dso Music 本地版
+[酷安下载](https://www.coolapk.com/apk/com.salt.music)
+
 # 声明及协议
 
 开源链接、源码、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）
