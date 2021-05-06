@@ -4,20 +4,15 @@ Kotlin 开发的美观的安卓音乐软件。
 
 ![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=Moriafly&repo=DsoMusic&theme=vue)  
 
-原开源仓库在 2021 年 3 月 1 日前共计 217 star。
+作者邮箱: moriafly@163.com
 
-注意：源码仅供学习，请勿传播软件安装包。
+# 本项目正在重构
 
-📫 作者邮箱: moriafly@163.com.
-
-# 椒盐音乐
-
-Dso Music 本地版
-[酷安下载](https://www.coolapk.com/apk/com.salt.music)
+2021年5月6日 开始重构
 
 # 声明及协议
 
-开源链接、源码、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）
+源码仅供学习，请勿传播软件安装包。开源链接、源码、介绍及应用安装包未经开发者允许不接受他人的任何转发（发布到其他应用、推广网站、公众号、博客等）
 
 Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支持正版音乐。
 
@@ -26,6 +21,14 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
 GNU 通用公共许可协议 [GNU GENERAL PUBLIC LICENSE Version 3](http://www.gnu.org/licenses/gpl-3.0.html)
 
 详见 [LICENSE](https://github.com/Moriafly/dirror-music/blob/master/LICENSE)
+
+# 作者的其他小玩意
+ 
+### 椒盐音乐
+
+Dso Music 本地音乐版
+独特的流光效果（Dso Music 不含），可以试试
+[酷安下载](https://www.coolapk.com/apk/com.salt.music)
 
 # 音源
 
