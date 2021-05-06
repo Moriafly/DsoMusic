@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApplication
 import com.dirror.music.adapter.MyPlaylistAdapter
+import com.dirror.music.adapter.item.BlankAdapter
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.main.adapter.MyFragmentIconAdapter
@@ -22,6 +23,7 @@ import com.dirror.music.ui.main.viewmodel.MyFragmentViewModel
 import com.dirror.music.ui.playlist.SongPlaylistActivity
 import com.dirror.music.ui.playlist.TAG_NETEASE
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.dp
 
 /**
  * 我的
@@ -41,6 +43,7 @@ class MyFragment : BaseFragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
+            overScrollMode = View.OVER_SCROLL_NEVER
         }
         return rvMy
     }
@@ -71,7 +74,9 @@ class MyFragment : BaseFragment() {
 
         val myFragmentIconAdapter = MyFragmentIconAdapter(requireContext())
 
-        val concatAdapter = ConcatAdapter(myFragmentUserAdapter, myFragmentIconAdapter, myPlaylistAdapter)
+        val blankAdapter = BlankAdapter(64.dp())
+
+        val concatAdapter = ConcatAdapter(myFragmentUserAdapter, myFragmentIconAdapter, myPlaylistAdapter, blankAdapter)
 
         rvMy.layoutManager = LinearLayoutManager(requireContext())
         rvMy.adapter = concatAdapter
@@ -85,14 +90,13 @@ class MyFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     override fun initObserver() {
         mainViewModel.userId.observe(viewLifecycleOwner, {
-            // 清空歌单
-            myFragmentViewModel.clearPlaylist()
-            // toast("更新歌单")
-            myFragmentViewModel.updatePlaylist()
+            myFragmentViewModel.updateUserPlaylist()
         })
         // 用户歌单的观察
         myFragmentViewModel.userPlaylistList.observe(viewLifecycleOwner, {
-            setPlaylist(it)
+            runOnMainThread {
+                myPlaylistAdapter.submitList(it)
+            }
         })
         mainViewModel.userId.observe(viewLifecycleOwner, { userId ->
             if (userId == 0L) {
@@ -111,32 +115,6 @@ class MyFragment : BaseFragment() {
                 })
             }
         })
-        mainViewModel.singleColumnPlaylist.observe(viewLifecycleOwner, {
-            val count = if (it) {
-                1
-            } else {
-                2
-            }
-        })
-//        mainViewModel.neteaseLiveVisibility.observe(viewLifecycleOwner, {
-//            if (it) {
-//                binding.clUserCloud.visibility = View.VISIBLE
-//                binding.clPersonalFM.visibility = View.VISIBLE
-//            } else {
-//                binding.clUserCloud.visibility = View.GONE
-//                binding.clPersonalFM.visibility = View.GONE
-//            }
-//
-//        })
-    }
-
-    /**
-     * 设置歌单
-     */
-    private fun setPlaylist(playlist: ArrayList<PlaylistData>) {
-        runOnMainThread {
-            myPlaylistAdapter.submitList(playlist)
-        }
     }
 
 }

@@ -53,8 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:contentDescription="@string/cloud_drive"
-        android:visibility="gone">
+        android:contentDescription="@string/cloud_drive">
 
         <ImageView
             android:id="@+id/ivUserCloud"

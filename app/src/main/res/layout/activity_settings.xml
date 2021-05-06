@@ -106,6 +106,7 @@
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:visibility="gone"
                 app:itemType="item_no"
                 app:text="@string/pause_song_after_unplug_headset">
 
@@ -325,6 +326,7 @@
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:visibility="gone"
                 app:itemType="item_no"
                 app:text="@string/single_column_playlist">
 

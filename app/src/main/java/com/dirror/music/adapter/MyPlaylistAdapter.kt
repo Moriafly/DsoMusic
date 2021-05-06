@@ -1,7 +1,6 @@
 package com.dirror.music.adapter
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,6 @@ import coil.size.ViewSizeResolver
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
-import com.dirror.music.ui.playlist.SongPlaylistActivity
-import com.dirror.music.ui.playlist.TAG_NETEASE
 import com.dirror.music.util.extensions.dp
 
 /**
@@ -66,13 +63,9 @@ class MyPlaylistAdapter
         }
     }
 
-    override fun getItemCount(): Int {
-        return currentList.size
-    }
-
     object DiffCallback : DiffUtil.ItemCallback<PlaylistData>() {
         override fun areItemsTheSame(oldItem: PlaylistData, newItem: PlaylistData): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.coverImgUrl == newItem.coverImgUrl && oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: PlaylistData, newItem: PlaylistData): Boolean {
