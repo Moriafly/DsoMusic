@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#FFFFFF</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/statusBarForeground</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/dso_bool_status_bar_foreground</item>
         <item name="android:windowBackground">@color/colorPageBackground</item>
     </style>
 
@@ -80,8 +80,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">16dp</item>
-        <item name="switcher_off_color">@color/switchBackground</item>
-        <item name="switcher_on_color">@color/highLight</item>
+        <item name="switcher_off_color">@color/dso_color_switch_background</item>
+        <item name="switcher_on_color">@color/dso_color_high_light</item>
         <item name="elevation">0dp</item>
     </style>
 
@@ -112,7 +112,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
-        <item name="android:textColor">@color/highLight</item>
+        <item name="android:textColor">@color/dso_color_high_light</item>
         <item name="android:textSize">12sp</item>
     </style>
 

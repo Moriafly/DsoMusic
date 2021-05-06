@@ -30,7 +30,7 @@ class ItemLayout(context: Context, attrs: AttributeSet): androidx.constraintlayo
                 (tvItem.layoutParams as LayoutParams).apply {
                     marginStart = 54.dp()
                 }
-                ivGoto.alpha = 0.5f
+                ivGoto.alpha = 0f
             }
         }
     }

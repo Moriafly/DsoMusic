@@ -42,7 +42,7 @@
                 android:lineSpacingExtra="6sp"
                 android:text="Github 问题反馈\nhttps://github.com/Moriafly/DsoMusic/issues"
                 android:textColor="@color/colorSubTextForeground"
-                android:textColorLink="@color/highLight"
+                android:textColorLink="@color/dso_color_high_light"
                 android:textSize="12sp" />
 
             <com.dirror.music.widget.ItemLayout

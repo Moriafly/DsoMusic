@@ -12,7 +12,7 @@
         android:id="@+id/viewPlaying"
         android:layout_width="2dp"
         android:layout_height="48dp"
-        android:background="@color/highLight"
+        android:background="@color/dso_color_high_light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

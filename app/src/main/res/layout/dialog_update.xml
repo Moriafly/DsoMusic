@@ -62,7 +62,7 @@
                 android:lineSpacingExtra="4sp"
                 android:text="查看完整更新日志请访问：\nhttps://github.com/Moriafly/dirror-music/releases"
                 android:textColor="@color/colorSubTextForeground"
-                android:textColorLink="@color/highLight"
+                android:textColorLink="@color/dso_color_high_light"
                 android:textSize="12sp" />
 
             <LinearLayout

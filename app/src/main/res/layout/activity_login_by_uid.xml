@@ -63,7 +63,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:text="什么是网易云 UID ？"
-                android:textColor="@color/highLight"
+                android:textColor="@color/dso_color_high_light"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTip" />

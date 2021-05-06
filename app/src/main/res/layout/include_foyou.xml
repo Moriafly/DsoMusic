@@ -12,7 +12,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/defaultPadding"
         android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@color/homeWidget"
+        app:cardBackgroundColor="@color/dso_color_home_widget"
         app:cardCornerRadius="@dimen/defaultRadius"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

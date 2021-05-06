@@ -7,7 +7,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#FFFFFF</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/statusBarForeground</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">@bool/dso_bool_status_bar_foreground</item>
         <item name="android:statusBarColor">@color/colorStatusBar</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowBackground">@color/colorPageBackground</item>

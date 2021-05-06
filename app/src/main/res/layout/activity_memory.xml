@@ -30,12 +30,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/defaultValueText"
-                android:text="Dso Music 正在减少在线功能\n以下功能已经默认隐藏，且随时可能被移除"/>
-
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

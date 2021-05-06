@@ -1,7 +1,6 @@
 package com.dirror.music.adapter
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
@@ -22,45 +23,61 @@ import com.dirror.music.util.extensions.dp
 /**
  * 我的歌单适配器
  */
-class MyPlaylistAdapter(private val playlist: ArrayList<PlaylistData>, val activity: Activity) : RecyclerView.Adapter<MyPlaylistAdapter.ViewHolder>() {
+class MyPlaylistAdapter
+    (private val itemClickListener: (PlaylistData) -> Unit)
+    : ListAdapter<PlaylistData, MyPlaylistAdapter.ViewHolder>(DiffCallback) {
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View, itemClickListener: (PlaylistData) -> Unit) : RecyclerView.ViewHolder(view) {
         val clTrack: ConstraintLayout = view.findViewById(R.id.clTrack)
         val ivCover: ImageView = view.findViewById(R.id.ivCover)
         val tvName: TextView = view.findViewById(R.id.tvName)
         val tvTrackCount: TextView = view.findViewById(R.id.tvTrackCount)
 
         val radius = view.context.resources.getDimension(R.dimen.defaultRadius)
+
+        var selectPlaylist: PlaylistData? = null
+
+        init {
+            clTrack.setOnClickListener {
+                selectPlaylist?.let { it1 -> itemClickListener(it1)}
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_playlist, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, itemClickListener)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            val play = playlist[position]
-            val url = MyApplication.cloudMusicManager.getPicture(play.coverImgUrl, 56.dp())
+            val playlist = getItem(position)
+            selectPlaylist = playlist
+
+            val url = MyApplication.cloudMusicManager.getPicture(playlist.coverImgUrl, 56.dp())
             ivCover.load(url) {
                 allowHardware(false)
                 size(ViewSizeResolver(ivCover))
                 crossfade(300)
             }
-            tvName.text = play.name
-            tvTrackCount.text = holder.itemView.context.getString(R.string.songs, play.trackCount)
-            clTrack.setOnClickListener {
-                val intent = Intent(it.context, SongPlaylistActivity::class.java)
-                intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
-                intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, play.id.toString())
-                it.context.startActivity(intent)
-            }
+            tvName.text = playlist.name
+            tvTrackCount.text = holder.itemView.context.getString(R.string.songs, playlist.trackCount)
         }
     }
 
     override fun getItemCount(): Int {
-        return playlist.size
+        return currentList.size
+    }
+
+    object DiffCallback : DiffUtil.ItemCallback<PlaylistData>() {
+        override fun areItemsTheSame(oldItem: PlaylistData, newItem: PlaylistData): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: PlaylistData, newItem: PlaylistData): Boolean {
+            return oldItem == newItem
+        }
     }
 
 }

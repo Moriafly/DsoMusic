@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <bool name="statusBarForeground">true</bool>
+    <bool name="dso_bool_status_bar_foreground">true</bool>
 
     <!-- 状态栏背景色 -->
     <color name="colorStatusBar">#FFFFFF</color>
@@ -31,7 +31,7 @@
 
     <color name="colorTransparency">#00000000</color>
 
-<!--    <color name="colorAppThemeColor">#2191FA</color>-->
+    <!--    <color name="colorAppThemeColor">#2191FA</color>-->
     <color name="colorAppThemeColor">#DB2C1F</color>
     <color name="colorDialogBackground">#FFFFFF</color>
     <color name="colorHintForeground">#C8C8C8</color>
@@ -45,12 +45,12 @@
     <color name="colorDividerBackground">#E6E6E6</color>
 
     <color name="colorLyricSubForeground">#4B4B4B</color>
-    
-    <color name="highLight">#0091EA</color>
-    <color name="homeWidget">#F5F5F5</color>
-    <color name="switchBackground">#EBEBEB</color>
 
-    <color name="songUnable">#D2D2D2</color>
+    <color name="dso_color_high_light">#0091EA</color>
+    <color name="dso_color_home_widget">#F5F5F5</color>
+    <color name="dso_color_switch_background">#EBEBEB</color>
+
+    <color name="dso_color_song_unable">#D2D2D2</color>
 
     <color name="playlistPageBackground">#F7ECEA</color>
     <color name="menuMainBackground">#FAFAFA</color>
@@ -62,5 +62,5 @@
     <color name="lrc_time_text_color">#809E9E9E</color>
 
     <color name="dso_color_lyrics_back">#BFFFFFFF</color>
-    <color name="white_alpha_10">#26FFFFFF</color>
+    <color name="dso_color_white_alpha_10">#26FFFFFF</color>
 </resources>

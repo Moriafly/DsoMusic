@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +18,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityMainBinding
+import com.dirror.music.manager.ActivityCollector
+import com.dirror.music.ui.activity.AboutActivity
+import com.dirror.music.ui.activity.FeedbackActivity
+import com.dirror.music.ui.activity.SearchActivity
 import com.dirror.music.ui.activity.SettingsActivity
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.main.viewmodel.MainViewModel
@@ -74,8 +79,6 @@ class MainActivity : BaseActivity() {
             ACache.get(this).getAsBitmap(Config.APP_THEME_BACKGROUND)?.let {
                 runOnMainThread {
                     binding.ivTheme.setImageBitmap(it)
-                    val pixelsPair = ScreenUtil.getDisplayPixels()
-
                 }
             }
         }
@@ -100,7 +103,7 @@ class MainActivity : BaseActivity() {
             topMargin = statusBarHeight + 56.dp()
         }
         // 侧滑状态栏适配
-        (binding.menuMain.cvOthers.layoutParams as LinearLayout.LayoutParams).apply {
+        (binding.menuMain.llMenu.layoutParams as FrameLayout.LayoutParams).apply {
             topMargin = statusBarHeight + 8.dp()
         }
 
@@ -164,14 +167,6 @@ class MainActivity : BaseActivity() {
                 }
                 itemSettings.setOnClickListener {
                     MyApplication.activityManager.startSettingsActivity(this@MainActivity)
-                }
-                itemPrivateLetter.setOnClickListener {
-                    val cookie = MyApplication.userManager.getCloudMusicCookie()
-                    if (cookie != "") {
-                        MyApplication.activityManager.startPrivateLetterActivity(this@MainActivity)
-                    } else {
-                        toast("当前为离线模式，请登录")
-                    }
                 }
                 // 反馈
                 itemFeedback.setOnClickListener {
