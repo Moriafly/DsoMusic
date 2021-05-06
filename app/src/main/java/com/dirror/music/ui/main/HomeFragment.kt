@@ -1,11 +1,10 @@
-package com.dirror.music.ui.home.fragment
+package com.dirror.music.ui.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dirror.music.MyApplication
@@ -18,7 +17,7 @@ import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.ui.activity.RecommendActivity
 import com.dirror.music.ui.activity.TopListActivity
 import com.dirror.music.ui.base.BaseFragment
-import com.dirror.music.ui.home.MainViewModel
+import com.dirror.music.ui.main.viewmodel.MainViewModel
 import com.dirror.music.util.*
 
 class HomeFragment : BaseFragment(){

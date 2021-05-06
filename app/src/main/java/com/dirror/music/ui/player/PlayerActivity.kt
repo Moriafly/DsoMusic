@@ -169,15 +169,6 @@ class PlayerActivity : SlideBackActivity() {
             }
         }
 
-        val radius = 25f
-        val decorView: View = window.decorView
-        val windowBackground: Drawable = decorView.background
-        binding.blurViewLyric.setupWith(decorView.findViewById(R.id.clLyricBackground))
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(radius)
-            .setOverlayColor(ContextCompat.getColor(this, R.color.dso_color_lyrics_back))
-
         binding.apply {
             // 时长右对齐
             ttvDuration.setAlignRight()
@@ -439,11 +430,10 @@ class PlayerActivity : SlideBackActivity() {
                             crossfade(500)
                         }
                         binding.ivLyricsBackground.load(bitmap) {
-                            size(ViewSizeResolver(binding.ivCover))
                             transformations(BlurTransformation(
                                 this@PlayerActivity,
                                 25f,
-                                25f
+                                10f
                             ))
                             allowHardware(false)
                         }

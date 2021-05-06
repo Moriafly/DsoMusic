@@ -1,4 +1,4 @@
-package com.dirror.music.ui.home.fragment
+package com.dirror.music.ui.main
 
 import android.Manifest
 import android.content.Intent
@@ -19,7 +19,7 @@ import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.dialog.SongMenuDialog
-import com.dirror.music.ui.home.MainViewModel
+import com.dirror.music.ui.main.viewmodel.MainViewModel
 import com.dirror.music.ui.playlist.SongSearchActivity
 import com.dirror.music.ui.playlist.SongSearchTransmit
 import com.dirror.music.util.extensions.dp

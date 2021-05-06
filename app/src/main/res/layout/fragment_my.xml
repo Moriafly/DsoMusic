@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:overScrollMode="never"
     android:scrollbars="none"
-    tools:context=".ui.home.fragment.MyFragment">
+    tools:context=".ui.main.MyFragment">
 
     <LinearLayout
         android:id="@+id/llMain"

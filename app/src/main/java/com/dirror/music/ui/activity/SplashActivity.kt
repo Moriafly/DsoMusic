@@ -4,7 +4,7 @@ import android.content.Intent
 import com.dirror.music.MyApplication
 import com.dirror.music.databinding.ActivitySplashBinding
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.home.MainActivity
+import com.dirror.music.ui.main.MainActivity
 import com.dirror.music.util.Config
 
 /**

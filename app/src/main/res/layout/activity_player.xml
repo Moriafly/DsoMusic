@@ -5,41 +5,21 @@
     android:id="@+id/clBase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPageBackground"
+    android:background="#FFFFFF"
     android:visibility="visible"
     tools:context=".ui.player.PlayerActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clLyricBackground"
+    <ImageView
+        android:id="@+id/ivLyricsBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-        <ImageView
-            android:id="@+id/ivLyricsBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:alpha="0.72"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <eightbitlab.com.blurview.BlurView
-        android:id="@+id/blurViewLyric"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clLyric"

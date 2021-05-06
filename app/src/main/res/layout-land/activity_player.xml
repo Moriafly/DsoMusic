@@ -9,36 +9,17 @@
     android:visibility="visible"
     tools:context=".ui.player.PlayerActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clLyricBackground"
+    <ImageView
+        android:alpha="0.4"
+        android:id="@+id/ivLyricsBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-        <ImageView
-            android:id="@+id/ivLyricsBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <eightbitlab.com.blurview.BlurView
-        android:id="@+id/blurViewLyric"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/llBase"
@@ -117,10 +98,10 @@
 
                     <ImageView
                         android:id="@+id/ivPlay"
-                        android:padding="8dp"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:background="@drawable/background_button_icon"
+                        android:padding="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

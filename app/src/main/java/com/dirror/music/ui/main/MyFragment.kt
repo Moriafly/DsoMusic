@@ -1,4 +1,4 @@
-package com.dirror.music.ui.home.fragment
+package com.dirror.music.ui.main
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -20,9 +20,10 @@ import com.dirror.music.databinding.FragmentMyBinding
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.base.BaseFragment
+import com.dirror.music.ui.main.viewmodel.MainViewModel
+import com.dirror.music.ui.main.viewmodel.MyFragmentViewModel
 import com.dirror.music.ui.playlist.SongPlaylistActivity
 import com.dirror.music.ui.playlist.TAG_LOCAL_MY_FAVORITE
-import com.dirror.music.ui.home.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.extensions.dp
 

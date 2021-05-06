@@ -1,4 +1,4 @@
-package com.dirror.music.ui.home
+package com.dirror.music.ui.main.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

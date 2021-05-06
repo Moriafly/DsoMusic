@@ -1,4 +1,4 @@
-package com.dirror.music.ui.home
+package com.dirror.music.ui.main
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -17,15 +17,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityMainBinding
-import com.dirror.music.manager.ActivityCollector
-import com.dirror.music.ui.activity.AboutActivity
-import com.dirror.music.ui.activity.FeedbackActivity
-import com.dirror.music.ui.activity.SearchActivity
 import com.dirror.music.ui.activity.SettingsActivity
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.home.fragment.HomeFragment
-import com.dirror.music.ui.home.fragment.LocalSongFragment
-import com.dirror.music.ui.home.fragment.MyFragment
+import com.dirror.music.ui.main.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
 import com.dirror.music.util.extensions.dp
