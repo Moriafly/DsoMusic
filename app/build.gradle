@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 730
-        versionName "3.3.0"
+        versionCode 731
+        versionName "3.4.0"
 
         multiDexEnabled true
 
@@ -110,7 +110,7 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.5'
     // LyricViewX
     implementation 'com.github.Moriafly:LyricViewX:1.1.6'
-    implementation 'com.github.Moriafly:DsoKotlinExtensions:1.0.0-dev04'
+    implementation 'com.github.team403:DsoKotlinExtensions:1.0.0'
     // 漂亮的开关
     implementation 'com.bitvale:switcher:1.1.1'
     // coil 图片加载库

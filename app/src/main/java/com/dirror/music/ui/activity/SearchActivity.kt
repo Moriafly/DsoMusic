@@ -43,11 +43,6 @@ class SearchActivity : BaseActivity() {
     }
 
     override fun initView() {
-        if (mmkv.decodeBool(Config.QQ_WEB_SOURCE, false)) {
-            binding.clQQ.visibility = View.VISIBLE
-        } else {
-            binding.clQQ.visibility = View.GONE
-        }
         // 获取焦点
         binding.etSearch.apply {
             isFocusable = true
@@ -108,6 +103,9 @@ class SearchActivity : BaseActivity() {
                 toast("酷我音源暂只支持精确搜索，需要填入完整歌曲名")
             }
 
+            itemOpenSource.setOnClickListener {
+                openUrlByBrowser(this@SearchActivity, "https://github.com/Moriafly/DsoMusic")
+            }
         }
 
         // 搜索框

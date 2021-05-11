@@ -147,7 +147,7 @@ open class MusicService : BaseMediaService() {
     /* Handler */
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
-            if (msg.what == MSG_STATUS_BAR_LYRIC) {
+            if (msg.what == MSG_STATUS_BAR_LYRIC && !Rom.meizu) {
                 if (lyricEntryList.isNotEmpty()) {
                     if (getCurrentLineLyricEntry()?.text ?: "" != currentStatusBarTag) {
                         currentStatusBarTag = getCurrentLineLyricEntry()?.text ?: ""
@@ -506,7 +506,9 @@ open class MusicService : BaseMediaService() {
                         lyricEntryList.sort()
                         runOnMainThread {
                             liveLyricEntryList.value = lyricEntryList
-                            handler.sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 100L)
+                            if (Rom.meizu) {
+                                handler.sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 100L)
+                            }
                         }
                     }
                 }
@@ -550,7 +552,9 @@ open class MusicService : BaseMediaService() {
                 mediaSessionCallback?.onPlay()
                 sendMusicBroadcast()
                 updateNotification()
-                handler.sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 100L)
+                if (Rom.meizu) {
+                    handler.sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 100L)
+                }
             }
         }
 

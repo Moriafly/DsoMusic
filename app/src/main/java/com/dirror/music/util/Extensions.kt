@@ -41,17 +41,6 @@ fun Char.isChinese(): Boolean {
     return false
 }
 
-/**
- * 混合颜色
- * [color] 是要混合的颜色
- */
-fun Int.colorMix(color: Int): Int {
-    val red = (Color.red(this) + Color.red(color)) / 2
-    val green = (Color.green(this) + Color.green(color)) / 2
-    val blue = (Color.blue(this) + Color.blue(color)) / 2
-    return Color.rgb(red, green, blue)
-}
-
 fun Int.colorAlpha(alpha: Float): Int {
     val a = if (alpha in 0f..1f) {
         Color.alpha(this) * alpha

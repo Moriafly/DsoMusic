@@ -119,6 +119,54 @@
                 tools:ignore="ContentDescription">
 
                 <TextView
+                    android:id="@+id/tvOpenSource"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:height="28dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="关注开源"
+                    android:textColor="@color/colorTextForeground"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textColor="@color/colorSubTextForeground"
+                    android:textSize="11dp"
+                    android:lineSpacingExtra="4dp"
+                    android:text="Moriafly/DsoMusic 项目基于 GPL 3 协议开源（含其他附加条例），严禁传播、倒卖，仅供开发者学习使用，
+可以通过以下链接 watch / star / fork 本项目"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.dirror.music.widget.ItemLayout
+                    android:id="@+id/itemOpenSource"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:layout_height="56dp">
+
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="40dp"
+                        android:textColor="@color/dso_color_high_light"
+                        android:text="https://github.com/Moriafly/DsoMusic"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </com.dirror.music.widget.ItemLayout>
+
+                <TextView
                     android:id="@+id/tvSearchHot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -191,7 +239,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clQQ"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -211,7 +258,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clKuwo"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">

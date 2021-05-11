@@ -65,6 +65,8 @@ class PlayerViewModel: ViewModel() {
         it.value = Color.rgb(100, 100, 100)
     }
 
+    var heart = MutableLiveData<Boolean>()
+
     /**
      * 刷新
      */

@@ -32,9 +32,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -66,10 +66,10 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.SoundEffectDialog
 import com.dirror.music.ui.dialog.TimingOffDialog
 import com.dirror.music.util.*
+import com.dirror.music.util.extensions.asColor
 import com.dirror.music.util.extensions.asDrawable
 import com.dirror.music.util.extensions.colorAlpha
-import com.dirror.music.util.extensions.colorMix
-import eightbitlab.com.blurview.RenderScriptBlur
+import com.dso.ext.colorMix
 
 /**
  * PlayerActivity
@@ -133,7 +133,7 @@ class PlayerActivity : SlideBackActivity() {
     }
 
     override fun initView() {
-        if (MyApplication.mmkv.decodeBool(Config.NETEASE_GOOD_COMMENTS, false)) {
+        if (MyApplication.mmkv.decodeBool(Config.NETEASE_GOOD_COMMENTS, true)) {
             binding.ivComment.visibility = View.VISIBLE
         } else {
             binding.ivComment.visibility = View.GONE
@@ -206,7 +206,7 @@ class PlayerActivity : SlideBackActivity() {
                 }
             }
             // 定时关闭
-            ivSleepTimer?.setOnClickListener {
+            ivSleepTimer.setOnClickListener {
                 TimingOffDialog(this@PlayerActivity).show()
             }
             // 评论
@@ -237,21 +237,7 @@ class PlayerActivity : SlideBackActivity() {
             ivLike.setOnClickListener {
                 playViewModel.likeMusic {
                     runOnMainThread {
-                        if (it) {
-                            binding.ivLike.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    this@PlayerActivity,
-                                    R.drawable.mc_collectingview_red_heart
-                                )
-                            )
-                        } else {
-                            binding.ivLike.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    this@PlayerActivity,
-                                    R.drawable.mz_titlebar_ic_collect
-                                )
-                            )
-                        }
+                        playViewModel.heart.value = it
                     }
                 }
             }
@@ -410,11 +396,7 @@ class PlayerActivity : SlideBackActivity() {
                         // 是否有红心
                         MyFavorite.isExist(it) { exist ->
                             runOnMainThread {
-                                if (exist) {
-                                    binding.ivLike.setImageDrawable(R.drawable.mc_collectingview_red_heart.asDrawable(this@PlayerActivity))
-                                } else {
-                                    binding.ivLike.setImageDrawable(R.drawable.mz_titlebar_ic_collect.asDrawable(this@PlayerActivity))
-                                }
+                                playViewModel.heart.value = exist
                             }
                         }
                     }
@@ -433,7 +415,7 @@ class PlayerActivity : SlideBackActivity() {
                             transformations(BlurTransformation(
                                 this@PlayerActivity,
                                 25f,
-                                10f
+                                15f
                             ))
                             allowHardware(false)
                         }
@@ -454,7 +436,11 @@ class PlayerActivity : SlideBackActivity() {
                                             palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
                                         }
                                         val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
-                                        playViewModel.color.value = muteColor.colorMix(vibrantColor)
+                                        playViewModel.color.value =  if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                            muteColor.colorMix(vibrantColor, Color.rgb(255,255,255))
+                                        } else {
+                                            muteColor.colorMix(vibrantColor, Color.rgb(0,0,0))
+                                        }
                                     }
                                 }
                         }
@@ -498,9 +484,9 @@ class PlayerActivity : SlideBackActivity() {
             playMode.observe(this@PlayerActivity, {
                 binding.ivMode.contentDescription = this.getModeContentDescription(it)
                 when (it) {
-                    BaseMediaService.MODE_CIRCLE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_circle)
-                    BaseMediaService.MODE_REPEAT_ONE -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_repeat_one)
-                    BaseMediaService.MODE_RANDOM -> binding.ivMode.setImageResource(R.drawable.ic_bq_player_mode_random)
+                    BaseMediaService.MODE_CIRCLE -> binding.ivMode.setImageResource(R.drawable.ic_player_circle)
+                    BaseMediaService.MODE_REPEAT_ONE -> binding.ivMode.setImageResource(R.drawable.ic_player_repeat_one)
+                    BaseMediaService.MODE_RANDOM -> binding.ivMode.setImageResource(R.drawable.ic_player_random)
                 }
             })
             // 总时长的观察
@@ -571,8 +557,33 @@ class PlayerActivity : SlideBackActivity() {
                     ttvDuration.textColor = it
 
                     tvTag?.setTextColor(it)
+
+                    ivEqualizer.setColorFilter(it)
+                    ivSleepTimer.setColorFilter(it)
+
+                    if (heart.value == true) {
+                        ivLike.setColorFilter(R.color.colorAppThemeColor.asColor(this@PlayerActivity))
+                    } else {
+                        ivLike.setColorFilter(it)
+                    }
+
+                    ivComment.setColorFilter(it)
+                    ivMore.setColorFilter(it)
+
+                    ivMode.setColorFilter(it)
+                    ivList.setColorFilter(it)
                 }
 
+            })
+
+            heart.observe(this@PlayerActivity, {
+                if (it) {
+                    binding.ivLike.setImageDrawable(R.drawable.ic_player_heart.asDrawable(this@PlayerActivity))
+                    binding.ivLike.setColorFilter(R.color.colorAppThemeColor.asColor(this@PlayerActivity))
+                } else {
+                    binding.ivLike.setImageDrawable(R.drawable.ic_player_heart_outline.asDrawable(this@PlayerActivity))
+                    playViewModel.color.value?.let { it1 -> binding.ivLike.setColorFilter(it1) }
+                }
             })
         }
     }

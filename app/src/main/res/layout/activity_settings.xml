@@ -422,6 +422,7 @@
                 app:text="NeteaseCloudMusicApi" />
 
             <com.dirror.music.widget.ItemLayout
+                android:visibility="gone"
                 android:id="@+id/itemMemory"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
