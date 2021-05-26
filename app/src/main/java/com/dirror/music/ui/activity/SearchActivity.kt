@@ -219,7 +219,17 @@ class SearchActivity : BaseActivity() {
         super.onDestroy()
         // 保存搜索引擎
         mmkv.encode(Config.SEARCH_ENGINE, searchViewModel.searchEngine.value ?: SearchViewModel.ENGINE_NETEASE)
+
     }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(
+            R.anim.anim_no_anim,
+            R.anim.anim_alpha_exit
+        )
+    }
+
 
     override fun onBackPressed() {
         if (binding.clPanel.visibility == View.VISIBLE) {

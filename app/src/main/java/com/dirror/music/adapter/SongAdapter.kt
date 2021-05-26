@@ -91,7 +91,9 @@ class SongAdapter(
                         ""
                         // "$API_FCZBL_VIP/?type=cover&id=${song.id}"
                     } else {
-                        "${song.imageUrl}?param=${48.dp()}y${48.dp()}"
+                        val neteaseUrl = "${song.imageUrl}?param=${100}y${100}"
+                        // loge(neteaseUrl, "NeteaseUrl")
+                        neteaseUrl
                     }
                 }
                 SOURCE_QQ -> {

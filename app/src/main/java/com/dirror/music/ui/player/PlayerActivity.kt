@@ -588,16 +588,6 @@ class PlayerActivity : SlideBackActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        //binding.lyricsBackground.resume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        //binding.lyricsBackground.pause()
-    }
-
     /**
      * 开启旋转动画
      */

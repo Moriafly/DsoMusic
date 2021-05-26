@@ -25,9 +25,10 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".ui.activity.MemoryActivity"></activity>
+        <activity android:name=".ui.activity.MemoryActivity" />
         <activity android:name=".ui.live.NeteaseCloudMusicApiActivity" />
         <activity
             android:name=".ui.playlist.SongSearchActivity"

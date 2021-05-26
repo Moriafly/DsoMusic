@@ -53,8 +53,8 @@ class SongPlaylistViewModel: ViewModel() {
                 PlaylistUtil.getPlaylistInfo(context, playlistId.value?.toLong() ?: 0L) {
                     runOnMainThread {
                         playlistUrl.value = it.coverImgUrl ?: ""
-                        playlistTitle.value = it.name
-                        playlistDescription.value = it.description
+                        playlistTitle.value = it.name ?: ""
+                        playlistDescription.value = it.description ?: ""
                     }
                 }
             }
@@ -75,5 +75,7 @@ class SongPlaylistViewModel: ViewModel() {
             songList.value = list
         }
     }
+
+    var navigationBarHeight = MutableLiveData<Int>()
 
 }

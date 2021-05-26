@@ -1,3 +1,27 @@
+/**
+ * DsoMusic Copyright (C) 2020-2021 Moriafly
+ *
+ * This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+ * This is free software, and you are welcome to redistribute it
+ * under certain conditions; type `show c' for details.
+ *
+ * The hypothetical commands `show w' and `show c' should show the appropriate
+ * parts of the General Public License.  Of course, your program's commands
+ * might be different; for a GUI interface, you would use an "about box".
+ *
+ * You should also get your employer (if you work as a programmer) or school,
+ * if any, to sign a "copyright disclaimer" for the program, if necessary.
+ * For more information on this, and how to apply and follow the GNU GPL, see
+ * <https://www.gnu.org/licenses/>.
+ *
+ * The GNU General Public License does not permit incorporating your program
+ * into proprietary programs.  If your program is a subroutine library, you
+ * may consider it more useful to permit linking proprietary applications with
+ * the library.  If this is what you want to do, use the GNU Lesser General
+ * Public License instead of this License.  But first, please read
+ * <https://www.gnu.org/licenses/why-not-lgpl.html>.
+ */
+
 package com.dirror.music.ui.main
 
 import android.content.BroadcastReceiver
@@ -8,10 +32,10 @@ import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -53,6 +77,11 @@ class MainActivity : BaseActivity() {
 
     override fun initBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.root.setOnApplyWindowInsetsListener { _, insets ->
+            // 获取状态栏高度
+            mainViewModel.navigationBarHeight.value = insets.systemWindowInsetBottom
+            insets
+        }
         miniPlayer = binding.miniPlayer
         setContentView(binding.root)
     }
@@ -95,7 +124,6 @@ class MainActivity : BaseActivity() {
         // 适配状态栏
         val statusBarHeight = getStatusBarHeight(window, this) // px
         mainViewModel.statusBarHeight.value = statusBarHeight
-        mainViewModel.navigationBarHeight.value = getNavigationBarHeight(this)
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = statusBarHeight
         }
@@ -106,7 +134,6 @@ class MainActivity : BaseActivity() {
         (binding.menuMain.llMenu.layoutParams as FrameLayout.LayoutParams).apply {
             topMargin = statusBarHeight + 8.dp()
         }
-
 
         binding.viewPager2.offscreenPageLimit = 3
         binding.viewPager2.adapter = object : FragmentStateAdapter(this) {
@@ -135,8 +162,6 @@ class MainActivity : BaseActivity() {
         binding.viewPager2.setCurrentItem(select, false)
 
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
-
-        updateView()
     }
 
     override fun initListener() {
@@ -144,6 +169,10 @@ class MainActivity : BaseActivity() {
             // 搜索按钮
             ivSearch.setOnClickListener {
                 startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+                overridePendingTransition(
+                    R.anim.anim_alpha_enter,
+                    R.anim.anim_no_anim
+                )
             }
             // 设置按钮
             ivSettings.setOnClickListener {
@@ -192,6 +221,17 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun initObserver() {
+        mainViewModel.navigationBarHeight.observe(this, {
+            binding.miniPlayer.root.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                bottomMargin = it
+            }
+            binding.blurViewPlay.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                height = 52.dp() + it
+            }
+        })
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         // 解绑广播接收
@@ -209,7 +249,6 @@ class MainActivity : BaseActivity() {
     inner class SettingsChangeReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             mainViewModel.updateUI()
-            updateView()
         }
     }
 
@@ -247,25 +286,6 @@ class MainActivity : BaseActivity() {
             }
         }
         return super.dispatchTouchEvent(ev)
-    }
-
-    /**
-     * 更新界面
-     */
-    private fun updateView() {
-        // 适配导航栏
-        val navigationBarHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
-            getNavigationBarHeight(this)
-        } else {
-            0
-        }
-
-        (binding.miniPlayer.root.layoutParams as ConstraintLayout.LayoutParams).apply {
-            bottomMargin = navigationBarHeight
-        }
-        (binding.blurViewPlay.layoutParams as ConstraintLayout.LayoutParams).apply {
-            height = 52.dp() + navigationBarHeight
-        }
     }
 
 }

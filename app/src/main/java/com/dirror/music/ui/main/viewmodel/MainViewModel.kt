@@ -16,9 +16,8 @@ class MainViewModel: ViewModel() {
         it.value = 0
     }
 
-    val navigationBarHeight = MutableLiveData<Int>().also {
-        it.value = 0
-    }
+    /** 导航栏高度 */
+    val navigationBarHeight = MutableLiveData<Int>()
 
     val userId =  MutableLiveData<Long>().also {
         it.value = MyApplication.userManager.getCurrentUid()

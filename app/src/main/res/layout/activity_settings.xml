@@ -255,47 +255,6 @@
             <com.dirror.music.widget.ItemLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:itemType="item_no">
-
-                <com.bitvale.switcher.SwitcherX
-                    android:id="@+id/switcherParseHomeNavigation"
-                    style="@style/switcher"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvParseHomeNavigation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/navigation_bar_adaptations"
-                    android:textColor="@color/colorTextForeground"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@+id/tvFilterRecordContent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvParseHomeNavigationContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="6dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/navigation_bar_adaptations_sub"
-                    android:textColor="@color/colorSubTextForeground"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFilterRecord" />
-            </com.dirror.music.widget.ItemLayout>
-
-
-            <com.dirror.music.widget.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
                 app:itemType="item_no"
                 app:text="@string/sliding_animation_of_songs_in_the_playlist">
 
@@ -419,15 +378,8 @@
                 android:id="@+id/itemNeteaseCloudMusicApi"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:text="NeteaseCloudMusicApi" />
-
-            <com.dirror.music.widget.ItemLayout
-                android:visibility="gone"
-                android:id="@+id/itemMemory"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
                 android:layout_marginBottom="12dp"
-                app:text="@string/memory" />
+                app:text="NeteaseCloudMusicApi" />
 
         </LinearLayout>
     </ScrollView>

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.provider.MediaStore
 import android.view.View
-import com.dirror.music.MyApplication
 import com.dirror.music.MyApplication.Companion.mmkv
 import com.dirror.music.MyApplication.Companion.musicController
 import com.dirror.music.databinding.ActivitySettingsBinding
@@ -47,7 +46,6 @@ class SettingsActivity : BaseActivity() {
         }
         // 按钮
         binding.apply {
-            switcherParseHomeNavigation.setChecked(mmkv.decodeBool(Config.PARSE_NAVIGATION, true))
             switcherPlaylistScrollAnimation.setChecked(mmkv.decodeBool(Config.PLAYLIST_SCROLL_ANIMATION, true))
             switcherDarkTheme.setChecked(mmkv.decodeBool(Config.DARK_THEME, false))
             switcherSentenceRecommend.setChecked(mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true))
@@ -81,8 +79,6 @@ class SettingsActivity : BaseActivity() {
                 ACache.get(this@SettingsActivity).remove(Config.APP_THEME_BACKGROUND)
                 toast("清除成功")
             }
-
-            switcherParseHomeNavigation.setOnCheckedChangeListener { mmkv.encode(Config.PARSE_NAVIGATION, it) }
 
             switcherPlaylistScrollAnimation.setOnCheckedChangeListener { mmkv.encode(
                 Config.PLAYLIST_SCROLL_ANIMATION,
@@ -151,10 +147,6 @@ class SettingsActivity : BaseActivity() {
 
             itemNeteaseCloudMusicApi.setOnClickListener {
                 startActivity(Intent(this@SettingsActivity, NeteaseCloudMusicApiActivity::class.java))
-            }
-
-            itemMemory.setOnClickListener {
-                startActivity(Intent(this@SettingsActivity, MemoryActivity::class.java))
             }
         }
     }

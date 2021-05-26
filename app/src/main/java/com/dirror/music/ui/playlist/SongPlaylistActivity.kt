@@ -48,6 +48,10 @@ class SongPlaylistActivity: BaseActivity() {
 
     override fun initBinding() {
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
+        binding.root.setOnApplyWindowInsetsListener { _, insets ->
+            songPlaylistViewModel.navigationBarHeight.value = insets.systemWindowInsetBottom
+            insets
+        }
         miniPlayer = binding.miniPlayer
         setContentView(binding.root)
     }
@@ -62,14 +66,7 @@ class SongPlaylistActivity: BaseActivity() {
         (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@SongPlaylistActivity)
         }
-        val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
-            getNavigationBarHeight(this)
-        } else {
-            0
-        }
-        (binding.miniPlayer.root.layoutParams as ConstraintLayout.LayoutParams).apply {
-            bottomMargin = navigationHeight
-        }
+
         // 色彩
         binding.ivPlayAll.setColorFilter(ContextCompat.getColor(this, R.color.colorAppThemeColor))
 
@@ -127,6 +124,11 @@ class SongPlaylistActivity: BaseActivity() {
                         transformations(coil.transform.BlurTransformation(this@SongPlaylistActivity, 25f, 10f))
                         crossfade(300)
                     }
+                }
+            })
+            navigationBarHeight.observe(this@SongPlaylistActivity, {
+                (binding.miniPlayer.root.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    bottomMargin = it
                 }
             })
         }
