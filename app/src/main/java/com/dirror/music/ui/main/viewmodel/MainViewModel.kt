@@ -2,7 +2,7 @@ package com.dirror.music.ui.main.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.util.Config
 
 class MainViewModel: ViewModel() {
@@ -20,7 +20,7 @@ class MainViewModel: ViewModel() {
     val navigationBarHeight = MutableLiveData<Int>()
 
     val userId =  MutableLiveData<Long>().also {
-        it.value = MyApplication.userManager.getCurrentUid()
+        it.value = MyApp.userManager.getCurrentUid()
     }
 
     var neteaseLiveVisibility = MutableLiveData(false)
@@ -32,13 +32,13 @@ class MainViewModel: ViewModel() {
      * 设置用户 id
      */
     fun setUserId() {
-        userId.value = MyApplication.userManager.getCurrentUid()
+        userId.value = MyApp.userManager.getCurrentUid()
     }
 
     fun updateUI() {
-        neteaseLiveVisibility.value = MyApplication.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
-        singleColumnPlaylist.value = MyApplication.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false)
-        sentenceVisibility.value = MyApplication.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)
+        neteaseLiveVisibility.value = MyApp.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
+        singleColumnPlaylist.value = MyApp.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false)
+        sentenceVisibility.value = MyApp.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)
     }
 
 }

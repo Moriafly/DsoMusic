@@ -10,7 +10,7 @@
     tools:context=".ui.player.PlayerActivity">
 
     <ImageView
-        android:alpha="0.4"
+        android:alpha="0.1"
         android:id="@+id/ivLyricsBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -183,7 +183,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/diffuseView">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivCover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -259,7 +259,7 @@
                     android:layout_height="56dp"
                     android:background="@drawable/background_button_icon"
                     android:contentDescription="@string/comment"
-                    android:padding="16dp"
+                    android:padding="17dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivMore"
                     app:layout_constraintHorizontal_bias="0.5"

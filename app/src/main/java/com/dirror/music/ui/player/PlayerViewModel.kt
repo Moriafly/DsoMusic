@@ -5,7 +5,7 @@ import androidx.annotation.Keep
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.audio.VolumeManager
 import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.local.MyFavorite
@@ -30,21 +30,24 @@ class PlayerViewModel: ViewModel() {
     var rotation = 0f
     var rotationBackground = 0f
 
+    /** 状态栏高度 */
+    var navigationBarHeight = MutableLiveData<Int>()
+
     // 播放模式
     var playMode = MutableLiveData<Int>().also {
-        it.value = MyApplication.musicController.value?.getPlayMode()
+        it.value = MyApp.musicController.value?.getPlayMode()
     }
 
     var duration = MutableLiveData<Int>().also {
-        it.value = MyApplication.musicController.value?.getDuration()
+        it.value = MyApp.musicController.value?.getDuration()
     }
 
     var progress = MutableLiveData<Int>().also {
-        it.value = MyApplication.musicController.value?.getProgress()
+        it.value = MyApp.musicController.value?.getProgress()
     }
 
     var lyricTranslation = MutableLiveData<Boolean>().also {
-        it.value = MyApplication.mmkv.decodeBool(Config.LYRIC_TRANSLATION, true)
+        it.value = MyApp.mmkv.decodeBool(Config.LYRIC_TRANSLATION, true)
     }
 
     // 对内
@@ -71,9 +74,9 @@ class PlayerViewModel: ViewModel() {
      * 刷新
      */
     fun refresh() {
-        playMode.value = MyApplication.musicController.value?.getPlayMode()
-        if (duration.value != MyApplication.musicController.value?.getDuration()) {
-            duration.value = MyApplication.musicController.value?.getDuration()
+        playMode.value = MyApp.musicController.value?.getPlayMode()
+        if (duration.value != MyApp.musicController.value?.getDuration()) {
+            duration.value = MyApp.musicController.value?.getDuration()
         }
     }
 
@@ -81,18 +84,18 @@ class PlayerViewModel: ViewModel() {
      * 刷新 progress
      */
     fun refreshProgress() {
-        progress.value = MyApplication.musicController.value?.getProgress()
+        progress.value = MyApp.musicController.value?.getProgress()
     }
 
     /**
      * 改变播放状态
      */
     fun changePlayState() {
-        val nowPlayState = MyApplication.musicController.value?.isPlaying()?.value?: false
+        val nowPlayState = MyApp.musicController.value?.isPlaying()?.value?: false
         if (nowPlayState) {
-            MyApplication.musicController.value?.pause()
+            MyApp.musicController.value?.pause()
         } else {
-            MyApplication.musicController.value?.play()
+            MyApp.musicController.value?.play()
         }
     }
 
@@ -100,28 +103,28 @@ class PlayerViewModel: ViewModel() {
      * 播放上一曲
      */
     fun playLast() {
-        MyApplication.musicController.value?.playPrevious()
+        MyApp.musicController.value?.playPrevious()
     }
 
     /**
      * 播放下一曲
      */
     fun playNext() {
-        MyApplication.musicController.value?.playNext()
+        MyApp.musicController.value?.playNext()
     }
 
     /**
      * 改变播放模式
      */
     fun changePlayMode() {
-        MyApplication.musicController.value?.changePlayMode()
+        MyApp.musicController.value?.changePlayMode()
     }
 
     /**
      * 设置 progress
      */
     fun setProgress(newProgress: Int) {
-        MyApplication.musicController.value?.setProgress(newProgress)
+        MyApp.musicController.value?.setProgress(newProgress)
     }
 
     /**
@@ -129,7 +132,7 @@ class PlayerViewModel: ViewModel() {
      * true
      */
     fun likeMusic(success: (Boolean) -> Unit) {
-        MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
+        MyApp.musicController.value?.getPlayingSongData()?.value?.let {
             MyFavorite.isExist(it) { exist ->
                 if (exist) {
                     MyFavorite.deleteById(it.id?:"")
@@ -147,9 +150,9 @@ class PlayerViewModel: ViewModel() {
      */
     fun updateLyric() {
         // 更改歌词
-        MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
+        MyApp.musicController.value?.getPlayingSongData()?.value?.let {
             if (it.source == SOURCE_NETEASE) {
-                MyApplication.cloudMusicManager.getLyric(it.id?.toLong()?:0) { lyric ->
+                MyApp.cloudMusicManager.getLyric(it.id?.toLong()?:0) { lyric ->
                     runOnMainThread {
                         _lyricViewData.value = LyricViewData(lyric.lrc?.lyric?:"", lyric.tlyric?.lyric?:"")
                         if (lyricTranslation.value == true) {
@@ -181,7 +184,7 @@ class PlayerViewModel: ViewModel() {
             lyricViewData.value = LyricViewData(_lyricViewData.value!!.lyric, "true")
         }
         // updateLyric()
-        MyApplication.mmkv.encode(Config.LYRIC_TRANSLATION, open)
+        MyApp.mmkv.encode(Config.LYRIC_TRANSLATION, open)
     }
 
     /**

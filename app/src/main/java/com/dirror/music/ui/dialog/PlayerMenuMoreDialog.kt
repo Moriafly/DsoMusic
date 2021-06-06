@@ -2,7 +2,7 @@ package com.dirror.music.ui.dialog
 
 import android.content.Context
 import android.content.Intent
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.databinding.DialogPlayMoreBinding
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
@@ -24,7 +24,7 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
 
     override fun initView() {
 
-        MyApplication.musicController.value?.getPlayingSongData()?.value?.let { it ->
+        MyApp.musicController.value?.getPlayingSongData()?.value?.let { it ->
             binding.tvSongName.text = it.name
             song = it
         }
@@ -34,13 +34,13 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
         binding.apply {
             // 添加到网易云我喜欢
             itemAddNeteaseFavorite.setOnClickListener {
-                if (MyApplication.userManager.getCloudMusicCookie().isEmpty()) {
+                if (MyApp.userManager.getCloudMusicCookie().isEmpty()) {
                     toast("离线模式无法收藏到在线我喜欢~")
                 } else {
                     song?.let {
                         when (it.source) {
                             SOURCE_NETEASE -> {
-                                MyApplication.cloudMusicManager.likeSong(it.id?:"", {
+                                MyApp.cloudMusicManager.likeSong(it.id?:"", {
                                     toast("添加到我喜欢成功")
                                     dismiss()
                                 }, {
@@ -58,7 +58,7 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
             }
             // 歌曲信息
             itemSongInfo.setOnClickListener {
-                MyApplication.musicController.value?.getPlayingSongData()?.value?.let { it1 ->
+                MyApp.musicController.value?.getPlayingSongData()?.value?.let { it1 ->
                     SongInfoDialog(context, it1).show()
                 }
                 dismiss()

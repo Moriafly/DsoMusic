@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.databinding.DialogUpdateBinding
 import com.dirror.music.util.*

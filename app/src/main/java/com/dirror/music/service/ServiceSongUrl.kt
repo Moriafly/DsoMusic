@@ -2,7 +2,7 @@ package com.dirror.music.service
 
 import android.content.ContentUris
 import android.net.Uri
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.kuwo.SearchSong
 import com.dirror.music.music.netease.SongUrl
@@ -53,7 +53,7 @@ object ServiceSongUrl {
 
     fun getLyric(song: StandardSongData, success: (LyricViewData) -> Unit) {
         if (song.source == SOURCE_NETEASE) {
-            MyApplication.cloudMusicManager.getLyric(song.id?.toLong() ?: 0) { lyric ->
+            MyApp.cloudMusicManager.getLyric(song.id?.toLong() ?: 0) { lyric ->
                 runOnMainThread {
                     val l = LyricViewData(lyric.lrc?.lyric?:"", lyric.tlyric?.lyric?:"")
                     success.invoke(l)

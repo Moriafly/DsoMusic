@@ -13,8 +13,8 @@
         android:id="@+id/ivLyricsBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="0.1"
         android:scaleType="centerCrop"
-        android:alpha="0.25"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,22 +118,22 @@
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/tvTag"
+            android:id="@+id/tvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:alpha="0.5"
-            android:maxWidth="100dp"
-            android:paddingStart="1dp"
-            android:singleLine="true"
-            android:text="私人 FM"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="28dp"
+            android:maxLines="2"
+            android:text="@string/music"
             android:textAlignment="textStart"
             android:textColor="@color/colorTextForeground"
-            android:textSize="12sp"
-            android:transitionName="tvArtist"
-            app:layout_constraintEnd_toEndOf="@+id/tvName"
-            app:layout_constraintStart_toStartOf="@+id/tvName"
-            app:layout_constraintTop_toBottomOf="@+id/tvArtist" />
+            android:textIsSelectable="true"
+            android:textSize="22sp"
+            android:transitionName="tvName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvArtist"
@@ -154,22 +154,22 @@
             app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvTag"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="28dp"
-            android:maxLines="2"
-            android:text="@string/music"
+            android:layout_marginTop="2dp"
+            android:alpha="0.5"
+            android:maxWidth="100dp"
+            android:paddingStart="1dp"
+            android:singleLine="true"
+            android:text="私人 FM"
             android:textAlignment="textStart"
             android:textColor="@color/colorTextForeground"
-            android:textIsSelectable="true"
-            android:textSize="22sp"
-            android:transitionName="tvName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="12sp"
+            android:transitionName="tvArtist"
+            app:layout_constraintEnd_toEndOf="@+id/tvName"
+            app:layout_constraintStart_toStartOf="@+id/tvName"
+            app:layout_constraintTop_toBottomOf="@+id/tvArtist" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clMenu"
@@ -190,7 +190,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/ic_player_sound_effect" />
 
             <ImageView
@@ -198,7 +197,7 @@
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_button_icon"
-                android:padding="16dp"
+                android:padding="14.5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivLike"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -228,7 +227,7 @@
                 android:layout_height="56dp"
                 android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/comment"
-                android:padding="16dp"
+                android:padding="16.6dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivMore"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -251,37 +250,44 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.dirror.music.widget.DiffuseView
-            android:id="@+id/diffuseView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="56dp"
-            app:layout_constraintBottom_toTopOf="@+id/clMenu"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cvCd"
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            app:cardBackgroundColor="#D9F5F5F5"
-            app:cardCornerRadius="120dp"
-            app:cardElevation="0dp"
+            android:layout_marginTop="32dp"
+            android:layout_width="270dp"
+            android:layout_height="270dp"
+            app:cardBackgroundColor="@color/dso_color_player_cd_background"
+            app:cardCornerRadius="135dp"
+            app:cardElevation="30dp"
             app:layout_constraintBottom_toTopOf="@+id/clMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/diffuseView">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivCover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_margin="25dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_song_cover"
+                app:shapeAppearance="@style/dso_style_rounded"
                 tools:ignore="ContentDescription" />
 
         </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/ivNeedle"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="202dp"
+            android:elevation="200dp"
+            android:rotationX="0"
+            android:scaleType="fitStart"
+            android:translationY="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cvCd"
+            app:layout_constraintEnd_toEndOf="@+id/cvCd"
+            app:srcCompat="@drawable/ic_cd_pole" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

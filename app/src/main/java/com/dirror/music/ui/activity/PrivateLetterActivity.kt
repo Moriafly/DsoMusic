@@ -1,7 +1,7 @@
 package com.dirror.music.ui.activity
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.adapter.PrivateLetterAdapter
 import com.dirror.music.databinding.ActivityPrivateLetterBinding
 import com.dirror.music.ui.base.BaseActivity
@@ -17,7 +17,7 @@ class PrivateLetterActivity : BaseActivity() {
 
     override fun initView() {
         binding.rvPrivateLetter.layoutManager = LinearLayoutManager(this)
-        MyApplication.cloudMusicManager.getPrivateLetter({
+        MyApp.cloudMusicManager.getPrivateLetter({
             runOnUiThread {
                 binding.rvPrivateLetter.adapter = PrivateLetterAdapter(it.msgs)
             }

@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.size.ViewSizeResolver
-import com.dirror.music.MyApplication
 import com.dirror.music.R
 import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.databinding.ActivityPlaylistBinding

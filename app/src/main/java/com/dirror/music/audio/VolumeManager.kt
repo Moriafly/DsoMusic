@@ -2,7 +2,7 @@ package com.dirror.music.audio
 
 import android.content.Context
 import android.media.AudioManager
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 
 /**
  * 音量管理
@@ -12,7 +12,7 @@ import com.dirror.music.MyApplication
 object VolumeManager {
 
     // 音频管理器
-    private val audioManger = MyApplication.context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private val audioManger = MyApp.context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
     // 获取最大媒体音
     val maxVolume = audioManger.getStreamMaxVolume(AudioManager.STREAM_MUSIC)

@@ -1,7 +1,7 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.databinding.ActivitySplashBinding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.main.MainActivity
@@ -21,7 +21,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (MyApplication.mmkv.decodeBool(Config.SHOW_AGREEMENT, true)) {
+        if (MyApp.mmkv.decodeBool(Config.SHOW_AGREEMENT, true)) {
             startActivity(Intent(this, AgreementActivity::class.java))
         } else {
             val intent = Intent(this, MainActivity::class.java)

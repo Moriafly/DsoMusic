@@ -1,12 +1,11 @@
 package com.dirror.music.ui.activity
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.adapter.TopListAdapter
 import com.dirror.music.databinding.ActivityTopListBinding
 import com.dirror.music.music.netease.TopList
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.ui.playlist.TAG_NETEASE
 import com.dirror.music.util.runOnMainThread
 
@@ -25,7 +24,7 @@ class TopListActivity : BaseActivity() {
             runOnMainThread {
                 binding.rvTopList.layoutManager = LinearLayoutManager(this)
                 binding.rvTopList.adapter = TopListAdapter(it) { listData ->
-                    MyApplication.activityManager.startPlaylistActivity(this, TAG_NETEASE, listData.id.toString())
+                    MyApp.activityManager.startPlaylistActivity(this, TAG_NETEASE, listData.id.toString())
                 }
             }
         }, {

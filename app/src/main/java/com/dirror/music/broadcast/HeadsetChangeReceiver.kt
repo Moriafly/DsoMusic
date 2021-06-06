@@ -3,9 +3,6 @@ package com.dirror.music.broadcast
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.dirror.music.MyApplication
-import com.dirror.music.util.Config
-import com.dirror.music.util.toast
 
 /**
  * 耳机检查

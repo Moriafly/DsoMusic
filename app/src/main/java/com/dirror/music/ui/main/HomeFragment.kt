@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.adapter.NewSongAdapter
 import com.dirror.music.adapter.PlaylistRecommendAdapter
 import com.dirror.music.databinding.FragmentHomeBinding
@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment(){
         }
 
         binding.clDaily.setOnClickListener {
-            if (MyApplication.userManager.hasCookie()) {
+            if (MyApp.userManager.hasCookie()) {
                 val intent = Intent(this.context, RecommendActivity::class.java)
                 startActivity(intent)
             } else {

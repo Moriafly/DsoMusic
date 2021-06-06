@@ -15,7 +15,7 @@ import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.BuildConfig
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 
 /**
@@ -35,7 +35,7 @@ fun setStatusBarIconColor(activity: Activity, dark: Boolean) {
  */
 fun toast(msg: String) {
     runOnMainThread {
-        Toast.makeText(MyApplication.context, msg, Toast.LENGTH_SHORT).show()
+        Toast.makeText(MyApp.context, msg, Toast.LENGTH_SHORT).show()
     }
 }
 
@@ -61,7 +61,7 @@ fun loge(msg: String, tag: String = "Default") {
 /**
  * dp 转 px
  */
-fun dp2px(dp: Float): Float = dp * MyApplication.context.resources.displayMetrics.density
+fun dp2px(dp: Float): Float = dp * MyApp.context.resources.displayMetrics.density
 
 /**
  * 获取系统当前时间

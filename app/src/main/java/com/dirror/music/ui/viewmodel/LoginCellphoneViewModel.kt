@@ -2,7 +2,7 @@ package com.dirror.music.ui.viewmodel
 
 import androidx.annotation.Keep
 import androidx.lifecycle.ViewModel
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.music.netease.data.UserDetailData
 import com.dirror.music.util.ErrorCode
 import com.dirror.music.util.MagicHttp
@@ -35,8 +35,8 @@ class LoginCellphoneViewModel : ViewModel() {
                 if (userDetail.code != 200) {
                     failure.invoke(userDetail.code)
                 } else {
-                    userDetail.cookie?.let { it1 -> MyApplication.userManager.setCloudMusicCookie(it1) }
-                    MyApplication.userManager.setUid(userDetail.profile.userId)
+                    userDetail.cookie?.let { it1 -> MyApp.userManager.setCloudMusicCookie(it1) }
+                    MyApp.userManager.setUid(userDetail.profile.userId)
                     success.invoke(userDetail)
                 }
             } catch (e: Exception) {

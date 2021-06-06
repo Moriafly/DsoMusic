@@ -8,6 +8,7 @@ import com.dirror.music.manager.interfaces.ActivityManagerInterface
 import com.dirror.music.ui.activity.*
 import com.dirror.music.ui.player.PlayerActivity
 import com.dirror.music.ui.playlist.SongPlaylistActivity
+import com.dirror.music.util.loge
 
 class ActivityManager: ActivityManagerInterface {
 
@@ -78,6 +79,7 @@ class ActivityManager: ActivityManagerInterface {
     }
 
     override fun startPlayerActivity(activity: Activity) {
+        loge("ActivityManager.startPlayActivity", "DsoANR")
         val intent = Intent(activity, PlayerActivity::class.java)
         activity.startActivity(intent)
         activity.overridePendingTransition(

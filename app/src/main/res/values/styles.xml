@@ -121,4 +121,9 @@
         <item name="android:textSize">@dimen/defaultTextSize</item>
     </style>
 
+    <style name="dso_style_rounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">110dp</item>
+    </style>
+
 </resources>

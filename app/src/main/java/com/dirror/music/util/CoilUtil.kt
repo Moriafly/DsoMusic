@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import coil.imageLoader
 import coil.request.ImageRequest
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.util.extensions.dp
 import kotlinx.coroutines.GlobalScope
@@ -17,7 +17,7 @@ object CoilUtil {
 
     fun load(context: Context, data: Any, success: (bitmap: Bitmap) -> Unit) {
 
-        val request = ImageRequest.Builder(MyApplication.context)
+        val request = ImageRequest.Builder(MyApp.context)
             .data(data)
             // .size(256.dp())
             .allowHardware(false)
@@ -58,11 +58,11 @@ object CoilUtil {
 //        context.imageLoader.enqueue(request)
 
         GlobalScope.launch {
-            val request = ImageRequest.Builder(MyApplication.context)
+            val request = ImageRequest.Builder(MyApp.context)
                 .data(data)
                 .allowHardware(false)
                 .build()
-            val drawable = MyApplication.context.imageLoader.execute(request).drawable
+            val drawable = MyApp.context.imageLoader.execute(request).drawable
             drawable?.let {
                 success(drawable.toBitmap(
                     drawable.intrinsicWidth,

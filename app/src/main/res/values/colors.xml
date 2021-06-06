@@ -63,4 +63,6 @@
 
     <color name="dso_color_lyrics_back">#BFFFFFFF</color>
     <color name="dso_color_white_alpha_10">#26FFFFFF</color>
+
+    <color name="dso_color_player_cd_background">#EBEBEB</color>
 </resources>

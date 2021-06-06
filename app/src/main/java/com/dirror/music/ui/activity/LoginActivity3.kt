@@ -4,7 +4,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.databinding.ActivityLogin3Binding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.Config
@@ -24,7 +24,7 @@ class LoginActivity3 : BaseActivity() {
     }
 
     override fun initView() {
-        if (MyApplication.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)) {
+        if (MyApp.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)) {
             binding.btnLoginByPhone.visibility = View.VISIBLE
         } else {
             binding.btnLoginByPhone.visibility = View.GONE
@@ -53,11 +53,11 @@ class LoginActivity3 : BaseActivity() {
             btnCancel.setOnClickListener { finish() }
             // 手机号登录
             btnLoginByPhone.setOnClickListener {
-                MyApplication.activityManager.startLoginByPhoneActivity(this@LoginActivity3)
+                MyApp.activityManager.startLoginByPhoneActivity(this@LoginActivity3)
             }
             // UID 登录
             btnLoginByUid.setOnClickListener {
-                MyApplication.activityManager.startLoginByUidActivity(this@LoginActivity3)
+                MyApp.activityManager.startLoginByUidActivity(this@LoginActivity3)
             }
         }
     }

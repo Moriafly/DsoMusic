@@ -3,9 +3,8 @@ package com.dirror.music.ui.activity
 import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.R
-import com.dirror.music.api.API_AUTU
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.base.BaseActivity
@@ -41,7 +40,7 @@ class LoginByPhoneActivity : BaseActivity() {
                 binding.llLoading.visibility = View.VISIBLE
                 binding.lottieLoading.repeatCount = -1
                 binding.lottieLoading.playAnimation()
-                loginCellphoneViewModel.loginByCellphone(MyApplication.userManager.getUserNeteaseCloudMusicApi(), phone, password, {
+                loginCellphoneViewModel.loginByCellphone(MyApp.userManager.getUserNeteaseCloudMusicApi(), phone, password, {
                     // 发送广播
                     val intent = Intent("com.dirror.music.LOGIN")
                     intent.setPackage(packageName)

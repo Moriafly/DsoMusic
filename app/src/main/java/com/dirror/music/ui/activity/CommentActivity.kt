@@ -1,7 +1,7 @@
 package com.dirror.music.ui.activity
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.adapter.CommentAdapter
 import com.dirror.music.databinding.ActivityCommentBinding
@@ -33,7 +33,7 @@ class  CommentActivity : SlideBackActivity() {
         source = intent.getIntExtra(EXTRA_INT_SOURCE, SOURCE_NETEASE)
         when (source) {
             SOURCE_NETEASE -> {
-                MyApplication.cloudMusicManager.getComment(id, {
+                MyApp.cloudMusicManager.getComment(id, {
                     runOnMainThread {
                         binding.rvComment.layoutManager = LinearLayoutManager(this@CommentActivity)
                         binding.rvComment.adapter = CommentAdapter(it, this@CommentActivity)
@@ -63,7 +63,7 @@ class  CommentActivity : SlideBackActivity() {
             if (content != "") {
                 when (source) {
                     SOURCE_NETEASE -> {
-                        MyApplication.cloudMusicManager.sendComment(1, 0, id, content, 0L, {
+                        MyApp.cloudMusicManager.sendComment(1, 0, id, content, 0L, {
                             toast("评论成功")
                         }, {
                             toast("评论失败")

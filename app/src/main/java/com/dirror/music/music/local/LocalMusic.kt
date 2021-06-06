@@ -10,7 +10,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.StandardSongData
@@ -81,13 +81,13 @@ object LocalMusic {
                     if (size == 0L) {
                         continue
                     }
-                    if (MyApplication.mmkv.decodeBool(Config.SMART_FILTER, true)) {
+                    if (MyApp.mmkv.decodeBool(Config.SMART_FILTER, true)) {
                         if (size <= 500_000) {
                             continue
                         }
                     }
                     // 是否过滤录音
-                    if (MyApplication.mmkv.decodeBool(Config.FILTER_RECORD, true)) {
+                    if (MyApp.mmkv.decodeBool(Config.FILTER_RECORD, true)) {
                         if (artist == "Meizu Recorder") {
                             continue
                         }

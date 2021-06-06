@@ -1,6 +1,6 @@
 package com.dirror.music.ui.activity
 
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.databinding.ActivityFeedbackBinding
 import com.dirror.music.ui.base.BaseActivity
 
@@ -19,7 +19,7 @@ class FeedbackActivity : BaseActivity() {
 
     override fun initListener() {
         binding.itemHelpDocument.setOnClickListener {
-            MyApplication.activityManager.startWebActivity(this, HELP_URL)
+            MyApp.activityManager.startWebActivity(this, HELP_URL)
         }
     }
 

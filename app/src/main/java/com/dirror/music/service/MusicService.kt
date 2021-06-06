@@ -46,8 +46,8 @@ import androidx.media.session.MediaButtonReceiver
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.dirror.lyricviewx.LyricEntry
-import com.dirror.music.MyApplication
-import com.dirror.music.MyApplication.Companion.mmkv
+import com.dirror.music.MyApp
+import com.dirror.music.MyApp.Companion.mmkv
 import com.dirror.music.R
 import com.dirror.music.broadcast.BecomingNoisyReceiver
 import com.dirror.music.music.local.PlayHistory
@@ -228,7 +228,7 @@ open class MusicService : BaseMediaService() {
                     PlaybackStateCompat.Builder()
                         .setState(
                             PlaybackStateCompat.STATE_PLAYING,
-                            (MyApplication.musicController.value?.getProgress() ?: 0).toLong(),
+                            (MyApp.musicController.value?.getProgress() ?: 0).toLong(),
                             1f
                         )
                         .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
@@ -242,7 +242,7 @@ open class MusicService : BaseMediaService() {
                     PlaybackStateCompat.Builder()
                         .setState(
                             PlaybackStateCompat.STATE_PAUSED,
-                            (MyApplication.musicController.value?.getProgress() ?: 0).toLong(),
+                            (MyApp.musicController.value?.getProgress() ?: 0).toLong(),
                             1f
                         )
                         .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
@@ -437,7 +437,7 @@ open class MusicService : BaseMediaService() {
                 ServiceSongUrl.getUrl(song) {
                     when (it) {
                         is String -> {
-                            if (!InternetState.isWifi(MyApplication.context) && !mmkv.decodeBool(
+                            if (!InternetState.isWifi(MyApp.context) && !mmkv.decodeBool(
                                     Config.PLAY_ON_MOBILE,
                                     false
                                 )
@@ -479,11 +479,12 @@ open class MusicService : BaseMediaService() {
 ////            MediaControllerCompat.setMediaController(this@MusicService, mediaController)
 ////            onMediaBrowserConnected();
 ////            onMediaControllerConnected(mediaController.getSessionToken())
+            this.play()
             if (recover) {
                 recover = false
-                this.setProgress(recoverProgress)
-            } else {
-                this.play()
+                this.pause()
+                this.setProgress(0)
+                // this.setProgress(recoverProgress)
             }
             sendMusicBroadcast()
             // updateNotification()
@@ -845,7 +846,7 @@ open class MusicService : BaseMediaService() {
         val song = musicController.getPlayingSongData().value
         GlobalScope.launch {
             val bitmap = if (mmkv.decodeBool(Config.INK_SCREEN_MODE, false)) {
-                R.drawable.ic_song_cover.asDrawable(MyApplication.context)?.toBitmap(128.dp(), 128.dp())
+                R.drawable.ic_song_cover.asDrawable(MyApp.context)?.toBitmap(128.dp(), 128.dp())
             } else {
                 musicController.getSongCover(128.dp())
             }
@@ -897,7 +898,7 @@ open class MusicService : BaseMediaService() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         putLong(
                             MediaMetadata.METADATA_KEY_DURATION,
-                            (MyApplication.musicController.value?.getDuration() ?: 0).toLong()
+                            (MyApp.musicController.value?.getDuration() ?: 0).toLong()
                         )
                     }
                 }.build()
@@ -906,7 +907,7 @@ open class MusicService : BaseMediaService() {
                 PlaybackStateCompat.Builder()
                     .setState(
                         PlaybackStateCompat.STATE_PLAYING,
-                        (MyApplication.musicController.value?.getProgress() ?: 0).toLong(),
+                        (MyApp.musicController.value?.getProgress() ?: 0).toLong(),
                         1f
                     )
                     .setActions(MEDIA_SESSION_ACTIONS)

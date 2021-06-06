@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.activity.UserCloudActivity
@@ -56,12 +56,12 @@ class MyFragmentIconAdapter(val context: Context): RecyclerView.Adapter<MyFragme
             }
             clPersonalFM.setOnClickListener {
                 AnimationUtil.click(it)
-                if (MyApplication.userManager.hasCookie()) {
-                    if (MyApplication.musicController.value?.personFM?.value != true) {
-                        MyApplication.musicController.value?.setPersonFM(true)
-                        MyApplication.activityManager.startPlayerActivity(context as Activity)
+                if (MyApp.userManager.hasCookie()) {
+                    if (MyApp.musicController.value?.personFM?.value != true) {
+                        MyApp.musicController.value?.setPersonFM(true)
+                        MyApp.activityManager.startPlayerActivity(context as Activity)
                     } else {
-                        MyApplication.activityManager.startPlayerActivity(context as Activity)
+                        MyApp.activityManager.startPlayerActivity(context as Activity)
                     }
                 } else {
                     ErrorCode.toast(ErrorCode.ERROR_NOT_COOKIE)
@@ -70,7 +70,7 @@ class MyFragmentIconAdapter(val context: Context): RecyclerView.Adapter<MyFragme
             // 用户云盘
             clUserCloud.setOnClickListener {
                 AnimationUtil.click(it)
-                if (MyApplication.userManager.hasCookie()) {
+                if (MyApp.userManager.hasCookie()) {
                     context.startActivity(Intent(context, UserCloudActivity::class.java))
                 } else {
                     ErrorCode.toast(ErrorCode.ERROR_NOT_COOKIE)

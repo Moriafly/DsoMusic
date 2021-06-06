@@ -1,6 +1,6 @@
 package com.dirror.music.music.netease
 
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.music.dirror.SearchSong
 import com.dirror.music.music.netease.data.SongUrlData
@@ -23,7 +23,7 @@ object SongUrl {
     fun getSongUrlCookie(id: String, success: (String) -> Unit) {
         val requestBody = FormBody.Builder()
             .add("crypto", "api")
-            .add("cookie", MyApplication.userManager.getCloudMusicCookie())
+            .add("cookie", MyApp.userManager.getCloudMusicCookie())
             .add("withCredentials", "true")
             .add("realIP", "211.161.244.70")
             .add("id", id)

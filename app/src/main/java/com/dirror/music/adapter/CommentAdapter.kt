@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.CircleCropTransformation
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.data.CommentData
 import com.dirror.music.util.msTimeToFormatDate
@@ -47,11 +47,11 @@ class CommentAdapter(private val commentData: CommentData, private val activity:
             }
 
             ivCover.setOnClickListener {
-                MyApplication.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
+                MyApp.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
             }
 
             tvName.setOnClickListener {
-                MyApplication.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
+                MyApp.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
             }
         }
     }

@@ -46,13 +46,14 @@ import androidx.annotation.Keep
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.updateLayoutParams
 import androidx.palette.graphics.Palette
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.BlurTransformation
 import com.dirror.lyricviewx.OnPlayClickListener
 import com.dirror.lyricviewx.OnSingleClickListener
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.audio.VolumeManager
 import com.dirror.music.databinding.ActivityPlayerBinding
@@ -108,7 +109,7 @@ class PlayerActivity : SlideBackActivity() {
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             if (msg.what == MSG_PROGRESS) {
-                if (MyApplication.musicController.value?.isPlaying()?.value == true) {
+                if (MyApp.musicController.value?.isPlaying()?.value == true) {
                     playViewModel.refreshProgress()
                 }
             }
@@ -129,11 +130,15 @@ class PlayerActivity : SlideBackActivity() {
 
     override fun initBinding() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
+        binding.root.setOnApplyWindowInsetsListener { v, insets ->
+            playViewModel.navigationBarHeight.value = insets.systemWindowInsetBottom
+            insets
+        }
         setContentView(binding.root)
     }
 
     override fun initView() {
-        if (MyApplication.mmkv.decodeBool(Config.NETEASE_GOOD_COMMENTS, true)) {
+        if (MyApp.mmkv.decodeBool(Config.NETEASE_GOOD_COMMENTS, true)) {
             binding.ivComment.visibility = View.VISIBLE
         } else {
             binding.ivComment.visibility = View.GONE
@@ -150,16 +155,7 @@ class PlayerActivity : SlideBackActivity() {
                 window.insetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE)
             }
         } else {
-            // 页面导航栏适配
-            val navigationHeight = if (MyApplication.mmkv.decodeBool(Config.PARSE_NAVIGATION, true)) {
-                getNavigationBarHeight(this@PlayerActivity)
-            } else {
-                0
-            }
-            (binding.clBottom.layoutParams as ConstraintLayout.LayoutParams).apply {
-                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-                bottomMargin = navigationHeight
-            }
+
         }
         // 页面状态栏适配
         binding.titleBar?.let {
@@ -211,9 +207,9 @@ class PlayerActivity : SlideBackActivity() {
             }
             // 评论
             ivComment.setOnClickListener {
-                MyApplication.musicController.value?.getPlayingSongData()?.value?.let {
+                MyApp.musicController.value?.getPlayingSongData()?.value?.let {
                     if (it.source != SOURCE_LOCAL) {
-                        MyApplication.activityManager.startCommentActivity(
+                        MyApp.activityManager.startCommentActivity(
                             this@PlayerActivity,
                             it.source ?: SOURCE_NETEASE,
                             it.id ?: ""
@@ -295,11 +291,11 @@ class PlayerActivity : SlideBackActivity() {
             // 艺术家
             tvArtist.setOnClickListener {
                 // 测试
-                MyApplication.musicController.value?.getPlayingSongData()?.value?.let { standardSongData ->
+                MyApp.musicController.value?.getPlayingSongData()?.value?.let { standardSongData ->
                     if (standardSongData.source == SOURCE_NETEASE) {
                         standardSongData.artists?.let {
                             it[0].artistId?.let { artistId ->
-                                MyApplication.activityManager.startArtistActivity(this@PlayerActivity, artistId)
+                                MyApp.activityManager.startArtistActivity(this@PlayerActivity, artistId)
                             }
                         }
                     } else {
@@ -379,7 +375,7 @@ class PlayerActivity : SlideBackActivity() {
 
 
     override fun initObserver() {
-        MyApplication.musicController.observe(this@PlayerActivity, { nullableController ->
+        MyApp.musicController.observe(this@PlayerActivity, { nullableController ->
             nullableController?.let { controller ->
                 // 当前歌曲的观察
                 controller.getPlayingSongData().observe(this@PlayerActivity, {
@@ -437,9 +433,9 @@ class PlayerActivity : SlideBackActivity() {
                                         }
                                         val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
                                         playViewModel.color.value =  if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                            muteColor.colorMix(vibrantColor, Color.rgb(255,255,255))
+                                            muteColor.colorMix(vibrantColor, Color.WHITE)
                                         } else {
-                                            muteColor.colorMix(vibrantColor, Color.rgb(0,0,0))
+                                            muteColor.colorMix(vibrantColor, Color.BLACK)
                                         }
                                     }
                                 }
@@ -453,13 +449,13 @@ class PlayerActivity : SlideBackActivity() {
                         binding.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
                         handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                         startRotateAlways()
-                        binding.diffuseView.start()
+                        // binding.diffuseView.start()
                     } else {
                         binding.ivPlay.contentDescription = getString(R.string.play_music)
                         binding.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
                         handler.removeMessages(MSG_PROGRESS)
                         pauseRotateAlways()
-                        binding.diffuseView.stop()
+                        // binding.diffuseView.stop()
                     }
                 })
                 controller.personFM.observe(this, {
@@ -538,7 +534,7 @@ class PlayerActivity : SlideBackActivity() {
                     tvName.setTextColor(it)
                     tvArtist.setTextColor(it)
                     ivBack.setColorFilter(it)
-                    diffuseView.setColor(it)
+                    // diffuseView.setColor(it)
                     lyricView.apply {
                         setCurrentColor(it)
                         setTimeTextColor(it)
@@ -583,6 +579,13 @@ class PlayerActivity : SlideBackActivity() {
                 } else {
                     binding.ivLike.setImageDrawable(R.drawable.ic_player_heart_outline.asDrawable(this@PlayerActivity))
                     playViewModel.color.value?.let { it1 -> binding.ivLike.setColorFilter(it1) }
+                }
+            })
+
+            navigationBarHeight.observe(this@PlayerActivity, {
+                binding.clBottom.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                    bottomMargin = it
                 }
             })
         }

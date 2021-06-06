@@ -27,11 +27,9 @@ import com.umeng.commonsdk.UMConfigure
  * @author Moriafly
  */
 @Keep
-class MyApplication : Application() {
+class MyApp : Application() {
 
     companion object {
-
-        const val LIB_NAME_DSO = "dso"
 
         // 加载本地库
         init {

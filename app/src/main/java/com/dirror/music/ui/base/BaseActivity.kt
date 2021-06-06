@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import coil.size.ViewSizeResolver
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.databinding.MiniPlayerBinding
 import com.dirror.music.manager.ActivityCollector
@@ -58,17 +58,20 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun initMiniPlayer() {
         miniPlayer?.let { mini ->
             mini.apply {
-                root.setOnClickListener { MyApplication.activityManager.startPlayerActivity(this@BaseActivity) }
+                root.setOnClickListener {
+                    loge("MiniPlayer.click, call MyApp.activityManager.startPlayActivity", "DsoANR")
+                    MyApp.activityManager.startPlayerActivity(this@BaseActivity)
+                }
                 ivPlayQueue.setOnClickListener {
-                    if (MyApplication.musicController.value?.personFM?.value != true) {
+                    if (MyApp.musicController.value?.personFM?.value != true) {
                         PlaylistDialog().show(supportFragmentManager, null)
                     } else {
                         toast("当前为私人 FM 模式")
                     }
                 }
-                ivStartOrPause.setOnClickListener { MyApplication.musicController.value?.changePlayState() }
+                ivStartOrPause.setOnClickListener { MyApp.musicController.value?.changePlayState() }
             }
-            MyApplication.musicController.observe(this, { nullableController ->
+            MyApp.musicController.observe(this, { nullableController ->
                 nullableController?.apply {
                     getPlayingSongData().observe(this@BaseActivity, { songData ->
                         songData?.let {

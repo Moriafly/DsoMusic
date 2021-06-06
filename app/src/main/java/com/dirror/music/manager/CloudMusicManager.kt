@@ -2,7 +2,7 @@ package com.dirror.music.manager
 
 import android.util.Log
 import androidx.annotation.Keep
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.api.*
 import com.dirror.music.data.CommentData
 import com.dirror.music.music.netease.data.*
@@ -75,7 +75,7 @@ class CloudMusicManager {
     }
 
     fun likeSong(songId: String, success: () -> Unit, failure: () -> Unit) {
-        val cookie = MyApplication.userManager.getCloudMusicCookie()
+        val cookie = MyApp.userManager.getCloudMusicCookie()
         val url = "${API_DSO}/like?id=${songId}&cookie=${cookie}"
         MagicHttp.OkHttpManager().newGet(url, {
             try {
@@ -111,7 +111,7 @@ class CloudMusicManager {
         success: (CodeData) -> Unit,
         failure: () -> Unit
     ) {
-        val cookie = MyApplication.userManager.getCloudMusicCookie()
+        val cookie = MyApp.userManager.getCloudMusicCookie()
         var url = "${API_DEFAULT}/comment?t=${t}&type=${type}&id=${id}&content=${content}&cookie=${cookie}"
         if (commentId != 0L) {
             url += "&commentId=${commentId}"
@@ -134,7 +134,7 @@ class CloudMusicManager {
     }
 
     fun getPrivateLetter(success: (PrivateLetterData) -> Unit, failure: () -> Unit) {
-        val cookie = MyApplication.userManager.getCloudMusicCookie()
+        val cookie = MyApp.userManager.getCloudMusicCookie()
         val url = "${URL_PRIVATE_LETTER}?cookie=${cookie}"
         MagicHttp.OkHttpManager().newGet(url, {
             try {
@@ -231,9 +231,9 @@ class CloudMusicManager {
 
     fun loginByUid(uid: String, success: () -> Unit) {
         getUserDetail(uid, {
-            MyApplication.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
+            MyApp.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
             // UID 登录清空 Cookie
-            MyApplication.userManager.setCloudMusicCookie("")
+            MyApp.userManager.setCloudMusicCookie("")
             success.invoke()
             // toast("登录成功${it.profile?.userId!!.toLong()}")
         }, {

@@ -1,6 +1,6 @@
 package com.dirror.music.music.local
 
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.music.local.data.LocalPlaylistArrayData
 import com.dirror.music.music.standard.data.StandardPlaylistData
 import com.dirror.music.music.standard.data.StandardSongData
@@ -21,7 +21,7 @@ object LocalPlaylist {
     private fun read(): LocalPlaylistArrayData {
         val defaultData = LocalPlaylistArrayData(ArrayList())
         // MMKV 读取
-        return MyApplication.mmkv.decodeParcelable(ARRAY_LOCAL_PLAYLIST, LocalPlaylistArrayData::class.java, defaultData)
+        return MyApp.mmkv.decodeParcelable(ARRAY_LOCAL_PLAYLIST, LocalPlaylistArrayData::class.java, defaultData)
     }
 
     /**
@@ -45,7 +45,7 @@ object LocalPlaylist {
      * 传入旧数据 [oldData]
      */
     fun save(oldData: LocalPlaylistArrayData) {
-        MyApplication.mmkv.encode(ARRAY_LOCAL_PLAYLIST, oldData)
+        MyApp.mmkv.encode(ARRAY_LOCAL_PLAYLIST, oldData)
     }
 
 }

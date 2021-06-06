@@ -13,12 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
-import com.dirror.music.MyApplication.Companion.mmkv
+import com.dirror.music.MyApp.Companion.mmkv
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.service.playMusic
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.dp
 import com.dirror.music.util.extensions.parse
 import com.dso.ext.toArrayList
 

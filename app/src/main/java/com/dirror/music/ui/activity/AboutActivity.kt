@@ -1,15 +1,13 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import androidx.core.content.ContextCompat
-import com.dirror.music.MyApplication
+import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityAboutBinding
 import com.dirror.music.service.test.TestMediaCodeInfo
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.AppInfoDialog
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.asColor
 
 class AboutActivity : BaseActivity() {
 
@@ -54,10 +52,10 @@ class AboutActivity : BaseActivity() {
             // 检查更新
             itemCheckForUpdates.setOnClickListener { UpdateUtil.checkNewVersion(this@AboutActivity, true) }
             // 更新日志
-            itemUpdateLog.setOnClickListener { MyApplication.activityManager.startWebActivity(this@AboutActivity, UPDATE_LOG) }
+            itemUpdateLog.setOnClickListener { MyApp.activityManager.startWebActivity(this@AboutActivity, UPDATE_LOG) }
             // 源代码
             itemSourceCode.setOnClickListener {
-                MyApplication.activityManager.startWebActivity(this@AboutActivity, "https://github.com/Moriafly/DsoMusic", getString(R.string.source_code))
+                MyApp.activityManager.startWebActivity(this@AboutActivity, "https://github.com/Moriafly/DsoMusic", getString(R.string.source_code))
             }
             // 使用开源项目
             itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity, OpenSourceActivity::class.java)) }
@@ -73,7 +71,7 @@ class AboutActivity : BaseActivity() {
 
             moriafly.setOnLongClickListener {
                 toast("Moriafly settings reset")
-                MyApplication.mmkv.encode(Config.SHOW_AGREEMENT, true)
+                MyApp.mmkv.encode(Config.SHOW_AGREEMENT, true)
                 return@setOnLongClickListener true
             }
         }

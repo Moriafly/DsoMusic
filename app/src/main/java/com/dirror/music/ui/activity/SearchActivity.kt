@@ -10,8 +10,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dirror.music.MyApplication
-import com.dirror.music.MyApplication.Companion.mmkv
+import com.dirror.music.MyApp
+import com.dirror.music.MyApp.Companion.mmkv
 import com.dirror.music.R
 import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.adapter.SearchHotAdapter
@@ -50,7 +50,7 @@ class SearchActivity : BaseActivity() {
             requestFocus()
         }
         // 获取推荐关键词
-        MyApplication.cloudMusicManager.getSearchDefault {
+        MyApp.cloudMusicManager.getSearchDefault {
             runOnMainThread {
                 // toast(it)
                 binding.etSearch.hint = it.data.showKeyword
@@ -58,7 +58,7 @@ class SearchActivity : BaseActivity() {
             }
         }
         // 获取热搜
-        MyApplication.cloudMusicManager.getSearchHot {
+        MyApp.cloudMusicManager.getSearchHot {
             runOnMainThread {
                 binding.rvSearchHot.layoutManager = LinearLayoutManager(this)
                 val searchHotAdapter = SearchHotAdapter(it)
