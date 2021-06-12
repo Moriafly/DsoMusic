@@ -1,9 +1,7 @@
 package com.dirror.music.service.base
 
 import android.app.Service
-import android.media.MediaPlayer
 import android.support.v4.media.session.PlaybackStateCompat
-import com.dirror.music.service.player.DsoPlayer
 
 /**
  * 抽象类
@@ -32,11 +30,6 @@ abstract class BaseMediaService: Service() {
                 or PlaybackStateCompat.ACTION_STOP
                 or PlaybackStateCompat.ACTION_SEEK_TO)
     }
-
-    /**
-     * MediaPlayer
-     */
-    var dsoPlayer: DsoPlayer? = null
 
     override fun onCreate() {
         super.onCreate()

@@ -33,16 +33,13 @@ import android.media.*
 import android.net.Uri
 import android.os.*
 import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
-import android.view.KeyEvent
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
-import androidx.media.session.MediaButtonReceiver
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.dirror.lyricviewx.LyricEntry
@@ -54,7 +51,6 @@ import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.netease.PersonalFM
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.service.base.BaseMediaService
-import com.dirror.music.service.player.DsoPlayer
 import com.dirror.music.ui.main.MainActivity
 import com.dirror.music.ui.player.PlayerActivity
 import com.dirror.music.util.*
@@ -83,6 +79,8 @@ open class MusicService : BaseMediaService() {
 
         /* MSG 状态栏歌词 */
         private const val MSG_STATUS_BAR_LYRIC = 0
+
+        private const val MEDIA_SESSION_PLAYBACK_SPEED = 1f
     }
 
     /* Dso Music 音乐控制器 */
@@ -102,9 +100,6 @@ open class MusicService : BaseMediaService() {
 
     /* 音频会话回调 */
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
-
-    /* 音频控制器 */
-    private var mediaController: MediaControllerCompat? = null
 
     /* 默认播放速度，0f 表示暂停 */
     private var speed = 1f
@@ -211,112 +206,67 @@ open class MusicService : BaseMediaService() {
 
     override fun initMediaSession() {
         val intentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
-
-        var myNoisyAudioStreamReceiverTag = false
         val myNoisyAudioStreamReceiver = BecomingNoisyReceiver()
+
         // 媒体会话的回调，Service 控制通知这个 Callback 来控制 MediaPlayer
         mediaSessionCallback = object : MediaSessionCompat.Callback() {
-            // 播放
+
             override fun onPlay() {
                 // 注册广播
-                if (!myNoisyAudioStreamReceiverTag) {
-                    registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
-                    myNoisyAudioStreamReceiverTag = true
+                registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
+
+                musicController.mediaPlayer.start()
+                musicController.isPlaying().value = musicController.mediaPlayer.isPlaying
+                musicController.sendMusicBroadcast()
+                updateMediaSession()
+                updateNotification()
+                if (Rom.meizu) {
+                    handler.sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 300L)
                 }
-
-                mediaSession?.setPlaybackState(
-                    PlaybackStateCompat.Builder()
-                        .setState(
-                            PlaybackStateCompat.STATE_PLAYING,
-                            (MyApp.musicController.value?.getProgress() ?: 0).toLong(),
-                            1f
-                        )
-                        .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
-                        .build()
-                )
             }
 
-            // 暂停
             override fun onPause() {
-                mediaSession?.setPlaybackState(
-                    PlaybackStateCompat.Builder()
-                        .setState(
-                            PlaybackStateCompat.STATE_PAUSED,
-                            (MyApp.musicController.value?.getProgress() ?: 0).toLong(),
-                            1f
-                        )
-                        .setActions(PlaybackStateCompat.ACTION_SEEK_TO)
-                        .build()
-                )
+                musicController.mediaPlayer.pause()
+                musicController.isPlaying().value = musicController.mediaPlayer.isPlaying
+                musicController.sendMusicBroadcast()
+                updateMediaSession()
+                updateNotification()
             }
 
-            // 播放下一首
             override fun onSkipToNext() {
                 musicController.playNext()
             }
 
-            // 播放上一首
             override fun onSkipToPrevious() {
                 musicController.playPrevious()
             }
 
-            // 关闭
             override fun onStop() {
                 // 注销广播
-                if (myNoisyAudioStreamReceiverTag) {
-                    unregisterReceiver(myNoisyAudioStreamReceiver)
-                    myNoisyAudioStreamReceiverTag = false
-                }
-                // AudioPlayer.get().stopPlayer()
+                unregisterReceiver(myNoisyAudioStreamReceiver)
             }
 
-            // 跳转
             override fun onSeekTo(pos: Long) {
-                dsoPlayer?.seekTo(pos.toInt())
-                if (musicController.isPlaying().value == true) {
-                    onPlay()
-                }
-            }
-
-            override fun onMediaButtonEvent(mediaButtonEvent: Intent?): Boolean {
-                if (mediaButtonEvent != null) {
-                    val keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT) as KeyEvent?
-                    when (mediaButtonEvent.action) {
-                        Intent.ACTION_MEDIA_BUTTON -> {
-                            if (keyEvent != null) {
-                                when (keyEvent.action) {
-                                    // 按键按下
-                                    KeyEvent.ACTION_DOWN -> {
-                                        when (keyEvent.keyCode) {
-                                            KeyEvent.KEYCODE_MEDIA_PLAY -> musicController.play()
-                                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> musicController.changePlayState()
-                                            KeyEvent.KEYCODE_MEDIA_PAUSE -> musicController.pause()
-                                            KeyEvent.KEYCODE_MEDIA_NEXT -> musicController.playNext()
-                                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> musicController.playPrevious()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                return true
+                musicController.setProgress(pos.toInt())
+                updateMediaSession()
             }
 
         }
         // 初始化 MediaSession
-        mediaSession = MediaSessionCompat(this, "MusicService").apply {
+        mediaSession = MediaSessionCompat(this, "mbr").apply {
+            // 指明支持的按键信息类型
+            setFlags(
+                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
+                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+            )
             // 设置 Callback
             setCallback(mediaSessionCallback, Handler(Looper.getMainLooper()))
             // 把 MediaSession 置为 active，这样才能开始接收各种信息
-            if (!isActive) {
-                isActive = true
-            }
+            isActive = true
         }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        MediaButtonReceiver.handleIntent(mediaSession, intent)
         when (intent?.getIntExtra("int_code", 0)) {
             CODE_PREVIOUS -> musicController.playPrevious()
             CODE_PLAY -> {
@@ -352,7 +302,7 @@ open class MusicService : BaseMediaService() {
             it.setCallback(null)
             it.release()
         }
-        dsoPlayer?.release()
+        musicController.mediaPlayer.release()
     }
 
     /**
@@ -360,6 +310,9 @@ open class MusicService : BaseMediaService() {
      */
     inner class MusicController : Binder(), MusicControllerInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+
+        /** MediaPlayer */
+        val mediaPlayer: MediaPlayer = MediaPlayer()
 
         /* 是否开启了状态栏歌词 */
         var statusBarLyric = mmkv.decodeBool(Config.MEIZU_STATUS_BAR_LYRIC, true)
@@ -373,10 +326,11 @@ open class MusicService : BaseMediaService() {
         private var songData = MutableLiveData<StandardSongData?>()
 
         private val isSongPlaying = MutableLiveData<Boolean>().also {
-            it.value = dsoPlayer?.isPlaying ?: false
+            it.value = mediaPlayer.isPlaying
         }
 
-        private var isPrepared = false // 音乐是否准备完成
+        // 音乐是否准备完成
+        private var isPrepared = false
 
         /* Song cover bitmap*/
         private val coverBitmap = MutableLiveData<Bitmap?>()
@@ -427,13 +381,10 @@ open class MusicService : BaseMediaService() {
             mmkv.encode(Config.SERVICE_CURRENT_SONG, song)
             Log.e(TAG, "onDestroy: 成功保存歌曲恢复到 mmkv：${song.name}")
 
-            // 如果 MediaPlayer 已经存在，释放
-            if (dsoPlayer != null) {
-                dsoPlayer?.destroy()
-                dsoPlayer = null
-            }
+            // MediaPlayer 重置
+            mediaPlayer.reset()
             // 初始化
-            dsoPlayer = DsoPlayer().apply {
+            mediaPlayer.apply {
                 ServiceSongUrl.getUrl(song) {
                     when (it) {
                         is String -> {
@@ -452,7 +403,7 @@ open class MusicService : BaseMediaService() {
                             try {
                                 setDataSource(applicationContext, it)
                             } catch (e: Exception) {
-                                onError(dsoPlayer, -1, 0)
+                                onError(mediaPlayer, -1, 0)
                                 return@getUrl
                             }
                         }
@@ -466,7 +417,7 @@ open class MusicService : BaseMediaService() {
 
         }
 
-        private fun sendMusicBroadcast() {
+        fun sendMusicBroadcast() {
             // Service 通知
             val intent = Intent("com.dirror.music.MUSIC_BROADCAST")
             intent.setPackage(packageName)
@@ -474,11 +425,8 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun onPrepared(p0: MediaPlayer?) {
+            Log.i(TAG, "onPrepared")
             isPrepared = true
-            mediaController = mediaSession?.sessionToken?.let { it1 -> MediaControllerCompat(this@MusicService, it1) }
-////            MediaControllerCompat.setMediaController(this@MusicService, mediaController)
-////            onMediaBrowserConnected();
-////            onMediaControllerConnected(mediaController.getSessionToken())
             this.play()
             if (recover) {
                 recover = false
@@ -487,9 +435,7 @@ open class MusicService : BaseMediaService() {
                 // this.setProgress(recoverProgress)
             }
             sendMusicBroadcast()
-            // updateNotification()
-//            setPlaybackParams()
-//
+
             songData.value?.let { standardSongData ->
                 // 获取歌词
                 ServiceSongUrl.getLyric(standardSongData) {
@@ -534,13 +480,11 @@ open class MusicService : BaseMediaService() {
         override fun changePlayState() {
             isSongPlaying.value?.let {
                 if (it) {
-                    dsoPlayer?.pause()
                     mediaSessionCallback?.onPause()
                 } else {
-                    dsoPlayer?.start()
                     mediaSessionCallback?.onPlay()
                 }
-                isSongPlaying.value = dsoPlayer?.isPlaying ?: false
+                isSongPlaying.value = mediaPlayer.isPlaying
             }
             sendMusicBroadcast()
             updateNotification()
@@ -548,24 +492,13 @@ open class MusicService : BaseMediaService() {
 
         override fun play() {
             if (isPrepared) {
-                dsoPlayer?.start()
-                isSongPlaying.value = dsoPlayer?.isPlaying ?: false
                 mediaSessionCallback?.onPlay()
-                sendMusicBroadcast()
-                updateNotification()
-                if (Rom.meizu) {
-                    handler.sendEmptyMessageDelayed(MSG_STATUS_BAR_LYRIC, 100L)
-                }
             }
         }
 
         override fun pause() {
             if (isPrepared) {
-                dsoPlayer?.pause()
-                isSongPlaying.value = dsoPlayer?.isPlaying ?: false
                 mediaSessionCallback?.onPause()
-                sendMusicBroadcast()
-                updateNotification()
             }
         }
 
@@ -645,26 +578,21 @@ open class MusicService : BaseMediaService() {
 
         override fun isPlaying(): MutableLiveData<Boolean> = isSongPlaying
 
-        override fun getDuration(): Int {
-            return if (isPrepared) {
-                dsoPlayer?.duration ?: 0
-            } else {
-                0
-            }
+        override fun getDuration(): Int = if (isPrepared) {
+            mediaPlayer.duration
+        } else {
+            0
         }
 
-        override fun getProgress(): Int {
-            return if (isPrepared) {
-                dsoPlayer?.currentPosition ?: 0
-            } else {
-                0
-            }
+        override fun getProgress(): Int = if (isPrepared) {
+            mediaPlayer.currentPosition
+        } else {
+            0
         }
 
         override fun setProgress(newProgress: Int) {
             if (isPrepared) {
-                dsoPlayer?.seekTo(newProgress)
-                mediaSessionCallback?.onPlay()
+                mediaPlayer.seekTo(newProgress)
             }
         }
 
@@ -722,7 +650,7 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun getAudioSessionId(): Int {
-            return dsoPlayer?.audioSessionId ?: 0
+            return mediaPlayer?.audioSessionId ?: 0
         }
 
         override fun sendBroadcast() {
@@ -762,7 +690,7 @@ open class MusicService : BaseMediaService() {
 
         private fun setPlaybackParams() {
             if (isPrepared) {
-                dsoPlayer?.let {
+                mediaPlayer.let {
                     try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             val playbackParams = it.playbackParams
@@ -800,16 +728,19 @@ open class MusicService : BaseMediaService() {
             }
             return true
         }
+
         fun getCurrentRight() = currentRight
-        fun setCurrentRight(newOne :Int){
+        fun setCurrentRight(newOne: Int) {
             currentRight = newOne
         }
+
         fun getCurrentCustom() = currentCustom
-        fun setCurrentCustom(newOne :Int){
+        fun setCurrentCustom(newOne: Int) {
             currentCustom = newOne
         }
+
         fun getTimingOffMode() = timingOffMode
-        fun setTimingOffMode(newOne :Boolean){
+        fun setTimingOffMode(newOne: Boolean) {
             timingOffMode = newOne
         }
     }
@@ -888,37 +819,6 @@ open class MusicService : BaseMediaService() {
         if (fromLyric) {
             notification.flags = notification.flags.or(FLAG_ONLY_UPDATE_TICKER)
         }
-
-        mediaSession?.apply {
-            setMetadata(
-                MediaMetadataCompat.Builder().apply {
-                    putString(MediaMetadataCompat.METADATA_KEY_TITLE, song?.name)
-                    putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song?.artists?.parse())
-                    putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        putLong(
-                            MediaMetadata.METADATA_KEY_DURATION,
-                            (MyApp.musicController.value?.getDuration() ?: 0).toLong()
-                        )
-                    }
-                }.build()
-            )
-            setPlaybackState(
-                PlaybackStateCompat.Builder()
-                    .setState(
-                        PlaybackStateCompat.STATE_PLAYING,
-                        (MyApp.musicController.value?.getProgress() ?: 0).toLong(),
-                        1f
-                    )
-                    .setActions(MEDIA_SESSION_ACTIONS)
-                    .build()
-            )
-            setCallback(mediaSessionCallback)
-            isActive = true
-        }
-        if (musicController.isPlaying().value != true) {
-            mediaSessionCallback?.onPause()
-        }
         // 更新通知
         startForeground(START_FOREGROUND_ID, notification)
     }
@@ -964,5 +864,49 @@ open class MusicService : BaseMediaService() {
             }
         }
         return 0
+    }
+
+    /**
+     * 更新媒体会话
+     * 需要改变 歌曲名、艺术家、专辑封面、当前进度（非自动）、歌曲时长 则需要调用一次
+     */
+    private fun updateMediaSession() {
+        val song = musicController.getPlayingSongData().value
+        mediaSession?.apply {
+            setPlaybackState(
+                PlaybackStateCompat.Builder()
+                    .setState(
+                        if (musicController.isPlaying().value == true) {
+                            PlaybackStateCompat.STATE_PLAYING
+                        } else {
+                            PlaybackStateCompat.STATE_PAUSED
+                        },
+                        musicController.getProgress().toLong(),
+                        MEDIA_SESSION_PLAYBACK_SPEED
+                    )
+                    // 通知栏显示滑块
+                    .setActions(MEDIA_SESSION_ACTIONS)
+                    .build()
+            )
+            setMetadata(
+                MediaMetadataCompat.Builder()
+                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song?.name)
+                    .putString(
+                        MediaMetadataCompat.METADATA_KEY_ARTIST,
+                        song?.artists?.parse() // + " - " + song?.album
+                    )
+                    // 通过刷新通知方法更新（魅族等系统通过 MediaSession 更新专辑封面无效）
+//                    .putBitmap(
+//                        MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
+//                        musicController.getPlayerCover().value
+//                    )
+                    .putLong(
+                        MediaMetadata.METADATA_KEY_DURATION,
+                        musicController.getDuration().toLong()
+                    )
+                    .build()
+            )
+        }
+
     }
 }
