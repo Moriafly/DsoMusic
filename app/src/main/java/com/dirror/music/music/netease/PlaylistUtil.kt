@@ -3,6 +3,7 @@ package com.dirror.music.music.netease
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
+import com.dirror.music.MyApp
 import com.dirror.music.api.*
 import com.dirror.music.data.DetailPlaylistData
 import com.dirror.music.data.DetailPlaylistInnerData
@@ -15,6 +16,8 @@ import com.dirror.music.util.toast
 import com.google.gson.Gson
 
 object PlaylistUtil {
+
+    private const val TAG = "PlaylistUtil"
 
     @Deprecated("过时")
     fun getDetailPlaylist(id: Long, success: (ArrayList<StandardSongData>) -> Unit, failure: (String) -> Unit) {
@@ -83,7 +86,8 @@ object PlaylistUtil {
      * 获取歌单信息
      */
     fun getPlaylistInfo(context: Context, id: Long, success: (DetailPlaylistInnerData) -> Unit) {
-        val url = "$API_AUTU/playlist/detail?id=$id"
+        val url = "$API_AUTU/playlist/detail?id=$id&cookie=${MyApp.userManager.getCloudMusicCookie()}"
+        Log.i(TAG, "获取歌单信息 $url")
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             try {
                 val playlistInfo = Gson().fromJson(response, DetailPlaylistData::class.java).playlist

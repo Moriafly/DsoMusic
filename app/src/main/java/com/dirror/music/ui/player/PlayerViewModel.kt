@@ -70,6 +70,9 @@ class PlayerViewModel: ViewModel() {
 
     var heart = MutableLiveData<Boolean>()
 
+    /** 平常颜色 */
+    var normalColor = MutableLiveData<Int>()
+
     /**
      * 刷新
      */

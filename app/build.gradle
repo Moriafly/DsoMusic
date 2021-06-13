@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 734
-        versionName "3.6.0"
+        versionCode 736
+        versionName "3.7.0"
 
         multiDexEnabled true
 
@@ -109,7 +109,7 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
     // LyricViewX
-    implementation 'com.github.Moriafly:LyricViewX:1.2.0-beta02'
+    implementation 'com.github.Moriafly:LyricViewX:1.2.0'
     implementation 'com.github.team403:DsoKotlinExtensions:1.0.0'
     // 漂亮的开关
     implementation 'com.bitvale:switcher:1.1.1'
@@ -119,7 +119,5 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
-
-    implementation 'com.google.android.material:material:1.2.1'
 
 }

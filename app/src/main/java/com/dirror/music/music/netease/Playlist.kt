@@ -1,9 +1,12 @@
 package com.dirror.music.music.netease
 
 import android.content.Context
+import com.dirror.music.MyApp
+import com.dirror.music.api.API_AUTU
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
+import com.dirror.music.music.netease.data.PlaylistDetail
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.*
 import com.dso.ext.averageAssignFixLength
@@ -50,7 +53,7 @@ object Playlist {
         success: (ArrayList<StandardSongData>) -> Unit,
         failure: () -> Unit
     ) {
-        val url = PLAYLIST_URL + playlistId
+        val url = PLAYLIST_URL + playlistId + "&cookie=${MyApp.userManager.getCloudMusicCookie()}"
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             val trackIds = ArrayList<Long>()
             try {
@@ -118,6 +121,27 @@ object Playlist {
         }, {
             // 获取 trackId 失败
             failure.invoke()
+        })
+    }
+
+    /**
+     * 网易云登录成功的用户通过这个接口获取歌单歌曲
+     */
+    fun getPlaylistByCookie(playlistId: Long, success: (ArrayList<StandardSongData>) -> Unit) {
+        val requestBody = FormBody.Builder()
+            .add("id", playlistId.toString())
+            .add("cookie", MyApp.userManager.getCloudMusicCookie())
+            .build()
+        MagicHttp.OkHttpManager().newPost("$API_AUTU/playlist/detail", requestBody, { response ->
+            var playlistDetail: PlaylistDetail? = null
+            try {
+                playlistDetail = Gson().fromJson(response, PlaylistDetail::class.java)
+            } catch (e: Exception) {
+
+            }
+            playlistDetail?.getSongArrayList()?.let { success(it) }
+        }, {
+            // failure(ErrorCode.MAGIC_HTTP)
         })
     }
 

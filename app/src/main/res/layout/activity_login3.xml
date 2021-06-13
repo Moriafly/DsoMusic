@@ -68,7 +68,6 @@
             android:text="@string/login_by_phone"
             android:textColor="@color/colorItemBackground"
             android:textSize="18sp"
-            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/btnLoginByUid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -99,15 +98,5 @@
         android:textColor="@color/colorSubTextForeground"
         app:layout_constraintBottom_toTopOf="@+id/tvLogo"
         app:layout_constraintEnd_toEndOf="@+id/tvLogo" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="某些功能“死于”恶意传播"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

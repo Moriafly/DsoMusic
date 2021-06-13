@@ -10,7 +10,6 @@
     tools:context=".ui.player.PlayerActivity">
 
     <ImageView
-        android:alpha="0.1"
         android:id="@+id/ivLyricsBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -154,7 +153,7 @@
                         android:layout_height="56dp"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/background_button_icon"
-                        android:padding="16dp"
+                        android:padding="17dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

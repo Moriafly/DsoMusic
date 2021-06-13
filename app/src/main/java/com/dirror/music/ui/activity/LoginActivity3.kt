@@ -24,11 +24,11 @@ class LoginActivity3 : BaseActivity() {
     }
 
     override fun initView() {
-        if (MyApp.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)) {
-            binding.btnLoginByPhone.visibility = View.VISIBLE
-        } else {
-            binding.btnLoginByPhone.visibility = View.GONE
-        }
+//        if (MyApp.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)) {
+//            binding.btnLoginByPhone.visibility = View.VISIBLE
+//        } else {
+//            binding.btnLoginByPhone.visibility = View.GONE
+//        }
 
         (binding.btnCancel.layoutParams as ConstraintLayout.LayoutParams).apply {
             topMargin = getStatusBarHeight(window, this@LoginActivity3)

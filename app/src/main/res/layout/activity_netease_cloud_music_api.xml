@@ -50,7 +50,7 @@
                 style="@style/style_settings_title" />
 
             <TextView
-                android:text="因为被一些网站和公众号等恶意传播，软件已经移除内置一些服务，
+                android:text="因为恶意传播，软件已经移除内置一些服务，
 现提供自定义配置，配置成功后可以使用手机号登录等功能"
                 style="@style/defaultValueText" />
 
@@ -63,7 +63,11 @@
                 android:hint="请配置服务地址"
                 style="@style/default_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:minHeight="40dp"
+                android:maxLines="2"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:text="可以自行配置 NeteaseCloudMusicApi 本地服务等，需要 NeteaseCloudMusicApi 3.30.0 及以上版本"
@@ -78,14 +82,29 @@
                 style="@style/defaultValueText" />
 
             <TextView
-                android:text="链接"
+                android:text="不会自行配置？尝试获取测试版 API"
+                style="@style/style_settings_title" />
+
+            <TextView
+                android:textIsSelectable="true"
+                android:text="微信扫描以下二维码或者微信公众号搜索关注【遇荐】（开发者 @Moriafly 指定微信公众号），回复【网易云api】，即可获取测试版 API。还有许多开发者软件等你体验。"
+                style="@style/defaultValueText" />
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/qrcode_yujian"/>
+
+            <TextView
+                android:text="自行配置启用 API 服务"
                 style="@style/style_settings_title" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemNeteaseCloudMusicApiGithub"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                app:text="访问 NeteaseCloudMusicApi Github"/>
+                app:text="请访问 NeteaseCloudMusicApi Github"/>
 
 
         </LinearLayout>

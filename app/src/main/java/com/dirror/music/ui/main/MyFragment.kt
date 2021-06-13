@@ -21,6 +21,7 @@ import com.dirror.music.ui.main.viewmodel.MainViewModel
 import com.dirror.music.ui.main.viewmodel.MyFragmentViewModel
 import com.dirror.music.ui.playlist.SongPlaylistActivity
 import com.dirror.music.ui.playlist.TAG_NETEASE
+import com.dirror.music.ui.playlist.TAG_NETEASE_MY_FAVORITE
 import com.dirror.music.util.*
 import com.dirror.music.util.extensions.dp
 
@@ -65,10 +66,21 @@ class MyFragment : BaseFragment() {
         }
 
         myPlaylistAdapter = MyPlaylistAdapter {
-            val intent = Intent(requireContext(), SongPlaylistActivity::class.java)
-            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
-            intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, it.id.toString())
-            requireContext().startActivity(intent)
+            if (myFragmentViewModel.userPlaylistList.value?.size ?: 0 > 0) {
+                if (it == myFragmentViewModel.userPlaylistList.value?.get(0)) {
+                    val intent = Intent(requireContext(), SongPlaylistActivity::class.java)
+                    intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE_MY_FAVORITE)
+                    intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, it.id.toString())
+                    requireContext().startActivity(intent)
+                } else {
+                    val intent = Intent(requireContext(), SongPlaylistActivity::class.java)
+                    intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
+                    intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, it.id.toString())
+                    requireContext().startActivity(intent)
+                }
+            }
+
+
         }
 
         val myFragmentIconAdapter = MyFragmentIconAdapter(requireContext())

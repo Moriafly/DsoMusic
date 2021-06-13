@@ -35,6 +35,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -50,7 +51,6 @@ import androidx.core.view.updateLayoutParams
 import androidx.palette.graphics.Palette
 import coil.load
 import coil.size.ViewSizeResolver
-import coil.transform.BlurTransformation
 import com.dirror.lyricviewx.OnPlayClickListener
 import com.dirror.lyricviewx.OnSingleClickListener
 import com.dirror.music.MyApp
@@ -138,6 +138,11 @@ class PlayerActivity : SlideBackActivity() {
     }
 
     override fun initView() {
+        if (DarkThemeUtil.isDarkTheme(this)) {
+            playViewModel.normalColor.value = Color.WHITE
+        } else {
+            playViewModel.normalColor.value = Color.rgb(50, 50, 50)
+        }
         if (MyApp.mmkv.decodeBool(Config.NETEASE_GOOD_COMMENTS, true)) {
             binding.ivComment.visibility = View.VISIBLE
         } else {
@@ -400,25 +405,13 @@ class PlayerActivity : SlideBackActivity() {
                 // 封面观察
                 controller.getPlayerCover().observe(this@PlayerActivity, { bitmap ->
                     runOnMainThread {
-
                         // 设置 CD 图片
                         binding.ivCover.load(bitmap) {
                             placeholder(previousBitmap?.toDrawable(resources))
                             size(ViewSizeResolver(binding.ivCover))
                             crossfade(500)
                         }
-                        binding.ivLyricsBackground.load(bitmap) {
-                            transformations(BlurTransformation(
-                                this@PlayerActivity,
-                                25f,
-                                15f
-                            ))
-                            allowHardware(false)
-                        }
-
-
                         previousBitmap = bitmap
-
 
                         // 设置色调
                         bitmap?.let {
@@ -433,9 +426,9 @@ class PlayerActivity : SlideBackActivity() {
                                         }
                                         val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
                                         playViewModel.color.value =  if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                            muteColor.colorMix(vibrantColor, Color.WHITE)
+                                            vibrantColor // muteColor.colorMix(vibrantColor)
                                         } else {
-                                            muteColor.colorMix(vibrantColor, Color.BLACK)
+                                            vibrantColor // muteColor.colorMix(vibrantColor)
                                         }
                                     }
                                 }
@@ -528,48 +521,68 @@ class PlayerActivity : SlideBackActivity() {
             // 颜色观察
             color.observe(this@PlayerActivity, {
                 binding.apply {
+//                    if (heart.value == true) {
+//                        ivLike.setColorFilter(R.color.colorAppThemeColor.asColor(this@PlayerActivity))
+//                    } else {
+//                        ivLike.setColorFilter(it)
+//                    }
+                    val darkMode = DarkThemeUtil.isDarkTheme(this@PlayerActivity)
+                    val secondColor = if (darkMode) {
+                        Color.rgb(45, 45, 45)
+                    } else {
+                        Color.WHITE
+                    }
+                    val mixColor = if (darkMode) {
+                        it.colorMix(secondColor, secondColor, secondColor)
+                    } else {
+                        it.colorMix(Color.WHITE, Color.WHITE, Color.WHITE)
+                    }
+
+
+                    ivLyricsBackground.setImageDrawable(GradientDrawable().apply{
+                        this.gradientType = GradientDrawable.LINEAR_GRADIENT // 指定渲染角度
+                        this.colors = intArrayOf(mixColor, secondColor, secondColor, secondColor) // 指定渐变色
+                    })
+                }
+
+            })
+
+            normalColor.observe(this@PlayerActivity, {
+                binding.lyricView.apply {
+                    setCurrentColor(it)
+                    setTimeTextColor(it)
+                    setTimelineColor(it.colorAlpha(0.25f))
+                    setTimelineTextColor(it)
+                    setNormalColor(it.colorAlpha(0.35f))
+                }
+                with(binding) {
+                    ttvProgress.textColor = it
+                    ttvDuration.textColor = it
+                    tvTag?.setTextColor(it)
+
                     ivPlay.setColorFilter(it)
                     ivLast.setColorFilter(it)
                     ivNext.setColorFilter(it)
                     tvName.setTextColor(it)
                     tvArtist.setTextColor(it)
                     ivBack.setColorFilter(it)
-                    // diffuseView.setColor(it)
-                    lyricView.apply {
-                        setCurrentColor(it)
-                        setTimeTextColor(it)
-                        setTimelineColor(it.colorAlpha(0.25f))
-                        setTimelineTextColor(it)
-                        setNormalColor(it.colorAlpha(0.5f))
-                    }
+
+                    ivEqualizer.setColorFilter(it)
+                    ivSleepTimer.setColorFilter(it)
+                    ivLike.setColorFilter(it)
+                    ivComment.setColorFilter(it)
+                    ivMore.setColorFilter(it)
+
+                    ivMode.setColorFilter(it)
+                    ivList.setColorFilter(it)
+
                     seekBar.thumb.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
                     seekBar.progressDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
                     seekBarVolume.thumb.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
                     seekBarVolume.progressDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
 
                     ivVolume.setColorFilter(it)
-
-                    ttvProgress.textColor = it
-                    ttvDuration.textColor = it
-
-                    tvTag?.setTextColor(it)
-
-                    ivEqualizer.setColorFilter(it)
-                    ivSleepTimer.setColorFilter(it)
-
-                    if (heart.value == true) {
-                        ivLike.setColorFilter(R.color.colorAppThemeColor.asColor(this@PlayerActivity))
-                    } else {
-                        ivLike.setColorFilter(it)
-                    }
-
-                    ivComment.setColorFilter(it)
-                    ivMore.setColorFilter(it)
-
-                    ivMode.setColorFilter(it)
-                    ivList.setColorFilter(it)
                 }
-
             })
 
             heart.observe(this@PlayerActivity, {
@@ -578,7 +591,7 @@ class PlayerActivity : SlideBackActivity() {
                     binding.ivLike.setColorFilter(R.color.colorAppThemeColor.asColor(this@PlayerActivity))
                 } else {
                     binding.ivLike.setImageDrawable(R.drawable.ic_player_heart_outline.asDrawable(this@PlayerActivity))
-                    playViewModel.color.value?.let { it1 -> binding.ivLike.setColorFilter(it1) }
+                    playViewModel.normalColor.value?.let { it1 -> binding.ivLike.setColorFilter(it1) }
                 }
             })
 

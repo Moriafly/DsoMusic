@@ -123,7 +123,7 @@
 
     <style name="dso_style_rounded">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">110dp</item>
+        <item name="cornerSize">125dp</item>
     </style>
 
 </resources>

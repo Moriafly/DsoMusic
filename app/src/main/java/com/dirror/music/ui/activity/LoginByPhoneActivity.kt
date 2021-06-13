@@ -8,6 +8,7 @@ import com.dirror.music.R
 import com.dirror.music.databinding.ActivityLoginByPhoneBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.base.BaseActivity
+import com.dirror.music.ui.live.NeteaseCloudMusicApiActivity
 import com.dirror.music.ui.viewmodel.LoginCellphoneViewModel
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.sky.SkySecure
@@ -30,6 +31,9 @@ class LoginByPhoneActivity : BaseActivity() {
     }
 
     override fun initListener() {
+        binding.itemNeteaseCloudMusicApi.setOnClickListener {
+            startActivity(Intent(this, NeteaseCloudMusicApiActivity::class.java))
+        }
         binding.btnLoginByPhone.setOnClickListener {
             val phone = binding.etPhone.text.toString()
             val password = binding.etPassword.text.toString()

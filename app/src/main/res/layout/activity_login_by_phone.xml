@@ -29,7 +29,7 @@
                 android:id="@+id/tvLoginByPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/cellphone_number"
                 android:textColor="@color/colorSubTextForeground"
@@ -39,9 +39,9 @@
                 android:id="@+id/etPhone"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/bg_edit_text"
                 android:maxLines="1"
                 android:padding="8dp"
@@ -52,7 +52,7 @@
                 android:id="@+id/tvPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/password"
                 android:textColor="@color/colorSubTextForeground"
@@ -62,9 +62,9 @@
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/bg_edit_text"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -77,9 +77,9 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/background_button_radius_red"
                 android:text="@string/login"
                 android:textColor="@color/colorItemBackground"
@@ -112,13 +112,35 @@
                 android:id="@+id/tvTip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:lineSpacingExtra="@dimen/lineSpacingExtra"
                 android:text="使用网易云手机号登录需知：\n确保使用正版 Dso Music 。\n密码将在本地进行加密后请求服务器，Dso Music 本地以及服务器都不会存储你的密码。\n若对安全性不信任可以使用 100% 安全的 UID 登录。"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
+
+            <TextView
+                style="@style/style_settings_title"
+                android:text="网易云 API 服务" />
+
+            <TextView
+                android:id="@+id/tvTip2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:lineSpacingExtra="@dimen/lineSpacingExtra"
+                android:text="Dso Music 现不提供自带手机号登录，请先配置网易云 API 再使用手机号登录"
+                android:textColor="@color/colorSubTextForeground"
+                android:textSize="12sp" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemNeteaseCloudMusicApi"
+                app:text="@string/netease_cloud_music_api"
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
 
         </LinearLayout>
 

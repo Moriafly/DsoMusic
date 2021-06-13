@@ -98,6 +98,20 @@
                 android:layout_height="56dp" />
 
             <TextView
+                android:text="关注 遇荐 公众号"
+                style="@style/style_settings_title"/>
+
+            <TextView
+                style="@style/defaultValueText"
+                android:text="获取最新 Dso Music、椒盐音乐、Foyou 等软件下载链接等等~"/>
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/qrcode_yujian"/>
+
+            <TextView
                 android:text="声明及协议"
                 style="@style/style_settings_title"/>
 
