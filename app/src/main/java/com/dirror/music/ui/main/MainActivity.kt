@@ -78,7 +78,7 @@ class MainActivity : BaseActivity() {
     override fun initBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.root.setOnApplyWindowInsetsListener { _, insets ->
-            // 获取状态栏高度
+            mainViewModel.statusBarHeight.value = insets.systemWindowInsetTop
             mainViewModel.navigationBarHeight.value = insets.systemWindowInsetBottom
             insets
         }
@@ -121,30 +121,15 @@ class MainActivity : BaseActivity() {
             .setBlurRadius(radius)
             .setHasFixedTransformationMatrix(true)
 
-        // 适配状态栏
-        val statusBarHeight = getStatusBarHeight(window, this) // px
-        mainViewModel.statusBarHeight.value = statusBarHeight
-        (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
-            topMargin = statusBarHeight
-        }
-        (binding.viewPager2.layoutParams as ConstraintLayout.LayoutParams).apply {
-            topMargin = statusBarHeight + 56.dp()
-        }
-        // 侧滑状态栏适配
-        (binding.menuMain.llMenu.layoutParams as FrameLayout.LayoutParams).apply {
-            topMargin = statusBarHeight + 8.dp()
-        }
-
-        binding.viewPager2.offscreenPageLimit = 3
+        binding.viewPager2.offscreenPageLimit = 2
         binding.viewPager2.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
-                return 3
+                return 2
             }
 
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    0 -> LocalSongFragment()
-                    1 -> MyFragment()
+                    0 -> MyFragment()
                     else -> HomeFragment()
                 }
             }
@@ -152,8 +137,7 @@ class MainActivity : BaseActivity() {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = when (position) {
-                0 -> getString(R.string.song)
-                1 -> getString(R.string.my)
+                0 -> getString(R.string.my)
                 else -> getString(R.string.find)
             }
         }.attach()
@@ -222,6 +206,17 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initObserver() {
+        mainViewModel.statusBarHeight.observe(this, {
+            (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply {
+                height = 56.dp() + it
+            }
+            (binding.viewPager2.layoutParams as ConstraintLayout.LayoutParams).apply {
+                topMargin = 56.dp() + it
+            }
+            (binding.menuMain.llMenu.layoutParams as FrameLayout.LayoutParams).apply {
+                topMargin = it + 8.dp()
+            }
+        })
         mainViewModel.navigationBarHeight.observe(this, {
             binding.miniPlayer.root.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 bottomMargin = it

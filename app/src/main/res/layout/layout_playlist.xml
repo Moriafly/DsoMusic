@@ -5,29 +5,29 @@
     android:id="@+id/clTrack"
     android:layout_width="match_parent"
     android:layout_height="68dp"
-    android:background="?attr/selectableItemBackground">
+    android:background="@drawable/bg_card_item">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvCover"
-        android:transitionName="transCvCover"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorTransparency"
+        android:transitionName="transCvCover"
         app:cardCornerRadius="@dimen/defaultRadius"
         app:cardElevation="0dp"
-        android:background="@color/colorTransparency"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/ivCover"
-            android:transitionName="transIvCover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/avatars"
-            tools:ignore="ContentDescription" />
+            android:transitionName="transIvCover"
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.cardview.widget.CardView>
 
@@ -36,7 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="16dp"
         android:singleLine="true"
         android:text="@string/slogan"
@@ -44,16 +44,16 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cvCover"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/cvCover" />
 
     <TextView
         android:id="@+id/tvTrackCount"
-        android:singleLine="true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="14dp"
+        android:singleLine="true"
         android:text="@string/songs"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"

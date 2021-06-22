@@ -57,5 +57,6 @@
     <color name="dso_color_white_alpha_10">#2EC8C8C8</color>
 
     <color name="dso_color_player_cd_background">#594B4B4B</color>
+    <color name="dso_color_page_item">#80FFFFFF</color>
 
 </resources>

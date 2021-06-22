@@ -11,10 +11,8 @@ class MainViewModel: ViewModel() {
         it.value = false
     }
 
-    // 状态栏高度
-    val statusBarHeight = MutableLiveData<Int>().also {
-        it.value = 0
-    }
+    /** 状态栏高度 */
+    val statusBarHeight = MutableLiveData<Int>()
 
     /** 导航栏高度 */
     val navigationBarHeight = MutableLiveData<Int>()

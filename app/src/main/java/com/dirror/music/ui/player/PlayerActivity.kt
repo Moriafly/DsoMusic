@@ -51,6 +51,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.palette.graphics.Palette
 import coil.load
 import coil.size.ViewSizeResolver
+import coil.transform.BlurTransformation
 import com.dirror.lyricviewx.OnPlayClickListener
 import com.dirror.lyricviewx.OnSingleClickListener
 import com.dirror.music.MyApp
@@ -411,6 +412,11 @@ class PlayerActivity : SlideBackActivity() {
                             size(ViewSizeResolver(binding.ivCover))
                             crossfade(500)
                         }
+                        binding.ivLyricsBackground.load(bitmap) {
+                            size(ViewSizeResolver(binding.ivCover))
+                            transformations(BlurTransformation(this@PlayerActivity, 15F, 30F))
+                            crossfade(500)
+                        }
                         previousBitmap = bitmap
 
                         // 设置色调
@@ -425,6 +431,11 @@ class PlayerActivity : SlideBackActivity() {
                                             palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
                                         }
                                         val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
+                                        playViewModel.normalColor.value =  if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                            muteColor.colorMix(vibrantColor)
+                                        } else {
+                                            muteColor.colorMix(vibrantColor)
+                                        }
                                         playViewModel.color.value =  if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
                                             vibrantColor // muteColor.colorMix(vibrantColor)
                                         } else {
@@ -539,10 +550,10 @@ class PlayerActivity : SlideBackActivity() {
                     }
 
 
-                    ivLyricsBackground.setImageDrawable(GradientDrawable().apply{
-                        this.gradientType = GradientDrawable.LINEAR_GRADIENT // 指定渲染角度
-                        this.colors = intArrayOf(mixColor, secondColor, secondColor, secondColor) // 指定渐变色
-                    })
+//                    ivLyricsBackground.setImageDrawable(GradientDrawable().apply{
+//                        this.gradientType = GradientDrawable.LINEAR_GRADIENT // 指定渲染角度
+//                        this.colors = intArrayOf(mixColor, secondColor, secondColor, secondColor) // 指定渐变色
+//                    })
                 }
 
             })

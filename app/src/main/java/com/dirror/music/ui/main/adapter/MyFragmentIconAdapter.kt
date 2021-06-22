@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApp
 import com.dirror.music.R
+import com.dirror.music.startLocalMusicActivity
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.activity.UserCloudActivity
 import com.dirror.music.ui.playlist.SongPlaylistActivity
@@ -38,6 +39,10 @@ class MyFragmentIconAdapter(val context: Context): RecyclerView.Adapter<MyFragme
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.apply {
+            clLocal.setOnClickListener {
+                AnimationUtil.click(it)
+                startLocalMusicActivity(context)
+            }
             // 我喜欢的音乐
             clFavorite.setOnClickListener {
                 AnimationUtil.click(it)

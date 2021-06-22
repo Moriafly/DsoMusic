@@ -43,9 +43,6 @@ import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 
-//import com.umeng.analytics.MobclickAgent
-//import com.umeng.commonsdk.UMConfigure
-
 /**
  * 自定义 Application
  * @author Moriafly
@@ -55,7 +52,6 @@ class MyApp : Application() {
 
     companion object {
 
-        // 加载本地库
         init {
             System.loadLibrary("dso")
         }
@@ -139,11 +135,6 @@ class MyApp : Application() {
         }
         // 绑定服务
         bindService(intent, musicServiceConnection, BIND_AUTO_CREATE)
-    }
-
-    override fun onTerminate() {
-        super.onTerminate()
-        toast("回收")
     }
 
 }

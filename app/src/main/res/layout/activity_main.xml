@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                android:background="@color/colorPageBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +54,7 @@
             android:id="@+id/titleBar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:background="@color/dso_color_page_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -60,23 +62,21 @@
                 android:id="@+id/ivSearch"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:contentDescription="@string/search_for_online_music"
                 android:background="@drawable/background_button_icon"
+                android:contentDescription="@string/search_for_online_music"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_search"
                 tools:ignore="VectorDrawableCompat" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="56dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:tabBackground="@drawable/background_transparency"
                 app:tabIndicator="@drawable/background_transparency"
                 app:tabIndicatorColor="@color/colorAppThemeColor"
@@ -114,7 +114,6 @@
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_menu"
                 tools:ignore="VectorDrawableCompat" />
         </androidx.constraintlayout.widget.ConstraintLayout>

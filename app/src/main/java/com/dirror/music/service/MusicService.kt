@@ -58,6 +58,7 @@ import com.dirror.music.util.extensions.*
 import com.dso.ext.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -187,15 +188,15 @@ open class MusicService : BaseMediaService() {
                 .setAudioAttributes(audioAttributes)
                 .setOnAudioFocusChangeListener { focusChange ->
                     when (focusChange) {
-                        // AudioManager.AUDIOFOCUS_GAIN -> musicBinder.play()
-                        // AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> musicBinder.play()
-                        // AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> musicBinder.play()
+                        AudioManager.AUDIOFOCUS_GAIN -> mediaSessionCallback?.onPlay()
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> mediaSessionCallback?.onPlay()
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> mediaSessionCallback?.onPlay()
                         AudioManager.AUDIOFOCUS_LOSS -> {
                             // audioManager.abandonAudioFocusRequest(audioFocusRequest)
-                            musicController.pause()
+                            mediaSessionCallback?.onPause()
                         }
-                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> musicController.pause()
-                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> musicController.pause()
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> mediaSessionCallback?.onPause()
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> mediaSessionCallback?.onPause()
                     }
                 }.build()
             if (isAudioFocus) {
@@ -214,6 +215,13 @@ open class MusicService : BaseMediaService() {
             override fun onPlay() {
                 // 注册广播
                 registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
+
+                // 请求音频焦点
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (isAudioFocus) {
+                        audioManager.requestAudioFocus(audioFocusRequest)
+                    }
+                }
 
                 musicController.mediaPlayer.start()
                 musicController.isPlaying().value = musicController.mediaPlayer.isPlaying
@@ -247,8 +255,10 @@ open class MusicService : BaseMediaService() {
             }
 
             override fun onSeekTo(pos: Long) {
-                musicController.setProgress(pos.toInt())
-                updateMediaSession()
+                if (musicController.isPrepared) {
+                    musicController.mediaPlayer.seekTo(pos.toInt())
+                    updateMediaSession()
+                }
             }
 
         }
@@ -330,7 +340,7 @@ open class MusicService : BaseMediaService() {
         }
 
         // 音乐是否准备完成
-        private var isPrepared = false
+        var isPrepared = false
 
         /* Song cover bitmap*/
         private val coverBitmap = MutableLiveData<Bitmap?>()
@@ -499,6 +509,9 @@ open class MusicService : BaseMediaService() {
         override fun pause() {
             if (isPrepared) {
                 mediaSessionCallback?.onPause()
+                if (isAudioFocus && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    audioManager.abandonAudioFocusRequest(audioFocusRequest)
+                }
             }
         }
 
@@ -591,9 +604,7 @@ open class MusicService : BaseMediaService() {
         }
 
         override fun setProgress(newProgress: Int) {
-            if (isPrepared) {
-                mediaPlayer.seekTo(newProgress)
-            }
+            mediaSessionCallback?.onSeekTo(newProgress.toLong())
         }
 
         override fun getPlayingSongData(): MutableLiveData<StandardSongData?> = songData

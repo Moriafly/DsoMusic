@@ -79,8 +79,6 @@ class MyFragment : BaseFragment() {
                     requireContext().startActivity(intent)
                 }
             }
-
-
         }
 
         val myFragmentIconAdapter = MyFragmentIconAdapter(requireContext())

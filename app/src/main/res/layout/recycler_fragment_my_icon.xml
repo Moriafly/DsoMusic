@@ -3,20 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/llTop"
+    android:background="@drawable/bg_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp">
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clLocal"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:contentDescription="@string/local_music"
-        android:visibility="gone">
+        android:contentDescription="@string/local_music">
 
         <ImageView
             android:id="@+id/ivLocal"
@@ -35,11 +37,9 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:text="@string/local_music"
             android:textColor="@color/colorTextForeground"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

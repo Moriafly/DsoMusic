@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ import coil.size.ViewSizeResolver
 import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
+import com.dirror.music.util.extensions.asDrawable
 import com.dirror.music.util.extensions.dp
 
 /**
@@ -51,6 +53,18 @@ class MyPlaylistAdapter
         with(holder) {
             val playlist = getItem(position)
             selectPlaylist = playlist
+
+//            if (position == 0) {
+//                clTrack.updateLayoutParams<RecyclerView.LayoutParams> {
+//                    height = (68 + 16).dp()
+//                }
+//                clTrack.background = R.drawable.bg_card_item_top.asDrawable(clTrack.context)
+//            } else {
+//                clTrack.updateLayoutParams<RecyclerView.LayoutParams> {
+//                    height = (68).dp()
+//                }
+//                clTrack.background = R.drawable.bg_card_item.asDrawable(clTrack.context)
+//            }
 
             val url = MyApp.cloudMusicManager.getPicture(playlist.coverImgUrl, 56.dp())
             ivCover.load(url) {

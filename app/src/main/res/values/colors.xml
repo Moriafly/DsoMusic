@@ -11,6 +11,7 @@
 
     <!-- 页面背景色-->
     <color name="colorPageBackground">#FFFFFF</color>
+    <color name="dso_color_page">#F2F1F7</color>
 
     <color name="colorMenuBackground">#BFFFFFFF</color>
 
@@ -65,4 +66,5 @@
     <color name="dso_color_white_alpha_10">#26FFFFFF</color>
 
     <color name="dso_color_player_cd_background">#80FFFFFF</color>
+    <color name="dso_color_page_item">#66FFFFFF</color>
 </resources>
