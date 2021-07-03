@@ -25,8 +25,8 @@
                 android:id="@+id/ivTheme"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:background="@color/colorPageBackground"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,6 @@
             android:id="@+id/titleBar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/dso_color_page_item"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -108,7 +107,7 @@
                 android:layout_height="56dp"
                 android:alpha="0.72"
                 android:background="@drawable/background_button_icon"
-                android:contentDescription="@string/settings"
+                android:contentDescription="@string/menu"
                 android:padding="15dp"
                 android:paddingBottom="10dp"
                 android:visibility="visible"
@@ -125,8 +124,7 @@
             android:background="@drawable/bg_mini_player"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-        </eightbitlab.com.blurview.BlurView>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <include
             android:id="@+id/miniPlayer"

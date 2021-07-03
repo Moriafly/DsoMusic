@@ -5,7 +5,7 @@ buildscript {
         maven { url 'https://jitpack.io' }
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
@@ -18,7 +18,7 @@ buildscript {
 allprojects {
     repositories {
         maven { url 'https://jitpack.io' }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         // 阿里云
         maven { url 'https://maven.aliyun.com/repository/public/' }
 

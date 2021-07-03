@@ -124,4 +124,7 @@
     <string name="song">歌曲</string>
     <string name="address">地址</string>
     <string name="find">发现</string>
+    <string name="close_timer">定时关闭</string>
+    <string name="album_art">专辑封面</string>
+    <string name="menu">菜单</string>
 </resources>

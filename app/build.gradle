@@ -29,8 +29,8 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 739
-        versionName "3.8.0"
+        versionCode 740
+        versionName "3.9.0"
 
         multiDexEnabled true
 
@@ -74,7 +74,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-beta01'
     implementation "androidx.recyclerview:recyclerview:1.2.0-rc01"
@@ -82,11 +82,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
-
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.work:work-runtime:2.4.0'
-
     implementation 'com.eightbitlab:blurview:1.6.3'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
@@ -95,29 +93,18 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.squareup.okio:okio:2.10.0'
     implementation 'org.jsoup:jsoup:1.13.1'
-    // MMKV
     implementation 'com.tencent:mmkv-static:1.2.2'
-    // 友盟统计SDK
-    implementation 'com.umeng.umsdk:common:9.3.6'
-    implementation 'com.umeng.umsdk:asms:1.2.0'
+    implementation 'com.umeng.umsdk:common:9.3.8'
+    implementation 'com.umeng.umsdk:asms:1.2.2'
     implementation 'com.umeng.umsdk:crash:0.0.4'
-    // lottie
     implementation 'com.airbnb.android:lottie:3.6.0'
-    // View 边界渐变透明
     implementation 'ren.qinc.edgetranslucent:lib:0.0.3'
-    // room
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
-    // LyricViewX
     implementation 'com.github.Moriafly:LyricViewX:1.2.0'
     implementation 'com.github.team403:DsoKotlinExtensions:1.0.0'
-    // 漂亮的开关
     implementation 'com.bitvale:switcher:1.1.1'
-    // coil 图片加载库
     implementation 'io.coil-kt:coil:1.1.1'
-
     implementation 'com.android.support:multidex:1.0.3'
-
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
-
 }

@@ -1,6 +1,7 @@
 package com.dirror.music.ui.playlist
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApp
@@ -18,7 +19,7 @@ const val TAG_NETEASE_MY_FAVORITE = 2
 class SongPlaylistViewModel : ViewModel() {
 
     companion object {
-
+        const val TAG = "SongPlaylistViewModel"
     }
 
     var tag = MutableLiveData(TAG_NETEASE)
@@ -46,7 +47,9 @@ class SongPlaylistViewModel : ViewModel() {
                 if (MyApp.userManager.getCloudMusicCookie().isEmpty()) {
                     toast("由于网易云最新调整，UID 登录无法再查看我喜欢歌曲（其他歌单不受影响），请使用手机号登录")
                 } else {
+                    Log.i(TAG, "update: 开始加载我喜欢歌单 ${System.currentTimeMillis()}")
                     Playlist.getPlaylistByCookie(playlistId.value?.toLong() ?: 0L) {
+                        Log.i(TAG, "update: 得到我喜欢歌单 ${System.currentTimeMillis()}")
                         setSongList(it)
                     }
                 }

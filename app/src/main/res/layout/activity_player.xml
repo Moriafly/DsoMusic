@@ -9,7 +9,6 @@
     android:visibility="visible"
     tools:context=".ui.player.PlayerActivity">
 
-
     <ImageView
         android:id="@+id/ivLyricsBackground"
         android:layout_width="match_parent"
@@ -119,6 +118,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleBar"
+        tools:ignore="ContentDescription"
         tools:visibility="visible">
 
         <TextView
@@ -208,7 +208,8 @@
                 app:layout_constraintStart_toEndOf="@+id/ivEqualizer"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_player_sleep_timer" />
+                app:srcCompat="@drawable/ic_player_sleep_timer"
+                android:contentDescription="@string/close_timer" />
 
             <ImageView
                 android:id="@+id/ivLike"
@@ -246,7 +247,7 @@
                 android:layout_marginEnd="14dp"
                 android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/more"
-                android:padding="17dp"
+                android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -254,30 +255,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvCd"
-            android:layout_width="270dp"
-            android:layout_height="270dp"
-            android:layout_marginTop="32dp"
-            app:cardBackgroundColor="@color/dso_color_player_cd_background"
-            app:cardCornerRadius="135dp"
-            app:cardElevation="0dp"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCover"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_song_cover"
             app:layout_constraintBottom_toTopOf="@+id/clMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivCover"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_margin="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_song_cover"
-                app:shapeAppearance="@style/dso_style_rounded"
-                tools:ignore="ContentDescription" />
-
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/dso_style_rounded"
+            android:contentDescription="@string/album_art" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -344,13 +334,13 @@
                 android:id="@+id/ivPlay"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:background="@drawable/background_button_icon"
                 android:padding="8dp"
+                android:background="@drawable/background_button_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_mini_player_pause"
+                app:srcCompat="@drawable/ic_player_pause"
                 tools:ignore="VectorDrawableCompat" />
 
             <ImageView

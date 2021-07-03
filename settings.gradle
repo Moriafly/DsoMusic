@@ -1,4 +1,4 @@
 include ':DsoKotlinExtensions'
 include ':lyricview'
 include ':app'
-rootProject.name = "dirror-music"
+rootProject.name = "dso-music"

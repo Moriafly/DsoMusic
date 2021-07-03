@@ -33,9 +33,9 @@ object Secure {
      */
     fun isSecure(): Boolean {
         if (isDebug()) {
-            toast("DEBUG 模式")
+            // toast("DEBUG 模式")
             if (SKIP_DEBUG_MODE) {
-                toast("跳过安全检查")
+                // toast("跳过安全检查")
                 return true
             }
         }

@@ -11,6 +11,7 @@ import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
+import com.dirror.music.service.MusicService
 import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.util.Config
 import com.dirror.music.util.runOnMainThread
@@ -35,15 +36,15 @@ class PlayerViewModel: ViewModel() {
 
     // 播放模式
     var playMode = MutableLiveData<Int>().also {
-        it.value = MyApp.musicController.value?.getPlayMode()
+        it.value = MyApp.musicController.value?.getPlayMode() ?: BaseMediaService.MODE_CIRCLE
     }
 
     var duration = MutableLiveData<Int>().also {
-        it.value = MyApp.musicController.value?.getDuration()
+        it.value = MyApp.musicController.value?.getDuration() ?: 0
     }
 
     var progress = MutableLiveData<Int>().also {
-        it.value = MyApp.musicController.value?.getProgress()
+        it.value = MyApp.musicController.value?.getProgress() ?: 0
     }
 
     var lyricTranslation = MutableLiveData<Boolean>().also {

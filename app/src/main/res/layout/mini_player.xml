@@ -29,13 +29,14 @@
 
     </androidx.cardview.widget.CardView>
 
-
-    <TextView
+    <com.dirror.music.widget.MarqueeTextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
         android:text="@string/app_name"
         android:textColor="@color/colorTextForeground"
@@ -48,11 +49,11 @@
 
     <ImageView
         android:id="@+id/ivPlayQueue"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="12dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="5dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="9dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivStartOrPause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivStartOrPause"
@@ -62,10 +63,10 @@
 
     <ImageView
         android:id="@+id/ivStartOrPause"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="8dp"
-        android:padding="4dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="4dp"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
         app:layout_constraintEnd_toStartOf="@+id/ivPlayQueue"
         app:layout_constraintTop_toTopOf="@+id/tvTitle"

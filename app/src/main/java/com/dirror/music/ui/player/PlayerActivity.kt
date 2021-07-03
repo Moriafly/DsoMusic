@@ -226,7 +226,7 @@ class PlayerActivity : SlideBackActivity() {
                 }
             }
             if (!isLandScape) {
-                cvCd.setOnLongClickListener {
+                ivCover.setOnLongClickListener {
                     startActivity(Intent(this@PlayerActivity, SongCoverActivity::class.java))
                     overridePendingTransition(
                         R.anim.anim_alpha_enter,
@@ -262,7 +262,7 @@ class PlayerActivity : SlideBackActivity() {
             })
 
             if (!isLandScape) {
-                cvCd.setOnClickListener {
+                ivCover.setOnClickListener {
                     if (slideBackEnabled) {
                         AnimationUtil.fadeOut(binding.clCd, true)
                         AnimationUtil.fadeOut(binding.clMenu, true)

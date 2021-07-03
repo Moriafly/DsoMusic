@@ -79,6 +79,11 @@ abstract class BaseActivity : AppCompatActivity() {
                         }
                     })
                     isPlaying().observe(this@BaseActivity, {
+                        if (it) {
+                            mini.ivStartOrPause.contentDescription = getString(R.string.pause_music)
+                        } else {
+                            mini.ivStartOrPause.contentDescription = getString(R.string.play_music)
+                        }
                         mini.ivStartOrPause.setImageResource(getPlayStateSourceId(it))
                     })
                     getPlayerCover().observe(this@BaseActivity, { bitmap ->

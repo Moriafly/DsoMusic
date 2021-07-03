@@ -1,6 +1,7 @@
 package com.dirror.music.music.netease
 
 import android.content.Context
+import android.util.Log
 import com.dirror.music.MyApp
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.api.API_MUSIC_ELEUU
@@ -8,6 +9,7 @@ import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.netease.data.PlaylistDetail
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.util.*
 import com.dso.ext.averageAssignFixLength
 import com.google.gson.Gson
@@ -132,10 +134,12 @@ object Playlist {
             .add("id", playlistId.toString())
             .add("cookie", MyApp.userManager.getCloudMusicCookie())
             .build()
-        MagicHttp.OkHttpManager().newPost("$API_AUTU/playlist/detail", requestBody, { response ->
+        MagicHttp.OkHttpManager().newPost("${MyApp.userManager.getUserNeteaseCloudMusicApi()}/playlist/detail", requestBody, { response ->
+            Log.i(SongPlaylistViewModel.TAG, "获取到服务器返回 ${System.currentTimeMillis()}")
             var playlistDetail: PlaylistDetail? = null
             try {
                 playlistDetail = Gson().fromJson(response, PlaylistDetail::class.java)
+                Log.i(SongPlaylistViewModel.TAG, "Gson 解析完成 ${System.currentTimeMillis()}")
             } catch (e: Exception) {
 
             }
