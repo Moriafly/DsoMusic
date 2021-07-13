@@ -51,7 +51,7 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.main.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlin.concurrent.thread

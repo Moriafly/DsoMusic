@@ -121,18 +121,19 @@
         tools:ignore="ContentDescription"
         tools:visibility="visible">
 
-        <TextView
+        <com.dirror.music.widget.MarqueeTextView
             android:id="@+id/tvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="28dp"
-            android:maxLines="2"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:text="@string/music"
             android:textAlignment="textStart"
             android:textColor="@color/colorTextForeground"
-            android:textIsSelectable="true"
             android:textSize="22sp"
             android:transitionName="tvName"
             app:layout_constraintEnd_toEndOf="parent"
@@ -259,15 +260,18 @@
             android:id="@+id/ivCover"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:layout_margin="10dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="28dp"
+            android:contentDescription="@string/album_art"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_song_cover"
             app:layout_constraintBottom_toTopOf="@+id/clMenu"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearance="@style/dso_style_rounded"
-            android:contentDescription="@string/album_art" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTag"
+            app:shapeAppearance="@style/dso_style_rounded" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

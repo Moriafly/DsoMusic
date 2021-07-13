@@ -35,7 +35,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -43,7 +42,6 @@ import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.activity.viewModels
-import androidx.annotation.Keep
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -68,18 +66,17 @@ import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.ui.dialog.SoundEffectDialog
 import com.dirror.music.ui.dialog.TimingOffDialog
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.asColor
-import com.dirror.music.util.extensions.asDrawable
-import com.dirror.music.util.extensions.colorAlpha
+import com.dirror.music.util.asColor
+import com.dirror.music.util.asDrawable
+import com.dirror.music.util.colorAlpha
 import com.dso.ext.colorMix
 
 /**
  * PlayerActivity
+ *
  * @author Moriafly
  * @since 2020年12月15日18:35:46
- * TODO java.lang.IllegalArgumentException Cannot add the same observer with different lifecycles com.dirror.music.ui.player.PlayerActivity$l.a(:10)
  */
-@Keep
 class PlayerActivity : SlideBackActivity() {
 
     companion object {
@@ -131,7 +128,7 @@ class PlayerActivity : SlideBackActivity() {
 
     override fun initBinding() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
-        binding.root.setOnApplyWindowInsetsListener { v, insets ->
+        binding.root.setOnApplyWindowInsetsListener { _, insets ->
             playViewModel.navigationBarHeight.value = insets.systemWindowInsetBottom
             insets
         }
@@ -160,8 +157,6 @@ class PlayerActivity : SlideBackActivity() {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                 window.insetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE)
             }
-        } else {
-
         }
         // 页面状态栏适配
         binding.titleBar?.let {

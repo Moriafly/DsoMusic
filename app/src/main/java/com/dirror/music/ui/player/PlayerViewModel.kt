@@ -11,7 +11,6 @@ import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
-import com.dirror.music.service.MusicService
 import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.util.Config
 import com.dirror.music.util.runOnMainThread

@@ -17,9 +17,9 @@ import java.util.zip.ZipFile
  */
 object SkySecure: SkySecureInterface {
 
-    external fun getAppNameMd5(): String
-
-    external fun checkXposed(): Boolean
+    fun getAppNameMd5(): String {
+        return "9884b247104cbdb489aeeaca91f49584"
+    }
 
     override fun getMD5(string: String): String {
         if (string.isEmpty()) {

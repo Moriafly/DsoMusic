@@ -17,7 +17,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import com.dirror.music.util.Config
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 import java.io.*
 import java.lang.Exception
 

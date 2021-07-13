@@ -12,7 +12,7 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.R
 import com.dirror.music.music.netease.data.TopListData
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 
 class TopListAdapter(private val topListData: TopListData,
                      private val itemClickedListener: (TopListData.ListData) -> Unit,): RecyclerView.Adapter<TopListAdapter.ViewHolder>() {

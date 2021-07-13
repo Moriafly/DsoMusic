@@ -45,16 +45,16 @@ import com.umeng.commonsdk.UMConfigure
 
 /**
  * 自定义 Application
+ *
  * @author Moriafly
+ * @since 2021年7月13日
  */
 @Keep
 class MyApp : Application() {
 
     companion object {
 
-        init {
-            System.loadLibrary("dso")
-        }
+        const val UM_APP_KEY = "5fb38e09257f6b73c0961382"
 
         lateinit var mmkv: MMKV
 
@@ -65,19 +65,17 @@ class MyApp : Application() {
 
         val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
         // 管理
+        @Deprecated("过时，切换为 User")
         lateinit var userManager: UserManager
+
+        @Deprecated("过时，使用 StartActivity")
         lateinit var activityManager: ActivityManager
+
         lateinit var cloudMusicManager: CloudMusicManager
 
         // 数据库
         lateinit var appDatabase: AppDatabase
     }
-
-    /* 获取 Bmob */
-    private external fun getBmobAppKey(): String
-
-    /* 获取友盟 */
-    private external fun getUmAppKey(): String
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
@@ -112,7 +110,7 @@ class MyApp : Application() {
     private fun checkSecure() {
         if (Secure.isSecure()) {
             // 初始化友盟
-            UMConfigure.init(context, getUmAppKey(), "", UMConfigure.DEVICE_TYPE_PHONE, "")
+            UMConfigure.init(context, UM_APP_KEY, "", UMConfigure.DEVICE_TYPE_PHONE, "")
             // 选用 AUTO 页面采集模式
             MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
             // 开启音乐服务

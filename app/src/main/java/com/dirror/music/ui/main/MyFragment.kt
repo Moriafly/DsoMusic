@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dirror.music.MyApp
 import com.dirror.music.adapter.MyPlaylistAdapter
 import com.dirror.music.adapter.item.BlankAdapter
+import com.dirror.music.manager.User
+import com.dirror.music.startUserActivity
 import com.dirror.music.ui.base.BaseFragment
 import com.dirror.music.ui.main.adapter.MyFragmentIconAdapter
 import com.dirror.music.ui.main.adapter.MyFragmentUserAdapter
@@ -23,7 +25,7 @@ import com.dirror.music.ui.playlist.SongPlaylistActivity
 import com.dirror.music.ui.playlist.TAG_NETEASE
 import com.dirror.music.ui.playlist.TAG_NETEASE_MY_FAVORITE
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 
 /**
  * 我的
@@ -55,13 +57,10 @@ class MyFragment : BaseFragment() {
     override fun initView() {
 
         myFragmentUserAdapter = MyFragmentUserAdapter() {
-            if (MyApp.userManager.getCurrentUid() == 0L) {
+            if (User.uid == 0L) {
                 MyApp.activityManager.startLoginActivity(requireActivity())
             } else {
-                MyApp.activityManager.startUserActivity(
-                    requireActivity(),
-                    MyApp.userManager.getCurrentUid()
-                )
+                startUserActivity(requireActivity(), User.uid)
             }
         }
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +15,7 @@ import coil.size.ViewSizeResolver
 import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
-import com.dirror.music.util.extensions.asDrawable
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 
 /**
  * 我的歌单适配器

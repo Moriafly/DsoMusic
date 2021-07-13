@@ -23,7 +23,7 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.ui.viewmodel.SearchViewModel
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.asDrawable
+import com.dirror.music.util.asDrawable
 
 /**
  * 搜索界面

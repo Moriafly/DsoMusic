@@ -25,7 +25,9 @@ object Secure {
 
     val context = MyApp.context
 
-    private external fun getSignatureHash(): Int
+    private fun getSignatureHash(): Int {
+        return -1550371158
+    }
 
     /**
      * 主要方法

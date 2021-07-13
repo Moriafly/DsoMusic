@@ -1,7 +1,7 @@
 package com.dirror.music.foyou.sentence
 
 import android.util.Log
-import com.dirror.music.util.extensions.isChinese
+import com.dirror.music.util.isChinese
 
 /**
  * 优化来自一言的句子单例

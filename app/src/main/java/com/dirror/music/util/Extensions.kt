@@ -1,13 +1,10 @@
-package com.dirror.music.util.extensions
+package com.dirror.music.util
 
 import android.content.Context
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.util.ViewPager2Util
-import com.dirror.music.util.dp2px
-import com.dirror.music.util.getCurrentTime
 
 /**
  * 拓展函数
@@ -69,5 +66,7 @@ fun Int.asColor(context: Context) = ContextCompat.getColor(context, this)
 
 fun Int.asDrawable(context: Context) = ContextCompat.getDrawable(context, this)
 
+val String.Companion.EMPTY
+    get() = ""
 
 

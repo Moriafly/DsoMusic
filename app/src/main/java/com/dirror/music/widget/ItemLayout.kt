@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.dirror.music.R
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 
 class ItemLayout(context: Context, attrs: AttributeSet): androidx.constraintlayout.widget.ConstraintLayout(context, attrs) {
     private val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemLayout)

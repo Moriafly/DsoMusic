@@ -54,8 +54,8 @@ import com.dirror.music.service.base.BaseMediaService
 import com.dirror.music.ui.main.MainActivity
 import com.dirror.music.ui.player.PlayerActivity
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.*
 import com.dso.ext.*
+import com.google.android.exoplayer2.SimpleExoPlayer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
@@ -321,7 +321,13 @@ open class MusicService : BaseMediaService() {
     inner class MusicController : Binder(), MusicControllerInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
+        /** ExoPlayer
+         * @link https://github.com/google/ExoPlayer
+         */
+        val exoPlayer: SimpleExoPlayer = SimpleExoPlayer.Builder(MyApp.context).build()
+
         /** MediaPlayer */
+        @Deprecated("切换为 ExoPlayer")
         val mediaPlayer: MediaPlayer = MediaPlayer()
 
         /* 是否开启了状态栏歌词 */

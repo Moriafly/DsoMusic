@@ -8,7 +8,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.dirror.music.R
 import com.dirror.music.util.TimeUtil
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 
 class TimeTextView: View {
     constructor(context: Context?) : super(context)

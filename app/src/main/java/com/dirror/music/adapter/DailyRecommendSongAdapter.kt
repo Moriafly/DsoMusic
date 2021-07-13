@@ -12,7 +12,7 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.dirror.music.R
 import com.dirror.music.music.netease.data.DailyRecommendSongData
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 import com.dirror.music.util.dp2px
 import com.dirror.music.util.parseArtist
 

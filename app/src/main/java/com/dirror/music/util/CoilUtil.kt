@@ -9,7 +9,6 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.dirror.music.MyApp
 import com.dirror.music.R
-import com.dirror.music.util.extensions.dp
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

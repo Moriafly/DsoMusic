@@ -30,6 +30,7 @@ import androidx.appcompat.widget.AppCompatTextView
 
 /**
  * 一直获取焦点的文本视图
+ *
  * @author Moriafly
  * @since 2021年7月3日09:14:07
  */

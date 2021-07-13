@@ -3,6 +3,7 @@ package com.dirror.music.ui.main.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApp
+import com.dirror.music.manager.User
 import com.dirror.music.util.Config
 
 class MainViewModel: ViewModel() {
@@ -18,7 +19,7 @@ class MainViewModel: ViewModel() {
     val navigationBarHeight = MutableLiveData<Int>()
 
     val userId =  MutableLiveData<Long>().also {
-        it.value = MyApp.userManager.getCurrentUid()
+        it.value = User.uid
     }
 
     var neteaseLiveVisibility = MutableLiveData(false)
@@ -30,7 +31,7 @@ class MainViewModel: ViewModel() {
      * 设置用户 id
      */
     fun setUserId() {
-        userId.value = MyApp.userManager.getCurrentUid()
+        userId.value = User.uid
     }
 
     fun updateUI() {

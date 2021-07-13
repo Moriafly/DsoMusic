@@ -18,7 +18,7 @@ import com.dirror.music.R
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.service.playMusic
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.parse
+import com.dirror.music.util.parse
 import com.dso.ext.toArrayList
 
 /**

@@ -15,7 +15,7 @@ import com.dirror.music.R
 import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.ui.playlist.SongPlaylistActivity
 import com.dirror.music.ui.playlist.TAG_NETEASE
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 import com.dirror.music.util.dp2px
 
 /**

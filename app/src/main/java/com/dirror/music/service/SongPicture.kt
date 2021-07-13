@@ -11,7 +11,7 @@ import com.dirror.music.api.API_FCZBL_VIP
 import com.dirror.music.music.local.LocalMusic
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.CoilUtil
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 import com.dirror.music.util.loge
 import org.jetbrains.annotations.TestOnly
 

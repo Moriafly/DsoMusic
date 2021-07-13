@@ -11,7 +11,7 @@ import com.dirror.music.databinding.MiniPlayerBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.dialog.PlaylistDialog
 import com.dirror.music.util.*
-import com.dirror.music.util.extensions.parse
+import com.dirror.music.util.parse
 
 /**
  * 基类 Activity

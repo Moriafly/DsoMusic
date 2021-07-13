@@ -12,7 +12,7 @@ import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.music.netease.data.LastMsgData
 import com.dirror.music.music.netease.data.PrivateLetterData
-import com.dirror.music.util.extensions.dp
+import com.dirror.music.util.dp
 import com.google.gson.Gson
 
 /**

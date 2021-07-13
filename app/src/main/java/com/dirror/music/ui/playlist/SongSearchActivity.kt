@@ -8,7 +8,7 @@ import com.dirror.music.databinding.ActivitySongSearchBinding
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
-import com.dirror.music.util.extensions.parse
+import com.dirror.music.util.parse
 import com.dirror.music.util.toast
 import java.util.*
 

@@ -8,6 +8,7 @@ import com.dirror.music.util.Config
  * user 管理，面向本地
  * @注意 不能写请求网络功能，网络的写在音乐管理中
  */
+@Deprecated("过时，使用 User 类")
 class UserManager: UserManagerInterface {
 
     companion object {

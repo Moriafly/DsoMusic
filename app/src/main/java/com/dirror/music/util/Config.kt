@@ -94,4 +94,7 @@ object Config {
 
     // 选择的页面
     const val SELECT_FRAGMENT = "int_select_fragment"
+
+    /* 用户 vip 类型 */
+    const val VIP_TYPE = "vip_type"
 }
