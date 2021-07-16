@@ -2,15 +2,16 @@ package com.dirror.music.ui.main.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dirror.music.MyApp
-import com.dirror.music.api.API_AUTU
+import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.data.UserPlaylistData
 import com.dirror.music.manager.User
-import com.dirror.music.util.MagicHttp
-import com.dirror.music.util.runOnMainThread
-import com.google.gson.Gson
-import okhttp3.FormBody
+import com.dirror.music.util.HttpUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 /**
  * MyFragment 的 ViewModel
@@ -23,25 +24,13 @@ class MyFragmentViewModel : ViewModel() {
     var userPlaylistList = MutableLiveData<ArrayList<PlaylistData>>()
 
     fun updateUserPlaylist() {
-        val requestBody = FormBody.Builder()
-            .add("uid", User.uid.toString())
-            .add("cookie", User.cookie)
-            .build()
-        MagicHttp.OkHttpManager().newPost(API_AUTU + "/user/playlist", requestBody, { response ->
-            var userPlaylistData: UserPlaylistData? = null
-            try {
-                userPlaylistData = Gson().fromJson(response, UserPlaylistData::class.java)
-            } catch (e: Exception) {
-
-            }
-
-            runOnMainThread {
+        val uid = User.uid.toString()
+        GlobalScope.launch {
+            val userPlaylistData = HttpUtils.get(API_MUSIC_ELEUU + "/user/playlist?uid=${uid}", UserPlaylistData::class.java)
+            withContext(Dispatchers.Main) {
                 userPlaylistList.value = userPlaylistData?.playlist
             }
-            // success()
-        }, {
-            // failure(ErrorCode.MAGIC_HTTP)
-        })
+        }
     }
 
 }
