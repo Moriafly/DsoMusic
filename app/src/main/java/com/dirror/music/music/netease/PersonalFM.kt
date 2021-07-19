@@ -2,6 +2,7 @@ package com.dirror.music.music.netease
 
 import com.dirror.music.MyApp
 import com.dirror.music.api.API_AUTU
+import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.PersonFMData
 import com.dirror.music.music.netease.data.toSongList
 import com.dirror.music.music.standard.data.StandardSongData
@@ -28,7 +29,7 @@ object PersonalFM {
     fun get(success: (ArrayList<StandardSongData>) -> Unit, failure: (Int) -> Unit) {
         val requestBody = FormBody.Builder()
             .add("crypto", "weapi")
-            .add("cookie", MyApp.userManager.getCloudMusicCookie())
+            .add("cookie", User.cookie)
             .add("withCredentials", "true")
             .add("realIP", "211.161.244.70")
             .build()

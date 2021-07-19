@@ -7,6 +7,7 @@ import com.dirror.music.MyApp
 import com.dirror.music.api.*
 import com.dirror.music.data.DetailPlaylistData
 import com.dirror.music.data.DetailPlaylistInnerData
+import com.dirror.music.manager.User
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.standard.data.StandardSongData
@@ -86,7 +87,7 @@ object PlaylistUtil {
      * 获取歌单信息
      */
     fun getPlaylistInfo(context: Context, id: Long, success: (DetailPlaylistInnerData) -> Unit) {
-        val url = "$API_AUTU/playlist/detail?id=$id&cookie=${MyApp.userManager.getCloudMusicCookie()}"
+        val url = "$API_AUTU/playlist/detail?id=$id&cookie=${User.cookie}"
         Log.i(TAG, "获取歌单信息 $url")
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             try {

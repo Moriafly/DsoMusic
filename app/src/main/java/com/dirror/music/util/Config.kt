@@ -97,4 +97,10 @@ object Config {
 
     /* 用户 vip 类型 */
     const val VIP_TYPE = "vip_type"
+
+    /**
+     * Dso 用户
+     * [com.dirror.music.manager.DsoUser]
+     */
+    const val DSO_USER = "dso_user"
 }

@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.dirror.music.R
+import com.dirror.music.manager.User
 
 /**
  * MyFragment 页 User 适配器
@@ -47,6 +48,7 @@ class MyFragmentUserAdapter(
         val clBase: ConstraintLayout = view.findViewById(R.id.clBase)
 
         val ivCover: ImageView = view.findViewById(R.id.ivCover)
+        val ivCVip: ImageView = view.findViewById(R.id.ivCVip)
         val tvNickname: TextView = view.findViewById(R.id.tvNickname)
         val tvLevel: TextView = view.findViewById(R.id.tvLevel)
 
@@ -71,15 +73,19 @@ class MyFragmentUserAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.apply {
+        with(holder) {
             adapterUser?.let {
+                if (!User.isVip()) {
+                    ivCVip.visibility = View.GONE
+                }
                 ivCover.load(it.cover + "?param=100y100") {
                     transformations(CircleCropTransformation())
                     crossfade(true)
                 }
-                tvNickname.text = it.nickname
+
                 tvLevel.text = "Lv.${it.level}"
             }
+            tvNickname.text = User.dsoUser.nickname
         }
     }
 

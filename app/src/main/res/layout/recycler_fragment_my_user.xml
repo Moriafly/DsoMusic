@@ -51,14 +51,23 @@
         android:id="@+id/tvLevel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivCover"
         app:layout_constraintEnd_toStartOf="@+id/ivGoto"
-        app:layout_constraintStart_toEndOf="@+id/ivCover"
+        app:layout_constraintStart_toEndOf="@+id/ivCVip"
         app:layout_constraintTop_toBottomOf="@+id/tvNickname" />
+
+    <ImageView
+        android:id="@+id/ivCVip"
+        android:layout_width="28dp"
+        android:layout_height="12dp"
+        android:paddingRight="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLevel"
+        app:layout_constraintStart_toStartOf="@+id/tvNickname"
+        app:layout_constraintTop_toTopOf="@+id/tvLevel"
+        app:srcCompat="@drawable/cvip" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

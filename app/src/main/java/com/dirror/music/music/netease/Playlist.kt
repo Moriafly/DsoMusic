@@ -5,6 +5,7 @@ import android.util.Log
 import com.dirror.music.MyApp
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.api.API_MUSIC_ELEUU
+import com.dirror.music.manager.User
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.netease.data.PlaylistDetail
@@ -55,7 +56,7 @@ object Playlist {
         success: (ArrayList<StandardSongData>) -> Unit,
         failure: () -> Unit
     ) {
-        val url = PLAYLIST_URL + playlistId + "&cookie=${MyApp.userManager.getCloudMusicCookie()}"
+        val url = PLAYLIST_URL + playlistId + "&cookie=${User.cookie}"
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             val trackIds = ArrayList<Long>()
             try {
@@ -132,9 +133,9 @@ object Playlist {
     fun getPlaylistByCookie(playlistId: Long, success: (ArrayList<StandardSongData>) -> Unit) {
         val requestBody = FormBody.Builder()
             .add("id", playlistId.toString())
-            .add("cookie", MyApp.userManager.getCloudMusicCookie())
+            .add("cookie", User.cookie)
             .build()
-        MagicHttp.OkHttpManager().newPost("${MyApp.userManager.getUserNeteaseCloudMusicApi()}/playlist/detail", requestBody, { response ->
+        MagicHttp.OkHttpManager().newPost("${User.cookie}/playlist/detail", requestBody, { response ->
             Log.i(SongPlaylistViewModel.TAG, "获取到服务器返回 ${System.currentTimeMillis()}")
             var playlistDetail: PlaylistDetail? = null
             try {

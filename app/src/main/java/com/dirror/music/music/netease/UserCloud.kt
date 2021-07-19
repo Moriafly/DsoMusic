@@ -2,6 +2,7 @@ package com.dirror.music.music.netease
 
 import com.dirror.music.MyApp
 import com.dirror.music.api.API_AUTU
+import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.UserCloudData
 import com.dirror.music.util.ErrorCode
 import com.dirror.music.util.MagicHttp
@@ -21,7 +22,7 @@ object UserCloud {
     fun getUserCloud(offset: Int, success: (UserCloudData) -> Unit, failure: (Int) -> Unit) {
         val requestBody = FormBody.Builder()
             .add("crypto", "api")
-            .add("cookie", MyApp.userManager.getCloudMusicCookie())
+            .add("cookie", User.cookie)
             .add("withCredentials", "true")
             .add("realIP", "211.161.244.70")
             .add("limit", "50")

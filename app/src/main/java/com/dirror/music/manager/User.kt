@@ -24,9 +24,20 @@
 
 package com.dirror.music.manager
 
+import android.os.Parcelable
 import com.dirror.music.MyApp.Companion.mmkv
+import com.dirror.music.music.netease.data.UserDetailData
 import com.dirror.music.util.Config
 import com.dirror.music.util.EMPTY
+import com.dirror.music.util.toast
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
+
+// @IgnoredOnParcel
+private const val DEFAULT_UID = 0L
+
+// @IgnoredOnParcel
+private const val DEFAULT_VIP_TYPE = 0
 
 /**
  * 网易云音乐用户
@@ -36,9 +47,7 @@ import com.dirror.music.util.EMPTY
  */
 object User {
 
-    private const val DEFAULT_UID = 0L
-
-    private const val DEFAULT_VIP_TYPE = 0
+    val dsoUser: DsoUser = mmkv.decodeParcelable(Config.DSO_USER, DsoUser::class.java, DsoUser())
 
     /** 用户 uid */
     var uid: Long = DEFAULT_UID
@@ -79,7 +88,7 @@ object User {
     /** 是否通过 uid 登录 */
     val isUidLogin: Boolean
         get() {
-            val uid = mmkv.decodeLong(Config.UID, UserManager.defaultUid)
+            val uid = mmkv.decodeLong(Config.UID, DEFAULT_UID)
             return uid != DEFAULT_UID
         }
 
@@ -87,5 +96,42 @@ object User {
     val hasCookie: Boolean
         get() = cookie.isNotEmpty()
 
+    /**
+     * 是否是 VIP 用户
+     */
+    fun isVip(): Boolean {
+        return vipType != 0
+    }
+
 }
+
+/**
+ * Dso Music 用户
+ */
+@Parcelize
+data class DsoUser(
+
+    /** 昵称 */
+    var nickname: String = String.EMPTY
+
+): Parcelable {
+
+    /**
+     * 从网络更新用户数据
+     */
+    fun updateFromNet(userDetailData: UserDetailData) {
+        nickname = userDetailData.profile.nickname
+        save()
+    }
+
+    /**
+     * 保存数据
+     */
+    private fun save() {
+        mmkv.encode(Config.DSO_USER, this)
+    }
+
+}
+
+
 

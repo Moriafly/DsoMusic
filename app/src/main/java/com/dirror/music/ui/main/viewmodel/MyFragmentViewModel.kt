@@ -6,6 +6,7 @@ import com.dirror.music.MyApp
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.data.UserPlaylistData
+import com.dirror.music.manager.User
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.runOnMainThread
 import com.google.gson.Gson
@@ -23,8 +24,8 @@ class MyFragmentViewModel : ViewModel() {
 
     fun updateUserPlaylist() {
         val requestBody = FormBody.Builder()
-            .add("uid", MyApp.userManager.getCurrentUid().toString())
-            .add("cookie", MyApp.userManager.getCloudMusicCookie().toString())
+            .add("uid", User.uid.toString())
+            .add("cookie", User.cookie)
             .build()
         MagicHttp.OkHttpManager().newPost(API_AUTU + "/user/playlist", requestBody, { response ->
             var userPlaylistData: UserPlaylistData? = null

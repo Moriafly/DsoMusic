@@ -34,7 +34,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.multidex.MultiDex
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
-import com.dirror.music.manager.UserManager
 import com.dirror.music.room.AppDatabase
 import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
@@ -58,15 +57,13 @@ class MyApp : Application() {
 
         lateinit var mmkv: MMKV
 
+        /** 注入懒加载 全局 context */
         @SuppressLint("StaticFieldLeak")
-        lateinit var context: Context // 注入懒加载 全局 context
+        lateinit var context: Context
 
         var musicController = MutableLiveData<MusicService.MusicController?>()
 
         val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
-        // 管理
-        @Deprecated("过时，切换为 User")
-        lateinit var userManager: UserManager
 
         @Deprecated("过时，使用 StartActivity")
         lateinit var activityManager: ActivityManager
@@ -90,7 +87,6 @@ class MyApp : Application() {
         MMKV.initialize(context)
         mmkv = MMKV.defaultMMKV()
         // 管理初始化
-        userManager = UserManager()
         activityManager = ActivityManager()
         cloudMusicManager = CloudMusicManager()
         // 初始化数据库

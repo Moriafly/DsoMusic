@@ -2,6 +2,7 @@ package com.dirror.music.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApp
+import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.DailyRecommendSongData
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.toast
@@ -13,8 +14,8 @@ class RecommendActivityViewModel: ViewModel() {
      * 获取日推
      */
     fun getRecommendSong(success: (DailyRecommendSongData) -> Unit, failure: (String) -> Unit) {
-        if (MyApp.userManager.getCloudMusicCookie().isNotEmpty()) {
-            val url = "https://music.163.com/api/v3/discovery/recommend/songs" + "?crypto=weapi&withCredentials=true" + "&cookie=" + MyApp.userManager.getCloudMusicCookie() // + "&timestamp=${getCurrentTime()}"
+        if (User.hasCookie) {
+            val url = "https://music.163.com/api/v3/discovery/recommend/songs" + "?crypto=weapi&withCredentials=true" + "&cookie=" + User.cookie // + "&timestamp=${getCurrentTime()}"
             // val url = API_DEFAULT + "/recommend/songs?cookie=" + MyApplication.userManager.getCloudMusicCookie()
             MagicHttp.OkHttpManager().getByCache(MyApp.context, url, 600,  {
                 // loge(url)

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApp
+import com.dirror.music.manager.User
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.netease.PlaylistUtil
@@ -44,14 +45,14 @@ class SongPlaylistViewModel : ViewModel() {
                 })
             }
             TAG_NETEASE_MY_FAVORITE -> {
-                if (MyApp.userManager.getCloudMusicCookie().isEmpty()) {
-                    toast("由于网易云最新调整，UID 登录无法再查看我喜欢歌曲（其他歌单不受影响），请使用手机号登录")
-                } else {
+                if (User.hasCookie) {
                     Log.i(TAG, "update: 开始加载我喜欢歌单 ${System.currentTimeMillis()}")
                     Playlist.getPlaylistByCookie(playlistId.value?.toLong() ?: 0L) {
                         Log.i(TAG, "update: 得到我喜欢歌单 ${System.currentTimeMillis()}")
                         setSongList(it)
                     }
+                } else {
+                    toast("由于网易云最新调整，UID 登录无法再查看我喜欢歌曲（其他歌单不受影响），请使用手机号登录")
                 }
             }
             TAG_LOCAL_MY_FAVORITE -> {

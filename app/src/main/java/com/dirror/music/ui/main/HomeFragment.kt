@@ -12,6 +12,7 @@ import com.dirror.music.adapter.NewSongAdapter
 import com.dirror.music.adapter.PlaylistRecommendAdapter
 import com.dirror.music.databinding.FragmentHomeBinding
 import com.dirror.music.foyou.sentence.Sentence
+import com.dirror.music.manager.User
 import com.dirror.music.music.netease.NewSong
 import com.dirror.music.music.netease.PlaylistRecommend
 import com.dirror.music.ui.activity.RecommendActivity
@@ -56,7 +57,7 @@ class HomeFragment : BaseFragment(){
         }
 
         binding.clDaily.setOnClickListener {
-            if (MyApp.userManager.hasCookie()) {
+            if (User.hasCookie) {
                 val intent = Intent(this.context, RecommendActivity::class.java)
                 startActivity(intent)
             } else {

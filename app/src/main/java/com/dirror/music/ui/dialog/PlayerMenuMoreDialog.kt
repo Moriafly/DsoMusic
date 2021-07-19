@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.dirror.music.MyApp
 import com.dirror.music.databinding.DialogPlayMoreBinding
+import com.dirror.music.manager.User
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
@@ -34,7 +35,7 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
         binding.apply {
             // 添加到网易云我喜欢
             itemAddNeteaseFavorite.setOnClickListener {
-                if (MyApp.userManager.getCloudMusicCookie().isEmpty()) {
+                if (User.cookie.isEmpty()) {
                     toast("离线模式无法收藏到在线我喜欢~")
                 } else {
                     song?.let {

@@ -39,6 +39,8 @@ class CloudMusicManager {
         MagicHttp.OkHttpManager().newGet(url, {
             try {
                 val userDetail = Gson().fromJson(it, UserDetailData::class.java)
+                User.dsoUser.updateFromNet(userDetail)
+                User.vipType = userDetail.profile.vipType
                 if (userDetail.code != 200) {
                     failure.invoke()
                 } else {
@@ -75,7 +77,7 @@ class CloudMusicManager {
     }
 
     fun likeSong(songId: String, success: () -> Unit, failure: () -> Unit) {
-        val cookie = MyApp.userManager.getCloudMusicCookie()
+        val cookie = User.cookie
         val url = "${API_DSO}/like?id=${songId}&cookie=${cookie}"
         MagicHttp.OkHttpManager().newGet(url, {
             try {
@@ -111,7 +113,7 @@ class CloudMusicManager {
         success: (CodeData) -> Unit,
         failure: () -> Unit
     ) {
-        val cookie = MyApp.userManager.getCloudMusicCookie()
+        val cookie = User.cookie
         var url = "${API_DEFAULT}/comment?t=${t}&type=${type}&id=${id}&content=${content}&cookie=${cookie}"
         if (commentId != 0L) {
             url += "&commentId=${commentId}"
@@ -134,7 +136,7 @@ class CloudMusicManager {
     }
 
     fun getPrivateLetter(success: (PrivateLetterData) -> Unit, failure: () -> Unit) {
-        val cookie = MyApp.userManager.getCloudMusicCookie()
+        val cookie = User.cookie
         val url = "${URL_PRIVATE_LETTER}?cookie=${cookie}"
         MagicHttp.OkHttpManager().newGet(url, {
             try {
@@ -233,7 +235,7 @@ class CloudMusicManager {
         getUserDetail(uid, {
             MyApp.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
             // UID 登录清空 Cookie
-            MyApp.userManager.setCloudMusicCookie("")
+            User.cookie = ""
             success.invoke()
             // toast("登录成功${it.profile?.userId!!.toLong()}")
         }, {
