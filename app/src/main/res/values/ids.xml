@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="search_type_single" type="id"/>
+    <item name="search_type_album" type="id"/>
+    <item name="search_type_singer" type="id"/>
+    <item name="search_type_playlist" type="id"/>
+
+</resources>

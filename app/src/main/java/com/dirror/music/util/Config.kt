@@ -103,4 +103,8 @@ object Config {
      * [com.dirror.music.manager.DsoUser]
      */
     const val DSO_USER = "dso_user"
+
+    // 搜索类型
+    const val SEARCH_TYPE = "search_type"
+
 }

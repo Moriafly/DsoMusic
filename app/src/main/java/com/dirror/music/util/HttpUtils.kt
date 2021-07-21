@@ -24,9 +24,9 @@ object HttpUtils {
 
     private val gson = Gson()
     private val client = OkHttpClient.Builder()
-        .connectTimeout(60, TimeUnit.SECONDS)
-        .readTimeout(45, TimeUnit.SECONDS)
-        .writeTimeout(45, TimeUnit.SECONDS)
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(5, TimeUnit.SECONDS)
+        .writeTimeout(5, TimeUnit.SECONDS)
         .cache(cache)
         .addInterceptor(CommonCacheInterceptor())
         .build()
@@ -58,7 +58,7 @@ object HttpUtils {
             result = gson.fromJson(str, clazz)
             iscache = response.networkResponse() == null
         } catch (e:JsonSyntaxException) {
-            Log.w(TAG, "json parse failed, response: $str")
+            Log.w(TAG, "json parse failed, ${e.message}\n response: $str")
         } catch (e: Exception) {
             Log.w(TAG, "get failed:${e} ,url:$realUrl")
             e.printStackTrace()

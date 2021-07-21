@@ -4,9 +4,12 @@ import android.util.Log
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.data.DetailPlaylistData
 import com.dirror.music.data.DetailPlaylistInnerData
+import com.dirror.music.data.NeteaseSearchResult
+import com.dirror.music.data.SearchType
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.netease.Playlist
+import com.dirror.music.music.standard.data.StandardSearchResult
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dso.ext.averageAssignFixLength
 
@@ -59,6 +62,12 @@ object Api {
         }
         Log.d(TAG, "get playlist id $id, size:${list.size} , origin size:${trackIds.size}")
         return list
+    }
+
+    suspend fun searchMusic(keyword:String, type:SearchType): StandardSearchResult? {
+        val url = "$API_MUSIC_ELEUU/cloudsearch?keywords=$keyword&limit=100&type=${SearchType.getSearchTypeInt(type)}"
+        val result = HttpUtils.get(url, NeteaseSearchResult::class.java)
+        return result?.result?.toStandardResult()
     }
 
 }
