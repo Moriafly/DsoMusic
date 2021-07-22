@@ -27,7 +27,6 @@ object HttpUtils {
         .connectTimeout(10, TimeUnit.SECONDS)
         .readTimeout(5, TimeUnit.SECONDS)
         .writeTimeout(5, TimeUnit.SECONDS)
-        .sslSocketFactory(SSLSocketFactoryCompat())
         .cache(cache)
         .addInterceptor(CommonCacheInterceptor())
         .build()

@@ -1,7 +1,8 @@
 package com.dirror.music.util
 
 import android.util.Log
-import com.dirror.music.api.API_MUSIC_ELEUU
+import com.dirror.music.api.API_NEW
+import com.dirror.music.api.API_NEW
 import com.dirror.music.data.DetailPlaylistData
 import com.dirror.music.data.DetailPlaylistInnerData
 import com.dirror.music.data.NeteaseSearchResult
@@ -21,12 +22,12 @@ object Api {
     private const val CHEATING_CODE = -460 // Cheating 错误
 
     suspend fun getPlayListInfo(id: Long): DetailPlaylistInnerData? {
-        val url = "$API_MUSIC_ELEUU/playlist/detail?id=${id}"
+        val url = "$API_NEW/playlist/detail?id=${id}"
         return HttpUtils.get(url, DetailPlaylistData::class.java, true)?.playlist
     }
 
     suspend fun getPlayListByUID(id: Long): ArrayList<StandardSongData> {
-        val url = "$API_MUSIC_ELEUU/playlist/detail?id=${id}"
+        val url = "$API_NEW/playlist/detail?id=${id}"
         val playlist = HttpUtils.get(url, Playlist.PlaylistData::class.java, true)
         val trackIds = ArrayList<Long>()
         playlist?.playlist?.trackIds?.forEach {
@@ -44,9 +45,9 @@ object Api {
                     idsBuilder.append(trackId)
                 }
                 val ids = idsBuilder.toString()
-                val data = HttpUtils.post("$API_MUSIC_ELEUU/song/detail?hash=${ids.hashCode()}",
+                val data = HttpUtils.post("$API_NEW/song/detail?hash=${ids.hashCode()}",
                     Utils.toMap("ids", ids), CompatSearchData::class.java, true)
-//                val data = HttpUtils.get("$API_MUSIC_ELEUU/song/detail?ids=${ids}", CompatSearchData::class.java)
+//                val data = HttpUtils.get("$API_NEW/song/detail?ids=${ids}", CompatSearchData::class.java)
                 if (data != null) {
                     if (data.code == CHEATING_CODE) {
                         toast("-460 Cheating")
@@ -65,7 +66,7 @@ object Api {
     }
 
     suspend fun searchMusic(keyword:String, type:SearchType): StandardSearchResult? {
-        val url = "$API_MUSIC_ELEUU/cloudsearch?keywords=$keyword&limit=100&type=${SearchType.getSearchTypeInt(type)}"
+        val url = "$API_NEW/cloudsearch?keywords=$keyword&limit=100&type=${SearchType.getSearchTypeInt(type)}"
         val result = HttpUtils.get(url, NeteaseSearchResult::class.java)
         return result?.result?.toStandardResult()
     }
