@@ -62,6 +62,7 @@ object HttpUtils {
         } catch (e: Exception) {
             Log.w(TAG, "get failed:${e} ,url:$realUrl")
             e.printStackTrace()
+            toast(e.getString())
         }
         Log.d(TAG, "post $realUrl finished, cost: ${System.currentTimeMillis() - time} ms , isCache:${iscache}")
         return@withContext result
@@ -99,6 +100,7 @@ object HttpUtils {
         } catch (e: Exception) {
             Log.w(TAG, "post failed:${e} ,url:$url")
             e.printStackTrace()
+            toast(e.getString())
         }
         Log.d(TAG, "post $url cost: ${System.currentTimeMillis() - time} ms, isCache:$isCache")
         return@withContext result

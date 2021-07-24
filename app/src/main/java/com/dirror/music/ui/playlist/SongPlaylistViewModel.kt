@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApp
+import com.dirror.music.data.SearchType
 import com.dirror.music.manager.User
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.netease.Playlist
@@ -12,6 +13,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.Api
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
+import com.dso.ext.toArrayList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -39,19 +41,36 @@ class SongPlaylistViewModel : ViewModel() {
 
     var songList = MutableLiveData(ArrayList<StandardSongData>())
 
+    var type = MutableLiveData(SearchType.PLAYLIST)
+
     fun update(context: Context) {
         when (tag.value) {
             TAG_NETEASE -> {
                 val id = playlistId.value?.toLong()
                 if (id != null) {
                     GlobalScope.launch {
-                        val list = Api.getPlayListByUID(id)
-                        withContext(Dispatchers.Main) {
-                            if (list.isEmpty()) {
-                                toast("歌单内容获取失败")
+                        when(type.value) {
+                            SearchType.PLAYLIST -> {
+                                val list = Api.getPlayListByUID(id)
+                                withContext(Dispatchers.Main) {
+                                    if (list.isEmpty()) {
+                                        toast("歌单内容获取失败")
+                                    }
+                                    songList.value = list
+                                }
                             }
-                            songList.value = list
+                            SearchType.ALBUM -> {
+                                Api.getAlbumSongs(id)?.let {
+                                    withContext(Dispatchers.Main) {
+                                        songList.value = it.songs.toArrayList()
+                                        playlistUrl.value = it.album.picUrl
+                                        playlistTitle.value = it.album.name
+                                        playlistDescription.value = it.album.description
+                                    }
+                                }
+                            }
                         }
+
                     }
                 }
             }

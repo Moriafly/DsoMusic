@@ -69,12 +69,12 @@ class MyFragment : BaseFragment() {
                 if (it == myFragmentViewModel.userPlaylistList.value?.get(0)) {
                     val intent = Intent(requireContext(), SongPlaylistActivity::class.java)
                     intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE_MY_FAVORITE)
-                    intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, it.id.toString())
+                    intent.putExtra(SongPlaylistActivity.EXTRA_ID, it.id.toString())
                     requireContext().startActivity(intent)
                 } else {
                     val intent = Intent(requireContext(), SongPlaylistActivity::class.java)
                     intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
-                    intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, it.id.toString())
+                    intent.putExtra(SongPlaylistActivity.EXTRA_ID, it.id.toString())
                     requireContext().startActivity(intent)
                 }
             }

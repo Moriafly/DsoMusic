@@ -5,6 +5,8 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.music.standard.data.StandardSongData
+import java.io.PrintWriter
+import java.io.StringWriter
 
 /**
  * 拓展函数
@@ -68,5 +70,11 @@ fun Int.asDrawable(context: Context) = ContextCompat.getDrawable(context, this)
 
 val String.Companion.EMPTY
     get() = ""
+
+fun Throwable.getString():String {
+    val errors = StringWriter()
+    this.printStackTrace(PrintWriter(errors))
+    return errors.toString()
+}
 
 

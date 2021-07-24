@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -15,13 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApp
 import com.dirror.music.MyApp.Companion.mmkv
 import com.dirror.music.R
+import com.dirror.music.adapter.AlbumAdapter
 import com.dirror.music.adapter.PlaylistAdapter
 import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.adapter.SearchHotAdapter
 import com.dirror.music.data.SearchType
 import com.dirror.music.databinding.ActivitySearchBinding
-import com.dirror.music.music.netease.SearchUtil
 import com.dirror.music.music.qq.SearchSong
+import com.dirror.music.music.standard.data.StandardAlbum
 import com.dirror.music.music.standard.data.StandardPlaylist
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
@@ -133,7 +133,7 @@ class SearchActivity : BaseActivity() {
             searchTypeView.setMainFabClosedDrawable(resources.getDrawable(SearchType.getIconRes(searchType)))
 
             searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_single, R.drawable.ic_baseline_music_single_24).setLabel("单曲").create())
-//            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_album, R.drawable.ic_baseline_album_24).setLabel("专辑").create())
+            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_album, R.drawable.ic_baseline_album_24).setLabel("专辑").create())
             searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_playlist, R.drawable.ic_baseline_playlist_24).setLabel("歌单").create())
 //            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_singer, R.drawable.ic_baseline_singer_24).setLabel("歌手").create())
 
@@ -226,6 +226,7 @@ class SearchActivity : BaseActivity() {
                                 when (searchType) {
                                     SearchType.SINGLE ->  initRecycleView(result.songs)
                                     SearchType.PLAYLIST -> initPlaylist(result.playlist)
+                                    SearchType.ALBUM -> initAlbums(result.albums)
                                 }
                             }
                         }
@@ -261,13 +262,26 @@ class SearchActivity : BaseActivity() {
 
     private fun initPlaylist(playlists:List<StandardPlaylist>) {
         binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
-        binding.rvPlaylist.adapter = PlaylistAdapter() {
+        binding.rvPlaylist.adapter = PlaylistAdapter {
             val intent = Intent(this@SearchActivity, SongPlaylistActivity::class.java)
             intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
-            intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, it.id.toString())
+            intent.putExtra(SongPlaylistActivity.EXTRA_ID, it.id.toString())
             startActivity(intent)
         }.apply {
             submitList(playlists)
+        }
+    }
+
+    private fun initAlbums(albums:List<StandardAlbum>) {
+        binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
+        binding.rvPlaylist.adapter = AlbumAdapter {
+            val intent = Intent(this@SearchActivity, SongPlaylistActivity::class.java)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
+            intent.putExtra(SongPlaylistActivity.EXTRA_ID, it.id.toString())
+            intent.putExtra(SongPlaylistActivity.EXTRA_TYPE, SearchType.ALBUM)
+            startActivity(intent)
+        }.apply {
+            submitList(albums)
         }
     }
 

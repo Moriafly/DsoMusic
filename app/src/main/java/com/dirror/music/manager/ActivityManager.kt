@@ -107,7 +107,7 @@ class ActivityManager: ActivityManagerInterface {
     fun startPlaylistActivity(context: Context, tag: Int, id: String? = null) {
         val intent = Intent(context, SongPlaylistActivity::class.java)
         intent.putExtra(SongPlaylistActivity.EXTRA_TAG, tag)
-        intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, id)
+        intent.putExtra(SongPlaylistActivity.EXTRA_ID, id)
         context.startActivity(intent)
     }
 

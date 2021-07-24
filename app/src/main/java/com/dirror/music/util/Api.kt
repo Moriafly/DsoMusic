@@ -3,13 +3,11 @@ package com.dirror.music.util
 import android.util.Log
 import com.dirror.music.api.API_NEW
 import com.dirror.music.api.API_NEW
-import com.dirror.music.data.DetailPlaylistData
-import com.dirror.music.data.DetailPlaylistInnerData
-import com.dirror.music.data.NeteaseSearchResult
-import com.dirror.music.data.SearchType
+import com.dirror.music.data.*
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.netease.Playlist
+import com.dirror.music.music.standard.data.StandardAlbumPackage
 import com.dirror.music.music.standard.data.StandardSearchResult
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dso.ext.averageAssignFixLength
@@ -69,6 +67,14 @@ object Api {
         val url = "$API_NEW/cloudsearch?keywords=$keyword&limit=100&type=${SearchType.getSearchTypeInt(type)}"
         val result = HttpUtils.get(url, NeteaseSearchResult::class.java)
         return result?.result?.toStandardResult()
+    }
+
+    suspend fun getAlbumSongs(id:Long): StandardAlbumPackage? {
+        val url = "$API_NEW/album?id=${id}"
+        HttpUtils.get(url, NeteaseAlbumResult::class.java)?.let {
+            return StandardAlbumPackage(it.album.switchToStandard(), it.switchToStandardSongs())
+        }
+        return null
     }
 
 }

@@ -11,7 +11,9 @@ data class Result(
     val songCount: Int,
     val songs: List<Song>?,
     val playlists: List<Playlist>?,
-    val playlistCount: Int
+    val playlistCount: Int,
+    val albums: List<Album>?,
+    val albumCount: Int
 ) {
     fun switchToStandardSongs():List<StandardSongData> {
         val list = ArrayList<StandardSongData>()
@@ -33,8 +35,18 @@ data class Result(
         return list
     }
 
+    fun switchToStandAlbums():List<StandardAlbum> {
+        val list = ArrayList<StandardAlbum>()
+        if (albums != null) {
+            for (album in albums) {
+                list.add(album.switchToStandard())
+            }
+        }
+        return list
+    }
+
     fun toStandardResult(): StandardSearchResult {
-        return StandardSearchResult(switchToStandardSongs(), switchToStandardPlaylist())
+        return StandardSearchResult(switchToStandardSongs(), switchToStandardPlaylist(), switchToStandAlbums())
     }
 }
 
@@ -62,16 +74,16 @@ data class Song(
     val ar: List<Ar>,
     val copyright: Long,
     val fee: Int,
-    val id: String,
+    val id: Long,
     val name: String,
     val privilege: Privilege?,
 ) {
     fun switchToStandard():StandardSongData {
-        return StandardSongData(SOURCE_NETEASE, id, name, al?.picUrl, getArtList(), getNeteaseInfo(), null, null)
+        return StandardSongData(SOURCE_NETEASE, id.toString(), name, al?.picUrl, getArtList(), getNeteaseInfo(), null, null)
     }
 
     private fun getNeteaseInfo(): StandardSongData.NeteaseInfo {
-        return StandardSongData.NeteaseInfo(fee, 1, 0, privilege?.maxbr)
+        return StandardSongData.NeteaseInfo(fee, privilege?.pl, 0, privilege?.maxbr)
     }
 
     private fun getArtList():ArrayList<StandardSongData.StandardArtistData> {
@@ -100,5 +112,23 @@ data class Ar(
 }
 
 data class Privilege(
-    val maxbr: Int
+    val maxbr: Int,
+    val pl: Int
 )
+
+data class Album(
+    val name: String,
+    val id: Long,
+    val size: Int,
+    val picUrl: String?,
+    val publishTime: Long,
+    val company: String?,
+    val artist: Ar?,
+    val description: String?
+) {
+    fun switchToStandard() :StandardAlbum {
+        return StandardAlbum(name, id, size, picUrl?:"", publishTime, company?:"", artist?.name ?:"", description?:"")
+
+    }
+}
+
