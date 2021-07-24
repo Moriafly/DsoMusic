@@ -1,6 +1,7 @@
 package com.dirror.music.data
 
 import com.dirror.music.music.standard.data.*
+import com.dirror.music.util.Utils
 
 class NeteaseSearchResult(
     val code: Int,
@@ -13,7 +14,9 @@ data class Result(
     val playlists: List<Playlist>?,
     val playlistCount: Int,
     val albums: List<Album>?,
-    val albumCount: Int
+    val albumCount: Int,
+    val artists:List<Artists>?,
+    val artistCount: Int
 ) {
     fun switchToStandardSongs():List<StandardSongData> {
         val list = ArrayList<StandardSongData>()
@@ -35,7 +38,7 @@ data class Result(
         return list
     }
 
-    fun switchToStandAlbums():List<StandardAlbum> {
+    fun switchToStandardAlbums():List<StandardAlbum> {
         val list = ArrayList<StandardAlbum>()
         if (albums != null) {
             for (album in albums) {
@@ -45,8 +48,18 @@ data class Result(
         return list
     }
 
+    fun switchToStandardSingers(): List<StandardSinger> {
+        val list = ArrayList<StandardSinger>()
+        if (artists != null) {
+            for (singer in artists) {
+                list.add(singer.switchToStandard())
+            }
+        }
+        return list
+    }
+
     fun toStandardResult(): StandardSearchResult {
-        return StandardSearchResult(switchToStandardSongs(), switchToStandardPlaylist(), switchToStandAlbums())
+        return StandardSearchResult(switchToStandardSongs(), switchToStandardPlaylist(), switchToStandardAlbums(), switchToStandardSingers())
     }
 }
 
@@ -79,7 +92,7 @@ data class Song(
     val privilege: Privilege?,
 ) {
     fun switchToStandard():StandardSongData {
-        return StandardSongData(SOURCE_NETEASE, id.toString(), name, al?.picUrl, getArtList(), getNeteaseInfo(), null, null)
+        return StandardSongData(SOURCE_NETEASE, id.toString(), name, al?.getImageUrl(), getArtList(), getNeteaseInfo(), null, null)
     }
 
     private fun getNeteaseInfo(): StandardSongData.NeteaseInfo {
@@ -99,15 +112,26 @@ data class Al(
     val id: Long,
     val name: String,
     val pic: Long,
-    val picUrl: String,
-)
+    val pic_str: Long,
+    val picUrl: String?,
+) {
+    fun getImageUrl():String {
+        return picUrl?: Utils.getNeteasePicUrl(pic_str)
+    }
+}
 
 data class Ar(
     val id: Long,
     val name: String,
+    val cover: String?,
+    val briefDesc: String?
 ) {
     fun switchToStandard():StandardSongData.StandardArtistData{
         return StandardSongData.StandardArtistData(id, name)
+    }
+
+    fun switchToStandardSinger():StandardSinger{
+        return StandardSinger(id,name,cover?:"",briefDesc?:"")
     }
 }
 
@@ -131,4 +155,39 @@ data class Album(
 
     }
 }
+
+data class Artists(
+    val id: Long,
+    val name: String,
+    val picUrl: String,
+    val albumSize: Int
+) {
+    fun switchToStandard() :StandardSinger {
+        return StandardSinger(id, name, picUrl, "")
+    }
+}
+
+data class ArtistsSongs(
+    val songs:List<Song>,
+    val more:Boolean,
+    val total:Int,
+    val code:Int
+) {
+    fun switchToStandardSongs():List<StandardSongData> {
+        val list = ArrayList<StandardSongData>()
+        for (song in songs) {
+            list.add(song.switchToStandard())
+        }
+        return list
+    }
+}
+
+data class ArtistInfoResult(
+    val code: Int,
+    val data: ArtistInfo
+)
+
+data class ArtistInfo(
+    val artist: Ar?
+)
 

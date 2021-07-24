@@ -14,15 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApp
 import com.dirror.music.MyApp.Companion.mmkv
 import com.dirror.music.R
-import com.dirror.music.adapter.AlbumAdapter
-import com.dirror.music.adapter.PlaylistAdapter
-import com.dirror.music.adapter.SongAdapter
-import com.dirror.music.adapter.SearchHotAdapter
+import com.dirror.music.adapter.*
 import com.dirror.music.data.SearchType
 import com.dirror.music.databinding.ActivitySearchBinding
 import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.data.StandardAlbum
 import com.dirror.music.music.standard.data.StandardPlaylist
+import com.dirror.music.music.standard.data.StandardSinger
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
@@ -135,7 +133,7 @@ class SearchActivity : BaseActivity() {
             searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_single, R.drawable.ic_baseline_music_single_24).setLabel("单曲").create())
             searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_album, R.drawable.ic_baseline_album_24).setLabel("专辑").create())
             searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_playlist, R.drawable.ic_baseline_playlist_24).setLabel("歌单").create())
-//            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_singer, R.drawable.ic_baseline_singer_24).setLabel("歌手").create())
+            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_singer, R.drawable.ic_baseline_singer_24).setLabel("歌手").create())
 
             searchTypeView.setOnActionSelectedListener { item ->
                 searchTypeView.setMainFabClosedDrawable(item.getFabImageDrawable(this@SearchActivity))
@@ -183,6 +181,8 @@ class SearchActivity : BaseActivity() {
                 clQQ.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
                 clKuwo.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
             }
+            val vis = if(it == SearchViewModel.ENGINE_NETEASE) View.VISIBLE else View.GONE
+            binding.searchTypeView.visibility = vis
             when (it) {
                 SearchViewModel.ENGINE_NETEASE -> {
                     binding.clNetease.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
@@ -227,6 +227,7 @@ class SearchActivity : BaseActivity() {
                                     SearchType.SINGLE ->  initRecycleView(result.songs)
                                     SearchType.PLAYLIST -> initPlaylist(result.playlist)
                                     SearchType.ALBUM -> initAlbums(result.albums)
+                                    SearchType.SINGER -> initSingers(result.singers)
                                 }
                             }
                         }
@@ -244,6 +245,19 @@ class SearchActivity : BaseActivity() {
                 }
             }
             binding.clPanel.visibility = View.GONE
+        }
+    }
+
+    private fun initSingers(singers: List<StandardSinger>) {
+        binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
+        binding.rvPlaylist.adapter = SingerAdapter {
+            val intent = Intent(this@SearchActivity, SongPlaylistActivity::class.java)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
+            intent.putExtra(SongPlaylistActivity.EXTRA_ID, it.id.toString())
+            intent.putExtra(SongPlaylistActivity.EXTRA_TYPE, SearchType.SINGER)
+            startActivity(intent)
+        }.apply {
+            submitList(singers)
         }
     }
 
@@ -317,8 +331,6 @@ class SearchActivity : BaseActivity() {
         if (binding.clPanel.visibility != View.VISIBLE) {
             search()
         }
-        val vis = if(engineCode == SearchViewModel.ENGINE_NETEASE) View.VISIBLE else View.GONE
-        binding.searchTypeView.visibility = vis
     }
 
 }

@@ -9,6 +9,7 @@ import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.standard.data.StandardAlbumPackage
 import com.dirror.music.music.standard.data.StandardSearchResult
+import com.dirror.music.music.standard.data.StandardSingerPackage
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dso.ext.averageAssignFixLength
 
@@ -73,6 +74,24 @@ object Api {
         val url = "$API_NEW/album?id=${id}"
         HttpUtils.get(url, NeteaseAlbumResult::class.java)?.let {
             return StandardAlbumPackage(it.album.switchToStandard(), it.switchToStandardSongs())
+        }
+        return null
+    }
+
+    suspend fun getSingerSongs(id: Long): StandardSingerPackage? {
+        val songs = ArrayList<StandardSongData>()
+        var result: ArtistsSongs?
+        do {
+            val url = "$API_NEW/artist/songs?id=$id&offset=${songs.size}"
+            result = HttpUtils.get(url, ArtistsSongs::class.java, true)
+            result?.let {
+//                Log.d(TAG, "getSingerSongs result${result.songs.size} ")
+                songs.addAll(it.switchToStandardSongs())
+            }
+        } while (result?.more == true && result.songs.isNotEmpty())
+
+        HttpUtils.get("$API_NEW/artist/detail?id=$id", ArtistInfoResult::class.java, true)?.data?.artist?.let {
+            return StandardSingerPackage(it.switchToStandardSinger(), songs)
         }
         return null
     }

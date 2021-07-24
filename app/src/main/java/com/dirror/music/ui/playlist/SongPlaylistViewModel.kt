@@ -69,6 +69,16 @@ class SongPlaylistViewModel : ViewModel() {
                                     }
                                 }
                             }
+                            SearchType.SINGER -> {
+                                Api.getSingerSongs(id)?.let {
+                                    withContext(Dispatchers.Main) {
+                                        songList.value = it.songs.toArrayList()
+                                        playlistUrl.value = it.singer.picUrl
+                                        playlistTitle.value = it.singer.name
+                                        playlistDescription.value = it.singer.briefDesc
+                                    }
+                                }
+                            }
                         }
 
                     }
@@ -94,6 +104,9 @@ class SongPlaylistViewModel : ViewModel() {
     }
 
     fun updateInfo(context: Context) {
+        if (type.value != SearchType.PLAYLIST) {
+            return
+        }
         when (tag.value) {
             TAG_NETEASE, TAG_NETEASE_MY_FAVORITE -> {
                 GlobalScope.launch {
