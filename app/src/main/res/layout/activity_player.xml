@@ -338,7 +338,6 @@
                 android:id="@+id/ivPlay"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:padding="8dp"
                 android:background="@drawable/background_button_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -355,10 +354,11 @@
                 android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/next"
                 android:padding="16dp"
+                android:rotation="180"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivPlay"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_play_next"
+                app:srcCompat="@drawable/ic_player_previous"
                 tools:ignore="VectorDrawableCompat" />
 
             <ImageView
@@ -369,11 +369,10 @@
                 android:background="@drawable/background_button_icon"
                 android:contentDescription="@string/previous"
                 android:padding="16dp"
-                android:rotation="180"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ivPlay"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_play_next"
+                app:srcCompat="@drawable/ic_player_previous"
                 tools:ignore="VectorDrawableCompat" />
 
             <ImageView

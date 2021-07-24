@@ -61,13 +61,15 @@
 
     <ImageView
         android:id="@+id/ivCVip"
+        android:visibility="gone"
         android:layout_width="28dp"
         android:layout_height="12dp"
-        android:paddingRight="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvLevel"
         app:layout_constraintStart_toStartOf="@+id/tvNickname"
         app:layout_constraintTop_toTopOf="@+id/tvLevel"
-        app:srcCompat="@drawable/cvip" />
-
+        app:srcCompat="@drawable/cvip"
+        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

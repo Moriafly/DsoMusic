@@ -29,6 +29,11 @@ class SongPlaylistViewModel : ViewModel() {
         const val TAG = "SongPlaylistViewModel"
     }
 
+    /**
+     * 导航栏高度
+     */
+    val navigationBarHeight = MutableLiveData<Int>()
+
     var tag = MutableLiveData(TAG_NETEASE)
 
     var playlistTitle = MutableLiveData("")
@@ -43,7 +48,7 @@ class SongPlaylistViewModel : ViewModel() {
 
     var type = MutableLiveData(SearchType.PLAYLIST)
 
-    fun update(context: Context) {
+    fun update() {
         when (tag.value) {
             TAG_NETEASE -> {
                 val id = playlistId.value?.toLong()
@@ -79,6 +84,7 @@ class SongPlaylistViewModel : ViewModel() {
                                     }
                                 }
                             }
+                            else -> { }
                         }
 
                     }
@@ -103,7 +109,10 @@ class SongPlaylistViewModel : ViewModel() {
         }
     }
 
-    fun updateInfo(context: Context) {
+    /**
+     * 更新信息
+     */
+    fun updateInfo() {
         if (type.value != SearchType.PLAYLIST) {
             return
         }
@@ -137,7 +146,5 @@ class SongPlaylistViewModel : ViewModel() {
             songList.value = list
         }
     }
-
-    var navigationBarHeight = MutableLiveData<Int>()
 
 }

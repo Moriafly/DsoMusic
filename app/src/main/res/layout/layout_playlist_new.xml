@@ -12,13 +12,15 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/colorTransparency"
         android:transitionName="transCvCover"
         app:cardCornerRadius="@dimen/defaultRadius"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/ivCover"
@@ -47,27 +49,27 @@
         app:layout_constraintTop_toTopOf="@+id/cvCover" />
 
     <TextView
+        android:id="@+id/tips"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="@id/tvName"
         app:layout_constraintRight_toRightOf="@id/tvName"
-        app:layout_constraintTop_toBottomOf="@id/tvName"
-        android:id="@+id/tips"
-        android:textSize="12sp"
-        android:layout_marginTop="3dp"
-        android:lines="1"
-        android:ellipsize="end"/>
+        app:layout_constraintTop_toBottomOf="@id/tvName" />
 
     <TextView
+        android:id="@+id/description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
         android:lines="2"
+        android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="@id/tvName"
         app:layout_constraintRight_toRightOf="@id/tvName"
-        app:layout_constraintTop_toBottomOf="@id/tips"
-        android:textSize="12sp"
-        android:layout_marginTop="3dp"
-        android:ellipsize="end"
-        android:id="@+id/description"/>
+        app:layout_constraintTop_toBottomOf="@id/tips" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

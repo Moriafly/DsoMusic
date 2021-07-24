@@ -14,8 +14,13 @@ import com.dirror.music.ui.playlist.SongPlaylistViewModel
 import com.dirror.music.util.*
 import com.dso.ext.averageAssignFixLength
 import com.google.gson.Gson
-import okhttp3.FormBody
+import okhttp3.*
 import org.jetbrains.annotations.TestOnly
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.Reader
+import java.util.concurrent.TimeUnit
 
 /**
  * 获取网易云歌单全部，对于大型歌单也要成功
@@ -135,19 +140,56 @@ object Playlist {
             .add("id", playlistId.toString())
             .add("cookie", User.cookie)
             .build()
-        MagicHttp.OkHttpManager().newPost("${User.cookie}/playlist/detail", requestBody, { response ->
-            Log.i(SongPlaylistViewModel.TAG, "获取到服务器返回 ${System.currentTimeMillis()}")
-            var playlistDetail: PlaylistDetail? = null
-            try {
-                playlistDetail = Gson().fromJson(response, PlaylistDetail::class.java)
-                Log.i(SongPlaylistViewModel.TAG, "Gson 解析完成 ${System.currentTimeMillis()}")
-            } catch (e: Exception) {
 
-            }
-            playlistDetail?.getSongArrayList()?.let { success(it) }
-        }, {
-            // failure(ErrorCode.MAGIC_HTTP)
-        })
+        val api = "${User.cookie}/playlist/detail"
+        try {
+            val client = OkHttpClient.Builder()
+                // .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("110.243.17.83", 9999)))
+                // .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(3, TimeUnit.SECONDS)
+                .writeTimeout(3, TimeUnit.SECONDS)
+                .build()
+
+            val request: Request = Request.Builder()
+                .url("${api}?timestamp=${getCurrentTime()}")
+//                    .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+//                    .addHeader("Connection", "close")
+//                    .addHeader("Content-Length", "80")
+//                    .addHeader("X-Real-IP", "211.161.244.70")
+                .post(requestBody)
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    response.body()?.byteStream()?.let { inputStream ->
+                        val reader = BufferedReader(InputStreamReader(inputStream))
+                        var playlistDetail: PlaylistDetail? = null
+                        try {
+                            playlistDetail = Gson().fromJson(reader, PlaylistDetail::class.java)
+                            Log.i(SongPlaylistViewModel.TAG, "Gson 解析完成 ${System.currentTimeMillis()}")
+                        } catch (e: Exception) {
+
+                        }
+                        playlistDetail?.getSongArrayList()?.let { success(it) }
+                    }
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    // failure(ErrorCode.ERROR_MAGIC_HTTP)
+                }
+            })
+        } catch (e: Exception) {
+            // failure(ErrorCode.ERROR_MAGIC_HTTP)
+        }
+
+
+//        MagicHttp.OkHttpManager().newPost("${User.cookie}/playlist/detail", requestBody, { response ->
+//            Log.i(SongPlaylistViewModel.TAG, "获取到服务器返回 ${System.currentTimeMillis()}")
+//
+//        }, {
+//            // failure(ErrorCode.MAGIC_HTTP)
+//        })
     }
 
     data class PlaylistData(

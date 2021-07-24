@@ -427,9 +427,9 @@ class PlayerActivity : SlideBackActivity() {
                                         }
                                         val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
                                         playViewModel.normalColor.value =  if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                            muteColor.colorMix(vibrantColor)
+                                            muteColor.colorMix(vibrantColor, Color.WHITE, Color.WHITE, Color.WHITE)
                                         } else {
-                                            muteColor.colorMix(vibrantColor)
+                                            muteColor.colorMix(vibrantColor, Color.BLACK)
                                         }
                                         playViewModel.color.value =  if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
                                             vibrantColor // muteColor.colorMix(vibrantColor)
@@ -445,13 +445,13 @@ class PlayerActivity : SlideBackActivity() {
                 controller.isPlaying().observe(this@PlayerActivity, {
                     if (it) {
                         binding.ivPlay.contentDescription = getString(R.string.pause_music)
-                        binding.ivPlay.setImageResource(R.drawable.ic_mini_player_pause)
+                        binding.ivPlay.setImageResource(R.drawable.ic_player_playing)
                         handler.sendEmptyMessageDelayed(MSG_PROGRESS, DELAY_MILLIS)
                         startRotateAlways()
                         // binding.diffuseView.start()
                     } else {
                         binding.ivPlay.contentDescription = getString(R.string.play_music)
-                        binding.ivPlay.setImageResource(R.drawable.ic_mini_player_play)
+                        binding.ivPlay.setImageResource(R.drawable.ic_player_paused)
                         handler.removeMessages(MSG_PROGRESS)
                         pauseRotateAlways()
                         // binding.diffuseView.stop()

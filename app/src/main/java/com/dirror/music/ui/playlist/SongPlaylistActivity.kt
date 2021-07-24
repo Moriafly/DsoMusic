@@ -39,7 +39,7 @@ class SongPlaylistActivity: BaseActivity() {
         SongMenuDialog(this, this, it) {
             if (songPlaylistViewModel.tag.value == TAG_LOCAL_MY_FAVORITE) {
                 MyFavorite.deleteById(it.id ?: "")
-                songPlaylistViewModel.update(this)
+                songPlaylistViewModel.update()
                 toast("删除成功")
             } else {
                 toast("不支持删除")
@@ -102,7 +102,7 @@ class SongPlaylistActivity: BaseActivity() {
                 binding.tvPlayAll.text = getString(R.string.play_all, it.size)
                 adapter.submitList(it)
                 if (songPlaylistViewModel.tag.value == TAG_LOCAL_MY_FAVORITE) {
-                    songPlaylistViewModel.updateInfo(this@SongPlaylistActivity)
+                    songPlaylistViewModel.updateInfo()
                 }
             })
             playlistTitle.observe(this@SongPlaylistActivity, {
@@ -112,8 +112,8 @@ class SongPlaylistActivity: BaseActivity() {
                 binding.tvDescription.text = it
             })
             playlistId.observe(this@SongPlaylistActivity, {
-                songPlaylistViewModel.update(this@SongPlaylistActivity)
-                songPlaylistViewModel.updateInfo(this@SongPlaylistActivity)
+                songPlaylistViewModel.update()
+                songPlaylistViewModel.updateInfo()
             })
             playlistUrl.observe(this@SongPlaylistActivity, {
                 if (it != null) {

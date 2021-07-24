@@ -148,6 +148,12 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
 
             <com.dirror.music.widget.ValueView
                 app:text="代码"
+                app:value="olbb"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <com.dirror.music.widget.ValueView
+                app:text="代码"
                 app:value="lbccccc"
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />

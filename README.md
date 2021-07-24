@@ -37,12 +37,6 @@ QQ 音乐来源：自己搞的 : )
 | 网易云 |   ✘   |    ✔ |    ✔ | 少数✔  |  ✘  |
 | QQ    |   ✘   |    ✔ |    ✔ | 少数✔  |  ✘  |
 
-# 3.0 效果展示
-
-新增流光特效（相关文件还在调试中未上传 Github）
-
-![pic0](https://img-blog.csdnimg.cn/20210404174841698.png)
-
 # 以前版本
 
 ![pic1](https://img-blog.csdnimg.cn/20201219112702321.gif)
@@ -53,9 +47,15 @@ QQ 音乐来源：自己搞的 : )
 
 https://blog.csdn.net/Moriafly/article/details/109708728
 
-# 后续本项目维护
+# 本项目维护
 
-感谢 [lbccccc](https://github.com/lbccccc) 等支持
+感谢 
+
+[lbccccc](https://github.com/lbccccc)
+
+[olbb](https://github.com/olbb)
+
+等大佬的支持
 
 # 开发进度
 
