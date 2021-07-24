@@ -29,6 +29,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
 import androidx.multidex.MultiDex
@@ -41,6 +42,8 @@ import com.dirror.music.util.*
 import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
+import kotlinx.coroutines.*
+import java.util.*
 
 /**
  * 自定义 Application
@@ -54,6 +57,8 @@ class MyApp : Application() {
     companion object {
 
         const val UM_APP_KEY = "5fb38e09257f6b73c0961382"
+
+        private const val TAG = "MyApp"
 
         lateinit var mmkv: MMKV
 
@@ -72,6 +77,7 @@ class MyApp : Application() {
 
         // 数据库
         lateinit var appDatabase: AppDatabase
+        lateinit var realIP: String
     }
 
     override fun attachBaseContext(base: Context?) {
@@ -97,7 +103,23 @@ class MyApp : Application() {
         if (mmkv.decodeBool(Config.DARK_THEME, false)) {
             DarkThemeUtil.setDarkTheme(true)
         }
+        realIP = "175.16.1.195"
 
+        GlobalScope.launch {
+            val lastIP = "LAST_IP"
+            val lastIPExpiredTime = "LAST_IP_TIME"//过期时间
+            val ip = mmkv.decodeString(lastIP, "")
+            val now = System.currentTimeMillis()
+            val expiredTime = mmkv.decodeLong(lastIPExpiredTime, now)
+            if (ip == null || ip.isEmpty() || expiredTime < now) {
+                Log.i(TAG, "ip is expired.")
+                realIP = ChineseIPData.getRandomIP(this@MyApp)
+                mmkv.encode(lastIP, realIP)
+                mmkv.encode(lastIPExpiredTime, now + 24 * 60 * 60 * 1000)
+            } else{
+                realIP = ip
+            }
+        }
     }
 
     /**

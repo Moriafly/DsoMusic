@@ -21,6 +21,14 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
+    <style name="AppTheme.Search" parent="AppTheme.FullScreen">
+        <item name="colorPrimary">#f0f0f0</item>
+        <item name="colorOnSecondary">@color/colorAppThemeColor</item>
+<!--        <item name="colorPrimaryDark">#0fa000</item>-->
+<!--        <item name="colorAccent">#3f0000</item>-->
+<!--        <item name="colorControlHighlight">#00ffff</item>-->
+    </style>
+
     <!-- 透明全屏 -->
     <style name="AppTheme.FullScreen.Translucent">
         <item name="android:windowIsTranslucent">true</item>

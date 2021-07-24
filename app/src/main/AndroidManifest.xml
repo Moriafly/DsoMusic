@@ -58,7 +58,7 @@
         <activity android:name=".ui.activity.FeedbackActivity" />
         <activity
             android:name=".ui.activity.SearchActivity"
-            android:theme="@style/AppTheme.FullScreen"
+            android:theme="@style/AppTheme.Search"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.CommentActivity"

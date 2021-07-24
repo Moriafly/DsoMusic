@@ -1,5 +1,6 @@
 package com.dirror.music
 
+import com.dirror.music.util.Utils
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,5 +14,11 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+    }
+
+    @Test
+    fun getUrl_isCorrect() {
+        val url = Utils.getNeteasePicUrl(109951162868128395)
+        assertEquals("https://p3.music.126.net/2zSNIqTcpHL2jIvU6hG0EA==/109951162868128395.jpg", url)
     }
 }

@@ -2,6 +2,7 @@ package com.dirror.music.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -13,28 +14,48 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dirror.music.MyApp
 import com.dirror.music.MyApp.Companion.mmkv
 import com.dirror.music.R
-import com.dirror.music.adapter.SongAdapter
-import com.dirror.music.adapter.SearchHotAdapter
+import com.dirror.music.adapter.*
+import com.dirror.music.data.SearchType
 import com.dirror.music.databinding.ActivitySearchBinding
-import com.dirror.music.music.netease.SearchUtil
 import com.dirror.music.music.qq.SearchSong
+import com.dirror.music.music.standard.data.StandardAlbum
+import com.dirror.music.music.standard.data.StandardPlaylist
+import com.dirror.music.music.standard.data.StandardSinger
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
+import com.dirror.music.ui.playlist.SongPlaylistActivity
+import com.dirror.music.ui.playlist.TAG_NETEASE
 import com.dirror.music.ui.viewmodel.SearchViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.asDrawable
+import com.leinardi.android.speeddial.SpeedDialActionItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * 搜索界面
  */
 class SearchActivity : BaseActivity() {
 
+    companion object {
+        private val TAG = "SearchActivity"
+    }
+
     private lateinit var binding: ActivitySearchBinding
 
     private val searchViewModel: SearchViewModel by viewModels()
 
     private var realKeyWord = ""
+
+    private var searchType: SearchType
+
+    init {
+        val typeStr = mmkv.decodeString(Config.SEARCH_TYPE, SearchType.SINGLE.toString())
+        searchType = SearchType.valueOf(typeStr)
+    }
 
     override fun initBinding() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
@@ -106,6 +127,22 @@ class SearchActivity : BaseActivity() {
             itemOpenSource.setOnClickListener {
                 openUrlByBrowser(this@SearchActivity, "https://github.com/Moriafly/DsoMusic")
             }
+
+            searchTypeView.setMainFabClosedDrawable(resources.getDrawable(SearchType.getIconRes(searchType)))
+
+            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_single, R.drawable.ic_baseline_music_single_24).setLabel("单曲").create())
+            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_album, R.drawable.ic_baseline_album_24).setLabel("专辑").create())
+            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_playlist, R.drawable.ic_baseline_playlist_24).setLabel("歌单").create())
+            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_singer, R.drawable.ic_baseline_singer_24).setLabel("歌手").create())
+
+            searchTypeView.setOnActionSelectedListener { item ->
+                searchTypeView.setMainFabClosedDrawable(item.getFabImageDrawable(this@SearchActivity))
+                searchType = SearchType.getSearchType(item.id)
+                mmkv.encode(Config.SEARCH_TYPE, searchType.toString())
+                searchTypeView.close()
+                search()
+                return@setOnActionSelectedListener true
+            }
         }
 
         // 搜索框
@@ -144,6 +181,8 @@ class SearchActivity : BaseActivity() {
                 clQQ.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
                 clKuwo.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
             }
+            val vis = if(it == SearchViewModel.ENGINE_NETEASE) View.VISIBLE else View.GONE
+            binding.searchTypeView.visibility = vis
             when (it) {
                 SearchViewModel.ENGINE_NETEASE -> {
                     binding.clNetease.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
@@ -180,11 +219,19 @@ class SearchActivity : BaseActivity() {
         if (keywords != "") {
             when (searchViewModel.searchEngine.value) {
                 SearchViewModel.ENGINE_NETEASE -> {
-                    SearchUtil.searchMusic(keywords, {
-                        initRecycleView(it)
-                    }, {
-                        toast(it)
-                    })
+                    GlobalScope.launch {
+                        val result = Api.searchMusic(keywords, searchType)
+                        if (result != null) {
+                            withContext(Dispatchers.Main) {
+                                when (searchType) {
+                                    SearchType.SINGLE ->  initRecycleView(result.songs)
+                                    SearchType.PLAYLIST -> initPlaylist(result.playlist)
+                                    SearchType.ALBUM -> initAlbums(result.albums)
+                                    SearchType.SINGER -> initSingers(result.singers)
+                                }
+                            }
+                        }
+                    }
                 }
                 SearchViewModel.ENGINE_QQ -> {
                     SearchSong.search(keywords) {
@@ -201,7 +248,20 @@ class SearchActivity : BaseActivity() {
         }
     }
 
-    private fun initRecycleView(songList: ArrayList<StandardSongData>) {
+    private fun initSingers(singers: List<StandardSinger>) {
+        binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
+        binding.rvPlaylist.adapter = SingerAdapter {
+            val intent = Intent(this@SearchActivity, SongPlaylistActivity::class.java)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
+            intent.putExtra(SongPlaylistActivity.EXTRA_ID, it.id.toString())
+            intent.putExtra(SongPlaylistActivity.EXTRA_TYPE, SearchType.SINGER)
+            startActivity(intent)
+        }.apply {
+            submitList(singers)
+        }
+    }
+
+    private fun initRecycleView(songList: List<StandardSongData>) {
         runOnMainThread {
             binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
             binding.rvPlaylist.adapter = SongAdapter() {
@@ -211,7 +271,31 @@ class SearchActivity : BaseActivity() {
             }.apply {
                 submitList(songList)
             }
+        }
+    }
 
+    private fun initPlaylist(playlists:List<StandardPlaylist>) {
+        binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
+        binding.rvPlaylist.adapter = PlaylistAdapter {
+            val intent = Intent(this@SearchActivity, SongPlaylistActivity::class.java)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
+            intent.putExtra(SongPlaylistActivity.EXTRA_ID, it.id.toString())
+            startActivity(intent)
+        }.apply {
+            submitList(playlists)
+        }
+    }
+
+    private fun initAlbums(albums:List<StandardAlbum>) {
+        binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
+        binding.rvPlaylist.adapter = AlbumAdapter {
+            val intent = Intent(this@SearchActivity, SongPlaylistActivity::class.java)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
+            intent.putExtra(SongPlaylistActivity.EXTRA_ID, it.id.toString())
+            intent.putExtra(SongPlaylistActivity.EXTRA_TYPE, SearchType.ALBUM)
+            startActivity(intent)
+        }.apply {
+            submitList(albums)
         }
     }
 

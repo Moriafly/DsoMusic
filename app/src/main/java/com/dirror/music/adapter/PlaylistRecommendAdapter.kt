@@ -62,7 +62,7 @@ class PlaylistRecommendAdapter(private val playlistRecommendDataResult: ArrayLis
         holder.clPlaylist.setOnClickListener {
             val intent = Intent(it.context, SongPlaylistActivity::class.java)
             intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
-            intent.putExtra(SongPlaylistActivity.EXTRA_PLAYLIST_ID, playlist.id.toString())
+            intent.putExtra(SongPlaylistActivity.EXTRA_ID, playlist.id.toString())
             it.context.startActivity(intent)
         }
         holder.tvTitle.text = playlist.name

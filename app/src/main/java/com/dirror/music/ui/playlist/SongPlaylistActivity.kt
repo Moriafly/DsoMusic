@@ -10,6 +10,7 @@ import coil.load
 import coil.size.ViewSizeResolver
 import com.dirror.music.R
 import com.dirror.music.adapter.SongAdapter
+import com.dirror.music.data.SearchType
 import com.dirror.music.databinding.ActivityPlaylistBinding
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.ui.base.BaseActivity
@@ -26,7 +27,8 @@ class SongPlaylistActivity: BaseActivity() {
 
     companion object {
         const val EXTRA_TAG = "extra_tag"
-        const val EXTRA_PLAYLIST_ID = "extra_playlist_id"
+        const val EXTRA_ID = "extra_playlist_id"
+        const val EXTRA_TYPE = "extra_type"
     }
 
     private lateinit var binding: ActivityPlaylistBinding
@@ -57,7 +59,8 @@ class SongPlaylistActivity: BaseActivity() {
 
     override fun initData() {
         songPlaylistViewModel.tag.value = intent.getIntExtra(EXTRA_TAG, TAG_NETEASE)
-        songPlaylistViewModel.playlistId.value = intent.getStringExtra(EXTRA_PLAYLIST_ID)
+        songPlaylistViewModel.playlistId.value = intent.getStringExtra(EXTRA_ID)
+        songPlaylistViewModel.type.value = intent.getSerializableExtra(EXTRA_TYPE) as? SearchType ?:SearchType.PLAYLIST
     }
 
     override fun initView() {

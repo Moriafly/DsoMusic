@@ -5,13 +5,19 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.MyApp
+import com.dirror.music.data.SearchType
 import com.dirror.music.manager.User
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.netease.Playlist
-import com.dirror.music.music.netease.PlaylistUtil
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.util.Api
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
+import com.dso.ext.toArrayList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 const val TAG_LOCAL_MY_FAVORITE = 0
 const val TAG_NETEASE = 1
@@ -35,14 +41,48 @@ class SongPlaylistViewModel : ViewModel() {
 
     var songList = MutableLiveData(ArrayList<StandardSongData>())
 
+    var type = MutableLiveData(SearchType.PLAYLIST)
+
     fun update(context: Context) {
         when (tag.value) {
             TAG_NETEASE -> {
-                Playlist.getPlaylist(context, playlistId.value?.toLong() ?: 0L, {
-                    setSongList(it)
-                }, {
+                val id = playlistId.value?.toLong()
+                if (id != null) {
+                    GlobalScope.launch {
+                        when(type.value) {
+                            SearchType.PLAYLIST -> {
+                                val list = Api.getPlayListByUID(id)
+                                withContext(Dispatchers.Main) {
+                                    if (list.isEmpty()) {
+                                        toast("歌单内容获取失败")
+                                    }
+                                    songList.value = list
+                                }
+                            }
+                            SearchType.ALBUM -> {
+                                Api.getAlbumSongs(id)?.let {
+                                    withContext(Dispatchers.Main) {
+                                        songList.value = it.songs.toArrayList()
+                                        playlistUrl.value = it.album.picUrl
+                                        playlistTitle.value = it.album.name
+                                        playlistDescription.value = it.album.description
+                                    }
+                                }
+                            }
+                            SearchType.SINGER -> {
+                                Api.getSingerSongs(id)?.let {
+                                    withContext(Dispatchers.Main) {
+                                        songList.value = it.songs.toArrayList()
+                                        playlistUrl.value = it.singer.picUrl
+                                        playlistTitle.value = it.singer.name
+                                        playlistDescription.value = it.singer.briefDesc
+                                    }
+                                }
+                            }
+                        }
 
-                })
+                    }
+                }
             }
             TAG_NETEASE_MY_FAVORITE -> {
                 if (User.hasCookie) {
@@ -64,13 +104,19 @@ class SongPlaylistViewModel : ViewModel() {
     }
 
     fun updateInfo(context: Context) {
+        if (type.value != SearchType.PLAYLIST) {
+            return
+        }
         when (tag.value) {
             TAG_NETEASE, TAG_NETEASE_MY_FAVORITE -> {
-                PlaylistUtil.getPlaylistInfo(context, playlistId.value?.toLong() ?: 0L) {
-                    runOnMainThread {
-                        playlistUrl.value = it.coverImgUrl ?: ""
-                        playlistTitle.value = it.name ?: ""
-                        playlistDescription.value = it.description ?: ""
+                GlobalScope.launch {
+                    val info = Api.getPlayListInfo(playlistId.value?.toLong() ?: 0L)
+                    if (info != null) {
+                        withContext(Dispatchers.Main) {
+                            playlistUrl.value = info.coverImgUrl ?: ""
+                            playlistTitle.value = info.name ?: ""
+                            playlistDescription.value = info.description ?: ""
+                        }
                     }
                 }
             }
