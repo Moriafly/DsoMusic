@@ -11,6 +11,11 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.live.NeteaseCloudMusicApiActivity
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
+import com.dirror.music.util.cache.CommonCacheInterceptor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.concurrent.thread
 
 /**
@@ -33,8 +38,10 @@ class SettingsActivity : BaseActivity() {
     override fun initData() {
         thread {
             val size = ImageCacheManager.getImageCacheSize()
+            val httpCacheSize = CommonCacheInterceptor.getCacheSize()
             runOnMainThread {
                 binding.valueViewImageCache.setValue(size)
+                binding.valueHttpCache.setValue(httpCacheSize)
             }
         }
 
@@ -69,6 +76,7 @@ class SettingsActivity : BaseActivity() {
             switcherSingleColumnPlaylist.setChecked(mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false))
             switcherStatusBarLyric.setChecked(mmkv.decodeBool(Config.MEIZU_STATUS_BAR_LYRIC, true))
             switcherInkScreenMode.setChecked(mmkv.decodeBool(Config.INK_SCREEN_MODE, false))
+            switcherAutoChangeResource.setChecked(mmkv.decodeBool(Config.AUTO_CHANGE_RESOURCE, false))
         }
 
     }
@@ -141,6 +149,16 @@ class SettingsActivity : BaseActivity() {
                     }
                 }
             }
+            itemClearHttpCache.setOnClickListener {
+                GlobalScope.launch {
+                    CommonCacheInterceptor.clearCache()
+                    withContext(Dispatchers.Main){
+                        toast("清除歌单缓存成功")
+                        val size = CommonCacheInterceptor.getCacheSize()
+                        binding.valueHttpCache.setValue(size)
+                    }
+                }
+            }
             switcherInkScreenMode.setOnCheckedChangeListener {
                 mmkv.encode(Config.INK_SCREEN_MODE, it)
             }
@@ -148,6 +166,8 @@ class SettingsActivity : BaseActivity() {
             itemNeteaseCloudMusicApi.setOnClickListener {
                 startActivity(Intent(this@SettingsActivity, NeteaseCloudMusicApiActivity::class.java))
             }
+
+            switcherAutoChangeResource.setOnCheckedChangeListener { mmkv.encode(Config.AUTO_CHANGE_RESOURCE, it) }
         }
     }
 

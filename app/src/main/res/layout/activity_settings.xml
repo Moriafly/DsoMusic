@@ -148,6 +148,20 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </com.dirror.music.widget.ItemLayout>
 
+            <com.dirror.music.widget.ItemLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:itemType="item_no"
+                app:text="@string/auto_change_resource">
+
+                <com.bitvale.switcher.SwitcherX
+                    android:id="@+id/switcher_auto_change_resource"
+                    style="@style/switcher"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </com.dirror.music.widget.ItemLayout>
+
             <TextView
                 style="@style/style_settings_title"
                 android:text="@string/local_music" />
@@ -369,6 +383,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 app:text="@string/clear_image_cache" />
+
+            <com.dirror.music.widget.ValueView
+                android:id="@+id/valueHttpCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="@string/http_cache" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemClearHttpCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="@string/clear_http_cache" />
 
             <TextView
                 style="@style/style_settings_title"

@@ -55,7 +55,11 @@ object HttpUtils {
             realUrl = request.url().toString()
             val response = client.newCall(request).execute()
             str = response.body()?.string()
-            result = gson.fromJson(str, clazz)
+            result = if (clazz == String::class.java) {
+                str as? T
+            } else{
+                gson.fromJson(str, clazz)
+            }
             iscache = response.networkResponse() == null
         } catch (e:JsonSyntaxException) {
             Log.w(TAG, "json parse failed, ${e.message}\n response: $str")

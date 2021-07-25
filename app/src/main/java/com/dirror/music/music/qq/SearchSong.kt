@@ -19,18 +19,7 @@ object SearchSong {
             val standardSongList = ArrayList<StandardSongData>()
             if (qqSearch.data.song.list.isNotEmpty()) {
                 for (song in qqSearch.data.song.list) {
-                    standardSongList.add(
-                        StandardSongData(
-                            SOURCE_QQ,
-                            song.songmid,
-                            song.songname,
-                            song.albummid, // 歌单 id
-                            song.singer,
-                            null,
-                            null,
-                            null
-                        )
-                    )
+                    standardSongList.add(song.switchToStandard())
                 }
             }
             success.invoke(standardSongList)
@@ -56,6 +45,19 @@ object SearchSong {
         val songname: String, // 歌名
         val songmid: String,
         val singer: ArrayList<StandardArtistData>
-    )
+    ) {
+        fun switchToStandard(): StandardSongData {
+            return StandardSongData(
+                SOURCE_QQ,
+                songmid,
+                songname,
+                albummid, // 歌单 id
+                singer,
+                null,
+                null,
+                null
+            )
+        }
+    }
 
 }

@@ -127,4 +127,7 @@
     <string name="close_timer">Close timer</string>
     <string name="album_art">专辑封面</string>
     <string name="menu">菜单</string>
+    <string name="auto_change_resource">Enable Auto Change Resource</string>
+    <string name="http_cache">Local Playlist Cache</string>
+    <string name="clear_http_cache">Clear Local Playlist Cache</string>
 </resources>
