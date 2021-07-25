@@ -384,6 +384,18 @@
                 android:layout_height="56dp"
                 app:text="@string/clear_image_cache" />
 
+            <com.dirror.music.widget.ValueView
+                android:id="@+id/valueHttpCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="@string/http_cache" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemClearHttpCache"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="@string/clear_http_cache" />
+
             <TextView
                 style="@style/style_settings_title"
                 android:text="@string/service" />

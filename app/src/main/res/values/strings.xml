@@ -128,4 +128,6 @@
     <string name="album_art">专辑封面</string>
     <string name="menu">菜单</string>
     <string name="auto_change_resource">自动换源播放</string>
+    <string name="http_cache">本地歌单缓存</string>
+    <string name="clear_http_cache">清除本地歌单缓存</string>
 </resources>

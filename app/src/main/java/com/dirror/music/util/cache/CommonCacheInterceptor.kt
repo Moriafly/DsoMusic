@@ -3,6 +3,10 @@ package com.dirror.music.util.cache
 import android.util.Log
 import com.dirror.music.MyApp
 import com.dirror.music.util.HttpUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.internal.Util
@@ -15,26 +19,72 @@ import okio.Timeout
 import okio.buffer
 import java.io.File
 import java.io.IOException
+import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 
 class CommonCacheInterceptor: Interceptor {
     
-    private companion object {
-        const val TAG = "CommonCacheInterceptor"
-        const val ONE_KB_SIZE = 1024L
-        const val ONE_MB_SIZE = 1024 * 1024L
-        const val ONE_GB_SIZE = 1024 * 1024 * 1024
-        const val BT_TAG = "byte"
-        const val KB_TAG = "KB"
-        const val MB_TAG = "MB"
-        const val GB_TAG = "GB"
+    companion object {
+        private const val TAG = "CommonCacheInterceptor"
+        private val cacheFile = File("${MyApp.context.externalCacheDir}/LocalHttpCache")
+        private val cache = Cache(cacheFile, 50*1024*1024L)
+
+        fun getCacheSize(): String {
+            return sizeToString(getFileLength(cacheFile).toDouble())
+        }
+
+        suspend fun clearCache() = withContext(Dispatchers.IO) {
+            if (cacheFile.isDirectory) {
+                cacheFile.listFiles()?.forEach { f ->
+                    f.delete()
+                }
+                Log.i(TAG, "cache clear finished")
+            }
+        }
+
+        // 递归遍历每个文件的大小
+        private fun getFileLength(file: File?): Long {
+            if (file == null) return -1
+            var size: Long = 0
+            if (!file.isDirectory) {
+                size = file.length()
+            } else {
+                file.listFiles()?.forEach { f ->
+                    size += getFileLength(f)
+                }
+            }
+            return size
+        }
+
+
+        // 把文件大小转化成容易理解的格式显示，如多少M
+        private fun sizeToString(size: Double): String {
+            val kiloByte = size / 1024
+            if (kiloByte < 1) {
+                return "$size Byte"
+            }
+            val megaByte = kiloByte / 1024
+            if (megaByte < 1) {
+                val result1 = BigDecimal(kiloByte.toString())
+                return result1.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + " KB"
+            }
+            val gigaByte = megaByte / 1024
+            if (gigaByte < 1) {
+                val result2 = BigDecimal(megaByte.toString())
+                return result2.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + " MB"
+            }
+            val teraBytes = gigaByte / 1024
+            if (teraBytes < 1) {
+                val result3 = BigDecimal(gigaByte.toString())
+                return result3.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + " GB"
+            }
+            val result4 = BigDecimal(teraBytes)
+            return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + " TB"
+        }
     }
 
-    private val cacheFile = File("${MyApp.context.externalCacheDir}/LocalHttpCache")
-    private val cache = Cache(cacheFile, 50*1024*1024L)
-
     init {
-        Log.d(TAG, "cache file dir is: $cacheFile, fileSize: ${sizeToString(getFileLength(cacheFile).toFloat())}")
+        Log.d(TAG, "cache file dir is: $cacheFile, fileSize: ${sizeToString(getFileLength(cacheFile).toDouble())}")
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -118,34 +168,5 @@ class CommonCacheInterceptor: Interceptor {
             .body(RealResponseBody(contentType, contentLength, cacheWritingSource.buffer()))
             .build()
     }
-
-    // 递归遍历每个文件的大小
-    private fun getFileLength(file: File?): Long {
-        if (file == null) return -1
-        var size: Long = 0
-        if (!file.isDirectory) {
-            size = file.length()
-        } else {
-            file.listFiles()?.forEach { f ->
-                size += getFileLength(f)
-            }
-        }
-        return size
-    }
-
-
-    // 把文件大小转化成容易理解的格式显示，如多少M
-    private fun sizeToString(size: Float): String {
-        return if (size >= 0 && size < ONE_KB_SIZE) {
-            "$size $BT_TAG"
-        } else if (size >= ONE_KB_SIZE && size < ONE_MB_SIZE) {
-            "${size / ONE_KB_SIZE} $KB_TAG"
-        } else if (size >= ONE_MB_SIZE && size < ONE_GB_SIZE) {
-            "${size / ONE_MB_SIZE} $MB_TAG"
-        } else {
-            "${size / ONE_GB_SIZE} $GB_TAG"
-        }
-    }
-
 
 }

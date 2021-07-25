@@ -11,6 +11,11 @@ import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.live.NeteaseCloudMusicApiActivity
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
+import com.dirror.music.util.cache.CommonCacheInterceptor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.concurrent.thread
 
 /**
@@ -33,8 +38,10 @@ class SettingsActivity : BaseActivity() {
     override fun initData() {
         thread {
             val size = ImageCacheManager.getImageCacheSize()
+            val httpCacheSize = CommonCacheInterceptor.getCacheSize()
             runOnMainThread {
                 binding.valueViewImageCache.setValue(size)
+                binding.valueHttpCache.setValue(httpCacheSize)
             }
         }
 
@@ -139,6 +146,16 @@ class SettingsActivity : BaseActivity() {
                         runOnMainThread {
                             binding.valueViewImageCache.setValue(size)
                         }
+                    }
+                }
+            }
+            itemClearHttpCache.setOnClickListener {
+                GlobalScope.launch {
+                    CommonCacheInterceptor.clearCache()
+                    withContext(Dispatchers.Main){
+                        toast("清除歌单缓存成功")
+                        val size = CommonCacheInterceptor.getCacheSize()
+                        binding.valueHttpCache.setValue(size)
                     }
                 }
             }
