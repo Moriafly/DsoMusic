@@ -58,6 +58,7 @@ fun playMusic(context: Context?, song: StandardSongData, songList: ArrayList<Sta
                 val other =  Api.getOtherCPSong(song)
                 withContext(Dispatchers.Main) {
                     if (other != null) {
+                        other.imageUrl = song.imageUrl
                         val index = songList.indexOf(song)
                         if (index >= 0) {
                             songList.removeAt(index)

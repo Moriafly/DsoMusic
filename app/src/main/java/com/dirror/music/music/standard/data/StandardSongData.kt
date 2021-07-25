@@ -16,7 +16,7 @@ data class StandardSongData(
     val id: String?, // 歌曲 id
 
     val name: String?, // 歌曲名称
-    val imageUrl: String?, // 图片 url
+    var imageUrl: String?, // 图片 url
     val artists: ArrayList<StandardArtistData>?, // 艺术家
 
     @Embedded
