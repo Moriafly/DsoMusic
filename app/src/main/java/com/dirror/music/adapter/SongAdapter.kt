@@ -117,11 +117,7 @@ class SongAdapter(
             }
             // 点击项目
             clSong.setOnClickListener {
-                if (song.neteaseInfo?.pl != 0) {
-                    playMusic(it.context, song, currentList.toArrayList())
-                } else {
-                    toast("网易云暂无版权或者是 VIP 歌曲，可以试试 QQ 音源")
-                }
+                playMusic(it.context, song, currentList.toArrayList())
             }
         }
     }

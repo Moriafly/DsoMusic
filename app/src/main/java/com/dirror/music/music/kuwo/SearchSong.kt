@@ -38,20 +38,7 @@ object SearchSong {
                 val standardSongDataList = ArrayList<StandardSongData>()
                 // 每首歌适配
                 songList.forEach { kuwoSong ->
-                    val artistList = ArrayList<StandardSongData.StandardArtistData>()
-                    artistList.add(StandardSongData.StandardArtistData(0, kuwoSong.ARTIST))
-                    standardSongDataList.add(
-                        StandardSongData(
-                            SOURCE_KUWO,
-                            kuwoSong.MUSICRID,
-                            kuwoSong.NAME,
-                            kuwoSong.hts_MVPIC,
-                            artistList,
-                            null,
-                            null,
-                            null
-                        )
-                    )
+                    standardSongDataList.add(kuwoSong.switchToStandard())
                 }
                 success.invoke(standardSongDataList)
             } catch (e: Exception) {
@@ -74,20 +61,7 @@ object SearchSong {
                 val standardSongDataList = ArrayList<StandardSongData>()
                 // 每首歌适配
                 songList.forEach { kuwoSong ->
-                    val artistList = ArrayList<StandardSongData.StandardArtistData>()
-                    artistList.add(StandardSongData.StandardArtistData(0, kuwoSong.ARTIST))
-                    standardSongDataList.add(
-                        StandardSongData(
-                            SOURCE_KUWO,
-                            kuwoSong.MUSICRID,
-                            kuwoSong.NAME,
-                            kuwoSong.hts_MVPIC,
-                            artistList,
-                            null,
-                            null,
-                            null
-                        )
-                    )
+                    standardSongDataList.add(kuwoSong.switchToStandard())
                 }
                 success.invoke(standardSongDataList)
             } catch (e: Exception) { }
@@ -128,7 +102,26 @@ object SearchSong {
             val NAME: String,
             val ARTIST: String,
             val hts_MVPIC: String // 图片
-        )
+        ) {
+            fun switchToStandard(): StandardSongData {
+                return StandardSongData(
+                    SOURCE_KUWO,
+                    MUSICRID,
+                    NAME,
+                    hts_MVPIC,
+                    genArtistList(),
+                    null,
+                    null,
+                    null
+                )
+            }
+
+            private fun genArtistList(): ArrayList<StandardSongData.StandardArtistData> {
+                val artistList = ArrayList<StandardSongData.StandardArtistData>()
+                artistList.add(StandardSongData.StandardArtistData(0, ARTIST))
+                return artistList
+            }
+        }
     }
 
     data class KuwoUrlData(

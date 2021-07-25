@@ -11,6 +11,7 @@ import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.parseArtist
+import com.dirror.music.service.playMusic
 
 /**
  * 播放列表适配器
@@ -43,7 +44,8 @@ class PlaylistDialogAdapter(private val list: ArrayList<StandardSongData>): Recy
         holder.tvName.text = songData.name
         holder.tvArtist.text = list[position].artists?.let { parseArtist(it) }
         holder.clSong.setOnClickListener {
-            MyApp.musicController.value?.playMusic(songData)
+//            MyApp.musicController.value?.playMusic(songData)
+            playMusic(holder.itemView.context, songData, list)
         }
     }
 

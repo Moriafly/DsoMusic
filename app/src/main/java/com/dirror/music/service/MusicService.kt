@@ -44,6 +44,7 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.dirror.lyricviewx.LyricEntry
 import com.dirror.music.MyApp
+import com.dirror.music.MyApp.Companion.context
 import com.dirror.music.MyApp.Companion.mmkv
 import com.dirror.music.R
 import com.dirror.music.broadcast.BecomingNoisyReceiver
@@ -426,6 +427,14 @@ open class MusicService : BaseMediaService() {
 
         }
 
+        private fun playMusicProxy(song: StandardSongData) {
+            if (mmkv.decodeBool(Config.AUTO_CHANGE_RESOURCE, false) && PlayQueue.currentQueue.value != null) {
+                com.dirror.music.service.playMusic(null, song, PlayQueue.currentQueue.value!!, true)
+            } else {
+                playMusic(song)
+            }
+        }
+
         fun sendMusicBroadcast() {
             // Service 通知
             val intent = Intent("com.dirror.music.MUSIC_BROADCAST")
@@ -629,7 +638,7 @@ open class MusicService : BaseMediaService() {
 
         override fun playPrevious() {
             PlayQueue.currentQueue.value?.previous(songData.value)?.let {
-                playMusic(it)
+                playMusicProxy(it)
             }
         }
 
@@ -651,7 +660,7 @@ open class MusicService : BaseMediaService() {
                 }
             }
             PlayQueue.currentQueue.value?.next(songData.value)?.let {
-                playMusic(it)
+                playMusicProxy(it)
             }
         }
 

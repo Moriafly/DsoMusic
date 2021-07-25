@@ -2,16 +2,18 @@ package com.dirror.music.util
 
 import android.util.Log
 import com.dirror.music.api.API_NEW
-import com.dirror.music.api.API_NEW
 import com.dirror.music.data.*
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.netease.Playlist
+import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.data.StandardAlbumPackage
 import com.dirror.music.music.standard.data.StandardSearchResult
 import com.dirror.music.music.standard.data.StandardSingerPackage
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dso.ext.averageAssignFixLength
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 
 object Api {
 
@@ -92,6 +94,95 @@ object Api {
 
         HttpUtils.get("$API_NEW/artist/detail?id=$id", ArtistInfoResult::class.java, true)?.data?.artist?.let {
             return StandardSingerPackage(it.switchToStandardSinger(), songs)
+        }
+        return null
+    }
+
+    suspend fun getOtherCPSong(song: StandardSongData): StandardSongData? {
+        val songName = song.name?.replace(Regex("（.*）"), "")?.trim()?:""
+
+        searchFromKuwo(songName)?.abslist?.let {
+            for (res in it) {
+                if (res.NAME == song.name || res.NAME.contains(songName)) {
+                    song.artists?.let { artists ->
+                        var checkSingerCount = 0
+                        for (singer in artists) {
+                            if (res.ARTIST == singer.name) {
+                                return res.switchToStandard()
+                            } else if (singer.name != null) {
+                                if (res.ARTIST.contains(singer.name)) {
+                                    checkSingerCount++
+                                } else {
+                                    break
+                                }
+                            }
+                        }
+                        if (checkSingerCount == song.artists.size) return res.switchToStandard()
+                    }
+
+                }
+            }
+        }
+        val artistName = song.artists?.first()?.name
+        searchFromQQ("$songName $artistName")?.data?.song?.list?.let {
+            for (res in it) {
+                if (res.songname == song.name || res.songname.contains(songName)) {
+                    val nameBuffer = StringBuffer()
+                    for (singer in res.singer) {
+                        singer.name?.let { singerName -> nameBuffer.append(singerName) }
+                    }
+                    val names = nameBuffer.toString()
+                    var checkSingerCount = 0
+                    song.artists?.forEach forArtists@ { artist->
+                        artist.name?.let { name ->
+                            if (names.contains(name)) {
+                                checkSingerCount++
+                            } else {
+                                return@forArtists
+                            }
+                        }
+                    }
+                    if (checkSingerCount == song.artists?.size) return res.switchToStandard()
+                }
+            }
+        }
+        return null
+    }
+
+    private suspend fun searchFromQQ(keywords: String): SearchSong.QQSearch? {
+        val url = "https://c.y.qq.com/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p=1&n=20&w=${keywords}"
+        HttpUtils.get(url, String::class.java)?.let {
+            var response = it.replace("callback(", "")
+            if (response.endsWith(")")) {
+                response = response.substring(0, response.lastIndex)
+            }
+            try {
+                return Gson().fromJson(response, SearchSong.QQSearch::class.java)
+            } catch (e: JsonSyntaxException) {
+                e.printStackTrace()
+            }
+        }
+        return null
+    }
+
+    private suspend fun searchFromKuwo(keywords: String): com.dirror.music.music.kuwo.SearchSong.KuwoSearchData? {
+        val url = "http://search.kuwo.cn/r.s?songname=${keywords}&ft=music&rformat=json&encoding=utf8&rn=30&callback=song&vipver=MUSIC_8.0.3.1"
+        HttpUtils.get(url, String::class.java)?.let {
+            var string = it
+            // 适配 JSON
+            string = string.replace("try{var jsondata=", "")
+            string = string.replace(
+                "\n" +
+                        "; song(jsondata);}catch(e){jsonError(e)}", ""
+            )
+            string = string.replace("\'", "\"")
+            string = string.replace("&nbsp;", " ")
+            println("search from kuwo result:$string")
+            try {
+                return  Gson().fromJson(string, com.dirror.music.music.kuwo.SearchSong.KuwoSearchData::class.java)
+            } catch (e: JsonSyntaxException) {
+                e.printStackTrace()
+            }
         }
         return null
     }
