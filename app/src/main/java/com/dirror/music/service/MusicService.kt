@@ -64,6 +64,7 @@ import kotlin.coroutines.suspendCoroutine
 
 /**
  * Dso Music 音乐播放服务
+ * 
  * @author Moriafly
  * @since 2020/9
  */
@@ -213,9 +214,8 @@ open class MusicService : BaseMediaService() {
         mediaSessionCallback = object : MediaSessionCompat.Callback() {
 
             override fun onPlay() {
-                // 注册广播
+                // 注册监听噪音的广播，接收到噪音（耳机断开）触发 onPause
                 registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
-
                 // 请求音频焦点
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (isAudioFocus) {

@@ -128,9 +128,7 @@
                 android:id="@+id/rvNewSong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp" />
+                android:overScrollMode="never" />
 
             <TextView
                 android:id="@+id/tvFoyou"

@@ -29,15 +29,15 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 744
-        versionName "3.10.0"
+        versionCode 745
+        versionName "3.10.1"
 
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a' // , 'x86' // 'arm64-v8a', 'armeabi-v7a', 'x86'
+            abiFilters 'armeabi-v7a', 'arm64-v8a' // 'armeabi-v7a', 'x86'
         }
 
     }

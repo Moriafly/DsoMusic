@@ -588,6 +588,9 @@ class PlayerActivity : SlideBackActivity() {
                     seekBarVolume.progressDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
 
                     ivVolume.setColorFilter(it)
+                    if (playViewModel.heart.value == true) {
+                        playViewModel.heart.value = true
+                    }
                 }
             })
 

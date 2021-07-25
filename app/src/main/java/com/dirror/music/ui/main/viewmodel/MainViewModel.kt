@@ -6,11 +6,10 @@ import com.dirror.music.MyApp
 import com.dirror.music.manager.User
 import com.dirror.music.util.Config
 
+/**
+ * MainActivity ViewModel
+ */
 class MainViewModel: ViewModel() {
-
-    var singleColumnPlaylist = MutableLiveData<Boolean>().also {
-        it.value = false
-    }
 
     /** 状态栏高度 */
     val statusBarHeight = MutableLiveData<Int>()
@@ -18,14 +17,26 @@ class MainViewModel: ViewModel() {
     /** 导航栏高度 */
     val navigationBarHeight = MutableLiveData<Int>()
 
+    /**
+     * 用户 id
+     */
     val userId =  MutableLiveData<Long>().also {
         it.value = User.uid
     }
 
-    var neteaseLiveVisibility = MutableLiveData(false)
+    /**
+     * 网易登录后才可见
+     */
+    val neteaseLiveVisibility = MutableLiveData<Boolean>().also {
+        it.value = MyApp.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
+    }
 
-    // 句子推荐可见性
-    var sentenceVisibility = MutableLiveData(true)
+    /**
+     * 句子推荐可见性
+     */
+    var sentenceVisibility = MutableLiveData<Boolean>().also {
+        it.value = MyApp.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)
+    }
 
     /**
      * 设置用户 id
@@ -34,9 +45,11 @@ class MainViewModel: ViewModel() {
         userId.value = User.uid
     }
 
+    /**
+     * 刷新 UI
+     */
     fun updateUI() {
         neteaseLiveVisibility.value = MyApp.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
-        singleColumnPlaylist.value = MyApp.mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false)
         sentenceVisibility.value = MyApp.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)
     }
 

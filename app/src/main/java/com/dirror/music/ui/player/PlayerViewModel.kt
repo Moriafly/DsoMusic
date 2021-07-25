@@ -68,7 +68,12 @@ class PlayerViewModel: ViewModel() {
         it.value = Color.rgb(100, 100, 100)
     }
 
-    var heart = MutableLiveData<Boolean>()
+    /**
+     * 当前歌曲是否被点红心，
+     * 若有，实心，保持红色
+     * 若无，空心，跟随封面变色
+     */
+    val heart = MutableLiveData<Boolean>()
 
     /** 平常颜色 */
     var normalColor = MutableLiveData<Int>()

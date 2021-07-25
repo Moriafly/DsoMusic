@@ -103,7 +103,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
-        mainViewModel.updateUI()
         thread {
             ACache.get(this).getAsBitmap(Config.APP_THEME_BACKGROUND)?.let {
                 runOnMainThread {
