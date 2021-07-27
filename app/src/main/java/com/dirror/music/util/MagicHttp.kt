@@ -55,6 +55,8 @@ object MagicHttp {
         // @Deprecated("过时方法，请使用协程请求")
         fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit)
 
+        fun getWithHeader(url: String, headers: Map<String, String>, success: (String) -> Unit, failure: (String) -> Unit)
+
         @Deprecated("过时方法，请使用 newPost")
         fun post(url: String, json: String, success: (String) -> Unit)
 
@@ -83,7 +85,47 @@ object MagicHttp {
     /**
      * 可用多个，不是单例类
      */
-    class OkHttpManager: MagicHttpInterface {
+    class OkHttpManager : MagicHttpInterface {
+        override fun getWithHeader(
+            url: String,
+            headers: Map<String, String>,
+            success: (String) -> Unit,
+            failure: (String) -> Unit
+        ) {
+            try {
+                val client = OkHttpClient.Builder()
+                    .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
+                    .connectTimeout(5, TimeUnit.SECONDS)
+                    .readTimeout(3, TimeUnit.SECONDS)
+                    .writeTimeout(3, TimeUnit.SECONDS)
+                    .build()
+                val request = Request.Builder()
+                    .url(url)
+                    .headers(Headers.of(headers))
+                    .addHeader(
+                        "User-Agent",
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36 Edg/86.0.622.63"
+                    )
+                    .get()
+                    .build()
+
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onResponse(call: Call, response: Response) {
+                        Log.e(TAG, "onResponse: getWithHeader()")
+                        val string = response.body()?.string() ?: ""
+                        // val string = response.body?.string()!!
+                        success.invoke(string)
+                    }
+
+                    override fun onFailure(call: Call, e: IOException) {
+                        failure.invoke(e.message.toString())
+                    }
+                })
+            } catch (e: Exception) {
+                e.printStackTrace()
+                failure.invoke(e.message.toString())
+            }
+        }
 
         override fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit) {
             try {

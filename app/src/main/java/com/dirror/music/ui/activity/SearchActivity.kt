@@ -121,7 +121,7 @@ class SearchActivity : BaseActivity() {
             // 酷我
             clKuwo.setOnClickListener {
                 changeSearchEngine(SearchViewModel.ENGINE_KUWO)
-                toast("酷我音源暂只支持精确搜索，需要填入完整歌曲名")
+//                toast("酷我音源暂只支持精确搜索，需要填入完整歌曲名")
             }
 
             itemOpenSource.setOnClickListener {
