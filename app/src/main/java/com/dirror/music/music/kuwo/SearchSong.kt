@@ -3,10 +3,7 @@ package com.dirror.music.music.kuwo
 import android.net.Uri
 import com.dirror.music.music.standard.data.SOURCE_KUWO
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.util.MagicHttp
-import com.dirror.music.util.getCurrentTime
-import com.dirror.music.util.loge
-import com.dirror.music.util.toast
+import com.dirror.music.util.*
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.lang.Exception
@@ -39,16 +36,17 @@ object SearchSong {
                     val songInfo = songList[it] as JSONObject
                     standardSongDataList.add(
                         KuwoSearchData.SongData(
-                            songInfo.getInt("rid").toString(),
-                            songInfo.getString("name"),
-                            songInfo.getString("artist"),
-                            songInfo.getString("pic")
+                            songInfo.getIntOrNull("rid").toString(),
+                            songInfo.getStr("name", ""),
+                            songInfo.getStr("artist", ""),
+                            songInfo.getStr("pic", "")
                         ).switchToStandard()
                     )
                 }
                 success.invoke(standardSongDataList)
             } catch (e: Exception) {
-
+                e.printStackTrace()
+                toast("网络异常,或者解析错误")
             }
         }, {
 
