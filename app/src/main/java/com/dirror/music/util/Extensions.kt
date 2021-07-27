@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.music.standard.data.StandardSongData
+import org.json.JSONObject
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -71,10 +72,22 @@ fun Int.asDrawable(context: Context) = ContextCompat.getDrawable(context, this)
 val String.Companion.EMPTY
     get() = ""
 
-fun Throwable.getString():String {
+fun Throwable.getString(): String {
     val errors = StringWriter()
     this.printStackTrace(PrintWriter(errors))
     return errors.toString()
 }
 
+
+fun JSONObject.getStr(key: String, defValue: String = "") = if (this.isNull(key)) {
+    defValue
+} else {
+    this.getString(key)
+}
+
+fun JSONObject.getIntOrNull(key: String, defValue: Int = 0) = if (this.isNull(key)) {
+    defValue
+} else {
+    this.getInt(key)
+}
 
