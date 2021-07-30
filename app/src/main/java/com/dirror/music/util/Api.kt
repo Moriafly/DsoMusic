@@ -1,8 +1,10 @@
 package com.dirror.music.util
 
 import android.util.Log
+import com.dirror.music.api.API_LOGIN
 import com.dirror.music.api.API_NEW
 import com.dirror.music.data.*
+import com.dirror.music.manager.User
 import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.netease.Playlist
@@ -14,6 +16,9 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dso.ext.averageAssignFixLength
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 object Api {
 
@@ -185,6 +190,18 @@ object Api {
             }
         }
         return null
+    }
+
+    suspend fun getLoginKey(): NeteaseGetKey? {
+        return HttpUtils.get("$API_LOGIN/login/qr/key?timestamp=${Date().time}", NeteaseGetKey::class.java)
+    }
+
+    suspend fun getLoginQRCode(key: String): NeteaseQRCodeResult? {
+        return HttpUtils.get("$API_LOGIN/login/qr/create?key=$key&qrimg=1&timestamp=${Date().time}", NeteaseQRCodeResult::class.java)
+    }
+
+    suspend fun checkLoginResult(key: String): NeteaseLoginResult? {
+        return HttpUtils.get("$API_LOGIN/login/qr/check?key=$key&timestamp=${Date().time}", NeteaseLoginResult::class.java)
     }
 
 }

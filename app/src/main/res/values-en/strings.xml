@@ -11,6 +11,7 @@
     <string name="upload">Upload</string>
     <string name="contact">Contact</string>
     <string name="login_by_uid">Login by UID</string>
+    <string name="login_by_qrcode">Login by QRCode</string>
     <string name="login">Login</string>
     <string name="playlist">Playlist</string>
     <string name="cancel">Cancel</string>

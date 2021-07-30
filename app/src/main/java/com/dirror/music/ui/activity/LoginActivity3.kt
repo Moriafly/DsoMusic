@@ -59,6 +59,10 @@ class LoginActivity3 : BaseActivity() {
             btnLoginByUid.setOnClickListener {
                 MyApp.activityManager.startLoginByUidActivity(this@LoginActivity3)
             }
+            //二维码登录
+            btnLoginByQRCode.setOnClickListener {
+                startActivityForResult(Intent(this@LoginActivity3, LoginByQRCodeActivity::class.java), 0)
+            }
         }
     }
 

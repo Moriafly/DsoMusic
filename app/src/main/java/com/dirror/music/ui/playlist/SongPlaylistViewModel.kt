@@ -1,10 +1,8 @@
 package com.dirror.music.ui.playlist
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dirror.music.MyApp
 import com.dirror.music.data.SearchType
 import com.dirror.music.manager.User
 import com.dirror.music.music.local.MyFavorite
@@ -56,7 +54,7 @@ class SongPlaylistViewModel : ViewModel() {
                     GlobalScope.launch {
                         when(type.value) {
                             SearchType.PLAYLIST -> {
-                                val list = Api.getPlayListByUID(id)
+                                val list = Api.getPlayList(id)
                                 withContext(Dispatchers.Main) {
                                     if (list.isEmpty()) {
                                         toast("歌单内容获取失败")
@@ -93,9 +91,18 @@ class SongPlaylistViewModel : ViewModel() {
             TAG_NETEASE_MY_FAVORITE -> {
                 if (User.hasCookie) {
                     Log.i(TAG, "update: 开始加载我喜欢歌单 ${System.currentTimeMillis()}")
-                    Playlist.getPlaylistByCookie(playlistId.value?.toLong() ?: 0L) {
-                        Log.i(TAG, "update: 得到我喜欢歌单 ${System.currentTimeMillis()}")
-                        setSongList(it)
+                    GlobalScope.launch {
+                        playlistId.value?.toLong()?.let {
+                            Api.getPlayList(it).let { list ->
+                                withContext(Dispatchers.Main) {
+                                    if (list.isEmpty()) {
+                                        toast("歌单内容获取失败")
+                                    }
+                                    songList.value = list
+                                }
+                            }
+                        }
+
                     }
                 } else {
                     toast("由于网易云最新调整，UID 登录无法再查看我喜欢歌曲（其他歌单不受影响），请使用手机号登录")
