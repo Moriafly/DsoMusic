@@ -12,6 +12,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.dirror.music.databinding.ActivityLoginByQrcodeBinding
+import com.dirror.music.manager.User
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.viewmodel.LoginQRCodeViewModel
 import com.dirror.music.util.getStatusBarHeight
@@ -46,10 +47,6 @@ class LoginByQRCodeActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        (binding.titleBar.layoutParams as ConstraintLayout.LayoutParams).apply{
-            topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-            topMargin = getStatusBarHeight(window, this@LoginByQRCodeActivity)
-        }
         binding.ivSearch.setOnClickListener { finish() }
         binding.saveToLocal.setOnClickListener{ saveImageFile() }
     }
@@ -70,6 +67,11 @@ class LoginByQRCodeActivity : BaseActivity() {
                     801 -> toast("等待扫码")
                     802 -> toast("扫码成功，请确认登录")
                     803 -> {
+                        if (User.uid == 0L || !User.hasCookie) {
+                            toast("获取用户信息失败,请重试")
+                            finish()
+                            return@observe
+                        }
                         toast("登录成功")
                         val intent = Intent("com.dirror.music.LOGIN")
                         intent.setPackage(packageName)

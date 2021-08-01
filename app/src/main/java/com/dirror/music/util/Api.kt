@@ -204,4 +204,8 @@ object Api {
         return HttpUtils.get("$API_LOGIN/login/qr/check?key=$key&timestamp=${Date().time}", NeteaseLoginResult::class.java)
     }
 
+    suspend fun getUserInfo(cookie: String): NeteaseUserInfo? {
+        return HttpUtils.post("$API_LOGIN/user/account", Utils.toMap("cookie", cookie) , NeteaseUserInfo::class.java)
+    }
+
 }

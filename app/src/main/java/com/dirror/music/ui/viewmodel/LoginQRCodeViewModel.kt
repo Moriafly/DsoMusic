@@ -71,8 +71,17 @@ class LoginQRCodeViewModel : ViewModel() {
                 statusCode = code
                 if (code == 803) {
                     Log.i(TAG, "do login success, cookies is $cookie")
+                    cookie?.let {
+                        Api.getUserInfo(it)?.apply {
+                            Log.i(TAG, "login success, $this")
+                            account?.id?.let { uid ->
+                                User.cookie = cookie
+                                User.uid = uid
+                            }
+                        }
+                    }
+
                 }
-                User.cookie = cookie?:""
                 withContext(Dispatchers.Main) {
                     mStatusCodeMutable.value = code
                 }
