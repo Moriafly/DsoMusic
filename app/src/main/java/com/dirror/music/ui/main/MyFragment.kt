@@ -98,7 +98,7 @@ class MyFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     override fun initObserver() {
         mainViewModel.userId.observe(viewLifecycleOwner, {
-            myFragmentViewModel.updateUserPlaylist()
+            myFragmentViewModel.updateUserPlaylist(true)
         })
         // 用户歌单的观察
         myFragmentViewModel.userPlaylistList.observe(viewLifecycleOwner, {

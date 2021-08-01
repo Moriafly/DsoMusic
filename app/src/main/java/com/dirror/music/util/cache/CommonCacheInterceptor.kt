@@ -4,8 +4,6 @@ import android.util.Log
 import com.dirror.music.MyApp
 import com.dirror.music.util.HttpUtils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -92,7 +90,7 @@ class CommonCacheInterceptor: Interceptor {
 
         val headers = request.headers()
         val useCache = headers[HttpUtils.USE_CACHE]
-        val forceCache = HttpUtils.FORCE_CACHE == useCache
+        val forceCache = HttpUtils.CACHE_FORCE == useCache
         if (forceCache) {
             val cacheCandidate: Response? = cache.get(request)
             if (cacheCandidate != null) {
@@ -101,7 +99,7 @@ class CommonCacheInterceptor: Interceptor {
             }
         }
         val response = chain.proceed(request)
-        if (forceCache && response.code() == 200) {
+        if ((forceCache || HttpUtils.CACHE_UPDATE == useCache) && response.code() == 200) {
             Log.d(TAG, "add cache for ${request.url()}")
             val cacheRequest = cache.put(response)
             return cacheWritingResponse(cacheRequest, response)

@@ -7,6 +7,7 @@ import com.dirror.music.data.PlaylistData
 import com.dirror.music.data.UserPlaylistData
 import com.dirror.music.manager.User
 import com.dirror.music.util.HttpUtils
+import com.dirror.music.util.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,12 +24,18 @@ class MyFragmentViewModel : ViewModel() {
     // 用户歌单
     var userPlaylistList = MutableLiveData<ArrayList<PlaylistData>>()
 
-    fun updateUserPlaylist() {
-        val uid = User.uid.toString()
-        GlobalScope.launch {
-            val userPlaylistData = HttpUtils.get(API_MUSIC_ELEUU + "/user/playlist?uid=${uid}", UserPlaylistData::class.java)
-            withContext(Dispatchers.Main) {
-                userPlaylistList.value = userPlaylistData?.playlist
+    fun updateUserPlaylist(useCache: Boolean) {
+        if (User.uid != 0L) {
+            val uid = User.uid.toString()
+            GlobalScope.launch {
+                HttpUtils.postWithCache("$API_MUSIC_ELEUU/user/playlist", Utils.toMap("uid", uid), UserPlaylistData::class.java, useCache)?.apply {
+                    withContext(Dispatchers.Main) {
+                        userPlaylistList.value = result.playlist
+                    }
+                    if (useCache) {
+                        updateUserPlaylist(false)
+                    }
+                }
             }
         }
     }

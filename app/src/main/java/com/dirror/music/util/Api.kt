@@ -9,10 +9,7 @@ import com.dirror.music.music.compat.CompatSearchData
 import com.dirror.music.music.compat.compatSearchDataToStandardPlaylistData
 import com.dirror.music.music.netease.Playlist
 import com.dirror.music.music.qq.SearchSong
-import com.dirror.music.music.standard.data.StandardAlbumPackage
-import com.dirror.music.music.standard.data.StandardSearchResult
-import com.dirror.music.music.standard.data.StandardSingerPackage
-import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.music.standard.data.*
 import com.dso.ext.averageAssignFixLength
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -32,11 +29,16 @@ object Api {
         return HttpUtils.get(url, DetailPlaylistData::class.java, true)?.playlist
     }
 
-    suspend fun getPlayListByUID(id: Long): ArrayList<StandardSongData> {
-        val url = "$API_NEW/playlist/detail?id=${id}"
-        val playlist = HttpUtils.get(url, Playlist.PlaylistData::class.java, true)
+    suspend fun getPlayList(id: Long, useCache: Boolean): PackedSongList {
+        val params = HashMap<String, String>()
+        params["id"] = id.toString()
+        if (User.hasCookie) {
+            params["cookie"] = User.cookie
+        }
+        val url = "$API_NEW/playlist/detail?hash=${params.hashCode()}"
+        val result = HttpUtils.postWithCache(url, params, Playlist.PlaylistData::class.java, useCache)
         val trackIds = ArrayList<Long>()
-        playlist?.playlist?.trackIds?.forEach {
+        result?.result?.playlist?.trackIds?.forEach {
             trackId -> trackIds.add(trackId.id)
         }
         val list = ArrayList<StandardSongData>()
@@ -51,24 +53,24 @@ object Api {
                     idsBuilder.append(trackId)
                 }
                 val ids = idsBuilder.toString()
-                val data = HttpUtils.post("$API_NEW/song/detail?hash=${ids.hashCode()}",
-                    Utils.toMap("ids", ids), CompatSearchData::class.java, true)
+                val data = HttpUtils.postWithCache("$API_NEW/song/detail?hash=${ids.hashCode()}",
+                    Utils.toMap("ids", ids), CompatSearchData::class.java, useCache)
 //                val data = HttpUtils.get("$API_NEW/song/detail?ids=${ids}", CompatSearchData::class.java)
-                if (data != null) {
-                    if (data.code == CHEATING_CODE) {
+                data?.result?.apply {
+                    if (code == CHEATING_CODE) {
                         toast("-460 Cheating")
                         // 发生了欺骗立刻返回
                         return@lit
                     } else {
-                        Log.i(TAG, "get result ${data.songs.size}")
-                        list.addAll(compatSearchDataToStandardPlaylistData(data))
+                        Log.i(TAG, "get result ${songs.size}")
+                        list.addAll(compatSearchDataToStandardPlaylistData(this))
                     }
                 }
             }
 
         }
         Log.d(TAG, "get playlist id $id, size:${list.size} , origin size:${trackIds.size}")
-        return list
+        return PackedSongList(list, result?.isCache?:false)
     }
 
     suspend fun searchMusic(keyword:String, type:SearchType): StandardSearchResult? {

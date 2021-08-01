@@ -99,3 +99,8 @@ fun StandardSongData.quality(): Int {
         }
     }
 }
+
+data class PackedSongList(
+    val songs: ArrayList<StandardSongData>,
+    var isCache: Boolean = false
+)
