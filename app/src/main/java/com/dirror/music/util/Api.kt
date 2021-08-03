@@ -195,19 +195,23 @@ object Api {
     }
 
     suspend fun getLoginKey(): NeteaseGetKey? {
-        return HttpUtils.get("$API_LOGIN/login/qr/key?timestamp=${Date().time}", NeteaseGetKey::class.java)
+        return HttpUtils.get("${getLoginUrl()}/login/qr/key?timestamp=${Date().time}", NeteaseGetKey::class.java)
     }
 
     suspend fun getLoginQRCode(key: String): NeteaseQRCodeResult? {
-        return HttpUtils.get("$API_LOGIN/login/qr/create?key=$key&qrimg=1&timestamp=${Date().time}", NeteaseQRCodeResult::class.java)
+        return HttpUtils.get("${getLoginUrl()}/login/qr/create?key=$key&qrimg=1&timestamp=${Date().time}", NeteaseQRCodeResult::class.java)
     }
 
     suspend fun checkLoginResult(key: String): NeteaseLoginResult? {
-        return HttpUtils.get("$API_LOGIN/login/qr/check?key=$key&timestamp=${Date().time}", NeteaseLoginResult::class.java)
+        return HttpUtils.get("${getLoginUrl()}/login/qr/check?key=$key&timestamp=${Date().time}", NeteaseLoginResult::class.java)
     }
 
     suspend fun getUserInfo(cookie: String): NeteaseUserInfo? {
-        return HttpUtils.post("$API_LOGIN/user/account", Utils.toMap("cookie", cookie) , NeteaseUserInfo::class.java)
+        return HttpUtils.post("${getLoginUrl()}/user/account", Utils.toMap("cookie", cookie) , NeteaseUserInfo::class.java)
+    }
+
+    private fun getLoginUrl() :String {
+        return User.neteaseCloudMusicApi
     }
 
 }
