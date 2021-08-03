@@ -3,6 +3,7 @@ package com.dirror.music.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
@@ -51,6 +52,10 @@ class SongAdapter(
             }
         }
 
+        fun cancelAnim() {
+            itemView.clearAnimation()
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -59,14 +64,15 @@ class SongAdapter(
         }
     }
 
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.cancelAnim()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             val song = getItem(position)
             songData = song
-            // 动画
-            if (isAnimation) {
-                clSong.animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycle_item)
-            }
 
             if (song.neteaseInfo?.pl == 0) {
                 holder.tvTitle.alpha = 0.25f
@@ -119,6 +125,9 @@ class SongAdapter(
             clSong.setOnClickListener {
                 playMusic(it.context, song, currentList.toArrayList())
             }
+            if (isAnimation) {
+                setAnimation(holder.itemView, position)
+            }
         }
     }
 
@@ -127,6 +136,16 @@ class SongAdapter(
      */
     fun playFirst() {
         playMusic(null, getItem(0), currentList.toArrayList())
+    }
+
+    /**
+     * Here is the key method to apply the animation
+     */
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        val animation: Animation =
+            AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.anim_recycle_item)
+        viewToAnimate.startAnimation(animation)
     }
 
     object DiffCallback : DiffUtil.ItemCallback<StandardSongData>() {
