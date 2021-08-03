@@ -14,12 +14,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.ArrayList
 
 /**
  * 播放音乐
  */
 private fun playMusicInternal(context: Context?, song: StandardSongData, songList: ArrayList<StandardSongData>) {
-    MyApp.musicController.value?.setPersonFM(false)
+    // MyApp.musicController.value?.setPersonFM(false)
     // 获取 position
     val position = if (songList.indexOf(song) == -1) {
         0

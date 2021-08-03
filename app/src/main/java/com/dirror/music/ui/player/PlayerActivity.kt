@@ -116,7 +116,7 @@ class PlayerActivity : SlideBackActivity() {
 
     // CD 旋转动画
     private val objectAnimator: ObjectAnimator by lazy {
-        ObjectAnimator.ofFloat(binding.ivCover, ANIMATION_PROPERTY_NAME, 0f, 360f).apply {
+        ObjectAnimator.ofFloat(binding.includePlayerCover.root, ANIMATION_PROPERTY_NAME, 0f, 360f).apply {
             interpolator = LinearInterpolator()
             duration = DURATION_CD
             repeatCount = ANIMATION_REPEAT_COUNTS
@@ -221,7 +221,7 @@ class PlayerActivity : SlideBackActivity() {
                 }
             }
             if (!isLandScape) {
-                ivCover.setOnLongClickListener {
+                includePlayerCover.root.setOnLongClickListener {
                     startActivity(Intent(this@PlayerActivity, SongCoverActivity::class.java))
                     overridePendingTransition(
                         R.anim.anim_alpha_enter,
@@ -257,7 +257,7 @@ class PlayerActivity : SlideBackActivity() {
             })
 
             if (!isLandScape) {
-                ivCover.setOnClickListener {
+                includePlayerCover.root.setOnClickListener {
                     if (slideBackEnabled) {
                         AnimationUtil.fadeOut(binding.clCd, true)
                         AnimationUtil.fadeOut(binding.clMenu, true)
@@ -402,13 +402,13 @@ class PlayerActivity : SlideBackActivity() {
                 controller.getPlayerCover().observe(this@PlayerActivity, { bitmap ->
                     runOnMainThread {
                         // 设置 CD 图片
-                        binding.ivCover.load(bitmap) {
+                        binding.includePlayerCover.ivCover.load(bitmap) {
                             placeholder(previousBitmap?.toDrawable(resources))
-                            size(ViewSizeResolver(binding.ivCover))
+                            size(ViewSizeResolver(binding.includePlayerCover.ivCover))
                             crossfade(500)
                         }
                         binding.ivLyricsBackground.load(bitmap) {
-                            size(ViewSizeResolver(binding.ivCover))
+                            size(ViewSizeResolver(binding.includePlayerCover.ivCover))
                             transformations(BlurTransformation(this@PlayerActivity, 15F, 30F))
                             crossfade(500)
                         }
@@ -624,7 +624,7 @@ class PlayerActivity : SlideBackActivity() {
      * 关闭旋转动画
      */
     private fun pauseRotateAlways() {
-        playViewModel.rotation = binding.ivCover.rotation
+        playViewModel.rotation = binding.includePlayerCover.root.rotation
         objectAnimator.pause()
     }
 

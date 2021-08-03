@@ -162,19 +162,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivCover"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_song_cover"
+            <include
+                android:id="@+id/includePlayerCover"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                layout="@layout/player_cover_image_view"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintBottom_toTopOf="@+id/clBottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearance="@style/dso_style_rounded"
-                tools:ignore="ContentDescription" />
-
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

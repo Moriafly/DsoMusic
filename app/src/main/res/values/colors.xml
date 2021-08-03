@@ -67,4 +67,5 @@
 
     <color name="dso_color_player_cd_background">#80FFFFFF</color>
     <color name="dso_color_page_item">#66FFFFFF</color>
+    <color name="dso_color_player_cover_image_view">#40FFFFFF</color>
 </resources>
