@@ -74,6 +74,7 @@
             android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".ui.activity.LoginByUidActivity" />
         <activity android:name=".ui.activity.LoginByPhoneActivity" />
+        <activity android:name=".ui.activity.LoginByQRCodeActivity" />
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"

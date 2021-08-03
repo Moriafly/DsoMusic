@@ -17,7 +17,9 @@ object HttpUtils {
     private const val TAG = "HttpUtils"
 
     const val USE_CACHE = "USE_CACHE"
-    const val FORCE_CACHE = "FORCE_CACHE"
+    const val CACHE_NO = "NO_CACHE"
+    const val CACHE_FORCE = "FORCE_CACHE"
+    const val CACHE_UPDATE = "UPDATE_CACHE"
 
     private val cache = Cache(File("${MyApp.context.externalCacheDir}/OKHttpCache"), 50*1024*1024L)
     private val cacheControl = CacheControl.Builder().build()
@@ -51,7 +53,7 @@ object HttpUtils {
             } else{
                 requestBuilder.url(urlBuilder.build())
             }
-            val request = requestBuilder.header(USE_CACHE, if (forceCache) FORCE_CACHE else "").build()
+            val request = requestBuilder.header(USE_CACHE, if (forceCache) CACHE_FORCE else "").build()
             realUrl = request.url().toString()
             val response = client.newCall(request).execute()
             str = response.body()?.string()
@@ -66,7 +68,6 @@ object HttpUtils {
         } catch (e: Exception) {
             Log.w(TAG, "get failed:${e} ,url:$realUrl")
             e.printStackTrace()
-            toast(e.getString())
         }
         Log.d(TAG, "post $realUrl finished, cost: ${System.currentTimeMillis() - time} ms , isCache:${iscache}")
         return@withContext result
@@ -75,9 +76,26 @@ object HttpUtils {
     suspend fun <T> post(
         url: String,
         params: Map<String, String>,
+        clazz: Class<T>
+    ): T? {
+        return postWithCache(url, params, clazz, CACHE_NO)?.result
+    }
+
+    suspend fun <T> postWithCache(
+        url: String,
+        params: Map<String, String>,
         clazz: Class<T>,
-        forceCache: Boolean
-    ): T? = withContext(Dispatchers.IO) {
+        useCache: Boolean
+    ): CacheResult<T>? {
+        return postWithCache(url, params, clazz, if(useCache) CACHE_FORCE else CACHE_UPDATE)
+    }
+
+    private suspend fun <T> postWithCache(
+        url: String,
+        params: Map<String, String>,
+        clazz: Class<T>,
+        useCache: String
+    ): CacheResult<T>? = withContext(Dispatchers.IO) {
         val time = System.currentTimeMillis()
         var result: T? = null
         val bodyBuilder = FormBody.Builder()
@@ -91,23 +109,25 @@ object HttpUtils {
 //            Log.d(TAG, "start post $url , thread:${Thread.currentThread()}")
             val request = Request.Builder()
                 .url(url)
-                .header(USE_CACHE, if (forceCache) FORCE_CACHE else "")
+                .header(USE_CACHE, useCache)
                 .post(bodyBuilder.build()).cacheControl(cacheControl)
                 .build()
 
             val response = client.newCall(request).execute()
             str = response.body()?.string()
+            if (response.code() != 200) {
+                Log.d(TAG, "post $url response:$str")
+            }
             result = gson.fromJson(str, clazz)
             isCache = response.networkResponse() == null
         } catch (e:JsonSyntaxException) {
-            Log.w(TAG, "json parse failed, response: $str")
+            Log.w(TAG, "json parse failed, $e")
         } catch (e: Exception) {
             Log.w(TAG, "post failed:${e} ,url:$url")
             e.printStackTrace()
-            toast(e.getString())
         }
         Log.d(TAG, "post $url cost: ${System.currentTimeMillis() - time} ms, isCache:$isCache")
-        return@withContext result
+        return@withContext if (result != null) CacheResult(result, isCache) else null
     }
 
     class CommonParamsInterceptor: Interceptor {
@@ -147,3 +167,8 @@ object HttpUtils {
     }
 
 }
+
+data class CacheResult<T>(
+    val result: T,
+    val isCache: Boolean
+)

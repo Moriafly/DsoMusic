@@ -82,6 +82,10 @@
                 style="@style/defaultValueText" />
 
             <TextView
+                android:text="二维码登录"
+                style="@style/defaultValueText" />
+
+            <TextView
                 android:text="不会自行配置？尝试获取测试版 API"
                 style="@style/style_settings_title" />
 

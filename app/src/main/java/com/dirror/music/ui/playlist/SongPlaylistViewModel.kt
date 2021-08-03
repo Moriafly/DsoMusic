@@ -1,10 +1,8 @@
 package com.dirror.music.ui.playlist
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dirror.music.MyApp
 import com.dirror.music.data.SearchType
 import com.dirror.music.manager.User
 import com.dirror.music.music.local.MyFavorite
@@ -14,10 +12,7 @@ import com.dirror.music.util.Api
 import com.dirror.music.util.runOnMainThread
 import com.dirror.music.util.toast
 import com.dso.ext.toArrayList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 const val TAG_LOCAL_MY_FAVORITE = 0
 const val TAG_NETEASE = 1
@@ -56,13 +51,7 @@ class SongPlaylistViewModel : ViewModel() {
                     GlobalScope.launch {
                         when(type.value) {
                             SearchType.PLAYLIST -> {
-                                val list = Api.getPlayListByUID(id)
-                                withContext(Dispatchers.Main) {
-                                    if (list.isEmpty()) {
-                                        toast("歌单内容获取失败")
-                                    }
-                                    songList.value = list
-                                }
+                                getPlaylist(id, true)
                             }
                             SearchType.ALBUM -> {
                                 Api.getAlbumSongs(id)?.let {
@@ -93,9 +82,8 @@ class SongPlaylistViewModel : ViewModel() {
             TAG_NETEASE_MY_FAVORITE -> {
                 if (User.hasCookie) {
                     Log.i(TAG, "update: 开始加载我喜欢歌单 ${System.currentTimeMillis()}")
-                    Playlist.getPlaylistByCookie(playlistId.value?.toLong() ?: 0L) {
-                        Log.i(TAG, "update: 得到我喜欢歌单 ${System.currentTimeMillis()}")
-                        setSongList(it)
+                    playlistId.value?.toLong()?.let {
+                        getPlaylist(it, true)
                     }
                 } else {
                     toast("由于网易云最新调整，UID 登录无法再查看我喜欢歌曲（其他歌单不受影响），请使用手机号登录")
@@ -144,6 +132,23 @@ class SongPlaylistViewModel : ViewModel() {
     private fun setSongList(list: ArrayList<StandardSongData>) {
         runOnMainThread {
             songList.value = list
+        }
+    }
+
+    private fun getPlaylist(id: Long, useCache: Boolean) {
+        GlobalScope.launch {
+            Api.getPlayList(id, useCache).let { packed ->
+                withContext(Dispatchers.Main) {
+                    if (packed.songs.isEmpty()) {
+                        toast("歌单内容获取失败")
+                    }
+                    songList.value = packed.songs
+                    Log.d(TAG, "getPlaylist finished, isCache:${packed.isCache}, size:${packed.songs.size}")
+                }
+                if (useCache && packed.isCache) {
+                    getPlaylist(id, false)
+                }
+            }
         }
     }
 

@@ -70,6 +70,12 @@ data class StandardSongData(
         val url: String?
     ) : Parcelable
 
+    override fun equals(other: Any?): Boolean {
+        if (other is StandardSongData) {
+            return other.id == id && other.source == source && other.name == name
+        }
+        return false
+    }
 }
 
 /**
@@ -99,3 +105,8 @@ fun StandardSongData.quality(): Int {
         }
     }
 }
+
+data class PackedSongList(
+    val songs: ArrayList<StandardSongData>,
+    var isCache: Boolean = false
+)
