@@ -19,7 +19,7 @@ import java.util.ArrayList
 /**
  * 播放音乐
  */
-private fun playMusicInternal(context: Context?, song: StandardSongData, songList: ArrayList<StandardSongData>) {
+fun playMusic(context: Context?, song: StandardSongData, songList: ArrayList<StandardSongData>, playAll: Boolean = false) {
     // MyApp.musicController.value?.setPersonFM(false)
     // 获取 position
     val position = if (songList.indexOf(song) == -1) {
@@ -37,56 +37,12 @@ private fun playMusicInternal(context: Context?, song: StandardSongData, songLis
                 R.anim.anim_no_anim
             )
         } else {
-            MyApp.musicController.value?.playMusic(song)
+            MyApp.musicController.value?.playMusic(song, playAll)
         }
     } else {
         // 设置歌单
         MyApp.musicController.value?.setPlaylist(songList)
         // 播放歌单
-        MyApp.musicController.value?.playMusic(song)
-    }
-}
-
-fun playMusic(context: Context?, song: StandardSongData, songList: ArrayList<StandardSongData>) {
-    playMusic(context, song, songList, false)
-}
-
-fun playMusic(context: Context?, song: StandardSongData, songList: ArrayList<StandardSongData>, forcePlay: Boolean) {
-    if (song.neteaseInfo?.pl == 0) {
-        GlobalScope.launch {
-            var comsumed = false
-            if (MyApp.mmkv.decodeBool(Config.AUTO_CHANGE_RESOURCE, false)) {
-                val other =  Api.getOtherCPSong(song)
-                withContext(Dispatchers.Main) {
-                    if (other != null) {
-                        other.imageUrl = song.imageUrl
-                        val index = songList.indexOf(song)
-                        if (index >= 0) {
-                            songList.removeAt(index)
-                            songList.add(index, other)
-                        }
-                        playMusicInternal(context, other, songList)
-                        val sourceName = when (other.source) {
-                            5 -> "酷我"
-                            3 -> "QQ"
-                            else -> ""
-                        }
-                        toast("替换为${sourceName}音源成功")
-                        comsumed = true
-                    } else if (forcePlay) {//通过取串错误切歌,防止中断播放队列
-                        comsumed = true
-                        playMusicInternal(context, song, songList)
-                    }
-                }
-            }
-            if (!comsumed) {
-                withContext(Dispatchers.Main) {
-                    toast("网易云暂无版权或者是 VIP 歌曲，可以试试 QQ 音源")
-                }
-            }
-
-        }
-    } else {
-        playMusicInternal(context, song, songList)
+        MyApp.musicController.value?.playMusic(song, playAll)
     }
 }

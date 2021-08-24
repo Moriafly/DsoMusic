@@ -10,6 +10,9 @@ import kotlinx.coroutines.withContext
 import okhttp3.*
 import java.io.File
 import java.util.concurrent.TimeUnit
+import okhttp3.OkHttpClient
+import java.io.IOException
+import java.net.URL
 
 
 object HttpUtils {
@@ -34,11 +37,8 @@ object HttpUtils {
         .build()
 
 
-    suspend fun <T> get(url: String, clazz: Class<T>): T? = withContext(Dispatchers.IO) {
-        return@withContext get(url, clazz, false)
-    }
-
-    suspend fun <T> get(url: String, clazz: Class<T>, forceCache: Boolean): T? = withContext(Dispatchers.IO) {
+    suspend fun <T> get(url: String, clazz: Class<T>, forceCache: Boolean = false,
+                        headers: Map<String,String> = HashMap()): T? = withContext(Dispatchers.IO) {
         val time = System.currentTimeMillis()
         var result: T? = null
         var str: String? = null
@@ -52,6 +52,9 @@ object HttpUtils {
                 requestBuilder.url(url)
             } else{
                 requestBuilder.url(urlBuilder.build())
+            }
+            for ((k,v) in headers) {
+                requestBuilder.header(k, v)
             }
             val request = requestBuilder.header(USE_CACHE, if (forceCache) CACHE_FORCE else "").build()
             realUrl = request.url().toString()
@@ -90,6 +93,15 @@ object HttpUtils {
         return postWithCache(url, params, clazz, if(useCache) CACHE_FORCE else CACHE_UPDATE)
     }
 
+    suspend fun getRemoteFileSize(url: String): Long {
+        // get only the head not the whole file
+        val url = URL(url)
+        val urlConnection = url.openConnection()
+        urlConnection.connect()
+        val size = urlConnection.getContentLength()
+        return size.toLong()
+    }
+
     private suspend fun <T> postWithCache(
         url: String,
         params: Map<String, String>,
@@ -116,7 +128,7 @@ object HttpUtils {
             val response = client.newCall(request).execute()
             str = response.body()?.string()
             if (response.code() != 200) {
-                Log.d(TAG, "post $url response:$str")
+                Log.d(TAG, "post $url , params:${params}, response:$str")
             }
             result = gson.fromJson(str, clazz)
             isCache = response.networkResponse() == null
