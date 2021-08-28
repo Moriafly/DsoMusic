@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/24568/Documents/GitHub/dirror-music/app/src/main/res/drawable/bg_player_cover_image_view.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/24568/Documents/GitHub/dirror-music/app/src/main/res/layout-land/activity_player.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/24568/Documents/GitHub/dirror-music/app/src/main/res/layout/activity_about.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/24568/Documents/GitHub/dirror-music/app/src/main/res/layout/activity_player.xml" value="0.2" />
         <entry key="..\:/Users/24568/Documents/GitHub/dirror-music/app/src/main/res/layout/include_search_suggest.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/24568/Documents/GitHub/dirror-music/app/src/main/res/layout/player_cover_image_view.xml" value="0.22083333333333333" />
@@ -12,7 +13,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

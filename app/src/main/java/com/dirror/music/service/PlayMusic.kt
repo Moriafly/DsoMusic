@@ -20,7 +20,7 @@ import java.util.ArrayList
  * 播放音乐
  */
 private fun playMusicInternal(context: Context?, song: StandardSongData, songList: ArrayList<StandardSongData>) {
-    // MyApp.musicController.value?.setPersonFM(false)
+    MyApp.musicController.value?.setPersonFM(false)
     // 获取 position
     val position = if (songList.indexOf(song) == -1) {
         0
@@ -73,7 +73,7 @@ fun playMusic(context: Context?, song: StandardSongData, songList: ArrayList<Sta
                         }
                         toast("替换为${sourceName}音源成功")
                         comsumed = true
-                    } else if (forcePlay) {//通过取串错误切歌,防止中断播放队列
+                    } else if (forcePlay) { // 通过取串错误切歌,防止中断播放队列
                         comsumed = true
                         playMusicInternal(context, song, songList)
                     }
