@@ -7,20 +7,13 @@ import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.player.PlayerActivity
-import com.dirror.music.util.Api
-import com.dirror.music.util.Config
-import com.dirror.music.util.toast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.ArrayList
+import java.util.*
 
 /**
  * 播放音乐
  */
 fun playMusic(context: Context?, song: StandardSongData, songList: ArrayList<StandardSongData>, playAll: Boolean = false) {
-    // MyApp.musicController.value?.setPersonFM(false)
+     MyApp.musicController.value?.setPersonFM(false)
     // 获取 position
     val position = if (songList.indexOf(song) == -1) {
         0

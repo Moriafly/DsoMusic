@@ -158,6 +158,13 @@ open class MusicService : BaseMediaService() {
         }
     }
 
+    /** 由 Transient 触发的短暂焦点移除
+     * 两种情况
+     * 1. 若短暂失去前为播放状态，则获取后继续播放
+     * 2. 若短暂失去前为暂停状态，则获取后不播放
+     * */
+    private var isPausedByTransientLossOfFocus = false
+
     override fun onCreate() {
         // 在 super.onCreate() 前
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager // 通知管理
@@ -189,14 +196,22 @@ open class MusicService : BaseMediaService() {
                 .setAudioAttributes(audioAttributes)
                 .setOnAudioFocusChangeListener { focusChange ->
                     when (focusChange) {
-                        AudioManager.AUDIOFOCUS_GAIN -> mediaSessionCallback?.onPlay()
+                        AudioManager.AUDIOFOCUS_GAIN -> {
+                            if (musicController.isPlaying().value != true && isPausedByTransientLossOfFocus) {
+                                mediaSessionCallback?.onPlay()
+                            }
+                        }
                         AudioManager.AUDIOFOCUS_GAIN_TRANSIENT -> mediaSessionCallback?.onPlay()
                         AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> mediaSessionCallback?.onPlay()
+                        // 永久性失去焦点
                         AudioManager.AUDIOFOCUS_LOSS -> {
-                            // audioManager.abandonAudioFocusRequest(audioFocusRequest)
+                            audioManager.abandonAudioFocusRequest(audioFocusRequest)
                             mediaSessionCallback?.onPause()
                         }
-                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> mediaSessionCallback?.onPause()
+                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                            isPausedByTransientLossOfFocus = musicController.isPlaying().value ?: false
+                            mediaSessionCallback?.onPause()
+                        }
                         AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> mediaSessionCallback?.onPause()
                     }
                 }.build()
@@ -405,7 +420,7 @@ open class MusicService : BaseMediaService() {
                     }
                     when (it) {
                         is String -> {
-                            if (!InternetState.isWifi(MyApp.context) && !mmkv.decodeBool(
+                            if (!InternetState.isWifi(context) && !mmkv.decodeBool(
                                     Config.PLAY_ON_MOBILE,
                                     false
                                 )
