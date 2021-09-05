@@ -1,7 +1,5 @@
 package com.dirror.music.service
 
-import android.content.ContentUris
-import android.net.Uri
 import com.dirror.music.MyApp
 import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.kuwo.SearchSong
@@ -9,7 +7,9 @@ import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.*
-import com.dirror.music.util.*
+import com.dirror.music.util.Api
+import com.dirror.music.util.Config
+import com.dirror.music.util.runOnMainThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -37,9 +37,6 @@ object ServiceSongUrl {
                         if (MyApp.mmkv.decodeBool(Config.AUTO_CHANGE_RESOURCE)) {
                             GlobalScope.launch {
                                 val url = getUrlFromOther(song)
-                                if (url.isEmpty()) {
-                                    toast("自动换源失败，未找到可用源")
-                                }
                                 success.invoke(url)
                             }
                         } else {
@@ -97,17 +94,11 @@ object ServiceSongUrl {
     suspend fun getUrlFromOther(song: StandardSongData) : String {
         Api.getFromKuWo(song)?.apply {
             SearchSong.getUrl(id?:"").let {
-                if (it.isNotEmpty()) {
-                    toast("换源到酷我[$name-${getArtistName(artists)}]成功")
-                }
                 return it
             }
         }
         Api.getFromQQ(song)?.apply {
            PlayUrl.getPlayUrl(id?:"").let {
-               if (it.isNotEmpty()) {
-                   toast("换源到QQ[$name-${getArtistName(artists)}]成功")
-               }
                return it
            }
 
