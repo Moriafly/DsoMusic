@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.BuildConfig
 import com.dirror.music.MyApp
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
+import java.lang.ref.WeakReference
 
 /**
  * Kotlin 顶层函数
@@ -30,12 +31,17 @@ fun setStatusBarIconColor(activity: Activity, dark: Boolean) {
     StatusbarColorUtils.setStatusBarDarkIcon(activity, dark)
 }
 
+var sToastRef: WeakReference<Toast>? = null
+
 /**
  * 全局 toast
  */
 fun toast(msg: String) {
     runOnMainThread {
-        Toast.makeText(MyApp.context, msg, Toast.LENGTH_SHORT).show()
+        sToastRef?.get()?.cancel()
+        val toast = Toast.makeText(MyApp.context, msg, Toast.LENGTH_SHORT)
+        toast.show()
+        sToastRef = WeakReference(toast)
     }
 }
 

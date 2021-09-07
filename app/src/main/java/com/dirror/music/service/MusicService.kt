@@ -399,7 +399,7 @@ open class MusicService : BaseMediaService() {
 
         override fun getPlaylist(): ArrayList<StandardSongData>? = PlayQueue.currentQueue.value
 
-        override fun playMusic(song: StandardSongData) {
+        override fun playMusic(song: StandardSongData, playNext: Boolean) {
             isPrepared = false
             songData.value = song
             // 保存当前播放音乐
@@ -410,7 +410,14 @@ open class MusicService : BaseMediaService() {
             mediaPlayer.reset()
             // 初始化
             mediaPlayer.apply {
-                ServiceSongUrl.getUrl(song) {
+                ServiceSongUrl.getUrlProxy(song) {
+                    if (it == null || it is String && it.isEmpty()) {
+                        if (playNext) {
+                            toast("当前歌曲不可用, 播放下一首")
+                            playNext()
+                        }
+                        return@getUrlProxy
+                    }
                     when (it) {
                         is String -> {
                             if (!InternetState.isWifi(context) && !mmkv.decodeBool(
@@ -419,7 +426,7 @@ open class MusicService : BaseMediaService() {
                                 )
                             ) {
                                 toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
-                                return@getUrl
+                                return@getUrlProxy
                             } else {
                                 setDataSource(it)
                             }
@@ -429,7 +436,7 @@ open class MusicService : BaseMediaService() {
                                 setDataSource(applicationContext, it)
                             } catch (e: Exception) {
                                 onError(mediaPlayer, -1, 0)
-                                return@getUrl
+                                return@getUrlProxy
                             }
                         }
                     }
@@ -440,16 +447,6 @@ open class MusicService : BaseMediaService() {
                 }
             }
 
-        }
-
-        private fun playMusicProxy(song: StandardSongData) {
-            if (mmkv.decodeBool(Config.AUTO_CHANGE_RESOURCE, false)
-                && PlayQueue.currentQueue.value != null
-                && personFM.value != true) {
-                playMusic(null, song, PlayQueue.currentQueue.value!!, true)
-            } else {
-                playMusic(song)
-            }
         }
 
         fun sendMusicBroadcast() {
@@ -655,7 +652,7 @@ open class MusicService : BaseMediaService() {
 
         override fun playPrevious() {
             PlayQueue.currentQueue.value?.previous(songData.value)?.let {
-                playMusicProxy(it)
+                playMusic(it)
             }
         }
 
@@ -677,7 +674,7 @@ open class MusicService : BaseMediaService() {
                 }
             }
             PlayQueue.currentQueue.value?.next(songData.value)?.let {
-                playMusicProxy(it)
+                playMusic(it)
             }
         }
 
