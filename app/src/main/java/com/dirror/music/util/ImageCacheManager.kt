@@ -3,7 +3,7 @@ package com.dirror.music.util
 import android.content.Context
 import android.os.Looper
 import android.text.TextUtils
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import java.io.File
 import java.math.BigDecimal
 import kotlin.concurrent.thread
@@ -27,8 +27,8 @@ object ImageCacheManager {
     fun clearImageCache(success: () -> Unit) {
         thread {
             try {
-                deleteFolderFile(MyApp.context.cacheDir.path + "/image_cache", true)
-                deleteFolderFile(MyApp.context.cacheDir.path + "/image_manager_disk_cache", true)
+                deleteFolderFile(App.context.cacheDir.path + "/image_cache", true)
+                deleteFolderFile(App.context.cacheDir.path + "/image_manager_disk_cache", true)
             } catch (e: Exception) {
 
             }
@@ -86,7 +86,7 @@ object ImageCacheManager {
      */
     private fun getCacheSize(cacheDirName: String): Long {
         try {
-            val file = File(MyApp.context.cacheDir.path + cacheDirName)
+            val file = File(App.context.cacheDir.path + cacheDirName)
             return getFolderSize(file)
         } catch (e: Exception) {
             e.printStackTrace()

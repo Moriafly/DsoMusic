@@ -1,7 +1,7 @@
 package com.dirror.music.util
 
 import android.os.CountDownTimer
-import com.dirror.music.MyApp
+import com.dirror.music.App
 
 class SleepTimer(millisInFuture: Long, countDownInterval: Long) : CountDownTimer(millisInFuture, countDownInterval) {
 
@@ -56,7 +56,7 @@ class SleepTimer(millisInFuture: Long, countDownInterval: Long) : CountDownTimer
          */
         @JvmStatic
         fun toggleTimer(duration: Long) {
-            val context = MyApp.context
+            val context = App.context
             val start = instance == null
             if (start) {
                 if (duration <= 0) {

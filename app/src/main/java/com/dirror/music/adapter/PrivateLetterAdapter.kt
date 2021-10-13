@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.music.netease.data.LastMsgData
 import com.dirror.music.music.netease.data.PrivateLetterData
@@ -34,7 +34,7 @@ class PrivateLetterAdapter(private val privateLetterMsgsData: ArrayList<PrivateL
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val msg = privateLetterMsgsData[position]
         holder.tvName.text = msg.fromUser.nickname
-        val picUrl = MyApp.cloudMusicManager.getPicture(msg.fromUser.avatarUrl, 48.dp())
+        val picUrl = App.cloudMusicManager.getPicture(msg.fromUser.avatarUrl, 48.dp())
         holder.ivCover.load(picUrl) {
             size(ViewSizeResolver(holder.ivCover))
             crossfade(300)

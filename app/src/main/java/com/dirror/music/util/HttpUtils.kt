@@ -1,7 +1,7 @@
 package com.dirror.music.util
 
 import android.util.Log
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.util.cache.CommonCacheInterceptor
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -11,7 +11,6 @@ import okhttp3.*
 import java.io.File
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
-import java.io.IOException
 import java.net.URL
 
 
@@ -24,7 +23,7 @@ object HttpUtils {
     const val CACHE_FORCE = "FORCE_CACHE"
     const val CACHE_UPDATE = "UPDATE_CACHE"
 
-    private val cache = Cache(File("${MyApp.context.externalCacheDir}/OKHttpCache"), 50*1024*1024L)
+    private val cache = Cache(File("${App.context.externalCacheDir}/OKHttpCache"), 50*1024*1024L)
     private val cacheControl = CacheControl.Builder().build()
 
     private val gson = Gson()
@@ -46,7 +45,7 @@ object HttpUtils {
         var iscache = false
         try {
 //            Log.d(TAG, "start get $url , thread:${Thread.currentThread()}")
-            val urlBuilder = HttpUrl.parse(url)?.newBuilder()?.addQueryParameter("realIP", MyApp.realIP)
+            val urlBuilder = HttpUrl.parse(url)?.newBuilder()?.addQueryParameter("realIP", App.realIP)
             val requestBuilder = Request.Builder().get().cacheControl(cacheControl)
             if (urlBuilder == null) {
                 requestBuilder.url(url)
@@ -114,7 +113,7 @@ object HttpUtils {
         for ((k,v) in params) {
             bodyBuilder.add(k, v)
         }
-        bodyBuilder.add("realIP", MyApp.realIP)
+        bodyBuilder.add("realIP", App.realIP)
         var str:String? = null
         var isCache = false
         try {
@@ -157,7 +156,7 @@ object HttpUtils {
 
             if (METHOD_GET == request.method()) { // GET方法
                 // 这里可以添加一些公共get参数
-                urlBuilder.addEncodedQueryParameter("realIP", MyApp.realIP)
+                urlBuilder.addEncodedQueryParameter("realIP", App.realIP)
                 val httpUrl = urlBuilder.build()
                 // 将最终的url填充到request中
                 requestBuilder.url(httpUrl)
@@ -170,7 +169,7 @@ object HttpUtils {
                         bodyBuilder.addEncoded(formBody.encodedName(i), formBody.encodedValue(i))
                     }
                 }
-                bodyBuilder.add("realIP", MyApp.realIP)
+                bodyBuilder.add("realIP", App.realIP)
                 requestBuilder.post(bodyBuilder.build())
             }
             return chain.proceed(requestBuilder.build());

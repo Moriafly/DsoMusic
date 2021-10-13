@@ -1,7 +1,7 @@
 package com.dirror.music.service
 
 import androidx.lifecycle.MutableLiveData
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.room.PlayQueueData
 import kotlinx.coroutines.GlobalScope
@@ -54,12 +54,12 @@ object PlayQueue {
      */
     private fun savePlayQueue() {
         GlobalScope.launch {
-            MyApp.appDatabase.playQueueDao().loadAll().forEach {
-                MyApp.appDatabase.playQueueDao().deleteById(it.songData.id ?: "")
+            App.appDatabase.playQueueDao().loadAll().forEach {
+                App.appDatabase.playQueueDao().deleteById(it.songData.id ?: "")
             }
             currentQueue.value?.let {
                 for (song in 0..it.lastIndex) {
-                    MyApp.appDatabase.playQueueDao().insert(PlayQueueData(it[song]))
+                    App.appDatabase.playQueueDao().insert(PlayQueueData(it[song]))
                 }
             }
         }

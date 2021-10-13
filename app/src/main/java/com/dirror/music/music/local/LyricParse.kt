@@ -1,6 +1,6 @@
 package com.dirror.music.music.local
 
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.music.qq.SearchSong
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.util.Config
@@ -16,7 +16,7 @@ object LyricParse {
      * 传入名称
      */
     fun getLyric(name: String, success: (String) -> Unit) {
-        if (MyApp.mmkv.decodeBool(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, true)) {
+        if (App.mmkv.decodeBool(Config.PARSE_INTERNET_LYRIC_LOCAL_MUSIC, true)) {
             // 调用一次 QQ 搜索
             SearchSong.search(name) {
                 if (it.isNotEmpty()) {

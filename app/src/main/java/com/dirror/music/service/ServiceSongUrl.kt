@@ -1,6 +1,6 @@
 package com.dirror.music.service
 
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.kuwo.SearchSong
 import com.dirror.music.music.netease.SongUrl
@@ -35,7 +35,7 @@ object ServiceSongUrl {
             SOURCE_NETEASE -> {
                 GlobalScope.launch {
                     if (song.neteaseInfo?.pl == 0) {
-                        if (MyApp.mmkv.decodeBool(Config.AUTO_CHANGE_RESOURCE)) {
+                        if (App.mmkv.decodeBool(Config.AUTO_CHANGE_RESOURCE)) {
                             GlobalScope.launch {
                                 val url = getUrlFromOther(song)
                                 success.invoke(url)
@@ -77,7 +77,7 @@ object ServiceSongUrl {
 
     fun getLyric(song: StandardSongData, success: (LyricViewData) -> Unit) {
         if (song.source == SOURCE_NETEASE) {
-            MyApp.cloudMusicManager.getLyric(song.id?.toLong() ?: 0) { lyric ->
+            App.cloudMusicManager.getLyric(song.id?.toLong() ?: 0) { lyric ->
                 runOnMainThread {
                     val l = LyricViewData(lyric.lrc?.lyric ?: "", lyric.tlyric?.lyric ?: "")
                     success.invoke(l)

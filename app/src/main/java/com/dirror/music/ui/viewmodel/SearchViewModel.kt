@@ -2,7 +2,7 @@ package com.dirror.music.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.util.Config
 
 /**
@@ -17,6 +17,6 @@ class SearchViewModel: ViewModel() {
     }
 
     /* 搜索引擎 */
-    var searchEngine = MutableLiveData(MyApp.mmkv.decodeInt(Config.SEARCH_ENGINE, ENGINE_NETEASE))
+    var searchEngine = MutableLiveData(App.mmkv.decodeInt(Config.SEARCH_ENGINE, ENGINE_NETEASE))
 
 }

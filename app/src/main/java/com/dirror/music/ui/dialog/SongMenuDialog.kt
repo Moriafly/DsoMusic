@@ -2,7 +2,7 @@ package com.dirror.music.ui.dialog
 
 import android.app.Activity
 import android.content.Context
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.databinding.DialogSongMenuBinding
 import com.dirror.music.manager.User
 import com.dirror.music.music.local.MyFavorite
@@ -33,7 +33,7 @@ constructor(
         binding.apply {
             // 下一首播放
             itemNextPlay.setOnClickListener {
-                MyApp.musicController.value?.addToNextPlay(songData)
+                App.musicController.value?.addToNextPlay(songData)
                 toast("成功添加到下一首播放")
                 dismiss()
             }
@@ -49,7 +49,7 @@ constructor(
                 } else {
                     when (songData.source) {
                         SOURCE_NETEASE -> {
-                            MyApp.cloudMusicManager.likeSong(songData.id?:"", {
+                            App.cloudMusicManager.likeSong(songData.id?:"", {
                                 toast("添加到我喜欢成功")
                             }, {
                                 toast("添加到我喜欢失败")
@@ -71,7 +71,7 @@ constructor(
             }
             // 歌曲评论
             itemSongComment.setOnClickListener {
-                MyApp.activityManager.startCommentActivity(activity, songData.source?: SOURCE_NETEASE, songData.id?:"")
+                App.activityManager.startCommentActivity(activity, songData.source?: SOURCE_NETEASE, songData.id?:"")
                 dismiss()
             }
             // 歌曲删除

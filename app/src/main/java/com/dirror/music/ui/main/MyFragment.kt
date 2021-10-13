@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.adapter.MyPlaylistAdapter
 import com.dirror.music.adapter.item.BlankAdapter
 import com.dirror.music.manager.User
@@ -58,7 +58,7 @@ class MyFragment : BaseFragment() {
 
         myFragmentUserAdapter = MyFragmentUserAdapter() {
             if (User.uid == 0L) {
-                MyApp.activityManager.startLoginActivity(requireActivity())
+                App.activityManager.startLoginActivity(requireActivity())
             } else {
                 startUserActivity(requireActivity(), User.uid)
             }
@@ -112,7 +112,7 @@ class MyFragment : BaseFragment() {
                     null, "立即登录", null
                 )
             } else {
-                MyApp.cloudMusicManager.getUserDetail(userId, {
+                App.cloudMusicManager.getUserDetail(userId, {
                     runOnMainThread {
                         myFragmentUserAdapter.adapterUser = MyFragmentUserAdapter.AdapterUser(
                             it.profile.avatarUrl, it.profile.nickname, it.level

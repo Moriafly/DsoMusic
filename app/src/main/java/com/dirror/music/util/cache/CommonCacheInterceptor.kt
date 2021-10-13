@@ -1,7 +1,7 @@
 package com.dirror.music.util.cache
 
 import android.util.Log
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.util.HttpUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,7 +24,7 @@ class CommonCacheInterceptor: Interceptor {
     
     companion object {
         private const val TAG = "CommonCacheInterceptor"
-        private val cacheFile = File("${MyApp.context.externalCacheDir}/LocalHttpCache")
+        private val cacheFile = File("${App.context.externalCacheDir}/LocalHttpCache")
         private val cache = Cache(cacheFile, 50*1024*1024L)
 
         fun getCacheSize(): String {

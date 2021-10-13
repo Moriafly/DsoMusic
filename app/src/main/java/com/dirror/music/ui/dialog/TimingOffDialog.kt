@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.databinding.DialogTimingOffBinding
 import com.dirror.music.service.SimpleWorker
@@ -29,7 +29,7 @@ class TimingOffDialog (context: Context) : BottomSheetDialog(context, R.style.st
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.apply {
-            when(MyApp.musicController.value?.getCurrentRight()){
+            when(App.musicController.value?.getCurrentRight()){
                 0 -> time0.setRight()
                 10 -> time10.setRight()
                 20 -> time20.setRight()
@@ -37,7 +37,7 @@ class TimingOffDialog (context: Context) : BottomSheetDialog(context, R.style.st
                 45 -> time45.setRight()
                 60 -> time60.setRight()
                 10086 -> {
-                    val time = MyApp.musicController.value?.getCurrentCustom()
+                    val time = App.musicController.value?.getCurrentCustom()
                     if (time != 0 && time != null){
                         if (time /60 != 0 ){
                             timeCustom.setTitle("自定义（${time/60}小时${time%60}分钟后）")
@@ -49,8 +49,8 @@ class TimingOffDialog (context: Context) : BottomSheetDialog(context, R.style.st
                 }
             }
             time0.setOnClickListener {
-                MyApp.musicController.value?.setCurrentRight(0)
-                MyApp.musicController.value?.setCurrentCustom(0)
+                App.musicController.value?.setCurrentRight(0)
+                App.musicController.value?.setCurrentCustom(0)
                 Toast.makeText(context, "定时停止播放已取消", Toast.LENGTH_SHORT).show()
                 dismiss()
             }
@@ -60,25 +60,25 @@ class TimingOffDialog (context: Context) : BottomSheetDialog(context, R.style.st
             time45.setOnClickListener { chooseThisOne(45) }
             time60.setOnClickListener { chooseThisOne(60) }
             timeCustom.setOnClickListener {
-                MyApp.musicController.value?.setCurrentRight(10086)
+                App.musicController.value?.setCurrentRight(10086)
                 dismiss()
                 CustomTimeFragment().show(PlayerViewModel.fragmentManager,"android")
             }
-            switcherTimingOff.setChecked(MyApp.musicController.value?.getTimingOffMode() == true)
+            switcherTimingOff.setChecked(App.musicController.value?.getTimingOffMode() == true)
             switcherTimingOff.setOnCheckedChangeListener {
                 if (it){
                     timingOffMode.setTextColor(Color.BLACK)
                 }else{
                     timingOffMode.setTextColor(Color.GRAY)
                 }
-                MyApp.musicController.value?.setTimingOffMode(it)
+                App.musicController.value?.setTimingOffMode(it)
             }
         }
 
     }
     private fun chooseThisOne(int: Int){
-        MyApp.musicController.value?.setCurrentRight(int)
-        MyApp.musicController.value?.setCurrentCustom(int)
+        App.musicController.value?.setCurrentRight(int)
+        App.musicController.value?.setCurrentCustom(int)
         Toast.makeText(context, "设置成功，将于$int 分钟后关闭 ", Toast.LENGTH_SHORT).show()
 
         val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java).setInitialDelay((int).toLong(), TimeUnit.MINUTES)

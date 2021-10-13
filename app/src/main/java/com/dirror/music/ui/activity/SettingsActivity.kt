@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Build
 import android.provider.MediaStore
 import android.view.View
-import com.dirror.music.MyApp.Companion.mmkv
-import com.dirror.music.MyApp.Companion.musicController
+import com.dirror.music.App.Companion.mmkv
+import com.dirror.music.App.Companion.musicController
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.live.NeteaseCloudMusicApiActivity

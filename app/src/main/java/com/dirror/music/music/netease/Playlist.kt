@@ -2,8 +2,6 @@ package com.dirror.music.music.netease
 
 import android.content.Context
 import android.util.Log
-import com.dirror.music.MyApp
-import com.dirror.music.api.API_AUTU
 import com.dirror.music.api.API_MUSIC_ELEUU
 import com.dirror.music.manager.User
 import com.dirror.music.music.compat.CompatSearchData
@@ -19,7 +17,6 @@ import org.jetbrains.annotations.TestOnly
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
-import java.io.Reader
 import java.util.concurrent.TimeUnit
 
 /**

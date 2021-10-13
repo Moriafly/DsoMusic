@@ -1,7 +1,7 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.databinding.ActivityLoginByUidBinding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.toast
@@ -34,7 +34,7 @@ class LoginByUidActivity : BaseActivity() {
                 netease = keepDigital(netease)
                 // loge("数字：${netease}")
                 if (netease != "") {
-                    MyApp.cloudMusicManager.loginByUid(netease) {
+                    App.cloudMusicManager.loginByUid(netease) {
                         // 发送广播
                         val intent = Intent("com.dirror.music.LOGIN")
                         intent.setPackage(packageName)
@@ -54,7 +54,7 @@ class LoginByUidActivity : BaseActivity() {
 
         // 帮助
         binding.tvHelp.setOnClickListener {
-            MyApp.activityManager.startWebActivity(this, "https://moriafly.xyz/foyou/uidlogin.html")
+            App.activityManager.startWebActivity(this, "https://moriafly.xyz/foyou/uidlogin.html")
         }
     }
 

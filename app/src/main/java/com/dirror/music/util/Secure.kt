@@ -6,7 +6,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build.VERSION
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import org.jetbrains.annotations.TestOnly
 
 /**
@@ -23,7 +23,7 @@ object Secure {
 
     private const val SKIP_DEBUG_MODE = true // Debug 模式下是否跳过安全检查
 
-    val context = MyApp.context
+    val context = App.context
 
     private fun getSignatureHash(): Int {
         return -1550371158
@@ -67,7 +67,7 @@ object Secure {
      */
     @SuppressLint("PackageManagerGetSignatures")
     private fun getSignature(): Int {
-        val packageManager = MyApp.context.packageManager
+        val packageManager = App.context.packageManager
         var signature = 0
         try {
             signature = if (VERSION.SDK_INT >= 28) {

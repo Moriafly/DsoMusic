@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.databinding.DialogSongInfoBinding
 import com.dirror.music.music.dirror.SearchSong
@@ -41,7 +41,7 @@ class SongInfoDialog(
             songData.let {
                 when (it.source) {
                     SOURCE_NETEASE -> {
-                        MyApp.cloudMusicManager.getSongInfo(it.id ?: "") { data ->
+                        App.cloudMusicManager.getSongInfo(it.id ?: "") { data ->
                             runOnMainThread {
                                 if (SearchSong.getDirrorSongUrl(it.id ?: "") != "") {
                                     binding.valueViewSource.setValue("Dirror 音乐")

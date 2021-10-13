@@ -3,7 +3,7 @@ package com.dirror.music.ui.player
 import coil.load
 import coil.size.ViewSizeResolver
 import coil.transform.BlurTransformation
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivitySongCoverBinding
 import com.dirror.music.ui.base.BaseActivity
@@ -19,7 +19,7 @@ class SongCoverActivity : BaseActivity() {
 
     override fun initView() {
         with(binding) {
-            MyApp.musicController.value?.getPlayerCover()?.value?.let {
+            App.musicController.value?.getPlayerCover()?.value?.let {
                 // 设置 背景 图片
                 binding.ivBackground.load(it) {
                     size(ViewSizeResolver(binding.ivBackground))

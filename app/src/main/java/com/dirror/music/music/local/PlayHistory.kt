@@ -1,7 +1,7 @@
 package com.dirror.music.music.local
 
 import android.os.Parcelable
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.util.Config
 import kotlinx.parcelize.Parcelize
@@ -24,7 +24,7 @@ object PlayHistory {
             playHistory.list.add(0, songData)
             // playlist.add(songData)
         }
-        MyApp.mmkv.encode(Config.PLAY_HISTORY, playHistory)
+        App.mmkv.encode(Config.PLAY_HISTORY, playHistory)
 
     }
 
@@ -32,7 +32,7 @@ object PlayHistory {
      * 读取播放历史
      */
     suspend fun readPlayHistory(): ArrayList<StandardSongData> {
-        playHistory = MyApp.mmkv.decodeParcelable(Config.PLAY_HISTORY, PlayHistoryData::class.java, PlayHistoryData(
+        playHistory = App.mmkv.decodeParcelable(Config.PLAY_HISTORY, PlayHistoryData::class.java, PlayHistoryData(
             ArrayList()
         ))
         return playHistory.list

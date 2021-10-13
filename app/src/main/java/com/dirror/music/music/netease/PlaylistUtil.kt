@@ -1,9 +1,7 @@
 package com.dirror.music.music.netease
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
-import com.dirror.music.MyApp
 import com.dirror.music.api.*
 import com.dirror.music.data.DetailPlaylistData
 import com.dirror.music.data.DetailPlaylistInnerData

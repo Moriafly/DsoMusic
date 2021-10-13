@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.data.PlaylistData
 import com.dirror.music.util.dp
@@ -64,7 +64,7 @@ class MyPlaylistAdapter
 //                clTrack.background = R.drawable.bg_card_item.asDrawable(clTrack.context)
 //            }
 
-            val url = MyApp.cloudMusicManager.getPicture(playlist.coverImgUrl, 56.dp())
+            val url = App.cloudMusicManager.getPicture(playlist.coverImgUrl, 56.dp())
             ivCover.load(url) {
                 allowHardware(false)
                 size(ViewSizeResolver(ivCover))

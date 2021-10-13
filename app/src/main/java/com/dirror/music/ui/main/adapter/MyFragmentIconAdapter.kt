@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.manager.User
 import com.dirror.music.startLocalMusicActivity
@@ -63,11 +63,11 @@ class MyFragmentIconAdapter(val context: Context): RecyclerView.Adapter<MyFragme
             clPersonalFM.setOnClickListener {
                 AnimationUtil.click(it)
                 if (User.hasCookie) {
-                    if (MyApp.musicController.value?.personFM?.value != true) {
-                        MyApp.musicController.value?.setPersonFM(true)
-                        MyApp.activityManager.startPlayerActivity(context as Activity)
+                    if (App.musicController.value?.personFM?.value != true) {
+                        App.musicController.value?.setPersonFM(true)
+                        App.activityManager.startPlayerActivity(context as Activity)
                     } else {
-                        MyApp.activityManager.startPlayerActivity(context as Activity)
+                        App.activityManager.startPlayerActivity(context as Activity)
                     }
                 } else {
                     ErrorCode.toast(ErrorCode.ERROR_NOT_COOKIE)

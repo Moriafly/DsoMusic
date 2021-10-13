@@ -3,8 +3,8 @@ package com.dirror.music.service
 import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
-import com.dirror.music.MyApp
-import com.dirror.music.MyApp.Companion.musicController
+import com.dirror.music.App
+import com.dirror.music.App.Companion.musicController
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.room.toSongList
 import com.dirror.music.util.Config
@@ -23,9 +23,9 @@ class MusicServiceConnection : ServiceConnection {
         musicController.value = p1 as MusicService.MusicController
         thread {
             // 恢复 SongData
-            val recoverSong = MyApp.mmkv.decodeParcelable(Config.SERVICE_CURRENT_SONG, StandardSongData::class.java)
-            val recoverProgress = MyApp.mmkv.decodeInt(Config.SERVICE_RECOVER_PROGRESS, 0)
-            val recoverPlayQueue = MyApp.appDatabase.playQueueDao().loadAll().toSongList()
+            val recoverSong = App.mmkv.decodeParcelable(Config.SERVICE_CURRENT_SONG, StandardSongData::class.java)
+            val recoverProgress = App.mmkv.decodeInt(Config.SERVICE_RECOVER_PROGRESS, 0)
+            val recoverPlayQueue = App.appDatabase.playQueueDao().loadAll().toSongList()
             recoverSong?.let { song ->
                 // recover = true
                 if (recoverSong in recoverPlayQueue) {

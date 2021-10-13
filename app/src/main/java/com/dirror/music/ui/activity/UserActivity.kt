@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.constraintlayout.widget.ConstraintLayout
 import coil.load
 import coil.size.ViewSizeResolver
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.databinding.ActivityUserBinding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.getStatusBarHeight
@@ -33,7 +33,7 @@ class UserActivity : BaseActivity() {
 
         val userId = intent.getLongExtra(EXTRA_LONG_USER_ID, 0L)
         // toast("userId = $userId")
-        MyApp.cloudMusicManager.getUserDetail(userId, {
+        App.cloudMusicManager.getUserDetail(userId, {
             runOnMainThread {
                 it.profile.backgroundUrl?.let { it1 ->
                     binding.ivBackground.load(it1) {

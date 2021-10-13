@@ -1,6 +1,6 @@
 package com.dirror.music.ui.activity
 
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.databinding.ActivityArtistBinding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.runOnMainThread
@@ -24,7 +24,7 @@ class ArtistActivity : BaseActivity() {
 
     override fun initView() {
         val artistId = intent.getLongExtra(EXTRA_LONG_ARTIST_ID, DEFAULT_ARTIST_ID)
-        MyApp.cloudMusicManager.getArtists(artistId) {
+        App.cloudMusicManager.getArtists(artistId) {
             runOnMainThread {
                 binding.titleBar.setTitleBarText(it.artist.name)
                 val description = it.artist.briefDesc

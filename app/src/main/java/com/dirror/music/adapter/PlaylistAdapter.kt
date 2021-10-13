@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardPlaylist
 import com.dirror.music.util.dp
@@ -47,7 +47,7 @@ class PlaylistAdapter (private val itemClickListener: (StandardPlaylist) -> Unit
             val playlist = getItem(position)
             selectPlaylist = playlist
 
-            val url = MyApp.cloudMusicManager.getPicture(playlist.coverImgUrl, 80.dp())
+            val url = App.cloudMusicManager.getPicture(playlist.coverImgUrl, 80.dp())
             ivCover.load(url) {
                 allowHardware(false)
                 size(ViewSizeResolver(ivCover))

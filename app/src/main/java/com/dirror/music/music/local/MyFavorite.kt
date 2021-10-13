@@ -1,6 +1,6 @@
 package com.dirror.music.music.local
 
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.room.MyFavoriteData
 import com.dirror.music.util.toast
@@ -12,7 +12,7 @@ import kotlin.concurrent.thread
  */
 object MyFavorite {
 
-    private val myFavoriteDao = MyApp.appDatabase.myFavoriteDao()
+    private val myFavoriteDao = App.appDatabase.myFavoriteDao()
 
     /**
      * 读取本地歌曲

@@ -32,7 +32,6 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
-import androidx.multidex.MultiDex
 import com.dirror.music.manager.ActivityManager
 import com.dirror.music.manager.CloudMusicManager
 import com.dirror.music.room.AppDatabase
@@ -47,24 +46,23 @@ import java.util.*
 import kotlin.coroutines.EmptyCoroutineContext
 
 /**
- * 自定义 Application
+ * Dso Music App
  *
  * @author Moriafly
- * @since 2021年7月13日
+ * @since 2021-7-13
  */
 @Keep
-class MyApp : Application() {
+@SuppressLint("StaticFieldLeak")
+class App : Application() {
 
     companion object {
 
-        const val UM_APP_KEY = "5fb38e09257f6b73c0961382"
+        private val TAG = this::class.java.simpleName
 
-        private const val TAG = "MyApp"
+        const val UM_APP_KEY = "5fb38e09257f6b73c0961382"
 
         lateinit var mmkv: MMKV
 
-        /** 注入懒加载 全局 context */
-        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
 
         var musicController = MutableLiveData<MusicService.MusicController?>()
@@ -78,14 +76,10 @@ class MyApp : Application() {
 
         val coroutineScope = CoroutineScope(EmptyCoroutineContext)
 
-        // 数据库
+        /** 数据库 */
         lateinit var appDatabase: AppDatabase
-        lateinit var realIP: String
-    }
 
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
+        lateinit var realIP: String
     }
 
     override fun onCreate() {
@@ -106,17 +100,17 @@ class MyApp : Application() {
         if (mmkv.decodeBool(Config.DARK_THEME, false)) {
             DarkThemeUtil.setDarkTheme(true)
         }
-        realIP = "175.16.1.195"
 
-        GlobalScope.launch {
+        realIP = "175.16.1.195"
+        coroutineScope.launch {
             val lastIP = "LAST_IP"
-            val lastIPExpiredTime = "LAST_IP_TIME"//过期时间
+            val lastIPExpiredTime = "LAST_IP_TIME" // 过期时间
             val ip = mmkv.decodeString(lastIP, "")
             val now = System.currentTimeMillis()
             val expiredTime = mmkv.decodeLong(lastIPExpiredTime, now)
             if (ip == null || ip.isEmpty() || expiredTime < now) {
                 Log.i(TAG, "ip is expired.")
-                realIP = ChineseIPData.getRandomIP(this@MyApp)
+                realIP = ChineseIPData.getRandomIP(this@App)
                 mmkv.encode(lastIP, realIP)
                 mmkv.encode(lastIPExpiredTime, now + 24 * 60 * 60 * 1000)
             } else{

@@ -52,7 +52,7 @@ import coil.size.ViewSizeResolver
 import coil.transform.BlurTransformation
 import com.dirror.lyricviewx.OnPlayClickListener
 import com.dirror.lyricviewx.OnSingleClickListener
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.audio.VolumeManager
 import com.dirror.music.databinding.ActivityPlayerBinding
@@ -107,7 +107,7 @@ class PlayerActivity : SlideBackActivity() {
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             if (msg.what == MSG_PROGRESS) {
-                if (MyApp.musicController.value?.isPlaying()?.value == true) {
+                if (App.musicController.value?.isPlaying()?.value == true) {
                     playViewModel.refreshProgress()
                 }
             }
@@ -141,7 +141,7 @@ class PlayerActivity : SlideBackActivity() {
         } else {
             playViewModel.normalColor.value = Color.rgb(50, 50, 50)
         }
-        if (MyApp.mmkv.decodeBool(Config.NETEASE_GOOD_COMMENTS, true)) {
+        if (App.mmkv.decodeBool(Config.NETEASE_GOOD_COMMENTS, true)) {
             binding.ivComment.visibility = View.VISIBLE
         } else {
             binding.ivComment.visibility = View.GONE
@@ -208,9 +208,9 @@ class PlayerActivity : SlideBackActivity() {
             }
             // 评论
             ivComment.setOnClickListener {
-                MyApp.musicController.value?.getPlayingSongData()?.value?.let {
+                App.musicController.value?.getPlayingSongData()?.value?.let {
                     if (it.source != SOURCE_LOCAL) {
-                        MyApp.activityManager.startCommentActivity(
+                        App.activityManager.startCommentActivity(
                             this@PlayerActivity,
                             it.source ?: SOURCE_NETEASE,
                             it.id ?: ""
@@ -292,11 +292,11 @@ class PlayerActivity : SlideBackActivity() {
             // 艺术家
             tvArtist.setOnClickListener {
                 // 测试
-                MyApp.musicController.value?.getPlayingSongData()?.value?.let { standardSongData ->
+                App.musicController.value?.getPlayingSongData()?.value?.let { standardSongData ->
                     if (standardSongData.source == SOURCE_NETEASE) {
                         standardSongData.artists?.let {
                             it[0].artistId?.let { artistId ->
-                                MyApp.activityManager.startArtistActivity(this@PlayerActivity, artistId)
+                                App.activityManager.startArtistActivity(this@PlayerActivity, artistId)
                             }
                         }
                     } else {
@@ -376,7 +376,7 @@ class PlayerActivity : SlideBackActivity() {
 
 
     override fun initObserver() {
-        MyApp.musicController.observe(this@PlayerActivity, { nullableController ->
+        App.musicController.observe(this@PlayerActivity, { nullableController ->
             nullableController?.let { controller ->
                 // 当前歌曲的观察
                 controller.getPlayingSongData().observe(this@PlayerActivity, {

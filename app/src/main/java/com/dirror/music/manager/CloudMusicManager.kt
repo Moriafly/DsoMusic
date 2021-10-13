@@ -2,7 +2,7 @@ package com.dirror.music.manager
 
 import android.util.Log
 import androidx.annotation.Keep
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.api.*
 import com.dirror.music.data.CommentData
 import com.dirror.music.music.netease.data.*
@@ -233,7 +233,7 @@ class CloudMusicManager {
 
     fun loginByUid(uid: String, success: () -> Unit) {
         getUserDetail(uid, {
-            MyApp.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
+            App.mmkv.encode(Config.UID, it.profile?.userId!!.toLong())
             // UID 登录清空 Cookie
             User.cookie = ""
             success.invoke()

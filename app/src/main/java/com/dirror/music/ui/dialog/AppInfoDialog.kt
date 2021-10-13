@@ -3,7 +3,7 @@ package com.dirror.music.ui.dialog
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.databinding.DialogTextInfoBinding
 import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
 import com.dirror.music.room.AppDatabase
@@ -26,7 +26,7 @@ class AppInfoDialog(context: Context) : BaseBottomSheetDialog(context) {
         super.initView()
 
         binding.apply {
-            tvText.typeface = defaultTypeface(MyApp.context)
+            tvText.typeface = defaultTypeface(App.context)
             tvText.text = """
                 [app.build   ] ${getVisionCode()}
                 [is debug    ] ${Secure.isDebug()}
@@ -35,7 +35,7 @@ class AppInfoDialog(context: Context) : BaseBottomSheetDialog(context) {
                 [model       ] ${Build.MODEL}
                 [android.ver ] ${Build.VERSION.RELEASE}
                 [android.sdk ] ${Build.VERSION.SDK_INT}
-                [dex.crc     ] ${SkySecure.getDexCrc(MyApp.context)}
+                [dex.crc     ] ${SkySecure.getDexCrc(App.context)}
                 [name.md5    ] ${SkySecure.getMD5("com.dirror.music")}
             """.trimIndent()
         }

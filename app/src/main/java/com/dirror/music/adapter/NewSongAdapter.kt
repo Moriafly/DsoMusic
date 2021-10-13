@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.ViewSizeResolver
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.player.PlayerActivity
@@ -62,9 +62,9 @@ class NewSongAdapter(private val songDataList: ArrayList<StandardSongData>): Rec
      */
     private fun playMusic(songData: StandardSongData, view: View?) {
         // 歌单相同
-        if (MyApp.musicController.value?.getPlaylist() == songDataList) {
+        if (App.musicController.value?.getPlaylist() == songDataList) {
             // position 相同
-            if (songData == MyApp.musicController.value?.getPlayingSongData()?.value) {
+            if (songData == App.musicController.value?.getPlayingSongData()?.value) {
                 if (view != null) {
                     view.context.startActivity(Intent(view.context, PlayerActivity::class.java))
                     (view.context as Activity).overridePendingTransition(
@@ -73,13 +73,13 @@ class NewSongAdapter(private val songDataList: ArrayList<StandardSongData>): Rec
                     )
                 }
             } else {
-                MyApp.musicController.value?.playMusic(songData)
+                App.musicController.value?.playMusic(songData)
             }
         } else {
             // 设置歌单
-            MyApp.musicController.value?.setPlaylist(songDataList)
+            App.musicController.value?.setPlaylist(songDataList)
             // 播放歌单
-            MyApp.musicController.value?.playMusic(songData)
+            App.musicController.value?.playMusic(songData)
         }
     }
 

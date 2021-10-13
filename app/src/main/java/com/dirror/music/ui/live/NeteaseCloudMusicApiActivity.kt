@@ -1,6 +1,6 @@
 package com.dirror.music.ui.live
 
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.databinding.ActivityNeteaseCloudMusicApiBinding
 import com.dirror.music.ui.activity.SettingsActivity
 import com.dirror.music.ui.base.BaseActivity
@@ -23,15 +23,15 @@ class NeteaseCloudMusicApiActivity : BaseActivity() {
 
     override fun initView() {
         with(binding) {
-            switcherEnableService.setChecked(MyApp.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false))
-            etService.setText(MyApp.mmkv.decodeString(Config.USER_NETEASE_CLOUD_MUSIC_API_URL, ""))
+            switcherEnableService.setChecked(App.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false))
+            etService.setText(App.mmkv.decodeString(Config.USER_NETEASE_CLOUD_MUSIC_API_URL, ""))
         }
     }
 
     override fun initListener() {
         with(binding) {
             switcherEnableService.setOnCheckedChangeListener {
-                MyApp.mmkv.encode(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, it)
+                App.mmkv.encode(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, it)
             }
             itemNeteaseCloudMusicApiGithub.setOnClickListener {
                 openUrlByBrowser(this@NeteaseCloudMusicApiActivity, URL_NETEASE_CLOUD_MUSIC_API)
@@ -41,7 +41,7 @@ class NeteaseCloudMusicApiActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
-        MyApp.mmkv.encode(Config.USER_NETEASE_CLOUD_MUSIC_API_URL, binding.etService.text.toString())
+        App.mmkv.encode(Config.USER_NETEASE_CLOUD_MUSIC_API_URL, binding.etService.text.toString())
         BroadcastUtil.send(this, SettingsActivity.ACTION)
     }
 

@@ -15,7 +15,7 @@ import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.dirror.music.BuildConfig
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
 import java.lang.ref.WeakReference
 
@@ -39,7 +39,7 @@ var sToastRef: WeakReference<Toast>? = null
 fun toast(msg: String) {
     runOnMainThread {
         sToastRef?.get()?.cancel()
-        val toast = Toast.makeText(MyApp.context, msg, Toast.LENGTH_SHORT)
+        val toast = Toast.makeText(App.context, msg, Toast.LENGTH_SHORT)
         toast.show()
         sToastRef = WeakReference(toast)
     }
@@ -67,7 +67,7 @@ fun loge(msg: String, tag: String = "Default") {
 /**
  * dp 转 px
  */
-fun dp2px(dp: Float): Float = dp * MyApp.context.resources.displayMetrics.density
+fun dp2px(dp: Float): Float = dp * App.context.resources.displayMetrics.density
 
 /**
  * 获取系统当前时间

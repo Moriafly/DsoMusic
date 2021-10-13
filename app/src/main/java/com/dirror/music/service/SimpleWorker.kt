@@ -6,13 +6,13 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.util.runOnMainThread
 import java.util.concurrent.TimeUnit
 
 class SimpleWorker(context: Context, params : WorkerParameters) : Worker(context , params){
     override fun doWork(): Result {
-        MyApp.musicController.value?.apply {
+        App.musicController.value?.apply {
             val nowPlayState = isPlaying().value ?: false
             if (nowPlayState) {
                 if (getTimingOffMode()){
@@ -36,7 +36,7 @@ class SimpleWorker(context: Context, params : WorkerParameters) : Worker(context
     }
 
     private fun pauseAndRefresh(){
-        MyApp.musicController.value?.apply{
+        App.musicController.value?.apply{
             runOnMainThread{
                 pause()
             }

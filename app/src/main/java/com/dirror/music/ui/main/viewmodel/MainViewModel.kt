@@ -2,7 +2,7 @@ package com.dirror.music.ui.main.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.manager.User
 import com.dirror.music.util.Config
 
@@ -28,14 +28,14 @@ class MainViewModel: ViewModel() {
      * 网易登录后才可见
      */
     val neteaseLiveVisibility = MutableLiveData<Boolean>().also {
-        it.value = MyApp.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
+        it.value = App.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
     }
 
     /**
      * 句子推荐可见性
      */
     var sentenceVisibility = MutableLiveData<Boolean>().also {
-        it.value = MyApp.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)
+        it.value = App.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)
     }
 
     /**
@@ -49,8 +49,8 @@ class MainViewModel: ViewModel() {
      * 刷新 UI
      */
     fun updateUI() {
-        neteaseLiveVisibility.value = MyApp.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
-        sentenceVisibility.value = MyApp.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)
+        neteaseLiveVisibility.value = App.mmkv.decodeBool(Config.USER_NETEASE_CLOUD_MUSIC_API_ENABLE, false)
+        sentenceVisibility.value = App.mmkv.decodeBool(Config.SENTENCE_RECOMMEND, true)
     }
 
 }

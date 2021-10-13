@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.service.SimpleWorker
 import com.dirror.music.ui.wheelView.MyData
@@ -63,7 +63,7 @@ class CustomTimeFragment : DialogFragment() {
         confirmView.setOnClickListener {
             val hour = hourView.currentItem
             val minute = minuteView.currentItem
-            MyApp.musicController.value?.setCurrentCustom(hour * 60 + minute)
+            App.musicController.value?.setCurrentCustom(hour * 60 + minute)
 
             val request = OneTimeWorkRequest.Builder(SimpleWorker::class.java).setInitialDelay((hour * 60 + minute).toLong(), TimeUnit.MINUTES)
                     .addTag("lbccc").build()

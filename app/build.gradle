@@ -98,7 +98,6 @@ dependencies {
     implementation 'com.github.team403:DsoKotlinExtensions:1.0.2'
     implementation 'com.bitvale:switcher:1.1.1'
     implementation 'io.coil-kt:coil:1.4.0'
-    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
     implementation "com.leinardi.android:speed-dial:3.2.0"
 }

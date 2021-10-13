@@ -1,7 +1,7 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.databinding.ActivityAgreementBinding
 import com.dirror.music.manager.ActivityCollector
 import com.dirror.music.ui.base.BaseActivity
@@ -36,7 +36,7 @@ class AgreementActivity : BaseActivity() {
         binding.btnAgree.setOnClickListener {
             val key = binding.etKey.text.toString()
             if (key == "我同意") {
-                MyApp.mmkv.encode(Config.SHOW_AGREEMENT, false)
+                App.mmkv.encode(Config.SHOW_AGREEMENT, false)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -46,7 +46,7 @@ class AgreementActivity : BaseActivity() {
         }
 
         binding.btnExit.setOnClickListener {
-            MyApp.musicController.value?.stopMusicService()
+            App.musicController.value?.stopMusicService()
             ActivityCollector.finishAll()
 
             object : Thread() {

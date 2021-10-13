@@ -1,7 +1,7 @@
 package com.dirror.music.ui.activity
 
 import android.content.Intent
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityAboutBinding
 import com.dirror.music.service.test.TestMediaCodeInfo
@@ -52,10 +52,10 @@ class AboutActivity : BaseActivity() {
             // 检查更新
             itemCheckForUpdates.setOnClickListener { UpdateUtil.checkNewVersion(this@AboutActivity, true) }
             // 更新日志
-            itemUpdateLog.setOnClickListener { MyApp.activityManager.startWebActivity(this@AboutActivity, UPDATE_LOG) }
+            itemUpdateLog.setOnClickListener { App.activityManager.startWebActivity(this@AboutActivity, UPDATE_LOG) }
             // 源代码
             itemSourceCode.setOnClickListener {
-                MyApp.activityManager.startWebActivity(this@AboutActivity, "https://github.com/Moriafly/DsoMusic", getString(R.string.source_code))
+                App.activityManager.startWebActivity(this@AboutActivity, "https://github.com/Moriafly/DsoMusic", getString(R.string.source_code))
             }
             // 使用开源项目
             itemOpenSourceCode.setOnClickListener { startActivity(Intent(this@AboutActivity, OpenSourceActivity::class.java)) }
@@ -71,7 +71,7 @@ class AboutActivity : BaseActivity() {
 
             moriafly.setOnLongClickListener {
                 toast("Moriafly settings reset")
-                MyApp.mmkv.encode(Config.SHOW_AGREEMENT, true)
+                App.mmkv.encode(Config.SHOW_AGREEMENT, true)
                 return@setOnLongClickListener true
             }
         }

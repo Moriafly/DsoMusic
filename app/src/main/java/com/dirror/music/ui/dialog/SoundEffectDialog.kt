@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.media.audiofx.AudioEffect
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.databinding.DialogSoundEffectBinding
 import com.dirror.music.ui.base.BaseBottomSheetDialog
 import com.dirror.music.util.toast
@@ -20,7 +20,7 @@ class SoundEffectDialog(context: Context, private val activity: Activity): BaseB
     }
 
     override fun initView() {
-        speed = MyApp.musicController.value?.getSpeed() ?: 1f
+        speed = App.musicController.value?.getSpeed() ?: 1f
         refreshPitch()
     }
 
@@ -32,7 +32,7 @@ class SoundEffectDialog(context: Context, private val activity: Activity): BaseB
                     // 参考 https://www.cnblogs.com/dongweiq/p/7998445.html
                     val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
                     // 传入 AudioSessionId
-                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MyApp.musicController.value?.getAudioSessionId())
+                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, App.musicController.value?.getAudioSessionId())
                     // 调用应用程序必须使用 startActivityForResult 方法启动控制面板，以便控制面板应用程序指示其包名称并用于跟踪此特定应用程序的更改
                     activity.startActivityForResult(intent, 666)
                 } catch (e: Exception) {
@@ -41,11 +41,11 @@ class SoundEffectDialog(context: Context, private val activity: Activity): BaseB
                 dismiss()
             }
             ivIncreasePitch.setOnClickListener {
-                MyApp.musicController.value?.increasePitchLevel()
+                App.musicController.value?.increasePitchLevel()
                 refreshPitch()
             }
             ivDecreasePitch.setOnClickListener {
-                MyApp.musicController.value?.decreasePitchLevel()
+                App.musicController.value?.decreasePitchLevel()
                 refreshPitch()
             }
         }
@@ -55,7 +55,7 @@ class SoundEffectDialog(context: Context, private val activity: Activity): BaseB
      * 刷新 Pitch
      */
     private fun refreshPitch() {
-        binding.tvPitch.text = MyApp.musicController.value?.getPitchLevel().toString()
+        binding.tvPitch.text = App.musicController.value?.getPitchLevel().toString()
     }
 
 }

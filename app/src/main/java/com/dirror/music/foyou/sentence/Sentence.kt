@@ -2,7 +2,7 @@ package com.dirror.music.foyou.sentence
 
 import androidx.annotation.Keep
 import com.dirror.music.foyou.sentence.foyoulibrary.FoyouLibrary
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.util.InternetState
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
@@ -12,7 +12,7 @@ object Sentence {
      * 获取句子
      */
     fun getSentence(success: (SentenceData) -> Unit) {
-        if (InternetState.isInternetAvailable(MyApp.context)) { // 有网络
+        if (InternetState.isInternetAvailable(App.context)) { // 有网络
             when ((1..5).random()) {
                 in 1..3 -> getHitokotoLibrarySentence() {
                     success.invoke(it)

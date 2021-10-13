@@ -1,6 +1,5 @@
 package com.dirror.music.music.netease
 
-import com.dirror.music.MyApp
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.UserCloudData

@@ -2,13 +2,11 @@ package com.dirror.music.ui.activity
 
 import android.content.Intent
 import android.graphics.Typeface
-import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.databinding.ActivityLogin3Binding
 import com.dirror.music.manager.User
 import com.dirror.music.ui.base.BaseActivity
-import com.dirror.music.util.Config
 import com.dirror.music.util.getStatusBarHeight
 import com.dirror.music.util.toast
 
@@ -55,11 +53,11 @@ class LoginActivity3 : BaseActivity() {
             btnCancel.setOnClickListener { finish() }
             // 手机号登录
             btnLoginByPhone.setOnClickListener {
-                MyApp.activityManager.startLoginByPhoneActivity(this@LoginActivity3)
+                App.activityManager.startLoginByPhoneActivity(this@LoginActivity3)
             }
             // UID 登录
             btnLoginByUid.setOnClickListener {
-                MyApp.activityManager.startLoginByUidActivity(this@LoginActivity3)
+                App.activityManager.startLoginByUidActivity(this@LoginActivity3)
             }
             //二维码登录
             btnLoginByQRCode.setOnClickListener {

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.adapter.PlaylistDialogAdapter
 import com.dirror.music.databinding.DialogPlayListBinding
@@ -33,17 +33,17 @@ class PlaylistDialog: BottomSheetDialogFragment() {
         super.onActivityCreated(savedInstanceState)
 
         // binding.root.setBackgroundColor(resources.getColor(android.R.color.transparent))
-        MyApp.musicController.value?.getPlaylist()?.let {
+        App.musicController.value?.getPlaylist()?.let {
             binding.rvPlaylist.adapter = PlaylistDialogAdapter(it)
             binding.tvPlaylist.text = this.context?.getString(R.string.playlist_number, it.size)
-            binding.rvPlaylist.scrollToPosition(MyApp.musicController.value?.getNowPosition() ?: 0)
+            binding.rvPlaylist.scrollToPosition(App.musicController.value?.getNowPosition() ?: 0)
         }
         binding.rvPlaylist.layoutManager = LinearLayoutManager(context)
-        MyApp.musicController.value?.getPlayingSongData()?.observe(this, {
-            MyApp.musicController.value?.getPlaylist()?.let {
+        App.musicController.value?.getPlayingSongData()?.observe(this, {
+            App.musicController.value?.getPlaylist()?.let {
                 binding.rvPlaylist.adapter = PlaylistDialogAdapter(it)
                 binding.tvPlaylist.text = this.context?.getString(R.string.playlist_number, it.size)
-                binding.rvPlaylist.scrollToPosition(MyApp.musicController.value?.getNowPosition() ?: 0)
+                binding.rvPlaylist.scrollToPosition(App.musicController.value?.getNowPosition() ?: 0)
             }
         })
     }

@@ -25,12 +25,10 @@
 package com.dirror.music.manager
 
 import android.os.Parcelable
-import com.dirror.music.MyApp.Companion.mmkv
+import com.dirror.music.App.Companion.mmkv
 import com.dirror.music.music.netease.data.UserDetailData
 import com.dirror.music.util.Config
 import com.dirror.music.util.EMPTY
-import com.dirror.music.util.toast
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 // @IgnoredOnParcel

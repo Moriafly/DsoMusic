@@ -43,11 +43,10 @@ import androidx.lifecycle.MutableLiveData
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.dirror.lyricviewx.LyricEntry
-import com.dirror.music.MyApp
-import com.dirror.music.MyApp.Companion.context
-import com.dirror.music.MyApp.Companion.mmkv
+import com.dirror.music.App
+import com.dirror.music.App.Companion.context
+import com.dirror.music.App.Companion.mmkv
 import com.dirror.music.R
-import com.dirror.music.broadcast.BecomingNoisyReceiver
 import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.netease.PersonalFM
 import com.dirror.music.music.standard.data.*
@@ -481,7 +480,7 @@ open class MusicService : BaseMediaService() {
                     val mainLyricText = it.lyric
                     val secondLyricText = it.secondLyric
                     lyricEntryList.clear()
-                    MyApp.coroutineScope.launch {
+                    App.coroutineScope.launch {
                         val entryList = LyricUtil.parseLrc(arrayOf(mainLyricText, secondLyricText))
                         if (entryList != null && entryList.isNotEmpty()) {
                             lyricEntryList.addAll(entryList)
@@ -814,7 +813,7 @@ open class MusicService : BaseMediaService() {
         val song = musicController.getPlayingSongData().value
         GlobalScope.launch {
             val bitmap = if (mmkv.decodeBool(Config.INK_SCREEN_MODE, false)) {
-                R.drawable.ic_song_cover.asDrawable(MyApp.context)?.toBitmap(128.dp(), 128.dp())
+                R.drawable.ic_song_cover.asDrawable(App.context)?.toBitmap(128.dp(), 128.dp())
             } else {
                 musicController.getSongCover(128.dp())
             }

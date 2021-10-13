@@ -1,6 +1,6 @@
 package com.dirror.music.ui.activity
 
-import com.dirror.music.MyApp.Companion.mmkv
+import com.dirror.music.App.Companion.mmkv
 import com.dirror.music.databinding.ActivityMemoryBinding
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.util.Config
