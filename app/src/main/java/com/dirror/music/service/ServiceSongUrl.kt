@@ -22,10 +22,11 @@ object ServiceSongUrl {
 
     inline fun getUrlProxy(song: StandardSongData, crossinline success: (Any?) -> Unit) {
         getUrl(song) {
-            GlobalScope.launch { withContext(Dispatchers.Main) {
-                success.invoke(it)
-            } }
-
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    success.invoke(it)
+                }
+            }
         }
     }
 
@@ -44,14 +45,14 @@ object ServiceSongUrl {
                         }
                     } else {
                         var url = ""
-                        if (url.isEmpty()) url = SongUrl.getSongUrlN(song.id?:"")
+                        if (url.isEmpty()) url = SongUrl.getSongUrlN(song.id ?: "")
                         success.invoke(url)
                     }
                 }
             }
             SOURCE_QQ -> {
                 GlobalScope.launch {
-                    success.invoke(PlayUrl.getPlayUrl(song.id?:""))
+                    success.invoke(PlayUrl.getPlayUrl(song.id ?: ""))
                 }
             }
             SOURCE_DIRROR -> {
@@ -61,12 +62,12 @@ object ServiceSongUrl {
             }
             SOURCE_KUWO -> {
                 GlobalScope.launch {
-                    val url = SearchSong.getUrl(song.id?:"")
+                    val url = SearchSong.getUrl(song.id ?: "")
                     success.invoke(url)
                 }
             }
             SOURCE_NETEASE_CLOUD -> {
-                SongUrl.getSongUrlCookie(song.id?:"") {
+                SongUrl.getSongUrlCookie(song.id ?: "") {
                     success.invoke(it)
                 }
             }
@@ -78,7 +79,7 @@ object ServiceSongUrl {
         if (song.source == SOURCE_NETEASE) {
             MyApp.cloudMusicManager.getLyric(song.id?.toLong() ?: 0) { lyric ->
                 runOnMainThread {
-                    val l = LyricViewData(lyric.lrc?.lyric?:"", lyric.tlyric?.lyric?:"")
+                    val l = LyricViewData(lyric.lrc?.lyric ?: "", lyric.tlyric?.lyric ?: "")
                     success.invoke(l)
                 }
             }
@@ -91,23 +92,23 @@ object ServiceSongUrl {
         }
     }
 
-    suspend fun getUrlFromOther(song: StandardSongData) : String {
+    suspend fun getUrlFromOther(song: StandardSongData): String {
         Api.getFromKuWo(song)?.apply {
-            SearchSong.getUrl(id?:"").let {
+            SearchSong.getUrl(id ?: "").let {
                 return it
             }
         }
         Api.getFromQQ(song)?.apply {
-           PlayUrl.getPlayUrl(id?:"").let {
-               return it
-           }
+            PlayUrl.getPlayUrl(id ?: "").let {
+                return it
+            }
 
 
         }
         return ""
     }
 
-    private fun getArtistName(artists:List<StandardSongData.StandardArtistData>?) : String {
+    private fun getArtistName(artists: List<StandardSongData.StandardArtistData>?): String {
         val sb = StringBuilder()
         artists?.forEach {
             if (sb.isNotEmpty()) {

@@ -44,6 +44,7 @@ import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import kotlinx.coroutines.*
 import java.util.*
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * 自定义 Application
@@ -74,6 +75,8 @@ class MyApp : Application() {
         lateinit var activityManager: ActivityManager
 
         lateinit var cloudMusicManager: CloudMusicManager
+
+        val coroutineScope = CoroutineScope(EmptyCoroutineContext)
 
         // 数据库
         lateinit var appDatabase: AppDatabase

@@ -171,7 +171,6 @@ class MainActivity : BaseActivity() {
             // 侧滑
             with(menuMain) {
                 itemSponsor.setOnClickListener {
-                    // startActivity(Intent(this@MainActivity, SponsorActivity::class.java))
                     MyApp.activityManager.startWebActivity(this@MainActivity, AboutActivity.SPONSOR)
                 }
                 itemSwitchAccount.setOnClickListener {
@@ -190,7 +189,6 @@ class MainActivity : BaseActivity() {
                 itemExitApp.setOnClickListener {
                     MyApp.musicController.value?.stopMusicService()
                     ActivityCollector.finishAll()
-
                     object : Thread() {
                         override fun run() {
                             super.run()
@@ -198,7 +196,6 @@ class MainActivity : BaseActivity() {
                             Secure.killMyself()
                         }
                     }.start()
-
                 }
             }
         }

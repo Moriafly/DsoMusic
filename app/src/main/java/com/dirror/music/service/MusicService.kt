@@ -64,14 +64,14 @@ import kotlin.coroutines.suspendCoroutine
 
 /**
  * Dso Music 音乐播放服务
- * 
+ *
  * @author Moriafly
  * @since 2020/9
  */
 open class MusicService : BaseMediaService() {
 
     companion object {
-        private const val TAG = "MusicService"
+        private val TAG = this::class.java.simpleName
 
         /* Flyme 状态栏歌词 TICKER 一直显示 */
         private const val FLAG_ALWAYS_SHOW_TICKER = 0x1000000
@@ -104,10 +104,10 @@ open class MusicService : BaseMediaService() {
     private var mediaSessionCallback: MediaSessionCompat.Callback? = null
 
     /* 默认播放速度，0f 表示暂停 */
-    private var speed = 1f
+    private var speed = 1F
 
     /* 默认音高 */
-    private var pitch = 1f
+    private var pitch = 1F
 
     /* 音高等级 */
     private var pitchLevel = 0
@@ -295,18 +295,16 @@ open class MusicService : BaseMediaService() {
         when (intent?.getIntExtra("int_code", 0)) {
             CODE_PREVIOUS -> musicController.playPrevious()
             CODE_PLAY -> {
-                loge(musicController.isPlaying().value.toString(), TAG)
                 if (musicController.isPlaying().value == true) {
-                    loge("按钮请求暂停音乐", TAG)
                     musicController.pause()
                 } else {
-                    loge("按钮请求继续播放音乐", TAG)
                     musicController.play()
                 }
             }
             CODE_NEXT -> musicController.playNext()
         }
-        return START_NOT_STICKY // 非粘性服务
+        // 非粘性服务
+        return START_NOT_STICKY
     }
 
     /**
@@ -321,7 +319,6 @@ open class MusicService : BaseMediaService() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e(TAG, "onDestroy: 解绑")
         // 释放 mediaSession
         mediaSession?.let {
             it.setCallback(null)
@@ -411,39 +408,49 @@ open class MusicService : BaseMediaService() {
             // 初始化
             mediaPlayer.apply {
                 ServiceSongUrl.getUrlProxy(song) {
-                    if (it == null || it is String && it.isEmpty()) {
-                        if (playNext) {
-                            toast("当前歌曲不可用, 播放下一首")
-                            playNext()
+                    runOnMainThread {
+                        if (it == null || it is String && it.isEmpty()) {
+                            if (playNext) {
+                                toast("当前歌曲不可用, 播放下一首")
+                                playNext()
+                            }
+                            return@runOnMainThread
                         }
-                        return@getUrlProxy
-                    }
-                    when (it) {
-                        is String -> {
-                            if (!InternetState.isWifi(context) && !mmkv.decodeBool(
-                                    Config.PLAY_ON_MOBILE,
-                                    false
-                                )
-                            ) {
-                                toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
-                                return@getUrlProxy
-                            } else {
-                                setDataSource(it)
+                        when (it) {
+                            is String -> {
+                                if (!InternetState.isWifi(context) && !mmkv.decodeBool(
+                                        Config.PLAY_ON_MOBILE,
+                                        false
+                                    )
+                                ) {
+                                    toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
+                                    return@runOnMainThread
+                                } else {
+                                    try {
+                                        setDataSource(it)
+                                    } catch (e: Exception) {
+                                        onError(mediaPlayer, -1, 0)
+                                        return@runOnMainThread
+                                    }
+                                }
+                            }
+                            is Uri -> {
+                                try {
+                                    setDataSource(applicationContext, it)
+                                } catch (e: Exception) {
+                                    onError(mediaPlayer, -1, 0)
+                                    return@runOnMainThread
+                                }
+                            }
+                            else -> {
+                                return@runOnMainThread
                             }
                         }
-                        is Uri -> {
-                            try {
-                                setDataSource(applicationContext, it)
-                            } catch (e: Exception) {
-                                onError(mediaPlayer, -1, 0)
-                                return@getUrlProxy
-                            }
-                        }
+                        setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
+                        setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
+                        setOnErrorListener(this@MusicController)
+                        prepareAsync()
                     }
-                    setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
-                    setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
-                    setOnErrorListener(this@MusicController)
-                    prepareAsync()
                 }
             }
 
@@ -474,10 +481,7 @@ open class MusicService : BaseMediaService() {
                     val mainLyricText = it.lyric
                     val secondLyricText = it.secondLyric
                     lyricEntryList.clear()
-                    val sb = StringBuilder("file://")
-                    sb.append(mainLyricText)
-                    sb.append("#").append(secondLyricText)
-                    GlobalScope.launch {
+                    MyApp.coroutineScope.launch {
                         val entryList = LyricUtil.parseLrc(arrayOf(mainLyricText, secondLyricText))
                         if (entryList != null && entryList.isNotEmpty()) {
                             lyricEntryList.addAll(entryList)
