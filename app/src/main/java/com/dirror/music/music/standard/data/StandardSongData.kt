@@ -12,23 +12,24 @@ import kotlinx.parcelize.Parcelize
 @Keep
 @Parcelize
 data class StandardSongData(
-    val source: Int?, // 歌曲来源，网易，QQ，本地
-    val id: String?, // 歌曲 id
+    var source: Int?, // 歌曲来源，网易，QQ，本地
+    var id: String?, // 歌曲 id
 
-    val name: String?, // 歌曲名称
-    val imageUrl: String?, // 图片 url
-    val artists: ArrayList<StandardArtistData>?, // 艺术家
-
-    @Embedded
-    val neteaseInfo: NeteaseInfo?,
+    var name: String?, // 歌曲名称
+    var imageUrl: String?, // 图片 url
+    var artists: ArrayList<StandardArtistData>?, // 艺术家
 
     @Embedded
-    val localInfo: LocalInfo?,
+    var neteaseInfo: NeteaseInfo?,
 
     @Embedded
-    val dirrorInfo: DirrorInfo?
+    var localInfo: LocalInfo?,
+
+    @Embedded
+    var dirrorInfo: DirrorInfo?
 ) : Parcelable {
 
+    @Ignore
     constructor() : this(SOURCE_NETEASE,
     null, null, null, null, null, null, null)
 

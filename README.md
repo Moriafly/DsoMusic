@@ -22,7 +22,7 @@ GNU 通用公共许可协议 [GNU GENERAL PUBLIC LICENSE Version 3](http://www.g
  
 ### 椒盐音乐
 
-漂亮美观的本地音乐播放器。
+漂亮美观的本地音乐播放器，仓库地址（非开源）[https://github.com/Moriafly/SaltPlayerSource](https://github.com/Moriafly/SaltPlayerSource) 。
 
 [酷安下载](https://www.coolapk.com/apk/com.salt.music)
 
