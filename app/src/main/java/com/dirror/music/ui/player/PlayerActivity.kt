@@ -79,19 +79,6 @@ import com.dso.ext.colorMix
  */
 class PlayerActivity : SlideBackActivity() {
 
-    companion object {
-        private const val MUSIC_BROADCAST_ACTION = "com.dirror.music.MUSIC_BROADCAST"
-        private const val DELAY_MILLIS = 500L
-
-        // Handle 消息，播放进度
-        private const val MSG_PROGRESS = 0
-
-        // 动画循环时长
-        private const val DURATION_CD = 27_500L
-        private const val ANIMATION_REPEAT_COUNTS = -1
-        private const val ANIMATION_PROPERTY_NAME = "rotation"
-    }
-
     private lateinit var binding: ActivityPlayerBinding
 
     // 是否是横屏状态
@@ -129,7 +116,10 @@ class PlayerActivity : SlideBackActivity() {
     override fun initBinding() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         binding.root.setOnApplyWindowInsetsListener { _, insets ->
-            playViewModel.navigationBarHeight.value = insets.systemWindowInsetBottom
+            playViewModel.systemWindowInsetTop.value = insets.systemWindowInsetTop
+            playViewModel.systemWindowInsetLeft.value = insets.systemWindowInsetLeft
+            playViewModel.systemWindowInsetRight.value = insets.systemWindowInsetRight
+            playViewModel.systemWindowInsetBottom.value = insets.systemWindowInsetBottom
             insets
         }
         setContentView(binding.root)
@@ -153,18 +143,12 @@ class PlayerActivity : SlideBackActivity() {
         val configuration = this.resources.configuration //获取设置的配置信息
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             isLandScape = true
-            // 横屏隐藏状态栏
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-                window.insetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE)
-            }
+//            // 横屏隐藏状态栏
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+//                window.insetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_SWIPE)
+//            }
         }
-        // 页面状态栏适配
-        binding.titleBar?.let {
-            (it.layoutParams as ConstraintLayout.LayoutParams).apply {
-                topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-                topMargin = getStatusBarHeight(window, this@PlayerActivity)
-            }
-        }
+
 
         binding.apply {
             // 时长右对齐
@@ -527,11 +511,6 @@ class PlayerActivity : SlideBackActivity() {
             // 颜色观察
             color.observe(this@PlayerActivity, {
                 binding.apply {
-//                    if (heart.value == true) {
-//                        ivLike.setColorFilter(R.color.colorAppThemeColor.asColor(this@PlayerActivity))
-//                    } else {
-//                        ivLike.setColorFilter(it)
-//                    }
                     val darkMode = DarkThemeUtil.isDarkTheme(this@PlayerActivity)
                     val secondColor = if (darkMode) {
                         Color.rgb(45, 45, 45)
@@ -544,11 +523,6 @@ class PlayerActivity : SlideBackActivity() {
                         it.colorMix(Color.WHITE, Color.WHITE, Color.WHITE)
                     }
 
-
-//                    ivLyricsBackground.setImageDrawable(GradientDrawable().apply{
-//                        this.gradientType = GradientDrawable.LINEAR_GRADIENT // 指定渲染角度
-//                        this.colors = intArrayOf(mixColor, secondColor, secondColor, secondColor) // 指定渐变色
-//                    })
                 }
 
             })
@@ -603,12 +577,34 @@ class PlayerActivity : SlideBackActivity() {
                     playViewModel.normalColor.value?.let { it1 -> binding.ivLike.setColorFilter(it1) }
                 }
             })
-
-            navigationBarHeight.observe(this@PlayerActivity, {
-                binding.clBottom.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-                    bottomMargin = it
+            systemWindowInsetTop.observe(this@PlayerActivity, { top ->
+                // 页面状态栏适配
+                binding.titleBar?.let {
+                    (it.layoutParams as ConstraintLayout.LayoutParams).apply {
+                        topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+                        topMargin = top
+                    }
                 }
+                binding.llBase?.let {
+                    it.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        topMargin = top
+                    }
+                }
+            })
+            systemWindowInsetBottom.observe(this@PlayerActivity, { bottom ->
+                if (isLandScape) {
+                    binding.llBase?.let {
+                        it.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                            bottomMargin = bottom
+                        }
+                    }
+                } else {
+                    binding.clBottom.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                        bottomMargin = bottom
+                    }
+                }
+
             })
         }
     }
@@ -669,6 +665,19 @@ class PlayerActivity : SlideBackActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    companion object {
+        private const val MUSIC_BROADCAST_ACTION = "com.dirror.music.MUSIC_BROADCAST"
+        private const val DELAY_MILLIS = 500L
+
+        // Handle 消息，播放进度
+        private const val MSG_PROGRESS = 0
+
+        // 动画循环时长
+        private const val DURATION_CD = 27_500L
+        private const val ANIMATION_REPEAT_COUNTS = -1
+        private const val ANIMATION_PROPERTY_NAME = "rotation"
     }
 
 }

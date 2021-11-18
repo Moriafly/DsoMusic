@@ -22,6 +22,8 @@
  * <https://www.gnu.org/licenses/why-not-lgpl.html>.
  */
 
+@file:Suppress("unused", "UNUSED_PARAMETER")
+
 package com.dirror.music
 
 import android.annotation.SuppressLint
@@ -52,35 +54,7 @@ import kotlin.coroutines.EmptyCoroutineContext
  * @since 2021-7-13
  */
 @Keep
-@SuppressLint("StaticFieldLeak")
 class App : Application() {
-
-    companion object {
-
-        private val TAG = this::class.java.simpleName
-
-        const val UM_APP_KEY = "5fb38e09257f6b73c0961382"
-
-        lateinit var mmkv: MMKV
-
-        lateinit var context: Context
-
-        var musicController = MutableLiveData<MusicService.MusicController?>()
-
-        val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
-
-        @Deprecated("过时，使用 StartActivity")
-        lateinit var activityManager: ActivityManager
-
-        lateinit var cloudMusicManager: CloudMusicManager
-
-        val coroutineScope = CoroutineScope(EmptyCoroutineContext)
-
-        /** 数据库 */
-        lateinit var appDatabase: AppDatabase
-
-        lateinit var realIP: String
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -148,6 +122,34 @@ class App : Application() {
         }
         // 绑定服务
         bindService(intent, musicServiceConnection, BIND_AUTO_CREATE)
+    }
+
+    companion object {
+
+        private val TAG = this::class.java.simpleName
+
+        const val UM_APP_KEY = "5fb38e09257f6b73c0961382"
+
+        lateinit var mmkv: MMKV
+
+        @SuppressLint("StaticFieldLeak")
+        lateinit var context: Context
+
+        var musicController = MutableLiveData<MusicService.MusicController?>()
+
+        val musicServiceConnection by lazy { MusicServiceConnection() } // 音乐服务连接
+
+        @Deprecated("过时，使用 StartActivity")
+        lateinit var activityManager: ActivityManager
+
+        lateinit var cloudMusicManager: CloudMusicManager
+
+        val coroutineScope = CoroutineScope(EmptyCoroutineContext)
+
+        /** 数据库 */
+        lateinit var appDatabase: AppDatabase
+
+        lateinit var realIP: String
     }
 
 }

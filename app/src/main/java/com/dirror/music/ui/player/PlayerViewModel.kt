@@ -30,8 +30,10 @@ class PlayerViewModel: ViewModel() {
     var rotation = 0f
     var rotationBackground = 0f
 
-    /** 状态栏高度 */
-    var navigationBarHeight = MutableLiveData<Int>()
+    val systemWindowInsetTop = MutableLiveData<Int>()
+    val systemWindowInsetLeft = MutableLiveData<Int>()
+    val systemWindowInsetRight = MutableLiveData<Int>()
+    val systemWindowInsetBottom = MutableLiveData<Int>()
 
     // 播放模式
     var playMode = MutableLiveData<Int>().also {
