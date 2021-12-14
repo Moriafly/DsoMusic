@@ -116,13 +116,13 @@ object SearchSong {
      * 音质
      * 128 / 192 / 320
      */
-    suspend fun getUrl(rid: String) : String {
+    suspend fun getUrl(rid: String): String {
         val id = rid.replace("MUSIC_", "")
         val url =
-            "http://www.kuwo.cn/url?format=mp3&rid=${id}&response=url&type=convert_url3&br=990kmp3&from=web&t=${getCurrentTime()}&httpsStatus=1"
+            "http://www.kuwo.cn/api/v1/www/music/playUrl?mid=${id}&type=music"
         loge("链接: $url")
-        HttpUtils.get(url, KuwoUrlData::class.java)?.let {
-            return it.url
+        HttpUtils.get(url, KuwoData::class.java)?.let {
+            return it.data?.url ?: ""
         }
         toast("获取链接失败")
         return ""
@@ -160,8 +160,13 @@ object SearchSong {
         }
     }
 
+    data class KuwoData(
+        val data: KuwoUrlData?,
+        val msg: String?
+    )
+
     data class KuwoUrlData(
-        val url: String
+        val url: String?
     )
 
 }
