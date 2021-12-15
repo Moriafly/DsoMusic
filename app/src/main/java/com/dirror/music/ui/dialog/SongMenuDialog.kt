@@ -8,6 +8,8 @@ import com.dirror.music.manager.User
 import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.plugin.PluginConstants
+import com.dirror.music.plugin.PluginSupport
 import com.dirror.music.ui.base.BaseBottomSheetDialog
 import com.dirror.music.util.toast
 
@@ -79,6 +81,12 @@ constructor(
                 itemDeleteListener()
                 dismiss()
             }
+
+            PluginSupport.setSong(songData);
+            PluginSupport.setActivity(activity)
+            PluginSupport.setDialog(this@SongMenuDialog)
+            PluginSupport.setMenu(songMenuParent)
+            PluginSupport.apply(PluginConstants.POINT_SONG_MENU_DIALOG_INIT)
         }
     }
 

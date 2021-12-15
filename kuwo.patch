@@ -1,0 +1,49 @@
+diff --git a/app/src/main/java/com/dirror/music/music/kuwo/SearchSong.kt b/app/src/main/java/com/dirror/music/music/kuwo/SearchSong.kt
+index 3cf8262..843843b 100644
+--- a/app/src/main/java/com/dirror/music/music/kuwo/SearchSong.kt
++++ b/app/src/main/java/com/dirror/music/music/kuwo/SearchSong.kt
+@@ -7,6 +7,8 @@ import com.dirror.music.util.*
+ import com.google.gson.Gson
+ import org.json.JSONObject
+ import java.lang.Exception
++import java.util.*
++import kotlin.collections.ArrayList
+ 
+ /**
+  * 搜索酷我音乐
+@@ -118,11 +120,14 @@ object SearchSong {
+      */
+     suspend fun getUrl(rid: String) : String {
+         val id = rid.replace("MUSIC_", "")
++//        val url =
++//            "http://www.kuwo.cn/url?format=mp3&rid=${id}&response=url&type=convert_url3&br=990kmp3&from=web&t=${getCurrentTime()}&httpsStatus=1"
+         val url =
+-            "http://www.kuwo.cn/url?format=mp3&rid=${id}&response=url&type=convert_url3&br=990kmp3&from=web&t=${getCurrentTime()}&httpsStatus=1"
++            "http://www.kuwo.cn/api/v1/www/music/playUrl?mid=${id}&type=music&httpsStatus=1&reqId=${UUID.randomUUID()}"
+         loge("链接: $url")
+         HttpUtils.get(url, KuwoUrlData::class.java)?.let {
+-            return it.url
++            if (it.success)
++                return it.data.url
+         }
+         toast("获取链接失败")
+         return ""
+@@ -161,7 +166,16 @@ object SearchSong {
+     }
+ 
+     data class KuwoUrlData(
+-        val url: String
++            val url: Int,
++            val msg: String,
++            val reqId: String,
++            val data: UrlData,
++            val profileId: String,
++            val curTime: Long,
++            val success: Boolean
+     )
+ 
++    data class UrlData(
++            val url: String
++    )
+ }
+\ No newline at end of file

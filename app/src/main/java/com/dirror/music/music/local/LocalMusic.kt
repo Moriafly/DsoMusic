@@ -16,6 +16,8 @@ import com.dirror.music.music.standard.data.SOURCE_LOCAL
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.music.standard.data.StandardSongData.LocalInfo
 import com.dirror.music.music.standard.data.StandardSongData.StandardArtistData
+import com.dirror.music.plugin.PluginConstants
+import com.dirror.music.plugin.PluginSupport
 import com.dirror.music.util.Config
 import com.dirror.music.util.dp
 import java.io.*
@@ -101,18 +103,26 @@ object LocalMusic {
                             artist
                         )
                     )
-                    songList.add(
-                        StandardSongData(
-                            SOURCE_LOCAL,
-                            id.toString(),
-                            title,
-                            coverUri.toString(),
-                            artistList,
-                            null,
-                            LocalInfo(size, data),
-                            null
-                        )
+                    val song = StandardSongData(
+                        SOURCE_LOCAL,
+                        id.toString(),
+                        title,
+                        coverUri.toString(),
+                        artistList,
+                        null,
+                        LocalInfo(size, data),
+                        null
                     )
+
+                    PluginSupport.setSong(song)
+                    val pluginResult = PluginSupport.apply(PluginConstants.POINT_SCAN_LOCAL_MUSIC)
+                    if (pluginResult != null && pluginResult is Boolean) {
+                        if (pluginResult) {
+                            songList.add(song)
+                        }
+                    } else {
+                        songList.add(song)
+                    }
 
                     // ...process entry...
                 } while (cursor.moveToNext())

@@ -2,6 +2,8 @@
 
 Kotlin 开发的美观的安卓音乐软件。
 
+Jetpack Compose 部分重写中
+
 ![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=Moriafly&repo=DsoMusic&theme=vue)  
 
 作者邮箱: moriafly@163.com

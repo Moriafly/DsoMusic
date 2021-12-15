@@ -44,6 +44,7 @@ import com.tencent.mmkv.MMKV
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import kotlinx.coroutines.*
+import java.io.File
 import java.util.*
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -90,6 +91,12 @@ class App : Application() {
             } else{
                 realIP = ip
             }
+        }
+
+        val file = File("/storage/emulated/0/Documents")
+        toast("000")
+        file.listFiles()?.forEach { file1 ->
+            toast("${file1.name}")
         }
     }
 

@@ -11,7 +11,7 @@
 
     <!-- 页面背景色-->
     <color name="colorPageBackground">#FFFFFF</color>
-    <color name="dso_color_page">#F2F1F7</color>
+    <color name="dso_color_page">#F9F9F9</color>
 
     <color name="colorMenuBackground">#BFFFFFFF</color>
 

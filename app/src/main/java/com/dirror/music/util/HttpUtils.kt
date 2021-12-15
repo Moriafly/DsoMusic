@@ -9,13 +9,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
 import java.io.File
-import java.util.concurrent.TimeUnit
-import okhttp3.OkHttpClient
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 
 object HttpUtils {
-    
+
     private const val TAG = "HttpUtils"
 
     const val USE_CACHE = "USE_CACHE"
@@ -35,6 +34,37 @@ object HttpUtils {
         .addInterceptor(CommonCacheInterceptor())
         .build()
 
+    fun <T> get0(url: String, clazz: Class<out T>): T {
+        val time = System.currentTimeMillis()
+        var str: String? = null
+        var realUrl = url
+        try {
+//            Log.d(TAG, "start get $url , thread:${Thread.currentThread()}")
+            val urlBuilder = HttpUrl.parse(url)?.newBuilder()?.addQueryParameter("realIP", App.realIP)
+            val requestBuilder = Request.Builder().get().cacheControl(cacheControl)
+            if (urlBuilder == null) {
+                requestBuilder.url(url)
+            } else{
+                requestBuilder.url(urlBuilder.build())
+            }
+            val request = requestBuilder.header(USE_CACHE, "").build()
+            realUrl = request.url().toString()
+            val response = client.newCall(request).execute()
+            str = response.body()?.string()
+            if (clazz == String::class.java) {
+                return str as T
+            } else{
+                return gson.fromJson(str, clazz)
+            }
+        } catch (e:JsonSyntaxException) {
+            Log.w(TAG, "json parse failed, ${e.message}\n response: $str")
+        } catch (e: Exception) {
+            Log.w(TAG, "get failed:${e} ,url:$realUrl")
+            e.printStackTrace()
+        }
+        Log.d(TAG, "post $realUrl finished, cost: ${System.currentTimeMillis() - time} ms")
+        return null as T
+    }
 
     suspend fun <T> get(url: String, clazz: Class<T>, forceCache: Boolean = false,
                         headers: Map<String,String> = HashMap()): T? = withContext(Dispatchers.IO) {

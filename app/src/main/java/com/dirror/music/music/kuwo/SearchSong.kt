@@ -1,8 +1,11 @@
 package com.dirror.music.music.kuwo
 
 import android.net.Uri
+import com.dirror.music.App
 import com.dirror.music.music.standard.data.SOURCE_KUWO
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.plugin.PluginConstants
+import com.dirror.music.plugin.PluginSupport
 import com.dirror.music.util.*
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -117,6 +120,11 @@ object SearchSong {
      * 128 / 192 / 320
      */
     suspend fun getUrl(rid: String): String {
+        PluginSupport.setRid(rid)
+        val pluginUrl = PluginSupport.apply(PluginConstants.POINT_KUWO_URL)
+        if (pluginUrl != null && pluginUrl is String) {
+            return pluginUrl
+        }
         val id = rid.replace("MUSIC_", "")
         val url =
             "http://www.kuwo.cn/api/v1/www/music/playUrl?mid=${id}&type=music"

@@ -145,12 +145,16 @@
         android:layout_gravity="start"
         app:insetForeground="@color/colorTransparency">
 
-        <include
-            android:id="@+id/menuMain"
-            layout="@layout/menu_main"
-            android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:visibility="visible" />
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/composeViewMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+<!--        <include-->
+<!--            android:id="@+id/menuMain"-->
+<!--            layout="@layout/menu_main"-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:visibility="visible" />-->
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

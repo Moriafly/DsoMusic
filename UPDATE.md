@@ -1,3 +1,10 @@
+3.12.0-dev 2021年11月18日
+升级目标 API 31（Android 12），Gradle 7.3
+引入 Jetpack Compose
+侧栏优化
+TODO 插件支持
+TODO API 31 PendingIntent 问题
+
 3.11.4 2021年11月18日
 修复 API 失效引起的拉取歌单 / 搜索失败的问题
 当用户配置了网易云 API 时, 这些接口也会使用这个配置
