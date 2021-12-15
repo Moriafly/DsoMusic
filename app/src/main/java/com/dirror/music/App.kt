@@ -92,12 +92,6 @@ class App : Application() {
                 realIP = ip
             }
         }
-
-        val file = File("/storage/emulated/0/Documents")
-        toast("000")
-        file.listFiles()?.forEach { file1 ->
-            toast("${file1.name}")
-        }
     }
 
     /**
