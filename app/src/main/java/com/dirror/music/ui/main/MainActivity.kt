@@ -198,7 +198,7 @@ class MainActivity : BaseActivity() {
                 bottomMargin = it
             }
             binding.blurViewPlay.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                height = 52.dp() + it
+                height = 64.dp() + it
             }
         })
     }

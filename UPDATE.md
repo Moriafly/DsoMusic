@@ -1,6 +1,7 @@
 3.12.0-dev 2021年11月18日
 升级目标 API 31（Android 12），Gradle 7.3
 引入 Jetpack Compose
+酷我源 - 又可以听杰伦了，感谢 yshj0919
 侧栏优化
 TODO 插件支持
 TODO API 31 PendingIntent 问题
