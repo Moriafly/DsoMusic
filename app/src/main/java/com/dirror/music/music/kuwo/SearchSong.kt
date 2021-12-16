@@ -127,16 +127,14 @@ object SearchSong {
         }
         val id = rid.replace("MUSIC_", "")
         val url =
-            "http://www.kuwo.cn/api/v1/www/music/playUrl?mid=${id}&type=music"
+            "http://antiserver.kuwo.cn/anti.s?format=mp3&rid=${id}&response=url&type=convert_url3&br=320kmp3"
         loge("链接: $url")
-        HttpUtils.get(url, KuwoData::class.java)?.let {
-            return it.data?.url ?: ""
+        HttpUtils.get(url, KuwoUrlData::class.java)?.let {
+            return it.url ?: ""
         }
         toast("获取链接失败")
         return ""
     }
-
-    // http://www.kuwo.cn/url?format=mp3&rid=94239&response=url&type=convert_url3&br=128kmp3&from=web&t=1609079909636&httpsStatus=1
 
     data class KuwoSearchData(
         val abslist: ArrayList<SongData>
@@ -167,11 +165,6 @@ object SearchSong {
             }
         }
     }
-
-    data class KuwoData(
-        val data: KuwoUrlData?,
-        val msg: String?
-    )
 
     data class KuwoUrlData(
         val url: String?
