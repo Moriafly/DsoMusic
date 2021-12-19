@@ -675,7 +675,7 @@ class PlayerActivity : SlideBackActivity() {
         private const val MSG_PROGRESS = 0
 
         // 动画循环时长
-        private const val DURATION_CD = 27_500L
+        private const val DURATION_CD = 32_000L
         private const val ANIMATION_REPEAT_COUNTS = -1
         private const val ANIMATION_PROPERTY_NAME = "rotation"
     }

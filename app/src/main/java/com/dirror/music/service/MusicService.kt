@@ -785,25 +785,37 @@ open class MusicService : BaseMediaService() {
         val intentMain = Intent(this, MainActivity::class.java)
         val intentPlayer = Intent(this, PlayerActivity::class.java)
         val intents = arrayOf(intentMain, intentPlayer)
-        return PendingIntent.getActivities(this, 1, intents, PendingIntent.FLAG_UPDATE_CURRENT)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.getActivities(this, 1, intents, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        } else {
+            PendingIntent.getActivities(this, 1, intents, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
     }
 
     private fun getPendingIntentPrevious(): PendingIntent {
         val intent = Intent(this, MusicService::class.java)
         intent.putExtra("int_code", CODE_PREVIOUS)
-        return PendingIntent.getService(this, 2, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return buildServicePendingIntent(this, 2, intent)
     }
 
     private fun getPendingIntentPlay(): PendingIntent {
         val intent = Intent(this, MusicService::class.java)
         intent.putExtra("int_code", CODE_PLAY)
-        return PendingIntent.getService(this, 3, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return buildServicePendingIntent(this, 3, intent)
     }
 
     private fun getPendingIntentNext(): PendingIntent {
         val intent = Intent(this, MusicService::class.java)
         intent.putExtra("int_code", CODE_NEXT)
-        return PendingIntent.getService(this, 4, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return buildServicePendingIntent(this, 4, intent)
+    }
+
+    private fun buildServicePendingIntent(context: Context, requestCode: Int, intent: Intent): PendingIntent {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.getService(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        } else {
+            PendingIntent.getService(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
     }
 
     /**
