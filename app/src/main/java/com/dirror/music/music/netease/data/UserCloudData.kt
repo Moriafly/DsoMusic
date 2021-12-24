@@ -24,16 +24,25 @@ data class UserCloudData(
         val songId: Long,
         val addTime: Long,
         val songName: String,
-        val cover: Int,
+        val cover: Long,
         val coverId: String,
         val lyricId: String,
         val version: Int,
-        val fileName: String
+        val fileName: String,
+        val simpleSong: SimpleSong
 //        val name: String, // 歌曲名
 //        val id: Long, // 歌曲 id
 //        val ar: ArrayList<StandardSongData.StandardArtistData>,
 //        val al: NeteaseAlbumData,
-    )
+    ) {
+        data class SimpleSong(
+            val al: Album
+        ) {
+            data class Album(
+                var picUrl: String
+            )
+        }
+    }
 }
 
 fun ArrayList<UserCloudData.SongData>.toStandard(): ArrayList<StandardSongData> {
@@ -52,7 +61,7 @@ fun UserCloudData.SongData.toStandard(): StandardSongData {
         SOURCE_NETEASE_CLOUD,
         songId.toString(),
         name = songName,
-        null,
+        simpleSong.al.picUrl,
         arrayListOf(StandardSongData.StandardArtistData(
             null, this.artist
         )),

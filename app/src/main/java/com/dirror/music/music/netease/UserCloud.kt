@@ -1,5 +1,6 @@
 package com.dirror.music.music.netease
 
+import android.util.Log
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.UserCloudData
@@ -27,7 +28,11 @@ object UserCloud {
             .add("limit", "50")
             .add("offset", "$offset")
             .build()
-        MagicHttp.OkHttpManager().newPost(TEST_API, requestBody, {
+        var api = User.neteaseCloudMusicApi
+        if (api.isEmpty()) {
+            api = "https://olbb.vercel.app"
+        }
+        MagicHttp.OkHttpManager().newPost("${api}/user/cloud", requestBody, {
             // Log.e(TAG, "getUserCloud: $it", )
             try {
                 val userCloudData = Gson().fromJson(it, UserCloudData::class.java)

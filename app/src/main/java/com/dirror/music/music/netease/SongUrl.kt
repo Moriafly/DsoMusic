@@ -22,6 +22,10 @@ object SongUrl {
     }
 
     fun getSongUrlCookie(id: String, success: (String) -> Unit) {
+        var api = User.neteaseCloudMusicApi
+        if (api.isEmpty()) {
+            api = "https://olbb.vercel.app"
+        }
         val requestBody = FormBody.Builder()
             .add("crypto", "api")
             .add("cookie", User.cookie)
@@ -29,7 +33,7 @@ object SongUrl {
             .add("realIP", "211.161.244.70")
             .add("id", id)
             .build()
-        MagicHttp.OkHttpManager().newPost(API, requestBody, {
+        MagicHttp.OkHttpManager().newPost("${api}/song/url", requestBody, {
             try {
                 val songUrlData = Gson().fromJson(it, SongUrlData::class.java)
                 success.invoke(songUrlData.data[0].url ?: "")
