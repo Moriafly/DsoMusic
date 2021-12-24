@@ -55,8 +55,12 @@ object ServiceSongUrl {
                         }
                     } else {
                         var url = ""
-                        if (url.isEmpty()) url = SongUrl.getSongUrlN(song.id ?: "")
-                        success.invoke(url)
+                        if (url.isEmpty())
+                            SongUrl.getSongUrlCookie(song.id ?: "") {
+                                success.invoke(it)
+                            }
+                        else
+                            success.invoke(url)
                     }
                 }
             }

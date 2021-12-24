@@ -53,8 +53,11 @@ object Api {
                     idsBuilder.append(trackId)
                 }
                 val ids = idsBuilder.toString()
+                val params = HashMap<String, String>()
+                params["ids"] = ids
+                params["cookie"] = User.cookie
                 val data = HttpUtils.postWithCache("${getDefaultApi()}/song/detail?hash=${ids.hashCode()}",
-                    Utils.toMap("ids", ids), CompatSearchData::class.java, useCache)
+                    params, CompatSearchData::class.java, useCache)
 //                val data = HttpUtils.get("${getDefaultApi()}/song/detail?ids=${ids}", CompatSearchData::class.java)
                 data?.result?.apply {
                     if (code == CHEATING_CODE) {
