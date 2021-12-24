@@ -4,8 +4,8 @@ TODO 插件支持
 升级目标 API 31（Android 12），Gradle 7.3
 引入 Jetpack Compose
 酷我源 - 又可以听杰伦了，感谢 yshj0919
-会员可以听 VIP 歌曲
-修复云盘读取错误
+会员可以听 VIP 歌曲，感谢 chen310
+修复云盘读取错误，感谢 chen310
 侧栏优化
 
 3.11.4 2021年11月18日
