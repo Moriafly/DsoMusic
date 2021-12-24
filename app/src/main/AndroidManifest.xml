@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".ui.activity.LocalMusicActivity"></activity>
+        <activity android:name=".ui.activity.LocalMusicActivity" />
         <activity android:name=".ui.activity.MemoryActivity" />
         <activity android:name=".ui.live.NeteaseCloudMusicApiActivity" />
         <activity
@@ -104,7 +104,8 @@
 
         <service
             android:name=".service.MusicService"
-            android:exported="false" />
+            android:exported="false"
+            android:stopWithTask="true" />
     </application>
 
 </manifest>
