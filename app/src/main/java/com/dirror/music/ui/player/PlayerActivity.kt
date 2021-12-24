@@ -393,7 +393,8 @@ class PlayerActivity : SlideBackActivity() {
                         }
                         binding.ivLyricsBackground.load(bitmap) {
                             size(ViewSizeResolver(binding.includePlayerCover.ivCover))
-                            transformations(BlurTransformation(this@PlayerActivity, 15F, 30F))
+                            // TODO sampling 5?
+                            transformations(BlurTransformation(this@PlayerActivity, 15F, 15F))
                             crossfade(500)
                         }
                         previousBitmap = bitmap

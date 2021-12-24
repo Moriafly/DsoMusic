@@ -312,6 +312,7 @@
             android:minHeight="4dp"
             android:progressDrawable="@drawable/background_seek_bar_music"
             android:splitTrack="false"
+            android:background="@null"
             android:thumb="@drawable/background_seek_bar_thumb"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"

@@ -74,6 +74,7 @@
                     android:layout_marginEnd="56dp"
                     android:layout_marginBottom="4dp"
                     android:alpha="0.72"
+                    android:background="@null"
                     android:maxHeight="2dp"
                     android:minHeight="4dp"
                     android:progressDrawable="@drawable/background_seek_bar_music"
