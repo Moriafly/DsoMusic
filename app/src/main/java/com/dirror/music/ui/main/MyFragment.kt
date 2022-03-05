@@ -97,16 +97,16 @@ class MyFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     override fun initObserver() {
-        mainViewModel.userId.observe(viewLifecycleOwner, {
+        mainViewModel.userId.observe(viewLifecycleOwner) {
             myFragmentViewModel.updateUserPlaylist(true)
-        })
+        }
         // 用户歌单的观察
-        myFragmentViewModel.userPlaylistList.observe(viewLifecycleOwner, {
+        myFragmentViewModel.userPlaylistList.observe(viewLifecycleOwner) {
             runOnMainThread {
                 myPlaylistAdapter.submitList(it)
             }
-        })
-        mainViewModel.userId.observe(viewLifecycleOwner, { userId ->
+        }
+        mainViewModel.userId.observe(viewLifecycleOwner) { userId ->
             if (userId == 0L) {
                 myFragmentUserAdapter.adapterUser = MyFragmentUserAdapter.AdapterUser(
                     null, "立即登录", null
@@ -122,7 +122,7 @@ class MyFragment : BaseFragment() {
 
                 })
             }
-        })
+        }
     }
 
 }

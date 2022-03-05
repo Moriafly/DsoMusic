@@ -1,5 +1,9 @@
 TODO 插件支持
 
+3.12.3 2022年3月5日
+更新依赖库
+修复 Android 12 崩溃问题
+
 3.12.1 2021年12月24日
 升级目标 API 31（Android 12），Gradle 7.3
 引入 Jetpack Compose

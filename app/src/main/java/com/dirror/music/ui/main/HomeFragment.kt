@@ -72,19 +72,19 @@ class HomeFragment : BaseFragment(){
 
     override fun initObserver() {
         with(mainViewModel) {
-            statusBarHeight.observe(viewLifecycleOwner, {
+            statusBarHeight.observe(viewLifecycleOwner) {
 //                (binding.llMain.layoutParams as FrameLayout.LayoutParams).apply {
 //                    topMargin = it
 //                }
-            })
-            neteaseLiveVisibility.observe(viewLifecycleOwner, {
+            }
+            neteaseLiveVisibility.observe(viewLifecycleOwner) {
                 binding.clDaily.visibility = if (it) {
                     View.VISIBLE
                 } else {
                     View.GONE
                 }
-            })
-            sentenceVisibility.observe(viewLifecycleOwner, {
+            }
+            sentenceVisibility.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.includeFoyou.root.visibility = View.VISIBLE
                     binding.tvFoyou.visibility = View.VISIBLE
@@ -92,7 +92,7 @@ class HomeFragment : BaseFragment(){
                     binding.includeFoyou.root.visibility = View.GONE
                     binding.tvFoyou.visibility = View.GONE
                 }
-            })
+            }
         }
 
     }
