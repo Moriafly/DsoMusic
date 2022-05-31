@@ -53,7 +53,7 @@ class SearchActivity : BaseActivity() {
     private var searchType: SearchType
 
     init {
-        val typeStr = mmkv.decodeString(Config.SEARCH_TYPE, SearchType.SINGLE.toString())
+        val typeStr = mmkv.decodeString(Config.SEARCH_TYPE, SearchType.SINGLE.toString())!!
         searchType = SearchType.valueOf(typeStr)
     }
 

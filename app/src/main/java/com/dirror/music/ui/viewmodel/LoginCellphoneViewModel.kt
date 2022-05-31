@@ -28,9 +28,7 @@ import androidx.annotation.Keep
 import androidx.lifecycle.ViewModel
 import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.UserDetailData
-import com.dirror.music.util.EMPTY
-import com.dirror.music.util.ErrorCode
-import com.dirror.music.util.MagicHttp
+import com.dirror.music.util.*
 import com.dirror.music.util.sky.SkySecure
 import com.google.gson.Gson
 import okhttp3.FormBody
@@ -68,7 +66,7 @@ class LoginCellphoneViewModel : ViewModel() {
                 } else {
                     // 更新 User 信息
                     User.apply {
-                        cookie = userDetail.cookie ?: String.EMPTY
+                        AppConfig.cookie = userDetail.cookie ?: String.EMPTY
                         uid = userDetail.profile.userId
                         vipType = userDetail.profile.vipType
                     }

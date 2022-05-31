@@ -27,6 +27,7 @@ package com.dirror.music.manager
 import android.os.Parcelable
 import com.dirror.music.App.Companion.mmkv
 import com.dirror.music.music.netease.data.UserDetailData
+import com.dirror.music.util.AppConfig
 import com.dirror.music.util.Config
 import com.dirror.music.util.EMPTY
 import kotlinx.parcelize.Parcelize
@@ -45,7 +46,7 @@ private const val DEFAULT_VIP_TYPE = 0
  */
 object User {
 
-    val dsoUser: DsoUser = mmkv.decodeParcelable(Config.DSO_USER, DsoUser::class.java, DsoUser())
+    val dsoUser: DsoUser = mmkv.decodeParcelable(Config.DSO_USER, DsoUser::class.java, DsoUser())!!
 
     /** 用户 uid */
     var uid: Long = DEFAULT_UID
@@ -56,18 +57,13 @@ object User {
         }
 
     /** 用户 Cookie */
-    var cookie: String = String.EMPTY
-        get() = mmkv.decodeString(Config.CLOUD_MUSIC_COOKIE, String.EMPTY)
-        set(value) {
-            mmkv.encode(Config.CLOUD_MUSIC_COOKIE, value)
-            field = value
-        }
+    var cookie: String = AppConfig.cookie
 
     /**
      * 获取用户配置的 NeteaseCloudMusicApi
      */
     var neteaseCloudMusicApi: String = String.EMPTY
-        get() = mmkv.decodeString(Config.USER_NETEASE_CLOUD_MUSIC_API_URL, String.EMPTY)
+        get() = mmkv.decodeString(Config.USER_NETEASE_CLOUD_MUSIC_API_URL, String.EMPTY)!!
         set(value) {
             mmkv.encode(Config.USER_NETEASE_CLOUD_MUSIC_API_URL, value)
             field = value
@@ -92,7 +88,7 @@ object User {
 
     /** 是否有 cookie */
     val hasCookie: Boolean
-        get() = cookie.isNotEmpty()
+        get() = AppConfig.cookie.isNotEmpty()
 
     /**
      * 是否是 VIP 用户

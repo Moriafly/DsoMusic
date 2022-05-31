@@ -10,6 +10,7 @@ import com.dirror.music.music.standard.data.SOURCE_QQ
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.activity.PlayHistoryActivity
 import com.dirror.music.ui.base.BaseBottomSheetDialog
+import com.dirror.music.util.AppConfig
 import com.dirror.music.util.toast
 
 class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
@@ -35,7 +36,7 @@ class PlayerMenuMoreDialog(context: Context) : BaseBottomSheetDialog(context) {
         binding.apply {
             // 添加到网易云我喜欢
             itemAddNeteaseFavorite.setOnClickListener {
-                if (User.cookie.isEmpty()) {
+                if (AppConfig.cookie.isEmpty()) {
                     toast("离线模式无法收藏到在线我喜欢~")
                 } else {
                     song?.let {

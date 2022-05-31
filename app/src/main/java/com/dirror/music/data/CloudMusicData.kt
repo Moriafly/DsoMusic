@@ -64,6 +64,7 @@ data class TrackIdsData(
 // 歌曲评论
 @Keep
 data class CommentData(
+    val code: Int, //
     val hotComments: List<HotComment>, // 热门评论
     val total: Long // 总评论
 )

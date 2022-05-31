@@ -5,6 +5,7 @@ import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.PersonFMData
 import com.dirror.music.music.netease.data.toSongList
 import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.util.AppConfig
 import com.dirror.music.util.ErrorCode
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
@@ -28,7 +29,7 @@ object PersonalFM {
     fun get(success: (ArrayList<StandardSongData>) -> Unit, failure: (Int) -> Unit) {
         val requestBody = FormBody.Builder()
             .add("crypto", "weapi")
-            .add("cookie", User.cookie)
+            .add("cookie", AppConfig.cookie)
             .add("withCredentials", "true")
             .add("realIP", "211.161.244.70")
             .build()

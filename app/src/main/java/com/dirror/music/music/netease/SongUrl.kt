@@ -4,6 +4,7 @@ import com.dirror.music.api.API_AUTU
 import com.dirror.music.manager.User
 import com.dirror.music.music.dirror.SearchSong
 import com.dirror.music.music.netease.data.SongUrlData
+import com.dirror.music.util.AppConfig
 import com.dirror.music.util.HttpUtils
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
@@ -28,7 +29,7 @@ object SongUrl {
         }
         val requestBody = FormBody.Builder()
             .add("crypto", "api")
-            .add("cookie", User.cookie)
+            .add("cookie", AppConfig.cookie)
             .add("withCredentials", "true")
             .add("realIP", "211.161.244.70")
             .add("id", id)

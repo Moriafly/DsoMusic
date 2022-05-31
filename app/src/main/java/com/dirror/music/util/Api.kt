@@ -33,7 +33,7 @@ object Api {
         val params = HashMap<String, String>()
         params["id"] = id.toString()
         if (User.hasCookie) {
-            params["cookie"] = User.cookie
+            params["cookie"] = AppConfig.cookie
         }
         val url = "${getDefaultApi()}/playlist/detail?hash=${params.hashCode()}"
         val result = HttpUtils.postWithCache(url, params, Playlist.PlaylistData::class.java, useCache)
@@ -55,7 +55,7 @@ object Api {
                 val ids = idsBuilder.toString()
                 val params = HashMap<String, String>()
                 params["ids"] = ids
-                params["cookie"] = User.cookie
+                params["cookie"] = AppConfig.cookie
                 val data = HttpUtils.postWithCache("${getDefaultApi()}/song/detail?hash=${ids.hashCode()}",
                     params, CompatSearchData::class.java, useCache)
 //                val data = HttpUtils.get("${getDefaultApi()}/song/detail?ids=${ids}", CompatSearchData::class.java)

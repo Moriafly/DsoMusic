@@ -37,7 +37,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 757
-        versionName "3.12.4"
+        versionName "3.13.0"
 
         multiDexEnabled true
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dirror.music.manager.User
 import com.dirror.music.util.Api
+import com.dirror.music.util.AppConfig
 import com.dirror.music.util.toast
 import kotlinx.coroutines.*
 
@@ -75,7 +76,7 @@ class LoginQRCodeViewModel : ViewModel() {
                         Api.getUserInfo(it)?.apply {
                             Log.i(TAG, "login success, $this")
                             account?.id?.let { uid ->
-                                User.cookie = cookie
+                                AppConfig.cookie = cookie
                                 User.uid = uid
                             }
                         }

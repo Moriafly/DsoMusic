@@ -34,7 +34,7 @@ object PlayHistory {
     suspend fun readPlayHistory(): ArrayList<StandardSongData> {
         playHistory = App.mmkv.decodeParcelable(Config.PLAY_HISTORY, PlayHistoryData::class.java, PlayHistoryData(
             ArrayList()
-        ))
+        ))!!
         return playHistory.list
     }
 

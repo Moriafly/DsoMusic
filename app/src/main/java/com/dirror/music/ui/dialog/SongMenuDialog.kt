@@ -11,6 +11,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.plugin.PluginConstants
 import com.dirror.music.plugin.PluginSupport
 import com.dirror.music.ui.base.BaseBottomSheetDialog
+import com.dirror.music.util.AppConfig
 import com.dirror.music.util.toast
 
 /**
@@ -46,7 +47,7 @@ constructor(
             }
             // 添加到网易云我喜欢
             itemAddNeteaseFavorite.setOnClickListener {
-                if (User.cookie.isEmpty()) {
+                if (AppConfig.cookie.isEmpty()) {
                     toast("离线模式无法收藏到在线我喜欢~")
                 } else {
                     when (songData.source) {

@@ -75,6 +75,7 @@
                     android:id="@+id/rvRecommendSong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="64dp"
                     android:overScrollMode="never"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +91,7 @@
     <eightbitlab.com.blurview.BlurView
         android:id="@+id/blurView"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="64dp"
         android:background="@drawable/bg_mini_player"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

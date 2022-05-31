@@ -46,6 +46,10 @@ class MyFragment : BaseFragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
             overScrollMode = View.OVER_SCROLL_NEVER
+            setPadding(0, 0, 0, dp2px(88f).toInt())
+            
+            // 不进行边距裁切，融入可滑动边距
+            clipToPadding = false
         }
         return rvMy
     }
@@ -65,7 +69,7 @@ class MyFragment : BaseFragment() {
         }
 
         myPlaylistAdapter = MyPlaylistAdapter {
-            if (myFragmentViewModel.userPlaylistList.value?.size ?: 0 > 0) {
+            if ((myFragmentViewModel.userPlaylistList.value?.size ?: 0) > 0) {
                 if (it == myFragmentViewModel.userPlaylistList.value?.get(0)) {
                     val intent = Intent(requireContext(), SongPlaylistActivity::class.java)
                     intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE_MY_FAVORITE)
@@ -82,9 +86,7 @@ class MyFragment : BaseFragment() {
 
         val myFragmentIconAdapter = MyFragmentIconAdapter(requireContext())
 
-        val blankAdapter = BlankAdapter(64.dp())
-
-        val concatAdapter = ConcatAdapter(myFragmentUserAdapter, myFragmentIconAdapter, myPlaylistAdapter, blankAdapter)
+        val concatAdapter = ConcatAdapter(myFragmentUserAdapter, myFragmentIconAdapter, myPlaylistAdapter)
 
         rvMy.layoutManager = LinearLayoutManager(requireContext())
         rvMy.adapter = concatAdapter
@@ -107,6 +109,7 @@ class MyFragment : BaseFragment() {
             }
         }
         mainViewModel.userId.observe(viewLifecycleOwner) { userId ->
+            toast("userId = $userId")
             if (userId == 0L) {
                 myFragmentUserAdapter.adapterUser = MyFragmentUserAdapter.AdapterUser(
                     null, "立即登录", null

@@ -4,6 +4,7 @@ import android.util.Log
 import com.dirror.music.api.API_AUTU
 import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.UserCloudData
+import com.dirror.music.util.AppConfig
 import com.dirror.music.util.ErrorCode
 import com.dirror.music.util.MagicHttp
 import com.google.gson.Gson
@@ -22,7 +23,7 @@ object UserCloud {
     fun getUserCloud(offset: Int, success: (UserCloudData) -> Unit, failure: (Int) -> Unit) {
         val requestBody = FormBody.Builder()
             .add("crypto", "api")
-            .add("cookie", User.cookie)
+            .add("cookie", AppConfig.cookie)
             .add("withCredentials", "true")
             .add("realIP", "211.161.244.70")
             .add("limit", "50")

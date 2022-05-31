@@ -58,7 +58,7 @@ object Playlist {
         success: (ArrayList<StandardSongData>) -> Unit,
         failure: () -> Unit
     ) {
-        val url = PLAYLIST_URL + playlistId + "&cookie=${User.cookie}"
+        val url = PLAYLIST_URL + playlistId + "&cookie=${AppConfig.cookie}"
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             val trackIds = ArrayList<Long>()
             try {
@@ -135,7 +135,7 @@ object Playlist {
     fun getPlaylistByCookie(playlistId: Long, success: (ArrayList<StandardSongData>) -> Unit) {
         val requestBody = FormBody.Builder()
             .add("id", playlistId.toString())
-            .add("cookie", User.cookie)
+            .add("cookie", AppConfig.cookie)
             .build()
 
         val api = "${User.cookie}/playlist/detail"
