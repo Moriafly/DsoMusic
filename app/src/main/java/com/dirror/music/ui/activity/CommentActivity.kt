@@ -22,7 +22,6 @@ class  CommentActivity : SlideBackActivity() {
     private lateinit var id: String
     private var source: Int = SOURCE_NETEASE
 
-
     override fun initBinding() {
         binding = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)

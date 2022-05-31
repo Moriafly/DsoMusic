@@ -25,10 +25,15 @@ class CloudMusicManager {
     }
 
     fun getComment(id: String, success: (CommentData) -> Unit, failure: () -> Unit) {
-        val url = "$API_MUSIC_ELEUU/comment/music?id=${id}&limit=20&offset=0${timestamp()}"
+        val url = "$API_AUTU/comment/music?id=${id}&limit=20&offset=0${timestamp()}"
         MagicHttp.OkHttpManager().newGet(url, {
-            val commentData = Gson().fromJson(it, CommentData::class.java)
-            success.invoke(commentData)
+            try {
+                Log.d("Comment", it)
+                val commentData = Gson().fromJson(it, CommentData::class.java)
+                success.invoke(commentData)
+            } catch (e: Exception) {
+
+            }
         }, {
 
         })

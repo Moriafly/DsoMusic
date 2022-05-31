@@ -101,10 +101,10 @@ class LocalMusicActivity : BaseActivity() {
     }
 
     override fun initObserver() {
-        localMusicViewModel.songList.observe(this, {
+        localMusicViewModel.songList.observe(this) {
             songAdapter.submitList(it)
             binding.titleBarLayout.setTitleBarText(getString(R.string.local_music) + "(${it.size})")
-        })
+        }
     }
 
     private fun requestPermission() {
