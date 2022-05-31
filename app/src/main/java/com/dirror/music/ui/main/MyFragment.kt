@@ -109,7 +109,6 @@ class MyFragment : BaseFragment() {
             }
         }
         mainViewModel.userId.observe(viewLifecycleOwner) { userId ->
-            toast("userId = $userId")
             if (userId == 0L) {
                 myFragmentUserAdapter.adapterUser = MyFragmentUserAdapter.AdapterUser(
                     null, "立即登录", null

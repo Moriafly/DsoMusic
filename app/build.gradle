@@ -36,7 +36,7 @@ android {
         applicationId "com.dirror.music"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 757
+        versionCode 758
         versionName "3.13.0"
 
         multiDexEnabled true
