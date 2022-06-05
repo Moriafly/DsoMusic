@@ -103,12 +103,13 @@ class PlayerActivity : SlideBackActivity() {
 
     // CD 旋转动画
     private val objectAnimator: ObjectAnimator by lazy {
-        ObjectAnimator.ofFloat(binding.includePlayerCover.root, ANIMATION_PROPERTY_NAME, 0f, 360f).apply {
-            interpolator = LinearInterpolator()
-            duration = DURATION_CD
-            repeatCount = ANIMATION_REPEAT_COUNTS
-            start()
-        }
+        ObjectAnimator.ofFloat(binding.includePlayerCover.root, ANIMATION_PROPERTY_NAME, 0f, 360f)
+            .apply {
+                interpolator = LinearInterpolator()
+                duration = DURATION_CD
+                repeatCount = ANIMATION_REPEAT_COUNTS
+                start()
+            }
     }
 
     private var previousBitmap: Bitmap? = null
@@ -160,7 +161,12 @@ class PlayerActivity : SlideBackActivity() {
             seekBarVolume.progress = VolumeManager.getCurrentVolume()
 
             lyricView.setLabel("聆听好音乐")
-            lyricView.setTimelineTextColor(ContextCompat.getColor(this@PlayerActivity, R.color.colorTextForeground))
+            lyricView.setTimelineTextColor(
+                ContextCompat.getColor(
+                    this@PlayerActivity,
+                    R.color.colorTextForeground
+                )
+            )
         }
         if (isLandScape) {
             slideBackEnabled = false
@@ -280,7 +286,10 @@ class PlayerActivity : SlideBackActivity() {
                     if (standardSongData.source == SOURCE_NETEASE) {
                         standardSongData.artists?.let {
                             it[0].artistId?.let { artistId ->
-                                App.activityManager.startArtistActivity(this@PlayerActivity, artistId)
+                                App.activityManager.startArtistActivity(
+                                    this@PlayerActivity,
+                                    artistId
+                                )
                             }
                         }
                     } else {
@@ -295,7 +304,11 @@ class PlayerActivity : SlideBackActivity() {
             // 歌曲进度条变化的监听
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
-                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
                     // 判断是否为用户
                     if (fromUser) {
                         playViewModel.setProgress(progress)
@@ -307,10 +320,15 @@ class PlayerActivity : SlideBackActivity() {
                 override fun onStopTrackingTouch(seekBar: SeekBar?) {}
 
             })
+
             // 音量调节监听
             seekBarVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
-                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
                     // 判断是否为用户
                     if (fromUser) {
                         playViewModel.currentVolume.value = progress
@@ -405,22 +423,31 @@ class PlayerActivity : SlideBackActivity() {
                                 .clearFilters()
                                 .generate { palette ->
                                     palette?.let {
-                                        val muteColor = if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                            palette.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
-                                        } else {
-                                            palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
-                                        }
-                                        val vibrantColor = palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
-                                        playViewModel.normalColor.value =  if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                            muteColor.colorMix(vibrantColor, Color.WHITE, Color.WHITE, Color.WHITE)
-                                        } else {
-                                            muteColor.colorMix(vibrantColor, Color.BLACK)
-                                        }
-                                        playViewModel.color.value =  if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
-                                            vibrantColor // muteColor.colorMix(vibrantColor)
-                                        } else {
-                                            vibrantColor // muteColor.colorMix(vibrantColor)
-                                        }
+                                        val muteColor =
+                                            if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                                palette.getLightMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                            } else {
+                                                palette.getDarkMutedColor(PlayerViewModel.DEFAULT_COLOR)
+                                            }
+                                        val vibrantColor =
+                                            palette.getVibrantColor(PlayerViewModel.DEFAULT_COLOR)
+                                        playViewModel.normalColor.value =
+                                            if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                                muteColor.colorMix(
+                                                    vibrantColor,
+                                                    Color.WHITE,
+                                                    Color.WHITE,
+                                                    Color.WHITE
+                                                )
+                                            } else {
+                                                muteColor.colorMix(vibrantColor, Color.BLACK)
+                                            }
+                                        playViewModel.color.value =
+                                            if (DarkThemeUtil.isDarkTheme(this@PlayerActivity)) {
+                                                vibrantColor // muteColor.colorMix(vibrantColor)
+                                            } else {
+                                                vibrantColor // muteColor.colorMix(vibrantColor)
+                                            }
                                     }
                                 }
                         }
@@ -558,9 +585,12 @@ class PlayerActivity : SlideBackActivity() {
                     ivList.setColorFilter(it)
 
                     seekBar.thumb.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
-                    seekBar.progressDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
-                    seekBarVolume.thumb.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
-                    seekBarVolume.progressDrawable.colorFilter = PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
+                    seekBar.progressDrawable.colorFilter =
+                        PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
+                    seekBarVolume.thumb.colorFilter =
+                        PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
+                    seekBarVolume.progressDrawable.colorFilter =
+                        PorterDuffColorFilter(it, PorterDuff.Mode.SRC_IN)
 
                     ivVolume.setColorFilter(it)
                     if (playViewModel.heart.value == true) {
@@ -574,7 +604,11 @@ class PlayerActivity : SlideBackActivity() {
                     binding.ivLike.setImageDrawable(R.drawable.ic_player_heart.asDrawable(this@PlayerActivity))
                     binding.ivLike.setColorFilter(R.color.colorAppThemeColor.asColor(this@PlayerActivity))
                 } else {
-                    binding.ivLike.setImageDrawable(R.drawable.ic_player_heart_outline.asDrawable(this@PlayerActivity))
+                    binding.ivLike.setImageDrawable(
+                        R.drawable.ic_player_heart_outline.asDrawable(
+                            this@PlayerActivity
+                        )
+                    )
                     playViewModel.normalColor.value?.let { it1 -> binding.ivLike.setColorFilter(it1) }
                 }
             })
@@ -655,14 +689,18 @@ class PlayerActivity : SlideBackActivity() {
      * 监听音量物理按键
      */
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        // 判断是否精准修改
+       val isFineTuning = App.mmkv.getBoolean(Config.FINE_TUNING, true)
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_UP -> {
-                playViewModel.addVolume()
-                return true
+                if (isFineTuning)
+                    playViewModel.addVolume()
+                return  isFineTuning
             }
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                playViewModel.reduceVolume()
-                return true
+                if (isFineTuning)
+                    playViewModel.reduceVolume()
+                return isFineTuning
             }
         }
         return super.onKeyDown(keyCode, event)

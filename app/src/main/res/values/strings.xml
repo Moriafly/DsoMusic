@@ -115,6 +115,8 @@
     <string name="netease_audio_source_search">网易音源搜索</string>
     <string name="cache">缓存</string>
     <string name="ink_screen_mode">墨水屏模式</string>
+    <string name="fine_tuning">精细调节</string>
+    <string name="fine_tuning_sub">音乐界面音量控制的精细调节</string>
     <string name="image_cache">图片缓存</string>
     <string name="clear_image_cache">清除图片缓存</string>
     <string name="service">服务</string>
