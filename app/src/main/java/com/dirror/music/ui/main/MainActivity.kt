@@ -31,7 +31,6 @@ import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -43,9 +42,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityMainBinding
-import com.dirror.music.manager.ActivityCollector
-import com.dirror.music.ui.activity.AboutActivity
-import com.dirror.music.ui.activity.FeedbackActivity
 import com.dirror.music.ui.activity.SearchActivity
 import com.dirror.music.ui.activity.SettingsActivity
 import com.dirror.music.ui.base.BaseActivity

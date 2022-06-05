@@ -16,7 +16,7 @@ class SongSearchActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySongSearchBinding
 
-    val adapter = SongAdapter() {
+    val adapter = SongAdapter {
         SongMenuDialog(this, this, it) {
             toast("不支持删除")
         }.show()

@@ -132,7 +132,7 @@ class CloudMusicManager {
         }
         MagicHttp.OkHttpManager().newGet(url, {
             try {
-                loge("评论返回" + it)
+                loge("评论返回$it")
                 val codeData = Gson().fromJson(it, CodeData::class.java)
                 if (codeData.code != 200) {
                     failure.invoke()
