@@ -6,14 +6,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "30.0.2"
 
     useLibrary 'org.apache.http.legacy'
 
     kotlinOptions {
         jvmTarget = 1.8
-        useIR = true
         freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
     }
 
@@ -35,7 +34,7 @@ android {
     defaultConfig {
         applicationId "com.dirror.music"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 758
         versionName "3.13.0"
 

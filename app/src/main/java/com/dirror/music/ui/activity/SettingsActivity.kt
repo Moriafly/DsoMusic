@@ -71,6 +71,7 @@ class SettingsActivity : BaseActivity() {
                     true
                 )
             )
+            switcherFineTuning.setChecked(mmkv.decodeBool(Config.FINE_TUNING, true))
             switcherSmartFilter.setChecked(mmkv.decodeBool(Config.SMART_FILTER, true))
             switcherAudioFocus.setChecked(mmkv.decodeBool(Config.ALLOW_AUDIO_FOCUS, true))
             switcherSingleColumnPlaylist.setChecked(mmkv.decodeBool(Config.SINGLE_COLUMN_USER_PLAYLIST, false))
@@ -110,7 +111,12 @@ class SettingsActivity : BaseActivity() {
             ) }
 
             switcherSkipErrorMusic.setOnCheckedChangeListener { mmkv.encode(Config.SKIP_ERROR_MUSIC, it) }
-
+            switcherFineTuning.setOnCheckedChangeListener {
+                mmkv.encode(
+                    Config.FINE_TUNING,
+                    it
+                )
+            }
             switcherPlayOnMobile.setOnCheckedChangeListener { mmkv.encode(Config.PLAY_ON_MOBILE, it) }
 
             switcherPauseSongAfterUnplugHeadset.setOnCheckedChangeListener { mmkv.encode(

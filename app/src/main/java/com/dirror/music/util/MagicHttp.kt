@@ -94,7 +94,6 @@ object MagicHttp {
         ) {
             try {
                 val client = OkHttpClient.Builder()
-                    .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(3, TimeUnit.SECONDS)
                     .writeTimeout(3, TimeUnit.SECONDS)
@@ -130,7 +129,6 @@ object MagicHttp {
         override fun newGet(url: String, success: (String) -> Unit, failure: (String) -> Unit) {
             try {
                 val client = OkHttpClient.Builder()
-                    .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(3, TimeUnit.SECONDS)
                     .writeTimeout(3, TimeUnit.SECONDS)
@@ -169,7 +167,6 @@ object MagicHttp {
         override fun post(url: String, json: String, success: (String) -> Unit) {
             try {
                 val client = OkHttpClient.Builder()
-                    .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(3, TimeUnit.SECONDS)
                     .writeTimeout(3, TimeUnit.SECONDS)
@@ -201,7 +198,6 @@ object MagicHttp {
             try {
                 val client = OkHttpClient.Builder()
                     // .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("110.243.17.83", 9999)))
-                    // .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(3, TimeUnit.SECONDS)
                     .writeTimeout(3, TimeUnit.SECONDS)
@@ -284,7 +280,6 @@ object MagicHttp {
             return suspendCoroutine {
                 try {
                     val client = OkHttpClient.Builder()
-                        .proxy(Proxy.NO_PROXY) // 禁止代理，防止抓包
                         .connectTimeout(5, TimeUnit.SECONDS)
                         .readTimeout(3, TimeUnit.SECONDS)
                         .writeTimeout(3, TimeUnit.SECONDS)
