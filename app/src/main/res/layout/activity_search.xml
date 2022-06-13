@@ -96,9 +96,8 @@
         android:id="@+id/clPanel"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="52dp"
         android:background="@color/colorPageBackground"
-        app:layout_constraintBottom_toBottomOf="@+id/miniPlayer"
+        app:layout_constraintBottom_toTopOf="@+id/miniPlayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clTip">
@@ -271,6 +270,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_kuwo_music_engine"
+                    tools:ignore="VectorDrawableCompat" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clBilibili"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/ivBilibili"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_bilibili_music_engine"
                     tools:ignore="VectorDrawableCompat" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

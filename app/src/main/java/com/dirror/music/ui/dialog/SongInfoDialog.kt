@@ -75,6 +75,9 @@ class SongInfoDialog(
                     SOURCE_KUWO -> {
                         binding.valueViewSource.setValue("酷我音乐")
                     }
+                    SOURCE_BILIBILI -> {
+                        binding.valueViewSource.setValue("B站")
+                    }
                 }
 
             }

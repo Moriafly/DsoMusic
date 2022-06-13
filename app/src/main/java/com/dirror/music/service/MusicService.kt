@@ -48,6 +48,7 @@ import com.dirror.music.App
 import com.dirror.music.App.Companion.context
 import com.dirror.music.App.Companion.mmkv
 import com.dirror.music.R
+import com.dirror.music.music.bilibili.BilibiliUrl
 import com.dirror.music.music.local.PlayHistory
 import com.dirror.music.music.netease.PersonalFM
 import com.dirror.music.music.standard.data.*
@@ -56,6 +57,7 @@ import com.dirror.music.ui.main.MainActivity
 import com.dirror.music.ui.player.PlayerActivity
 import com.dirror.music.util.*
 import com.dso.ext.*
+import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
@@ -409,8 +411,16 @@ class MusicService : BaseMediaService() {
                                     return@runOnMainThread
                                 } else {
                                     try {
-                                        setDataSource(it)
+                                        if(it.contains("bilivideo")){
+                                            val uri = Uri.parse(it)
+                                            Log.i("SETURL"," BILIBILIURL " + it + " " + Gson().toJson(BilibiliUrl.headers))
+                                            setDataSource(applicationContext, uri, BilibiliUrl.headers)
+                                        }else {
+                                            Log.i("SETURL"," NORMALURL " + it)
+                                            setDataSource(it)
+                                        }
                                     } catch (e: Exception) {
+                                        Log.e("FYERROR", "error", e)
                                         onError(mediaPlayer, -1, 0)
                                         return@runOnMainThread
                                     }

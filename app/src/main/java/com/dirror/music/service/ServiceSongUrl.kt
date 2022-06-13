@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.net.Uri
 import com.dirror.music.App
 import com.dirror.music.data.LyricViewData
+import com.dirror.music.music.bilibili.BilibiliUrl
 import com.dirror.music.music.kuwo.SearchSong
 import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
@@ -84,6 +85,11 @@ object ServiceSongUrl {
                 GlobalScope.launch {
                     val url = SearchSong.getUrl(song.id ?: "")
                     success.invoke(url)
+                }
+            }
+            SOURCE_BILIBILI -> {
+                GlobalScope.launch {
+                    success.invoke(BilibiliUrl.getPlayUrl(song.id ?: ""))
                 }
             }
             SOURCE_NETEASE_CLOUD -> {

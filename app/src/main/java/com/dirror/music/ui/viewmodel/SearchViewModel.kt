@@ -14,6 +14,7 @@ class SearchViewModel: ViewModel() {
         const val ENGINE_NETEASE = 1
         const val ENGINE_QQ = 2
         const val ENGINE_KUWO = 3
+        const val ENGINE_BILIBILI = 4
     }
 
     /* 搜索引擎 */

@@ -23,6 +23,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import dalvik.system.DexClassLoader;
+import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 public class PluginSupport {
@@ -68,11 +69,17 @@ public class PluginSupport {
         });
 
 
-        pluginContext.put(PluginConstants.METHOD_GET_URL_PROXY, new Function<Function1, Object>() {
+        pluginContext.put(PluginConstants.METHOD_GET_URL_PROXY, new Function<Function, Object>() {
             @Override
-            public Object apply(Function1 success) {
+            public Object apply(Function success) {
                 StandardSongData songData = (StandardSongData) pluginContext.get(PluginConstants.FIELD_SONG);
-                ServiceSongUrl.INSTANCE.getUrlProxy(songData, success);
+                ServiceSongUrl.INSTANCE.getUrlProxy(songData, new Function1<Object, Unit>() {
+                    @Override
+                    public Unit invoke(Object o) {
+                        success.apply(o);
+                        return Unit.INSTANCE;
+                    }
+                });
                 return null;
             }
         });

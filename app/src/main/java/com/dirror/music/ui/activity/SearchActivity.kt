@@ -124,6 +124,10 @@ class SearchActivity : BaseActivity() {
 //                toast("酷我音源暂只支持精确搜索，需要填入完整歌曲名")
             }
 
+            clBilibili.setOnClickListener {
+                changeSearchEngine(SearchViewModel.ENGINE_BILIBILI)
+            }
+
             itemOpenSource.setOnClickListener {
                 openUrlByBrowser(this@SearchActivity, "https://github.com/Moriafly/DsoMusic")
             }
@@ -175,26 +179,37 @@ class SearchActivity : BaseActivity() {
     }
 
     override fun initObserver() {
-        searchViewModel.searchEngine.observe(this, {
+        searchViewModel.searchEngine.observe(this) {
             binding.apply {
-                clNetease.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
+                clNetease.background =
+                    R.drawable.background_transparency.asDrawable(this@SearchActivity)
                 clQQ.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
-                clKuwo.background = R.drawable.background_transparency.asDrawable(this@SearchActivity)
+                clKuwo.background =
+                    R.drawable.background_transparency.asDrawable(this@SearchActivity)
+                clBilibili.background =
+                    R.drawable.background_transparency.asDrawable(this@SearchActivity)
             }
-            val vis = if(it == SearchViewModel.ENGINE_NETEASE) View.VISIBLE else View.GONE
+            val vis = if (it == SearchViewModel.ENGINE_NETEASE) View.VISIBLE else View.GONE
             binding.searchTypeView.visibility = vis
             when (it) {
                 SearchViewModel.ENGINE_NETEASE -> {
-                    binding.clNetease.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+                    binding.clNetease.background =
+                        ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
                 }
                 SearchViewModel.ENGINE_QQ -> {
-                    binding.clQQ.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+                    binding.clQQ.background =
+                        ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
                 }
                 SearchViewModel.ENGINE_KUWO -> {
-                    binding.clKuwo.background = ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+                    binding.clKuwo.background =
+                        ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
+                }
+                SearchViewModel.ENGINE_BILIBILI -> {
+                    binding.clBilibili.background =
+                        ContextCompat.getDrawable(this@SearchActivity, R.drawable.bg_edit_text)
                 }
             }
-        })
+        }
     }
 
     /**
@@ -240,6 +255,11 @@ class SearchActivity : BaseActivity() {
                 }
                 SearchViewModel.ENGINE_KUWO -> {
                     com.dirror.music.music.kuwo.SearchSong.search(keywords) {
+                        initRecycleView(it)
+                    }
+                }
+                SearchViewModel.ENGINE_BILIBILI -> {
+                    com.dirror.music.music.bilibili.SearchSong.search(keywords) {
                         initRecycleView(it)
                     }
                 }

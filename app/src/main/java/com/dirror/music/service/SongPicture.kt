@@ -62,6 +62,13 @@ object SongPicture {
                     }
                 }
             }
+            SOURCE_BILIBILI -> {
+                songData.imageUrl?.let { url ->
+                    CoilUtil.load(context, url) {
+                        success.invoke(it)
+                    }
+                }
+            }
             SOURCE_LOCAL -> {
                 songData.imageUrl?.let {
                     val bitmap = LocalMusic.getBitmapFromUir(context, it.toUri())
