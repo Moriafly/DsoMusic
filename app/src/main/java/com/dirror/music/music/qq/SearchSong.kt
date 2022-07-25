@@ -11,18 +11,22 @@ object SearchSong {
     fun search(keywords: String, success: (ArrayList<StandardSongData>) -> Unit) {
         val url = "https://c.y.qq.com/soso/fcgi-bin/client_search_cp?aggr=1&cr=1&flag_qc=0&p=1&n=20&w=${keywords}"
         MagicHttp.OkHttpManager().newGet(url, {
-            var response = it.replace("callback(", "")
-            if (response.endsWith(")")) {
-                response = response.substring(0, response.lastIndex)
-            }
-            val qqSearch = Gson().fromJson(response, QQSearch::class.java)
-            val standardSongList = ArrayList<StandardSongData>()
-            if (qqSearch.data.song.list.isNotEmpty()) {
-                for (song in qqSearch.data.song.list) {
-                    standardSongList.add(song.switchToStandard())
+            try {
+                var response = it.replace("callback(", "")
+                if (response.endsWith(")")) {
+                    response = response.substring(0, response.lastIndex)
                 }
+                val qqSearch = Gson().fromJson(response, QQSearch::class.java)
+                val standardSongList = ArrayList<StandardSongData>()
+                if (qqSearch.data.song.list.isNotEmpty()) {
+                    for (song in qqSearch.data.song.list) {
+                        standardSongList.add(song.switchToStandard())
+                    }
+                }
+                success.invoke(standardSongList)
+            } catch (e: Exception) {
+
             }
-            success.invoke(standardSongList)
         }, {
 
         })
