@@ -2,8 +2,8 @@ package com.dirror.music.music.kuwo
 
 import android.net.Uri
 import com.dirror.music.App
-import com.dirror.music.music.standard.data.SOURCE_KUWO
-import com.dirror.music.music.standard.data.StandardSongData
+import com.dirror.music.data.SearchType
+import com.dirror.music.music.standard.data.*
 import com.dirror.music.plugin.PluginConstants
 import com.dirror.music.plugin.PluginSupport
 import com.dirror.music.util.*
@@ -18,9 +18,9 @@ object SearchSong {
 
     // http://search.kuwo.cn/r.s?songname=%E6%90%81%E6%B5%85&ft=music&rformat=json&encoding=utf8&rn=8&callback=song&vipver=MUSIC_8.0.3.1
     // http://kuwo.cn/api/www/search/searchMusicBykeyWord?key=%E6%90%81%E6%B5%85&pn=1&rn=30&httpsStatus=1&reqId=24020ad0-3ab4-11eb-8b50-cf8a98bef531
-    fun search(keywords: String, success: (ArrayList<StandardSongData>) -> Unit) {
+    fun search(keywords: String,searchType: SearchType, success: (StandardSearchResult) -> Unit) {//不是歌单其余都是搜索单曲a
         val url =
-            "http://kuwo.cn/api/www/search/searchMusicBykeyWord?key=$keywords&pn=1&rn=50&httpsStatus=1&reqId=24020ad0-3ab4-11eb-8b50-cf8a98bef531"
+            "http://kuwo.cn/api/www/search/${if (searchType == SearchType.PLAYLIST) "searchPlayListBykeyWord" else "searchMusicBykeyWord"}?key=$keywords&pn=1&rn=50&httpsStatus=1&reqId=24020ad0-3ab4-11eb-8b50-cf8a98bef531"
         MagicHttp.OkHttpManager().getWithHeader(url, mapOf(
             "Referer" to Uri.encode("http://kuwo.cn/search/list?key=$keywords"),
             "Cookie" to "kw_token=EUOH79P2LLK",
@@ -29,24 +29,41 @@ object SearchSong {
         ), {
             try {
                 val resp = JSONObject(it)
-                val songList = resp
+                val dataList = resp
                     .getJSONObject("data")
                     .getJSONArray("list")
 
+                //歌曲
                 val standardSongDataList = ArrayList<StandardSongData>()
+                //歌单
+                val standardPlaylist = ArrayList<StandardPlaylist>()
                 // 每首歌适配
-                (0 until songList.length()).forEach {
-                    val songInfo = songList[it] as JSONObject
-                    standardSongDataList.add(
-                        KuwoSearchData.SongData(
-                            songInfo.getIntOrNull("rid").toString(),
-                            songInfo.getStr("name", ""),
-                            songInfo.getStr("artist", ""),
-                            songInfo.getStr("pic", "")
-                        ).switchToStandard()
-                    )
+                (0 until dataList.length()).forEach {
+                    val item = dataList[it] as JSONObject
+                    if (searchType == SearchType.SINGLE){//标准类型歌曲集合
+                        standardSongDataList.add(
+                            KuwoSearchData.SongData(
+                                item.getIntOrNull("rid").toString(),
+                                item.getStr("name", ""),
+                                item.getStr("artist", ""),
+                                item.getStr("pic", "")
+                            ).switchToStandard()
+                        )
+                    }else{//标准类型歌单集合
+                        standardPlaylist.add(
+                            StandardPlaylist(
+                                item.getLong("id"),
+                                item.getStr("name", ""),
+                                item.getStr("img", ""),
+                                "",
+                                item.getStr("uname", ""),
+                                item.getIntOrNull("total"),
+                                item.getLong("listencnt")
+                            )
+                        )
+                    }
                 }
-                success.invoke(standardSongDataList)
+                success.invoke(StandardSearchResult(standardSongDataList,standardPlaylist, emptyList(), emptyList()))
             } catch (e: Exception) {
                 e.printStackTrace()
                 toast("网络异常,或者解析错误")
@@ -136,6 +153,34 @@ object SearchSong {
         return ""
     }
 
+    /**
+     * 获取歌单详情
+     */
+    suspend fun getPlaylist(id: Long): PlaylistWrapData {
+        val url =
+            "https://nplserver.kuwo.cn/pl.svc?op=getlistinfo&pn=0&rn=30&encode=utf-8&keyset=pl2012&pcmp4=1&pid=${id}&vipver=MUSIC_9.0.2.0_W1&newver=1"
+        val resJson = MagicHttp.OkHttpManager().get(url)
+
+        val resp = JSONObject(resJson)
+
+        val musicList = resp.getJSONArray("musiclist")
+
+        val standardSongDataList = ArrayList<StandardSongData>()
+        // 每首歌适配
+        (0 until musicList.length()).forEach {
+            val item = musicList[it] as JSONObject
+            standardSongDataList.add(
+                KuwoSearchData.SongData(
+                    item.getIntOrNull("id").toString(),
+                    item.getStr("name", ""),
+                    item.getStr("artist", ""),
+                    item.getStr("pic", resp.getString("pic"))//歌单的歌曲条目貌似没有返回歌曲图片,用歌单图替代
+                ).switchToStandard()
+            )
+        }
+        return PlaylistWrapData(standardSongDataList,resp.getString("pic"),resp.getString("title"),resp.getString("info"))
+    }
+
     data class KuwoSearchData(
         val abslist: ArrayList<SongData>
     ) {
@@ -170,4 +215,13 @@ object SearchSong {
         val url: String?
     )
 
+    /**
+     * 包裹着歌单信息和已转换的通用歌曲类型集合
+     */
+    data class PlaylistWrapData(
+        val songList: ArrayList<StandardSongData>,
+        val playlistUrl :String?,
+        val playlistTitle :String?,
+        val playlistDescription :String?,
+    )
 }
