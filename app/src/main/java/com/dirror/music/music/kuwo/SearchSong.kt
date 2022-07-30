@@ -18,7 +18,7 @@ object SearchSong {
 
     // http://search.kuwo.cn/r.s?songname=%E6%90%81%E6%B5%85&ft=music&rformat=json&encoding=utf8&rn=8&callback=song&vipver=MUSIC_8.0.3.1
     // http://kuwo.cn/api/www/search/searchMusicBykeyWord?key=%E6%90%81%E6%B5%85&pn=1&rn=30&httpsStatus=1&reqId=24020ad0-3ab4-11eb-8b50-cf8a98bef531
-    fun search(keywords: String,searchType: SearchType, success: (StandardSearchResult) -> Unit) {//不是歌单其余都是搜索单曲a
+    fun search(keywords: String,searchType: SearchType, success: (StandardSearchResult) -> Unit) {//不是歌单就是搜索单曲
         val url =
             "http://kuwo.cn/api/www/search/${if (searchType == SearchType.PLAYLIST) "searchPlayListBykeyWord" else "searchMusicBykeyWord"}?key=$keywords&pn=1&rn=50&httpsStatus=1&reqId=24020ad0-3ab4-11eb-8b50-cf8a98bef531"
         MagicHttp.OkHttpManager().getWithHeader(url, mapOf(
@@ -40,16 +40,7 @@ object SearchSong {
                 // 每首歌适配
                 (0 until dataList.length()).forEach {
                     val item = dataList[it] as JSONObject
-                    if (searchType == SearchType.SINGLE){//标准类型歌曲集合
-                        standardSongDataList.add(
-                            KuwoSearchData.SongData(
-                                item.getIntOrNull("rid").toString(),
-                                item.getStr("name", ""),
-                                item.getStr("artist", ""),
-                                item.getStr("pic", "")
-                            ).switchToStandard()
-                        )
-                    }else{//标准类型歌单集合
+                    if (searchType == SearchType.PLAYLIST){//标准类型歌单集合
                         standardPlaylist.add(
                             StandardPlaylist(
                                 item.getLong("id"),
@@ -60,6 +51,15 @@ object SearchSong {
                                 item.getIntOrNull("total"),
                                 item.getLong("listencnt")
                             )
+                        )
+                    }else{//标准类型歌曲集合
+                        standardSongDataList.add(
+                            KuwoSearchData.SongData(
+                                item.getIntOrNull("rid").toString(),
+                                item.getStr("name", ""),
+                                item.getStr("artist", ""),
+                                item.getStr("pic", "")
+                            ).switchToStandard()
                         )
                     }
                 }
