@@ -25,6 +25,7 @@ import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.ui.playlist.SongPlaylistActivity
+import com.dirror.music.ui.playlist.TAG_KUWO
 import com.dirror.music.ui.playlist.TAG_NETEASE
 import com.dirror.music.ui.viewmodel.SearchViewModel
 import com.dirror.music.util.*
@@ -132,12 +133,38 @@ class SearchActivity : BaseActivity() {
                 openUrlByBrowser(this@SearchActivity, "https://github.com/Moriafly/DsoMusic")
             }
 
-            searchTypeView.setMainFabClosedDrawable(resources.getDrawable(SearchType.getIconRes(searchType)))
+            searchTypeView.setMainFabClosedDrawable(
+                resources.getDrawable(
+                    SearchType.getIconRes(
+                        searchType
+                    )
+                )
+            )
 
-            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_single, R.drawable.ic_baseline_music_single_24).setLabel("单曲").create())
-            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_album, R.drawable.ic_baseline_album_24).setLabel("专辑").create())
-            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_playlist, R.drawable.ic_baseline_playlist_24).setLabel("歌单").create())
-            searchTypeView.addActionItem(SpeedDialActionItem.Builder(R.id.search_type_singer, R.drawable.ic_baseline_singer_24).setLabel("歌手").create())
+            searchTypeView.addActionItem(
+                SpeedDialActionItem.Builder(
+                    R.id.search_type_single,
+                    R.drawable.ic_baseline_music_single_24
+                ).setLabel("单曲").create()
+            )
+            searchTypeView.addActionItem(
+                SpeedDialActionItem.Builder(
+                    R.id.search_type_album,
+                    R.drawable.ic_baseline_album_24
+                ).setLabel("专辑").create()
+            )
+            searchTypeView.addActionItem(
+                SpeedDialActionItem.Builder(
+                    R.id.search_type_playlist,
+                    R.drawable.ic_baseline_playlist_24
+                ).setLabel("歌单").create()
+            )
+            searchTypeView.addActionItem(
+                SpeedDialActionItem.Builder(
+                    R.id.search_type_singer,
+                    R.drawable.ic_baseline_singer_24
+                ).setLabel("歌手").create()
+            )
 
             searchTypeView.setOnActionSelectedListener { item ->
                 searchTypeView.setMainFabClosedDrawable(item.getFabImageDrawable(this@SearchActivity))
@@ -217,7 +244,8 @@ class SearchActivity : BaseActivity() {
      */
     private fun search() {
         // 关闭软键盘
-        val inputMethodManager: InputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager: InputMethodManager =
+            this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(this.window?.decorView?.windowToken, 0)
 
         var keywords = binding.etSearch.text.toString()
@@ -239,8 +267,8 @@ class SearchActivity : BaseActivity() {
                         if (result != null) {
                             withContext(Dispatchers.Main) {
                                 when (searchType) {
-                                    SearchType.SINGLE ->  initRecycleView(result.songs)
-                                    SearchType.PLAYLIST -> initPlaylist(result.playlist)
+                                    SearchType.SINGLE -> initRecycleView(result.songs)
+                                    SearchType.PLAYLIST -> initPlaylist(result.playlist, TAG_NETEASE)
                                     SearchType.ALBUM -> initAlbums(result.albums)
                                     SearchType.SINGER -> initSingers(result.singers)
                                 }
@@ -254,8 +282,14 @@ class SearchActivity : BaseActivity() {
                     }
                 }
                 SearchViewModel.ENGINE_KUWO -> {
-                    com.dirror.music.music.kuwo.SearchSong.search(keywords) {
-                        initRecycleView(it)
+                    com.dirror.music.music.kuwo.SearchSong.search(keywords, searchType) {
+                        when (searchType) {
+                            SearchType.SINGLE -> initRecycleView(it.songs)
+                            SearchType.PLAYLIST -> runOnUiThread {
+                                initPlaylist(it.playlist, TAG_KUWO)
+                            }
+                            else -> {}
+                        }
                     }
                 }
                 SearchViewModel.ENGINE_BILIBILI -> {
@@ -294,11 +328,11 @@ class SearchActivity : BaseActivity() {
         }
     }
 
-    private fun initPlaylist(playlists:List<StandardPlaylist>) {
+    private fun initPlaylist(playlists: List<StandardPlaylist>,tag:Int) {
         binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
         binding.rvPlaylist.adapter = PlaylistAdapter {
             val intent = Intent(this@SearchActivity, SongPlaylistActivity::class.java)
-            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, TAG_NETEASE)
+            intent.putExtra(SongPlaylistActivity.EXTRA_TAG, tag)
             intent.putExtra(SongPlaylistActivity.EXTRA_ID, it.id.toString())
             startActivity(intent)
         }.apply {
@@ -306,7 +340,7 @@ class SearchActivity : BaseActivity() {
         }
     }
 
-    private fun initAlbums(albums:List<StandardAlbum>) {
+    private fun initAlbums(albums: List<StandardAlbum>) {
         binding.rvPlaylist.layoutManager = LinearLayoutManager(this)
         binding.rvPlaylist.adapter = AlbumAdapter {
             val intent = Intent(this@SearchActivity, SongPlaylistActivity::class.java)
@@ -322,7 +356,10 @@ class SearchActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // 保存搜索引擎
-        mmkv.encode(Config.SEARCH_ENGINE, searchViewModel.searchEngine.value ?: SearchViewModel.ENGINE_NETEASE)
+        mmkv.encode(
+            Config.SEARCH_ENGINE,
+            searchViewModel.searchEngine.value ?: SearchViewModel.ENGINE_NETEASE
+        )
 
     }
 
