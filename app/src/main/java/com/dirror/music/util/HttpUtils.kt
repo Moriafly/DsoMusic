@@ -171,6 +171,51 @@ object HttpUtils {
         return@withContext if (result != null) CacheResult(result, isCache) else null
     }
 
+    suspend fun <T> loginPost(
+        url: String,
+        params: Map<String, String>,
+        clazz: Class<T>,
+    ): T? = withContext(Dispatchers.IO) {
+        val time = System.currentTimeMillis()
+        var result: T? = null
+        val bodyBuilder = FormBody.Builder()
+        for ((k,v) in params) {
+            bodyBuilder.add(k, v)
+        }
+        bodyBuilder.add("realIP", App.realIP)
+        var str:String? = null
+        var isCache = false
+        try {
+            val request = Request.Builder()
+                .url(url)
+                .post(bodyBuilder.build())
+                .build()
+
+            val response = client.newCall(request).execute()
+            val cookie = response.header("Set-Cookie")
+            response.close()
+
+            val request2 = Request.Builder()
+                .url(url)
+                .header("Cookie", cookie?:"")
+                .post(bodyBuilder.build())
+                .build()
+            val response2 = client.newCall(request2).execute()
+            str = response2.body()?.string()
+            if (response2.code() != 200) {
+                Log.d(TAG, "post $url , params:${params}, response:$str")
+            }
+            result = gson.fromJson(str, clazz)
+        } catch (e:JsonSyntaxException) {
+            Log.w(TAG, "json parse failed, $e")
+        } catch (e: Exception) {
+            Log.w(TAG, "post failed:${e} ,url:$url")
+            e.printStackTrace()
+        }
+        Log.d(TAG, "post $url cost: ${System.currentTimeMillis() - time} ms")
+        return@withContext result
+    }
+
     class CommonParamsInterceptor: Interceptor {
 
         companion object {

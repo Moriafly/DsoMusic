@@ -28,10 +28,13 @@ import androidx.annotation.Keep
 import androidx.lifecycle.ViewModel
 import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.UserDetailData
-import com.dirror.music.util.*
+import com.dirror.music.util.AppConfig
+import com.dirror.music.util.EMPTY
+import com.dirror.music.util.ErrorCode
+import com.dirror.music.util.HttpUtils
 import com.dirror.music.util.sky.SkySecure
-import com.google.gson.Gson
-import okhttp3.FormBody
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * 手机号登录 ViewModel
@@ -53,31 +56,24 @@ class LoginCellphoneViewModel : ViewModel() {
         failure: (Int) -> Unit
     ) {
         val passwordMD5 = SkySecure.getMD5(password)
-        val requestBody = FormBody.Builder()
-            .add("phone", phone)
-            .add("countrycode", "86")
-            .add("md5_password", passwordMD5)
-            .build()
-        MagicHttp.OkHttpManager().newPost("${api}/login/cellphone", requestBody, {
-            try {
-                val userDetail = Gson().fromJson(it, UserDetailData::class.java)
-                if (userDetail.code != 200) {
-                    failure.invoke(userDetail.code)
-                } else {
-                    // 更新 User 信息
-                    User.apply {
-                        AppConfig.cookie = userDetail.cookie ?: String.EMPTY
-                        uid = userDetail.profile.userId
-                        vipType = userDetail.profile.vipType
-                    }
-                    success.invoke(userDetail)
+        GlobalScope.launch {
+            val map = HashMap<String, String>()
+            map["phone"] = phone
+            map["countrycode"] = "86"
+            map["md5_password"] = passwordMD5
+            val userDetail =
+                HttpUtils.loginPost("${api}/login/cellphone", map, UserDetailData::class.java)
+            if (userDetail != null && userDetail.code == 200) {
+                User.apply {
+                    AppConfig.cookie = userDetail.cookie ?: String.EMPTY
+                    uid = userDetail.profile.userId
+                    vipType = userDetail.profile.vipType
                 }
-            } catch (e: Exception) {
+                success.invoke(userDetail)
+            } else {
                 failure.invoke(ErrorCode.ERROR_MAGIC_HTTP)
             }
-        }, {
-            failure.invoke(ErrorCode.ERROR_MAGIC_HTTP)
-        })
+        }
     }
 
 }
