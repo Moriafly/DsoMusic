@@ -7,7 +7,6 @@ plugins {
 
 android {
     compileSdkVersion 32
-    buildToolsVersion "30.0.2"
 
     useLibrary 'org.apache.http.legacy'
 
@@ -59,11 +58,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
-        exclude 'lib/*/libRSSupport.so'
-        exclude 'META-INF/library_release.kotlin_module'
+        jniLibs {
+            excludes += ['lib/*/libRSSupport.so']
+        }
+        resources {
+            excludes += ['META-INF/library_release.kotlin_module']
+        }
     }
+
+    namespace 'com.dirror.music'
 }
 
 dependencies {
