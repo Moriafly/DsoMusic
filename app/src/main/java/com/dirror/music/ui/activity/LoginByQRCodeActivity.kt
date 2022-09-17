@@ -48,21 +48,21 @@ class LoginByQRCodeActivity : BaseActivity() {
     override fun initView() {
         super.initView()
         binding.ivSearch.setOnClickListener { finish() }
-        binding.saveToLocal.setOnClickListener{ saveImageFile() }
+        binding.ivSaveToLocal.setOnClickListener{ saveImageFile() }
     }
 
     override fun initObserver() {
         super.initObserver()
         viewModel.apply {
-            mQRCodeBitMutable.observe(this@LoginByQRCodeActivity, {
-                binding.qRCodeImage.setImageBitmap(it)
+            mQRCodeBitMutable.observe(this@LoginByQRCodeActivity) {
+                binding.ivQRCode.setImageBitmap(it)
                 syncJob?.cancel()
-                syncJob =GlobalScope.launch {
+                syncJob = GlobalScope.launch {
                     viewModel.checkLoginStatus()
                 }
-            })
-            mStatusCodeMutable.observe(this@LoginByQRCodeActivity, {
-                when(it) {
+            }
+            mStatusCodeMutable.observe(this@LoginByQRCodeActivity) {
+                when (it) {
                     800 -> toast("二维码过期，请退出重试")
                     801 -> toast("等待扫码")
                     802 -> toast("扫码成功，请确认登录")
@@ -81,7 +81,7 @@ class LoginByQRCodeActivity : BaseActivity() {
                         finish()
                     }
                 }
-            })
+            }
         }
     }
 
@@ -95,7 +95,7 @@ class LoginByQRCodeActivity : BaseActivity() {
         super.onResume()
         viewModel.mQRCodeBitMutable.value?.let {
             syncJob?.cancel()
-            syncJob =GlobalScope.launch {
+            syncJob = GlobalScope.launch {
                 viewModel.checkLoginStatus()
             }
         }
@@ -128,7 +128,7 @@ class LoginByQRCodeActivity : BaseActivity() {
         val contentValues = ContentValues()
         contentValues.put(MediaStore.Images.ImageColumns.DISPLAY_NAME, fileName)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            //RELATIVE_PATH 字段表示相对路径-------->(1)
+            // RELATIVE_PATH 字段表示相对路径-------->(1)
             contentValues.put(
                 MediaStore.Images.ImageColumns.RELATIVE_PATH,
                 Environment.DIRECTORY_PICTURES
@@ -137,7 +137,7 @@ class LoginByQRCodeActivity : BaseActivity() {
             val dstPath = (Environment.getExternalStorageDirectory()
                 .toString() + File.separator + Environment.DIRECTORY_PICTURES
                     + File.separator + fileName)
-            //DATA字段在Android 10.0 之后已经废弃
+            // DATA字段在Android 10.0 之后已经废弃
             contentValues.put(MediaStore.Images.ImageColumns.DATA, dstPath)
         }
 
