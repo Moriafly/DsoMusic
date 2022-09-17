@@ -34,7 +34,6 @@ class LoginQRCodeViewModel : ViewModel() {
                 }
             }
         }
-
     }
 
     private suspend fun getQRCode():Bitmap? {
@@ -65,8 +64,10 @@ class LoginQRCodeViewModel : ViewModel() {
     }
 
     suspend fun checkLoginStatus() {
+        Log.d(TAG, "checkLoginStatus()")
         var statusCode = 0
         do {
+            Log.d(TAG, "Api.checkLoginResult(key = $key)")
             Api.checkLoginResult(key)?.apply {
                 Log.d(TAG, "login status code $code")
                 statusCode = code
@@ -81,12 +82,11 @@ class LoginQRCodeViewModel : ViewModel() {
                             }
                         }
                     }
-
                 }
                 withContext(Dispatchers.Main) {
                     mStatusCodeMutable.value = code
                 }
-            }
+            } ?: toast("Api.checkLoginResult(key) == null")
             delay(5000)
         } while (statusCode == 801 || statusCode == 802)
     }
