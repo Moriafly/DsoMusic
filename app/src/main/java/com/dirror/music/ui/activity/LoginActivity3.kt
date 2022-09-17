@@ -2,7 +2,9 @@ package com.dirror.music.ui.activity
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import com.dirror.music.App
 import com.dirror.music.databinding.ActivityLogin3Binding
 import com.dirror.music.manager.User
@@ -30,18 +32,13 @@ class LoginActivity3 : BaseActivity() {
 //            binding.btnLoginByPhone.visibility = View.GONE
 //        }
 
-        (binding.btnCancel.layoutParams as ConstraintLayout.LayoutParams).apply {
+        binding.titleBar.updateLayoutParams<LinearLayout.LayoutParams> {
             topMargin = getStatusBarHeight(window, this@LoginActivity3)
         }
 
-        binding.lottieBackground.repeatCount = -1
-        binding.lottieBackground.playAnimation()
-        binding.lottieBackground.speed = 1f
-
         try {
             val typeface = Typeface.createFromAsset(assets, "fonts/Moriafly-Regular.ttf")
-            binding.tvLogo.typeface = typeface
-            binding.tvVersion.typeface = typeface
+
         } catch (e: Exception) {
 
         }
@@ -49,8 +46,6 @@ class LoginActivity3 : BaseActivity() {
 
     override fun initListener() {
         binding.apply{
-            // 取消
-            btnCancel.setOnClickListener { finish() }
             // 手机号登录
             btnLoginByPhone.setOnClickListener {
                 App.activityManager.startLoginByPhoneActivity(this@LoginActivity3)
@@ -68,11 +63,6 @@ class LoginActivity3 : BaseActivity() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.lottieBackground.cancelAnimation()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -1,118 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_login_background"
+    android:orientation="vertical"
     tools:context=".ui.activity.LoginActivity3">
 
-    <Button
-        android:id="@+id/btnCancel"
-        style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
+    <com.dirror.music.widget.TitleBarLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:alpha="0.72"
-        android:background="@drawable/background_button_icon"
-        android:minWidth="0dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:text="@string/cancel"
-        android:textAllCaps="false"
-        android:textColor="@color/colorSubTextForeground"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="NewApi" />
+        app:text="@string/login" />
 
-    <TextView
-        android:id="@+id/tvLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/app_name"
-        android:textColor="@color/colorSubTextForeground"
-        android:textSize="36dp"
-        app:layout_constraintBottom_toBottomOf="@+id/lottieBackground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieBackground"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCancel"
-        app:lottie_rawRes="@raw/lottie_fly" />
+        android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnLoginByPhone"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginEnd="64dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/background_button_radius_red"
-            android:text="@string/login_by_phone"
-            android:textColor="@color/colorItemBackground"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/btnLoginByQRCode"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/btnLoginByQRCode"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/background_button_radius_red"
+                android:text="@string/login_by_qrcode"
+                android:textColor="@color/colorItemBackground"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/btnLoginByUid"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/btnLoginByQRCode"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginEnd="64dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/background_button_radius_red"
-            android:text="@string/login_by_qrcode"
-            android:textColor="@color/colorItemBackground"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/btnLoginByUid"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/btnLoginByPhone"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/background_button_radius_red"
+                android:text="@string/login_by_phone"
+                android:textColor="@color/colorItemBackground"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/btnLoginByQRCode"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/btnLoginByUid"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginEnd="64dp"
-            android:layout_marginBottom="100dp"
-            android:background="@drawable/background_button_radius_red"
-            android:text="@string/login_by_uid"
-            android:textColor="@color/colorItemBackground"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tvVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha="0.72"
-        android:text="3.0"
-        android:textColor="@color/colorSubTextForeground"
-        app:layout_constraintBottom_toTopOf="@+id/tvLogo"
-        app:layout_constraintEnd_toEndOf="@+id/tvLogo" />
+            <Button
+                android:id="@+id/btnLoginByUid"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/background_button_radius_red"
+                android:text="@string/login_by_uid"
+                android:textColor="@color/colorItemBackground"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="@dimen/subTextSize"
+                android:text="因网易增加了网易云盾验证，密码登录暂时不要使用，尽量使用二维码登录"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

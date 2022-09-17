@@ -26,6 +26,7 @@ package com.dirror.music.ui.viewmodel
 
 import androidx.annotation.Keep
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.UserDetailData
 import com.dirror.music.util.AppConfig
@@ -56,7 +57,7 @@ class LoginCellphoneViewModel : ViewModel() {
         failure: (Int) -> Unit
     ) {
         val passwordMD5 = SkySecure.getMD5(password)
-        GlobalScope.launch {
+        viewModelScope.launch {
             val map = HashMap<String, String>()
             map["phone"] = phone
             map["countrycode"] = "86"
