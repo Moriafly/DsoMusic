@@ -1,48 +1,147 @@
 package com.dirror.music.music.bilibili
 
-import android.net.Uri
+import android.util.Log
 import com.dirror.music.music.standard.data.SOURCE_BILIBILI
 import com.dirror.music.music.standard.data.StandardSongData
-import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.getStr
-import com.dirror.music.util.toast
+import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 object SearchSong {
+    const val indexUrl = "https://www.bilibili.com/"
+    const val url = "https://api.bilibili.com/x/web-interface/search/type"
     const val referer = "https://www.bilibili.com"
+    const val TAG = "Bilibili";
+
+    private var defaultHeaders: Headers? = null
+    private var client: OkHttpClient? = null
+
+    private var inited = false
+
+    fun defaultHeaders() {
+        val headers: MutableMap<String, String> = HashMap()
+        headers["Accept"] =
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+        headers["Accept-Encoding"] = "gzip, deflate, br"
+        headers["Accept-Language"] = "zh-CN,zh;q=0.9"
+        headers["Cache-Control"] = "no-cache"
+        headers["Connection"] = "keep-alive"
+        headers["Pragma"] = "no-cache"
+        headers["sec-ch-ua"] =
+            "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Google Chrome\";v=\"101\""
+        headers["sec-ch-ua-mobile"] = "?0"
+        headers["sec-ch-ua-platform"] = "\"Windows\""
+        headers["Sec-Fetch-Dest"] = "document"
+        headers["Sec-Fetch-Mode"] = "navigate"
+        headers["Sec-Fetch-Site"] = "none"
+        headers["Sec-Fetch-User"] = "?1"
+        headers["Upgrade-Insecure-Requests"] = "1"
+        defaultHeaders = Headers.of(headers)
+    }
+
+    fun init(keywords: String, success: (ArrayList<StandardSongData>) -> Unit) {
+        if (inited) {
+            doSearch(keywords, success)
+            return
+        }
+        inited = true
+
+        defaultHeaders()
+        if (defaultHeaders == null) {
+            return
+        }
+        val client = OkHttpClient.Builder()
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(3, TimeUnit.SECONDS)
+            .writeTimeout(3, TimeUnit.SECONDS)
+            .addInterceptor(GzipInterceptor)
+            .cookieJar(MyCookieStore)
+            .build()
+        this.client = client;
+        val request = Request.Builder()
+            .url(indexUrl)
+            .headers(defaultHeaders)
+            .get()
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "failure", e)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                doSearch(keywords, success)
+            }
+        })
+    }
+
     fun search(keywords: String, success: (ArrayList<StandardSongData>) -> Unit) {
-        val kw = Uri.encode(keywords)
-        val url =
-            "https://api.bilibili.com/x/web-interface/search/all/v2?__refresh__=true&_extra=&context=&page=1&page_size=42&order=&duration=&from_source=&from_spmid=333.337&platform=pc&highlight=1&single_column=0&keyword=$kw&preload=true&com2co=true"
-        MagicHttp.OkHttpManager().getWithHeader(url, mapOf(
-            "Referer" to referer,
-            "csrf" to "EUOH79P2LLK",
-            "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36"
-        ), {
-            try {
-                val resp = JSONObject(it)
-                val resultList = resp
+        init(keywords, success)
+    }
+
+    private fun doSearch(keywords: String, success: (ArrayList<StandardSongData>) -> Unit) {
+
+        val httpUrl = HttpUrl.parse(url) ?: return
+        if (client == null) {
+            return
+        }
+
+        val urlBuilder = httpUrl.newBuilder()
+            .addQueryParameter("context", "")
+            .addQueryParameter("search_type", "video")
+            .addQueryParameter("page", "1")
+            .addQueryParameter("order", "")
+            .addQueryParameter("keyword", keywords)
+            .addQueryParameter("duration", "")
+            .addQueryParameter("category_id", "")
+            .addQueryParameter("tids_1", "")
+            .addQueryParameter("tids_2", "")
+            .addQueryParameter("__refresh__", "true")
+            .addQueryParameter("_extra", "")
+            .addQueryParameter("highlight", "1")
+            .addQueryParameter("single_column", "0")
+
+        val request = Request.Builder()
+            .url(urlBuilder.build())
+            .header("accept", "application/json, text/plain, */*")
+            .get()
+            .build()
+        client!!.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                Log.e(TAG, "onResponse: getWithHeader()")
+                val string = response.body()?.string() ?: ""
+                val resultList = JSONObject(string)
                     .getJSONObject("data")
                     .getJSONArray("result")
                 val standardSongDataList = ArrayList<StandardSongData>()
                 (0 until resultList.length()).forEach {
-                    val obj = resultList.getJSONObject(it)
-                    if ("video" == obj.getString("result_type")) {
-                        val videoList = obj.getJSONArray("data")
-                        transform(videoList, standardSongDataList)
-                    }
+                    val item = resultList.getJSONObject(it)
+                    val artists = ArrayList<StandardSongData.StandardArtistData>()
+                    artists.add(StandardSongData.StandardArtistData(0, item.getStr("author")))
+                    var title = item.getStr("title")
+                    title = title.replace("<em class=\"keyword\">", "").replace("</em>", "")
+                    standardSongDataList.add(
+                        StandardSongData(
+                            SOURCE_BILIBILI,
+                            item.getStr("aid"),
+                            title,
+                            "https:" + item.getStr("pic"),
+                            artists,
+                            null,
+                            null,
+                            null
+                        )
+                    )
                 }
                 success.invoke(standardSongDataList)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                toast("网络异常,或者解析错误")
             }
-        }, {
 
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(TAG, "err", e)
+            }
         })
-        val standardSongDataList = ArrayList<StandardSongData>()
-        success(standardSongDataList)
     }
 
     fun transform(videoList: JSONArray, standardSongDataList: ArrayList<StandardSongData>) {

@@ -7,7 +7,6 @@ import org.json.JSONObject
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-
 object BilibiliUrl {
     const val bilibiliAPI = "https://api.bilibili.com/x/player/playurl?"
     const val bilibiliBangumiAPI = "https://api.bilibili.com/pgc/player/web/playurl?"
