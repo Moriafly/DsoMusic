@@ -176,21 +176,6 @@ Dso Music 软件内不提供歌曲下载，只提供在线音乐试听，请支�
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />
 
-
-            <TextView
-                android:text="@string/contact_author"
-                style="@style/style_settings_title"/>
-
-            <TextView
-                android:text="@string/slogan"
-                style="@style/defaultValueText" />
-
-            <com.dirror.music.widget.ValueView
-                app:text="@string/email"
-                app:value="@string/author_email"
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
-
             <TextView
                 android:visibility="gone"
                 android:text="媒体编解码器"
