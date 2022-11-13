@@ -87,6 +87,7 @@ class SlideBackLayout(context: Context, private val scrollableView: View) : Fram
         override fun onViewPositionChanged(changedView: View, left: Int, top: Int, dx: Int, dy: Int) {
             if (changedView === myRootView && top >= screenHeight) {
                 activity.finish()
+                activity.overridePendingTransition(0, 0)
             }
         }
 
