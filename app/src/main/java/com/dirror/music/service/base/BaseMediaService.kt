@@ -18,6 +18,7 @@ abstract class BaseMediaService: Service() {
         const val CODE_PREVIOUS = 1 // 按钮事件，上一曲
         const val CODE_PLAY = 2 // 按钮事件，播放或者暂停
         const val CODE_NEXT = 3 // 按钮事件，下一曲
+        const val CODE_QUIT = 4 // 按钮事件，退出
 
         const val CHANNEL_ID = "Dso Music Channel Id" // 通知通道 ID
         const val START_FOREGROUND_ID = 10 // 开启前台服务的 ID

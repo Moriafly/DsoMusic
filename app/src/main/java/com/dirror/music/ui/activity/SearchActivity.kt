@@ -216,7 +216,7 @@ class SearchActivity : BaseActivity() {
                 clBilibili.background =
                     R.drawable.background_transparency.asDrawable(this@SearchActivity)
             }
-            val vis = if (it == SearchViewModel.ENGINE_NETEASE) View.VISIBLE else View.GONE
+            val vis = if (it == SearchViewModel.ENGINE_NETEASE||it == SearchViewModel.ENGINE_KUWO) View.VISIBLE else View.GONE
             binding.searchTypeView.visibility = vis
             when (it) {
                 SearchViewModel.ENGINE_NETEASE -> {
@@ -288,7 +288,9 @@ class SearchActivity : BaseActivity() {
                             SearchType.PLAYLIST -> runOnUiThread {
                                 initPlaylist(it.playlist, TAG_KUWO)
                             }
-                            else -> {}
+                            else -> {
+                                toast("酷我仅支持搜索单曲与歌单")
+                            }
                         }
                     }
                 }
