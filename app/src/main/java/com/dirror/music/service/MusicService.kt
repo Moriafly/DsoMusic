@@ -63,6 +63,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlin.system.exitProcess
 
 /**
  * Dso Music 音乐播放服务
@@ -286,6 +287,7 @@ class MusicService : BaseMediaService() {
                 }
             }
             CODE_NEXT -> musicController.playNext()
+            CODE_QUIT -> exitProcess(0)
         }
         // 非粘性服务
         return START_NOT_STICKY
@@ -804,6 +806,12 @@ class MusicService : BaseMediaService() {
         return buildServicePendingIntent(this, 4, intent)
     }
 
+    private fun getPendingIntentQuit(): PendingIntent {
+        val intent = Intent(this, MusicService::class.java)
+        intent.putExtra("int_code", CODE_QUIT)
+        return buildServicePendingIntent(this, 5, intent)
+    }
+
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun buildServicePendingIntent(context: Context, requestCode: Int, intent: Intent): PendingIntent {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -847,6 +855,7 @@ class MusicService : BaseMediaService() {
             addAction(R.drawable.ic_round_skip_previous_24, "Previous", getPendingIntentPrevious())
             addAction(getPlayIcon(), "play", getPendingIntentPlay())
             addAction(R.drawable.ic_round_skip_next_24, "next", getPendingIntentNext())
+            addAction(R.drawable.ic_stop, "quit", getPendingIntentQuit())
             setStyle(
                 androidx.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(mediaSession?.sessionToken)
